@@ -111,6 +111,7 @@ GitHub**, ולא "בנה לי אתר" — הקוד כבר קיים כאן, אי�
 | `build-standalone.js` | בונה את `Hamegrash.html` |
 | `Hamegrash.html` | קובץ יחיד אופליין — נבנה, לא נערך ידנית |
 | `docs/ORIGIN_VISION.md` | מסמך חזון מקורי, ירושה מהמגרש PRO — עדיין ראוי לקריאה |
+| `docs/IMPROVEMENT_PLAN.md` | **תוכנית הפעולה של PE Ultimate** — מה לעשות, באיזה סדר, ואיך יודעים שזה נגמר. נגזרת מ-`ORIGIN_VISION.md` ונכתבה מול הקוד |
 | `tests/` | ‎480‎ בדיקות יחידה (`hm-data.js`, Node) + ‎355‎ בדיקות דפדפן (Playwright) |
 
 ## מה שונה מהמגרש PRO, בפועל
