@@ -11,14 +11,14 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="873c22eb">
+<meta name="hm-build" content="298fd061">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hm-styles.css?v=09d036eb">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-data.js?v=8bc17f56"></script>
+<script src="hm-data.js?v=9359260c"></script>
 <script src="hm-i18n.js?v=a5bcc8f5"></script>
-<script src="hm-app.js?v=4027e101"></script>
+<script src="hm-app.js?v=d6241aae"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
 <script src="hm-know.js?v=bc3e6c15"></script>
@@ -1606,6 +1606,29 @@
   </div>
 </div></div>
 
+<!-- ----- ארכוב מדידות ישנות ----- -->
+<div class="modal" id="archiveModal"><div class="box" style="max-width:520px">
+  <h3><span>🗄️ ארכוב מדידות ישנות</span><button class="x" data-close="archiveModal">✕</button></h3>
+  <div class="hint">מעביר <b>מדידות שנעשו לפני התאריך שתבחר</b> לאחסון נפרד, כדי לפנות מקום —
+    בלי למחוק אותן. בשונה מ«ניקוי», זה <b>הפיך</b>: אפשר להחזיר הכול בלחיצה אחת. חשוב לדעת:
+    מדידה שבארכיון לא נכנסת לשיא אישי, להתקדמות או למסך הכיתה, עד שתשחזר אותה.</div>
+  <div class="row" style="margin-top:11px;gap:9px;align-items:end">
+    <div class="field" style="width:180px"><label>ארכב מדידות מלפני</label>
+      <input type="date" id="am-date"></div>
+    <div class="seg" id="am-quick">
+      <button data-m="12">שנה</button><button data-m="24">שנתיים</button><button data-m="36">3 שנים</button>
+    </div>
+  </div>
+  <div class="bw-note" id="am-preview" style="margin-top:12px">בחר תאריך כדי לראות מה יעבור לארכיון.</div>
+  <div class="row" style="margin-top:12px">
+    <button class="btn stop grow" id="am-go" disabled>🗄️ ארכב את מה שלמעלה</button>
+    <button class="btn ghost" data-close="archiveModal">ביטול</button>
+  </div>
+  <hr style="border:none;border-top:1px solid var(--line);margin:14px 0">
+  <div class="hint" id="am-count">—</div>
+  <button class="btn sm ghost grow" id="am-restoreAll" style="margin-top:8px" disabled>↩ שחזר את כל הארכיון לפעיל</button>
+</div></div>
+
 <!-- ----- פוטו־פיניש: הדרכת פתיחה ----- -->
 <div class="modal" id="pfGuideModal"><div class="box" style="max-width:520px">
   <h3><span>📷 פוטו־פיניש — ‎4‎ שלבים</span><button class="x" data-close="pfGuideModal">✕</button></h3>
@@ -1773,6 +1796,7 @@
       <input type="file" id="set-bkFile" accept=".json,.hmg,application/json" style="display:none">
     </div>
     <div class="hint" id="set-bkStat" style="margin-top:8px"></div>
+    <div class="hint" id="set-quotaMeter" style="margin-top:4px"></div>
     <hr style="border:none;border-top:1px solid var(--line);margin:14px 0">
     <b>☁️ גיבוי לגוגל דרייב (מתקדם, רשות)</b>
     <div class="hint" style="margin-top:5px">האפליקציה לא מחוברת לשום שרת שלנו — כדי לגבות ישירות לדרייב שלך היא צריכה אישור גוגל משלך, בדיוק כמו כל אתר שמבקש "התחבר עם גוגל". ההרשאה מוגבלת לקבצים שהאפליקציה עצמה יוצרת בדרייב שלך (drive.file) — היא לא יכולה לראות או לגעת בשום קובץ אחר אצלך. הקמה חד-פעמית (כ-5 דקות, בלי תשלום): ראו README, סעיף «גיבוי לגוגל דרייב».</div>
@@ -1808,6 +1832,7 @@
   <div class="row" style="margin-top:11px;gap:8px">
     <button class="btn sm ghost grow" id="set-about" data-i18n="set.about">📘 אודות, גרסה וקרדיטים</button>
     <button class="btn sm ghost grow" id="set-purge" data-i18n="set.purge">🧹 נקה נתונים ישנים</button>
+    <button class="btn sm ghost grow" id="set-archive" data-i18n="set.archive">🗄️ ארכב מדידות ישנות</button>
   </div>
   <div class="hint" id="set-build" style="margin-top:9px;text-align:center;font-family:'Share Tech Mono'"></div>
   <!-- שסתום ביטחון: אפליקציה מותקנת שנתקעה על גרסה ישנה אין לה

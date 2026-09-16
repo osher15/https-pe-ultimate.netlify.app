@@ -461,7 +461,7 @@ $("#set-save").addEventListener("click",()=>{ SET.school=$("#set-school").value.
   SET.syncUrl=$("#set-syncUrl").value.trim(); SET.syncCode=$("#set-syncCode").value.trim();
   saveSet(); modal("setModal",false); toast(t("set.saved","ההגדרות נשמרו"));
   if(typeof REC!=="undefined"&&REC.applyRole)REC.applyRole(); });
-  wireBackup(); wireGDrive(); wireAbout(); wirePurge(); wireStorageWarn();
+  wireBackup(); wireGDrive(); wireAbout(); wirePurge(); wireArchive(); wireStorageWarn();
 }
 
 /* ============================================================
@@ -1454,6 +1454,14 @@ async function bkSnapshotFull(budget){
     snap.idb={store:"rec",db:BRAND.idbName,count:0,items:[],omitted:[],
       error:String(e&&e.message||e)};
   }
+  /* מדידות שהמורה ארכב — לא נכשל בשקט אם IndexedDB לא נגיש; פשוט
+     אין מה להוסיף, והגיבוי עדיין שלם לגבי מה שכן פעיל. */
+  try{
+    if(typeof RARC!=="undefined"&&RARC.exportAll){
+      const arc=await RARC.exportAll();
+      if(arc.items.length)snap.arc=arc.items;
+    }
+  }catch(e){}
   return snap;
 }
 /* ספירה קריאה לאדם לכל מפתח — «57 תוצאות» ולא «4.2KB» */
@@ -1580,11 +1588,12 @@ function bkExport(){
   setTimeout(()=>URL.revokeObjectURL(a.href),4000);
   /* אומרים בפירוש מה ירד ומה לא. מורה שלא שם לב לתיבת הסימון צריך
      לדעת שהקובץ שהוא עומד לשמור בדרייב קריא לכל מי שיפתח אותו —
-     ושסרטוני השיאים אינם בתוכו. */
-  toast("✓ גובו "+keys.length+" קבוצות נתונים · בלי סרטוני שיאים · הקובץ אינו מוצפן");
+     ושסרטוני השיאים והמדידות שבארכיון אינם בתוכו (שניהם ב-IndexedDB,
+     והמסלול הזה מוותר עליו בכוונה כדי לרדת מיד). */
+  toast("✓ גובו "+keys.length+" קבוצות נתונים · בלי סרטוני שיאים ובלי ארכיון · הקובץ אינו מוצפן");
   bkStat(); return true;
 }
-function bkStat(){
+async function bkStat(){
   const el=$("#set-bkStat"); if(!el)return;
   const keys=bkKeys();
   let bytes=0; keys.forEach(k=>{ try{ bytes+=((STORE||MEMFALLBACK).getItem(BK_PREFIX+k)||"").length; }catch(e){} });
@@ -1593,6 +1602,21 @@ function bkStat(){
     ? keys.length+" קבוצות נתונים · "+(bytes/1024).toFixed(0)+"KB"+
       (last?" · גובה לאחרונה "+last:" · <b>עדיין לא גובה מעולם</b>")
     : "אין עדיין נתונים במכשיר.";
+  paintQuotaMeter(bytes);
+}
+/* מד מקום. עד עכשיו האזהרה היחידה על אחסון הופיעה *אחרי* שכתיבה
+   כבר נכשלה (showStorageWarn) — כלומר אחרי שמדידה כבר לא נשמרה.
+   השורה הזאת מטרתה להקדים: להראות למורה איפה הוא עומד לפני הקיר,
+   כל פעם שהוא פותח הגדרות. */
+async function paintQuotaMeter(bytes){
+  const el=$("#set-quotaMeter"); if(!el)return;
+  const lvl=DATA.storageLevel(bytes);
+  const n=(typeof RARC!=="undefined"&&RARC.count)?await RARC.count().catch(()=>0):0;
+  const cls=lvl.level==="critical"?"stop":lvl.level==="warn"?"warn":"";
+  el.innerHTML='<span class="'+cls+'">אחסון: '+DATA.fmtBytes(bytes)+" מתוך כ-"+DATA.fmtBytes(lvl.quota)+
+    " (כ-"+lvl.pct+"%)</span>"+
+    (lvl.level!=="ok"?" — כדאי לארכב או לנקות מדידות ישנות":"")+
+    (n?" · "+n+" מדידות בארכיון":"");
 }
 async function bkApply(snap){
   const be=STORE||MEMFALLBACK;
@@ -1610,10 +1634,16 @@ async function bkApply(snap){
   if(snap.idb&&typeof REC!=="undefined"&&REC.importAll){
     try{ media=await REC.importAll(snap.idb); }catch(e){ media.failed=-1; }
   }
+  /* מדידות שהיו בארכיון בקובץ חוזרות לארכיון, לא ל-ft.results —
+     אחרת שחזור היה מבטל בשקט ארכוב שהמורה עשה בכוונה. */
+  let arc={added:0};
+  if(snap.arc&&typeof RARC!=="undefined"&&RARC.importAll){
+    try{ arc=await RARC.importAll(snap.arc); }catch(e){ arc.added=-1; }
+  }
   /* קובץ ישן נושא סכמה ישנה. ההסבה רצה עכשיו על מה ששוחזר, כדי
      שהמכשיר לא יישאר בגרסה שהאפליקציה כבר לא מכירה. */
   try{ runMigration(); }catch(e){}
-  return {keys:Object.keys(snap.data).length,failed,media};
+  return {keys:Object.keys(snap.data).length,failed,media,arc};
 }
 function wireBackup(){
   if(!$("#set-bkExport"))return;
@@ -1627,10 +1657,11 @@ function wireBackup(){
     const mediaNote=snap.idb&&snap.idb.count?(" · "+snap.idb.count+" שיאים"):"";
     const omitNote=snap.idb&&snap.idb.omitted&&snap.idb.omitted.length
       ? (" · "+snap.idb.omitted.length+" סרטונים לא נכנסו (גדולים מדי)"):"";
+    const arcNote=snap.arc&&snap.arc.length?(" · "+snap.arc.length+" מדידות בארכיון"):"";
     if(!$("#set-bkEnc").checked){
       bkSave(snap,false);
       LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); bkStat();
-      toast("✓ גובו "+Object.keys(snap.data).length+" קבוצות נתונים"+mediaNote+omitNote+" · הקובץ אינו מוצפן");
+      toast("✓ גובו "+Object.keys(snap.data).length+" קבוצות נתונים"+mediaNote+arcNote+omitNote+" · הקובץ אינו מוצפן");
       return;
     }
     if(!(window.crypto&&crypto.subtle)){ toast("הדפדפן הזה לא תומך בהצפנה — הסר את הסימון"); return; }
@@ -1640,7 +1671,7 @@ function wireBackup(){
       const enc=await bkEncrypt(snap,pass);
       bkSave(enc,true);
       LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); bkStat();
-      toast("🔐 גובה מוצפן"+mediaNote+omitNote+" — בלי הסיסמה אי אפשר לפתוח");
+      toast("🔐 גובה מוצפן"+mediaNote+arcNote+omitNote+" — בלי הסיסמה אי אפשר לפתוח");
     }catch(err){ toast("ההצפנה נכשלה: "+err.message); }
   });
   $("#set-bkImport").addEventListener("click",()=>$("#set-bkFile").click());
@@ -1837,7 +1868,7 @@ function wirePurge(){
   const b=$("#set-purge"); if(!b)return;
   const dated=()=>{ const r=LS.get("ft.results",[]); return Array.isArray(r)?r:[]; };
   const count=iso=>{
-    const res=dated().filter(r=>r&&r.d&&r.d<iso);
+    const res=DATA.resultsBefore(dated(),iso);
     const arc=(LS.get("pf.archive",[])||[]).filter(a=>a&&a.date&&a.date<iso);
     return {res:res.length,resAll:dated().length,arc:arc.length,
             names:[...new Set(res.map(r=>r.name))].length};
@@ -1877,6 +1908,68 @@ function wirePurge(){
   });
 }
 
+/* ---------- ארכוב מדידות ישנות ----------
+   אותה בחירה בדיוק כמו הניקוי (§wirePurge) — תאריך, אותם קיצורים —
+   אבל הפוכה: לא מוחקת, מעבירה ל-IndexedDB (RARC), ואפשר לשחזר הכול
+   בלחיצה אחת. לכן אישור יחיד, לא כפול כמו במחיקה. */
+function wireArchive(){
+  const b=$("#set-archive"); if(!b||typeof RARC==="undefined")return;
+  const dated=()=>{ const r=LS.get("ft.results",[]); return Array.isArray(r)?r:[]; };
+  const paintCount=async()=>{
+    const el=$("#am-count"); if(!el)return;
+    const n=await RARC.count().catch(()=>0);
+    el.textContent=n?n+" מדידות בארכיון כרגע.":"הארכיון ריק כרגע.";
+    $("#am-restoreAll").disabled=!n;
+  };
+  const paint=()=>{
+    const iso=$("#am-date").value;
+    const go=$("#am-go");
+    if(!iso){ $("#am-preview").textContent="בחר תאריך כדי לראות מה יעבור לארכיון."; go.disabled=true; return; }
+    const move=DATA.resultsBefore(dated(),iso);
+    $("#am-preview").innerHTML=move.length
+      ? "יעברו לארכיון <b>"+move.length+"</b> מדידות מתוך "+dated().length+
+        " (של "+[...new Set(move.map(r=>r.name))].length+" תלמידים) — כל מה שלפני "+iso+"."
+      : "אין מדידות לפני "+iso+" — אין מה לארכב.";
+    go.disabled=!move.length;
+  };
+  b.addEventListener("click",()=>{
+    modal("setModal",false); $("#am-date").value="";
+    $$("#am-quick button").forEach(x=>x.classList.remove("on"));
+    paint(); paintCount(); modal("archiveModal",true);
+  });
+  $("#am-date").addEventListener("change",paint);
+  $$("#am-quick button").forEach(q=>q.addEventListener("click",()=>{
+    const d=new Date(); d.setMonth(d.getMonth()-(+q.dataset.m));
+    $("#am-date").value=d.toISOString().slice(0,10);
+    $$("#am-quick button").forEach(x=>x.classList.toggle("on",x===q));
+    paint();
+  }));
+  $("#am-go").addEventListener("click",async()=>{
+    const iso=$("#am-date").value; if(!iso)return;
+    const move=DATA.resultsBefore(dated(),iso);
+    if(!move.length)return;
+    if(!confirm("להעביר "+move.length+" מדידות שלפני "+iso+" לארכיון?\n\n"+
+      "הן לא יימחקו — אבל לא ייכללו יותר בשיא אישי, בהתקדמות או במסך הכיתה, עד שתשחזר אותן."))return;
+    $("#am-go").disabled=true; toast("מארכב…");
+    try{
+      const r=await RARC.archiveOld(iso);
+      modal("archiveModal",false);
+      toast("✓ "+r.archived+" מדידות עברו לארכיון · טוען מחדש");
+      setTimeout(()=>location.reload(),700);
+    }catch(e){ $("#am-go").disabled=false; toast("הארכוב נכשל: "+e.message); }
+  });
+  $("#am-restoreAll").addEventListener("click",async()=>{
+    if(!confirm("להחזיר את כל המדידות שבארכיון לפעיל?"))return;
+    toast("משחזר…");
+    try{
+      const r=await RARC.restoreAll();
+      modal("archiveModal",false);
+      toast(r.restored?("✓ "+r.restored+" מדידות חזרו לפעיל · טוען מחדש"):"הארכיון היה ריק");
+      if(r.restored)setTimeout(()=>location.reload(),700);
+    }catch(e){ toast("השחזור נכשל: "+e.message); }
+  });
+}
+
 /* קוד שגיאה אחד למשפט אחד. «הקובץ פגום» לא עוזר למורה להבין אם
    כדאי לנסות להוריד שוב או שהקובץ הזה אבוד. */
 const BK_ERRMSG={
@@ -1911,6 +2004,7 @@ function bkPreview(snap){
     (snap.school?"<span>בית ספר: "+esc(snap.school)+"</span>":"")+
     "<span>"+inFile.length+" קבוצות נתונים</span>"+
     (plan.media?"<span>"+plan.media+" שיאים</span>":"")+
+    (plan.arcCount?"<span>"+plan.arcCount+" מדידות בארכיון</span>":"")+
     (snap.v<DATA.BK_V?"<span>גיבוי בפורמט ישן</span>":"");
   $("#bk-diff").innerHTML=all.map(k=>{
     const fv=snap.data[k]!=null?bkCount(snap.data[k]):"—";
@@ -1940,7 +2034,8 @@ function bkPreview(snap){
     /* מדווחים בדיוק מה נכנס. «שוחזר» סתמי הוא מה שאפשר למורה
        לחשוב שיש לו סרטונים שאין לו. */
     toast(r.failed?("שוחזר חלקית — "+r.failed+" קבוצות נתונים לא נכתבו")
-      :("✓ שוחזר "+r.keys+" קבוצות נתונים"+(r.media.added?" · "+r.media.added+" שיאים":"")+" — טוען מחדש"));
+      :("✓ שוחזר "+r.keys+" קבוצות נתונים"+(r.media.added?" · "+r.media.added+" שיאים":"")+
+        (r.arc.added>0?" · "+r.arc.added+" מדידות בארכיון":"")+" — טוען מחדש"));
     setTimeout(()=>location.reload(),r.failed?2500:900);
   };
   /* חלון ההגדרות נפתח לפני זה ויושב אחריו ב-DOM, ולכן הוא היה מכסה
@@ -3814,8 +3909,16 @@ const REC=(function(){
   /* ---------- IndexedDB ---------- */
   function openDB(){
     return new Promise((res,rej)=>{
-      const rq=indexedDB.open(BRAND.idbName,1);
-      rq.onupgradeneeded=()=>rq.result.createObjectStore("rec",{keyPath:"id"});
+      /* גרסה 2: הוסיף את "oldres" (מדידות שארכבו) לצד "rec" (סרטוני
+         שיאים). היצירה מגוננת בשני הכיוונים — מכשיר חדש מקבל את שני
+         המחסנים, מכשיר בגרסה 1 מקבל רק את מה שחסר לו. RARC למטה
+         פותח את אותו מסד באותה גרסה, ולכן שתי החתימות חייבות להסכים. */
+      const rq=indexedDB.open(BRAND.idbName,2);
+      rq.onupgradeneeded=()=>{
+        const d=rq.result;
+        if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+      };
       rq.onsuccess=()=>{db=rq.result;res(db)};
       rq.onerror=()=>rej(rq.error);
     });
@@ -4549,6 +4652,98 @@ const REC=(function(){
     _test:{SPORTS:()=>SPORTS,showVal:(id,v)=>showVal(sportById(id),v),pct:(id,v,w)=>pct(sportById(id),v,w)}};
 })();
 
+/* ============================================================
+   RARC — ארכיון מדידות (IndexedDB)
+   ------------------------------------------------------------
+   ft.results גדלה לנצח ב-localStorage, שם המכסה קטנה (~5MB —
+   ARCHITECTURE_AUDIT.md §5). כאן היא עוברת ל-IndexedDB, שם התקציב
+   נמדד במאות מגה־בייט — בדיוק אותה הפרדה חמה/קרה שסרטוני השיאים
+   כבר משתמשים בה מול REC.
+
+   ארכוב הוא **לא** מחיקה: הרשומות המוזזות נשארות שלמות, נכללות
+   בגיבוי המלא (snap.arc), וניתנות לשחזור מלא בלחיצה אחת. מה שכן
+   נכון להגיד בפירוש למורה: מדידה שארכבו לא נכנסת יותר לשיא אישי,
+   להתקדמות או למסך הכיתה — hm-data.js הוא שכבה טהורה וסינכרונית
+   שרצה גם ב-Node, ולכן אינה יכולה לקרוא IndexedDB; שילוב אמיתי של
+   שתי השכבות בכל מסך היה דורש הפיכת כל נתיב הקריאה לאסינכרוני,
+   שינוי הרבה יותר גדול ממה שהבעיה (מכסת אחסון) דורשת. הפתרון
+   ההוגן: ארכוב הוא פעולת מורה מפורשת, לא אוטומטית, עם שחזור מלא
+   זמין תמיד.
+   ============================================================ */
+const RARC=(function(){
+  let db=null;
+  function openDB(){
+    return new Promise((res,rej)=>{
+      /* אותו מסד ואותה גרסה כמו REC.openDB — שתי הפתיחות האלה
+         חייבות להסכים, אחרת open() השני זורק VersionError. היצירה
+         כאן מגוננת באותה צורה, למקרה שהמודול הזה מתאתחל ראשון. */
+      const rq=indexedDB.open(BRAND.idbName,2);
+      rq.onupgradeneeded=()=>{
+        const d=rq.result;
+        if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+      };
+      rq.onsuccess=()=>{db=rq.result;res(db)};
+      rq.onerror=()=>rej(rq.error);
+    });
+  }
+  function store(mode){ return db.transaction("oldres",mode||"readonly").objectStore("oldres"); }
+  function dbAll(){ return new Promise((res,rej)=>{ const rq=store().getAll(); rq.onsuccess=()=>res(rq.result||[]); rq.onerror=()=>rej(rq.error); }); }
+  function dbPutMany(rows){
+    return new Promise((res,rej)=>{
+      const tx=db.transaction("oldres","readwrite"), os=tx.objectStore("oldres");
+      rows.forEach(r=>os.put(r));
+      tx.oncomplete=()=>res(rows.length); tx.onerror=()=>rej(tx.error);
+    });
+  }
+  function dbClear(){ return new Promise((res,rej)=>{ const rq=store("readwrite").clear(); rq.onsuccess=()=>res(); rq.onerror=()=>rej(rq.error); }); }
+
+  async function count(){
+    try{ if(!db)await openDB(); return await new Promise((res,rej)=>{ const rq=store().count(); rq.onsuccess=()=>res(rq.result||0); rq.onerror=()=>rej(rq.error); }); }
+    catch(e){ return 0; }
+  }
+  /* מעביר לארכיון כל מדידה מלפני iso — אותה בחירה בדיוק כמו
+     הניקוי הבלתי הפיך, רק שכאן אפשר לחזור בו. */
+  async function archiveOld(iso){
+    const all=LS.get("ft.results",[]);
+    const move=window.HMDATA.resultsBefore(all,iso);
+    if(!move.length)return {archived:0};
+    if(!db)await openDB();
+    await dbPutMany(move);
+    const ids=new Set(move.map(r=>r.id));
+    LS.set("ft.results",all.filter(r=>!ids.has(r.id)));
+    return {archived:move.length};
+  }
+  /* שסתום הביטחון: הכול חוזר לפעיל, בלי הכרעה למי. אין עדיין צורך
+     בשחזור חלקי — מורה שהגזים בטווח התאריך פשוט מחזיר הכול. */
+  async function restoreAll(){
+    if(!db)await openDB();
+    const arc=await dbAll();
+    if(!arc.length)return {restored:0};
+    const cur=LS.get("ft.results",[]);
+    const have=new Set(cur.map(r=>r.id));
+    const merged=cur.concat(arc.filter(r=>!have.has(r.id)));
+    LS.set("ft.results",merged);
+    await dbClear();
+    return {restored:arc.length};
+  }
+  /* לגיבוי מלא — כל מה שבארכיון, כמות שהוא. אין תקציב פה: רשומת
+     מדידה שוקלת עשרות בתים, לא מגה-בייטים כמו סרטון. */
+  async function exportAll(){
+    try{ if(!db)await openDB(); const items=await dbAll(); return {store:"oldres",db:BRAND.idbName,count:items.length,items}; }
+    catch(e){ return {store:"oldres",db:BRAND.idbName,count:0,items:[],error:String(e&&e.message||e)}; }
+  }
+  /* שחזור מוסיף ולא מוחק — מזהה קיים בארכיון נדרס, אחד שקיים רק
+     במכשיר נשאר. תואם את מדיניות REC.importAll. */
+  async function importAll(items){
+    if(!Array.isArray(items)||!items.length)return {added:0};
+    if(!db)await openDB();
+    await dbPutMany(items);
+    return {added:items.length};
+  }
+  return {count,archiveOld,restoreAll,exportAll,importAll};
+})();
+
 
 "use strict";
 /* ============================================================
@@ -4871,7 +5066,7 @@ const FIT=(function(){
 
 
 /* ===== bridge for new modules ===== */
-window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
+window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT; window.RARC=RARC;
 window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,

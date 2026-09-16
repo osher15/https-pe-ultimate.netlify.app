@@ -2281,6 +2281,36 @@ var BK_APP="pe-ultimate";
 var BK_V=2;                    /* 1 = רק localStorage, 2 = + IndexedDB */
 var IDB_BUDGET=48*1024*1024;   /* תקציב מדיה כולל בקובץ, לפני base64 */
 
+/* ============================================================
+   ארכוב מדידות ישנות
+   ------------------------------------------------------------
+   ft.results גדלה לנצח (§DATA_MODEL.md «מה עדיין לא פתור») —
+   מורה פעיל מגיע בפועל למכסת ה-localStorage הטיפוסית (~5MB, לפי
+   ARCHITECTURE_AUDIT.md §5), ועד עכשיו הדרך היחידה להקטין אותה
+   הייתה מחיקה בלתי הפיכה. resultsBefore הוא הבסיס המשותף לניקוי
+   ולארכוב — טהורה, לא נוגעת באחסון, רק בוחרת. */
+function resultsBefore(results,iso){
+  return (results||[]).filter(function(r){ return r&&r.d&&r.d<iso; });
+}
+
+/* מד מקום. localStorage אינו חושף מכסה אמיתית (וזו משתנה בין
+   דפדפנים) — זו הערכה שמכוונת למספר שנמדד בפועל בביקורת, לא
+   הבטחה. המטרה היא אזהרה *לפני* שכתיבה נכשלת, לא רק אחריה. */
+var BYTES_TYPICAL_QUOTA=5*1024*1024;
+function fmtBytes(n){
+  n=Number(n)||0;
+  if(n<1024)return n+"B";
+  if(n<1024*1024)return (n/1024).toFixed(1)+"KB";
+  return (n/(1024*1024)).toFixed(1)+"MB";
+}
+function storageLevel(usedBytes,quota){
+  quota=quota||BYTES_TYPICAL_QUOTA;
+  var pct=quota>0?Math.round((usedBytes/quota)*100):0;
+  var level="ok";
+  if(pct>=90)level="critical"; else if(pct>=70)level="warn";
+  return {pct:pct,level:level,usedBytes:usedBytes,quota:quota};
+}
+
 function buildSnapshot(o){
   o=o||{};
   var snap={app:BK_APP,kind:"backup",v:BK_V,
@@ -2289,6 +2319,10 @@ function buildSnapshot(o){
     school:o.school||"",build:o.build||"",
     data:o.data||{}};
   if(o.idb)snap.idb=o.idb;
+  /* מדידות שהמורה ארכב — מערך פשוט, לא מקטע מדיה עם תקציב. רשומת
+     מדידה שוקלת עשרות בתים, לא מגה-בייטים כמו סרטון, ולכן היא
+     נוסעת בשלמותה בכל גיבוי במקום להיחתך לפי budget כמו snap.idb. */
+  if(o.arc)snap.arc=o.arc;
   return snap;
 }
 
@@ -2342,6 +2376,7 @@ function validateBackup(obj){
     else if(obj.idb.items!=null&&!Array.isArray(obj.idb.items))out.errors.push("bad-idb-items");
     else if(Array.isArray(obj.idb.omitted)&&obj.idb.omitted.length)out.warnings.push("media-omitted:"+obj.idb.omitted.length);
   }else if(v>=2)out.warnings.push("no-media-section");
+  if(obj.arc!=null&&!Array.isArray(obj.arc))out.errors.push("bad-arc");
   out.ok=!out.errors.length;
   return out;
 }
@@ -2359,7 +2394,8 @@ function planRestore(snap,currentKeys){
     replace:incoming.filter(function(k){return curSet[k]}).sort(),
     drop:cur.filter(function(k){return !inSet[k]}).sort(),
     media:(snap&&snap.idb&&Array.isArray(snap.idb.items))?snap.idb.items.length:0,
-    mediaOmitted:(snap&&snap.idb&&Array.isArray(snap.idb.omitted))?snap.idb.omitted.length:0
+    mediaOmitted:(snap&&snap.idb&&Array.isArray(snap.idb.omitted))?snap.idb.omitted.length:0,
+    arcCount:(snap&&Array.isArray(snap.arc))?snap.arc.length:0
   };
 }
 
@@ -2417,6 +2453,8 @@ return {
   otTheory:otTheory, otScore:otScore, OT_MAX:OT_MAX, OT_PASS:OT_PASS, OT_CORE_MIN:OT_CORE_MIN,
   vo2max:vo2max, healthZone:healthZone, HFZ:HFZ, bmi:bmi, bmiCategory:bmiCategory,
   BK_APP:BK_APP, BK_V:BK_V, IDB_BUDGET:IDB_BUDGET,
+  resultsBefore:resultsBefore, BYTES_TYPICAL_QUOTA:BYTES_TYPICAL_QUOTA,
+  fmtBytes:fmtBytes, storageLevel:storageLevel,
   buildSnapshot:buildSnapshot, planMedia:planMedia, validateBackup:validateBackup, planRestore:planRestore
 };
 });
