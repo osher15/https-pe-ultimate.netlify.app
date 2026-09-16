@@ -16,7 +16,7 @@ const base={
 async function seedRecord(page,id,bytes){
   await page.evaluate(async a=>{
     const db=await new Promise((res,rej)=>{
-      const rq=indexedDB.open("pehub-records",1);
+      const rq=indexedDB.open("peultimate-records",1);
       rq.onupgradeneeded=()=>{ if(!rq.result.objectStoreNames.contains("rec"))rq.result.createObjectStore("rec",{keyPath:"id"}); };
       rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error);
     });
@@ -60,8 +60,8 @@ module.exports={title:"גיבוי ושחזור",tests:[
        מרוקנים את המאגר ולא מוחקים אותו: deleteDatabase נחסם כל עוד
        האפליקציה מחזיקה חיבור פתוח, ואז הבדיקה תלויה לנצח. */
     await page.evaluate(async()=>{
-      Object.keys(localStorage).filter(k=>k.indexOf("pehub.")===0).forEach(k=>localStorage.removeItem(k));
-      const db=await new Promise((res,rej)=>{ const rq=indexedDB.open("pehub-records",1);
+      Object.keys(localStorage).filter(k=>k.indexOf("peultimate.")===0).forEach(k=>localStorage.removeItem(k));
+      const db=await new Promise((res,rej)=>{ const rq=indexedDB.open("peultimate-records",1);
         rq.onupgradeneeded=()=>{ if(!rq.result.objectStoreNames.contains("rec"))rq.result.createObjectStore("rec",{keyPath:"id"}); };
         rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error); });
       await new Promise((res,rej)=>{ const rq=db.transaction("rec","readwrite").objectStore("rec").clear();
@@ -74,7 +74,7 @@ module.exports={title:"גיבוי ושחזור",tests:[
     eq(r.media.added,1,"והשיא עם הסרטון חזר");
     eq(await page.evaluate(()=>window.HM.LS.get("ft.results",[]).length),1,"המדידה חזרה");
     const vid=await page.evaluate(async()=>{
-      const db=await new Promise(res=>{ const rq=indexedDB.open("pehub-records",1); rq.onsuccess=()=>res(rq.result); });
+      const db=await new Promise(res=>{ const rq=indexedDB.open("peultimate-records",1); rq.onsuccess=()=>res(rq.result); });
       const all=await new Promise(res=>{ const rq=db.transaction("rec").objectStore("rec").getAll(); rq.onsuccess=()=>res(rq.result); });
       db.close();
       return all.length?{n:all.length,size:all[0].video?all[0].video.size:0,type:all[0].video?all[0].video.type:""}:null;
@@ -91,7 +91,7 @@ module.exports={title:"גיבוי ושחזור",tests:[
     await seedRecord(page,"rec2",512);      /* שיא חדש שאינו בקובץ */
     await page.evaluate(s=>window.HM.backupTest.apply(s),snap);
     const n=await page.evaluate(async()=>{
-      const db=await new Promise(res=>{ const rq=indexedDB.open("pehub-records",1); rq.onsuccess=()=>res(rq.result); });
+      const db=await new Promise(res=>{ const rq=indexedDB.open("peultimate-records",1); rq.onsuccess=()=>res(rq.result); });
       const all=await new Promise(res=>{ const rq=db.transaction("rec").objectStore("rec").getAll(); rq.onsuccess=()=>res(rq.result); });
       db.close(); return all.length;
     });
@@ -110,9 +110,9 @@ module.exports={title:"גיבוי ושחזור",tests:[
   }),
 
   check("קובץ פגום נדחה לפני שנוגעים בנתונים",base,async page=>{
-    const bad=[{},{app:"אחר"},{app:"hamegrash-pro",kind:"backup",v:99,data:{}},
-               {app:"hamegrash-pro",kind:"backup",v:2},
-               {app:"hamegrash-pro",kind:"backup",v:2,data:{"ft.results":[1,2]}}];
+    const bad=[{},{app:"אחר"},{app:D.BK_APP,kind:"backup",v:99,data:{}},
+               {app:D.BK_APP,kind:"backup",v:2},
+               {app:D.BK_APP,kind:"backup",v:2,data:{"ft.results":[1,2]}}];
     for(const b of bad){
       const v=await page.evaluate(x=>window.HMDATA.validateBackup(x),b);
       eq(v.ok,false,"קובץ פגום התקבל: "+JSON.stringify(b));
@@ -153,12 +153,12 @@ module.exports={title:"גיבוי ושחזור",tests:[
 
   check("גיבוי ישן (גרסה 1, בלי מדיה) עדיין נטען ומוסב",base,async page=>{
     const v=await page.evaluate(()=>window.HMDATA.validateBackup({
-      app:"hamegrash-pro",kind:"backup",v:1,at:"2025-01-01T00:00:00Z",
+      app:window.HMDATA.BK_APP,kind:"backup",v:1,at:"2025-01-01T00:00:00Z",
       data:{"ft.results":JSON.stringify([{id:"old",cls:"ט3",test:"push",name:"דן אבירם",d:"2025-01-01",val:9}])}}));
     eq(v.ok,true,"קובץ ישן מתקבל — "+JSON.stringify(v.errors));
     eq(v.schema,1,"ומסומן כסכמה ישנה");
     const r=await page.evaluate(s=>window.HM.backupTest.apply(s),{
-      app:"hamegrash-pro",kind:"backup",v:1,at:"2025-01-01T00:00:00Z",
+      app:D.BK_APP,kind:"backup",v:1,at:"2025-01-01T00:00:00Z",
       data:{"ft.roster":JSON.stringify({"ט3":[{name:"דן אבירם"}]}),
             "ft.results":JSON.stringify([{id:"old",cls:"ט3",test:"push",name:"דן אבירם",d:"2025-01-01",val:9}])}});
     eq(r.failed,0);

@@ -130,7 +130,7 @@ async function openApp(browser,seed,APP){
          בדיקה שרוצה לבחון את המסך הזה עצמו מזריעה hx.leadDone בעצמה. */
       const d=Object.assign({"hx.leadDone":true},s||{});
       delete d.__now;   /* שעון, לא נתון — אינו נכתב לאחסון */
-      Object.keys(d).forEach(k=>localStorage.setItem("pehub."+k,JSON.stringify(d[k])));
+      Object.keys(d).forEach(k=>localStorage.setItem("peultimate."+k,JSON.stringify(d[k])));
     }catch(e){}
   },seed||null);
   await page.goto(APP,{waitUntil:"domcontentloaded"});

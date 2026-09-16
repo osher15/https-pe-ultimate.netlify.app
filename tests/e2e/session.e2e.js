@@ -186,7 +186,7 @@ module.exports={title:"שיעור פעיל",tests:[
     ok(snap.data["ls.sessions"],"מפתח השיעורים בגיבוי — "+Object.keys(snap.data).join(","));
 
     await page.evaluate(()=>{
-      Object.keys(localStorage).filter(k=>k.indexOf("pehub.")===0)
+      Object.keys(localStorage).filter(k=>k.indexOf("peultimate.")===0)
         .forEach(k=>localStorage.removeItem(k));
     });
     eq(await page.evaluate(()=>window.HM.session.all().length),0,"נוקה");
@@ -206,7 +206,7 @@ module.exports={title:"שיעור פעיל",tests:[
     await page.evaluate(i=>window.HM.session.complete(i),id);
     const snap=await page.evaluate(()=>window.HM.backupTest.snapshotFull());
     await page.evaluate(()=>{
-      Object.keys(localStorage).filter(k=>k.indexOf("pehub.")===0)
+      Object.keys(localStorage).filter(k=>k.indexOf("peultimate.")===0)
         .forEach(k=>localStorage.removeItem(k));
     });
     await page.evaluate(s=>window.HM.backupTest.apply(s),snap);

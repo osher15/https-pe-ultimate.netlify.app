@@ -7,14 +7,14 @@ const assert=require("node:assert/strict");
 const D=require("../../hm-data.js");
 
 const good=(extra)=>Object.assign({
-  app:"hamegrash-pro",kind:"backup",v:D.BK_V,schema:D.SCHEMA_VERSION,
+  app:D.BK_APP,kind:"backup",v:D.BK_V,schema:D.SCHEMA_VERSION,
   at:"2026-09-11T00:00:00.000Z",school:"מקיף ג׳",build:"abc",
   data:{"ft.results":'[{"id":"r1"}]',"settings":'{"school":"מקיף ג׳"}'}
 },extra||{});
 
 test("הרכבת גיבוי: מעטפת מלאה וגרסה נוכחית",()=>{
   const s=D.buildSnapshot({data:{"ft.results":"[]"},school:"בית ספר",build:"b1"});
-  assert.equal(s.app,"hamegrash-pro");
+  assert.equal(s.app,D.BK_APP);
   assert.equal(s.kind,"backup");
   assert.equal(s.v,D.BK_V);
   assert.equal(s.schema,D.SCHEMA_VERSION);
@@ -30,7 +30,7 @@ test("קובץ תקין עובר ולידציה וסופר מפתחות",()=>{
 });
 
 test("קובץ שאינו של המגרש נדחה",()=>{
-  [null,undefined,"מחרוזת",[],{},{app:"אחר"},{app:"hamegrash-pro",kind:"משהו"}]
+  [null,undefined,"מחרוזת",[],{},{app:"אחר"},{app:D.BK_APP,kind:"משהו"}]
     .forEach(x=>assert.equal(D.validateBackup(x).ok,false,JSON.stringify(x)));
 });
 
@@ -58,7 +58,7 @@ test("קובץ מגרסה חדשה יותר נדחה במקום להיבלע ח�
 });
 
 test("קובץ מגרסה ישנה יותר עדיין מתקבל",()=>{
-  const v=D.validateBackup({app:"hamegrash-pro",kind:"backup",v:1,at:"x",data:{"ft.results":"[]"}});
+  const v=D.validateBackup({app:D.BK_APP,kind:"backup",v:1,at:"x",data:{"ft.results":"[]"}});
   assert.equal(v.ok,true);
   assert.equal(v.schema,1,"קובץ ישן נחשב סכמה 1 ויעבור מיגרציה אחרי השחזור");
 });
@@ -68,7 +68,7 @@ test("סכמה עתידית בתוך קובץ נדחית",()=>{
 });
 
 test("מעטפת מוצפנת: נבדקת בלי לפענח",()=>{
-  const enc={app:"hamegrash-pro",kind:"backup-encrypted",v:1,at:"x",
+  const enc={app:D.BK_APP,kind:"backup-encrypted",v:1,at:"x",
     alg:"AES-GCM",kdf:"PBKDF2-SHA256",iter:310000,salt:"AAA",iv:"BBB",ct:"CCC"};
   const v=D.validateBackup(enc);
   assert.equal(v.ok,true);

@@ -1,8 +1,8 @@
 {
-  "name": "hamegrash-pro",
-  "version": "2.0.0",
+  "name": "pe-ultimate",
+  "version": "1.0.0",
   "private": true,
-  "description": "המגרש PRO — ערכת שטח למורה לחינוך גופני",
+  "description": "PE Ultimate — ערכת שטח למורה לחינוך גופני. שכפול עצמאי של osher15/Pro-sport-pa.",
   "scripts": {
     "test": "node --test \"tests/unit/*.test.js\"",
     "test:e2e": "node tests/e2e/run.js",

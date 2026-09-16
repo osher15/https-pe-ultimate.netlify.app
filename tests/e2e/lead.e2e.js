@@ -71,17 +71,17 @@ module.exports={title:"מסך פרטי הקשר",tests:[
     await send(page);
     ok(await page.evaluate(()=>{
       const l=document.getElementById("lockOv");
-      return !!l&&(l.classList.contains("on")||sessionStorage.getItem("pehub.unlocked")==="1");
+      return !!l&&(l.classList.contains("on")||sessionStorage.getItem("peultimate.unlocked")==="1");
     }),"מסך הכניסה זמין מאחוריו");
   }),
 
   check("המסך אינו נוגע בנתוני התלמידים",fresh,async page=>{
     const before=await page.evaluate(()=>Object.keys(localStorage).filter(k=>
-      k.indexOf("pehub.stu")===0||k.indexOf("pehub.ft")===0).sort().join(","));
+      k.indexOf("peultimate.stu")===0||k.indexOf("peultimate.ft")===0).sort().join(","));
     await fill(page,{first:"אושר",last:"שמלאשוילי",phone:"050-0000000"});
     await send(page);
     const after=await page.evaluate(()=>Object.keys(localStorage).filter(k=>
-      k.indexOf("pehub.stu")===0||k.indexOf("pehub.ft")===0).sort().join(","));
+      k.indexOf("peultimate.stu")===0||k.indexOf("peultimate.ft")===0).sort().join(","));
     eq(after,before,"מפתחות התלמידים והמדידות לא נגעו");
   })
 

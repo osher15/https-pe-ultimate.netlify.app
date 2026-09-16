@@ -846,10 +846,10 @@ window.HMBootNew=function(){
      מורה  — קוד נכון פותח את כל האפליקציה.
      תלמיד — נכנס בלי קוד למצב תצוגה: לוח השיאים ודף המשחקים בלבד. */
   const H0=H();
-  const locked=LS.get("hx.lock",true)&&sessionStorage.getItem("pehub.unlocked")!=="1";
+  const locked=LS.get("hx.lock",true)&&sessionStorage.getItem(BRAND.ns+"unlocked")!=="1";
   const codeSet=()=>LS.get("rec.pass",null)!=null;
   const unlockTeacher=()=>{
-    sessionStorage.setItem("pehub.unlocked","1");
+    sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
     $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
   };
@@ -888,7 +888,7 @@ window.HMBootNew=function(){
   }
   const stuBtn=$("#lock-student");
   if(stuBtn)stuBtn.addEventListener("click",()=>{
-    sessionStorage.setItem("pehub.unlocked","1");
+    sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("student");
     $("#lockOv").classList.remove("on");
     H0.go("rec"); toast("מצב תלמיד — צפייה בשיאים ושליחת שיא חדש");
@@ -938,9 +938,9 @@ window.HMBootNew=function(){
   }
   function clearDemo(){
     ["ft.results","ft.roster","ft.last","stu.list","bt.results","bt.heat","pf.names"]
-      .forEach(k=>{ try{ localStorage.removeItem("pehub."+k); }catch(e){} });
+      .forEach(k=>{ try{ localStorage.removeItem(BRAND.ns+k); }catch(e){} });
     LS.set(DEMO_KEY,false);
-    try{ localStorage.removeItem("pehub."+DEMO_KEY); }catch(e){}
+    try{ localStorage.removeItem(BRAND.ns+DEMO_KEY); }catch(e){}
   }
   function paintDemoBar(){
     const bar=$("#demoBar"); if(!bar)return;
@@ -954,7 +954,7 @@ window.HMBootNew=function(){
       return;
     }
     if(!demoOn())seedDemo();
-    sessionStorage.setItem("pehub.unlocked","1");
+    sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
     $("#lockOv").classList.remove("on");
     paintDemoBar(); H0.go("ft");

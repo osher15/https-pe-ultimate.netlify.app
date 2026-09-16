@@ -206,7 +206,7 @@ test("resolveClassId: כיתה מוכרת בשם חדש → המזהה הרשו�
 /* ---------- גיבוי מסכמה 3 ---------- */
 
 test("גיבוי מסכמה 3 נטען על אפליקציית סכמה 4 ומוסב; גיבוי מסכמה 5 נדחה",()=>{
-  const file={app:"hamegrash-pro",kind:"backup",v:D.BK_V,schema:3,at:"2026-09-01T00:00:00Z",data:{},idb:{items:[]}};
+  const file={app:D.BK_APP,kind:"backup",v:D.BK_V,schema:3,at:"2026-09-01T00:00:00Z",data:{},idb:{items:[]}};
   const dev=v3(); Object.keys(dev).forEach(k=>file.data[k]=JSON.stringify(dev[k]));
   const v=D.validateBackup(file);
   assert.equal(v.ok,true,JSON.stringify(v.errors));

@@ -17,7 +17,7 @@ module.exports={title:"שלב 10.5 — ליטוש ממוקד",tests:[
 
   /* ---------- 1. כותרת מסך הכניסה ---------- */
 
-  check("כותרת הכניסה: PRO הוא רכיב קבוע ומבודד, לא חלק ממחרוזת מעורבת אחת",empty,async page=>{
+  check("כותרת הכניסה: Ultimate הוא רכיב קבוע ומבודד, לא חלק ממחרוזת מעורבת אחת",empty,async page=>{
     const h1=await page.evaluate(()=>{
       const el=document.querySelector("#lockOv h1");
       const span=el.querySelector("[data-i18n=\"brand.word\"]");
@@ -25,22 +25,22 @@ module.exports={title:"שלב 10.5 — ליטוש ממוקד",tests:[
       return {spanText:span&&span.textContent, bText:b&&b.textContent,
         unicodeBidi:getComputedStyle(el).unicodeBidi, hasOldKey:el.hasAttribute("data-i18n")};
     });
-    eq(h1.spanText,"המגרש","המילה העברית בספאן נפרד");
-    eq(h1.bText,"PRO","PRO קבוע, לא בתוך אותה מחרוזת עם «המגרש»");
+    eq(h1.spanText,"PE","המילה הראשונה בספאן נפרד — שם המותג אינו מתורגם בין שפות");
+    eq(h1.bText,"Ultimate","Ultimate קבוע, לא בתוך אותה מחרוזת עם «PE»");
     eq(h1.unicodeBidi,"isolate","מבודד מהקשר הביידי הסובב — כמו .topbar .ttl");
     eq(h1.hasOldKey,false,"אין יותר brand.full מאוחד על האלמנט");
   }),
 
-  check("החלפת שפה: המילה העברית מתורגמת, PRO לא זז",empty,async page=>{
+  check("החלפת שפה: שם המותג אינו משתנה, Ultimate לא זז",empty,async page=>{
     await switchLang(page,"en");
     let h1=await page.evaluate(()=>{
       const el=document.querySelector("#lockOv h1");
       return {span:el.querySelector("[data-i18n=\"brand.word\"]").textContent,b:el.querySelector("b").textContent};
     });
-    eq(h1.span,"Hamigresh"); eq(h1.b,"PRO","PRO — אף פעם לא נוגעים בו, בכל שפה");
+    eq(h1.span,"PE"); eq(h1.b,"Ultimate","Ultimate — אף פעם לא נוגעים בו, בכל שפה");
     await switchLang(page,"he");
     h1=await page.evaluate(()=>document.querySelector("#lockOv h1 [data-i18n=\"brand.word\"]").textContent);
-    eq(h1,"המגרש","וחזרה לעברית משחזרת בדיוק את המקור");
+    eq(h1,"PE","וחזרה לעברית משחזרת בדיוק את המקור");
   }),
 
   /* ---------- 2. בהירות הצפנת הגיבוי ---------- */

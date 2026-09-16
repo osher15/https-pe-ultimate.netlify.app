@@ -13,7 +13,7 @@ async function breakStorage(page){
     const real=localStorage.setItem.bind(localStorage);
     window.__real=real;
     localStorage.setItem=function(k,v){
-      if(String(k).indexOf("pehub.")===0){
+      if(String(k).indexOf("peultimate.")===0){
         const e=new Error("The quota has been exceeded.");
         e.name="QuotaExceededError"; e.code=22; throw e;
       }
@@ -79,7 +79,7 @@ module.exports={title:"בטיחות אחסון",
   check("נתון פגום באחסון: האפליקציה עולה ומדווחת",
     Object.assign({},base),async page=>{
     /* כותבים ידנית ערך שאינו JSON, כמו נתון שנחתך באמצע כתיבה */
-    await page.evaluate(()=>localStorage.setItem("pehub.stu.list","{נחתך באמצע"));
+    await page.evaluate(()=>localStorage.setItem("peultimate.stu.list","{נחתך באמצע"));
     const v=await page.evaluate(()=>window.HM.LS.get("stu.list",[]));
     eq(v,[],"מוחזרת ברירת מחדל כדי שהמסך יעלה");
     const h=await page.evaluate(()=>window.HM.storage());

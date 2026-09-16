@@ -1,6 +1,6 @@
 "use strict";
 /* ============================================================
-   המגרש PRO — מבחני כושר
+   PE Ultimate — מבחני כושר
    ------------------------------------------------------------
    מודול תפעולי לזמן שיעור: בוחרים שכבה (ז׳–י״ב) ומספר כיתה (1–10),
    בוחרים מבחן אחד מתוך הקטלוג, ומקבלים מסך הפעלה אחד עם רשימת
@@ -1738,7 +1738,7 @@ window.FT=(function(){
     return '<div class="hd"><div><h1>'+H().esc(title)+'</h1>'+
       '<div class="sub">'+H().esc(sub)+'</div></div>'+
       '<div class="rt">'+(school?H().esc(school)+'<br>':"")+
-      'הופק '+new Date().toLocaleDateString(H_LOC())+'<br>המגרש PRO</div></div>';
+      'הופק '+new Date().toLocaleDateString(H_LOC())+'<br>PE Ultimate</div></div>';
   }
 
   /* ---------- דוח תלמיד ---------- */

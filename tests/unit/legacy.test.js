@@ -184,7 +184,7 @@ test("מכשיר בגרסה הנוכחית אינו עובר כלום",()=>{
 });
 
 test("גיבוי מגרסה ישנה נטען, ואז מוסב",()=>{
-  const file={app:"hamegrash-pro",kind:"backup",v:1,at:"2025-06-01T00:00:00Z",data:{}};
+  const file={app:D.BK_APP,kind:"backup",v:1,at:"2025-06-01T00:00:00Z",data:{}};
   Object.entries(legacyDevice()).forEach(([k,v])=>file.data[k]=JSON.stringify(v));
   const v=D.validateBackup(file);
   assert.equal(v.ok,true,JSON.stringify(v.errors));

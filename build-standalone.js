@@ -51,8 +51,8 @@ function stampSW(){
   const h0=fs.readFileSync(htmlFile,"utf8");
   const tag='<meta name="hm-build" content="'+hash+'">';
   const h1=BUILD_META.test(h0)?h0.replace(BUILD_META,tag)
-    :h0.replace('<meta name="theme-color" content="#0c0e1a">',
-                '<meta name="theme-color" content="#0c0e1a">\n'+tag);
+    :h0.replace('<meta name="theme-color" content="#0b1220">',
+                '<meta name="theme-color" content="#0b1220">\n'+tag);
   if(h1!==h0)fs.writeFileSync(htmlFile,h1);
   return h1;
 }
@@ -110,9 +110,9 @@ const out=`<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0c0e1a">
+<meta name="theme-color" content="#0b1220">
 ${(html.match(BUILD_META)||[""])[0]}
-<title>המגרש PRO — ערכת שטח למורה לחינוך גופני</title>
+<title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">

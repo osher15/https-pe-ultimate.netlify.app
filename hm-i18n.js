@@ -32,7 +32,7 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* --- מסך כניסה --- */
-  "brand.word":"Hamigresh", "brand.full":"Hamigresh PRO", "about.title":"📘 About Hamigresh PRO",
+  "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 About PE Ultimate",
   /* --- ביפ טסט --- */
   "bt.setup":"Test setup", "bt.dist":"Shuttle length", "bt.speed":"Stage 1 speed (km/h)",
   "bt.std":"↺ Standard (8.0)", "bt.proto":"Standard protocol", "bt.protoOff":"Modified protocol",
@@ -199,7 +199,7 @@ en:{
   "bk.cancel":"Cancel",
   "bk.confirm":"Restore? All data on this device will be replaced by the data in the file.",
   "bk.done":"✓ Restored — reloading",
-  "bk.bad":"That file is not a Hamigresh PRO backup",
+  "bk.bad":"That file is not a PE Ultimate backup",
 
   /* --- כללי --- */
   "thm.dark":"Night", "thm.turf":"Turf", "thm.slate":"Slate", "thm.day":"Day", "thm.sun":"Bright sun",
@@ -221,7 +221,7 @@ en:{
 },
 
 ar:{
-  "brand.word":"Hamigresh", "brand.full":"Hamigresh PRO", "about.title":"📘 حول Hamigresh PRO",
+  "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 حول PE Ultimate",
   "bt.setup":"إعداد الاختبار", "bt.dist":"طول المسار", "bt.speed":"سرعة المرحلة 1 (كم/س)",
   "bt.age":"عمر الصف", "bt.sex":"الجنس (للمعايير)",
   "bt.voice":"إعلانات صوتية", "bt.beeps":"نبضات",
@@ -343,7 +343,7 @@ ar:{
   "bk.cancel":"إلغاء",
   "bk.confirm":"استعادة؟ ستُستبدل كل البيانات على هذا الجهاز ببيانات الملف.",
   "bk.done":"✓ تمت الاستعادة — يُعاد التحميل",
-  "bk.bad":"هذا الملف ليس نسخة احتياطية لـ Hamigresh PRO",
+  "bk.bad":"هذا الملف ليس نسخة احتياطية لـ PE Ultimate",
 
   "thm.dark":"ليل", "thm.turf":"عشب", "thm.slate":"رمادي", "thm.day":"نهار", "thm.sun":"شمس ساطعة",
   "i18n.partial":"الواجهة مترجمة. المحتوى المهني ما زال بالعبرية.",
@@ -364,7 +364,7 @@ ar:{
 },
 
 ru:{
-  "brand.word":"Hamigresh", "brand.full":"Hamigresh PRO", "about.title":"📘 О Hamigresh PRO",
+  "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 О PE Ultimate",
   "bt.setup":"Настройка теста", "bt.dist":"Длина отрезка", "bt.speed":"Скорость 1-й ступени (км/ч)",
   "bt.std":"↺ Стандарт (8.0)", "bt.proto":"Стандартный протокол",
   "bt.saveProf":"💾 Сохранить профиль", "bt.age":"Возраст класса", "bt.sex":"Пол (для норм)",
@@ -493,7 +493,7 @@ ru:{
   "bk.cancel":"Отмена",
   "bk.confirm":"Восстановить? Все данные на устройстве будут заменены данными из файла.",
   "bk.done":"✓ Восстановлено — перезагрузка",
-  "bk.bad":"Этот файл не является резервной копией Hamigresh PRO",
+  "bk.bad":"Этот файл не является резервной копией PE Ultimate",
 
   "thm.dark":"Ночь", "thm.turf":"Газон", "thm.slate":"Сланец", "thm.day":"День", "thm.sun":"Яркое солнце",
   "i18n.partial":"Интерфейс переведён. Профессиональный контент пока на иврите.",
@@ -514,7 +514,7 @@ ru:{
 }
 };
 
-const KEY="pehub.lang";
+const KEY=(window.BRAND&&window.BRAND.ns||"pehub.")+"lang";
 let cur=(function(){
   try{ const v=localStorage.getItem(KEY); if(v&&DICT[v.replace(/"/g,"")]!==undefined)return v.replace(/"/g,""); }catch(e){}
   /* בכוונה בלי ניחוש משפת הדפדפן. התוכן המקצועי עדיין עברית, ולכן

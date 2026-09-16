@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0c0e1a">
-<meta name="hm-build" content="0e27ebf5">
-<title>המגרש PRO — ערכת שטח למורה לחינוך גופני</title>
+<meta name="theme-color" content="#0b1220">
+<meta name="hm-build" content="602360af">
+<title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -1602,8 +1602,8 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 <div class="topbar">
   <button class="backbtn" id="btnBack" hidden>→<span data-i18n="nav.back">חזרה</span></button>
   <button class="iconbtn menubtn" id="btnMenu" title="תפריט — כל המסכים" data-i18n-title="ui.menu" aria-label="תפריט">☰</button>
-  <div class="brand"><div class="logo">🏟️</div>
-    <div><div class="ttl" dir="auto"><span data-i18n="brand.word">המגרש</span> <b style="color:var(--acc)">PRO</b></div><div class="sub" id="schoolSub" dir="auto">ערכת שטח למורה לחינוך גופני</div></div>
+  <div class="brand"><div class="logo">⏱️</div>
+    <div><div class="ttl" dir="auto"><span data-i18n="brand.word">PE</span> <b style="color:var(--acc)">Ultimate</b></div><div class="sub" id="schoolSub" dir="auto">ערכת שטח למורה לחינוך גופני</div></div>
   </div>
   <div class="sboard">
     <button id="roleBadge" style="display:none">👦 מצב תלמיד<span id="roleExit">יציאה 🔓</span></button>
@@ -3114,9 +3114,9 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 </div></div>
 
 <div class="modal" id="aboutModal"><div class="box" style="max-width:540px">
-  <h3><span dir="auto" data-i18n="about.title">📘 אודות המגרש PRO</span><button class="x" data-close="aboutModal">✕</button></h3>
-  <div class="ab-hero"><div class="lg">🏟️</div>
-    <div><b dir="auto" data-i18n="brand.full">המגרש PRO</b><span id="ab-ver">גרסה —</span></div></div>
+  <h3><span dir="auto" data-i18n="about.title">📘 אודות PE Ultimate</span><button class="x" data-close="aboutModal">✕</button></h3>
+  <div class="ab-hero"><div class="lg">⏱️</div>
+    <div><b dir="auto" data-i18n="brand.full">PE Ultimate</b><span id="ab-ver">גרסה —</span></div></div>
   <p class="ab-p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
     לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, בשפה אחת, ובלי להוציא שום דבר החוצה.</p>
   <div class="ab-sec"><b>🔒 פרטיות</b>
@@ -3490,7 +3490,7 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 </div></div>
 <div id="lockOv"><div class="box">
   <div class="lg">🔐</div>
-  <h1 dir="auto"><span data-i18n="brand.word">המגרש</span> <b style="color:var(--acc)">PRO</b></h1>
+  <h1 dir="auto"><span data-i18n="brand.word">PE</span> <b style="color:var(--acc)">Ultimate</b></h1>
   <p data-i18n="lock.sub">אזור מורה — הזן קוד כדי להיכנס</p>
   <div class="field"><input type="password" id="lock-pass" placeholder="••••" inputmode="numeric"></div>
   <button class="btn acc big" id="lock-enter" style="margin-top:14px" data-i18n="lock.enter">כניסת מורה</button>
@@ -3529,24 +3529,28 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 /* ============================================================
    זהות המוצר
    ------------------------------------------------------------
-   כל מה שמבדיל את המגרש PRO ממוצר אחר שנשען על אותו קוד — ורק זה.
+   כל מה שמבדיל את PE Ultimate ממוצר אחר שנשען על אותו קוד — ורק זה.
    התחילית באחסון, שם מסד השיאים, ותיקיית הגיבוי בדרייב חוזרים על
-   עצמם בכמה מקומות בקוד; קובץ הזהות מרכז אותם למקום אחד, כדי
-   שכל שינוי בהם — כולל שכפול האפליקציה למוצר עצמאי — יהיה שינוי
-   בקובץ הזה בלבד, ולא חיפוש-והחלפה על פני כמה קבצים.
+   עצמם בכמה מקומות בקוד; קובץ הזהות מרכז אותם למקום אחד.
+
+   הריפו הזה עצמו הוא שכפול עצמאי של osher15/Pro-sport-pa (המגרש
+   PRO) — קוד זהה כמעט לחלוטין, חוץ מהקובץ הזה. לכן הערכים כאן
+   שונים בכוונה מהמקור: תחילית אחסון אחרת, מסד IndexedDB אחר,
+   תיקיית דרייב אחרת — כדי שמורה שמתקין את שתי האפליקציות לא יקבל
+   התנגשות בנתונים או במטמון האופליין.
 
    אסור לקובץ הזה להכיל לוגיקה. רק ערכים.
    ============================================================ */
 window.BRAND={
-  ns:"pehub.",                      /* תחילית מפתחות ב-localStorage/sessionStorage */
-  idbName:"pehub-records",          /* שם מסד ה-IndexedDB של סרטוני השיאים */
-  driveFolderName:"המגרש PRO – גיבויים" /* תיקיית הגיבוי בדרייב של המורה */
+  ns:"peultimate.",                    /* תחילית מפתחות ב-localStorage/sessionStorage */
+  idbName:"peultimate-records",        /* שם מסד ה-IndexedDB של סרטוני השיאים */
+  driveFolderName:"PE Ultimate – Backups" /* תיקיית הגיבוי בדרייב של המורה */
 };
 
 ;
 "use strict";
 /* ============================================================
-   המגרש PRO — שכבת הנתונים
+   PE Ultimate — שכבת הנתונים
    ------------------------------------------------------------
    כל שאר הקבצים באפליקציה מדברים עם ה-DOM ולכן אפשר לבדוק אותם רק
    בדפדפן. הקובץ הזה הוא ההפך: פונקציות טהורות בלבד, בלי window,
@@ -5603,7 +5607,7 @@ function schedNext(list,iso,sessions,nowMin){
    תקציב: מה שנכנס נכנס, ומה שלא — מדווח בשמו בתוך הקובץ עצמו,
    כדי ששחזור לא ישקר למורה על מה שיש לו.
    ============================================================ */
-var BK_APP="hamegrash-pro";
+var BK_APP="pe-ultimate";
 var BK_V=2;                    /* 1 = רק localStorage, 2 = + IndexedDB */
 var IDB_BUDGET=48*1024*1024;   /* תקציב מדיה כולל בקובץ, לפני base64 */
 
@@ -5780,7 +5784,7 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* --- מסך כניסה --- */
-  "brand.word":"Hamigresh", "brand.full":"Hamigresh PRO", "about.title":"📘 About Hamigresh PRO",
+  "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 About PE Ultimate",
   /* --- ביפ טסט --- */
   "bt.setup":"Test setup", "bt.dist":"Shuttle length", "bt.speed":"Stage 1 speed (km/h)",
   "bt.std":"↺ Standard (8.0)", "bt.proto":"Standard protocol", "bt.protoOff":"Modified protocol",
@@ -5947,7 +5951,7 @@ en:{
   "bk.cancel":"Cancel",
   "bk.confirm":"Restore? All data on this device will be replaced by the data in the file.",
   "bk.done":"✓ Restored — reloading",
-  "bk.bad":"That file is not a Hamigresh PRO backup",
+  "bk.bad":"That file is not a PE Ultimate backup",
 
   /* --- כללי --- */
   "thm.dark":"Night", "thm.turf":"Turf", "thm.slate":"Slate", "thm.day":"Day", "thm.sun":"Bright sun",
@@ -5969,7 +5973,7 @@ en:{
 },
 
 ar:{
-  "brand.word":"Hamigresh", "brand.full":"Hamigresh PRO", "about.title":"📘 حول Hamigresh PRO",
+  "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 حول PE Ultimate",
   "bt.setup":"إعداد الاختبار", "bt.dist":"طول المسار", "bt.speed":"سرعة المرحلة 1 (كم/س)",
   "bt.age":"عمر الصف", "bt.sex":"الجنس (للمعايير)",
   "bt.voice":"إعلانات صوتية", "bt.beeps":"نبضات",
@@ -6091,7 +6095,7 @@ ar:{
   "bk.cancel":"إلغاء",
   "bk.confirm":"استعادة؟ ستُستبدل كل البيانات على هذا الجهاز ببيانات الملف.",
   "bk.done":"✓ تمت الاستعادة — يُعاد التحميل",
-  "bk.bad":"هذا الملف ليس نسخة احتياطية لـ Hamigresh PRO",
+  "bk.bad":"هذا الملف ليس نسخة احتياطية لـ PE Ultimate",
 
   "thm.dark":"ليل", "thm.turf":"عشب", "thm.slate":"رمادي", "thm.day":"نهار", "thm.sun":"شمس ساطعة",
   "i18n.partial":"الواجهة مترجمة. المحتوى المهني ما زال بالعبرية.",
@@ -6112,7 +6116,7 @@ ar:{
 },
 
 ru:{
-  "brand.word":"Hamigresh", "brand.full":"Hamigresh PRO", "about.title":"📘 О Hamigresh PRO",
+  "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 О PE Ultimate",
   "bt.setup":"Настройка теста", "bt.dist":"Длина отрезка", "bt.speed":"Скорость 1-й ступени (км/ч)",
   "bt.std":"↺ Стандарт (8.0)", "bt.proto":"Стандартный протокол",
   "bt.saveProf":"💾 Сохранить профиль", "bt.age":"Возраст класса", "bt.sex":"Пол (для норм)",
@@ -6241,7 +6245,7 @@ ru:{
   "bk.cancel":"Отмена",
   "bk.confirm":"Восстановить? Все данные на устройстве будут заменены данными из файла.",
   "bk.done":"✓ Восстановлено — перезагрузка",
-  "bk.bad":"Этот файл не является резервной копией Hamigresh PRO",
+  "bk.bad":"Этот файл не является резервной копией PE Ultimate",
 
   "thm.dark":"Ночь", "thm.turf":"Газон", "thm.slate":"Сланец", "thm.day":"День", "thm.sun":"Яркое солнце",
   "i18n.partial":"Интерфейс переведён. Профессиональный контент пока на иврите.",
@@ -6262,7 +6266,7 @@ ru:{
 }
 };
 
-const KEY="pehub.lang";
+const KEY=(window.BRAND&&window.BRAND.ns||"pehub.")+"lang";
 let cur=(function(){
   try{ const v=localStorage.getItem(KEY); if(v&&DICT[v.replace(/"/g,"")]!==undefined)return v.replace(/"/g,""); }catch(e){}
   /* בכוונה בלי ניחוש משפת הדפדפן. התוכן המקצועי עדיין עברית, ולכן
@@ -6338,7 +6342,7 @@ return {t,set,init,applyDom,applyDir,langs:()=>LANGS.slice(),
 /* עוזר מקומי: אזור הלוקאל נגזר משפת הממשק (HM.loc). */
 function H_LOC(){ return (window.HM&&window.HM.loc)?window.HM.loc():"he-IL"; }
 /* ============================================================
-   המגרש PRO — ליבה משותפת: אחסון, שמע, קול, ניווט, עזרים
+   PE Ultimate — ליבה משותפת: אחסון, שמע, קול, ניווט, עזרים
    ============================================================ */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 /* ============================================================
@@ -7746,7 +7750,7 @@ const RATING_LABEL={"1":"👍 עבד מצוין","0":"😐 בינוני","-1":"�
 /* ============================================================
    גיבוי ושחזור
    ------------------------------------------------------------
-   כל האפליקציה חיה ב-localStorage תחת התחילית «pehub.», בלי שרת
+   כל האפליקציה חיה ב-localStorage תחת התחילית ב-BRAND.ns, בלי שרת
    ובלי חשבון. זה מה שנותן את הפרטיות — ובדיוק זה מה שהופך מכשיר
    שנשבר לאובדן מוחלט. הגיבוי הוא קובץ JSON יחיד עם כל המפתחות
    האלה, ולכן הוא גם העברה למכשיר חדש וגם שיתוף עם מורה נוסף.
@@ -7804,7 +7808,7 @@ function bkCount(raw){
 function bkFileName(){
   const d=new Date(), p=n=>String(n).padStart(2,"0");
   const school=(SET.school||"").replace(/[\\/:*?"<>|]/g,"").trim().replace(/\s+/g,"-");
-  return "hamegrash-גיבוי"+(school?"-"+school:"")+"-"+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+".json";
+  return "pe-ultimate-גיבוי"+(school?"-"+school:"")+"-"+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+".json";
 }
 /* ============================================================
    הצפנת גיבוי — הצעד הראשון של «מקצה לקצה»
@@ -7842,7 +7846,7 @@ async function bkEncrypt(snap,pass){
   const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,data);
   /* המעטפת גלויה בכוונה: מי שמוצא את הקובץ צריך לדעת מה הוא ואיך
      לפתוח אותו. שם בית הספר ותוכן הנתונים נשארים בפנים, מוצפנים. */
-  return {app:"hamegrash-pro",kind:"backup-encrypted",v:1,
+  return {app:DATA.BK_APP,kind:"backup-encrypted",v:1,
     at:snap.at,alg:"AES-GCM",kdf:"PBKDF2-SHA256",iter:BK_ITER,
     salt:b64(salt),iv:b64(iv),ct:b64(ct)};
 }
@@ -8217,8 +8221,8 @@ function wirePurge(){
    כדאי לנסות להוריד שוב או שהקובץ הזה אבוד. */
 const BK_ERRMSG={
   "not-an-object":"הקובץ אינו קובץ גיבוי תקין",
-  "not-hamegrash":"הקובץ אינו גיבוי של המגרש PRO",
-  "unknown-kind":"הקובץ אינו גיבוי של המגרש PRO",
+  "not-hamegrash":"הקובץ אינו גיבוי של PE Ultimate",
+  "unknown-kind":"הקובץ אינו גיבוי של PE Ultimate",
   "bad-version":"הקובץ פגום — חסרה בו גרסת הגיבוי",
   "newer-file":"הגיבוי נוצר בגרסה חדשה יותר של האפליקציה. עדכן ואז נסה שוב.",
   "newer-schema":"הגיבוי נוצר בגרסה חדשה יותר של האפליקציה. עדכן ואז נסה שוב.",
@@ -8350,7 +8354,7 @@ async function clearShell(){
   const out={caches:0,workers:0};
   try{
     if(window.caches){
-      const ks=(await caches.keys()).filter(k=>k.indexOf("hamegrash-")===0);
+      const ks=(await caches.keys()).filter(k=>k.indexOf("peultimate-")===0);
       await Promise.all(ks.map(k=>caches.delete(k)));
       out.caches=ks.length;
     }
@@ -8408,12 +8412,12 @@ function upOffer(version){
   if(!document.querySelector('link[rel="manifest"]')){
     try{
       const cv=document.createElement("canvas"); cv.width=cv.height=192; const x=cv.getContext("2d");
-      x.fillStyle="#06100c"; x.fillRect(0,0,192,192);
-      x.fillStyle="#19d27a"; x.beginPath(); x.arc(96,96,70,0,7); x.fill();
-      x.font="86px serif"; x.textAlign="center"; x.textBaseline="middle"; x.fillText("🏟️",96,104);
+      x.fillStyle="#ffffff"; x.fillRect(0,0,192,192);
+      x.fillStyle="#2857d9"; x.beginPath(); x.arc(96,96,70,0,7); x.fill();
+      x.font="86px serif"; x.textAlign="center"; x.textBaseline="middle"; x.fillText("⏱️",96,104);
       const icon=cv.toDataURL("image/png");
-      const man={name:"המגרש PRO",short_name:"המגרש",display:"standalone",dir:"rtl",lang:"he",
-        start_url:location.href.split("#")[0],background_color:"#06100c",theme_color:"#06100c",
+      const man={name:"PE Ultimate",short_name:"PE Ultimate",display:"standalone",dir:"rtl",lang:"he",
+        start_url:location.href.split("#")[0],background_color:"#ffffff",theme_color:"#0b1220",
         icons:[{src:icon,sizes:"192x192",type:"image/png"}]};
       const l=document.createElement("link"); l.rel="manifest";
       l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:"application/manifest+json"}));
@@ -9509,7 +9513,7 @@ const PF=(function(){
       x.fillText(l.src||"—",cols[5][1],y);
     });
     x.fillStyle="#5d7a6b"; x.font="400 14px Heebo,Arial";
-    x.fillText("נמדד ב«המגרש PRO» · פוטו־פיניש · "+new Date().toLocaleString(H_LOC()),W-pad,H-20);
+    x.fillText("נמדד ב«PE Ultimate» · פוטו־פיניש · "+new Date().toLocaleString(H_LOC()),W-pad,H-20);
     const a=document.createElement("a");
     a.href=cv.toDataURL("image/png");
     a.download="מירוץ-"+(META.dist||"")+"מ-"+(META.date||new Date().toISOString().slice(0,10))+".png";
@@ -11536,7 +11540,7 @@ window.HMQR=(function(){
 ;
 "use strict";
 /* ============================================================
-   המגרש PRO — הגדרות ברירת המחדל של ענפי השיאים
+   PE Ultimate — הגדרות ברירת המחדל של ענפי השיאים
    כל ענף: זיהוי, יחידת מדידה, כיוון, מגבלת זמן, מגבלת אורך סרטון,
    ופרוטוקול מלא (תקין / פוסל / צילום / סרטון הסבר).
 
@@ -11851,7 +11855,7 @@ window.RECDEFAULTS=(function(){
 ;
 "use strict";
 /* ============================================================
-   המגרש PRO — מאגר ידע ומשחקים
+   PE Ultimate — מאגר ידע ומשחקים
    KNOW  — מקורות רשמיים (משרד החינוך + משרדי חינוך/בריאות בעולם),
            תוכניות אימון מוערכות, נורמות ומדדים.
    GAMES — משחקים לשעות פנאי: הסבר, מטרה, למי מתאים, קישור צפייה.
@@ -12892,7 +12896,7 @@ window.KNOW=(function(){
 ;
 "use strict";
 /* ============================================================
-   המגרש PRO — כלי כיתה
+   PE Ultimate — כלי כיתה
    קבוצות מאוזנות · הגרלת תלמיד · נוכחות והשתתפות · מחוונים
    כולם נשענים על רשימת התלמידים של מודול «התלמידים שלי».
    ============================================================ */
@@ -13291,7 +13295,7 @@ window.TOOLS=(function(){
 ;
 "use strict";
 /* ============================================================
-   המגרש PRO — ארכיון מערכי השיעור המובנה
+   PE Ultimate — ארכיון מערכי השיעור המובנה
    מערכים שנכתבו לאורך השנים, שמורים כאן בתוך האפליקציה עצמה.
    הם מופיעים בספריית המערכים בכל מכשיר, בלי ייבוא ובלי תלות
    בדפדפן — בדיוק כמו דף המשחקים ומאגר הידע.
@@ -13371,7 +13375,7 @@ window.LESSONDOCS=[
 ;
 "use strict";
 /* ============================================================
-   המגרש PRO — מחולל מערכי שיעור
+   PE Ultimate — מחולל מערכי שיעור
    בונה מערך מלא בשניות: נושא × שכבה × אורך × מקום × ציוד,
    ממופה לסטנדרטים ומעוגן בתוכנית הלימודים.
    ============================================================ */
@@ -14249,7 +14253,7 @@ window.LESSON=(function(){
 ;
 "use strict";
 /* ============================================================
-   המגרש PRO — הבונה הידני של מערך השיעור
+   PE Ultimate — הבונה הידני של מערך השיעור
    ------------------------------------------------------------
    המחולל המהיר (hm-lesson.js) בונה מערך שלם בלחיצה אחת.
    הקובץ הזה נותן את הדרך השנייה, האיטית: המורה מרכיב את המערך
@@ -15545,7 +15549,7 @@ window.LBUILD=(function(){
 ;
 "use strict";
 /* ============================================================
-   המגרש PRO — מבחני כושר
+   PE Ultimate — מבחני כושר
    ------------------------------------------------------------
    מודול תפעולי לזמן שיעור: בוחרים שכבה (ז׳–י״ב) ומספר כיתה (1–10),
    בוחרים מבחן אחד מתוך הקטלוג, ומקבלים מסך הפעלה אחד עם רשימת
@@ -17283,7 +17287,7 @@ window.FT=(function(){
     return '<div class="hd"><div><h1>'+H().esc(title)+'</h1>'+
       '<div class="sub">'+H().esc(sub)+'</div></div>'+
       '<div class="rt">'+(school?H().esc(school)+'<br>':"")+
-      'הופק '+new Date().toLocaleDateString(H_LOC())+'<br>המגרש PRO</div></div>';
+      'הופק '+new Date().toLocaleDateString(H_LOC())+'<br>PE Ultimate</div></div>';
   }
 
   /* ---------- דוח תלמיד ---------- */
@@ -18912,10 +18916,10 @@ window.HMBootNew=function(){
      מורה  — קוד נכון פותח את כל האפליקציה.
      תלמיד — נכנס בלי קוד למצב תצוגה: לוח השיאים ודף המשחקים בלבד. */
   const H0=H();
-  const locked=LS.get("hx.lock",true)&&sessionStorage.getItem("pehub.unlocked")!=="1";
+  const locked=LS.get("hx.lock",true)&&sessionStorage.getItem(BRAND.ns+"unlocked")!=="1";
   const codeSet=()=>LS.get("rec.pass",null)!=null;
   const unlockTeacher=()=>{
-    sessionStorage.setItem("pehub.unlocked","1");
+    sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
     $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
   };
@@ -18954,7 +18958,7 @@ window.HMBootNew=function(){
   }
   const stuBtn=$("#lock-student");
   if(stuBtn)stuBtn.addEventListener("click",()=>{
-    sessionStorage.setItem("pehub.unlocked","1");
+    sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("student");
     $("#lockOv").classList.remove("on");
     H0.go("rec"); toast("מצב תלמיד — צפייה בשיאים ושליחת שיא חדש");
@@ -19004,9 +19008,9 @@ window.HMBootNew=function(){
   }
   function clearDemo(){
     ["ft.results","ft.roster","ft.last","stu.list","bt.results","bt.heat","pf.names"]
-      .forEach(k=>{ try{ localStorage.removeItem("pehub."+k); }catch(e){} });
+      .forEach(k=>{ try{ localStorage.removeItem(BRAND.ns+k); }catch(e){} });
     LS.set(DEMO_KEY,false);
-    try{ localStorage.removeItem("pehub."+DEMO_KEY); }catch(e){}
+    try{ localStorage.removeItem(BRAND.ns+DEMO_KEY); }catch(e){}
   }
   function paintDemoBar(){
     const bar=$("#demoBar"); if(!bar)return;
@@ -19020,7 +19024,7 @@ window.HMBootNew=function(){
       return;
     }
     if(!demoOn())seedDemo();
-    sessionStorage.setItem("pehub.unlocked","1");
+    sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
     $("#lockOv").classList.remove("on");
     paintDemoBar(); H0.go("ft");

@@ -2,7 +2,7 @@
 /* עוזר מקומי: אזור הלוקאל נגזר משפת הממשק (HM.loc). */
 function H_LOC(){ return (window.HM&&window.HM.loc)?window.HM.loc():"he-IL"; }
 /* ============================================================
-   המגרש PRO — ליבה משותפת: אחסון, שמע, קול, ניווט, עזרים
+   PE Ultimate — ליבה משותפת: אחסון, שמע, קול, ניווט, עזרים
    ============================================================ */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 /* ============================================================
@@ -1410,7 +1410,7 @@ const RATING_LABEL={"1":"👍 עבד מצוין","0":"😐 בינוני","-1":"�
 /* ============================================================
    גיבוי ושחזור
    ------------------------------------------------------------
-   כל האפליקציה חיה ב-localStorage תחת התחילית «pehub.», בלי שרת
+   כל האפליקציה חיה ב-localStorage תחת התחילית ב-BRAND.ns, בלי שרת
    ובלי חשבון. זה מה שנותן את הפרטיות — ובדיוק זה מה שהופך מכשיר
    שנשבר לאובדן מוחלט. הגיבוי הוא קובץ JSON יחיד עם כל המפתחות
    האלה, ולכן הוא גם העברה למכשיר חדש וגם שיתוף עם מורה נוסף.
@@ -1468,7 +1468,7 @@ function bkCount(raw){
 function bkFileName(){
   const d=new Date(), p=n=>String(n).padStart(2,"0");
   const school=(SET.school||"").replace(/[\\/:*?"<>|]/g,"").trim().replace(/\s+/g,"-");
-  return "hamegrash-גיבוי"+(school?"-"+school:"")+"-"+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+".json";
+  return "pe-ultimate-גיבוי"+(school?"-"+school:"")+"-"+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+".json";
 }
 /* ============================================================
    הצפנת גיבוי — הצעד הראשון של «מקצה לקצה»
@@ -1506,7 +1506,7 @@ async function bkEncrypt(snap,pass){
   const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,data);
   /* המעטפת גלויה בכוונה: מי שמוצא את הקובץ צריך לדעת מה הוא ואיך
      לפתוח אותו. שם בית הספר ותוכן הנתונים נשארים בפנים, מוצפנים. */
-  return {app:"hamegrash-pro",kind:"backup-encrypted",v:1,
+  return {app:DATA.BK_APP,kind:"backup-encrypted",v:1,
     at:snap.at,alg:"AES-GCM",kdf:"PBKDF2-SHA256",iter:BK_ITER,
     salt:b64(salt),iv:b64(iv),ct:b64(ct)};
 }
@@ -1881,8 +1881,8 @@ function wirePurge(){
    כדאי לנסות להוריד שוב או שהקובץ הזה אבוד. */
 const BK_ERRMSG={
   "not-an-object":"הקובץ אינו קובץ גיבוי תקין",
-  "not-hamegrash":"הקובץ אינו גיבוי של המגרש PRO",
-  "unknown-kind":"הקובץ אינו גיבוי של המגרש PRO",
+  "not-hamegrash":"הקובץ אינו גיבוי של PE Ultimate",
+  "unknown-kind":"הקובץ אינו גיבוי של PE Ultimate",
   "bad-version":"הקובץ פגום — חסרה בו גרסת הגיבוי",
   "newer-file":"הגיבוי נוצר בגרסה חדשה יותר של האפליקציה. עדכן ואז נסה שוב.",
   "newer-schema":"הגיבוי נוצר בגרסה חדשה יותר של האפליקציה. עדכן ואז נסה שוב.",
@@ -2014,7 +2014,7 @@ async function clearShell(){
   const out={caches:0,workers:0};
   try{
     if(window.caches){
-      const ks=(await caches.keys()).filter(k=>k.indexOf("hamegrash-")===0);
+      const ks=(await caches.keys()).filter(k=>k.indexOf("peultimate-")===0);
       await Promise.all(ks.map(k=>caches.delete(k)));
       out.caches=ks.length;
     }
@@ -2072,12 +2072,12 @@ function upOffer(version){
   if(!document.querySelector('link[rel="manifest"]')){
     try{
       const cv=document.createElement("canvas"); cv.width=cv.height=192; const x=cv.getContext("2d");
-      x.fillStyle="#06100c"; x.fillRect(0,0,192,192);
-      x.fillStyle="#19d27a"; x.beginPath(); x.arc(96,96,70,0,7); x.fill();
-      x.font="86px serif"; x.textAlign="center"; x.textBaseline="middle"; x.fillText("🏟️",96,104);
+      x.fillStyle="#ffffff"; x.fillRect(0,0,192,192);
+      x.fillStyle="#2857d9"; x.beginPath(); x.arc(96,96,70,0,7); x.fill();
+      x.font="86px serif"; x.textAlign="center"; x.textBaseline="middle"; x.fillText("⏱️",96,104);
       const icon=cv.toDataURL("image/png");
-      const man={name:"המגרש PRO",short_name:"המגרש",display:"standalone",dir:"rtl",lang:"he",
-        start_url:location.href.split("#")[0],background_color:"#06100c",theme_color:"#06100c",
+      const man={name:"PE Ultimate",short_name:"PE Ultimate",display:"standalone",dir:"rtl",lang:"he",
+        start_url:location.href.split("#")[0],background_color:"#ffffff",theme_color:"#0b1220",
         icons:[{src:icon,sizes:"192x192",type:"image/png"}]};
       const l=document.createElement("link"); l.rel="manifest";
       l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:"application/manifest+json"}));
@@ -3173,7 +3173,7 @@ const PF=(function(){
       x.fillText(l.src||"—",cols[5][1],y);
     });
     x.fillStyle="#5d7a6b"; x.font="400 14px Heebo,Arial";
-    x.fillText("נמדד ב«המגרש PRO» · פוטו־פיניש · "+new Date().toLocaleString(H_LOC()),W-pad,H-20);
+    x.fillText("נמדד ב«PE Ultimate» · פוטו־פיניש · "+new Date().toLocaleString(H_LOC()),W-pad,H-20);
     const a=document.createElement("a");
     a.href=cv.toDataURL("image/png");
     a.download="מירוץ-"+(META.dist||"")+"מ-"+(META.date||new Date().toISOString().slice(0,10))+".png";

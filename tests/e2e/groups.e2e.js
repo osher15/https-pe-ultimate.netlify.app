@@ -326,7 +326,7 @@ module.exports={title:"קבוצות הוראה",tests:[
   check("הקבוצה נכתבת לאחסון ולא נשארת בזיכרון",base,async page=>{
     await openGroups(page);
     await makeGroup(page,"ז׳1 + ז׳3",["c:ז:1","c:ז:3"]);
-    const raw=await page.evaluate(()=>localStorage.getItem("pehub.ft.classes"));
+    const raw=await page.evaluate(()=>localStorage.getItem("peultimate.ft.classes"));
     ok(raw&&/"kind":"group"/.test(raw),"הרישום באחסון כולל את הקבוצה");
     ok(/ז׳1 \+ ז׳3/.test(raw),"עם השם שניתן לה");
   })

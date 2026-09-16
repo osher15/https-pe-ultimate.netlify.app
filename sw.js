@@ -1,5 +1,5 @@
 /* ============================================================
-   Service Worker — המגרש PRO
+   Service Worker — PE Ultimate
    ------------------------------------------------------------
    המורה עומד במגרש בלי קליטה. השירות הזה שומר את קליפת האפליקציה
    במטמון ומגיש אותה מהמכשיר, כך שפתיחה שנייה עובדת גם בלי רשת.
@@ -11,8 +11,8 @@
    יוצרת מטמון חדש והישן נמחק — במקום שגרסה ישנה תישאר תקועה על
    מכשיר בלי שאיש יידע.
    ============================================================ */
-const CACHE_VERSION = "0e27ebf5";
-const CACHE = "hamegrash-" + CACHE_VERSION;
+const CACHE_VERSION = "602360af";
+const CACHE = "peultimate-" + CACHE_VERSION;
 
 const SHELL = [
   "./",
@@ -22,6 +22,7 @@ const SHELL = [
   "./icon-192.png",
   "./icon-512.png",
   "./icon-maskable-512.png",
+  "./apple-touch-icon.png",
   "./hm-styles.css",
   "./hm-brand.js",
   "./hm-data.js",
@@ -56,7 +57,7 @@ self.addEventListener("activate", e => {
     const keys = await caches.keys();
     /* מטמון הגופנים נושא את שם הגרסה כדי שיימחק יחד איתה, אבל
        הגופנים עצמם לא משתנים בין פריסות — לכן שומרים אותו. */
-    await Promise.all(keys.filter(k => k.startsWith("hamegrash-") &&
+    await Promise.all(keys.filter(k => k.startsWith("peultimate-") &&
                                        k !== CACHE && k !== CACHE + "-fonts" &&
                                        !k.endsWith("-fonts"))
                           .map(k => caches.delete(k)));
