@@ -174,7 +174,12 @@ window.STU=(function(){
         (s.tests&&s.tests.length?("• "+s.tests.length+" מבחני ריצה שבכרטיס יימחקו.\n"):"")+
         (kept?("• "+kept+" מדידות במבחני הכושר יישארו שמורות ויחזרו אם תוסיף אותו שוב.\n"):"");
       if(!confirm(msg))return;
-      save(list.filter(x=>x.id!==id)); modal("stu-modal",false); render();
+      save(list.filter(x=>x.id!==id));
+      /* מאגר אחד פירושו גם מחיקה אחת: בלי זה נשאר ברשימות הכיתה
+         מזהה בלי תלמיד — שורה שנעלמת מהמסך ונשארת בקובץ. */
+      try{ window.HMDATA.removeFromRosters(
+        {get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},id); }catch(e){}
+      modal("stu-modal",false); render();
       toast(kept?("הוסר מהרשימה · "+kept+" מדידות נשמרו"):"הוסר מהרשימה");
     });
     $("#stu-fCsv").addEventListener("click",()=>{
@@ -910,14 +915,19 @@ window.HMBootNew=function(){
     return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
   }
   function seedDemo(){
-    const cls="ט׳3", key="ט3", cid=window.HMDATA.classId(cls);
+    const cls="ט׳3", cid=window.HMDATA.classId(cls);
     /* כיתת ההדגמה נרשמת כמו כל כיתה אחרת — כדי שההדגמה תדגים את
        המודל האמיתי: מזהה על התלמיד, על המדידה וברישום. */
     try{ window.HMDATA.registerClass({get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},cls); }catch(e){}
     const kids=[["דן אבירם","boys"],["איתי כהן","boys"],["רון לוי","boys"],["עומר בר","boys"],
                 ["יהב שני","boys"],["ניר גל","boys"],["אלון מור","boys"],["גיא פרץ","boys"]];
-    LS.set("ft.roster",{[key]:kids.map((k,i)=>({id:"demo"+i,name:k[0],sex:k[1]}))});
-    LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1]})));
+    /* הרשימה מחזיקה חברוּת בלבד; השם והמין חיים בכרטיס */
+    LS.set("ft.roster",{[cid]:kids.map((k,i)=>"demo"+i)});
+    /* כרטיס מלא, לא חצי רשומה: מאז שהרשימה מחזיקה מזהים בלבד,
+       הכרטיס הוא מה שכל המסכים קוראים — וכמה מהם ניגשים ל-tests
+       בלי הגנה. */
+    LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1],
+      age:14,h:null,w:null,tests:[]})));
     LS.set("ft.last",{grade:"ט",num:3,sort:"todo"});
     const day=n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
     const res=[]; let id=0;

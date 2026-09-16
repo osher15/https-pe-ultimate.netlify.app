@@ -247,7 +247,7 @@ module.exports={title:"שלב 8 — סגירת הזהות",tests:[
       t.dispatchEvent(new Event("input"));
     });
     await page.waitForTimeout(300);
-    await page.evaluate(()=>{ document.getElementById("ft-impStu").checked=true; document.getElementById("ft-impGo").click(); });
+    await page.evaluate(()=>{ document.getElementById("ft-impGo").click(); });
     await page.waitForTimeout(500);
     const list=await stu(page);
     const dans=list.filter(x=>x.name==="דן כהן");

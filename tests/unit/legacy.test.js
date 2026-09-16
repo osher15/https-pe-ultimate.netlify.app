@@ -50,10 +50,16 @@ test("מכשיר ישן: אפס אובדן בכל הספירות",()=>{
 
   assert.equal(rep.ok,true,rep.error||"");
   assert.equal(rep.from,1,"זוהה כגרסה 1");
-  assert.deepEqual(rep.applied,["student-identity","class-identity","student-class-closure"]);
+  assert.deepEqual(rep.applied,
+    ["student-identity","class-identity","student-class-closure","roster-membership"]);
 
   assert.equal(after.roster,before.roster,"תלמידי רשימות הכיתה");
-  assert.equal(after.stu,   before.stu,   "«התלמידים שלי»");
+  /* «התלמידים שלי» גדל, ולא במקרה: מי שהיה רק ברשימת הכיתה קיבל
+     כרטיס. זה הכיוון היחיד שההסבה זזה בו — היא לא מוחקת אף אחד.
+     שני «דן כהן» מט׳3 ו«דן אבירם» מי׳1 הם שלושת החדשים. */
+  assert.equal(after.stu,before.stu+3,"מי שהיה רק ברשימה קיבל כרטיס");
+  assert.ok(["דן אבירם","רון לוי","גל שדה"].every(
+    nm=>s.get("stu.list").some(x=>x.name===nm)),"ואף אחד מהוותיקים לא נעלם");
   assert.equal(after.res,   before.res,   "מדידות");
   assert.equal(after.bt,    before.bt,    "תוצאות ביפ טסט");
   assert.equal(before.classes,0,"לפני: אין רישום כיתות בכלל");
@@ -63,10 +69,13 @@ test("מכשיר ישן: אפס אובדן בכל הספירות",()=>{
 test("מכשיר ישן: כל תלמיד קיבל מזהה ייחודי",()=>{
   const s=memStore(legacyDevice());
   D.migrate(s);
+  /* הרשימה מחזיקה מזהים בלבד מאז 4→5, ולכן היא עצמה התשובה */
   const all=[].concat(...Object.values(s.get("ft.roster")));
-  assert.ok(all.every(x=>x.id),"לכולם יש מזהה");
-  assert.equal(new Set(all.map(x=>x.id)).size,all.length,
+  assert.ok(all.every(x=>typeof x==="string"&&x),"לכולם יש מזהה");
+  assert.equal(new Set(all).size,all.length,
     "וכולם שונים — כולל שני «דן כהן» באותה כיתה ו«דן אבירם» בשתי כיתות");
+  assert.ok(all.every(id=>s.get("stu.list").some(x=>x.id===id)),
+    "ולכל מזהה ברשימה יש תלמיד אחד ב«התלמידים שלי»");
   assert.ok(s.get("stu.list").every(x=>x.id),"וגם «התלמידים שלי»");
 });
 
@@ -120,13 +129,14 @@ test("מכשיר ישן: הרצה חוזרת אינה משנה בית",()=>{
 test("מכשיר ישן: שינוי שם תלמיד שומר על ההיסטוריה",()=>{
   const s=memStore(legacyDevice());
   D.migrate(s);
-  const roster=s.get("ft.roster");
-  const dan=roster["ט3"][0];
+  const dan=D.rosterOf(s,"c:ט:3")[0];
   const before=D.attemptsOf(s.get("ft.results"),"ט3","push",dan).length;
   assert.equal(before,2);
 
-  dan.name="דן אבירם-לוי";
-  s.set("ft.roster",roster);
+  /* השם חי במקום אחד מאז 4→5 — ולכן גם מתוקן במקום אחד */
+  const stu=s.get("stu.list");
+  stu.find(x=>x.id===dan.id).name="דן אבירם-לוי";
+  s.set("stu.list",stu);
   assert.equal(D.attemptsOf(s.get("ft.results"),"ט3","push",dan).length,2,
     "אחרי שינוי השם — אותן שתי מדידות");
 });
@@ -152,14 +162,14 @@ test("מכשיר ישן: אחרי הכרעה ידנית המדידה מחובר�
   assert.equal(groups.length,2,"«דן כהן» ו«תלמיד שעזב»");
 
   const dupe=groups.find(g=>g.name==="דן כהן");
-  const target=s.get("ft.roster")["ט3"].filter(x=>x.name==="דן כהן")[1];
+  const target=D.rosterOf(s,"c:ט:3").filter(x=>x.name==="דן כהן")[1];
   const r=D.resolveAmbiguous(s.get("ft.results"),dupe.ids,target.id);
   s.set("ft.results",r.rows);
 
   assert.equal(r.changed,1);
   assert.equal(D.attemptsOf(s.get("ft.results"),"ט3","push",target).length,1,
     "המדידה מופיעה אצל התלמיד שנבחר");
-  const other=s.get("ft.roster")["ט3"].filter(x=>x.name==="דן כהן")[0];
+  const other=D.rosterOf(s,"c:ט:3").filter(x=>x.name==="דן כהן")[0];
   assert.equal(D.attemptsOf(s.get("ft.results"),"ט3","push",other).length,0,
     "ולא אצל השני");
   assert.equal(s.get("ft.results").length,6,"ואף מדידה לא נוספה ולא נמחקה");
@@ -169,7 +179,7 @@ test("מכשיר שכבר בגרסה 2 מקבל רק את מיגרציית הכ�
   const seed=legacyDevice(); seed["schema.version"]=2;
   const s=memStore(seed);
   const rep=D.migrate(s);
-  assert.deepEqual(rep.applied,["class-identity","student-class-closure"]);
+  assert.deepEqual(rep.applied,["class-identity","student-class-closure","roster-membership"]);
   assert.equal(rep.linked,0,"זהות התלמידים לא נגעה");
   assert.ok(rep.classes>0,"והכיתות כן נרשמו");
 });

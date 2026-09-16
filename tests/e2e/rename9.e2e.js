@@ -139,7 +139,7 @@ module.exports={title:"שלב 9 — שם מהרישום ושינוי שם",tests
     await page.evaluate(()=>document.getElementById("ft-rosFile").click()); await page.waitForTimeout(300);
     await page.evaluate(()=>{ const t=document.getElementById("ft-impPaste"); t.value="שם,כיתה\nאליס כהן,ח׳1\nדנה גל,ח1"; t.dispatchEvent(new Event("input")); });
     await page.waitForTimeout(300);
-    await page.evaluate(()=>{ document.getElementById("ft-impStu").checked=true; document.getElementById("ft-impGo").click(); });
+    await page.evaluate(()=>{ document.getElementById("ft-impGo").click(); });
     await page.waitForTimeout(500);
     const stu=await page.evaluate(()=>window.HM.LS.get("stu.list",[]));
     eq(stu.filter(s=>s.name==="אליס כהן").length,1,"אליס לא שוכפלה");
@@ -197,7 +197,12 @@ module.exports={title:"שלב 9 — שם מהרישום ושינוי שם",tests
 
   /* ---------- זהות תלמיד בקליטה ---------- */
   check("קליטה מביפ: שני תלמידים באותו שם ברשימה — לא מנחשים, המדידה מסומנת להכרעה",seed({
-    "ft.roster":{"ח1":[{id:"a",name:"דן כהן",sex:"boys"},{id:"a2",name:"דן כהן",sex:"boys"},{id:"b",name:"בוב לוי",sex:"boys"}]},
+    /* שני «דן כהן» באותה כיתה — שני מזהים, שני תלמידים. מאז סכמה 5
+       הרשימה מחזיקה מזהים והשמות חיים בכרטיסים. */
+    "ft.roster":{[X]:["a","a2","b"]},
+    "stu.list":[{id:"a",name:"דן כהן",cls:"ח׳1",cid:X,sex:"boys",age:13,tests:[]},
+                {id:"a2",name:"דן כהן",cls:"ח׳1",cid:X,sex:"boys",age:13,tests:[]},
+                {id:"b",name:"בוב לוי",cls:"ח׳1",cid:X,sex:"boys",age:13,tests:[]}],
     "ft.results":[]
   }),async page=>{
     const r=await page.evaluate(()=>window.FT.ingest("ח׳1","beep",[{name:"דן כהן",val:900},{name:"בוב לוי",val:800}],"ביפ טסט"));

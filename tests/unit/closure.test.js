@@ -34,8 +34,8 @@ test("3→4: משלימה cid למי שחסר, לא נוגעת במי שיש ל�
   const s=memStore(v3());
   const rep=D.migrate(s);
   assert.equal(rep.ok,true,rep.error||"");
-  assert.deepEqual(rep.applied,["student-class-closure"]);
-  assert.equal(s.get("schema.version"),4);
+  assert.deepEqual(rep.applied,["student-class-closure","roster-membership"]);
+  assert.equal(s.get("schema.version"),D.SCHEMA_VERSION);
   const by=id=>s.get("stu.list").find(x=>x.id===id);
   assert.equal(by("a").cid,"c:ט:3","היה — נשאר");
   assert.equal(by("b").cid,"c:ט:3","«ט3» הוא ט׳3 הרשומה");
@@ -96,7 +96,10 @@ test("3→4: לא הרסנית — אף רשומה לא נמחקה, אף שדה 
   assert.deepEqual(s.get("stu.list").map(x=>x.id),before.stuIds,"מזהי התלמידים");
   assert.deepEqual(s.get("stu.list").map(x=>x.cls),before.stuCls,"שמות הכיתה כהקשר");
   assert.equal(JSON.stringify(s.get("ft.results")),before.res,"המדידות — בית אחר בית");
-  assert.equal(JSON.stringify(s.get("ft.roster")),before.roster,"רשימות הכיתה לא נגעו");
+  /* הרשימה כן משנה צורה ב-4→5 — היא הופכת לחברוּת. מה שאסור
+     להשתנות הוא מי בתוכה, ובאיזה סדר. */
+  assert.deepEqual(D.rosterOf(s,"c:ט:3").map(x=>x.id),
+    JSON.parse(before.roster)["ט3"].map(x=>x.id),"אותם תלמידים, באותו סדר");
   assert.equal(JSON.stringify(s.get("ls.sessions")),before.ses,"וגם השיעורים");
   assert.deepEqual(s.get("ft.classes")["c:ט:3"],before.cls3,"הרישום הקיים לא נדרס");
 });
@@ -140,7 +143,7 @@ test("מכשיר בגרסה 1 עובר את כל הדרך עד 4, ולכל תל�
   seed["stu.list"]=[{name:"דן אבירם",cls:"ט׳3"},{name:"אורח",cls:""}];
   const s=memStore(seed);
   const rep=D.migrate(s);
-  assert.deepEqual(rep.applied,["student-identity","class-identity","student-class-closure"]);
+  assert.deepEqual(rep.applied,["student-identity","class-identity","student-class-closure","roster-membership"]);
   const stu=s.get("stu.list");
   assert.ok(stu.every(x=>x.id),"sid לכולם");
   assert.equal(stu[0].cid,"c:ט:3");
@@ -205,7 +208,7 @@ test("resolveClassId: כיתה מוכרת בשם חדש → המזהה הרשו�
 
 /* ---------- גיבוי מסכמה 3 ---------- */
 
-test("גיבוי מסכמה 3 נטען על אפליקציית סכמה 4 ומוסב; גיבוי מסכמה 5 נדחה",()=>{
+test("גיבוי מסכמה 3 נטען על האפליקציה הנוכחית ומוסב; גיבוי מגרסה חדשה יותר נדחה",()=>{
   const file={app:D.BK_APP,kind:"backup",v:D.BK_V,schema:3,at:"2026-09-01T00:00:00Z",data:{},idb:{items:[]}};
   const dev=v3(); Object.keys(dev).forEach(k=>file.data[k]=JSON.stringify(dev[k]));
   const v=D.validateBackup(file);
@@ -214,8 +217,8 @@ test("גיבוי מסכמה 3 נטען על אפליקציית סכמה 4 ומו
   const seed={}; Object.keys(file.data).forEach(k=>seed[k]=JSON.parse(file.data[k]));
   const s=memStore(seed);
   const rep=D.migrate(s);
-  assert.deepEqual(rep.applied,["student-class-closure"]);
-  assert.equal(s.get("schema.version"),4);
+  assert.deepEqual(rep.applied,["student-class-closure","roster-membership"]);
+  assert.equal(s.get("schema.version"),D.SCHEMA_VERSION);
   assert.ok(s.get("stu.list").filter(x=>x.cls).every(x=>x.cid),"כל מי שיש לו כיתה קיבל cid");
-  assert.equal(D.validateBackup(Object.assign({},file,{schema:5})).errors[0],"newer-schema");
+  assert.equal(D.validateBackup(Object.assign({},file,{schema:D.SCHEMA_VERSION+1})).errors[0],"newer-schema");
 });

@@ -444,7 +444,7 @@ function attemptsOf(results,clsName,testId,stud,opts){
    • לא הרסני — רק הוספת שדות. אף רשומה לא נמחקת ואף שדה קיים
      לא נדרס. מה שלא ניתן לזהות בוודאות מסומן, לא מנוחש.
    ============================================================ */
-var SCHEMA_VERSION=4;
+var SCHEMA_VERSION=5;
 var SCHEMA_KEY="schema.version";
 
 /* --- 1 → 2: זהות תלמיד ---------------------------------- */
@@ -614,10 +614,82 @@ function mig_studentClassClosure(store,rep){
   if(touched)store.set("stu.list",stu);
 }
 
+/* --- 4 → 5: רשימת הכיתה הופכת לחברוּת -----------------------
+   ft.roster החזיקה רשומות מלאות תחת מפתח שהוא תווית. כאן היא הופכת
+   ל-{cid: [sid]}: כל שדה של תלמיד עובר ל-stu.list, וברשימה נשארת
+   רק החברוּת. תלמיד שברשימה ואינו ב«התלמידים שלי» נוצר שם — הוא
+   קיים, רק לא היה לו כרטיס.
+
+   לא מנחשים: מפתח שאי אפשר לפתור לזהות כיתה אחת (שתי כיתות באותו
+   שם) נשאר כפי שהוא, והקריאה המגוננת ב-rosterOf ממשיכה לשרת אותו.
+   מין שונה בין הרשימה לכרטיס — הכרטיס מנצח (הוא המאגר מעכשיו),
+   והמספר נרשם בדוח כדי שזה לא יקרה בשקט. */
+function rosterCid(store,key,reg,byKey,dup){
+  if(reg[key])return isGroupRec(reg[key])?null:key;     /* כבר cid רשום */
+  if(isGroupId(key))return null;                        /* קבוצה אינה מחזיקה רשימה */
+  if(/^(c|cn):/.test(key))return key;                   /* cid שאינו רשום — עדיין זהות */
+  if(dup[key]||dup[clsKey(key)])return null;            /* שתי כיתות באותו שם */
+  var c=byKey[key]||byKey[clsKey(key)];
+  return c?c.id:classId(key);
+}
+function mig_rosterMembership(store,rep){
+  var all=store.get("ft.roster",null);
+  if(!all||typeof all!=="object"||Array.isArray(all))return;
+  var stu=asList(store.get("stu.list",[])).slice(), byId={}, stuTouched=false;
+  stu.forEach(function(s){ if(s&&s.id)byId[s.id]=s; });
+  var reg=classes(store), byKey={}, dup={};
+  Object.keys(reg).forEach(function(id){
+    var c=reg[id]; if(!c||!c.key||isGroupRec(c))return;
+    if(byKey[c.key])dup[c.key]=1; else byKey[c.key]=c;
+  });
+  var out={};
+  Object.keys(all).forEach(function(key){
+    var arr=asList(all[key]);
+    var cid=rosterCid(store,key,reg,byKey,dup);
+    if(!cid){ out[key]=all[key]; rep.rosterKept++; return; }
+    var c=reg[cid]||null, label=(c&&c.name)||key;
+    var ids=out[cid]||[], seen={};
+    ids.forEach(function(id){ seen[id]=1; });
+    arr.forEach(function(x){
+      var id=null;
+      if(typeof x==="string"){ id=x.trim()||null; }
+      else if(x&&typeof x==="object"){
+        var nm=String(x.name==null?"":x.name).trim();
+        id=x.id||null;
+        /* מזהה על השורה הוא הזהות. חיפוש לפי שם כשיש מזהה היה מאחד
+           שני «דן כהן» שההסבה הקודמת הפרידה במכוון לשני מזהים. */
+        var rec=id?(byId[id]||null):(nm?findStudent(stu,nm,cid,store):null);
+        if(!rec){
+          if(!nm)return;            /* שורה בלי שם ובלי תלמיד — אין מה לשמר */
+          id=id||uid("s");
+          rec={id:id,name:nm,cls:label,cid:cid,sex:x.sex||null,
+               age:14,h:null,w:null,tests:[]};
+          stu.push(rec); byId[id]=rec; stuTouched=true; rep.rosterStudents++;
+        }else{
+          id=rec.id;
+          if(!rec.sex&&x.sex){ rec.sex=x.sex; stuTouched=true; rep.rosterSex++; }
+          else if(rec.sex&&x.sex&&rec.sex!==x.sex)rep.rosterSexConflict++;
+          if(!isCid(rec.cid)){
+            rec.cid=cid; if(rec.cidAmbig)delete rec.cidAmbig;
+            if(!rec.cls)rec.cls=label;
+            stuTouched=true;
+          }
+        }
+      }
+      if(!id||seen[id])return;
+      seen[id]=1; ids.push(id);
+    });
+    out[cid]=ids; rep.rosterKeys++;
+  });
+  if(stuTouched)store.set("stu.list",stu);
+  store.set("ft.roster",out);
+}
+
 var MIGRATIONS=[
   {to:2,name:"student-identity",run:mig_studentIdentity},
   {to:3,name:"class-identity",  run:mig_classIdentity},
-  {to:4,name:"student-class-closure",run:mig_studentClassClosure}
+  {to:4,name:"student-class-closure",run:mig_studentClassClosure},
+  {to:5,name:"roster-membership",run:mig_rosterMembership}
 ];
 
 /* מזהה את גרסת הנתונים שעל המכשיר. התקנה חדשה לגמרי מסומנת מיד
@@ -634,6 +706,7 @@ function migrate(store){
   var rep={from:0,to:SCHEMA_VERSION,applied:[],linked:0,ambiguous:0,unmatched:0,
            rosterIds:0,stuIds:0,classes:0,stuCids:0,resCids:0,resNoClass:0,
            stuKept:0,stuClosed:0,stuNoClass:0,stuUnresolved:0,
+           rosterKeys:0,rosterKept:0,rosterStudents:0,rosterSex:0,rosterSexConflict:0,
            ok:true,error:null,noop:true};
   try{
     var from=detectVersion(store);
@@ -778,6 +851,153 @@ function findStudent(list,name,cid,store){
     else if(!orphan)orphan=s;
   });
   return same||orphan;
+}
+
+/* ============================================================
+   רשימת הכיתה — חברוּת, לא עותק שני של התלמיד
+   ------------------------------------------------------------
+   ft.roster החזיקה עד עכשיו רשומות מלאות: שם ומין לכל תלמיד,
+   במקביל לאותם שדות ב-stu.list. שני מאגרים שמחזיקים את אותו שדה
+   הם שתי תשובות לאותה שאלה, ואחת מהן שקרית ברגע שמישהו עורך צד
+   אחד. זה לא היה תיאורטי: כפתור «בן/בת» ברשימה כתב ל-ft.roster,
+   כרטיס התלמיד כתב ל-stu.list, ו**המין קובע נורמה** — כלומר אותו
+   תלמיד יכול היה לקבל ציון לפי נורמת בנים במסך אחד ולפי נורמת
+   בנות בשני.
+
+   מכאן: stu.list הוא מאגר התלמידים היחיד, ו-ft.roster מחזיקה
+   חברוּת בלבד — מפתח cid, וערך רשימת sid לפי סדר.
+
+     { "c:ט:3": ["s-a1b2","s-c3d4"] }
+
+   שלוש הפונקציות כאן הן הנקודה האחת שבה מזהה הופך לתלמיד ובחזרה,
+   בדיוק כמו ש-kindOf() היא הנקודה האחת שבה משבצת הופכת לסוג.
+   הקריאה מגוננת: רשומה בצורה הישנה (אובייקט במקום מזהה, או מפתח
+   שהוא תווית ולא cid) עדיין נקראת, כי שחזור גיבוי ישן מגיע לכאן
+   לפני שההסבה הספיקה לרוץ.
+   ============================================================ */
+/* מפתח הרשימה של כיתה. החדש הוא cid; הישן הוא תווית («ט3»), ולכן
+   מחפשים גם מפתח שנפתר לאותה זהות. */
+function rosterKeyOf(store,cid){
+  if(!isCid(cid))return null;
+  var all=store.get("ft.roster",null);
+  if(!all||typeof all!=="object"||Array.isArray(all))return null;
+  if(Object.prototype.hasOwnProperty.call(all,cid))return cid;
+  var keys=Object.keys(all), i;
+  for(i=0;i<keys.length;i++){
+    try{ if(resolveClassId(store,keys[i])===cid)return keys[i]; }catch(e){}
+  }
+  return null;
+}
+/* המזהים בלבד, לפי הסדר. רשומה ישנה תורמת את המזהה שעליה. */
+function rosterIds(store,cid){
+  var k=rosterKeyOf(store,cid); if(!k)return [];
+  var all=store.get("ft.roster",{});
+  var arr=asList(all[k]), out=[], seen={};
+  arr.forEach(function(x){
+    var id=(typeof x==="string")?x:(x&&x.id?x.id:null);
+    if(!id||seen[id])return;
+    seen[id]=1; out.push(id);
+  });
+  return out;
+}
+/* רשימת הכיתה כתלמידים מלאים, מתוך stu.list.
+
+   מזהה בלי רשומה ב-stu.list הוא תלמיד שנמחק מ«התלמידים שלי» —
+   ולכן הוא לא ברשימה. זה לא איבוד נתונים: המדידות שלו נושאות sid
+   והן נשארות בקובץ, ויחזרו ברגע שיוסיפו אותו שוב. הצורה הישנה
+   (אובייקט מלא) נקראת כמות שהיא, כדי שגיבוי ישן שנפתח לפני ההסבה
+   לא יציג כיתה ריקה. */
+function rosterOf(store,cid){
+  var k=rosterKeyOf(store,cid); if(!k)return [];
+  var all=store.get("ft.roster",{});
+  var arr=asList(all[k]);
+  var stu=asList(store.get("stu.list",[])), byId={};
+  stu.forEach(function(s){ if(s&&s.id)byId[s.id]=s; });
+  var out=[], seen={};
+  arr.forEach(function(x){
+    if(typeof x==="string"){
+      var s=byId[x];
+      if(s&&!seen[x]){ seen[x]=1; out.push(s); }
+      return;
+    }
+    if(!x||typeof x!=="object")return;
+    var hit=x.id?byId[x.id]:null;
+    var rec=hit||x;
+    var id=rec.id||x.id;
+    if(id&&seen[id])return;
+    if(id)seen[id]=1;
+    out.push(rec);
+  });
+  return out;
+}
+/* כתיבה. הרשימה שמגיעה היא תלמידים (או מזהים); מה שנכתב הוא
+   חברוּת ב-ft.roster ושדות התלמיד ב-stu.list — כל שדה במקום אחד.
+   תלמיד שאינו מוכר נוצר כאן, כי הוספה לרשימת כיתה היא אחד ממסלולי
+   היצירה של תלמיד. */
+function setRosterOf(store,cid,list){
+  if(!isCid(cid))return {ids:[],added:0};
+  var stu=asList(store.get("stu.list",[])).slice(), byId={};
+  stu.forEach(function(s){ if(s&&s.id)byId[s.id]=s; });
+  var c=classOf(store,cid);
+  var label=(c&&c.name)||(c&&c.key)||"";
+  var ids=[], seen={}, added=0;
+  asList(list).forEach(function(x){
+    var id=(typeof x==="string")?x:(x&&x.id?x.id:null);
+    var src=(typeof x==="object"&&x)?x:null;
+    var rec=id?(byId[id]||null):null;
+    if(!rec&&!id&&src){
+      /* שם בלי מזהה — הדבקה ידנית של רשימה. מחפשים תלמיד קיים
+         באותו שם באותה כיתה לפני שיוצרים אחד חדש, אחרת אותה
+         הדבקה פעמיים הייתה מייצרת שני אנשים. כשיש מזהה — הוא
+         הזהות, ושני תלמידים באותו שם נשארים שניים. */
+      rec=findStudent(stu,src.name,cid,store)||null;
+      if(rec)id=rec.id;
+    }
+    if(!rec){
+      if(!src||!String(src.name==null?"":src.name).trim())return;
+      id=id||uid("s");
+      rec={id:id,name:String(src.name).trim(),cls:label,cid:cid,
+        sex:src.sex||null,age:src.age||14,h:src.h==null?null:src.h,
+        w:src.w==null?null:src.w,tests:asList(src.tests)};
+      stu.push(rec); byId[id]=rec; added++;
+    }else if(src&&src!==rec){
+      /* הרשומה ב-stu.list היא האמת; מה שמגיע מהממשק מתעדכן עליה.
+         name ו-sex הם השדות שהרשימה עורכת בפועל. */
+      if(String(src.name==null?"":src.name).trim())rec.name=String(src.name).trim();
+      if(Object.prototype.hasOwnProperty.call(src,"sex"))rec.sex=src.sex||null;
+    }
+    if(!rec.cid){ rec.cid=cid; if(rec.cidAmbig)delete rec.cidAmbig; if(!rec.cls)rec.cls=label; }
+    if(!id||seen[id])return;
+    seen[id]=1; ids.push(id);
+  });
+  var all=store.get("ft.roster",null);
+  if(!all||typeof all!=="object"||Array.isArray(all))all={};
+  /* מפתח ישן שנפתר לאותה כיתה יורד — אחרת אותה כיתה מחזיקה שתי
+     רשימות, וזאת בדיוק הכפילות שבאנו לסגור. */
+  var old=rosterKeyOf(store,cid);
+  if(old&&old!==cid)delete all[old];
+  all[cid]=ids;
+  store.set("stu.list",stu);
+  store.set("ft.roster",all);
+  return {ids:ids,added:added};
+}
+/* מסיר תלמיד מכל רשימות הכיתה. נקרא כשהכרטיס עצמו נמחק: מאגר אחד
+   פירושו גם מחיקה אחת, ולא מזהה שנשאר תלוי ברשימה בלי תלמיד. */
+function removeFromRosters(store,sid){
+  if(!sid)return 0;
+  var all=store.get("ft.roster",null);
+  if(!all||typeof all!=="object"||Array.isArray(all))return 0;
+  var hit=0;
+  Object.keys(all).forEach(function(k){
+    var arr=asList(all[k]);
+    var kept=arr.filter(function(x){
+      var id=(typeof x==="string")?x:(x&&x.id?x.id:null);
+      return id!==sid;
+    });
+    if(kept.length!==arr.length){ all[k]=kept; hit++; }
+  });
+  if(hit)store.set("ft.roster",all);
+  return hit;
 }
 
 /* ============================================================
@@ -2157,6 +2377,8 @@ return {
   expandCid:expandCid, rowInScope:rowInScope, studentsIn:studentsIn, groupSummary:groupSummary,
   syncStudentsFromRosters:syncStudentsFromRosters,
   mergeRoster:mergeRoster, findStudent:findStudent,
+  rosterKeyOf:rosterKeyOf, rosterIds:rosterIds, rosterOf:rosterOf,
+  setRosterOf:setRosterOf, removeFromRosters:removeFromRosters,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,

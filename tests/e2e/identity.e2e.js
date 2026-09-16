@@ -57,9 +57,13 @@ module.exports={title:"זהות תלמיד",tests:[
   check("שינוי שם תלמיד שומר על עשר המדידות",legacy(10),async page=>{
     /* התרחיש שהפיל את המערכת הישנה: המורה מתקן שגיאת כתיב. */
     await page.evaluate(()=>{
-      const all=window.HM.LS.get("ft.roster",{});
-      all["ט3"][0].name="דן אבירם-לוי";
-      window.HM.LS.set("ft.roster",all);
+      /* השם חי בכרטיס בלבד מאז סכמה 5 — רשימת הכיתה מחזיקה מזהים */
+      const S={get:(k,d)=>window.HM.LS.get(k,d===undefined?null:d),
+               set:(k,v)=>window.HM.LS.set(k,v)};
+      const sid=window.HMDATA.rosterIds(S,"c:ט:3")[0];
+      const stu=window.HM.LS.get("stu.list",[]);
+      stu.find(x=>x.id===sid).name="דן אבירם-לוי";
+      window.HM.LS.set("stu.list",stu);
     });
     await openTest(page,"ljump");
     const row=await page.evaluate(()=>{

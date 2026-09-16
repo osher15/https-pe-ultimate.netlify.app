@@ -22,7 +22,8 @@ test("מיגרציה מקשרת כל מדידה למזהה של התלמיד",()
 
   assert.equal(rep.ok,true,rep.error||"");
   /* מכשיר בגרסה 1 עובר את כל המיגרציות עד הנוכחית, לפי הסדר */
-  assert.deepEqual(rep.applied,["student-identity","class-identity","student-class-closure"]);
+  assert.deepEqual(rep.applied,
+    ["student-identity","class-identity","student-class-closure","roster-membership"]);
   assert.equal(rep.from,1); assert.equal(rep.to,D.SCHEMA_VERSION);
 
   const res=s.get("ft.results");
@@ -41,15 +42,15 @@ test("שינוי שם אחרי מיגרציה: עשר מדידות נשארות 
   const s=memStore(seed);
   D.migrate(s);
 
-  const sid=s.get("ft.roster")["ט3"][0].id;
-  assert.ok(sid,"התלמיד קיבל מזהה");
+  const dan=D.rosterOf(s,"c:ט:3")[0];
+  assert.ok(dan&&dan.id,"התלמיד קיבל מזהה");
 
-  /* המורה מתקן את שגיאת הכתיב */
-  const roster=s.get("ft.roster");
-  roster["ט3"][0].name="דן אבירם-לוי";
-  s.set("ft.roster",roster);
+  /* המורה מתקן את שגיאת הכתיב — במקום היחיד שבו השם חי */
+  const stu=s.get("stu.list");
+  stu.find(x=>x.id===dan.id).name="דן אבירם-לוי";
+  s.set("stu.list",stu);
 
-  const found=D.attemptsOf(s.get("ft.results"),"ט3","push",roster["ט3"][0]);
+  const found=D.attemptsOf(s.get("ft.results"),"ט3","push",D.rosterOf(s,"c:ט:3")[0]);
   assert.equal(found.length,10,"כל עשר המדידות עדיין מחוברות לתלמיד אחרי שינוי השם");
   assert.equal(found[0].val,20,"וגם בסדר הנכון");
 });
@@ -96,8 +97,7 @@ test("מיגרציה חוזרת לא משנה כלום (idempotent)",()=>{
 test("מזהים נגזרים מהתוכן ולכן שתי ריצות נפרדות מגיעות לאותו מזהה",()=>{
   const a=memStore(legacyClass()); D.migrate(a);
   const b=memStore(legacyClass()); D.migrate(b);
-  assert.deepEqual(a.get("ft.roster")["ט3"].map(s=>s.id),
-                   b.get("ft.roster")["ט3"].map(s=>s.id));
+  assert.deepEqual(D.rosterIds(a,"c:ט:3"),D.rosterIds(b,"c:ט:3"));
   assert.deepEqual(a.get("ft.results").map(r=>r.sid),
                    b.get("ft.results").map(r=>r.sid));
 });
@@ -108,14 +108,14 @@ test("מזהים ייחודיים לכל תלמיד ולכל כיתה",()=>{
     "י1":[{name:"דן"}]
   }});
   D.migrate(s);
-  const ids=[...s.get("ft.roster")["ט3"].map(x=>x.id),s.get("ft.roster")["י1"][0].id];
+  const ids=[...D.rosterIds(s,"c:ט:3"),...D.rosterIds(s,"c:י:1")];
   assert.equal(new Set(ids).size,3,"אותו שם בשתי כיתות הוא שני תלמידים");
 });
 
 test("מזהה קיים לא נדרס",()=>{
   const s=memStore({"ft.roster":{"ט3":[{id:"מזהה-ותיק",name:"דן"}]}});
   D.migrate(s);
-  assert.equal(s.get("ft.roster")["ט3"][0].id,"מזהה-ותיק");
+  assert.deepEqual(D.rosterIds(s,"c:ט:3"),["מזהה-ותיק"]);
 });
 
 test("sid קיים לא נדרס גם אם השם ברשימה השתנה",()=>{

@@ -188,21 +188,22 @@ window.FT=(function(){
   /* ---------- אחסון ---------- */
   const allRes =()=>LS().get("ft.results",[]);
   const setRes =r=>LS().set("ft.results",r);
-  const rosters=()=>LS().get("ft.roster",{});
-  const setRosters=r=>LS().set("ft.roster",r);
 
-  /* רשימת הכיתה: מה שהמודול מכיר, ואם ריק — מייבא מ«התלמידים שלי» */
+  /* רשימת הכיתה. מאז סכמה 5 היא חברוּת בלבד — ft.roster מחזיקה
+     מזהים, והשדות של התלמיד (שם, מין) חיים ב-stu.list ושם בלבד.
+     שתי הפונקציות כאן הן העטיפה היחידה מעל זה, ולכן שאר המודול
+     ממשיך לעבוד על תלמידים מלאים בדיוק כמו קודם. */
   function roster(c){
-    const all=rosters(), k=clsKey(c);
-    if(Array.isArray(all[k]))return all[k];
-    return [];
+    const cid=cidOf(c); if(!cid)return [];
+    try{ return DATA.rosterOf(clsStore,cid); }catch(e){ return []; }
   }
   function setRoster(c,list){
-    const all=rosters(); all[clsKey(c)]=list; setRosters(all);
     /* כיתה נכנסת לרישום ברגע שיש לה רשימה — זאת הנקודה היחידה שבה
-       כיתה «נוצרת» בפועל. registerClass לא כותב אם היא כבר רשומה,
-       ולכן זה לא מייקר שמירה חוזרת. */
+       כיתה «נוצרת» בפועל. הרישום קודם לכתיבה, כי ממנו נלקח שם
+       הכיתה שנכתב על תלמיד חדש. */
     registerCls(c);
+    const cid=cidOf(c); if(!cid)return;
+    try{ DATA.setRosterOf(clsStore,cid,list); }catch(e){}
   }
   /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. */
   const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
@@ -1104,7 +1105,7 @@ window.FT=(function(){
     if(!nm||!nm.trim())return;
     const c=cls(), list=roster(c);
     if(list.some(x=>x.name===nm.trim())){H().toast("השם כבר ברשימה");return;}
-    list.push({id:DATA.uid("f"),name:nm.trim()});
+    list.push({name:nm.trim()});
     setRoster(c,list); renderRun(); H().toast("נוסף לכיתה "+disp(c));
   }
   function openRoster(){
@@ -1125,7 +1126,7 @@ window.FT=(function(){
       if(!lines.length){H().toast("הדבק שמות, שורה לכל תלמיד");return;}
       const list=roster(c), have=new Set(list.map(x=>x.name)); let n=0;
       lines.forEach(nm=>{ if(have.has(nm)||/^(שם|name)$/i.test(nm))return;
-        list.push({id:DATA.uid("f"),name:nm}); have.add(nm); n++; });
+        list.push({name:nm}); have.add(nm); n++; });
       setRoster(c,list); $("#ft-rosBulk").value=""; renderRosterList(); H().toast("נוספו "+n+" תלמידים");
     };
     $("#ft-rosDone").onclick=()=>{ H().modal("ft-rosModal",false); renderTab(); };
@@ -1410,42 +1411,25 @@ window.FT=(function(){
   function impApply(){
     const built=impBuild().filter(x=>x.ok);
     if(!built.length){H().toast("אין שורות לייבוא");return;}
-    const alsoStu=H().$("#ft-impStu").checked;
-    const all=rosters(); let added=0,updated=0;
-    /* מזהה אחד לכל תלמיד שנוצר בייבוא הזה.
-       עד עכשיו אותו ילד נכנס פעמיים — פעם לרשימת הכיתה עם מזהה
-       «f…» ופעם ל«התלמידים שלי» עם מזהה «s…» — וכך נוצרו שתי
-       זהויות לאדם אחד כבר ברגע הייבוא. */
-    const newId={};
-    const idFor=x=>{
-      const k=clsKey(x.cls)+"|"+x.name;
-      return (newId[k]=newId[k]||DATA.uid("f"));
-    };
-    built.forEach(x=>{
-      const k=clsKey(x.cls);
-      const list=Array.isArray(all[k])?all[k]:(all[k]=[]);
-      const ex=list.find(y=>y.name===x.name);
-      if(ex){ if(x.sex&&ex.sex!==x.sex){ex.sex=x.sex;updated++;} newId[k+"|"+x.name]=ex.id; }
-      else { list.push({id:idFor(x),name:x.name,sex:x.sex||null}); added++; }
-      registerCls(x.cls);
-    });
-    setRosters(all);
-    let stuAdded=0;
-    if(alsoStu){
-      const stu=LS().get("stu.list",[]);
-      built.forEach(x=>{
-        /* התאמה לפי שם + זהות כיתה. «דן כהן» מט׳3 ו«דן כהן» מי׳1 הם
-           שני תלמידים; תלמיד באותו שם בלי כיתה מאמץ את הכיתה. */
-        const xc=cidOf(x.cls);
-        let s=DATA.findStudent(stu,x.name,xc,clsStore);
-        if(!s){ stu.push({id:idFor(x),name:x.name,cls:x.cls,cid:xc,
-          sex:x.sex||"boys",age:14,h:null,w:null,tests:[]}); stuAdded++; }
-        else { if(!s.cls){s.cls=x.cls; s.cid=xc; if(s.cidAmbig)delete s.cidAmbig;} if(x.sex)s.sex=x.sex; }
+    /* עד סכמה 5 אותו ילד נכנס כאן פעמיים — פעם לרשימת הכיתה ופעם
+       ל«התלמידים שלי» — ולכן היה צריך מנגנון שיחזיק לשניהם מזהה
+       אחד, ותיבת סימון ששאלה את המורה אם להוסיף גם לשם. יש מאגר
+       אחד: הוספה לרשימת כיתה **היא** יצירת תלמיד, והמזהה נקבע
+       בשכבת הנתונים. */
+    const byCls={};
+    built.forEach(x=>{ (byCls[x.cls]=byCls[x.cls]||[]).push(x); });
+    let added=0,updated=0;
+    Object.keys(byCls).forEach(c=>{
+      const list=roster(c).slice();
+      byCls[c].forEach(x=>{
+        const ex=list.find(y=>y.name===x.name);
+        if(ex){ if(x.sex&&ex.sex!==x.sex){ ex.sex=x.sex; updated++; } }
+        else { list.push({name:x.name,sex:x.sex||null}); added++; }
       });
-      LS().set("stu.list",stu);
-    }
+      setRoster(c,list);
+    });
     H().modal("ft-impModal",false);
-    H().toast(`✓ ${added} תלמידים חדשים · ${updated} עודכן מין`+(alsoStu?` · ${stuAdded} נוספו ל«התלמידים שלי»`:""));
+    H().toast(`✓ ${added} תלמידים חדשים · ${updated} עודכן מין`);
     renderTab();
   }
 

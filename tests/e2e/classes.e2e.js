@@ -132,8 +132,11 @@ module.exports={title:"זהות כיתה והכרעת מדידות",tests:[
   }),
 
   check("שני תלמידים זהי-שם קיבלו מזהים שונים",legacy,async page=>{
-    const ids=await page.evaluate(()=>
-      window.HM.LS.get("ft.roster",{})["ט3"].filter(s=>s.name==="דן כהן").map(s=>s.id));
+    const ids=await page.evaluate(()=>{
+      const S={get:(k,d)=>window.HM.LS.get(k,d===undefined?null:d),
+               set:(k,v)=>window.HM.LS.set(k,v)};
+      return window.HMDATA.rosterOf(S,"c:ט:3").filter(s=>s.name==="דן כהן").map(s=>s.id);
+    });
     eq(ids.length,2);
     ok(ids[0]!==ids[1],"שני מזהים שונים — לא זהות אחת משותפת");
   })
