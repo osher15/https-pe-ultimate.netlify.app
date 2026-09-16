@@ -220,7 +220,16 @@ en:{
   "ui.explain":"Explanation",
   "kn.regAll":"All", "kn.regIl":"🇮🇱 Ministry of Education",
   "kn.regWorld":"🌍 Global Health", "kn.regStd":"📏 Standards & Measurement",
-  "kn.howToUse":"How to use this:", "kn.toSource":"↗ To the official source"
+  "kn.howToUse":"How to use this:", "kn.toSource":"↗ To the official source",
+  "gm.count":"games", "gm.noMatch":"No game matches this filter.",
+  "gm.catAll":"All", "gm.catBreak":"Recess & free time", "gm.catBig":"Large groups",
+  "gm.catBall":"Ball games", "gm.catFit":"Fitness & movement", "gm.catSocial":"Team building",
+  "gm.catMind":"Mind & movement", "gm.catClassic":"Old-school games", "gm.catWater":"Water & summer",
+  "gm.goalTitle":"Goal of the game", "gm.fitTitle":"Who it suits",
+  "gm.howTitle":"How to play", "gm.varsTitle":"Variations & adaptations",
+  "gm.safeTitle":"Safety", "gm.watchYt":"Watch a demo on YouTube",
+  "gm.ytHint":"The link opens a YouTube search by the game's name — so it never breaks over time, and you can pick a video in Hebrew or English.",
+  "gm.toLesson":"Add to a lesson plan", "gm.toLessonToast":"will be placed in your next lesson plan"
 },
 
 ar:{
@@ -369,7 +378,16 @@ ar:{
   "ui.explain":"شرح",
   "kn.regAll":"الكل", "kn.regIl":"🇮🇱 وزارة التربية والتعليم",
   "kn.regWorld":"🌍 الصحة العالمية", "kn.regStd":"📏 المعايير والقياس",
-  "kn.howToUse":"كيفية استخدام هذا:", "kn.toSource":"↗ إلى المصدر الرسمي"
+  "kn.howToUse":"كيفية استخدام هذا:", "kn.toSource":"↗ إلى المصدر الرسمي",
+  "gm.count":"ألعاب", "gm.noMatch":"لا توجد لعبة تطابق هذا الفلتر.",
+  "gm.catAll":"الكل", "gm.catBreak":"استراحات ووقت فراغ", "gm.catBig":"مجموعات كبيرة",
+  "gm.catBall":"ألعاب الكرة", "gm.catFit":"لياقة وحركة", "gm.catSocial":"تماسك اجتماعي",
+  "gm.catMind":"تفكير وحركة", "gm.catClassic":"ألعاب قديمة", "gm.catWater":"ماء وصيف",
+  "gm.goalTitle":"هدف اللعبة", "gm.fitTitle":"لمن تناسب",
+  "gm.howTitle":"سير اللعبة", "gm.varsTitle":"تنويعات وتكييفات",
+  "gm.safeTitle":"السلامة", "gm.watchYt":"مشاهدة عرض توضيحي على يوتيوب",
+  "gm.ytHint":"الرابط يفتح بحثاً في يوتيوب باسم اللعبة — بهذه الطريقة لا ينكسر مع الوقت، ويمكن اختيار فيديو بالعربية أو الإنجليزية.",
+  "gm.toLesson":"إضافة إلى مخطط الدرس", "gm.toLessonToast":"ستُدرج في مخطط الدرس التالي"
 },
 
 ru:{
@@ -525,7 +543,16 @@ ru:{
   "ui.explain":"Пояснение",
   "kn.regAll":"Все", "kn.regIl":"🇮🇱 Министерство образования",
   "kn.regWorld":"🌍 Здоровье в мире", "kn.regStd":"📏 Стандарты и измерения",
-  "kn.howToUse":"Как это использовать:", "kn.toSource":"↗ К официальному источнику"
+  "kn.howToUse":"Как это использовать:", "kn.toSource":"↗ К официальному источнику",
+  "gm.count":"игр", "gm.noMatch":"Нет игры, подходящей под этот фильтр.",
+  "gm.catAll":"Все", "gm.catBreak":"Перемены и досуг", "gm.catBig":"Большие группы",
+  "gm.catBall":"Игры с мячом", "gm.catFit":"Фитнес и движение", "gm.catSocial":"Командообразование",
+  "gm.catMind":"Мышление и движение", "gm.catClassic":"Старые добрые игры", "gm.catWater":"Вода и лето",
+  "gm.goalTitle":"Цель игры", "gm.fitTitle":"Кому подходит",
+  "gm.howTitle":"Ход игры", "gm.varsTitle":"Варианты и адаптации",
+  "gm.safeTitle":"Безопасность", "gm.watchYt":"Смотреть демонстрацию на YouTube",
+  "gm.ytHint":"Ссылка открывает поиск на YouTube по названию игры — так она никогда не устареет, и можно выбрать видео на иврите или английском.",
+  "gm.toLesson":"Добавить в план урока", "gm.toLessonToast":"будет добавлена в следующий план урока"
 }
 };
 

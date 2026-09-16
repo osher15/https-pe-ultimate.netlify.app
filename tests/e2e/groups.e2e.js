@@ -261,16 +261,22 @@ module.exports={title:"קבוצות הוראה",tests:[
       "הכיתה עדיין רואה את המדידה שלה: "+JSON.stringify(stats));
   }),
 
-  check("מסך הקבוצה אינו מציע קיצור שיפתח את הכיתה הלא נכונה",base,async page=>{
+  check("מסך הקבוצה פותח את מבחני הכושר ישר על הקבוצה עצמה",base,async page=>{
     await openGroups(page);
     await makeGroup(page,"ז׳1 + ז׳3",["c:ז:1","c:ז:3"]);
     const id=(await groups(page))[0].id;
     await page.evaluate(gid=>{ window.HM.modal("grpModal",false); window.HM.openClassScreen(gid); },id);
     await page.waitForTimeout(350);
-    eq(await page.evaluate(()=>!!document.getElementById("cls-ft")),false,
-      "מבחני הכושר עדיין עובדים על כיתה בודדת");
-    ok(await page.evaluate(()=>/דרך הכיתה עצמה/.test(document.getElementById("cls-body").textContent)),
-      "ונאמר למורה איפה כן למדוד");
+    eq(await page.evaluate(()=>!!document.getElementById("cls-ft")),true,
+      "הכפתור קיים גם על מסך קבוצה");
+    await page.evaluate(()=>document.getElementById("cls-ft").click());
+    await page.waitForTimeout(500);
+    const r=await page.evaluate(()=>({
+      mod:document.body.dataset.mod,
+      clsName:document.getElementById("ft-clsName")&&document.getElementById("ft-clsName").textContent
+    }));
+    eq(r.mod,"ft","ניווט למבחני כושר");
+    eq(r.clsName,"ז׳1 + ז׳3","ונפתח ישר על הקבוצה, בלי לבחור שוב");
   }),
 
   /* ---------- מדידה בזמן שיעור קבוצתי ---------- */

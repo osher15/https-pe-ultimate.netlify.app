@@ -173,7 +173,13 @@ const percentile=window.HMDATA.percentile;
    ============================================================ */
 window.FT=(function(){
   let inited=false;
-  let st={grade:"ז",num:1,test:null,sort:"todo",tab:"tests"};
+  /* gid: קבוצת הוראה פעילה, אם יש. כשהיא קיימת היא קודמת לגרסה/מספר —
+     cls() מחזירה את שמה, ומשם כל שאר המודול (cidOf, roster, מדידה,
+     מדד, כיסוי) עובד עליה בלי לדעת שזו קבוצה: cidOf מוצא אותה
+     ברישום לפי שם בדיוק כמו שהוא מוצא כיתה, כי registerClass ו-
+     makeGroup חולקים את אותו מרשם (ft.classes). ראו §roster()
+     ו-§studentGrade() לשני המקומות שכן צריכים לדעת. */
+  let st={grade:"ז",num:1,gid:null,test:null,sort:"todo",tab:"tests"};
   let clk={on:false,t0:0,raf:0,paused:0};      /* השעון המשותף לכיתה */
   /* הקפות של המקצה הנוכחי: {שם: [זמן הקפה 1, 2, ...]}. חי בזיכרון בזמן
      המקצה; הזמן הסופי נשמר כרגיל, והפערים נשמרים איתו לצפייה מאוחרת. */
@@ -183,7 +189,11 @@ window.FT=(function(){
   let cd ={on:false,end:0,raf:0};              /* ספירה לאחור למבחנים קצובים */
 
   const LS=()=>H().LS;
-  const cls=()=>clsName(st.grade,st.num);
+  /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. מוגדר
+     כאן, לפני cls()/roster(), כי שניהם כבר צריכים אותו. */
+  const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
+  const activeGroup=()=>st.gid?DATA.groupOf(clsStore,st.gid):null;
+  const cls=()=>{ const g=activeGroup(); return g?g.name:clsName(st.grade,st.num); };
 
   /* ---------- אחסון ---------- */
   const allRes =()=>LS().get("ft.results",[]);
@@ -192,12 +202,25 @@ window.FT=(function(){
   /* רשימת הכיתה. מאז סכמה 5 היא חברוּת בלבד — ft.roster מחזיקה
      מזהים, והשדות של התלמיד (שם, מין) חיים ב-stu.list ושם בלבד.
      שתי הפונקציות כאן הן העטיפה היחידה מעל זה, ולכן שאר המודול
-     ממשיך לעבוד על תלמידים מלאים בדיוק כמו קודם. */
+     ממשיך לעבוד על תלמידים מלאים בדיוק כמו קודם.
+
+     קבוצה היא ענף נפרד: אין לה ft.roster משלה — חבריה נגזרים
+     מהכיתות שבה (members) ומתלמידים שצורפו ישירות (sids), בדיוק
+     כמו בכל מסך אחר שכבר מודע לקבוצות (hm-tools.js). studentsIn
+     היא הפונקציה המשותפת. */
   function roster(c){
     const cid=cidOf(c); if(!cid)return [];
-    try{ return DATA.rosterOf(clsStore,cid); }catch(e){ return []; }
+    try{
+      if(DATA.groupOf(clsStore,cid))
+        return DATA.studentsIn(clsStore,cid,LS().get("stu.list",[]));
+      return DATA.rosterOf(clsStore,cid);
+    }catch(e){ return []; }
   }
   function setRoster(c,list){
+    /* לקבוצה אין רשימה לערוך כאן — ההרכב שלה (אילו כיתות, אילו
+       תלמידים) נערך במסך הקבוצות. עריכה כאן הייתה יוצרת רשומת
+       ft.roster יתומה תחת מזהה הקבוצה, שאף מסך לא קורא ממנה. */
+    if(activeGroup())return;
     /* כיתה נכנסת לרישום ברגע שיש לה רשימה — זאת הנקודה היחידה שבה
        כיתה «נוצרת» בפועל. הרישום קודם לכתיבה, כי ממנו נלקח שם
        הכיתה שנכתב על תלמיד חדש. */
@@ -205,9 +228,29 @@ window.FT=(function(){
     const cid=cidOf(c); if(!cid)return;
     try{ DATA.setRosterOf(clsStore,cid,list); }catch(e){}
   }
-  /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. */
-  const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
-  function registerCls(c){ try{ return DATA.registerClass(clsStore,c); }catch(e){ return null; } }
+  /* קבוצה כבר רשומה — נוצרה במסך הקבוצות. registerClass לא מכיר
+     קבוצות, והיה יוצר תחתיה רשומת "כיתה" מזויפת עם אותו שם. */
+  function registerCls(c){
+    if(activeGroup())return activeGroup();
+    try{ return DATA.registerClass(clsStore,c); }catch(e){ return null; }
+  }
+  /* השכבה של תלמיד ספציפי — לא של הכיתה/הקבוצה שנבחרה. בכיתה רגילה
+     זה תמיד זהה ל-st.grade; בקבוצה שמאחדת שכבות שונות (למשל ז׳
+     ו-ט׳ יחד) זו הנקודה היחידה שקובעת איזו טבלת נורמה חלה על כל
+     תלמיד — לפי הכיתה שהוא באמת רשום בה, לא לפי הבורר. */
+  function studentGrade(stud){
+    try{
+      const cid=DATA.cidOfStudent(stud,clsStore);
+      const c=cid?DATA.classOf(clsStore,cid):null;
+      return (c&&c.grade)||st.grade;
+    }catch(e){ return st.grade; }
+  }
+  /* הזהות של מדידה חדשה היא תמיד הכיתה האמיתית של התלמיד — לא
+     הקבוצה שדרכה נמדד. בלי זה מדידה בקבוצה הייתה נכתבת עם cid של
+     הקבוצה, וההיסטוריה של התלמיד הייתה נקרעת ברגע שהקבוצה נמחקת. */
+  function studentCid(stud){
+    try{ return DATA.cidOfStudent(stud,clsStore); }catch(e){ return null; }
+  }
   /* תווית → זהות, דרך הרישום: כיתה ששמה שונה שומרת על המזהה שלה.
      כשהיא לא רשומה — נגזר מהתווית, כמו קודם. */
   const cidOf=c=>DATA.resolveClassId(clsStore,c);
@@ -272,8 +315,11 @@ window.FT=(function(){
 
   /* ---------- תוצאות ---------- */
   /* «מדידה של הכיתה הזאת» — לפי cid (מדידה ישנה בלי cid נמדדת לפי
-     התווית שעליה, ראו DATA.rowInClass). */
-  const inCls=(r,c)=>DATA.rowInClass(r,cidOf(c));
+     התווית שעליה, ראו DATA.rowInClass). כשה-cid הוא קבוצה, ההיקף
+     מתרחב לחברי הקבוצה (DATA.rowInScope) — אחרת כל הלשוניות שקוראות
+     ל-inCls היו רואות "אין מדידות" לקבוצה, למרות שהמדידות עצמן
+     שמורות כהלכה על הכיתה האמיתית של כל תלמיד. */
+  const inCls=(r,c)=>DATA.rowInScope(r,clsStore,cidOf(c));
   const resultsFor=(c,testId)=>allRes().filter(r=>inCls(r,c)&&r.test===testId);
   /* כל המדידות של תלמיד אחד בכיתה אחת ובמבחן אחד */
   const resultsOf=(c,who)=>{ const s=asStud(c,who);
@@ -283,7 +329,12 @@ window.FT=(function(){
      לנסות שוב באותו שיעור וגם בשיעור אחר, וההיסטוריה נשמרת כדי
      שאפשר יהיה לראות התקדמות. התוצאה שנחשבת היא תמיד הטובה ביותר. */
   function attempts(c,testId,who){
-    return DATA.attemptsOf(allRes(),c,testId,asStud(c,who),{cid:cidOf(c)});
+    /* לא DATA.attemptsOf ישירות: הפנימי שלה בודק rowInClass במפורש
+       (בלי הרחבת קבוצה), ולכן בקבוצה היה מחזיר ריק תמיד — inCls
+       המקומי כבר יודע להרחיב. */
+    const s=asStud(c,who);
+    return allRes().filter(r=>r&&r.test===testId&&inCls(r,c)&&DATA.sameStudent(r,s))
+      .sort((a,b)=>String(a.d||"").localeCompare(String(b.d||""))||((a.ts||0)-(b.ts||0)));
   }
   function bestOf(T,list){
     if(!list||!list.length)return null;
@@ -315,10 +366,19 @@ window.FT=(function(){
       const cur=openAttempt(c,testId,stud);
       if(cur)i=rs.findIndex(r=>r.id===cur.id);
     }
+    /* cls הוא תמיד תווית ההקשר הקנונית (שכבה+מספר) הנגזרת מה-cid
+       עצמו, לא השם היפה מהרישום — ושדה grade/num ברישום מתאפס בדיוק
+       בשינוי שם מותאם אישית (ראו openClassRename), ולכן אי אפשר
+       להסתמך עליו. בדיוק כמו לפני קבוצות: כיתה שהוחלף שמה עדיין
+       נכתבת עם "ח׳1", לא "ח׳1 מצטיינים" (ראו rename9.e2e.js, תרחיש E).
+       בקבוצה, ההקשר הקנוני הוא זה של הכיתה האמיתית של התלמיד. */
+    const realCid=studentCid(stud)||cidOf(c);
+    const realParts=DATA.cidParts(realCid);
+    const realCls=realParts?clsName(realParts.grade,realParts.num):((DATA.classOf(clsStore,realCid)||{}).name||c);
     const rec={id:i>=0?rs[i].id:DATA.uid("f"),
-      ts:Date.now(),d:today(),cls:c,cid:cidOf(c),test:testId,
+      ts:Date.now(),d:today(),cls:realCls,cid:realCid,test:testId,
       name:stud.name,sid:DATA.studentKey(stud),
-      gradeKey:st.grade,sex:stud.sex||null,
+      gradeKey:studentGrade(stud),sex:stud.sex||null,
       /* גרסת כללי הניקוד שהיו בתוקף כשהמדידה נלקחה. הציון עצמו לא
          נשמר — הוא נגזר בכל תצוגה — אבל בלי החותמת הזאת החלפת טבלת
          נורמה הייתה משנה בשקט את הפרשנות של כל ההיסטוריה. */
@@ -428,12 +488,21 @@ window.FT=(function(){
      ============================================================ */
   function renderPicker(){
     const {$, $$, esc}=H();
+    /* קבוצה שנמחקה בינתיים (למשל דרך מסך הקבוצות) לא אמורה להשאיר
+       את הבורר תקוע על ברירת מחדל שאינה קיימת. */
+    if(st.gid&&!activeGroup())st.gid=null;
     const c=cls(), rst=roster(c);
     $("#ft-run").style.display="none";
     $("#ft-idx").style.display="none";
     $("#ft-ot").style.display="none";
     $("#ft-pick").style.display="";
 
+    const groups=DATA.listGroups(clsStore);
+    const gw=$("#ft-groupsWrap");
+    if(gw)gw.hidden=!groups.length;
+    if(groups.length)$("#ft-groups").innerHTML=
+      `<button data-gid="" class="${st.gid?"":"on"}">כיתה רגילה</button>`+
+      groups.map(g=>`<button data-gid="${g.id}" class="${st.gid===g.id?"on":""}">${esc(g.name)}</button>`).join("");
     $("#ft-grades").innerHTML=GRADES.map(([g,lbl])=>
       `<button data-g="${g}" class="${st.grade===g?"on":""}">${lbl}</button>`).join("");
     $("#ft-nums").innerHTML=NUMS.map(n=>
@@ -468,15 +537,20 @@ window.FT=(function(){
 
     renderAmb();
     wireStartLesson();
-    /* שינוי שם — דרך הרישום, בהגדרות. הכיתה נרשמת קודם כדי שיהיה מה לשנות. */
+    /* שינוי שם — דרך הרישום, בהגדרות. הכיתה נרשמת קודם כדי שיהיה מה לשנות.
+       בקבוצת הוראה שינוי השם עובר דרך עורך הקבוצות, לא כאן. */
     const rb=$("#ft-clsRename");
-    if(rb)rb.onclick=()=>{ registerCls(c); if(H().openClassRename)H().openClassRename(cidOf(c)); };
-    $$("#ft-grades [data-g]").forEach(b=>b.addEventListener("click",()=>{st.grade=b.dataset.g;persist();renderPicker();}));
-    $$("#ft-nums [data-n]").forEach(b=>b.addEventListener("click",()=>{st.num=+b.dataset.n;persist();renderPicker();}));
+    if(rb){
+      rb.hidden=!!activeGroup();
+      rb.onclick=()=>{ registerCls(c); if(H().openClassRename)H().openClassRename(cidOf(c)); };
+    }
+    $$("#ft-groups [data-gid]").forEach(b=>b.addEventListener("click",()=>{st.gid=b.dataset.gid||null;persist();renderPicker();}));
+    $$("#ft-grades [data-g]").forEach(b=>b.addEventListener("click",()=>{st.grade=b.dataset.g;st.gid=null;persist();renderPicker();}));
+    $$("#ft-nums [data-n]").forEach(b=>b.addEventListener("click",()=>{st.num=+b.dataset.n;st.gid=null;persist();renderPicker();}));
     $$("#ft-tests [data-t]").forEach(b=>b.addEventListener("click",()=>openTest(b.dataset.t)));
   }
 
-  function persist(){ LS().set("ft.last",{grade:st.grade,num:st.num,sort:st.sort}); }
+  function persist(){ LS().set("ft.last",{grade:st.grade,num:st.num,sort:st.sort,gid:st.gid}); }
 
   /* ============================================================
      5. מסך המבחן
@@ -1487,7 +1561,7 @@ window.FT=(function(){
     const mode=scoreMode(), want=idxTests();
     const hasTable=Object.keys(N.table).length>0;
 
-    const rows=rst.map(s=>({s,...indexFor(c,s,st.grade)}));
+    const rows=rst.map(s=>({s,...indexFor(c,s,studentGrade(s))}));
     const scored=rows.filter(r=>r.idx!=null);
     const avg=scored.length?scored.reduce((a,b)=>a+b.idx,0)/scored.length:null;
     /* אילו מבחנים בפועל מוצגים כעמודות */
@@ -1578,7 +1652,9 @@ window.FT=(function(){
   function renderCoverage(){
     const {$, esc}=H();
     const c=cls(), rst=roster(c);
-    const cov=DATA.classCoverage(allRes(),rst,TESTS,{cid:cidOf(c)});
+    /* היקף הקבוצה כבר מסונן כאן, לפני DATA.classCoverage — הפנימי
+       שלה בודק rowInClass קשיח בלי הרחבת קבוצה. */
+    const cov=DATA.classCoverage(allRes().filter(r=>inCls(r,c)),rst,TESTS,{});
     const total=cov.students.length;
     const allDone=s=>cov.tests.length>0&&cov.tests.every(t=>s.done[t]);
     const fullyDone=cov.students.filter(allDone).length;
@@ -1626,7 +1702,7 @@ window.FT=(function(){
   function renderInsights(){
     const {$, esc}=H();
     const c=cls(), rst=roster(c);
-    const prog=DATA.classProgress(allRes(),rst,TESTS,{cid:cidOf(c)});
+    const prog=DATA.classProgress(allRes().filter(r=>inCls(r,c)),rst,TESTS,{});
     const totalImproved=prog.tests.reduce((a,t)=>a+t.improved,0);
     const totalDeclined=prog.tests.reduce((a,t)=>a+t.declined,0);
 
@@ -2103,7 +2179,7 @@ window.FT=(function(){
   function renderOt(){
     const {$, $$, esc}=H();
     const c=cls(), rst=roster(c);
-    const eligible=OT_GRADES.includes(st.grade);
+    const eligible=activeGroup()?true:OT_GRADES.includes(st.grade);
     const rows=rst.map(s=>({s,...otScore(otRec(c,s.name))}));
     const got=rows.filter(r=>r.ok).length;
 
@@ -2311,6 +2387,7 @@ window.FT=(function(){
     if(last.grade)st.grade=last.grade;
     if(last.num)st.num=last.num;
     if(last.sort)st.sort=last.sort;
+    if(last.gid&&DATA.groupOf(clsStore,last.gid))st.gid=last.gid;
     H().$$("#ft-tabs button").forEach(b=>b.addEventListener("click",()=>{ st.tab=b.dataset.ft; renderTab(); }));
     renderTab();
   }
@@ -2479,7 +2556,7 @@ window.FT=(function(){
     assess:(stud,testId,val,grade,measuredNormVersion)=>{
       const T=testById(testId);
       return DATA.assess({mode:scoreMode(),table:norms().table,rows:allRes(),
-        testId,sex:sexOf(stud),grade:grade||st.grade,val,
+        testId,sex:sexOf(stud),grade:grade||studentGrade(stud),val,
         dir:T&&T.dir,cap:capOf(testId),
         normVersion:normVersion(),measuredNormVersion,archive:normArchive()});
     },
@@ -2491,13 +2568,22 @@ window.FT=(function(){
        חוצת כיתות; opts.cls מצמצם. */
     profile:(stud,opts)=>DATA.profileOf(allRes(),stud,TESTS,Object.assign(
       {mode:scoreMode(),table:norms().table,archive:normArchive(),
-       normVersion:normVersion(),grade:st.grade},opts||{})),
+       normVersion:normVersion(),grade:studentGrade(stud)},opts||{})),
     missing:(stud,opts)=>DATA.missingTests(allRes(),stud,TESTS,
       Object.assign({want:idxTests()},opts||{})),
     normVersion
   };
 
+  /* נקודת כניסה חיצונית: מסך הכיתה קורא לזה לפני go("ft") כדי לפתוח
+     את מבחני הכושר ישר על קבוצת ההוראה שנבחרה, בלי שהמורה יצטרך
+     לבחור אותה שוב בבורר הפנימי. */
+  function selectGroup(gid){
+    if(!gid||!DATA.groupOf(clsStore,gid))return false;
+    st.gid=gid; st.test=null; persist();
+    return true;
+  }
+
   return {init, pick, ingest, tests:()=>TESTS, results:()=>allRes(), roster,
-    classOf:clsName, progress:PROGRESS};
+    classOf:clsName, progress:PROGRESS, selectGroup};
 })();
 })();

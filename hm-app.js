@@ -1386,11 +1386,7 @@ function openClassScreen(cid){
   if(act&&act.cid===cid)html+='<span class="pill acc">שיעור פתוח בכיתה הזאת</span>';
   else if(act)html+='<span class="pill">פתוח שיעור בכיתה '+esc(sesName(act))+'</span>';
   else html+='<button class="btn sm acc" id="cls-start">▶ התחל שיעור בכיתה הזאת</button>';
-  /* מבחני הכושר עדיין עובדים על כיתה בודדת. עדיף לא להציע כפתור
-     שיפתח את הכיתה הלא נכונה מאשר להציע אותו ולהטעות. */
-  html+=(grp?"":'<button class="btn sm ghost" id="cls-ft">🏅 מבחני כושר</button>')+'</div>'+
-    (grp?'<div class="hint" style="margin-top:9px">מדידה בקבוצה נעשית בינתיים דרך הכיתה עצמה — '+
-      esc(DATA.groupSummary(REGSTORE,cid))+'.</div>':"");
+  html+='<button class="btn sm ghost" id="cls-ft">🏅 מבחני כושר</button></div>';
 
   $("#cls-body").innerHTML=html;
   const st=$("#cls-start");
@@ -1399,7 +1395,10 @@ function openClassScreen(cid){
     modal("clsModal",false);
   });
   const ft=$("#cls-ft");
-  if(ft)ft.addEventListener("click",()=>{ modal("clsModal",false); go("ft"); });
+  if(ft)ft.addEventListener("click",()=>{
+    if(grp&&window.FT&&window.FT.selectGroup)window.FT.selectGroup(cid);
+    modal("clsModal",false); go("ft");
+  });
   modal("clsModal",true);
 }
 
