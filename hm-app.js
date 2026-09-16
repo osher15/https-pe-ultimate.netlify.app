@@ -27,7 +27,7 @@ const MEMFALLBACK=(()=>{ const m=new Map(); return {
   _mem:true, get length(){return m.size}, key(i){return [...m.keys()][i]},
   getItem(k){return m.has(k)?m.get(k):null}, setItem(k,v){m.set(k,String(v))},
   removeItem(k){m.delete(k)}, clear(){m.clear()} }; })();
-const STORE=(()=>{ try{ const s=window.localStorage; s.setItem("pehub.__probe","1"); s.removeItem("pehub.__probe"); return s; }
+const STORE=(()=>{ try{ const s=window.localStorage; s.setItem(BRAND.ns+"__probe","1"); s.removeItem(BRAND.ns+"__probe"); return s; }
                    catch(e){ return null; } })();
 const ST_HEALTH={ok:!!STORE,backend:STORE?"localStorage":"memory",fails:{},lastErr:null,writes:0,fails_n:0};
 function storageTrouble(res,op,key){
@@ -39,12 +39,12 @@ function storageTrouble(res,op,key){
 }
 const LS={
   get(k,d){
-    const r=DATA.safeGet(STORE||MEMFALLBACK,"pehub."+k,d);
+    const r=DATA.safeGet(STORE||MEMFALLBACK,BRAND.ns+k,d);
     if(!r.ok)storageTrouble(r,"קריאה",k);
     return r.value;
   },
   set(k,v){
-    const r=DATA.safeSet(STORE||MEMFALLBACK,"pehub."+k,v);
+    const r=DATA.safeSet(STORE||MEMFALLBACK,BRAND.ns+k,v);
     if(r.ok){ ST_HEALTH.writes++; return true; }
     storageTrouble(r,"כתיבה",k);
     return false;
@@ -145,13 +145,13 @@ function wireModals(){
    מצב תלמיד הוא מצב תצוגה בלבד: רק לוח השיאים ודף המשחקים נגישים,
    ובלוח השיאים אפשר לצפות ולשלוח שיא — לא לאשר, לא לערוך ולא למחוק. */
 const STUDENT_MODS={rec:1,games:1};
-let ROLE=sessionStorage.getItem("pehub.role")||"teacher";
+let ROLE=sessionStorage.getItem(BRAND.ns+"role")||"teacher";
 /* קישור שהמורה מחלק: ?role=student  (ועם guest=1 — מכשיר של התלמיד) */
 const QP=new URLSearchParams(location.search);
 if(QP.get("role")==="student"){
   ROLE="student";
-  sessionStorage.setItem("pehub.role","student");
-  sessionStorage.setItem("pehub.unlocked","1"); /* מדלג על מסך הקוד */
+  sessionStorage.setItem(BRAND.ns+"role","student");
+  sessionStorage.setItem(BRAND.ns+"unlocked","1"); /* מדלג על מסך הקוד */
 }
 const GUEST=QP.get("guest")==="1"&&ROLE==="student";
 /* קישור טופס ההעלאה נוסע בתוך הקישור עצמו — ההגדרות נשמרות לכל מכשיר
@@ -166,7 +166,7 @@ const isStudent=()=>ROLE==="student";
 const isGuest=()=>GUEST&&isStudent();
 function setRole(r){
   ROLE=(r==="student")?"student":"teacher";
-  sessionStorage.setItem("pehub.role",ROLE);
+  sessionStorage.setItem(BRAND.ns+"role",ROLE);
   /* חזרה למצב מורה מנקה את ?role=student מהכתובת — אחרת רענון היה
      מחזיר את המכשיר למצב תלמיד, כי הפרמטר ב-URL גובר על ההגדרה. */
   if(ROLE==="teacher"&&QP.get("role")){
@@ -1420,7 +1420,7 @@ const RATING_LABEL={"1":"👍 עבד מצוין","0":"😐 בינוני","-1":"�
    תצוגה מקדימה שמראה בדיוק מה ייכנס ומה יאבד, ומוצע גיבוי בטיחות
    של המצב הנוכחי לפני הדריסה.
    ============================================================ */
-const BK_PREFIX="pehub.";
+const BK_PREFIX=BRAND.ns;
 const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
@@ -1451,7 +1451,7 @@ async function bkSnapshotFull(budget){
   }catch(e){
     /* IndexedDB לא נגיש (גלישה פרטית, הרשאה). הגיבוי עדיין שווה
        הרבה — אבל הקובץ יגיד בפירוש שהמדיה לא בפנים. */
-    snap.idb={store:"rec",db:"pehub-records",count:0,items:[],omitted:[],
+    snap.idb={store:"rec",db:BRAND.idbName,count:0,items:[],omitted:[],
       error:String(e&&e.message||e)};
   }
   return snap;
@@ -1693,7 +1693,7 @@ function wireBackup(){
    ע"י המורה עצמו (Google Cloud Console) ונשמר מקומית — אין לנו
    דרך ליצור אותו מטעם המורה, וגם אין לנו צורך לדעת אותו. */
 const GDRIVE_SCOPE="https://www.googleapis.com/auth/drive.file";
-const GDRIVE_FOLDER_NAME="המגרש PRO – גיבויים";
+const GDRIVE_FOLDER_NAME=BRAND.driveFolderName;
 let gdAccessToken=null,gdTokenAt=0,gdGisPromise=null;
 function gdLoadGis(){
   if(window.google&&google.accounts&&google.accounts.oauth2)return Promise.resolve();
@@ -3814,7 +3814,7 @@ const REC=(function(){
   /* ---------- IndexedDB ---------- */
   function openDB(){
     return new Promise((res,rej)=>{
-      const rq=indexedDB.open("pehub-records",1);
+      const rq=indexedDB.open(BRAND.idbName,1);
       rq.onupgradeneeded=()=>rq.result.createObjectStore("rec",{keyPath:"id"});
       rq.onsuccess=()=>{db=rq.result;res(db)};
       rq.onerror=()=>rej(rq.error);
@@ -4524,7 +4524,7 @@ const REC=(function(){
       else meta.video=null;
       items.push(meta);
     }
-    return {store:"rec",db:"pehub-records",count:items.length,
+    return {store:"rec",db:BRAND.idbName,count:items.length,
             items,omitted:plan.omit,bytes:plan.bytes,budget:plan.budget};
   }
   /* שחזור מוסיף ולא מוחק: רשומה קיימת עם אותו מזהה נדרסת, אבל
@@ -4896,7 +4896,7 @@ function runMigration(){
   const store={
     get:(k,d)=>LS.get(k,d===undefined?null:d),
     set:(k,v)=>LS.set(k,v),
-    del:k=>{ try{ (STORE||MEMFALLBACK).removeItem("pehub."+k); }catch(e){} },
+    del:k=>{ try{ (STORE||MEMFALLBACK).removeItem(BRAND.ns+k); }catch(e){} },
     keys:()=>bkKeys()
   };
   MIG_REPORT=DATA.migrate(store);
