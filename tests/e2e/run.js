@@ -33,6 +33,7 @@ const suites=[
   require("./rostersync.e2e.js"),
   require("./rostermodel.e2e.js"),
   require("./archive.e2e.js"),
+  require("./know-i18n.e2e.js"),
   require("./manual.e2e.js")
 ];
 run(suites).then(fail=>process.exit(fail?1:0))

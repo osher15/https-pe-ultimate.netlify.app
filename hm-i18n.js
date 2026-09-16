@@ -217,7 +217,10 @@ en:{
   "ui.info":"Quick guide — what this screen does",
   "ui.demoBar":"Demo mode", "ui.demoNote":"— the data here is a sample",
   "ui.demoClear":"Clear demo data",
-  "ui.explain":"Explanation"
+  "ui.explain":"Explanation",
+  "kn.regAll":"All", "kn.regIl":"🇮🇱 Ministry of Education",
+  "kn.regWorld":"🌍 Global Health", "kn.regStd":"📏 Standards & Measurement",
+  "kn.howToUse":"How to use this:", "kn.toSource":"↗ To the official source"
 },
 
 ar:{
@@ -363,7 +366,10 @@ ar:{
   "ui.info":"دليل سريع — ماذا تفعل هذه الشاشة",
   "ui.demoBar":"وضع العرض التوضيحي", "ui.demoNote":"— البيانات هنا نموذجية",
   "ui.demoClear":"مسح بيانات العرض",
-  "ui.explain":"شرح"
+  "ui.explain":"شرح",
+  "kn.regAll":"الكل", "kn.regIl":"🇮🇱 وزارة التربية والتعليم",
+  "kn.regWorld":"🌍 الصحة العالمية", "kn.regStd":"📏 المعايير والقياس",
+  "kn.howToUse":"كيفية استخدام هذا:", "kn.toSource":"↗ إلى المصدر الرسمي"
 },
 
 ru:{
@@ -516,7 +522,10 @@ ru:{
   "ui.info":"Краткое руководство — что делает этот экран",
   "ui.demoBar":"Демо-режим", "ui.demoNote":"— данные здесь учебные",
   "ui.demoClear":"Очистить демо-данные",
-  "ui.explain":"Пояснение"
+  "ui.explain":"Пояснение",
+  "kn.regAll":"Все", "kn.regIl":"🇮🇱 Министерство образования",
+  "kn.regWorld":"🌍 Здоровье в мире", "kn.regStd":"📏 Стандарты и измерения",
+  "kn.howToUse":"Как это использовать:", "kn.toSource":"↗ К официальному источнику"
 }
 };
 

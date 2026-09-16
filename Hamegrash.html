@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="0d60e645">
+<meta name="hm-build" content="c3db537e">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -6253,7 +6253,10 @@ en:{
   "ui.info":"Quick guide — what this screen does",
   "ui.demoBar":"Demo mode", "ui.demoNote":"— the data here is a sample",
   "ui.demoClear":"Clear demo data",
-  "ui.explain":"Explanation"
+  "ui.explain":"Explanation",
+  "kn.regAll":"All", "kn.regIl":"🇮🇱 Ministry of Education",
+  "kn.regWorld":"🌍 Global Health", "kn.regStd":"📏 Standards & Measurement",
+  "kn.howToUse":"How to use this:", "kn.toSource":"↗ To the official source"
 },
 
 ar:{
@@ -6399,7 +6402,10 @@ ar:{
   "ui.info":"دليل سريع — ماذا تفعل هذه الشاشة",
   "ui.demoBar":"وضع العرض التوضيحي", "ui.demoNote":"— البيانات هنا نموذجية",
   "ui.demoClear":"مسح بيانات العرض",
-  "ui.explain":"شرح"
+  "ui.explain":"شرح",
+  "kn.regAll":"الكل", "kn.regIl":"🇮🇱 وزارة التربية والتعليم",
+  "kn.regWorld":"🌍 الصحة العالمية", "kn.regStd":"📏 المعايير والقياس",
+  "kn.howToUse":"كيفية استخدام هذا:", "kn.toSource":"↗ إلى المصدر الرسمي"
 },
 
 ru:{
@@ -6552,7 +6558,10 @@ ru:{
   "ui.info":"Краткое руководство — что делает этот экран",
   "ui.demoBar":"Демо-режим", "ui.demoNote":"— данные здесь учебные",
   "ui.demoClear":"Очистить демо-данные",
-  "ui.explain":"Пояснение"
+  "ui.explain":"Пояснение",
+  "kn.regAll":"Все", "kn.regIl":"🇮🇱 Министерство образования",
+  "kn.regWorld":"🌍 Здоровье в мире", "kn.regStd":"📏 Стандарты и измерения",
+  "kn.howToUse":"Как это использовать:", "kn.toSource":"↗ К официальному источнику"
 }
 };
 
@@ -12485,6 +12494,85 @@ const SOURCES=[
 ];
 
 /* ============================================================
+   תרגום SOURCES — אנגלית, ערבית, רוסית
+   ------------------------------------------------------------
+   עברית (למעלה) היא מקור האמת; id הוא המפתח. שדה/פריט חסר בשפה
+   נופל אוטומטית לעברית דרך srcLoc() — טקסט חסר גרוע מטקסט בשפה
+   הלא נכונה. url/flag/region/id אינם מתורגמים — הם לא טקסט.
+
+   מקור: docs/i18n-glossary.md + Gemini, אומת אוטומטית שכל 18
+   המקורות חזרו בכל שפה לפני המיזוג לקוד.
+   ============================================================ */
+const SOURCES_I18N={
+  en:{
+    "il-jh-cur":{org:"Israeli Ministry of Education",title:"Physical Education Curriculum — Junior High School (Grades 7-9)",desc:"The official curriculum document for junior high schools: physical, social, cognitive, and emotional goals, required content areas, and allocated hours.",use:"Good for drafting a yearly plan and justifying content choices to management and inspectors.",tags:["Curriculum","Junior High"]},
+    "il-hs-cur":{org:"Israeli Ministry of Education",title:"Physical Education Curriculum — High School (Grades 10-12)",desc:"The high school curriculum, including elective focuses, sports majors, and adaptations for diverse learners.",use:"Good for building high school lesson plans tailored to different levels and elective tracks.",tags:["Curriculum","High School"]},
+    "il-assess":{org:"Israeli Ministry of Education",title:"Assessment in Practical Physical Education — Junior High School",desc:"Assessment principles in PE: what is allowed and forbidden to measure, the weight of participation vs. performance, formative vs. summative assessment.",use:"Good for establishing a fair grading rubric — especially before conducting fitness tests in class.",tags:["Assessment","Grades"]},
+    "il-games":{org:"Israeli Ministry of Education",title:"Leisure and Recreation Games — Official Games Booklet",desc:"A collection of recreational games categorized into ball games, fitness, social, leisure/recess, and large groups. Simple games suitable for all ages and both genders, mostly requiring no special equipment.",use:"Good as a source of inspiration for the app's games page — and a database for expansion.",tags:["Games","Leisure"]},
+    "il-ball":{org:"Israeli Ministry of Education",title:"Team Ball Games — Teaching Materials",desc:"Teaching materials for team ball games: skill progression, adapted games, and simplified rules.",use:"Good for building a teaching unit in basketball/volleyball/handball/soccer.",tags:["Ball Games","Teaching Unit"]},
+    "il-online":{org:"Israeli Ministry of Education",title:"Online Learning in Physical Education — Junior High School",desc:"A database of activities for distance learning and rainy day classroom lessons: videos, movement tasks, and theoretical content.",use:"Good as a backup plan for lessons without access to a sports field or court.",tags:["Distance Learning","Rainy Day"]},
+    "il-year":{org:"Israeli Ministry of Education",title:"The Yearly Cycle in Physical Education",desc:"Scheduling content throughout the school year — seasons, holidays, peak events, and weather conditions.",use:"Good for yearly planning: what to teach in winter, spring, and when to host a sports day.",tags:["Yearly Planning"]},
+    "il-portal":{org:"Israeli Ministry of Education",title:"Homepage — Physical Education, Junior High School",desc:"The gateway to all physical education materials from the inspectorate: circulars, teaching materials, professional development, and safety guidelines.",use:"Good as a starting point when searching for any official document.",tags:["Portal"]},
+    "who-pa":{org:"World Health Organization (WHO)",title:"Guidelines on Physical Activity and Sedentary Behaviour (2020)",desc:"The main guideline for ages 5–17: an average of at least 60 minutes per day of moderate-to-vigorous aerobic activity; vigorous-intensity activity and muscle- and bone-strengthening activities at least 3 days a week; and limiting sedentary screen time.",use:"Good for justifying your lessons to any stakeholder — 60 minutes a day, 3 strengthening days a week.",tags:["Guidelines","60 Minutes"]},
+    "who-eviD":{org:"IJBNPA — WHO Evidence Summary",title:"Evidence Base Summary for the 2020 Guidelines for Ages 5-17",desc:"A peer-reviewed article summarizing the evidence behind the guidelines: improvements in cardiorespiratory fitness, metabolic health, bone health, cognitive function, mental health, and reduced body fat.",use:"Good for citing in assignments, theoretical lessons, or staff meetings.",tags:["Research","Evidence"]},
+    "cdc":{org:"CDC",title:"Physical Activity Guidelines for School-Aged Children and Adolescents",desc:"The American breakdown of the 60 minutes: categorization into activity types (aerobic / muscle-strengthening / bone-strengthening) with practical examples for each.",use:"Good for translating guidelines into the language of stations and exercises in class.",tags:["Guidelines","USA"]},
+    "uk-cmo":{org:"Chief Medical Officers",title:"UK Chief Medical Officers' Physical Activity Guidelines (2019)",desc:"Age-specific guidelines for the four UK nations, including the \"every movement counts\" model and an emphasis on accumulated daily physical activity, not just structured training.",use:"Good for reframing exercise for students who dislike \"sports\" — walking, cycling, and playing also count.",tags:["Guidelines","UK"]},
+    "cmp":{org:"Frontiers in Public Health",title:"Comparison of Physical Activity Guidelines — Five Countries vs. WHO",desc:"A comparative review of guidelines in the UK, USA, Canada, Australia, and China against the WHO: similarities, differences, and how they address sleep and screen time.",use:"Good background for teachers wanting to understand why different numbers appear in various sources.",tags:["Research","International Comparison"]},
+    "shape":{org:"SHAPE America",title:"National Physical Education Standards (2024 Edition)",desc:"Four standards: (1) Developing a variety of motor skills; (2) Applying knowledge related to movement and fitness; (3) Developing social skills through movement; (4) Developing personal skills and making physical activity choices. This edition expanded on the concept of the \"physical literacy journey.\"",use:"Good structure for formulating lesson goals — every lesson plan in the app is mapped to these four standards.",tags:["Standards","Goals"]},
+    "fitgram":{org:"Cooper Institute",title:"FITNESSGRAM® — Fitness Tests and Healthy Fitness Zone (HFZ)",desc:"A health-related fitness test battery: aerobic capacity, muscular strength, muscular endurance, flexibility, and body composition. The score is not compared against peers, but against the Healthy Fitness Zone (HFZ) based on age and gender.",use:"Good as the foundation for the norms displayed in the 20m Shuttle Run Protocol module and student tracking.",tags:["Fitness Tests","Norms"]},
+    "nsca-youth":{org:"NSCA",title:"Resistance Training for Children and Adolescents — Position Stand",desc:"The official position stand: supervised and tailored resistance training is safe and beneficial for youth, improving strength, reducing injuries, and not stunting growth. The focus is on technique, gradual progression, and supervision — not on maximal lifting.",use:"Good as a professional response to a parent or teacher asking, \"Isn't this dangerous for their age?\".",tags:["Strength","Safety"]},
+    "fifa11":{org:"Peer-Reviewed Research — FIFA 11+",title:"FIFA 11+ Injury Prevention Warming-up Program",desc:"Systematic reviews show a 30%–46% reduction in injury rates among teams that regularly perform this structured warm-up, achieved by improving neuromuscular control, core and pelvic stability, and landing mechanics.",use:"Good for incorporating the most evidence-based warm-up into a lesson — takes 15–20 minutes and requires no equipment.",tags:["Warm-up","Injury Prevention"]},
+    "fifa11-rct":{org:"Scientific Reports",title:"The Effect of FIFA 11+ on Kinematics and Proprioception in Youth — A Controlled Trial",desc:"A randomized controlled trial among youth players: significant improvements in knee and hip angles during landing and in joint position sense — the mechanisms that explain the reduction in injuries.",use:"Good for providing specific research justification for the landing and balance exercises in the warm-up.",tags:["Research","Youth"]}
+  },
+  ar:{
+    "il-jh-cur":{org:"وزارة التربية والتعليم الإسرائيلية",title:"منهج التربية البدنية — المدارس الإعدادية (الصفوف 7-9)",desc:"وثيقة المنهج الرسمي للمدارس الإعدادية: الأهداف البدنية والاجتماعية والمعرفية والعاطفية، مجالات المحتوى المطلوبة، وتخصيص الساعات.",use:"مفيد لصياغة خطة سنوية وتبرير اختيارات المحتوى للإدارة والمفتشين.",tags:["المنهج","إعدادية"]},
+    "il-hs-cur":{org:"وزارة التربية والتعليم الإسرائيلية",title:"منهج التربية البدنية — المدارس الثانوية (الصفوف 10-12)",desc:"منهج المدارس الثانوية، بما في ذلك التخصصات الاختيارية، التخصصات الرياضية، والتعديلات لتناسب المتعلمين المتنوعين.",use:"مفيد لبناء خطط دروس للمدارس الثانوية مصممة خصيصًا لمستويات ومسارات اختيارية مختلفة.",tags:["المنهج","ثانوية"]},
+    "il-assess":{org:"وزارة التربية والتعليم الإسرائيلية",title:"التقييم في التربية البدنية العملية — المدارس الإعدادية",desc:"مبادئ التقييم في التربية البدنية: ما يُسمح ويُمنع قياسه، وزن المشاركة مقابل الأداء، والتقييم التكويني مقابل التجميعي.",use:"مفيد لوضع معايير تقييم عادلة — خاصة قبل إجراء اختبارات اللياقة البدنية في الفصل.",tags:["التقييم","العلامات"]},
+    "il-games":{org:"وزارة التربية والتعليم الإسرائيلية",title:"ألعاب أوقات الفراغ والترويح — كتيب الألعاب الرسمي",desc:"مجموعة من الألعاب الترويحية مقسمة إلى فئات: ألعاب الكرة، اللياقة البدنية، الألعاب الاجتماعية، أوقات الفراغ والاستراحات، والمجموعات الكبيرة. ألعاب بسيطة ومناسبة لجميع الأعمار ولكلا الجنسين، ومعظمها لا يتطلب معدات خاصة.",use:"مفيد كمصدر إلهام لصفحة الألعاب في التطبيق — وقاعدة بيانات للتوسع.",tags:["ألعاب","أوقات الفراغ"]},
+    "il-ball":{org:"وزارة التربية والتعليم الإسرائيلية",title:"ألعاب الكرة الجماعية — مواد تعليمية",desc:"مواد تعليمية لألعاب الكرة الجماعية: تطور المهارات، الألعاب المعدلة، والقواعد المبسطة.",use:"مفيد لبناء وحدة تعليمية في كرة السلة/الكرة الطائرة/كرة اليد/كرة القدم.",tags:["ألعاب الكرة","وحدة تعليمية"]},
+    "il-online":{org:"وزارة التربية والتعليم الإسرائيلية",title:"التعلم عن بعد في التربية البدنية — المدارس الإعدادية",desc:"قاعدة بيانات للأنشطة الخاصة بالتعلم عن بعد والدروس الصفية في الأيام الممطرة: مقاطع فيديو، مهام حركية، ومحتوى نظري.",use:"مفيد كخطة بديلة لدرس بدون ملعب.",tags:["التعلم عن بعد","يوم ممطر"]},
+    "il-year":{org:"وزارة التربية والتعليم الإسرائيلية",title:"الدورة السنوية في التربية البدنية",desc:"جدولة المحتوى على مدار العام الدراسي — المواسم، العطلات، الفعاليات الكبرى، والظروف الجوية.",use:"مفيد للتخطيط السنوي: ماذا نُعلم في الشتاء، ماذا في الربيع، ومتى ننظم يومًا رياضيًا.",tags:["التخطيط السنوي"]},
+    "il-portal":{org:"وزارة التربية والتعليم الإسرائيلية",title:"الصفحة الرئيسية — التربية البدنية، المدارس الإعدادية",desc:"بوابة الدخول لجميع مواد التربية البدنية من هيئة التفتيش: المنشورات، المواد التعليمية، التطوير المهني، وإرشادات السلامة.",use:"مفيد كنقطة انطلاق عند البحث عن أي وثيقة رسمية.",tags:["بوابة"]},
+    "who-pa":{org:"World Health Organization (WHO)",title:"إرشادات النشاط البدني والسلوك الخامل (2020)",desc:"الإرشاد الرئيسي للأعمار 5-17: متوسط 60 دقيقة يوميًا على الأقل من النشاط الهوائي المعتدل إلى شديد الكثافة؛ وأنشطة شديدة الكثافة وأنشطة تقوية العضلات والعظام لمدة 3 أيام على الأقل في الأسبوع؛ والحد من وقت الشاشة الخامل.",use:"مفيد لتبرير أهمية دروسك أمام أي جهة — 60 دقيقة يوميًا، 3 أيام تقوية في الأسبوع.",tags:["إرشادات","60 دقيقة"]},
+    "who-eviD":{org:"IJBNPA — WHO Evidence Summary",title:"ملخص قاعدة الأدلة لإرشادات 2020 للأعمار 5-17",desc:"مقال محكم يلخص الأدلة التي تستند إليها الإرشادات: تحسين لياقة القلب والجهاز التنفسي، والصحة الأيضية، وصحة العظام، والوظيفة الإدراكية، والصحة النفسية، وتقليل دهون الجسم.",use:"مفيد للاقتباس منه في الواجبات أو الدروس النظرية أو اجتماعات الموظفين.",tags:["بحث","أدلة"]},
+    "cdc":{org:"CDC",title:"إرشادات النشاط البدني للأطفال والمراهقين في سن المدرسة",desc:"التقسيم الأمريكي لـ 60 دقيقة ذاتها: تصنيف أنواع النشاط (هوائي / تقوية العضلات / تقوية العظام) مع أمثلة عملية لكل نوع.",use:"مفيد لترجمة الإرشادات إلى لغة المحطات والتمارين في الفصل.",tags:["إرشادات","الولايات المتحدة"]},
+    "uk-cmo":{org:"Chief Medical Officers",title:"إرشادات النشاط البدني لكبار الأطباء في المملكة المتحدة (2019)",desc:"إرشادات خاصة بالعمر لدول المملكة المتحدة الأربع، بما في ذلك نموذج \"كل حركة تهم\" والتأكيد على النشاط البدني اليومي التراكمي وليس فقط التدريب المنظم.",use:"مفيد لإعادة صياغة المفهوم للطلاب الذين لا يحبون \"الرياضة\" — المشي وركوب الدراجات واللعب تحسب أيضاً.",tags:["إرشادات","المملكة المتحدة"]},
+    "cmp":{org:"Frontiers in Public Health",title:"مقارنة إرشادات النشاط البدني — خمس دول مقابل منظمة الصحة العالمية",desc:"مراجعة مقارنة للإرشادات في المملكة المتحدة والولايات المتحدة وكندا وأستراليا والصين مقابل منظمة الصحة العالمية (WHO): أوجه التشابه والاختلاف وكيفية معالجتها للنوم ووقت الشاشة.",use:"خلفية مفيدة للمعلم الذي يريد أن يفهم سبب ظهور أرقام مختلفة في مصادر مختلفة.",tags:["بحث","مقارنة دولية"]},
+    "shape":{org:"SHAPE America",title:"المعايير الوطنية للتربية البدنية (إصدار 2024)",desc:"أربعة معايير: (1) تطوير مجموعة متنوعة من المهارات الحركية؛ (2) تطبيق المعرفة المتعلقة بالحركة واللياقة البدنية؛ (3) تطوير المهارات الاجتماعية من خلال الحركة؛ (4) تطوير المهارات الشخصية واختيار النشاط البدني. توسع هذا الإصدار في مفهوم \"رحلة محو الأمية البدنية\".",use:"هيكل ممتاز لصياغة أهداف الدرس — كل خطة درس في التطبيق مرتبطة بهذه المعايير الأربعة.",tags:["معايير","أهداف"]},
+    "fitgram":{org:"Cooper Institute",title:"FITNESSGRAM® — اختبارات اللياقة ومنطقة اللياقة الصحية (HFZ)",desc:"مجموعة اختبارات اللياقة المرتبطة بالصحة: القدرة الهوائية، قوة العضلات، التحمل العضلي، المرونة، وتكوين الجسم. لا تتم مقارنة النتيجة مع الأقران، بل مع منطقة اللياقة الصحية (HFZ) بناءً على العمر والجنس.",use:"مفيد كأساس للمعايير المعروضة في وحدة بروتوكول اختبار اللياقة المكوكية وتتبع الطلاب.",tags:["اختبارات اللياقة","معايير"]},
+    "nsca-youth":{org:"NSCA",title:"تدريب المقاومة للأطفال والمراهقين — ورقة موقف",desc:"ورقة الموقف الرسمية: تدريب المقاومة الخاضع للإشراف والمصمم خصيصًا آمن ومفيد للشباب، حيث يحسن القوة، ويقلل الإصابات، ولا يعيق النمو. التركيز على التقنية، والتدرج التدريجي، والإشراف — وليس على رفع الأوزان القصوى.",use:"مفيد كرد احترافي على أحد الوالدين أو المعلمين الذي يسأل، \"أليس هذا خطيراً في هذا العمر؟\".",tags:["القوة","السلامة"]},
+    "fifa11":{org:"بحث محكم — FIFA 11+",title:"برنامج الإحماء +11 للوقاية من الإصابات",desc:"تظهر المراجعات المنهجية انخفاضًا بنسبة 30٪ -46٪ في معدلات الإصابة بين الفرق التي تؤدي هذا الإحماء المنظم بانتظام، من خلال تحسين التحكم العصبي العضلي، واستقرار الجذع والحوض، وتقنية الهبوط.",use:"مفيد لدمج الإحماء الأكثر استناداً إلى الأدلة في الدرس — يستغرق 15-20 دقيقة ولا يتطلب أي معدات.",tags:["إحماء","الوقاية من الإصابات"]},
+    "fifa11-rct":{org:"Scientific Reports",title:"تأثير +11 على الكينماتيكا واستقبال الحس العميق لدى الشباب — تجربة ذات شواهد",desc:"تجربة معشاة ذات شواهد بين اللاعبين الشباب: تحسن ملحوظ في زوايا الركبة والورك أثناء الهبوط وفي الإحساس بوضعية المفصل — الآليات التي تفسر انخفاض الإصابات.",use:"مفيد لتوفير مبرر بحثي محدد لتمارين الهبوط والتوازن في الإحماء.",tags:["بحث","شباب"]}
+  },
+  ru:{
+    "il-jh-cur":{org:"Министерство образования Израиля",title:"Учебная программа по физической культуре — Средняя школа (7-9 классы)",desc:"Официальный документ учебной программы для средних школ: физические, социальные, когнитивные и эмоциональные цели, обязательные предметные области и распределение часов.",use:"Полезно для составления годового плана и обоснования выбора учебного материала перед руководством и инспекторами.",tags:["Учебная программа","Средняя школа"]},
+    "il-hs-cur":{org:"Министерство образования Израиля",title:"Учебная программа по физической культуре — Старшая школа (10-12 классы)",desc:"Учебная программа для старшей школы, включая курсы по выбору, спортивные специализации и адаптации для разных учащихся.",use:"Полезно для создания планов уроков в старшей школе с учетом разных уровней подготовки и курсов по выбору.",tags:["Учебная программа","Старшая школа"]},
+    "il-assess":{org:"Министерство образования Израиля",title:"Оценивание на практических уроках физической культуры — Средняя школа",desc:"Принципы оценивания в физкультуре: что разрешено и запрещено измерять, значимость участия по сравнению с результатами, формативное оценивание против итогового.",use:"Полезно для разработки справедливых критериев оценки — особенно перед проведением фитнес-тестов в классе.",tags:["Оценивание","Оценки"]},
+    "il-games":{org:"Министерство образования Израиля",title:"Игры для досуга и отдыха — Официальный сборник игр",desc:"Сборник рекреационных игр, разделенных на категории: игры с мячом, фитнес, социальные игры, игры для досуга/перемен и игры для больших групп. Простые игры, подходящие для всех возрастов и обоих полов, в основном не требующие специального оборудования.",use:"Полезно как источник вдохновения для страницы игр в приложении — и как база данных для расширения.",tags:["Игры","Досуг"]},
+    "il-ball":{org:"Министерство образования Израиля",title:"Командные игры с мячом — Учебные материалы",desc:"Учебные материалы для командных игр с мячом: развитие навыков, адаптированные игры и упрощенные правила.",use:"Полезно для создания учебного модуля по баскетболу/волейболу/гандболу/футболу.",tags:["Игры с мячом","Учебный модуль"]},
+    "il-online":{org:"Министерство образования Израиля",title:"Дистанционное обучение физической культуре — Средняя школа",desc:"База заданий для дистанционного обучения и уроков в классе в дождливые дни: видео, двигательные задания и теоретический материал.",use:"Полезно как запасной план для уроков без доступа к спортивной площадке.",tags:["Дистанционное обучение","Дождливый день"]},
+    "il-year":{org:"Министерство образования Израиля",title:"Годовой цикл в физической культуре",desc:"Распределение учебного материала в течение учебного года — сезоны, праздники, ключевые мероприятия и погодные условия.",use:"Полезно для годового планирования: что преподавать зимой, весной и когда проводить спортивный день.",tags:["Годовое планирование"]},
+    "il-portal":{org:"Министерство образования Израиля",title:"Главная страница — Физическая культура, Средняя школа",desc:"Портал ко всем материалам инспекции по физической культуре: циркуляры, учебные материалы, курсы повышения квалификации и правила техники безопасности.",use:"Полезно как отправная точка при поиске любого официального документа.",tags:["Портал"]},
+    "who-pa":{org:"World Health Organization (WHO)",title:"Руководство по физической активности и малоподвижному образу жизни (2020)",desc:"Основное руководство для возраста 5–17 лет: в среднем не менее 60 минут в день аэробной активности умеренной или высокой интенсивности; активность высокой интенсивности и упражнения для укрепления мышц и костей не реже 3 дней в неделю; а также ограничение малоподвижного времени перед экраном.",use:"Полезно для обоснования важности ваших уроков перед любой инстанцией — 60 минут в день, 3 дня силовых тренировок в неделю.",tags:["Руководства","60 Минут"]},
+    "who-eviD":{org:"IJBNPA — WHO Evidence Summary",title:"Краткое изложение доказательной базы к руководствам 2020 года для возраста 5-17 лет",desc:"Рецензируемая статья, обобщающая доказательную базу руководств: улучшение кардиореспираторной выносливости, метаболического здоровья, здоровья костей, когнитивных функций, психического здоровья и снижение жировой массы тела.",use:"Полезно для цитирования в заданиях, на теоретических уроках или собраниях коллектива.",tags:["Исследование","Доказательства"]},
+    "cdc":{org:"CDC",title:"Руководства по физической активности для детей школьного возраста и подростков",desc:"Американская разбивка тех же 60 минут: классификация видов активности (аэробные / укрепление мышц / укрепление костей) с практическими примерами для каждого вида.",use:"Полезно для перевода руководств на язык станций и упражнений на уроке.",tags:["Руководства","США"]},
+    "uk-cmo":{org:"Chief Medical Officers",title:"Руководства по физической активности главных медицинских специалистов Великобритании (2019)",desc:"Возрастные руководства для четырех стран Великобритании, включая модель «каждое движение имеет значение» и акцент на накопленной ежедневной физической активности, а не только на структурированных тренировках.",use:"Полезно для переосмысления активности для учеников, которые не любят «спорт» — ходьба, езда на велосипеде и игры тоже считаются.",tags:["Руководства","Великобритания"]},
+    "cmp":{org:"Frontiers in Public Health",title:"Сравнение руководств по физической активности — Пять стран против ВОЗ",desc:"Сравнительный обзор руководств Великобритании, США, Канады, Австралии и Китая по отношению к ВОЗ (WHO): что общего, чем отличаются и как они рассматривают сон и экранное время.",use:"Полезный фон для учителя, который хочет понять, почему в разных источниках приводятся разные цифры.",tags:["Исследование","Международное сравнение"]},
+    "shape":{org:"SHAPE America",title:"Национальные стандарты физического воспитания (Издание 2024 г.)",desc:"Четыре стандарта: (1) Развитие разнообразных моторных навыков; (2) Применение знаний о движении и фитнесе; (3) Развитие социальных навыков через движение; (4) Развитие личностных навыков и выбор физической активности. В этом издании расширено понятие «путь физической грамотности».",use:"Отличная структура для формулирования целей урока — каждый план урока в приложении привязан к этим четырем стандартам.",tags:["Стандарты","Цели"]},
+    "fitgram":{org:"Cooper Institute",title:"FITNESSGRAM® — Фитнес-тесты и Зона здоровой физической подготовленности (HFZ)",desc:"Батарея фитнес-тестов, связанных со здоровьем: аэробные возможности, мышечная сила, мышечная выносливость, гибкость и состав тела. Результат сравнивается не с ровесниками, а с Зоной здоровой физической подготовленности (HFZ) с учетом возраста и пола.",use:"Полезно в качестве основы для нормативов, отображаемых в модуле Протокол челночного бега 20 м и отслеживании учеников.",tags:["Фитнес-тесты","Нормативы"]},
+    "nsca-youth":{org:"NSCA",title:"Силовые тренировки для детей и подростков — Позиционное заявление",desc:"Официальное позиционное заявление: контролируемые и адаптированные силовые тренировки безопасны и полезны для детей и подростков, они улучшают силу, снижают риск травм и не замедляют рост. Основное внимание уделяется технике, постепенному прогрессу и контролю — а не максимальным весам.",use:"Полезно в качестве профессионального ответа родителю или учителю, который спрашивает: «Разве это не опасно для этого возраста?».",tags:["Сила","Безопасность"]},
+    "fifa11":{org:"Рецензируемое исследование — FIFA 11+",title:"Программа разминки «ФИФА 11+»",desc:"Систематические обзоры показывают снижение уровня травматизма на 30–46% среди команд, регулярно выполняющих эту структурированную разминку, благодаря улучшению нервно-мышечного контроля, стабильности кора и таза, а также техники приземления.",use:"Полезно для включения самой научно обоснованной разминки в урок — занимает 15–20 минут и не требует оборудования.",tags:["Разминка","Профилактика травм"]},
+    "fifa11-rct":{org:"Scientific Reports",title:"Влияние «ФИФА 11+» на кинематику и проприоцепцию у молодежи — Контролируемое исследование",desc:"Рандомизированное контролируемое исследование среди юных игроков: значительное улучшение углов сгибания коленного и тазобедренного суставов при приземлении, а также суставно-мышечного чувства — механизмов, объясняющих снижение травматизма.",use:"Полезно для предоставления конкретного научного обоснования упражнений на приземление и равновесие в разминке.",tags:["Исследование","Молодежь"]}
+  },
+};
+/* מיזוג התרגום על גבי המקור העברי. עברית עצמה אינה נוגעת בזה. */
+function srcLoc(s){
+  const cur=window.I18N?window.I18N.lang():"he";
+  const tr=SOURCES_I18N[cur]&&SOURCES_I18N[cur][s.id];
+  return tr?Object.assign({},s,tr):s;
+}
+
+/* ============================================================
    2. תוכניות אימון מוערכות (evidence-informed)
    כל תוכנית: למי · מבנה · מינון · על מה היא נשענת.
    ============================================================ */
@@ -13315,18 +13403,23 @@ window.KNOW=(function(){
   let inited=false, tab="src", reg="all";
   function renderSrc(){
     const {$, $$, esc}=H();
-    const REG=[["all","הכל"],["il","🇮🇱 משרד החינוך"],["world","🌍 בריאות בעולם"],["std","📏 סטנדרטים ומדידה"]];
+    const t=window.t||((k,d)=>d);
+    const REG=[["all",t("kn.regAll","הכל")],["il",t("kn.regIl","🇮🇱 משרד החינוך")],
+      ["world",t("kn.regWorld","🌍 בריאות בעולם")],["std",t("kn.regStd","📏 סטנדרטים ומדידה")]];
     $("#kn-regs").innerHTML=REG.map(([id,nm])=>`<button data-kr="${id}" class="${id===reg?"on":""}">${nm}</button>`).join("");
     $$("#kn-regs [data-kr]").forEach(b=>b.addEventListener("click",()=>{ reg=b.dataset.kr; renderSrc(); }));
-    const items=SOURCES.filter(s=>reg==="all"||s.region===reg);
+    /* srcLoc ממזג את התרגום (אם קיים לשפה הנוכחית) על גבי המקור
+       העברי — הכיתוב באנגלית/ערבית/רוסית הוא על *התיאור*, לא על
+       המסמך המצוטט עצמו, שנשאר במקורו. */
+    const items=SOURCES.filter(s=>reg==="all"||s.region===reg).map(srcLoc);
     $("#kn-srcList").innerHTML=items.map(s=>`<div class="kn-src">
       <div class="hd"><span class="fl">${s.flag}</span>
         <div class="grow"><b>${esc(s.title)}</b><div class="org">${esc(s.org)}</div></div></div>
       <p>${esc(s.desc)}</p>
-      <div class="usebox"><b>איך משתמשים בזה:</b> ${esc(s.use)}</div>
+      <div class="usebox"><b>${esc(t("kn.howToUse","איך משתמשים בזה:"))}</b> ${esc(s.use)}</div>
       <div class="row" style="margin-top:9px;justify-content:space-between;align-items:center">
-        <div class="row" style="gap:5px">${s.tags.map(t=>`<span class="pill">${esc(t)}</span>`).join("")}</div>
-        <a class="btn sm acc" href="${s.url}" target="_blank" rel="noopener">↗ למקור הרשמי</a>
+        <div class="row" style="gap:5px">${s.tags.map(tg=>`<span class="pill">${esc(tg)}</span>`).join("")}</div>
+        <a class="btn sm acc" href="${s.url}" target="_blank" rel="noopener">${esc(t("kn.toSource","↗ למקור הרשמי"))}</a>
       </div></div>`).join("");
   }
   function renderProg(){
@@ -13374,6 +13467,11 @@ window.KNOW=(function(){
     }));
     renderSrc(); renderProg(); renderFacts();
   }
+  /* מסך המקורות מתורגם (srcLoc), אבל go() אינו מצייר מחדש תוכן
+     שנבנה דינמית במעבר שפה — רק data-i18n סטטי (applyDom). בלי זה
+     מורה שמחליף שפה בזמן שהמסך פתוח ממשיך לראות את השפה הקודמת
+     עד שיוצא ונכנס שוב. */
+  document.addEventListener("i18n:change",()=>{ if(inited)renderSrc(); });
   return {init, sources:()=>SOURCES, programs:()=>PROGRAMS, byId:srcById};
 })();
 })();
