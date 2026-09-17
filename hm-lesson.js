@@ -614,8 +614,14 @@ window.LESSON=(function(){
     b.disabled=false;
     b.textContent="▶ התחל שיעור · "+c;
     b.onclick=()=>{
+      /* plan עצמו הוא צירוף אקראי חד-פעמי (וריאציה שנבחרה עכשיו
+         מתוך main) — אין לו זהות יציבה, ו-plan.id אינו קיים אף
+         פעם. plan.topic הוא כן יציב: אותו T.id שכבר משמש למפתח
+         המשוב (ls.feedback) ולזיכרון הווריאציות האחרונות
+         (ls.recentVariants), ולכן זו ההפניה האמיתית ששיעור יכול
+         לשאת — «באיזה נושא עסק השיעור», לא «איזו הגרלה יצאה». */
       const r=S.start({cid,clsSnapshot:c,date:today(),
-        planId:(plan&&plan.id)||null,planTitle:(plan&&plan.title)||""});
+        planId:(plan&&plan.topic)||null,planTitle:(plan&&plan.title)||""});
       if(r.outcome==="blocked"){
         H().toast("כבר פתוח שיעור בכיתה "+(r.active.clsSnapshot||"")); return;
       }
