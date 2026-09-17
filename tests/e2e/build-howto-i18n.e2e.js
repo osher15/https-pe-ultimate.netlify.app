@@ -123,6 +123,29 @@ module.exports={title:"בונה ידני + מאגר ענפים — תרגום",t
     await switchLang(page,"he");
     const uni=await page.evaluate(()=>window.RECDEFAULTS.universal);
     ok(uni&&uni[0].indexOf("צילום אחד רצוף")>=0,"כלל ראשון בעברית: "+(uni&&uni[0]));
+  }),
+
+  check("CAT_INFO (מטרות/הערכה/משימת בית/בטיחות) מתורגם בתוך המערך שנבנה — כולל שורת מבנה העבודה הדינמית",seed,async page=>{
+    /* זהו הצ'אנק העמוק האחרון שנותר, וגם בדיקת רגרסיה: MAIN_FORMATS[].fmt
+       היא פונקציה שמייצרת שורת סיכום דינמית עם מספרים — היא לא הייתה חלק
+       מ-MAIN_FORMATS_I18N (JSON בלבד) ונשארה עברית עד שנוסף FMT_FN_I18N. */
+    await switchLang(page,"ar");
+    await buildPlanViaWizard(page);
+    const body=await planBody(page);
+    const heChars=/[֐-׿]/;
+    ok(body.indexOf("القوة بوزن الجسم")>=0,"כותרת הקטגוריה (CAT_INFO.title) בערבית: "+body.slice(0,200));
+    ok(body.indexOf("اللياقة البدنية")>=0,"שם קבוצת התוכן (CAT_INFO.g) בערבית: "+body.slice(0,300));
+    ok(body.indexOf("محطات")>=0,"שורת מבנה העבודה הדינמית (MAIN_FORMATS.fmt) בערבית: "+body);
+    ok(!heChars.test(body),"אין תווים עבריים במערך שנבנה בערבית: "+body.slice(0,400));
+  }),
+
+  check("CAT_INFO מתורגם גם ברוסית, בלי עברית שנשארה מאחור",seed,async page=>{
+    await switchLang(page,"ru");
+    await buildPlanViaWizard(page);
+    const body=await planBody(page);
+    const heChars=/[֐-׿]/;
+    ok(body.indexOf("Сила с весом собственного тела")>=0,"כותרת הקטגוריה ברוסית: "+body.slice(0,200));
+    ok(!heChars.test(body),"אין תווים עבריים במערך שנבנה ברוסית: "+body.slice(0,400));
   })
 
 ]};
