@@ -45,7 +45,7 @@ const LS={
   },
   set(k,v){
     const r=DATA.safeSet(STORE||MEMFALLBACK,BRAND.ns+k,v);
-    if(r.ok){ ST_HEALTH.writes++; return true; }
+    if(r.ok){ ST_HEALTH.writes++; checkStorageLevel(); return true; }
     storageTrouble(r,"כתיבה",k);
     return false;
   },
@@ -63,9 +63,23 @@ const ST_MSG={
   serialize:{t:"נמצא נתון פגום",
     d:"חלק מהנתונים במכשיר אינם קריאים. ייצא גיבוי לפני כל פעולה נוספת."},
   unknown:{t:"השמירה נכשלה",
-    d:"הנתון האחרון לא נשמר במכשיר. ייצא גיבוי כדי לא לאבד את מה שכן נשמר."}
+    d:"הנתון האחרון לא נשמר במכשיר. ייצא גיבוי כדי לא לאבד את מה שכן נשמר."},
+  /* לא כשל — אזהרה *לפני* כשל. עד עכשיו זו הייתה מודעת רק למי
+     שפתח הגדרות (paintQuotaMeter); זו הדרך שבה היא מגיעה גם למי
+     שלא פתח, לפני שהוא מגלה את זה מהדרך הקשה. */
+  "level-critical":{t:"האחסון כמעט מלא",
+    d:"מעל 90% מהמכסה המשוערת בשימוש. הכתיבה הבאה עלולה להיכשל בלי אזהרה. ארכב מדידות ישנות בהגדרות או ייצא גיבוי עכשיו."}
 };
-let stWarnDismissed=null;
+/* stWarnShownCode הוא מה שמוצג עכשיו; stWarnDismissed מה שהמורה
+   כבר סגר. עד שהיה קורא יחיד (storageTrouble, על כשל אמיתי) אפשר
+   היה לזהות "מה סגרנו" לפי ST_HEALTH.lastErr.code בעצלתיים —
+   הוא תמיד היה זהה לקוד שהוצג, כי storageTrouble קובע אותו ממש
+   לפני שהיא קוראת ל-showStorageWarn. checkStorageLevel קוראת
+   ל-showStorageWarn ישירות, בלי לגעת ב-lastErr (אין כאן כשל),
+   ואז lastErr הישן/null היה גורם לאזהרה המקדימה לחזור מיד אחרי
+   שסגרו אותה. stWarnShownCode עוקב אחרי מה שבאמת מוצג, בלי תלות
+   במקור הקריאה. */
+let stWarnDismissed=null, stWarnShownCode=null;
 function showStorageWarn(code,key){
   const bar=document.getElementById("stWarn"); if(!bar)return;
   if(stWarnDismissed===code&&bar.hidden)return;   /* המורה כבר סגר בדיוק את זה */
@@ -73,12 +87,12 @@ function showStorageWarn(code,key){
   const n=ST_HEALTH.fails_n;
   const t=document.getElementById("stWarnT");
   if(t)t.innerHTML="<b>⚠ "+m.t+"</b> — "+m.d+(n>1?" <span class=\"muted\">("+n+" כשלים)</span>":"");
-  stWarnDismissed=null; bar.hidden=false;
+  stWarnDismissed=null; stWarnShownCode=code; bar.hidden=false;
 }
 function wireStorageWarn(){
   const bar=document.getElementById("stWarn"); if(!bar)return;
   const x=document.getElementById("stWarnX");
-  if(x)x.addEventListener("click",()=>{ stWarnDismissed=ST_HEALTH.lastErr&&ST_HEALTH.lastErr.code; bar.hidden=true; });
+  if(x)x.addEventListener("click",()=>{ stWarnDismissed=stWarnShownCode; bar.hidden=true; });
   const s=document.getElementById("stWarnSave");
   /* מסלול ההצלה: הקובץ נבנה בזיכרון ויורד ישירות, בלי לכתוב
      אף בית לאחסון שכבר הוכיח שהוא לא עובד. */
@@ -1759,6 +1773,34 @@ function bkKeys(){ const out=[]; const be=STORE||MEMFALLBACK; try{
       const short=k.slice(BK_PREFIX.length);
       if(!BK_SKIP[short])out.push(short); }
   }catch(e){} return out.sort(); }
+/* סך התווים בכל מפתחות האפליקציה — קירוב זול לבייטים בפועל
+   (localStorage שומר UTF-16, אז המספר האמיתי גבוה קצת, אבל
+   storageLevel ממילא הערכה ולא מדידה מדויקת של מכסה שהדפדפן
+   לא חושף). כמה עשרות מפתחות — זניח לחשב על כל כתיבה. */
+function usedStorageBytes(){
+  let bytes=0;
+  bkKeys().forEach(k=>{ try{ bytes+=((STORE||MEMFALLBACK).getItem(BK_PREFIX+k)||"").length; }catch(e){} });
+  return bytes;
+}
+/* ============================================================
+   אזהרה מקדימה על מכסת האחסון
+   ------------------------------------------------------------
+   עד עכשיו האזהרה היחידה על אחסון הייתה `paintQuotaMeter`
+   (בהגדרות) — ותנאי מקדים לראות אותה הוא לפתוח הגדרות. מורה
+   שמודד כיתה שלמה באמצע שיעור ולא עומד לעצור ולפתוח הגדרות יכול
+   לחצות את המכסה בלי לדעת, ולגלות רק כשכתיבה כבר נכשלת בפועל.
+
+   הבדיקה כאן רצה אחרי **כל** כתיבה מוצלחת (מ-LS.set), לא רק
+   כשנפתחות הגדרות — ומתריעה ב-`#stWarn`, אותו פס שכבר משמש
+   לכשלים בפועל, אבל רק ב-90%+ (`critical`): ב-70% (`warn`) עדיין
+   שום דבר לא בסכנה, וצבע הסכנה של הפס שמור לרגע שבו זה כבר לא
+   נכון — פס בצבע אזהרה מתמיד לכל מי שעובר 70% היה נהפך לרעש. */
+function checkStorageLevel(){
+  try{
+    if(DATA.storageLevel(usedStorageBytes()).level==="critical")
+      showStorageWarn("level-critical","");
+  }catch(e){}
+}
 function bkSnapshot(){
   const data={}; bkKeys().forEach(k=>{ try{ data[k]=(STORE||MEMFALLBACK).getItem(BK_PREFIX+k); }catch(e){} });
   return DATA.buildSnapshot({data,school:SET.school||"",
@@ -1920,7 +1962,7 @@ function bkExport(){
 async function bkStat(){
   const el=$("#set-bkStat"); if(!el)return;
   const keys=bkKeys();
-  let bytes=0; keys.forEach(k=>{ try{ bytes+=((STORE||MEMFALLBACK).getItem(BK_PREFIX+k)||"").length; }catch(e){} });
+  const bytes=usedStorageBytes();
   const last=LS.get("bk.last",null);
   el.innerHTML=keys.length
     ? keys.length+" קבוצות נתונים · "+(bytes/1024).toFixed(0)+"KB"+
@@ -1928,10 +1970,9 @@ async function bkStat(){
     : "אין עדיין נתונים במכשיר.";
   paintQuotaMeter(bytes);
 }
-/* מד מקום. עד עכשיו האזהרה היחידה על אחסון הופיעה *אחרי* שכתיבה
-   כבר נכשלה (showStorageWarn) — כלומר אחרי שמדידה כבר לא נשמרה.
-   השורה הזאת מטרתה להקדים: להראות למורה איפה הוא עומד לפני הקיר,
-   כל פעם שהוא פותח הגדרות. */
+/* מד מקום, בתוך ההגדרות — לכל מי שכן פותח אותן. `checkStorageLevel`
+   (ליד `bkKeys`) היא הגרסה שרצה בלי לחכות לזה: אחרי כל כתיבה,
+   ומתריעה גם למי שלא. */
 async function paintQuotaMeter(bytes){
   const el=$("#set-quotaMeter"); if(!el)return;
   const lvl=DATA.storageLevel(bytes);

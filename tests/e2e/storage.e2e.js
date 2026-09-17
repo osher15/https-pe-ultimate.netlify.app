@@ -7,6 +7,16 @@ const {check,eq,ok}=require("./harness.js");
 const base={"ft.roster":{"ט3":[{id:"a",name:"דן אבירם",sex:"boys"}]},
   "ft.results":[],"ft.last":{grade:"ט",num:3,sort:"name"},"pf.guideSeen":true};
 
+const openSettings=async page=>{
+  await page.evaluate(()=>document.getElementById("btnSettings").click());
+  await page.waitForTimeout(500);
+};
+/* מפתח סרק שהאפליקציה לא קוראת בשום מקום — נמדד ע"י usedStorageBytes
+   (שסופרת כל מפתח תחת התחילית, לא רק שדות מוכרים) בלי לסכן אף מסך
+   שקורא ft.results/stu.list וכדומה כמערך אמיתי. */
+const filled=pct=>Object.assign({},base,
+  {"qa.filler":"x".repeat(Math.round(5*1024*1024*pct))});
+
 /* מחליף את localStorage.setItem בכזה שנכשל במכסה */
 async function breakStorage(page){
   await page.evaluate(()=>{
@@ -104,6 +114,71 @@ module.exports={title:"בטיחות אחסון",
     await page.waitForTimeout(150);
     eq(await page.evaluate(()=>document.getElementById("stWarn").hidden),true,
       "אותו כשל חוזר לא מקפיץ שוב את מה שהמורה כבר סגר");
-  })
+  }),
+
+  /* ============================================================
+     אזהרה מקדימה — לפני שכתיבה נכשלת, לא רק אחריה
+     ------------------------------------------------------------
+     עד עכשיו האזהרה על מקום נגמר הייתה מותנית בפתיחת ההגדרות
+     (`paintQuotaMeter`) — מורה שמודד כיתה שלמה בלי לעצור ולפתוח
+     הגדרות יכול לחצות את המכסה בלי לדעת. הבדיקות כאן ממלאות
+     אחסון אמיתי (מפתח סרק שהאפליקציה לא קוראת בשום מקום אחר,
+     ולכן לא מסכן אף מסך) לכל אחת משתי הרמות, ובודקות שהפס
+     `#stWarn` מגיב רק ב-90%+ — ולא ב-70%, כדי שהוא לא יהפוך
+     לרעש קבוע לכל מורה שמתקרב למכסה בלי להיות בסכנה אמיתית.
+     ============================================================ */
+
+  check("70% אחסון: הפס נשאר סגור — רק ההגדרות מודיעות",filled(0.75),async page=>{
+    await page.evaluate(()=>window.HM.LS.set("bt.age",15));
+    await page.waitForTimeout(150);
+    eq(await page.evaluate(()=>document.getElementById("stWarn").hidden),true,
+      "75% אינו קריטי — הפס בצבע סכנה שמור לרגע שבו זה כבר לא נכון");
+    await openSettings(page);
+    const txt=await page.evaluate(()=>document.getElementById("set-quotaMeter").textContent);
+    ok(/7\d%/.test(txt),"אבל ההגדרות כן מראות את האחוז: "+txt);
+  }),
+
+  check("91% אחסון: הפס נפתח כבר מהעלייה — בלי לפתוח הגדרות ובלי פעולה של המורה",
+    filled(0.91),async page=>{
+      /* checkStorageLevel רצה בתוך LS.set, וכבר בעלייה עצמה יש
+         כתיבות שגרתיות (הסבה, סנכרון תלמידים) — בדיוק הנקודה:
+         המורה לא צריך לעשות שום דבר כדי לקבל את האזהרה. */
+      const bar=await page.evaluate(()=>{
+        const el=document.getElementById("stWarn");
+        return {hidden:el.hidden,txt:el.textContent,save:!!document.getElementById("stWarnSave")};
+      });
+      eq(bar.hidden,false,"נפתח מעצמו — לא נגענו בהגדרות בכלל");
+      ok(bar.txt.indexOf("מלא")>=0,"מסביר מה קורה: "+bar.txt.trim());
+      ok(!/נכשל|לא נשמר/.test(bar.txt),
+        "בלי לטעון שמשהו כבר אבד — זו אזהרה מקדימה, לא דיווח כשל: "+bar.txt.trim());
+      ok(bar.save,"ומציע את אותו מסלול הצלה — ייצוא גיבוי מיידי");
+    }),
+
+  check("אזהרה מקדימה שנסגרה לא חוזרת מכתיבה חוזרת באותה רמה",filled(0.91),
+    async page=>{
+      await page.evaluate(()=>window.HM.LS.set("bt.age",15));
+      await page.waitForTimeout(150);
+      eq(await page.evaluate(()=>document.getElementById("stWarn").hidden),false);
+      await page.evaluate(()=>document.getElementById("stWarnX").click());
+      await page.evaluate(()=>window.HM.LS.set("bt.age",16));
+      await page.waitForTimeout(150);
+      eq(await page.evaluate(()=>document.getElementById("stWarn").hidden),true,
+        "אותה רמה קריטית לא מקפיצה שוב את מה שהמורה כבר סגר");
+    }),
+
+  check("כשל אמיתי עדיין מוצג גם אחרי שהאזהרה המקדימה נסגרה",filled(0.91),
+    async page=>{
+      await page.evaluate(()=>window.HM.LS.set("bt.age",15));
+      await page.waitForTimeout(150);
+      await page.evaluate(()=>document.getElementById("stWarnX").click());
+      await breakStorage(page);
+      await page.evaluate(()=>window.HM.LS.set("ft.results",[1]));
+      await page.waitForTimeout(150);
+      const bar=await page.evaluate(()=>({
+        hidden:document.getElementById("stWarn").hidden,
+        txt:document.getElementById("stWarn").textContent}));
+      eq(bar.hidden,false,"קוד שונה (כשל אמיתי, לא רמה) — לא נחסם ע״י הדיחוי הקודם");
+      ok(bar.txt.indexOf("מלא")>=0,bar.txt.trim());
+    })
 
 ]};
