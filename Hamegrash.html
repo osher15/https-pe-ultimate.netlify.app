@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="a500e320">
+<meta name="hm-build" content="ae9142af">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -581,6 +581,27 @@ a{color:var(--acc);text-decoration:none}a:hover{color:color-mix(in srgb,var(--ac
 .grp-item .ttl{font-weight:700;font-size:14px}
 .grp-item .sb{color:var(--muted);font-size:11.5px;margin-top:2px}
 .cls-comp{font-size:12px;color:var(--muted);margin:-6px 0 12px;line-height:1.6}
+
+/* ===== יחידות הוראה — התוכנית השנתית =====
+   שורה ליחידה, ובה מה שמורה שואל בפועל: מה מלמדים, למי, מתי,
+   וכמה מזה כבר קרה. פס ההתקדמות מוצג רק כשיש מכנה — יחידה בלי
+   מספר שיעורים מתוכנן מדווחת כמה התקיימו, בלי אחוז מומצא. */
+.yr-item{display:flex;align-items:center;gap:10px;background:var(--panel2);
+  border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;
+  border-inline-start:3px solid var(--line)}
+.yr-item.current{border-inline-start-color:var(--acc);background:var(--accDim)}
+.yr-item.past{opacity:.66}
+.yr-item .grow{min-width:0}
+.yr-item .ttl{font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.yr-item .sb{color:var(--muted);font-size:11.5px;margin-top:3px;line-height:1.55}
+.yr-item .lvl{font-size:10.5px;font-weight:700;border:1px solid var(--line);
+  border-radius:99px;padding:1px 7px;color:var(--muted);white-space:nowrap}
+.yr-item.current .lvl{border-color:var(--acc);color:var(--acc)}
+.yr-bar{height:5px;border-radius:99px;background:var(--inset);overflow:hidden;margin-top:6px}
+.yr-bar>i{display:block;height:100%;background:var(--acc);border-radius:99px}
+.yr-item .ov{color:var(--warn);font-size:11px;margin-top:3px}
+.yr-empty{color:var(--faint);font-size:12.5px;text-align:center;padding:14px 8px;
+  border:1px dashed var(--line);border-radius:12px}
 /* ===== טבלת מערכת השעות =====
    הטבלה שהמורה כבר מכיר מהמשו״ב: שעות מול ימים. במסך צר היא
    נגללת לצדדים ולא נדחסת לבלתי-קריאה — טבלה היא המקום היחיד
@@ -1644,6 +1665,7 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
   </div>
   <div class="hx-today" id="hx-today">
     <div class="top"><b data-i18n="home.today">השיעורים שלי היום</b>
+      <button class="btn sm ghost" id="hx-yearPlan" data-i18n="home.yearPlan">🎓 תוכנית שנתית</button>
       <button class="btn sm ghost" id="hx-schedEdit" data-i18n="home.schedEdit">🗓 מערכת שעות</button></div>
     <div id="hx-todayList"></div>
   </div>
@@ -3490,6 +3512,46 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
   <div id="sw-loose" style="margin-top:13px"></div>
   <select id="sw-day" hidden></select><select id="sw-hour" hidden></select>
   <input type="text" id="sw-time" value="09:00" hidden>
+</div></div>
+<div class="modal" id="yearModal"><div class="box" style="max-width:700px">
+  <h3>🎓 <span>תוכנית שנתית</span><button class="x" data-close="yearModal">✕</button></h3>
+  <div class="hint">יחידת הוראה היא מה שאתה מלמד לאורך כמה שבועות — «כדורעף — מסירות», «כושר — סבולת». היא שייכת ל<b>רמה</b> ולא לשכבה, ולכן אותה יחידה יכולה לחול על ז׳1 ועל ט׳3 יחד. השיעורים משתייכים אליה לפי התאריך שלהם, אז מספיק לתכנן פעם אחת — גם שיעורים שכבר התקיימו נכנסים פנימה.</div>
+  <div class="row" style="margin:12px 0 4px;align-items:flex-end">
+    <div class="field grow" style="min-width:140px"><label>שנת לימודים</label>
+      <select id="yr-year"></select></div>
+    <div class="field" style="width:132px"><label>הצג</label>
+      <select id="yr-filter"><option value="">כל הכיתות</option></select></div>
+  </div>
+  <div class="hint" id="yr-sum" style="margin-bottom:10px"></div>
+  <div id="yr-list"></div>
+  <div class="grp-form" id="yr-form">
+    <div class="top"><b id="yr-formTitle">יחידה חדשה</b>
+      <button class="btn sm ghost" id="yr-cancel" hidden>✕ בטל עריכה</button></div>
+    <div class="row">
+      <div class="field grow" style="min-width:160px"><label>שם היחידה</label>
+        <input type="text" id="yr-title" placeholder="כדורעף — מסירות"></div>
+      <div class="field" style="width:132px"><label>רמה (רשות)</label>
+        <input type="text" id="yr-level" list="yr-levels" placeholder="בסיס">
+        <datalist id="yr-levels"></datalist></div>
+    </div>
+    <div class="row" style="margin-top:9px">
+      <div class="field" style="width:150px"><label>מתאריך</label>
+        <input type="date" id="yr-from"></div>
+      <div class="field" style="width:150px"><label>עד תאריך</label>
+        <input type="date" id="yr-to"></div>
+      <div class="field" style="width:120px"><label>שיעורים מתוכננים</label>
+        <input type="number" id="yr-planned" min="0" max="200" step="1" placeholder="6"></div>
+    </div>
+    <div class="field" style="margin-top:9px"><label>מי לומד את היחידה <span class="hint" style="font-weight:400">(אפשר כמה שכבות יחד — לפי רמה)</span></label>
+      <div class="grp-pick" id="yr-cids"></div></div>
+    <div class="field" style="margin-top:9px"><label>מטרת היחידה (רשות)</label>
+      <input type="text" id="yr-goal" placeholder="התלמיד יבצע מסירה מדויקת מעל הרשת"></div>
+    <div class="row" style="margin-top:11px">
+      <button class="btn acc grow" id="yr-save">💾 שמור יחידה</button>
+    </div>
+    <div class="hint" id="yr-err" style="margin-top:8px;color:var(--stop)"></div>
+    <div class="hint" id="yr-warn" style="margin-top:6px;color:var(--warn)"></div>
+  </div>
 </div></div>
 <div class="modal" id="lsHistModal"><div class="box" style="max-width:640px">
   <h3>📖 <span>היסטוריית שיעורים</span><button class="x" data-close="lsHistModal">✕</button></h3>
@@ -5854,6 +5916,318 @@ function schedNext(list,iso,sessions,nowMin){
   return cur||act||up||null;
 }
 
+
+/* ============================================================
+   5.5 השכבה השנתית — שנת לימודים ויחידות הוראה
+   ------------------------------------------------------------
+   שרשרת הדומיין של המוצר היא
+       שנת לימודים → תוכנית שנתית → יחידה → מערך שיעור
+          → שיעור שהתקיים → תלמידים → מדידות → תוצאות → התקדמות
+   וארבעת האיברים האחרונים כבר היו כאן. כאן נכנסים שלושת העליונים.
+
+   שלוש החלטות שקבעו את המודל, ובלעדיהן הוא לא מובן:
+
+   **1. יחידה אינה שייכת לשכבה — היא שייכת לרמה.** מורה לחינוך
+   גופני לא מלמד «כדורעף לשכבת ז׳»; הוא מלמד «כדורעף — מתחילים»,
+   וזה יכול לחול על ז׳1 ועל ט׳3 באותה שנה, כי הרמה נקבעת ביכולת
+   ולא בגיל. לכן היחידה נושאת `cids` — רשימת ההקשרים שעליהם היא
+   חלה (כיתות, קבוצות, או תערובת) — ו-`level` תיאורי. יחידה אחת,
+   כמה שכבות.
+
+   **2. השיוך אוטומטי לפי תאריך, ולא נשמר על השיעור.** היחידה
+   נושאת טווח תאריכים, ושיעור שייך ליחידה שהטווח שלה מכיל את
+   התאריך שלו ושרשימת ההקשרים שלה מכילה את הכיתה שלו. המשמעות:
+   המורה מתכנן פעם אחת, וכל ההיסטוריה — גם שיעורים שהתקיימו לפני
+   שהיחידה נכתבה — מתגלגלת פנימה בלי הזנה חוזרת. המחיר ההוגן:
+   שינוי טווח ביחידה משנה רטרואקטיבית מה נספר בה. זה נכון: הטווח
+   הוא ההגדרה, לא תווית שהודבקה פעם.
+
+   **3. חפיפה מותרת, ומדווחת.** שתי יחידות לאותה כיתה באותו שבוע
+   הן מציאות (יחידת כדורסל בימי ב׳ ויחידת כושר בימי ה׳), ולכן הן
+   לא נדחות. אבל «לאיזו יחידה שייך השיעור» חייבת להיות שאלה עם
+   תשובה אחת, ולכן `unitOfSession` מכריעה דטרמיניסטית — המאוחרת
+   שבהן לפי תאריך הפתיחה — ו-`unitsOfSession` מחזירה את כולן כדי
+   שהמסך יוכל לומר למורה שיש חפיפה במקום להסתיר אותה.
+
+   הכול טהור: מקבל רשימה, מחזיר רשימה חדשה. אין אחסון, אין DOM.
+   ============================================================ */
+var UNIT_MAX=200;              /* גבול שפוי: ~25 יחידות × 8 שנים */
+var YEAR_MAX=20;
+var YEAR_START_MONTH=8;        /* ספטמבר (0-11) — תחילת שנת הלימודים */
+
+function newYearId(){ return uid("yr"); }
+function newUnitId(){ return uid("un"); }
+
+/* תאריך ISO → שנה אזרחית של **תחילת** שנת הלימודים. ספטמבר 2025
+   ויוני 2026 מחזירים שניהם 2025, כי הם אותה שנת לימודים. */
+function schoolYearStart(iso){
+  var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso||""));
+  if(!m)return null;
+  var y=+m[1], mo=+m[2]-1;
+  return mo>=YEAR_START_MONTH?y:y-1;
+}
+/* «2025/26» — התווית שמורה מזהה. לא תאריך עברי: האפליקציה
+   עובדת בלוח אזרחי בכל מקום אחר, ושני לוחות באותו מסך הם בלבול. */
+function schoolYearLabel(startY){
+  if(!isNum(startY))return "";
+  return String(startY)+"/"+String((startY+1)%100).padStart(2,"0");
+}
+/* טווח ברירת המחדל של שנת לימודים: 1 בספטמבר עד 31 באוגוסט. */
+function schoolYearRange(startY){
+  if(!isNum(startY))return null;
+  return {start:String(startY)+"-09-01",end:String(startY+1)+"-08-31"};
+}
+function isISO(v){ return /^\d{4}-\d{2}-\d{2}$/.test(String(v||"")); }
+
+function validYear(y){
+  return !!(y&&typeof y==="object"&&y.id&&isISO(y.start)&&isISO(y.end)&&y.start<=y.end);
+}
+function listYears(list){
+  return asList(list).filter(validYear).slice()
+    .sort(function(a,b){ return String(b.start).localeCompare(String(a.start)); });
+}
+function yearById(list,id){
+  if(!id)return null;
+  return listYears(list).filter(function(y){ return y.id===id; })[0]||null;
+}
+/* השנה שמכילה תאריך. אם אין אחת מוגדרת — null, ולא ניחוש:
+   מסך שממציא שנה שהמורה לא יצר משקר לו על מה שהוא רואה. */
+function yearOfDate(list,iso){
+  if(!isISO(iso))return null;
+  return listYears(list).filter(function(y){
+    return y.start<=iso&&iso<=y.end;
+  })[0]||null;
+}
+/* יצירת שנה. בלי טווח מפורש — נגזר מ-startY, ובלי startY —
+   מהתאריך שנמסר (או מהיום). שנה שטווחה חופף לשנה קיימת נדחית:
+   «באיזו שנה אנחנו» חייבת להיות שאלה עם תשובה אחת. */
+function makeYear(list,o){
+  o=o||{};
+  var all=asList(list);
+  /* «היום» לעולם אינו נקרא כאן. hm-data.js טהורה וסינכרונית ורצה
+     גם ב-Node — הקורא מוסר תאריך, והשכבה הזאת לא ממציאה אחד. */
+  var startY=isNum(o.startY)?o.startY:schoolYearStart(o.on);
+  if(!isNum(startY))return {ok:false,outcome:"bad-year",list:all,year:null};
+  var rng=schoolYearRange(startY);
+  var start=isISO(o.start)?o.start:rng.start;
+  var end=isISO(o.end)?o.end:rng.end;
+  if(start>end)return {ok:false,outcome:"bad-range",list:all,year:null};
+  var clash=listYears(all).filter(function(y){
+    return y.start<=end&&start<=y.end;
+  })[0];
+  if(clash)return {ok:true,outcome:"exists",list:all,year:clash};
+  if(listYears(all).length>=YEAR_MAX)
+    return {ok:false,outcome:"full",list:all,year:null};
+  var year={
+    id:o.id||newYearId(),
+    startY:startY,
+    label:String(o.label||"").trim()||schoolYearLabel(startY),
+    start:start,
+    end:end
+  };
+  return {ok:true,outcome:"created",year:year,list:all.concat([year])};
+}
+function removeYear(list,id){
+  var all=asList(list);
+  var out=all.filter(function(y){ return !(y&&y.id===id); });
+  return {ok:out.length!==all.length,list:out};
+}
+
+/* ---------- יחידת הוראה ---------- */
+
+/* הרמה היא תווית חופשית, והרשימה כאן היא הצעה בלבד: מורה שכותב
+   «מתקדמים — נבחרת» לא נחסם. אנומרציה סגורה כאן הייתה מחייבת
+   אותו לתרגם את איך שהוא חושב לאיך שהאפליקציה חושבת. */
+var UNIT_LEVELS=["בסיס","מתקדם","מצוינות"];
+
+function validUnit(u){
+  return !!(u&&typeof u==="object"&&u.id&&String(u.title||"").trim()&&
+    isISO(u.from)&&isISO(u.to)&&u.from<=u.to&&Array.isArray(u.cids));
+}
+/* הרשימה תמיד ממוינת לפי תאריך התחלה, ואז לפי כותרת — כדי ששני
+   מסכים לא ימיינו אותה דבר בשני סדרים. */
+function listUnits(list,opts){
+  opts=opts||{};
+  var all=asList(list).filter(validUnit);
+  if(opts.yearId)all=all.filter(function(u){ return u.yearId===opts.yearId; });
+  if(opts.cid)all=all.filter(function(u){ return u.cids.indexOf(opts.cid)>=0; });
+  if(opts.level)all=all.filter(function(u){ return u.level===opts.level; });
+  return all.slice().sort(function(a,b){
+    return String(a.from).localeCompare(String(b.from))||
+           String(a.title||"").localeCompare(String(b.title||""),"he");
+  });
+}
+/* מסננת דרך validUnit כמו listUnits, ולא רק לפי id: רשומה פגומה
+   שנמצאת לפי מזהה הייתה מגיעה ל-unitProgress ומחזירה התקדמות עם
+   טווח undefined — תשובה שנראית תקינה ואינה. */
+function unitById(list,id){
+  if(!id)return null;
+  return asList(list).filter(function(u){
+    return validUnit(u)&&u.id===id;
+  })[0]||null;
+}
+/* היחידות שחופפות ליחידה נתונה — אותה כיתה ותאריכים נחתכים.
+   מוחזר תמיד, גם כשהשמירה מצליחה: המסך מחליט אם להציג. */
+function unitOverlaps(list,u,skipId){
+  if(!u||!isISO(u.from)||!isISO(u.to))return [];
+  var cids=asList(u.cids);
+  return listUnits(list).filter(function(x){
+    if(skipId&&x.id===skipId)return false;
+    if(u.yearId&&x.yearId&&x.yearId!==u.yearId)return false;
+    if(!(x.from<=u.to&&u.from<=x.to))return false;
+    return x.cids.some(function(c){ return cids.indexOf(c)>=0; });
+  });
+}
+function unitFields(o,prev){
+  prev=prev||{};
+  var cids=asList(o.cids).map(String).filter(Boolean);
+  /* כפילות ברשימת ההקשרים אינה שגיאה — היא סתם רעש מהממשק */
+  cids=cids.filter(function(c,i){ return cids.indexOf(c)===i; });
+  return {
+    yearId:o.yearId==null?(prev.yearId||null):(o.yearId||null),
+    title:String(o.title==null?prev.title:o.title||"").trim(),
+    level:String(o.level==null?(prev.level||""):o.level||"").trim(),
+    cids:o.cids==null?asList(prev.cids).slice():cids,
+    from:isISO(o.from)?o.from:prev.from,
+    to:isISO(o.to)?o.to:prev.to,
+    /* כמה שיעורים היחידה מתוכננת להימשך. 0 = לא נקבע, ואז
+       ההתקדמות מדווחת «כמה התקיימו» בלי מכנה מומצא. */
+    planned:isNum(+o.planned)&&+o.planned>=0?Math.round(+o.planned):(prev.planned||0),
+    goal:String(o.goal==null?(prev.goal||""):o.goal||"").trim()
+  };
+}
+function makeUnit(list,o){
+  o=o||{};
+  var all=asList(list);
+  var f=unitFields(o,{});
+  if(!f.title)return {ok:false,outcome:"no-title",list:all,unit:null};
+  if(!isISO(f.from)||!isISO(f.to))return {ok:false,outcome:"bad-range",list:all,unit:null};
+  if(f.from>f.to)return {ok:false,outcome:"bad-range",list:all,unit:null};
+  if(!f.cids.length)return {ok:false,outcome:"no-class",list:all,unit:null};
+  if(asList(all).filter(validUnit).length>=UNIT_MAX)
+    return {ok:false,outcome:"full",list:all,unit:null};
+  var unit={id:o.id||newUnitId(),yearId:f.yearId,title:f.title,level:f.level,
+    cids:f.cids,from:f.from,to:f.to,planned:f.planned,goal:f.goal};
+  return {ok:true,outcome:"created",unit:unit,list:all.concat([unit]),
+    overlap:unitOverlaps(all,unit,unit.id)};
+}
+function updateUnit(list,id,o){
+  o=o||{};
+  var all=asList(list);
+  var prev=unitById(all,id);
+  if(!prev)return {ok:false,outcome:"not-found",list:all,unit:null};
+  var f=unitFields(o,prev);
+  if(!f.title)return {ok:false,outcome:"no-title",list:all,unit:null};
+  if(!isISO(f.from)||!isISO(f.to)||f.from>f.to)
+    return {ok:false,outcome:"bad-range",list:all,unit:null};
+  if(!f.cids.length)return {ok:false,outcome:"no-class",list:all,unit:null};
+  var unit={id:prev.id,yearId:f.yearId,title:f.title,level:f.level,
+    cids:f.cids,from:f.from,to:f.to,planned:f.planned,goal:f.goal};
+  var out=all.map(function(x){ return (x&&x.id===id)?unit:x; });
+  return {ok:true,outcome:"updated",unit:unit,list:out,
+    overlap:unitOverlaps(out,unit,unit.id)};
+}
+function removeUnit(list,id){
+  var all=asList(list);
+  var out=all.filter(function(u){ return !(u&&u.id===id); });
+  return {ok:out.length!==all.length,list:out};
+}
+
+/* ---------- השיוך: שיעור → יחידה ---------- */
+
+/* כל היחידות שהשיעור נופל לתוכן. יותר מאחת = חפיפה אמיתית. */
+function unitsOfSession(units,ses){
+  if(!ses||!isISO(ses.date)||!ses.cid)return [];
+  return listUnits(units).filter(function(u){
+    return u.from<=ses.date&&ses.date<=u.to&&u.cids.indexOf(ses.cid)>=0;
+  });
+}
+/* ההכרעה. המאוחרת שבחופפות לפי תאריך התחלה — «מה שהתחיל אחרון
+   הוא מה שאני מלמד עכשיו» — ובתיקו, לפי הכותרת, כדי שהתשובה לא
+   תלויה בסדר שבו הרשימה נשמרה. */
+function unitOfSession(units,ses){
+  var m=unitsOfSession(units,ses);
+  if(!m.length)return null;
+  return m.slice().sort(function(a,b){
+    return String(b.from).localeCompare(String(a.from))||
+           String(a.title||"").localeCompare(String(b.title||""),"he");
+  })[0];
+}
+/* השיעורים של יחידה. מסונן גם לפי סטטוס אם ביקשו. */
+function unitSessions(units,sessions,unitId,opts){
+  opts=opts||{};
+  var u=unitById(units,unitId);
+  if(!u)return [];
+  var out=asList(sessions).filter(function(s){
+    if(!s||!isISO(s.date)||!s.cid)return false;
+    if(opts.cid&&s.cid!==opts.cid)return false;
+    if(opts.status&&s.status!==opts.status)return false;
+    return u.from<=s.date&&s.date<=u.to&&u.cids.indexOf(s.cid)>=0;
+  });
+  /* השיעור שייך ליחידה רק אם היא **ההכרעה** שלו — אחרת שיעור
+     אחד היה נספר בשתי יחידות חופפות, וסכום ההתקדמות היה משקר. */
+  out=out.filter(function(s){
+    var win=unitOfSession(units,s);
+    return win&&win.id===unitId;
+  });
+  return out.sort(function(a,b){ return String(a.date).localeCompare(String(b.date)); });
+}
+/* התקדמות ביחידה: כמה התקיימו מול כמה תוכננו, כמה מדידות נלקחו
+   וכמה תלמידים נגעה. `pct` הוא null כשאין מכנה — ולא 0, כי «לא
+   תוכנן» ו«לא התקיים כלום» הם שתי אמירות שונות. */
+function unitProgress(units,sessions,rows,unitId){
+  var u=unitById(units,unitId);
+  if(!u)return null;
+  var ss=unitSessions(units,sessions,unitId);
+  var done=ss.filter(function(s){ return s.status===SESSION_DONE; });
+  var ids={}, sids={}, meas=0;
+  ss.forEach(function(s){ ids[s.id]=1; });
+  asList(rows).forEach(function(r){
+    if(!r||!r.sessionId||!ids[r.sessionId])return;
+    meas++;
+    if(r.sid)sids[r.sid]=1;
+  });
+  var planned=u.planned>0?u.planned:0;
+  return {
+    unitId:u.id, title:u.title, level:u.level, from:u.from, to:u.to,
+    cids:u.cids.slice(),
+    held:ss.length, done:done.length, planned:planned,
+    pct:planned?clamp100(Math.round(done.length/planned*100)):null,
+    measurements:meas, students:Object.keys(sids).length,
+    lastDate:ss.length?ss[ss.length-1].date:null
+  };
+}
+/* מצב היחידה מול תאריך: לפני, במהלך, או אחרי. «עכשיו» כאן הוא
+   תאריך ולא שעון — יחידה נמשכת שבועות, לא דקות. */
+function unitPhase(u,iso){
+  if(!u||!isISO(iso))return "";
+  if(iso<u.from)return "upcoming";
+  if(iso>u.to)return "past";
+  return "current";
+}
+/* התוכנית השנתית: כל יחידות השנה, לפי הסדר, עם ההתקדמות של כל
+   אחת ועם מצבה מול היום. זה ה«גלגול כלפי מעלה» ש-§11 הבטיח —
+   בלי להעביר נתון אחד ממקומו. */
+function annualPlan(units,sessions,rows,opts){
+  opts=opts||{};
+  /* בלי תאריך אין «מצב» — היחידות עדיין מוחזרות, phase נשאר ריק.
+     עדיף על להמציא היום ולסמן יחידה כפעילה כשאיש לא שאל. */
+  var iso=isISO(opts.on)?opts.on:null;
+  var list=listUnits(units,{yearId:opts.yearId,cid:opts.cid,level:opts.level});
+  return list.map(function(u){
+    var p=unitProgress(units,sessions,rows,u.id);
+    p.phase=unitPhase(u,iso);
+    p.overlap=unitOverlaps(units,u,u.id).map(function(x){ return x.id; });
+    return p;
+  });
+}
+/* היחידה הפעילה לכיתה היום — מה שדף הבית ופס השיעור מציגים.
+   נשען על אותה הכרעה בדיוק של unitOfSession, ולא על כלל שני. */
+function currentUnit(units,cid,iso){
+  if(!isISO(iso))return null;
+  return unitOfSession(units,{cid:cid,date:iso});
+}
+
 /* ============================================================
    6. גיבוי
    ------------------------------------------------------------
@@ -6019,6 +6393,19 @@ return {
   timeMin:timeMin, fmtTime:fmtTime, validSlot:validSlot, dayOfISO:dayOfISO,
   schedList:schedList, schedAdd:schedAdd, schedRemove:schedRemove,
   schedToday:schedToday, schedNext:schedNext,
+  UNIT_MAX:UNIT_MAX, YEAR_MAX:YEAR_MAX, UNIT_LEVELS:UNIT_LEVELS,
+  YEAR_START_MONTH:YEAR_START_MONTH,
+  newYearId:newYearId, newUnitId:newUnitId,
+  schoolYearStart:schoolYearStart, schoolYearLabel:schoolYearLabel,
+  schoolYearRange:schoolYearRange,
+  validYear:validYear, listYears:listYears, yearById:yearById,
+  yearOfDate:yearOfDate, makeYear:makeYear, removeYear:removeYear,
+  validUnit:validUnit, listUnits:listUnits, unitById:unitById,
+  unitOverlaps:unitOverlaps, makeUnit:makeUnit, updateUnit:updateUnit,
+  removeUnit:removeUnit,
+  unitsOfSession:unitsOfSession, unitOfSession:unitOfSession,
+  unitSessions:unitSessions, unitProgress:unitProgress, unitPhase:unitPhase,
+  annualPlan:annualPlan, currentUnit:currentUnit,
   SLOT_KINDS:SLOT_KINDS, KIND_PE:KIND_PE, kindLabel:kindLabel,
   validKind:validKind, startable:startable, kindOf:kindOf,
   schedWeek:schedWeek, weekCell:weekCell,
@@ -6179,6 +6566,7 @@ en:{
   "home.statRuns":"races timed", "home.statBeep":"best beep",
   "home.statRecs":"records approved", "home.statStu":"students tracked",
   "home.today":"My lessons today", "home.schedEdit":"🗓 Timetable",
+  "home.yearPlan":"🎓 Year plan",
   "home.lastLesson":"Last lesson", "home.allLessons":"📖 All lessons",
   "home.ft":"Fitness tests",
   "home.ftSub":"31 tests · stopwatch and counter · class roster · fitness index",
@@ -6404,6 +6792,7 @@ ar:{
   "home.statRuns":"سباقات مقيسة", "home.statBeep":"أفضل بيب",
   "home.statRecs":"أرقام معتمدة", "home.statStu":"طلاب قيد المتابعة",
   "home.today":"حصصي اليوم", "home.schedEdit":"🗓 الجدول",
+  "home.yearPlan":"🎓 الخطة السنوية",
   "home.lastLesson":"الحصة الأخيرة", "home.allLessons":"📖 كل الحصص",
   "home.ft":"اختبارات اللياقة",
   "home.ftSub":"31 اختبارًا · ساعة إيقاف وعدّاد · قائمة الصف · مؤشر اللياقة",
@@ -6632,6 +7021,7 @@ ru:{
   "home.statRuns":"забегов замерено", "home.statBeep":"лучший бип",
   "home.statRecs":"рекордов подтверждено", "home.statStu":"учеников в наблюдении",
   "home.today":"Мои уроки сегодня", "home.schedEdit":"🗓 Расписание",
+  "home.yearPlan":"🎓 Годовой план",
   "home.lastLesson":"Последний урок", "home.allLessons":"📖 Все уроки",
   "home.ft":"Тесты физподготовки",
   "home.ftSub":"31 тестов · секундомер и счётчик · список класса · индекс формы",
@@ -7951,6 +8341,298 @@ function wireGroups(){
   const s=$("#grp-save"); if(s)s.addEventListener("click",grpSave);
   const c=$("#grp-cancel"); if(c)c.addEventListener("click",()=>{ grpReset(); });
   const m=$("#sw-grpManage"); if(m)m.addEventListener("click",openGroups);
+}
+
+/* ============================================================
+   התוכנית השנתית — מתאם האחסון והמסך
+   ------------------------------------------------------------
+   הלוגיקה ב-hm-data.js וטהורה. כאן הקריאה, הכתיבה והמסך.
+
+   שני דברים שהמסך הזה מכוון לא לעשות:
+
+   הוא **לא** שואל את המורה לאיזו יחידה שייך כל שיעור. היחידה
+   נושאת טווח תאריכים, והשיוך נגזר — אחרת כל שיעור היה דורש עוד
+   בחירה, וזה בדיוק החיכוך שגורם לוותר על תכנון שנתי.
+
+   הוא **לא** חוסם חפיפה. שתי יחידות במקביל הן מציאות אצל מורה
+   שמלמד כדורסל בימי ב׳ וכושר בימי ה׳. המסך אומר שיש חפיפה ומי
+   מכריע — ולא מתקן את המורה.
+   ============================================================ */
+const YEARS_KEY="yr.years", UNITS_KEY="yr.units";
+function yearsAll(){ const v=LS.get(YEARS_KEY,[]); return Array.isArray(v)?v:[]; }
+function unitsAll(){ const v=LS.get(UNITS_KEY,[]); return Array.isArray(v)?v:[]; }
+/* נקודת הכתיבה היחידה של כל אחת מהרשימות — ולכן גם מקום ההכרזה,
+   בדיוק כמו schedSave. */
+function yearsSave(list){
+  const ok=LS.set(YEARS_KEY,list);
+  if(!ok){ toast("⚠ שנת הלימודים לא נשמרה במכשיר — ראה את ההודעה למעלה"); return ok; }
+  emit("units-change",{kind:"year"});
+  return ok;
+}
+function unitsSave(list){
+  const ok=LS.set(UNITS_KEY,list);
+  if(!ok){ toast("⚠ היחידה לא נשמרה במכשיר — ראה את ההודעה למעלה"); return ok; }
+  emit("units-change",{kind:"unit"});
+  return ok;
+}
+const YEAR={
+  all:yearsAll,
+  list:()=>DATA.listYears(yearsAll()),
+  byId:id=>DATA.yearById(yearsAll(),id),
+  of:iso=>DATA.yearOfDate(yearsAll(),iso||isoToday()),
+  /* פותח את שנת הלימודים של תאריך, או מחזיר את הקיימת. נקרא גם
+     מהמסך וגם בעלייה — מורה לא אמור «לפתוח שנה» לפני שהוא מתכנן. */
+  ensure(iso){
+    const on=iso||isoToday();
+    const cur=DATA.yearOfDate(yearsAll(),on);
+    if(cur)return cur;
+    const r=DATA.makeYear(yearsAll(),{on});
+    if(!r.ok)return null;
+    if(r.outcome==="created"&&!yearsSave(r.list))return null;
+    return r.year;
+  },
+  remove(id){ const r=DATA.removeYear(yearsAll(),id); if(r.ok)yearsSave(r.list); return r; }
+};
+/* שנת היחידה נגזרת מתאריך ההתחלה שלה — כאן, ולא במסך. יחידה
+   ששנתה נקבעת לפי הבורר שהמורה הסתכל עליו הייתה נשמרת תחת שנה
+   שאינה מכילה את התאריכים שלה, ואז נעלמת מכל תצוגה. מכיוון שזה
+   אינווריאנט של הנתון ולא של הטופס, הוא יושב במתאם: המסך, ה-API
+   הציבורי וכל מודול עתידי מקבלים את אותו כלל. */
+function unitYearId(o,prev){
+  if(o&&o.yearId)return o.yearId;
+  const from=(o&&o.from)||(prev&&prev.from)||"";
+  const y=from?YEAR.ensure(from):null;
+  return (y&&y.id)||(prev&&prev.yearId)||null;
+}
+const UNITS={
+  all:unitsAll,
+  list:opts=>DATA.listUnits(unitsAll(),opts),
+  byId:id=>DATA.unitById(unitsAll(),id),
+  add(o){
+    o=Object.assign({},o||{});
+    o.yearId=unitYearId(o,null);
+    const r=DATA.makeUnit(unitsAll(),o);
+    if(r.ok&&!unitsSave(r.list))return {ok:false,outcome:"not-saved",unit:null,overlap:[]};
+    return r;
+  },
+  update(id,o){
+    o=Object.assign({},o||{});
+    o.yearId=unitYearId(o,DATA.unitById(unitsAll(),id));
+    const r=DATA.updateUnit(unitsAll(),id,o);
+    if(r.ok&&!unitsSave(r.list))return {ok:false,outcome:"not-saved",unit:null,overlap:[]};
+    return r;
+  },
+  remove(id){ const r=DATA.removeUnit(unitsAll(),id); if(r.ok)unitsSave(r.list); return r; },
+  /* היחידה של שיעור, והיחידה של כיתה היום — שתיהן דרך אותה
+     הכרעה ב-hm-data.js, ולא דרך כלל שני שנכתב כאן. */
+  ofSession:s=>DATA.unitOfSession(unitsAll(),s),
+  current:(cid,iso)=>DATA.currentUnit(unitsAll(),cid,iso||isoToday()),
+  progress:id=>DATA.unitProgress(unitsAll(),sesAll(),LS.get("ft.results",[]),id),
+  plan:opts=>DATA.annualPlan(unitsAll(),sesAll(),LS.get("ft.results",[]),
+    Object.assign({on:isoToday()},opts||{}))
+};
+
+/* מצב עריכה. null = טופס של יחידה חדשה. */
+let unitEdit=null;
+/* הכיתות והקבוצות שאפשר לשייך אליהן יחידה — אותו רישום בדיוק
+   שהקבוצות ומערכת השעות קוראות, כדי שלא יהיה מקור שני לשמות. */
+function unitPickList(){
+  const reg=DATA.classes(REGSTORE);
+  return Object.keys(reg).filter(k=>reg[k]).sort((a,b)=>
+    String(reg[a].name||"").localeCompare(String(reg[b].name||""),"he"));
+}
+function unitCidName(cid){
+  try{ const c=DATA.classOf(REGSTORE,cid); if(c&&c.name)return c.name; }catch(e){}
+  return cid||"";
+}
+/* «ז׳1 · ט׳3» — מי לומד את היחידה, בשמות הנוכחיים מהרישום */
+function unitWho(u){
+  const n=(u.cids||[]).map(unitCidName).filter(Boolean);
+  if(!n.length)return "בלי כיתה";
+  if(n.length<=3)return n.join(" · ");
+  return n.slice(0,3).join(" · ")+" +"+(n.length-3);
+}
+function fmtRange(from,to){
+  const d=s=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s||"")); 
+    return m?(+m[3])+"."+(+m[2]):""; };
+  return d(from)+"–"+d(to);
+}
+function yrYearId(){ const s=$("#yr-year"); return (s&&s.value)||""; }
+
+function paintYearSelect(){
+  const sel=$("#yr-year"); if(!sel)return;
+  /* שנת הלימודים של היום נפתחת מעצמה — מורה לא אמור ליצור שנה
+     לפני שהוא כותב את היחידה הראשונה שלו. */
+  YEAR.ensure();
+  const list=YEAR.list(), keep=sel.value;
+  sel.innerHTML=list.map(y=>'<option value="'+esc(y.id)+'">'+esc(y.label)+'</option>').join("");
+  const cur=YEAR.of();
+  sel.value=(keep&&list.some(y=>y.id===keep))?keep:((cur&&cur.id)||(list[0]&&list[0].id)||"");
+}
+function paintYearFilter(){
+  const sel=$("#yr-filter"); if(!sel)return;
+  const keep=sel.value;
+  sel.innerHTML='<option value="">כל הכיתות</option>'+
+    unitPickList().map(c=>'<option value="'+esc(c)+'">'+esc(unitCidName(c))+'</option>').join("");
+  sel.value=keep||"";
+}
+function paintUnitPick(sel){
+  const box=$("#yr-cids"); if(!box)return;
+  const on=sel||{};
+  const list=unitPickList();
+  box.innerHTML=list.length
+    ? list.map(c=>'<label><input type="checkbox" data-uc="'+esc(c)+'"'+
+        (on[c]?" checked":"")+'><span>'+esc(unitCidName(c))+'</span></label>').join("")
+    : '<div class="empty">אין עדיין כיתות רשומות. הן נרשמות כשמזינים מערכת שעות או רשימת כיתה.</div>';
+  const dl=$("#yr-levels");
+  if(dl)dl.innerHTML=DATA.UNIT_LEVELS.map(l=>'<option value="'+esc(l)+'">').join("");
+}
+/* טופס נקי, או טעון ביחידה קיימת */
+function unitReset(){
+  unitEdit=null;
+  const t=$("#yr-formTitle"); if(t)t.textContent="יחידה חדשה";
+  const c=$("#yr-cancel"); if(c)c.hidden=true;
+  ["yr-title","yr-level","yr-goal"].forEach(id=>{ const e=$("#"+id); if(e)e.value=""; });
+  const p=$("#yr-planned"); if(p)p.value="";
+  /* ברירת המחדל לתאריכים: מהיום לשישה שבועות — האורך הטיפוסי של
+     יחידה. כשמסתכלים על שנה שאינה הנוכחית, מתחילים מתחילתה, כדי
+     שהיחידה החדשה תיפול בשנה שעל המסך ולא תקפוץ ממנה. */
+  const f=$("#yr-from"), to=$("#yr-to");
+  const y=YEAR.byId(yrYearId());
+  const today=isoToday();
+  const start=(y&&(today<y.start||today>y.end))?y.start:today;
+  const plus=iso=>{ const d=new Date(iso+"T00:00:00Z");
+    d.setUTCDate(d.getUTCDate()+42); return d.toISOString().slice(0,10); };
+  let end=plus(start);
+  if(y&&end>y.end)end=y.end;
+  if(f)f.value=start;
+  if(to)to.value=end;
+  const s=$("#yr-save"); if(s)s.textContent="💾 שמור יחידה";
+  ["yr-err","yr-warn"].forEach(id=>{ const e=$("#"+id); if(e)e.textContent=""; });
+  paintUnitPick({});
+}
+function unitLoad(id){
+  const u=UNITS.byId(id); if(!u)return;
+  unitEdit=id;
+  const t=$("#yr-formTitle"); if(t)t.textContent="עריכת «"+u.title+"»";
+  const c=$("#yr-cancel"); if(c)c.hidden=false;
+  const set=(k,v)=>{ const e=$("#"+k); if(e)e.value=v; };
+  set("yr-title",u.title); set("yr-level",u.level||""); set("yr-goal",u.goal||"");
+  set("yr-from",u.from); set("yr-to",u.to);
+  set("yr-planned",u.planned?String(u.planned):"");
+  const s=$("#yr-save"); if(s)s.textContent="💾 עדכן יחידה";
+  ["yr-err","yr-warn"].forEach(k=>{ const e=$("#"+k); if(e)e.textContent=""; });
+  const on={}; (u.cids||[]).forEach(x=>{ on[x]=1; });
+  paintUnitPick(on);
+  const box=$("#yr-form"); if(box&&box.scrollIntoView)
+    try{ box.scrollIntoView({behavior:"smooth",block:"nearest"}); }catch(e){}
+}
+const UNIT_ERR={
+  "no-title":"תן ליחידה שם",
+  "no-class":"בחר לפחות כיתה אחת שלומדת את היחידה",
+  "bad-range":"טווח התאריכים לא תקין — «מ» חייב להיות לפני «עד»",
+  "full":"יש כבר יותר מדי יחידות",
+  "not-found":"היחידה לא נמצאה",
+  "not-saved":"לא נשמר במכשיר"
+};
+function unitSave(){
+  /* בלי yearId: המתאם גוזר אותו מתאריך ההתחלה (unitYearId) */
+  const o={
+    title:$("#yr-title").value,
+    level:$("#yr-level").value,
+    from:$("#yr-from").value,
+    to:$("#yr-to").value,
+    planned:$("#yr-planned").value||0,
+    goal:$("#yr-goal").value,
+    cids:$$("#yr-cids [data-uc]").filter(i=>i.checked).map(i=>i.dataset.uc)
+  };
+  const r=unitEdit?UNITS.update(unitEdit,o):UNITS.add(o);
+  if(!r.ok){ $("#yr-err").textContent=UNIT_ERR[r.outcome]||"לא נשמר"; return; }
+  $("#yr-err").textContent="";
+  toast(unitEdit?"✓ היחידה עודכנה":"✓ היחידה נשמרה");
+  /* עוקבים אחרי היחידה לשנה שלה — אחרת היא נשמרה ונעלמה מהמסך */
+  const sel=$("#yr-year");
+  if(sel&&r.unit&&r.unit.yearId&&sel.value!==r.unit.yearId){
+    paintYearSelect();
+    sel.value=r.unit.yearId;
+  }
+  /* הרשימה נצבעת דרך hm:units-change — unitsSave הכריז עליו */
+  unitReset();
+  renderUnitList();
+  /* החפיפה מדווחת אחרי השמירה ולא במקומה — היא לא שגיאה */
+  if(r.overlap&&r.overlap.length){
+    const w=$("#yr-warn");
+    if(w)w.textContent="⚠ חופפת ל«"+r.overlap.map(x=>x.title).join("», «")+
+      "». שיעור בתאריך חופף יישויך ליחידה שהתחילה מאוחר יותר.";
+  }
+}
+function renderUnitList(){
+  const box=$("#yr-list"); if(!box)return;
+  const yearId=yrYearId(), cid=($("#yr-filter")&&$("#yr-filter").value)||"";
+  const plan=UNITS.plan({yearId:yearId||undefined,cid:cid||undefined});
+  const sum=$("#yr-sum");
+  if(sum){
+    const held=plan.reduce((n,p)=>n+p.done,0);
+    const n=plan.length===1?"יחידה אחת":plan.length+" יחידות";
+    const h=held===1?"שיעור אחד התקיים":held+" שיעורים התקיימו";
+    sum.textContent=plan.length
+      ? n+" · "+h+(cid?" · מסונן ל"+unitCidName(cid):"")
+      : "";
+  }
+  if(!plan.length){
+    box.innerHTML='<div class="yr-empty">'+(cid
+      ? "אין יחידות לכיתה הזאת בשנה שנבחרה."
+      : "עוד אין יחידות בשנה הזאת. יחידה ראשונה — למטה.")+'</div>';
+    return;
+  }
+  box.innerHTML=plan.map(p=>{
+    const u=UNITS.byId(p.unitId)||{};
+    const bar=p.pct==null?"":'<div class="yr-bar"><i style="width:'+p.pct+'%"></i></div>';
+    const cnt=p.planned
+      ? p.done+" מתוך "+p.planned+" שיעורים ("+p.pct+"%)"
+      : (p.done===1?"שיעור אחד התקיים":p.done+" שיעורים התקיימו");
+    const meas=p.measurements?" · "+p.measurements+" מדידות · "+p.students+" תלמידים":"";
+    return '<div class="yr-item '+esc(p.phase)+'">'+
+      '<div class="grow">'+
+      '<div class="ttl">'+esc(p.title)+
+        (p.level?'<span class="lvl">'+esc(p.level)+'</span>':"")+'</div>'+
+      /* שתי השורות הן שני אלמנטים ולא <br> אחד: «ז׳1» ו«1 מתוך 4»
+         נדבקים זה לזה ב-textContent, וכל קורא — מסך קריינות או
+         בדיקה — מקבל «ז׳11». */
+      '<div class="sb"><div class="who">'+esc(fmtRange(p.from,p.to))+
+        ' · '+esc(unitWho(u))+'</div>'+
+        '<div class="cnt">'+esc(cnt)+esc(meas)+'</div></div>'+
+      bar+
+      (p.overlap.length?'<div class="ov">⚠ חופפת ל-'+p.overlap.length+' יחידות נוספות</div>':"")+
+      '</div>'+
+      '<button class="btn sm ghost" data-uedit="'+esc(p.unitId)+'">✎</button>'+
+      '<button class="btn sm ghost" data-udel="'+esc(p.unitId)+'">🗑</button></div>';
+  }).join("");
+  $$("#yr-list [data-uedit]").forEach(b=>b.addEventListener("click",()=>unitLoad(b.dataset.uedit)));
+  $$("#yr-list [data-udel]").forEach(b=>b.addEventListener("click",()=>{
+    const u=UNITS.byId(b.dataset.udel); if(!u)return;
+    const p=UNITS.progress(u.id);
+    /* מחיקת יחידה אינה נוגעת בשיעורים ובמדידות — הן חיות בזכות
+       עצמן. אומרים את זה במפורש, כי «מחק» ליד מספר שיעורים
+       נראה מסוכן יותר משהוא. */
+    if(!confirm("למחוק את היחידה «"+u.title+"»?\n\n"+
+      (p&&p.held?"• "+p.held+" שיעורים שהתקיימו בטווח שלה יישארו — הם פשוט לא ישויכו ליחידה.\n":"")+
+      "• התלמידים, המדידות וההיסטוריה לא ייפגעו."))return;
+    UNITS.remove(u.id);
+    if(unitEdit===u.id)unitReset();
+    toast("היחידה נמחקה");
+  }));
+}
+function openYearPlan(){
+  paintYearSelect(); paintYearFilter(); unitReset(); renderUnitList();
+  modal("yearModal",true);
+}
+function wireYearPlan(){
+  const b=$("#hx-yearPlan"); if(b)b.addEventListener("click",openYearPlan);
+  const s=$("#yr-save"); if(s)s.addEventListener("click",unitSave);
+  const c=$("#yr-cancel"); if(c)c.addEventListener("click",()=>unitReset());
+  const y=$("#yr-year"); if(y)y.addEventListener("change",()=>{ unitReset(); renderUnitList(); });
+  const f=$("#yr-filter"); if(f)f.addEventListener("change",renderUnitList);
 }
 
 /* ============================================================
@@ -11974,6 +12656,7 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCS
   emit,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
+  year:YEAR,units:UNITS,openYearPlan,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
      שכישלון שקט בו עולה למורה שנה של מדידות, ולכן הוא חייב להיות
      ניתן להרצה ולהשוואה מבחוץ ולא רק דרך לחיצה על כפתור. */
@@ -12039,9 +12722,16 @@ window.HMBoot=function(){
     .forEach(n=>document.addEventListener("hm:"+n,()=>{
       if(document.body.dataset.mod==="home"){ try{ paintHome(); }catch(e){} }
     }));
+  /* רשימת היחידות נצבעת רק כשהמודאל פתוח — אותו כלל בדיוק של
+     דף הבית, ומאותה סיבה. */
+  document.addEventListener("hm:units-change",()=>{
+    const m=document.getElementById("yearModal");
+    if(m&&m.classList.contains("on")){ try{ renderUnitList(); }catch(e){} }
+  });
   wireSessionBar();
   wireSched();
   wireGroups();
+  wireYearPlan();
   wireEndLesson();
   const bb=$("#btnBack"); if(bb)bb.addEventListener("click",()=>{ ac(); goBack(); });
   const sb=$("#btnSun"); if(sb)sb.addEventListener("click",()=>{ ac(); toggleSun(); });

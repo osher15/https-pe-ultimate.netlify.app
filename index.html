@@ -11,14 +11,14 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="a500e320">
+<meta name="hm-build" content="ae9142af">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=09d036eb">
+<link rel="stylesheet" href="hm-styles.css?v=df53f1af">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-data.js?v=9a153e80"></script>
-<script src="hm-i18n.js?v=0dd9bce3"></script>
-<script src="hm-app.js?v=fb3ed277"></script>
+<script src="hm-data.js?v=32781a84"></script>
+<script src="hm-i18n.js?v=17d19955"></script>
+<script src="hm-app.js?v=92980f0e"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=9607ebef"></script>
 <script src="hm-know.js?v=ac83607f"></script>
@@ -90,6 +90,7 @@
   </div>
   <div class="hx-today" id="hx-today">
     <div class="top"><b data-i18n="home.today">השיעורים שלי היום</b>
+      <button class="btn sm ghost" id="hx-yearPlan" data-i18n="home.yearPlan">🎓 תוכנית שנתית</button>
       <button class="btn sm ghost" id="hx-schedEdit" data-i18n="home.schedEdit">🗓 מערכת שעות</button></div>
     <div id="hx-todayList"></div>
   </div>
@@ -1936,6 +1937,46 @@
   <div id="sw-loose" style="margin-top:13px"></div>
   <select id="sw-day" hidden></select><select id="sw-hour" hidden></select>
   <input type="text" id="sw-time" value="09:00" hidden>
+</div></div>
+<div class="modal" id="yearModal"><div class="box" style="max-width:700px">
+  <h3>🎓 <span>תוכנית שנתית</span><button class="x" data-close="yearModal">✕</button></h3>
+  <div class="hint">יחידת הוראה היא מה שאתה מלמד לאורך כמה שבועות — «כדורעף — מסירות», «כושר — סבולת». היא שייכת ל<b>רמה</b> ולא לשכבה, ולכן אותה יחידה יכולה לחול על ז׳1 ועל ט׳3 יחד. השיעורים משתייכים אליה לפי התאריך שלהם, אז מספיק לתכנן פעם אחת — גם שיעורים שכבר התקיימו נכנסים פנימה.</div>
+  <div class="row" style="margin:12px 0 4px;align-items:flex-end">
+    <div class="field grow" style="min-width:140px"><label>שנת לימודים</label>
+      <select id="yr-year"></select></div>
+    <div class="field" style="width:132px"><label>הצג</label>
+      <select id="yr-filter"><option value="">כל הכיתות</option></select></div>
+  </div>
+  <div class="hint" id="yr-sum" style="margin-bottom:10px"></div>
+  <div id="yr-list"></div>
+  <div class="grp-form" id="yr-form">
+    <div class="top"><b id="yr-formTitle">יחידה חדשה</b>
+      <button class="btn sm ghost" id="yr-cancel" hidden>✕ בטל עריכה</button></div>
+    <div class="row">
+      <div class="field grow" style="min-width:160px"><label>שם היחידה</label>
+        <input type="text" id="yr-title" placeholder="כדורעף — מסירות"></div>
+      <div class="field" style="width:132px"><label>רמה (רשות)</label>
+        <input type="text" id="yr-level" list="yr-levels" placeholder="בסיס">
+        <datalist id="yr-levels"></datalist></div>
+    </div>
+    <div class="row" style="margin-top:9px">
+      <div class="field" style="width:150px"><label>מתאריך</label>
+        <input type="date" id="yr-from"></div>
+      <div class="field" style="width:150px"><label>עד תאריך</label>
+        <input type="date" id="yr-to"></div>
+      <div class="field" style="width:120px"><label>שיעורים מתוכננים</label>
+        <input type="number" id="yr-planned" min="0" max="200" step="1" placeholder="6"></div>
+    </div>
+    <div class="field" style="margin-top:9px"><label>מי לומד את היחידה <span class="hint" style="font-weight:400">(אפשר כמה שכבות יחד — לפי רמה)</span></label>
+      <div class="grp-pick" id="yr-cids"></div></div>
+    <div class="field" style="margin-top:9px"><label>מטרת היחידה (רשות)</label>
+      <input type="text" id="yr-goal" placeholder="התלמיד יבצע מסירה מדויקת מעל הרשת"></div>
+    <div class="row" style="margin-top:11px">
+      <button class="btn acc grow" id="yr-save">💾 שמור יחידה</button>
+    </div>
+    <div class="hint" id="yr-err" style="margin-top:8px;color:var(--stop)"></div>
+    <div class="hint" id="yr-warn" style="margin-top:6px;color:var(--warn)"></div>
+  </div>
 </div></div>
 <div class="modal" id="lsHistModal"><div class="box" style="max-width:640px">
   <h3>📖 <span>היסטוריית שיעורים</span><button class="x" data-close="lsHistModal">✕</button></h3>

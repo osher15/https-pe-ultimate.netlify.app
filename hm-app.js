@@ -1081,6 +1081,298 @@ function wireGroups(){
 }
 
 /* ============================================================
+   התוכנית השנתית — מתאם האחסון והמסך
+   ------------------------------------------------------------
+   הלוגיקה ב-hm-data.js וטהורה. כאן הקריאה, הכתיבה והמסך.
+
+   שני דברים שהמסך הזה מכוון לא לעשות:
+
+   הוא **לא** שואל את המורה לאיזו יחידה שייך כל שיעור. היחידה
+   נושאת טווח תאריכים, והשיוך נגזר — אחרת כל שיעור היה דורש עוד
+   בחירה, וזה בדיוק החיכוך שגורם לוותר על תכנון שנתי.
+
+   הוא **לא** חוסם חפיפה. שתי יחידות במקביל הן מציאות אצל מורה
+   שמלמד כדורסל בימי ב׳ וכושר בימי ה׳. המסך אומר שיש חפיפה ומי
+   מכריע — ולא מתקן את המורה.
+   ============================================================ */
+const YEARS_KEY="yr.years", UNITS_KEY="yr.units";
+function yearsAll(){ const v=LS.get(YEARS_KEY,[]); return Array.isArray(v)?v:[]; }
+function unitsAll(){ const v=LS.get(UNITS_KEY,[]); return Array.isArray(v)?v:[]; }
+/* נקודת הכתיבה היחידה של כל אחת מהרשימות — ולכן גם מקום ההכרזה,
+   בדיוק כמו schedSave. */
+function yearsSave(list){
+  const ok=LS.set(YEARS_KEY,list);
+  if(!ok){ toast("⚠ שנת הלימודים לא נשמרה במכשיר — ראה את ההודעה למעלה"); return ok; }
+  emit("units-change",{kind:"year"});
+  return ok;
+}
+function unitsSave(list){
+  const ok=LS.set(UNITS_KEY,list);
+  if(!ok){ toast("⚠ היחידה לא נשמרה במכשיר — ראה את ההודעה למעלה"); return ok; }
+  emit("units-change",{kind:"unit"});
+  return ok;
+}
+const YEAR={
+  all:yearsAll,
+  list:()=>DATA.listYears(yearsAll()),
+  byId:id=>DATA.yearById(yearsAll(),id),
+  of:iso=>DATA.yearOfDate(yearsAll(),iso||isoToday()),
+  /* פותח את שנת הלימודים של תאריך, או מחזיר את הקיימת. נקרא גם
+     מהמסך וגם בעלייה — מורה לא אמור «לפתוח שנה» לפני שהוא מתכנן. */
+  ensure(iso){
+    const on=iso||isoToday();
+    const cur=DATA.yearOfDate(yearsAll(),on);
+    if(cur)return cur;
+    const r=DATA.makeYear(yearsAll(),{on});
+    if(!r.ok)return null;
+    if(r.outcome==="created"&&!yearsSave(r.list))return null;
+    return r.year;
+  },
+  remove(id){ const r=DATA.removeYear(yearsAll(),id); if(r.ok)yearsSave(r.list); return r; }
+};
+/* שנת היחידה נגזרת מתאריך ההתחלה שלה — כאן, ולא במסך. יחידה
+   ששנתה נקבעת לפי הבורר שהמורה הסתכל עליו הייתה נשמרת תחת שנה
+   שאינה מכילה את התאריכים שלה, ואז נעלמת מכל תצוגה. מכיוון שזה
+   אינווריאנט של הנתון ולא של הטופס, הוא יושב במתאם: המסך, ה-API
+   הציבורי וכל מודול עתידי מקבלים את אותו כלל. */
+function unitYearId(o,prev){
+  if(o&&o.yearId)return o.yearId;
+  const from=(o&&o.from)||(prev&&prev.from)||"";
+  const y=from?YEAR.ensure(from):null;
+  return (y&&y.id)||(prev&&prev.yearId)||null;
+}
+const UNITS={
+  all:unitsAll,
+  list:opts=>DATA.listUnits(unitsAll(),opts),
+  byId:id=>DATA.unitById(unitsAll(),id),
+  add(o){
+    o=Object.assign({},o||{});
+    o.yearId=unitYearId(o,null);
+    const r=DATA.makeUnit(unitsAll(),o);
+    if(r.ok&&!unitsSave(r.list))return {ok:false,outcome:"not-saved",unit:null,overlap:[]};
+    return r;
+  },
+  update(id,o){
+    o=Object.assign({},o||{});
+    o.yearId=unitYearId(o,DATA.unitById(unitsAll(),id));
+    const r=DATA.updateUnit(unitsAll(),id,o);
+    if(r.ok&&!unitsSave(r.list))return {ok:false,outcome:"not-saved",unit:null,overlap:[]};
+    return r;
+  },
+  remove(id){ const r=DATA.removeUnit(unitsAll(),id); if(r.ok)unitsSave(r.list); return r; },
+  /* היחידה של שיעור, והיחידה של כיתה היום — שתיהן דרך אותה
+     הכרעה ב-hm-data.js, ולא דרך כלל שני שנכתב כאן. */
+  ofSession:s=>DATA.unitOfSession(unitsAll(),s),
+  current:(cid,iso)=>DATA.currentUnit(unitsAll(),cid,iso||isoToday()),
+  progress:id=>DATA.unitProgress(unitsAll(),sesAll(),LS.get("ft.results",[]),id),
+  plan:opts=>DATA.annualPlan(unitsAll(),sesAll(),LS.get("ft.results",[]),
+    Object.assign({on:isoToday()},opts||{}))
+};
+
+/* מצב עריכה. null = טופס של יחידה חדשה. */
+let unitEdit=null;
+/* הכיתות והקבוצות שאפשר לשייך אליהן יחידה — אותו רישום בדיוק
+   שהקבוצות ומערכת השעות קוראות, כדי שלא יהיה מקור שני לשמות. */
+function unitPickList(){
+  const reg=DATA.classes(REGSTORE);
+  return Object.keys(reg).filter(k=>reg[k]).sort((a,b)=>
+    String(reg[a].name||"").localeCompare(String(reg[b].name||""),"he"));
+}
+function unitCidName(cid){
+  try{ const c=DATA.classOf(REGSTORE,cid); if(c&&c.name)return c.name; }catch(e){}
+  return cid||"";
+}
+/* «ז׳1 · ט׳3» — מי לומד את היחידה, בשמות הנוכחיים מהרישום */
+function unitWho(u){
+  const n=(u.cids||[]).map(unitCidName).filter(Boolean);
+  if(!n.length)return "בלי כיתה";
+  if(n.length<=3)return n.join(" · ");
+  return n.slice(0,3).join(" · ")+" +"+(n.length-3);
+}
+function fmtRange(from,to){
+  const d=s=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s||"")); 
+    return m?(+m[3])+"."+(+m[2]):""; };
+  return d(from)+"–"+d(to);
+}
+function yrYearId(){ const s=$("#yr-year"); return (s&&s.value)||""; }
+
+function paintYearSelect(){
+  const sel=$("#yr-year"); if(!sel)return;
+  /* שנת הלימודים של היום נפתחת מעצמה — מורה לא אמור ליצור שנה
+     לפני שהוא כותב את היחידה הראשונה שלו. */
+  YEAR.ensure();
+  const list=YEAR.list(), keep=sel.value;
+  sel.innerHTML=list.map(y=>'<option value="'+esc(y.id)+'">'+esc(y.label)+'</option>').join("");
+  const cur=YEAR.of();
+  sel.value=(keep&&list.some(y=>y.id===keep))?keep:((cur&&cur.id)||(list[0]&&list[0].id)||"");
+}
+function paintYearFilter(){
+  const sel=$("#yr-filter"); if(!sel)return;
+  const keep=sel.value;
+  sel.innerHTML='<option value="">כל הכיתות</option>'+
+    unitPickList().map(c=>'<option value="'+esc(c)+'">'+esc(unitCidName(c))+'</option>').join("");
+  sel.value=keep||"";
+}
+function paintUnitPick(sel){
+  const box=$("#yr-cids"); if(!box)return;
+  const on=sel||{};
+  const list=unitPickList();
+  box.innerHTML=list.length
+    ? list.map(c=>'<label><input type="checkbox" data-uc="'+esc(c)+'"'+
+        (on[c]?" checked":"")+'><span>'+esc(unitCidName(c))+'</span></label>').join("")
+    : '<div class="empty">אין עדיין כיתות רשומות. הן נרשמות כשמזינים מערכת שעות או רשימת כיתה.</div>';
+  const dl=$("#yr-levels");
+  if(dl)dl.innerHTML=DATA.UNIT_LEVELS.map(l=>'<option value="'+esc(l)+'">').join("");
+}
+/* טופס נקי, או טעון ביחידה קיימת */
+function unitReset(){
+  unitEdit=null;
+  const t=$("#yr-formTitle"); if(t)t.textContent="יחידה חדשה";
+  const c=$("#yr-cancel"); if(c)c.hidden=true;
+  ["yr-title","yr-level","yr-goal"].forEach(id=>{ const e=$("#"+id); if(e)e.value=""; });
+  const p=$("#yr-planned"); if(p)p.value="";
+  /* ברירת המחדל לתאריכים: מהיום לשישה שבועות — האורך הטיפוסי של
+     יחידה. כשמסתכלים על שנה שאינה הנוכחית, מתחילים מתחילתה, כדי
+     שהיחידה החדשה תיפול בשנה שעל המסך ולא תקפוץ ממנה. */
+  const f=$("#yr-from"), to=$("#yr-to");
+  const y=YEAR.byId(yrYearId());
+  const today=isoToday();
+  const start=(y&&(today<y.start||today>y.end))?y.start:today;
+  const plus=iso=>{ const d=new Date(iso+"T00:00:00Z");
+    d.setUTCDate(d.getUTCDate()+42); return d.toISOString().slice(0,10); };
+  let end=plus(start);
+  if(y&&end>y.end)end=y.end;
+  if(f)f.value=start;
+  if(to)to.value=end;
+  const s=$("#yr-save"); if(s)s.textContent="💾 שמור יחידה";
+  ["yr-err","yr-warn"].forEach(id=>{ const e=$("#"+id); if(e)e.textContent=""; });
+  paintUnitPick({});
+}
+function unitLoad(id){
+  const u=UNITS.byId(id); if(!u)return;
+  unitEdit=id;
+  const t=$("#yr-formTitle"); if(t)t.textContent="עריכת «"+u.title+"»";
+  const c=$("#yr-cancel"); if(c)c.hidden=false;
+  const set=(k,v)=>{ const e=$("#"+k); if(e)e.value=v; };
+  set("yr-title",u.title); set("yr-level",u.level||""); set("yr-goal",u.goal||"");
+  set("yr-from",u.from); set("yr-to",u.to);
+  set("yr-planned",u.planned?String(u.planned):"");
+  const s=$("#yr-save"); if(s)s.textContent="💾 עדכן יחידה";
+  ["yr-err","yr-warn"].forEach(k=>{ const e=$("#"+k); if(e)e.textContent=""; });
+  const on={}; (u.cids||[]).forEach(x=>{ on[x]=1; });
+  paintUnitPick(on);
+  const box=$("#yr-form"); if(box&&box.scrollIntoView)
+    try{ box.scrollIntoView({behavior:"smooth",block:"nearest"}); }catch(e){}
+}
+const UNIT_ERR={
+  "no-title":"תן ליחידה שם",
+  "no-class":"בחר לפחות כיתה אחת שלומדת את היחידה",
+  "bad-range":"טווח התאריכים לא תקין — «מ» חייב להיות לפני «עד»",
+  "full":"יש כבר יותר מדי יחידות",
+  "not-found":"היחידה לא נמצאה",
+  "not-saved":"לא נשמר במכשיר"
+};
+function unitSave(){
+  /* בלי yearId: המתאם גוזר אותו מתאריך ההתחלה (unitYearId) */
+  const o={
+    title:$("#yr-title").value,
+    level:$("#yr-level").value,
+    from:$("#yr-from").value,
+    to:$("#yr-to").value,
+    planned:$("#yr-planned").value||0,
+    goal:$("#yr-goal").value,
+    cids:$$("#yr-cids [data-uc]").filter(i=>i.checked).map(i=>i.dataset.uc)
+  };
+  const r=unitEdit?UNITS.update(unitEdit,o):UNITS.add(o);
+  if(!r.ok){ $("#yr-err").textContent=UNIT_ERR[r.outcome]||"לא נשמר"; return; }
+  $("#yr-err").textContent="";
+  toast(unitEdit?"✓ היחידה עודכנה":"✓ היחידה נשמרה");
+  /* עוקבים אחרי היחידה לשנה שלה — אחרת היא נשמרה ונעלמה מהמסך */
+  const sel=$("#yr-year");
+  if(sel&&r.unit&&r.unit.yearId&&sel.value!==r.unit.yearId){
+    paintYearSelect();
+    sel.value=r.unit.yearId;
+  }
+  /* הרשימה נצבעת דרך hm:units-change — unitsSave הכריז עליו */
+  unitReset();
+  renderUnitList();
+  /* החפיפה מדווחת אחרי השמירה ולא במקומה — היא לא שגיאה */
+  if(r.overlap&&r.overlap.length){
+    const w=$("#yr-warn");
+    if(w)w.textContent="⚠ חופפת ל«"+r.overlap.map(x=>x.title).join("», «")+
+      "». שיעור בתאריך חופף יישויך ליחידה שהתחילה מאוחר יותר.";
+  }
+}
+function renderUnitList(){
+  const box=$("#yr-list"); if(!box)return;
+  const yearId=yrYearId(), cid=($("#yr-filter")&&$("#yr-filter").value)||"";
+  const plan=UNITS.plan({yearId:yearId||undefined,cid:cid||undefined});
+  const sum=$("#yr-sum");
+  if(sum){
+    const held=plan.reduce((n,p)=>n+p.done,0);
+    const n=plan.length===1?"יחידה אחת":plan.length+" יחידות";
+    const h=held===1?"שיעור אחד התקיים":held+" שיעורים התקיימו";
+    sum.textContent=plan.length
+      ? n+" · "+h+(cid?" · מסונן ל"+unitCidName(cid):"")
+      : "";
+  }
+  if(!plan.length){
+    box.innerHTML='<div class="yr-empty">'+(cid
+      ? "אין יחידות לכיתה הזאת בשנה שנבחרה."
+      : "עוד אין יחידות בשנה הזאת. יחידה ראשונה — למטה.")+'</div>';
+    return;
+  }
+  box.innerHTML=plan.map(p=>{
+    const u=UNITS.byId(p.unitId)||{};
+    const bar=p.pct==null?"":'<div class="yr-bar"><i style="width:'+p.pct+'%"></i></div>';
+    const cnt=p.planned
+      ? p.done+" מתוך "+p.planned+" שיעורים ("+p.pct+"%)"
+      : (p.done===1?"שיעור אחד התקיים":p.done+" שיעורים התקיימו");
+    const meas=p.measurements?" · "+p.measurements+" מדידות · "+p.students+" תלמידים":"";
+    return '<div class="yr-item '+esc(p.phase)+'">'+
+      '<div class="grow">'+
+      '<div class="ttl">'+esc(p.title)+
+        (p.level?'<span class="lvl">'+esc(p.level)+'</span>':"")+'</div>'+
+      /* שתי השורות הן שני אלמנטים ולא <br> אחד: «ז׳1» ו«1 מתוך 4»
+         נדבקים זה לזה ב-textContent, וכל קורא — מסך קריינות או
+         בדיקה — מקבל «ז׳11». */
+      '<div class="sb"><div class="who">'+esc(fmtRange(p.from,p.to))+
+        ' · '+esc(unitWho(u))+'</div>'+
+        '<div class="cnt">'+esc(cnt)+esc(meas)+'</div></div>'+
+      bar+
+      (p.overlap.length?'<div class="ov">⚠ חופפת ל-'+p.overlap.length+' יחידות נוספות</div>':"")+
+      '</div>'+
+      '<button class="btn sm ghost" data-uedit="'+esc(p.unitId)+'">✎</button>'+
+      '<button class="btn sm ghost" data-udel="'+esc(p.unitId)+'">🗑</button></div>';
+  }).join("");
+  $$("#yr-list [data-uedit]").forEach(b=>b.addEventListener("click",()=>unitLoad(b.dataset.uedit)));
+  $$("#yr-list [data-udel]").forEach(b=>b.addEventListener("click",()=>{
+    const u=UNITS.byId(b.dataset.udel); if(!u)return;
+    const p=UNITS.progress(u.id);
+    /* מחיקת יחידה אינה נוגעת בשיעורים ובמדידות — הן חיות בזכות
+       עצמן. אומרים את זה במפורש, כי «מחק» ליד מספר שיעורים
+       נראה מסוכן יותר משהוא. */
+    if(!confirm("למחוק את היחידה «"+u.title+"»?\n\n"+
+      (p&&p.held?"• "+p.held+" שיעורים שהתקיימו בטווח שלה יישארו — הם פשוט לא ישויכו ליחידה.\n":"")+
+      "• התלמידים, המדידות וההיסטוריה לא ייפגעו."))return;
+    UNITS.remove(u.id);
+    if(unitEdit===u.id)unitReset();
+    toast("היחידה נמחקה");
+  }));
+}
+function openYearPlan(){
+  paintYearSelect(); paintYearFilter(); unitReset(); renderUnitList();
+  modal("yearModal",true);
+}
+function wireYearPlan(){
+  const b=$("#hx-yearPlan"); if(b)b.addEventListener("click",openYearPlan);
+  const s=$("#yr-save"); if(s)s.addEventListener("click",unitSave);
+  const c=$("#yr-cancel"); if(c)c.addEventListener("click",()=>unitReset());
+  const y=$("#yr-year"); if(y)y.addEventListener("change",()=>{ unitReset(); renderUnitList(); });
+  const f=$("#yr-filter"); if(f)f.addEventListener("change",renderUnitList);
+}
+
+/* ============================================================
    עריכת מערכת השעות — טבלת השבוע
    ------------------------------------------------------------
    הגרסה הראשונה ביקשה שיעור אחד בכל פעם. מורה עם עשרים וארבעה
@@ -5101,6 +5393,7 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCS
   emit,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
+  year:YEAR,units:UNITS,openYearPlan,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
      שכישלון שקט בו עולה למורה שנה של מדידות, ולכן הוא חייב להיות
      ניתן להרצה ולהשוואה מבחוץ ולא רק דרך לחיצה על כפתור. */
@@ -5166,9 +5459,16 @@ window.HMBoot=function(){
     .forEach(n=>document.addEventListener("hm:"+n,()=>{
       if(document.body.dataset.mod==="home"){ try{ paintHome(); }catch(e){} }
     }));
+  /* רשימת היחידות נצבעת רק כשהמודאל פתוח — אותו כלל בדיוק של
+     דף הבית, ומאותה סיבה. */
+  document.addEventListener("hm:units-change",()=>{
+    const m=document.getElementById("yearModal");
+    if(m&&m.classList.contains("on")){ try{ renderUnitList(); }catch(e){} }
+  });
   wireSessionBar();
   wireSched();
   wireGroups();
+  wireYearPlan();
   wireEndLesson();
   const bb=$("#btnBack"); if(bb)bb.addEventListener("click",()=>{ ac(); goBack(); });
   const sb=$("#btnSun"); if(sb)sb.addEventListener("click",()=>{ ac(); toggleSun(); });

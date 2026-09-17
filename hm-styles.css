@@ -569,6 +569,27 @@ a{color:var(--acc);text-decoration:none}a:hover{color:color-mix(in srgb,var(--ac
 .grp-item .ttl{font-weight:700;font-size:14px}
 .grp-item .sb{color:var(--muted);font-size:11.5px;margin-top:2px}
 .cls-comp{font-size:12px;color:var(--muted);margin:-6px 0 12px;line-height:1.6}
+
+/* ===== יחידות הוראה — התוכנית השנתית =====
+   שורה ליחידה, ובה מה שמורה שואל בפועל: מה מלמדים, למי, מתי,
+   וכמה מזה כבר קרה. פס ההתקדמות מוצג רק כשיש מכנה — יחידה בלי
+   מספר שיעורים מתוכנן מדווחת כמה התקיימו, בלי אחוז מומצא. */
+.yr-item{display:flex;align-items:center;gap:10px;background:var(--panel2);
+  border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;
+  border-inline-start:3px solid var(--line)}
+.yr-item.current{border-inline-start-color:var(--acc);background:var(--accDim)}
+.yr-item.past{opacity:.66}
+.yr-item .grow{min-width:0}
+.yr-item .ttl{font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.yr-item .sb{color:var(--muted);font-size:11.5px;margin-top:3px;line-height:1.55}
+.yr-item .lvl{font-size:10.5px;font-weight:700;border:1px solid var(--line);
+  border-radius:99px;padding:1px 7px;color:var(--muted);white-space:nowrap}
+.yr-item.current .lvl{border-color:var(--acc);color:var(--acc)}
+.yr-bar{height:5px;border-radius:99px;background:var(--inset);overflow:hidden;margin-top:6px}
+.yr-bar>i{display:block;height:100%;background:var(--acc);border-radius:99px}
+.yr-item .ov{color:var(--warn);font-size:11px;margin-top:3px}
+.yr-empty{color:var(--faint);font-size:12.5px;text-align:center;padding:14px 8px;
+  border:1px dashed var(--line);border-radius:12px}
 /* ===== טבלת מערכת השעות =====
    הטבלה שהמורה כבר מכיר מהמשו״ב: שעות מול ימים. במסך צר היא
    נגללת לצדדים ולא נדחסת לבלתי-קריאה — טבלה היא המקום היחיד
