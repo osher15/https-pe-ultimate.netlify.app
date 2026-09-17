@@ -231,7 +231,25 @@ en:{
   "gm.ytHint":"The link opens a YouTube search by the game's name — so it never breaks over time, and you can pick a video in Hebrew or English.",
   "gm.toLesson":"Add to a lesson plan", "gm.toLessonToast":"will be placed in your next lesson plan",
   "kn.prWho":"Who it's for", "kn.prWhy":"What it's based on",
-  "kn.prStruct":"Program structure", "kn.prCues":"Coaching cues", "kn.prToSource":"to the source"
+  "kn.prStruct":"Program structure", "kn.prCues":"Coaching cues", "kn.prToSource":"to the source",
+  "ls.gradeMid":"Middle School (7–9)", "ls.gradeHigh":"High School (10–12)",
+  "ls.cls":"Class", "ls.min":"min",
+  "ls.goalsTitle":"🎯 Lesson Goals", "ls.stdTitle":"📐 Standards Mapping",
+  "ls.eqTitle":"🎒 Equipment", "ls.flowTitle":"⏱ Lesson Flow",
+  "ls.gameFull":"📖 Full game explanation",
+  "ls.measureTitle":"📊 In-Class Measurement",
+  "ls.measureHint":"Combined measurement step: run the «Beep Test» or «Photo-Finish» module at the end of the main part, and save the results to «My Students». Results are given personally and not read out to the class.",
+  "ls.diffTitle":"🪜 Adaptations (STEP Model)",
+  "ls.diffLow":"Struggling", "ls.diffHigh":"Advanced", "ls.diffEx":"Exempt / Limitation",
+  "ls.diffExDefault":"Active role: referee, timekeeper, scorekeeper, or photographer for the records board.",
+  "ls.assessTitle":"✅ What to Look For (Formative Assessment)",
+  "ls.safeTitle":"⚠️ Safety", "ls.hwTitle":"🏠 Follow-up Task",
+  "ls.srcTitle":"📚 Professional Anchor", "ls.srcLink":"↗ To the official source",
+  "ls.printTitlePrefix":"Lesson Plan — ", "ls.students":"students", "ls.srcInline":"Professional anchor",
+  "ls.warmPrefix":"Warm-up: ", "ls.gamePrefix":"Game: ", "ls.coolPrefix":"Cool-down: ",
+  "ls.chooseTopic":"Choose a topic", "ls.warmInPlace":"Warm-up in place",
+  "ls.warmInPlaceD":"Movement near the desk: jumping jacks, high knees, shoulder rolls, squats — 30/15 × 6 rounds.",
+  "ls.placeField":"Outdoor field", "ls.placeHall":"Hall", "ls.placeClass":"Classroom", "ls.placeGym":"Gym"
 },
 
 ar:{
@@ -391,7 +409,25 @@ ar:{
   "gm.ytHint":"الرابط يفتح بحثاً في يوتيوب باسم اللعبة — بهذه الطريقة لا ينكسر مع الوقت، ويمكن اختيار فيديو بالعربية أو الإنجليزية.",
   "gm.toLesson":"إضافة إلى مخطط الدرس", "gm.toLessonToast":"ستُدرج في مخطط الدرس التالي",
   "kn.prWho":"لمن هذا موجه", "kn.prWhy":"على ماذا يستند",
-  "kn.prStruct":"هيكل البرنامج", "kn.prCues":"إرشادات التدريس", "kn.prToSource":"إلى المصدر"
+  "kn.prStruct":"هيكل البرنامج", "kn.prCues":"إرشادات التدريس", "kn.prToSource":"إلى المصدر",
+  "ls.gradeMid":"المرحلة الإعدادية (7–9)", "ls.gradeHigh":"المرحلة الثانوية (10–12)",
+  "ls.cls":"الصف", "ls.min":"د",
+  "ls.goalsTitle":"🎯 أهداف الحصة", "ls.stdTitle":"📐 الربط بالمعايير",
+  "ls.eqTitle":"🎒 المعدات", "ls.flowTitle":"⏱ سير الحصة",
+  "ls.gameFull":"📖 شرح كامل للعبة",
+  "ls.measureTitle":"📊 قياس خلال الحصة",
+  "ls.measureHint":"خطوة قياس مدمجة: شغّل وحدة «اختبار المكوكية» أو «فوتو فينيش» في نهاية الجزء الرئيسي، واحفظ النتائج في «طلابي». تُسلَّم النتائج شخصياً ولا تُقرأ أمام الصف.",
+  "ls.diffTitle":"🪜 تكييفات (نموذج STEP)",
+  "ls.diffLow":"يواجه صعوبة", "ls.diffHigh":"متقدم", "ls.diffEx":"إعفاء / قيد",
+  "ls.diffExDefault":"دور نشط: حكم، مسجل وقت، مسجل نتائج، أو مصوّر للوحة الأرقام القياسية.",
+  "ls.assessTitle":"✅ على ماذا ننظر (تقييم تكويني)",
+  "ls.safeTitle":"⚠️ السلامة", "ls.hwTitle":"🏠 مهمة للمتابعة",
+  "ls.srcTitle":"📚 مرجع مهني", "ls.srcLink":"↗ إلى المصدر الرسمي",
+  "ls.printTitlePrefix":"مخطط درس — ", "ls.students":"طلاب", "ls.srcInline":"مرجع مهني",
+  "ls.warmPrefix":"إحماء: ", "ls.gamePrefix":"لعبة: ", "ls.coolPrefix":"ختام: ",
+  "ls.chooseTopic":"اختر موضوعاً", "ls.warmInPlace":"إحماء في المكان",
+  "ls.warmInPlaceD":"حركة بجانب الطاولة: قفز مع فتح وضم القدمين، ركبتين عاليتين، دورانات الكتف، قرفصاء — 30/15 × 6 جولات.",
+  "ls.placeField":"ملعب خارجي", "ls.placeHall":"صالة", "ls.placeClass":"صف دراسي", "ls.placeGym":"صالة رياضية"
 },
 
 ru:{
@@ -558,7 +594,25 @@ ru:{
   "gm.ytHint":"Ссылка открывает поиск на YouTube по названию игры — так она никогда не устареет, и можно выбрать видео на иврите или английском.",
   "gm.toLesson":"Добавить в план урока", "gm.toLessonToast":"будет добавлена в следующий план урока",
   "kn.prWho":"Кому это подходит", "kn.prWhy":"На чём это основано",
-  "kn.prStruct":"Структура программы", "kn.prCues":"Ключевые указания", "kn.prToSource":"к источнику"
+  "kn.prStruct":"Структура программы", "kn.prCues":"Ключевые указания", "kn.prToSource":"к источнику",
+  "ls.gradeMid":"Средняя школа (7–9)", "ls.gradeHigh":"Старшая школа (10–12)",
+  "ls.cls":"Класс", "ls.min":"мин",
+  "ls.goalsTitle":"🎯 Цели урока", "ls.stdTitle":"📐 Привязка к стандартам",
+  "ls.eqTitle":"🎒 Оборудование", "ls.flowTitle":"⏱ Ход урока",
+  "ls.gameFull":"📖 Полное описание игры",
+  "ls.measureTitle":"📊 Измерение на уроке",
+  "ls.measureHint":"Совмещённый этап измерения: запустите модуль «Бип-тест» или «Фотофиниш» в конце основной части и сохраните результаты в «Мои ученики». Результаты сообщаются лично и не зачитываются классу.",
+  "ls.diffTitle":"🪜 Адаптации (модель STEP)",
+  "ls.diffLow":"Сложно", "ls.diffHigh":"Продвинутый", "ls.diffEx":"Освобождение / ограничение",
+  "ls.diffExDefault":"Активная роль: судья, хронометрист, секретарь или фотограф для доски рекордов.",
+  "ls.assessTitle":"✅ На что обращать внимание (формативное оценивание)",
+  "ls.safeTitle":"⚠️ Безопасность", "ls.hwTitle":"🏠 Задание на дом",
+  "ls.srcTitle":"📚 Профессиональный источник", "ls.srcLink":"↗ К официальному источнику",
+  "ls.printTitlePrefix":"План урока — ", "ls.students":"учеников", "ls.srcInline":"Профессиональный источник",
+  "ls.warmPrefix":"Разминка: ", "ls.gamePrefix":"Игра: ", "ls.coolPrefix":"Заминка: ",
+  "ls.chooseTopic":"Выберите тему", "ls.warmInPlace":"Разминка на месте",
+  "ls.warmInPlaceD":"Движение у парты: прыжки ноги вместе-ноги врозь, высокие колени, вращения плечами, приседания — 30/15 × 6 кругов.",
+  "ls.placeField":"Открытая площадка", "ls.placeHall":"Зал", "ls.placeClass":"Класс", "ls.placeGym":"Тренажёрный зал"
 }
 };
 
@@ -623,6 +677,10 @@ function set(code){
 }
 
 function init(){ applyDir(); applyDom(); }
+
+/* alias גלובלי — hm-know.js/hm-lesson.js קוראים ל-window.t(key,def) ישירות.
+   בלעדיו כל תווית סטטית (gm, kn, ls) הייתה נופלת בשקט לברירת המחדל העברית תמיד. */
+window.t=t;
 
 return {t,set,init,applyDom,applyDir,langs:()=>LANGS.slice(),
         lang:()=>cur, dir:()=>info(cur).dir, info:()=>info(cur),
