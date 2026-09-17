@@ -51,6 +51,45 @@ const COOL=[
 ];
 
 /* ============================================================
+   תרגום STD / WARM / COOL — ראה docs/i18n-glossary.md
+   מוצמד לפי אינדקס (לא id): שלושתם מערכים ללא מזהה יציב,
+   והסדר מאומת מול המקור בעברית לפני מיזוג.
+   ============================================================ */
+const STD_I18N={
+  en:["Motor Skills — Develops a variety of movement skills","Knowledge and Concepts — Applies knowledge of movement, fitness, and strategy","Social Skills — Develops cooperation, respect, and fairness through movement","Personal Skills — Develops persistence, personal goals, and chooses to be physically active"],
+  ar:["المهارات الحركية — تطوير مجموعة متنوعة من المهارات الحركية","المعرفة والمفاهيم — تطبيق المعرفة المتعلقة بالحركة واللياقة البدنية والاستراتيجية","المهارات الاجتماعية — تطوير التعاون والاحترام والإنصاف من خلال الحركة","المهارات الشخصية — تطوير المثابرة والأهداف الشخصية واختيار ممارسة النشاط البدني"],
+  ru:["Двигательные навыки — развитие разнообразных двигательных умений","Знания и понятия — применение знаний о движении, физической подготовленности и стратегии","Социальные навыки — развитие сотрудничества, уважения и честной игры через двигательную деятельность","Личностные навыки — развитие настойчивости, постановка личных целей и выбор физической активности"],
+};
+const stdText=i=>{
+  const cur=window.I18N?window.I18N.lang():"he";
+  const tr=STD_I18N[cur];
+  return (tr&&tr[i])||STD[i];
+};
+
+const WARM_I18N={
+  en:{mid:[{"n":"Field Tag","d":"Pair tag in a marked area — anyone tagged joins the taggers. Raises heart rate through play."},{"n":"Jogging + Movement Drills","d":"2 easy laps, then skips, butt kicks, lateral steps, arm openings — 20 m for each drill."},{"n":"Partner Mirror","d":"Partner A leads the movement, B mirrors. Switch every 30 sec. Raises heart rate and focuses attention."},{"n":"Numbers and Groups","d":"Free running; the teacher calls a number — students form groups of that size and perform an exercise."},{"n":"4 Stations 40/20","d":"Jumping jacks · high knees · squats · mountain climbers. 40 sec work, 20 transition, 2 rounds."},{"n":"Warm-up Dice","d":"6 numbered exercises; each roll = 30 sec of the exercise rolled. 6 rolls = a complete warm-up."},{"n":"Freeze and Move to Music","d":"Music — continuous movement in the area; stop — freeze in the position called by the teacher for 10 sec. 8 rounds."},{"n":"Partner Ball Warm-up","d":"20 passes while side-stepping, 20 bounce passes while walking backward, then 10 passes with a turn before receiving."}],high:[{"n":"Progressive Jogging","d":"3 min at an increasing pace from 50% to 75% maximum heart rate, then 60 sec walking."},{"n":"Mobility and Activation","d":"Walking lunge with rotation, plank shoulder taps, bottom squat hold 10 sec ×3, leg swings."},{"n":"Short Accelerations","d":"4×40 m progressively from 60→90%, walk back for recovery."},{"n":"Condensed FIFA 11+ Warm-up","d":"Running technique · plank · single-leg stance with pass · squat · soft landings. The evidence-based injury-prevention protocol."},{"n":"Full RAMP","d":"R Raise heart rate 2 min · A Activate (glute bridge, plank, bird-dog) · M Mobilize dynamically · P 3 progressive accelerations."},{"n":"Athletics ABC","d":"A-skip, B-skip, butt kicks, crossover steps, backward running — 20 m for each drill, walk back."},{"n":"Weight-Room Warm-up","d":"5 min light aerobic work, resistance-band activation (scapular pulls, monster walk), hip and ankle mobility, and a warm-up set at 50% weight."}]},
+  ar:{mid:[{"n":"لعبة المطاردة في الملعب","d":"مطاردة ثنائية في مساحة محددة — من يتم لمسه ينضم إلى المطاردين. ترفع معدل ضربات القلب من خلال اللعب."},{"n":"هرولة + تدريبات حركية","d":"لفتان خفيفتان، ثم تمارين تخطي، لمس الكعبين للمقعدة، خطوات جانبية، فتح الذراعين — 20 م لكل تمرين."},{"n":"المرآة مع زميل","d":"الزميل أ يقود الحركة، وب يقلده كالمرآة. التبديل كل 30 ثانية. يرفع معدل ضربات القلب ويزيد التركيز."},{"n":"الأرقام والمجموعات","d":"جري حر؛ ينادي المعلم رقماً — يتجمع الطلاب في مجموعات بهذا العدد وينفذون تمريناً."},{"n":"4 محطات 40/20","d":"Jumping jacks (قفز فتح وضم) · رفع الركبتين عالياً · Squat (قرفصاء) · Mountain climbers (متسلق الجبل). 40 ثانية عمل، 20 انتقال، جولتان."},{"n":"نرد الإحماء","d":"6 تمارين مرقمة؛ كل رمية = 30 ثانية من التمرين الذي يظهر. 6 رميات = إحماء كامل."},{"n":"توقف وتحرك مع الموسيقى","d":"الموسيقى — حركة متواصلة في المساحة؛ عند التوقف — الثبات في الوضعية التي يعلنها المعلم لمدة 10 ثوانٍ. 8 جولات."},{"n":"إحماء ثنائي بالكرة","d":"20 تمريرة مع خطوات جانبية، 20 تمريرة مرتدة أثناء المشي للخلف، ثم 10 تمريرات مع دوران قبل الاستلام."}],high:[{"n":"هرولة تدريجية","d":"3 دقائق بوتيرة متزايدة من 50% إلى 75% من الحد الأقصى لمعدل ضربات القلب، ثم 60 ثانية مشياً."},{"n":"الحركة وتنشيط العضلات","d":"Walking lunge (اندفاع بالمشي) مع دوران، Plank (بلانك) مع لمس الكتفين، الثبات أسفل Squat لمدة 10 ثوانٍ ×3، مرجحات الساق."},{"n":"تسارعات قصيرة","d":"4×40 م بتدرج 60→90%، والعودة مشياً للراحة."},{"n":"إحماء FIFA 11+ مختصر","d":"تقنيات الجري · Plank · الوقوف على ساق واحدة مع تمرير · Squat · هبوط لين. البروتوكول القائم على الأدلة للوقاية من الإصابات."},{"n":"RAMP كامل","d":"R رفع معدل ضربات القلب 2 دقيقة · A تنشيط (Glute bridge، Plank، Bird-dog) · M حركة ديناميكية · P 3 تسارعات بوتيرة متزايدة."},{"n":"ABC لألعاب القوى","d":"A-skip، B-skip، لمس الكعبين للمقعدة، خطوات متقاطعة، جري للخلف — 20 م لكل تمرين، والعودة مشياً."},{"n":"إحماء صالة الأثقال","d":"5 دقائق نشاط هوائي خفيف، تنشيط بشريط مقاومة (سحب لوحي الكتف، monster walk)، حركة الورك والكاحل، ومجموعة إحماء عند 50% من الوزن."}]},
+  ru:{mid:[{"n":"Салки на площадке","d":"Салки парами на размеченной площадке — пойманный присоединяется к водящим. Повышает ЧСС в игровой форме."},{"n":"Бег трусцой + двигательные упражнения","d":"2 лёгких круга, затем скиппинг, захлёст голени, приставные шаги, разведения рук — 20 м на каждое упражнение."},{"n":"Зеркало в парах","d":"Партнёр А задаёт движение, Б повторяет как в зеркале. Смена каждые 30 сек. Повышает ЧСС и концентрацию внимания."},{"n":"Числа и группы","d":"Свободный бег; учитель называет число — учащиеся объединяются в группы такого размера и выполняют упражнение."},{"n":"4 станции 40/20","d":"Jumping jack · высокий подъём коленей · приседания (squat) · «альпинист» (mountain climber). 40 сек работы, 20 переход, 2 круга."},{"n":"Кубик разминки","d":"6 пронумерованных упражнений; каждый бросок = 30 сек выпавшего упражнения. 6 бросков = полная разминка."},{"n":"Стоп и движение под музыку","d":"Музыка — непрерывное движение по площадке; остановка — замереть в позе, названной учителем, на 10 сек. 8 раундов."},{"n":"Парная разминка с мячом","d":"20 передач приставными шагами, 20 передач с отскоком при ходьбе спиной вперёд, затем 10 передач с поворотом перед приёмом."}],high:[{"n":"Прогрессивный бег трусцой","d":"3 мин с повышением темпа от 50% до 75% максимальной ЧСС, затем 60 сек ходьбы."},{"n":"Мобилизация и активация","d":"Выпады в ходьбе с поворотом, планка с касанием плеч, удержание в нижней точке приседа 10 сек ×3, махи ногами."},{"n":"Короткие ускорения","d":"4×40 м с постепенным повышением 60→90%, возвращение шагом для отдыха."},{"n":"Сокращённая разминка FIFA 11+","d":"Беговые упражнения · планка · стойка на одной ноге с передачей · приседания · мягкие приземления. Научно обоснованный протокол профилактики травм."},{"n":"Полный RAMP","d":"R повышение ЧСС 2 мин · A активация (ягодичный мост, планка, bird-dog) · M динамическая мобилизация · P 3 ускорения с повышением темпа."},{"n":"Легкоатлетическая азбука ABC","d":"A-skip, B-skip, захлёст голени, скрестные шаги, бег спиной вперёд — 20 м на каждое упражнение, возвращение шагом."},{"n":"Разминка в тренажёрном зале","d":"5 мин лёгкой аэробной работы, активация с резиновой лентой (сведение лопаток, monster walk), мобилизация тазобедренных и голеностопных суставов и разминочный подход с 50% веса."}]},
+};
+const warmPool=grade=>{
+  const cur=window.I18N?window.I18N.lang():"he";
+  const tr=WARM_I18N[cur]&&WARM_I18N[cur][grade];
+  const base=WARM[grade];
+  return tr?base.map((w,i)=>Object.assign({},w,tr[i])):base;
+};
+
+const COOL_I18N={
+  en:[{"n":"Relaxation and Stretching","d":"Static stretches for 20–30 sec for the muscle groups used + 5 deep breaths."},{"n":"Feedback Round","d":"In a circle: each student says one word about the lesson. The teacher names one notable achievement."},{"n":"Personal Goal","d":"Each student states aloud one goal for the next lesson. Stretch while doing so."},{"n":"Breathing and Heart-Rate Recovery","d":"4-4-6 breathing × 8 repetitions while lying down, then manual heart-rate measurement and comparison with the end of the main section."},{"n":"Short Yoga Sequence","d":"Mountain → Downward-Facing Dog → Low Lunge → Child’s Pose → Supine Twist. 5 breaths in each position, both sides."},{"n":"Self-Release","d":"3 areas used today, 30–45 sec per area with a foam roller or tennis ball, then a short static stretch."},{"n":"Breathing and Calming","d":"Lie on the back, 8 breaths using 4-4-6, short body scan — lower heart rate before the next lesson."}],
+  ar:[{"n":"الاسترخاء والإطالة","d":"إطالات ثابتة لمدة 20–30 ثانية لمجموعات العضلات التي عملت + 5 أنفاس عميقة."},{"n":"جولة تغذية راجعة","d":"في دائرة: يقول كل طالب كلمة واحدة عن الدرس. يذكر المعلم إنجازاً بارزاً واحداً بالاسم."},{"n":"هدف شخصي","d":"يصوغ كل طالب بصوت عالٍ هدفاً واحداً للدرس القادم. إطالات أثناء ذلك."},{"n":"التنفس وخفض معدل ضربات القلب","d":"تنفس 4-4-6 × 8 تكرارات أثناء الاستلقاء، ثم قياس معدل ضربات القلب يدوياً ومقارنته بنهاية الجزء الرئيسي."},{"n":"تسلسل يوغا قصير","d":"وضعية الجبل → الكلب المتجه للأسفل → اندفاع منخفض → وضعية الطفل → التفاف أثناء الاستلقاء. 5 أنفاس في كل وضعية، على الجانبين."},{"n":"تحرير عضلي ذاتي","d":"3 مناطق عملت اليوم، 30–45 ثانية لكل منطقة باستخدام أسطوانة أو كرة تنس، ثم إطالة ثابتة قصيرة."},{"n":"التنفس والتهدئة","d":"الاستلقاء على الظهر، 8 أنفاس بنمط 4-4-6، مسح جسدي قصير — خفض معدل ضربات القلب قبل الدرس التالي."}],
+  ru:[{"n":"Расслабление и растяжка","d":"Статическая растяжка по 20–30 сек для работавших мышечных групп + 5 глубоких вдохов."},{"n":"Круг обратной связи","d":"В кругу: каждый ученик говорит одно слово об уроке. Учитель отмечает одно заметное достижение, называя ученика."},{"n":"Личная цель","d":"Каждый ученик вслух формулирует одну цель на следующий урок. Одновременно выполняется растяжка."},{"n":"Дыхание и снижение ЧСС","d":"Дыхание 4-4-6 × 8 повторений лёжа, затем ручное измерение ЧСС и сравнение с показателем в конце основной части."},{"n":"Короткая последовательность йоги","d":"Поза горы → Собака мордой вниз → Низкий выпад → Поза ребёнка → Скручивание лёжа. 5 дыхательных циклов в каждой позе, на обе стороны."},{"n":"Самостоятельный миофасциальный релиз","d":"3 зоны, работавшие сегодня, по 30–45 сек на каждую с роликом или теннисным мячом, затем короткая статическая растяжка."},{"n":"Дыхание и успокоение","d":"Лёжа на спине, 8 дыхательных циклов 4-4-6, короткое сканирование тела — снижение ЧСС перед следующим уроком."}],
+};
+const coolPool=()=>{
+  const cur=window.I18N?window.I18N.lang():"he";
+  const tr=COOL_I18N[cur];
+  return tr?COOL.map((c,i)=>Object.assign({},c,tr[i])):COOL;
+};
+
+/* ============================================================
    מאגר הנושאים — כל נושא בונה שיעור מלא
    ============================================================ */
 const TOPICS=[
@@ -470,8 +509,8 @@ window.LESSON=(function(){
 
     const warm=o.place==="class"
       ? {n:Tt("ls.warmInPlace","חימום במקום"),d:Tt("ls.warmInPlaceD","תנועה ליד השולחן: ג׳אמפינג ג׳ק, ברכיים גבוהות, סיבובי כתפיים, סקוואטים — 30/15 × 6 סבבים.")}
-      : pick(WARM[grade]);
-    const cool=pick(COOL);
+      : pick(warmPool(grade));
+    const cool=pick(coolPool());
 
     /* בחירת בלוק/י תוכן מרכזי — לפי תתי-נושאים שנבחרו, או גיוון אוטומטי */
     const pool=T.main[grade]||T.main.mid;
@@ -614,8 +653,8 @@ window.LESSON=(function(){
 
       <div class="ls-sec"><h4>${T("ls.stdTitle","📐 מיפוי לסטנדרטים")}</h4>
         <div class="row" style="gap:6px;flex-wrap:wrap">${plan.std.map(i=>
-          `<span class="pill">${i}. ${esc(STD[i-1].split(" — ")[0])}</span>`).join("")}</div>
-        <div class="hint" style="margin-top:6px">${plan.std.map(i=>esc(STD[i-1])).join(" · ")}</div></div>
+          `<span class="pill">${i}. ${esc(stdText(i-1).split(" — ")[0])}</span>`).join("")}</div>
+        <div class="hint" style="margin-top:6px">${plan.std.map(i=>esc(stdText(i-1))).join(" · ")}</div></div>
 
       <div class="ls-sec"><h4>${T("ls.eqTitle","🎒 ציוד")}</h4>
         <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div></div>
@@ -888,7 +927,7 @@ window.LESSON=(function(){
       <h1>${esc(plan.title)}</h1>
       <div class="meta">${school}${plan.grade==="mid"?T("ls.gradeMid","חטיבה (ז׳–ט׳)"):T("ls.gradeHigh","תיכון (י׳–י״ב)")}${plan.cls?" · "+T("ls.cls","כיתה")+" "+esc(plan.cls):""} · ${plan.date} · ${total} ${T("ls.min","דק׳")} · ${plan.size} ${T("ls.students","תלמידים")} · ${esc(placeName(plan.place))}</div>
       <h2>${T("ls.goalsTitle","מטרות").replace(/^[^\wא-ת]+/,"")}</h2><ul>${plan.goals.map(g=>"<li>"+esc(g)+"</li>").join("")}</ul>
-      <h2>${T("ls.stdTitle","מיפוי לסטנדרטים").replace(/^[^\wא-ת]+/,"")}</h2><div>${plan.std.map(i=>'<span class="tag">'+esc(STD[i-1])+"</span>").join("")}</div>
+      <h2>${T("ls.stdTitle","מיפוי לסטנדרטים").replace(/^[^\wא-ת]+/,"")}</h2><div>${plan.std.map(i=>'<span class="tag">'+esc(stdText(i-1))+"</span>").join("")}</div>
       <h2>${T("ls.eqTitle","ציוד").replace(/^[^\wא-ת]+/,"")}</h2><div>${plan.eq.map(e=>'<span class="tag">'+esc(e)+"</span>").join("")}</div>
       <h2>${T("ls.flowTitle","מהלך השיעור").replace(/^[^\wא-ת]+/,"")}</h2>${plan.phases.map(p=>`<div class="ph"><b>${esc(p.n)} · ${p.min} ${T("ls.min","דק׳")}</b>${
         p.sub?` <span class="tag">${esc(p.sub)}</span>`:""}${
@@ -967,6 +1006,6 @@ window.LESSON=(function(){
     if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
   }
 
-  return {init, usePlan, topics:()=>TOPICS, std:()=>STD};
+  return {init, usePlan, topics:()=>TOPICS.map(tpLoc), std:()=>STD.map((s,i)=>stdText(i))};
 })();
 })();

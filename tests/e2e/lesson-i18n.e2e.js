@@ -95,6 +95,28 @@ module.exports={title:"מחולל מערכי שיעור — תרגום מאגר 
     await genPlan(page);
     const body=await planBody(page);
     ok(body.indexOf("מטרות השיעור")>=0,"חזר לעברית: "+body.slice(0,60));
+  }),
+
+  check("window.LESSON.std() מחזיר את ארבעת הסטנדרטים מתורגמים לאנגלית",seed,async page=>{
+    await switchLang(page,"en");
+    const std=await page.evaluate(()=>window.LESSON.std());
+    eq(std.length,4,"ארבעה סטנדרטים");
+    ok(std[0].indexOf("Motor")>=0,"סטנדרט ראשון באנגלית: "+std[0]);
+  }),
+
+  check("חימום וסיום (WARM/COOL, נבחרים אקראית) מתורגמים לאנגלית — בלי עברית שנשארה מאחור",seed,async page=>{
+    await openLesson(page);
+    await switchLang(page,"en");
+    /* מכבים את שילוב המשחק: GAMES.byId נשאר בכוונה לא מתורגם (ראו
+       docs/i18n-glossary.md), ואינו חלק ממה שהבדיקה הזו בודקת */
+    await page.evaluate(()=>{ const c=document.getElementById("ls-optGame"); if(c&&c.checked)c.click(); });
+    await pickTopic(page,"strength");
+    await genPlan(page);
+    const body=await planBody(page);
+    const heChars=/[֐-׿]/;
+    ok(body.indexOf("Warm-up:")>=0,"תחילית החימום באנגלית: "+body.slice(0,80));
+    ok(body.indexOf("Cool-down:")>=0,"תחילית הסיום באנגלית: "+body.slice(0,400));
+    ok(!heChars.test(body),"אין תווים עבריים בתוכן כשהשפה אנגלית (בלי משחק): "+body.slice(0,300));
   })
 
 ]};

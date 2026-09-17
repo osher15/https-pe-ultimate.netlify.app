@@ -249,7 +249,13 @@ en:{
   "ls.warmPrefix":"Warm-up: ", "ls.gamePrefix":"Game: ", "ls.coolPrefix":"Cool-down: ",
   "ls.chooseTopic":"Choose a topic", "ls.warmInPlace":"Warm-up in place",
   "ls.warmInPlaceD":"Movement near the desk: jumping jacks, high knees, shoulder rolls, squats — 30/15 × 6 rounds.",
-  "ls.placeField":"Outdoor field", "ls.placeHall":"Hall", "ls.placeClass":"Classroom", "ls.placeGym":"Gym"
+  "ls.placeField":"Outdoor field", "ls.placeHall":"Hall", "ls.placeClass":"Classroom", "ls.placeGym":"Gym",
+  "bw.warmPrefix":"Warm-up: ", "bw.warmGeneral":"General warm-up", "bw.warmSpecific":"Sport-specific warm-up · ", "bw.warmGame":"Warm-up game",
+  "bw.mainPrefix":"Main section: ", "bw.finalPrefix":"Final section: ",
+  "bw.adjustLow":"Adjust down: ", "bw.adjustHigh":"Adjust up: ",
+  "bw.doPrefix":"Perform: ", "bw.cuePrefix":"Coaching cue: ", "bw.easyPrefix":"Struggling: ", "bw.hardPrefix":"Advanced: ",
+  "bw.variantsPrefix":"Variations: ", "bw.noEquipment":"No equipment",
+  "bw.customTitleSuffix":" — custom-built lesson plan", "bw.manualBuilderGroup":"Manual builder"
 },
 
 ar:{
@@ -427,7 +433,13 @@ ar:{
   "ls.warmPrefix":"إحماء: ", "ls.gamePrefix":"لعبة: ", "ls.coolPrefix":"ختام: ",
   "ls.chooseTopic":"اختر موضوعاً", "ls.warmInPlace":"إحماء في المكان",
   "ls.warmInPlaceD":"حركة بجانب الطاولة: قفز مع فتح وضم القدمين، ركبتين عاليتين، دورانات الكتف، قرفصاء — 30/15 × 6 جولات.",
-  "ls.placeField":"ملعب خارجي", "ls.placeHall":"صالة", "ls.placeClass":"صف دراسي", "ls.placeGym":"صالة رياضية"
+  "ls.placeField":"ملعب خارجي", "ls.placeHall":"صالة", "ls.placeClass":"صف دراسي", "ls.placeGym":"صالة رياضية",
+  "bw.warmPrefix":"إحماء: ", "bw.warmGeneral":"إحماء عام", "bw.warmSpecific":"إحماء خاص بالرياضة · ", "bw.warmGame":"لعبة إحماء",
+  "bw.mainPrefix":"الجزء الرئيسي: ", "bw.finalPrefix":"الجزء الختامي: ",
+  "bw.adjustLow":"تسهيل: ", "bw.adjustHigh":"تصعيب: ",
+  "bw.doPrefix":"التنفيذ: ", "bw.cuePrefix":"تلميح تدريسي: ", "bw.easyPrefix":"لمن يواجه صعوبة: ", "bw.hardPrefix":"للمتقدمين: ",
+  "bw.variantsPrefix":"تنويعات: ", "bw.noEquipment":"بدون معدات",
+  "bw.customTitleSuffix":" — مخطط درس مُركَّب ذاتياً", "bw.manualBuilderGroup":"الباني اليدوي"
 },
 
 ru:{
@@ -612,7 +624,13 @@ ru:{
   "ls.warmPrefix":"Разминка: ", "ls.gamePrefix":"Игра: ", "ls.coolPrefix":"Заминка: ",
   "ls.chooseTopic":"Выберите тему", "ls.warmInPlace":"Разминка на месте",
   "ls.warmInPlaceD":"Движение у парты: прыжки ноги вместе-ноги врозь, высокие колени, вращения плечами, приседания — 30/15 × 6 кругов.",
-  "ls.placeField":"Открытая площадка", "ls.placeHall":"Зал", "ls.placeClass":"Класс", "ls.placeGym":"Тренажёрный зал"
+  "ls.placeField":"Открытая площадка", "ls.placeHall":"Зал", "ls.placeClass":"Класс", "ls.placeGym":"Тренажёрный зал",
+  "bw.warmPrefix":"Разминка: ", "bw.warmGeneral":"Общая разминка", "bw.warmSpecific":"Разминка под вид спорта · ", "bw.warmGame":"Разминочная игра",
+  "bw.mainPrefix":"Основная часть: ", "bw.finalPrefix":"Финальная часть: ",
+  "bw.adjustLow":"Упростить: ", "bw.adjustHigh":"Усложнить: ",
+  "bw.doPrefix":"Выполнение: ", "bw.cuePrefix":"Ключевая подсказка: ", "bw.easyPrefix":"Испытывает трудности: ", "bw.hardPrefix":"Продвинутый: ",
+  "bw.variantsPrefix":"Варианты: ", "bw.noEquipment":"Без инвентаря",
+  "bw.customTitleSuffix":" — план урока собственной сборки", "bw.manualBuilderGroup":"Ручной конструктор"
 }
 };
 
