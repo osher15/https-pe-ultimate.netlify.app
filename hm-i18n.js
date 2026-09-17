@@ -229,7 +229,9 @@ en:{
   "gm.howTitle":"How to play", "gm.varsTitle":"Variations & adaptations",
   "gm.safeTitle":"Safety", "gm.watchYt":"Watch a demo on YouTube",
   "gm.ytHint":"The link opens a YouTube search by the game's name — so it never breaks over time, and you can pick a video in Hebrew or English.",
-  "gm.toLesson":"Add to a lesson plan", "gm.toLessonToast":"will be placed in your next lesson plan"
+  "gm.toLesson":"Add to a lesson plan", "gm.toLessonToast":"will be placed in your next lesson plan",
+  "kn.prWho":"Who it's for", "kn.prWhy":"What it's based on",
+  "kn.prStruct":"Program structure", "kn.prCues":"Coaching cues", "kn.prToSource":"to the source"
 },
 
 ar:{
@@ -387,7 +389,9 @@ ar:{
   "gm.howTitle":"سير اللعبة", "gm.varsTitle":"تنويعات وتكييفات",
   "gm.safeTitle":"السلامة", "gm.watchYt":"مشاهدة عرض توضيحي على يوتيوب",
   "gm.ytHint":"الرابط يفتح بحثاً في يوتيوب باسم اللعبة — بهذه الطريقة لا ينكسر مع الوقت، ويمكن اختيار فيديو بالعربية أو الإنجليزية.",
-  "gm.toLesson":"إضافة إلى مخطط الدرس", "gm.toLessonToast":"ستُدرج في مخطط الدرس التالي"
+  "gm.toLesson":"إضافة إلى مخطط الدرس", "gm.toLessonToast":"ستُدرج في مخطط الدرس التالي",
+  "kn.prWho":"لمن هذا موجه", "kn.prWhy":"على ماذا يستند",
+  "kn.prStruct":"هيكل البرنامج", "kn.prCues":"إرشادات التدريس", "kn.prToSource":"إلى المصدر"
 },
 
 ru:{
@@ -552,7 +556,9 @@ ru:{
   "gm.howTitle":"Ход игры", "gm.varsTitle":"Варианты и адаптации",
   "gm.safeTitle":"Безопасность", "gm.watchYt":"Смотреть демонстрацию на YouTube",
   "gm.ytHint":"Ссылка открывает поиск на YouTube по названию игры — так она никогда не устареет, и можно выбрать видео на иврите или английском.",
-  "gm.toLesson":"Добавить в план урока", "gm.toLessonToast":"будет добавлена в следующий план урока"
+  "gm.toLesson":"Добавить в план урока", "gm.toLessonToast":"будет добавлена в следующий план урока",
+  "kn.prWho":"Кому это подходит", "kn.prWhy":"На чём это основано",
+  "kn.prStruct":"Структура программы", "kn.prCues":"Ключевые указания", "kn.prToSource":"к источнику"
 }
 };
 

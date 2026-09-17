@@ -35,6 +35,7 @@ const suites=[
   require("./archive.e2e.js"),
   require("./know-i18n.e2e.js"),
   require("./games-i18n.e2e.js"),
+  require("./programs-i18n.e2e.js"),
   require("./ft-groups.e2e.js"),
   require("./manual.e2e.js")
 ];
