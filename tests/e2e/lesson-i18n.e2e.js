@@ -127,8 +127,8 @@ module.exports={title:"מחולל מערכי שיעור — תרגום מאגר 
     await switchLang(page,"ar");
     await pickTopic(page,"strength");
     await genPlan(page);
-    const popupPromise=page.context().waitForEvent("popup");
-    await page.evaluate(()=>document.getElementById("ls-print").click());
+    const popupPromise=page.waitForEvent("popup");
+    await page.click("#ls-print");
     const popup=await popupPromise;
     await popup.waitForLoadState();
     const html=await popup.evaluate(()=>document.body.innerHTML);
