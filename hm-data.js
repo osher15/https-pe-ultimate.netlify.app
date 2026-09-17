@@ -1530,12 +1530,17 @@ function profileOf(rows,stud,testDefs,opts){
       imp:(pr.sinceFirst&&pr.sinceFirst.improved)?Math.abs(pr.sinceFirst.rawDelta):null});
   });
 
-  /* מדד הכושר: ממוצע הציונים שיש להם ציון. זהה לחישוב הקיים. */
-  if(scores.length){
-    var sum=scores.reduce(function(a,b){ return a+b; },0);
-    out.index={v:Math.round(sum/scores.length*10)/10,from:scores.length,of:order.length};
-  }else out.index={v:null,from:0,of:order.length};
+  /* מדד הכושר: ממוצע הציונים שיש להם ציון. */
+  out.index={v:avgScoreRounded(scores),from:scores.length,of:order.length};
   return out;
+}
+/* ממוצע ציונים בודדים, מעוגל לעשירית — הנוסחה המשותפת בין מדד
+   הכושר של הכיתה (hm-tests.js indexFor) לפרופיל התלמיד (profileOf
+   כאן). קיימת פעם אחת כדי שעיגול/נוסחה לא יסטו זה מזה. */
+function avgScoreRounded(scores){
+  if(!scores||!scores.length)return null;
+  var sum=scores.reduce(function(a,b){ return a+b; },0);
+  return Math.round(sum/scores.length*10)/10;
 }
 
 /* מה חסר לתלמיד: מבחנים שהכיתה כבר עשתה ולו אין בהם תוצאה. */
@@ -1669,7 +1674,14 @@ function attendanceRateOf(att,stud,store,opts){
     if(mark==="p")p++; else if(mark==="h")h++;
   });
   if(!days)return null;
-  return {days:days,p:p,h:h,pct:Math.round((p+h*0.5)/days*100)};
+  return {days:days,p:p,h:h,pct:attPercent(p,h,days)};
+}
+/* אחוז השתתפות מנוכחות גולמית — הנוסחה המשותפת בין attendanceRateOf
+   כאן לדוח ה-CSV (attSummary ב-hm-tools.js). ‎null‎ כש-days הוא 0:
+   "אין נתון" ו"נוכח באפס אחוז" הם שני מצבים שונים; הקורא מחליט אם
+   להציג null או 0 (CSV, למשל, צריך תמיד ערך בעמודה). */
+function attPercent(p,h,days){
+  return days?Math.round((p+h*0.5)/days*100):null;
 }
 
 /* ============================================================
@@ -2421,8 +2433,8 @@ return {
   ERR:ERR, classifyStorageError:classifyStorageError, safeSet:safeSet, safeGet:safeGet,
   ambiguous:ambiguous, ambiguousGroups:ambiguousGroups,
   resolveCandidates:resolveCandidates, resolveAmbiguous:resolveAmbiguous,
-  profileOf:profileOf, missingTests:missingTests, classCoverage:classCoverage, classProgress:classProgress,
-  attendanceRateOf:attendanceRateOf,
+  profileOf:profileOf, avgScoreRounded:avgScoreRounded, missingTests:missingTests, classCoverage:classCoverage, classProgress:classProgress,
+  attendanceRateOf:attendanceRateOf, attPercent:attPercent,
   SESSION_ACTIVE:SESSION_ACTIVE, SESSION_DONE:SESSION_DONE, SESSION_MAX:SESSION_MAX,
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
   sessionById:sessionById, completeSession:completeSession, resumeSession:resumeSession,
@@ -2451,7 +2463,7 @@ return {
   clamp100:clamp100, scoreFromPoints:scoreFromPoints, percentile:percentile,
   normScore:normScore, relScore:relScore, scoreOne:scoreOne, REL_MIN:REL_MIN,
   otTheory:otTheory, otScore:otScore, OT_MAX:OT_MAX, OT_PASS:OT_PASS, OT_CORE_MIN:OT_CORE_MIN,
-  vo2max:vo2max, healthZone:healthZone, HFZ:HFZ, bmi:bmi, bmiCategory:bmiCategory,
+  vo2max:vo2max, healthZone:healthZone, HFZ:HFZ, HFZ_EXC:HFZ_EXC, bmi:bmi, bmiCategory:bmiCategory,
   BK_APP:BK_APP, BK_V:BK_V, IDB_BUDGET:IDB_BUDGET,
   resultsBefore:resultsBefore, BYTES_TYPICAL_QUOTA:BYTES_TYPICAL_QUOTA,
   fmtBytes:fmtBytes, storageLevel:storageLevel,

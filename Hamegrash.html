@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="33dc1908">
+<meta name="hm-build" content="7c535b5b">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -5106,12 +5106,17 @@ function profileOf(rows,stud,testDefs,opts){
       imp:(pr.sinceFirst&&pr.sinceFirst.improved)?Math.abs(pr.sinceFirst.rawDelta):null});
   });
 
-  /* מדד הכושר: ממוצע הציונים שיש להם ציון. זהה לחישוב הקיים. */
-  if(scores.length){
-    var sum=scores.reduce(function(a,b){ return a+b; },0);
-    out.index={v:Math.round(sum/scores.length*10)/10,from:scores.length,of:order.length};
-  }else out.index={v:null,from:0,of:order.length};
+  /* מדד הכושר: ממוצע הציונים שיש להם ציון. */
+  out.index={v:avgScoreRounded(scores),from:scores.length,of:order.length};
   return out;
+}
+/* ממוצע ציונים בודדים, מעוגל לעשירית — הנוסחה המשותפת בין מדד
+   הכושר של הכיתה (hm-tests.js indexFor) לפרופיל התלמיד (profileOf
+   כאן). קיימת פעם אחת כדי שעיגול/נוסחה לא יסטו זה מזה. */
+function avgScoreRounded(scores){
+  if(!scores||!scores.length)return null;
+  var sum=scores.reduce(function(a,b){ return a+b; },0);
+  return Math.round(sum/scores.length*10)/10;
 }
 
 /* מה חסר לתלמיד: מבחנים שהכיתה כבר עשתה ולו אין בהם תוצאה. */
@@ -5245,7 +5250,14 @@ function attendanceRateOf(att,stud,store,opts){
     if(mark==="p")p++; else if(mark==="h")h++;
   });
   if(!days)return null;
-  return {days:days,p:p,h:h,pct:Math.round((p+h*0.5)/days*100)};
+  return {days:days,p:p,h:h,pct:attPercent(p,h,days)};
+}
+/* אחוז השתתפות מנוכחות גולמית — הנוסחה המשותפת בין attendanceRateOf
+   כאן לדוח ה-CSV (attSummary ב-hm-tools.js). ‎null‎ כש-days הוא 0:
+   "אין נתון" ו"נוכח באפס אחוז" הם שני מצבים שונים; הקורא מחליט אם
+   להציג null או 0 (CSV, למשל, צריך תמיד ערך בעמודה). */
+function attPercent(p,h,days){
+  return days?Math.round((p+h*0.5)/days*100):null;
 }
 
 /* ============================================================
@@ -5997,8 +6009,8 @@ return {
   ERR:ERR, classifyStorageError:classifyStorageError, safeSet:safeSet, safeGet:safeGet,
   ambiguous:ambiguous, ambiguousGroups:ambiguousGroups,
   resolveCandidates:resolveCandidates, resolveAmbiguous:resolveAmbiguous,
-  profileOf:profileOf, missingTests:missingTests, classCoverage:classCoverage, classProgress:classProgress,
-  attendanceRateOf:attendanceRateOf,
+  profileOf:profileOf, avgScoreRounded:avgScoreRounded, missingTests:missingTests, classCoverage:classCoverage, classProgress:classProgress,
+  attendanceRateOf:attendanceRateOf, attPercent:attPercent,
   SESSION_ACTIVE:SESSION_ACTIVE, SESSION_DONE:SESSION_DONE, SESSION_MAX:SESSION_MAX,
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
   sessionById:sessionById, completeSession:completeSession, resumeSession:resumeSession,
@@ -6027,7 +6039,7 @@ return {
   clamp100:clamp100, scoreFromPoints:scoreFromPoints, percentile:percentile,
   normScore:normScore, relScore:relScore, scoreOne:scoreOne, REL_MIN:REL_MIN,
   otTheory:otTheory, otScore:otScore, OT_MAX:OT_MAX, OT_PASS:OT_PASS, OT_CORE_MIN:OT_CORE_MIN,
-  vo2max:vo2max, healthZone:healthZone, HFZ:HFZ, bmi:bmi, bmiCategory:bmiCategory,
+  vo2max:vo2max, healthZone:healthZone, HFZ:HFZ, HFZ_EXC:HFZ_EXC, bmi:bmi, bmiCategory:bmiCategory,
   BK_APP:BK_APP, BK_V:BK_V, IDB_BUDGET:IDB_BUDGET,
   resultsBefore:resultsBefore, BYTES_TYPICAL_QUOTA:BYTES_TYPICAL_QUOTA,
   fmtBytes:fmtBytes, storageLevel:storageLevel,
@@ -8925,21 +8937,13 @@ const BT=(function(){
     p.classList.toggle("acc",isStandard());
   }
 
-  /* ----- VO2 & FITNESSGRAM ----- */
-  function vo2max(speed,age){ return 31.025+3.238*speed-3.248*age+0.1536*age*speed; }
-  const HFZ={
-    boys:{10:[37.3,40.2],11:[37.3,40.2],12:[37.6,40.3],13:[38.6,41.1],14:[39.6,42.5],15:[40.6,43.6],16:[41.0,44.1],17:[41.2,44.2],18:[41.2,44.3]},
-    girls:{10:[37.3,40.2],11:[37.3,40.2],12:[37.0,40.1],13:[36.6,39.7],14:[36.3,39.4],15:[36.0,39.1],16:[35.8,38.9],17:[35.7,38.8],18:[35.3,38.6]}
-  };
-  const EXC=6.0;
-  function stdFor(age,sex){ const a=Math.max(10,Math.min(18,Math.round(age))); return HFZ[sex][a]; }
-  function classify(v,age,sex){
-    const s=stdFor(age,sex),R=s[0],H=s[1];
-    if(v>=H+EXC)return{g:"מצוין",c:"#19c3ff"};
-    if(v>=H)return{g:"אזור בריא",c:"#c8ff2e"};
-    if(v>R)return{g:"טעון שיפור",c:"#ffd23f"};
-    return{g:"סיכון בריאותי",c:"#ff4d5e"};
-  }
+  /* ----- VO2 & FITNESSGRAM -----
+     הנוסחה וטבלת האזורים חיות פעם אחת ב-hm-data.js (DATA.vo2max/
+     healthZone) — משם גם כרטיס התלמיד קורא אותן. גרסה עצמאית כאן
+     הייתה מסוכנת בדיוק כי היא כבר סטתה: הצבעים לא היו זהים לאלה
+     שכרטיס התלמיד מציג לאותו אזור בריאות. */
+  const vo2max=DATA.vo2max;
+  function classify(v,age,sex){ return DATA.healthZone(v,age,sex==="girls"?"girls":"boys"); }
 
   /* ----- audio (envelope tones, scheduled on audio clock) ----- */
   function tone(at,freq,dur,vol){
@@ -9143,8 +9147,8 @@ const BT=(function(){
   }
   function buildNorms(){
     function tbl(sex){
-      let h='<table class="tbl"><thead><tr><th>גיל</th><th><span class="dot" style="background:#ff4d5e"></span> סיכון בריאותי</th><th><span class="dot" style="background:#ffd23f"></span> טעון שיפור</th><th><span class="dot" style="background:#c8ff2e"></span> אזור בריא</th><th><span class="dot" style="background:#19c3ff"></span> מצוין</th></tr></thead><tbody>';
-      for(let a=10;a<=17;a++){ const s2=HFZ[sex][a],R=s2[0],H=s2[1];
+      let h='<table class="tbl"><thead><tr><th>גיל</th><th><span class="dot" style="background:#ff6b81"></span> סיכון בריאותי</th><th><span class="dot" style="background:#ffd166"></span> טעון שיפור</th><th><span class="dot" style="background:#8fd96b"></span> אזור בריא</th><th><span class="dot" style="background:#5cc8ff"></span> מצוין</th></tr></thead><tbody>';
+      for(let a=10;a<=17;a++){ const s2=DATA.HFZ[sex][a],R=s2[0],H=s2[1],EXC=DATA.HFZ_EXC;
         h+=`<tr><td class="rk">${a}</td><td class="mono">≤ ${R.toFixed(1)}</td><td class="mono">${(R+0.1).toFixed(1)}–${(H-0.1).toFixed(1)}</td><td class="mono">${H.toFixed(1)}–${(H+EXC-0.1).toFixed(1)}</td><td class="mono">≥ ${(H+EXC).toFixed(1)}</td></tr>`; }
       return h+"</tbody></table>";
     }
@@ -13926,7 +13930,7 @@ window.TOOLS=(function(){
     const rows=[["שם","כיתה","שיעורים","השתתפות מלאה","חלקית","פטור","נעדר","% השתתפות"]];
     l.forEach(s=>{
       const x=per[s.id]||{p:0,h:0,e:0,a:0,days:0};
-      const pct=x.days?Math.round((x.p+x.h*0.5)/x.days*100):0;
+      const pct=window.HMDATA.attPercent(x.p,x.h,x.days)??0;
       rows.push([s.name,s.cls||"",x.days,x.p,x.h,x.e,x.a,pct+"%"]);
     });
     H().dlCSV("attendance_"+(attCls||"all")+".csv",rows);
@@ -13963,8 +13967,7 @@ window.TOOLS=(function(){
       <div class="hint" style="margin-bottom:10px">${r.crit.length} קריטריונים · סולם 1–4 · הציון הוא ממוצע הקריטריונים.</div>
       ${l.length?l.map(s=>{
         const key=r.id+"|"+s.id, mine=sc[key]||{};
-        const vals=r.crit.map((_,i)=>mine[i]).filter(v=>v);
-        const avg=vals.length?(vals.reduce((a,b)=>a+ +b,0)/vals.length):null;
+        const avg=rubAvg(r.crit.map((_,i)=>mine[i]));
         return `<div class="tl-rubrow">
           <div class="hd"><b>${esc(s.name)}</b>
             <span class="avg ${avg?"":"none"}">${avg?avg.toFixed(1):"—"}</span></div>
@@ -13998,6 +14001,12 @@ window.TOOLS=(function(){
     list.push({id,name:name.trim(),crit});
     H().LS.set("tools.rubrics",list); curRub=id; renderRub(); toast("המחוון נוצר");
   }
+  /* ממוצע קריטריונים ממולאים — נוסחה משותפת בין תצוגת המחוון על
+     המסך (renderRub) לדוח ה-CSV (rubCsv), כדי שלא יסטו זה מזה. */
+  function rubAvg(vals){
+    const nums=(vals||[]).filter(v=>v).map(Number);
+    return nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null;
+  }
   function rubCsv(){
     const r=RUB().find(x=>x.id===curRub); if(!r){H().toast("בחר מחוון");return;}
     const l=students().filter(s=>inClass(s,rubCls)), sc=SC();
@@ -14005,8 +14014,8 @@ window.TOOLS=(function(){
     l.forEach(s=>{
       const mine=sc[r.id+"|"+s.id]||{};
       const vals=r.crit.map((_,i)=>mine[i]||"");
-      const nums=vals.filter(v=>v).map(Number);
-      rows.push([s.name,s.cls||"",...vals,nums.length?(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2):""]);
+      const avg=rubAvg(vals);
+      rows.push([s.name,s.cls||"",...vals,avg!=null?avg.toFixed(2):""]);
     });
     H().dlCSV("rubric_"+r.name+".csv",rows);
   }
@@ -16711,6 +16720,14 @@ window.FT=(function(){
     if(!list||!list.length)return null;
     return list.reduce((a,b)=>better(T,b.val,a.val)?b:a);
   }
+  /* ממוצע והטוב מתוך רשימת ערכים גולמית — נוסחה משותפת בין הכותרת
+     בעליית מסך המבחן (renderRun) לעדכון החי שלה אחרי כל הזנה
+     (refreshHead), כדי ששתיהן תמיד יראו אותו מספר. */
+  function avgBest(vals,dir){
+    if(!vals.length)return {avg:null,best:null};
+    return {avg:vals.reduce((a,b)=>a+b,0)/vals.length,
+            best:dir==="low"?Math.min(...vals):Math.max(...vals)};
+  }
   /* הטובה ביותר אי פעם — זו שנכנסת לניקוד ולמדד */
   function bestResult(c,testId,who){
     return bestOf(testById(testId),attempts(c,testId,who));
@@ -16850,8 +16867,7 @@ window.FT=(function(){
       .map(r=>{ const sc=scoreOne(r.test,stud,grade,r.val); return {test:r.test,val:r.val,d:r.d,sc:sc.v,src:sc.src}; })
       .filter(x=>x.sc!=null);
     if(!rows.length)return {idx:null,rows:[],partial:Object.keys(byTest).length>0};
-    const idx=rows.reduce((a,b)=>a+b.sc,0)/rows.length;
-    return {idx:Math.round(idx*10)/10,rows,partial:false};
+    return {idx:DATA.avgScoreRounded(rows.map(r=>r.sc)),rows,partial:false};
   }
 
   /* ============================================================
@@ -16959,8 +16975,7 @@ window.FT=(function(){
 
     const done=rst.filter(s=>valOf(s)!=null);
     const vals=done.map(s=>valOf(s));
-    const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
-    const best=vals.length?(T.dir==="low"?Math.min(...vals):Math.max(...vals)):null;
+    const {avg,best}=avgBest(vals,T.dir);
 
     $("#ft-runHead").innerHTML=`
       <div class="ft-rh">
@@ -17139,8 +17154,7 @@ window.FT=(function(){
     const {$}=H(), T=testById(st.test), c=cls();
     const rst=roster(c);
     const vals=rst.map(s=>{const r=todayResult(c,T.id,s);return r?r.val:null;}).filter(v=>v!=null);
-    const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
-    const best=vals.length?(T.dir==="low"?Math.min(...vals):Math.max(...vals)):null;
+    const {avg,best}=avgBest(vals,T.dir);
     const sb=$("#ft-runHead").querySelector(".sb");
     if(sb)sb.textContent=`כיתה ${disp(c)} · ${vals.length}/${rst.length} נמדדו`
       +(avg!=null?` · ממוצע ${fmtVal(T,avg)} ${T.unit}`:"")

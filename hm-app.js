@@ -2251,21 +2251,13 @@ const BT=(function(){
     p.classList.toggle("acc",isStandard());
   }
 
-  /* ----- VO2 & FITNESSGRAM ----- */
-  function vo2max(speed,age){ return 31.025+3.238*speed-3.248*age+0.1536*age*speed; }
-  const HFZ={
-    boys:{10:[37.3,40.2],11:[37.3,40.2],12:[37.6,40.3],13:[38.6,41.1],14:[39.6,42.5],15:[40.6,43.6],16:[41.0,44.1],17:[41.2,44.2],18:[41.2,44.3]},
-    girls:{10:[37.3,40.2],11:[37.3,40.2],12:[37.0,40.1],13:[36.6,39.7],14:[36.3,39.4],15:[36.0,39.1],16:[35.8,38.9],17:[35.7,38.8],18:[35.3,38.6]}
-  };
-  const EXC=6.0;
-  function stdFor(age,sex){ const a=Math.max(10,Math.min(18,Math.round(age))); return HFZ[sex][a]; }
-  function classify(v,age,sex){
-    const s=stdFor(age,sex),R=s[0],H=s[1];
-    if(v>=H+EXC)return{g:"מצוין",c:"#19c3ff"};
-    if(v>=H)return{g:"אזור בריא",c:"#c8ff2e"};
-    if(v>R)return{g:"טעון שיפור",c:"#ffd23f"};
-    return{g:"סיכון בריאותי",c:"#ff4d5e"};
-  }
+  /* ----- VO2 & FITNESSGRAM -----
+     הנוסחה וטבלת האזורים חיות פעם אחת ב-hm-data.js (DATA.vo2max/
+     healthZone) — משם גם כרטיס התלמיד קורא אותן. גרסה עצמאית כאן
+     הייתה מסוכנת בדיוק כי היא כבר סטתה: הצבעים לא היו זהים לאלה
+     שכרטיס התלמיד מציג לאותו אזור בריאות. */
+  const vo2max=DATA.vo2max;
+  function classify(v,age,sex){ return DATA.healthZone(v,age,sex==="girls"?"girls":"boys"); }
 
   /* ----- audio (envelope tones, scheduled on audio clock) ----- */
   function tone(at,freq,dur,vol){
@@ -2469,8 +2461,8 @@ const BT=(function(){
   }
   function buildNorms(){
     function tbl(sex){
-      let h='<table class="tbl"><thead><tr><th>גיל</th><th><span class="dot" style="background:#ff4d5e"></span> סיכון בריאותי</th><th><span class="dot" style="background:#ffd23f"></span> טעון שיפור</th><th><span class="dot" style="background:#c8ff2e"></span> אזור בריא</th><th><span class="dot" style="background:#19c3ff"></span> מצוין</th></tr></thead><tbody>';
-      for(let a=10;a<=17;a++){ const s2=HFZ[sex][a],R=s2[0],H=s2[1];
+      let h='<table class="tbl"><thead><tr><th>גיל</th><th><span class="dot" style="background:#ff6b81"></span> סיכון בריאותי</th><th><span class="dot" style="background:#ffd166"></span> טעון שיפור</th><th><span class="dot" style="background:#8fd96b"></span> אזור בריא</th><th><span class="dot" style="background:#5cc8ff"></span> מצוין</th></tr></thead><tbody>';
+      for(let a=10;a<=17;a++){ const s2=DATA.HFZ[sex][a],R=s2[0],H=s2[1],EXC=DATA.HFZ_EXC;
         h+=`<tr><td class="rk">${a}</td><td class="mono">≤ ${R.toFixed(1)}</td><td class="mono">${(R+0.1).toFixed(1)}–${(H-0.1).toFixed(1)}</td><td class="mono">${H.toFixed(1)}–${(H+EXC-0.1).toFixed(1)}</td><td class="mono">≥ ${(H+EXC).toFixed(1)}</td></tr>`; }
       return h+"</tbody></table>";
     }

@@ -208,7 +208,7 @@ window.TOOLS=(function(){
     const rows=[["שם","כיתה","שיעורים","השתתפות מלאה","חלקית","פטור","נעדר","% השתתפות"]];
     l.forEach(s=>{
       const x=per[s.id]||{p:0,h:0,e:0,a:0,days:0};
-      const pct=x.days?Math.round((x.p+x.h*0.5)/x.days*100):0;
+      const pct=window.HMDATA.attPercent(x.p,x.h,x.days)??0;
       rows.push([s.name,s.cls||"",x.days,x.p,x.h,x.e,x.a,pct+"%"]);
     });
     H().dlCSV("attendance_"+(attCls||"all")+".csv",rows);
@@ -245,8 +245,7 @@ window.TOOLS=(function(){
       <div class="hint" style="margin-bottom:10px">${r.crit.length} קריטריונים · סולם 1–4 · הציון הוא ממוצע הקריטריונים.</div>
       ${l.length?l.map(s=>{
         const key=r.id+"|"+s.id, mine=sc[key]||{};
-        const vals=r.crit.map((_,i)=>mine[i]).filter(v=>v);
-        const avg=vals.length?(vals.reduce((a,b)=>a+ +b,0)/vals.length):null;
+        const avg=rubAvg(r.crit.map((_,i)=>mine[i]));
         return `<div class="tl-rubrow">
           <div class="hd"><b>${esc(s.name)}</b>
             <span class="avg ${avg?"":"none"}">${avg?avg.toFixed(1):"—"}</span></div>
@@ -280,6 +279,12 @@ window.TOOLS=(function(){
     list.push({id,name:name.trim(),crit});
     H().LS.set("tools.rubrics",list); curRub=id; renderRub(); toast("המחוון נוצר");
   }
+  /* ממוצע קריטריונים ממולאים — נוסחה משותפת בין תצוגת המחוון על
+     המסך (renderRub) לדוח ה-CSV (rubCsv), כדי שלא יסטו זה מזה. */
+  function rubAvg(vals){
+    const nums=(vals||[]).filter(v=>v).map(Number);
+    return nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null;
+  }
   function rubCsv(){
     const r=RUB().find(x=>x.id===curRub); if(!r){H().toast("בחר מחוון");return;}
     const l=students().filter(s=>inClass(s,rubCls)), sc=SC();
@@ -287,8 +292,8 @@ window.TOOLS=(function(){
     l.forEach(s=>{
       const mine=sc[r.id+"|"+s.id]||{};
       const vals=r.crit.map((_,i)=>mine[i]||"");
-      const nums=vals.filter(v=>v).map(Number);
-      rows.push([s.name,s.cls||"",...vals,nums.length?(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2):""]);
+      const avg=rubAvg(vals);
+      rows.push([s.name,s.cls||"",...vals,avg!=null?avg.toFixed(2):""]);
     });
     H().dlCSV("rubric_"+r.name+".csv",rows);
   }

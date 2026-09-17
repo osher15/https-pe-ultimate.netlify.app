@@ -340,6 +340,14 @@ window.FT=(function(){
     if(!list||!list.length)return null;
     return list.reduce((a,b)=>better(T,b.val,a.val)?b:a);
   }
+  /* ממוצע והטוב מתוך רשימת ערכים גולמית — נוסחה משותפת בין הכותרת
+     בעליית מסך המבחן (renderRun) לעדכון החי שלה אחרי כל הזנה
+     (refreshHead), כדי ששתיהן תמיד יראו אותו מספר. */
+  function avgBest(vals,dir){
+    if(!vals.length)return {avg:null,best:null};
+    return {avg:vals.reduce((a,b)=>a+b,0)/vals.length,
+            best:dir==="low"?Math.min(...vals):Math.max(...vals)};
+  }
   /* הטובה ביותר אי פעם — זו שנכנסת לניקוד ולמדד */
   function bestResult(c,testId,who){
     return bestOf(testById(testId),attempts(c,testId,who));
@@ -479,8 +487,7 @@ window.FT=(function(){
       .map(r=>{ const sc=scoreOne(r.test,stud,grade,r.val); return {test:r.test,val:r.val,d:r.d,sc:sc.v,src:sc.src}; })
       .filter(x=>x.sc!=null);
     if(!rows.length)return {idx:null,rows:[],partial:Object.keys(byTest).length>0};
-    const idx=rows.reduce((a,b)=>a+b.sc,0)/rows.length;
-    return {idx:Math.round(idx*10)/10,rows,partial:false};
+    return {idx:DATA.avgScoreRounded(rows.map(r=>r.sc)),rows,partial:false};
   }
 
   /* ============================================================
@@ -588,8 +595,7 @@ window.FT=(function(){
 
     const done=rst.filter(s=>valOf(s)!=null);
     const vals=done.map(s=>valOf(s));
-    const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
-    const best=vals.length?(T.dir==="low"?Math.min(...vals):Math.max(...vals)):null;
+    const {avg,best}=avgBest(vals,T.dir);
 
     $("#ft-runHead").innerHTML=`
       <div class="ft-rh">
@@ -768,8 +774,7 @@ window.FT=(function(){
     const {$}=H(), T=testById(st.test), c=cls();
     const rst=roster(c);
     const vals=rst.map(s=>{const r=todayResult(c,T.id,s);return r?r.val:null;}).filter(v=>v!=null);
-    const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
-    const best=vals.length?(T.dir==="low"?Math.min(...vals):Math.max(...vals)):null;
+    const {avg,best}=avgBest(vals,T.dir);
     const sb=$("#ft-runHead").querySelector(".sb");
     if(sb)sb.textContent=`כיתה ${disp(c)} · ${vals.length}/${rst.length} נמדדו`
       +(avg!=null?` · ממוצע ${fmtVal(T,avg)} ${T.unit}`:"")
