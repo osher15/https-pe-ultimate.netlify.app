@@ -39,6 +39,7 @@ const suites=[
   require("./lesson-i18n.e2e.js"),
   require("./build-howto-i18n.e2e.js"),
   require("./ft-groups.e2e.js"),
+  require("./events.e2e.js"),
   require("./manual.e2e.js")
 ];
 run(suites).then(fail=>process.exit(fail?1:0))

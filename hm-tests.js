@@ -2361,7 +2361,7 @@ window.FT=(function(){
         return;
       }
       if(!r.ok){ H().toast("לא ניתן לפתוח שיעור"); return; }
-      H().paintSessionBar();
+      /* פס השיעור נצבע דרך hm:session-change — S.start מכריז עליו */
       H().toast(r.outcome==="resumed"?"השיעור בכיתה "+disp(c)+" כבר פתוח":"▶ השיעור בכיתה "+disp(c)+" התחיל");
       renderPicker();
     };

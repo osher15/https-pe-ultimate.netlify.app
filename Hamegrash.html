@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="063865a1">
+<meta name="hm-build" content="a500e320">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -7009,6 +7009,31 @@ function fmtMS(t){ const m=Math.floor(t/60), s=Math.floor(t%60); return String(m
 function fmtMSc(t){ const m=Math.floor(t/60), s=Math.floor(t%60), c=Math.floor((t%1)*100); return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")+"."+String(c).padStart(2,"0"); }
 function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 function modal(id,on){ $("#"+id).classList.toggle("on",on!==false); }
+
+/* ============================================================
+   אירועים בין מודולים
+   ------------------------------------------------------------
+   פס השיעור הפעיל גלוי בכל מסך, ודף הבית מציג נתונים שמסכים
+   אחרים משנים. עד כאן כל נקודה ששינתה שיעור, מערכת שעות או
+   קבוצה נאלצה «לדעת» בעצמה אילו פונקציות ציור להפעיל אחריה —
+   ושכחה אחת לא מייצרת שגיאה, רק ממשק תקוע עד הניווט הבא.
+
+   ההיפוך פשוט: מי ששינה מכריז מה השתנה, ומי שמאכפת לו מאזין.
+   זה בדיוק הדפוס של i18n:change שכבר עובד כאן — CustomEvent על
+   document, בלי ספרייה ובלי רישום דינמי.
+
+   ארבעה שמות, לפי מה שהשתנה בפועל:
+     hm:session-change   — שיעור נפתח או הסתיים
+     hm:schedule-change  — מערכת השעות נכתבה
+     hm:groups-change    — קבוצת הוראה נוצרה, עודכנה או נמחקה
+     hm:classes-change   — כיתה שינתה שם
+
+   ההכרזה עטופה ב-try: מסך תקוע עדיף על מוטציה שנופלת באמצע.
+   ============================================================ */
+function emit(name,detail){
+  try{ document.dispatchEvent(new CustomEvent("hm:"+name,{detail:detail||null})); }
+  catch(e){}
+}
 function wireModals(){
   $$("[data-close]").forEach(b=>b.addEventListener("click",()=>modal(b.dataset.close,false)));
   $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m)m.classList.remove("on"); }));
@@ -7094,9 +7119,8 @@ function go(mod){
   if(mod==="stu"||mod==="home")syncStudents();
   if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init}[mod]; if(f)f(); }
   if(mod==="home"){ homeStats();
-    /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
-       המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
-       לנראה — במקום מסך שמראה מצב ישן. */
+    /* דף הבית נצבע טרי בכל כניסה. האירועים מטפלים במה שמשתנה
+       בזמן שהוא כבר גלוי; זה מטפל במה שהשתנה בזמן שלא היה. */
     paintHome(); }
   updateBack(); wireTips();
   if(window.I18N)window.I18N.applyDom();
@@ -7361,11 +7385,15 @@ const SESSION={
   active:()=>DATA.activeSession(sesAll()),
   byId:id=>DATA.sessionById(sesAll(),id),
   list:opts=>DATA.listSessions(sesAll(),opts),
-  /* פותח שיעור, או מחזיר את הפתוח כבר. outcome אומר מה קרה. */
+  /* פותח שיעור, או מחזיר את הפתוח כבר. outcome אומר מה קרה.
+     ההכרזה כאן ולא אצל הקוראים: מחולל מערכי השיעור ובורר הכיתה
+     שבמבחני הכושר פותחים שיעור דרך אותה נקודה בדיוק, ומקבלים את
+     ציור פס השיעור ודף הבית בלי לדעת שהם קיימים. */
   start(o){
     const r=DATA.createSession(sesAll(),o);
     if(r.ok&&r.outcome==="created"&&!sesSave(r.list))
       return {ok:false,outcome:"not-saved",session:null};
+    if(r.ok)emit("session-change",{kind:"start",outcome:r.outcome});
     return r;
   },
   /* o = {rating, note} — מה שקרה בשיעור. שניהם רשות. */
@@ -7376,7 +7404,7 @@ const SESSION={
     /* סיום שיעור משנה גם את דף הבית — המשבצת מסומנת וכרטיס
        «השיעור האחרון» נפתח. בלי זה מורה שסיים שיעור בעודו בדף
        הבית היה רואה מצב ישן עד שייצא ויחזור. */
-    if(r.ok){ paintSessionBar(); paintHome(); }
+    if(r.ok)emit("session-change",{kind:"complete",outcome:r.outcome});
     return r;
   },
   resume:()=>DATA.resumeSession(sesAll()),
@@ -7492,7 +7520,7 @@ function renameClassFromUi(){
   if(!r.ok){ toast(r.error==="empty-name"?"השם ריק":"שינוי השם נכשל"); return; }
   toast("✓ הכיתה נקראת עכשיו «"+nm+"»");
   paintClassRename(cid);
-  paintSessionBar();
+  emit("classes-change",{cid});
   /* המסך שמתחת למודאל מציג את השם דרך הרישום — מציירים מחדש */
   const mod=document.body.dataset.mod;
   const again={ft:()=>window.FT&&window.FT.init(),stu:()=>window.STU&&window.STU.init(),tools:()=>window.TOOLS&&window.TOOLS.init()}[mod];
@@ -7550,9 +7578,13 @@ const SCHED_KEY="sched.week";
 const isoToday=()=>new Date().toISOString().slice(0,10);
 const minNow=()=>{ const d=new Date(); return d.getHours()*60+d.getMinutes(); };
 function schedAll(){ const v=LS.get(SCHED_KEY,[]); return Array.isArray(v)?v:[]; }
+/* נקודת הכתיבה היחידה של מערכת השעות — הוספה, מחיקה, טעינת
+   הדוגמה וניקוי כולן עוברות כאן, ולכן ההכרזה יושבת כאן ולא אצל
+   כל אחת מהן בנפרד. */
 function schedSave(list){
   const ok=LS.set(SCHED_KEY,list);
-  if(!ok)toast("⚠ מערכת השעות לא נשמרה במכשיר — ראה את ההודעה למעלה");
+  if(!ok){ toast("⚠ מערכת השעות לא נשמרה במכשיר — ראה את ההודעה למעלה"); return ok; }
+  emit("schedule-change");
   return ok;
 }
 const SCHED={
@@ -7591,10 +7623,9 @@ function startFromSlot(slot){
     return;
   }
   if(!r.ok){ toast("לא ניתן לפתוח שיעור"); return; }
-  paintSessionBar();
+  /* פס השיעור ודף הבית כבר נצבעו — SESSION.start הכריז עליהם */
   toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+
     (slot.clsSnapshot||"")+" התחיל");
-  paintHome();
 }
 /* שם הכיתה של משבצת — מהרישום, כדי ששינוי שם יופיע גם כאן */
 function slotName(sl){
@@ -7840,7 +7871,8 @@ function renderGrpList(){
       (used?"• "+used+" משבצות במערכת השעות מצביעות עליה ויישארו בלי קבוצה.\n":"")+
       "• התלמידים, המדידות והשיעורים שהתקיימו לא ייפגעו."))return;
     DATA.removeGroup(REGSTORE,g.id);
-    grpReset(); renderGrpList(); paintHome();
+    emit("groups-change",{kind:"remove",gid:g.id});
+    grpReset(); renderGrpList();
     toast("הקבוצה נמחקה");
   }));
 }
@@ -7907,8 +7939,9 @@ function grpSave(){
     : DATA.makeGroup(REGSTORE,{name,members,sids});
   if(!r.ok){ $("#grp-err").textContent=GRP_ERR[r.outcome]||"לא נשמר"; return; }
   $("#grp-err").textContent="";
+  emit("groups-change",{kind:grpEdit?"update":"create"});
   toast(r.outcome==="exists"?"הקבוצה הזאת כבר קיימת":"✓ הקבוצה נשמרה");
-  grpReset(); renderGrpList(); paintGroupSelect(); paintHome();
+  grpReset(); renderGrpList(); paintGroupSelect();
 }
 function openGroups(){
   grpReset(); renderGrpList();
@@ -7978,7 +8011,7 @@ function renderLoose(loose){
       '<div class="sb">'+esc(DATA.DAYS_HE[sl.day]||"")+'</div></div>'+
       '<button class="btn sm ghost" data-del="'+esc(sl.id)+'">🗑</button></div>').join("");
   $$("#sw-loose [data-del]").forEach(b=>b.addEventListener("click",()=>{
-    SCHED.remove(b.dataset.del); renderGrid(); paintHome();
+    SCHED.remove(b.dataset.del); renderGrid();
   }));
 }
 function renderCellList(){
@@ -7990,7 +8023,7 @@ function renderCellList(){
         '<button class="btn sm ghost" data-del="'+esc(sl.id)+'">🗑</button></div>').join("")
     : '<div class="hint">התא ריק.</div>';
   $$("#sw-cellList [data-del]").forEach(b=>b.addEventListener("click",()=>{
-    SCHED.remove(b.dataset.del); renderGrid(); renderCellList(); paintHome();
+    SCHED.remove(b.dataset.del); renderGrid(); renderCellList();
   }));
 }
 /* בורר הקבוצות — נטען מהרישום בכל פתיחה, כדי שקבוצה שנוצרה עכשיו
@@ -8055,7 +8088,7 @@ function addFromEditor(){
   }
   toast(r.outcome==="duplicate"?"המשבצת הזאת כבר קיימת":"✓ נוסף למערכת");
   if(pe)$("#sw-topic").value="";
-  renderGrid(); renderCellList(); paintHome();
+  renderGrid(); renderCellList();
 }
 
 /* טעינת הדוגמה. היא לא ברירת מחדל ולא נטענת לבד — ומעל מערכת
@@ -8071,7 +8104,7 @@ function loadSampleWeek(){
     const r=SCHED.add(o);
     if(r.ok&&r.outcome==="added")added++;
   });
-  closeCell(); renderGrid(); paintHome();
+  closeCell(); renderGrid();
   toast("✓ נטענו "+added+" משבצות — ערוך אותן לפי המערכת שלך");
 }
 function clearWeek(){
@@ -8079,7 +8112,7 @@ function clearWeek(){
   if(!n){ toast("המערכת כבר ריקה"); return; }
   if(!confirm("למחוק את כל "+n+" המשבצות במערכת השעות?\nהתלמידים, המדידות והשיעורים לא ייפגעו."))return;
   schedSave([]);
-  closeCell(); renderGrid(); paintHome();
+  closeCell(); renderGrid();
   toast("המערכת נוקתה");
 }
 
@@ -11936,6 +11969,9 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCS
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
   session:SESSION,paintSessionBar,openSesHist,
+  /* מודול שמשנה נתון משותף בעצמו מכריז עליו, ולא קורא לפונקציות
+     הציור של מסכים שהוא לא אמור להכיר */
+  emit,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
@@ -11987,6 +12023,22 @@ window.HMBoot=function(){
     const mod=document.body.dataset.mod;
     if(mod&&mod!=="home"){ inited[mod]&&go(mod); }
   });
+  /* ============================================================
+     ההאזנה לאירועי המודולים — רישום אחד, בעלייה
+     ------------------------------------------------------------
+     פס השיעור גלוי בכל מסך, ולכן הוא נצבע על כל שינוי רלוונטי
+     בלי תנאי; הוא בודק בעצמו אם יש שיעור פתוח ויוצא אם אין.
+
+     דף הבית נצבע רק כשהוא באמת גלוי — בדיוק כמו שהשעון העליון
+     כבר נוהג. כשהוא לא גלוי, go("home") ייצבע אותו טרי ממילא,
+     ואין טעם לבנות רשימות שאיש לא רואה.
+     ============================================================ */
+  document.addEventListener("hm:session-change",()=>paintSessionBar());
+  document.addEventListener("hm:classes-change",()=>paintSessionBar());
+  ["session-change","schedule-change","groups-change","classes-change"]
+    .forEach(n=>document.addEventListener("hm:"+n,()=>{
+      if(document.body.dataset.mod==="home"){ try{ paintHome(); }catch(e){} }
+    }));
   wireSessionBar();
   wireSched();
   wireGroups();
@@ -15043,7 +15095,7 @@ window.LESSON=(function(){
         H().toast("כבר פתוח שיעור בכיתה "+(r.active.clsSnapshot||"")); return;
       }
       if(!r.ok){ H().toast("לא ניתן לפתוח שיעור"); return; }
-      H().paintSessionBar();
+      /* פס השיעור נצבע דרך hm:session-change — S.start מכריז עליו */
       H().toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+c+" התחיל");
       renderPlan();
     };
@@ -19290,7 +19342,7 @@ window.FT=(function(){
         return;
       }
       if(!r.ok){ H().toast("לא ניתן לפתוח שיעור"); return; }
-      H().paintSessionBar();
+      /* פס השיעור נצבע דרך hm:session-change — S.start מכריז עליו */
       H().toast(r.outcome==="resumed"?"השיעור בכיתה "+disp(c)+" כבר פתוח":"▶ השיעור בכיתה "+disp(c)+" התחיל");
       renderPicker();
     };

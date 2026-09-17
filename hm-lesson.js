@@ -620,7 +620,7 @@ window.LESSON=(function(){
         H().toast("כבר פתוח שיעור בכיתה "+(r.active.clsSnapshot||"")); return;
       }
       if(!r.ok){ H().toast("לא ניתן לפתוח שיעור"); return; }
-      H().paintSessionBar();
+      /* פס השיעור נצבע דרך hm:session-change — S.start מכריז עליו */
       H().toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+c+" התחיל");
       renderPlan();
     };
