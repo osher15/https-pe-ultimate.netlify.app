@@ -900,8 +900,17 @@ const finLoc=f=>{
 window.LBUILD=(function(){
   let inited=false;
   const BLOCK_FMT={circuit:1,amrap:1,emom:1};   /* פורמטים שרצים כבלוק אחד ולא תרגיל־תרגיל */
-  const LVL_NAME={1:"קל",2:"בינוני",3:"מתקדם"};
-  const PLACE_NAME={field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"};
+  const LVL_NAME_HE={1:"קל",2:"בינוני",3:"מתקדם"};
+  const lvlName=l=>{
+    const T=window.t||((k,d)=>d);
+    return {1:T("bw.lvlEasy","קל"),2:T("bw.lvlMed","בינוני"),3:T("bw.lvlAdv","מתקדם")}[l];
+  };
+  const PLACE_NAME_HE={field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"};
+  const placeNameBw=p=>{
+    const T=window.t||((k,d)=>d);
+    return {field:T("ls.placeField","מגרש חוץ"),hall:T("ls.placeHall","אולם"),
+      class:T("ls.placeClass","כיתה"),gym:T("ls.placeGym","חדר כושר")}[p]||p;
+  };
 
   const DEF={step:1,grade:"mid",dur:45,cls:"",size:30,place:"field",
     wuType:"general",wuId:"w-ramp",wuMin:10,
@@ -938,11 +947,17 @@ window.LBUILD=(function(){
   /* ============================================================
      רינדור השלבים
      ============================================================ */
-  const STEPS=[["1","פרטי שיעור","📝"],["2","חימום","🔥"],["3","חלק עיקרי","💪"],["4","חלק סופי","🎮"],["5","סיכום","✅"]];
+  const STEPS_HE=[["1","פרטי שיעור","📝"],["2","חימום","🔥"],["3","חלק עיקרי","💪"],["4","חלק סופי","🎮"],["5","סיכום","✅"]];
+  const stepsLoc=()=>{
+    const T=window.t||((k,d)=>d);
+    return [["1",T("bw.stepMeta","פרטי שיעור"),"📝"],["2",T("bw.stepWarmName","חימום"),"🔥"],
+      ["3",T("bw.stepMainName","חלק עיקרי"),"💪"],["4",T("bw.stepFinalName","חלק סופי"),"🎮"],
+      ["5",T("bw.stepSumName","סיכום"),"✅"]];
+  };
 
   function renderSteps(){
     const {$, $$}=H();
-    $("#bw-steps").innerHTML=STEPS.map(([n,nm,em])=>
+    $("#bw-steps").innerHTML=stepsLoc().map(([n,nm,em])=>
       `<button class="bw-step${+n===st.step?" on":""}${+n<st.step?" done":""}" data-bs="${n}">
         <span class="e">${+n<st.step?"✓":em}</span><span class="t">${nm}</span></button>`).join("");
     $$("#bw-steps [data-bs]").forEach(b=>b.addEventListener("click",()=>{st.step=+b.dataset.bs;render();}));
@@ -950,23 +965,24 @@ window.LBUILD=(function(){
 
   function stepMeta(){
     const {esc}=H();
+    const T=window.t||((k,d)=>d);
     return `<div class="bw-grid">
-      <div class="field"><label>שכבה</label>
+      <div class="field"><label>${T("bw.gradeLabel","שכבה")}</label>
         <div class="seg" id="bw-grade">
-          <button data-g="mid" class="${st.grade==="mid"?"on":""}">חטיבה ז׳–ט׳</button>
-          <button data-g="high" class="${st.grade==="high"?"on":""}">תיכון י׳–י״ב</button>
+          <button data-g="mid" class="${st.grade==="mid"?"on":""}">${T("ls.gradeMid","חטיבה ז׳–ט׳")}</button>
+          <button data-g="high" class="${st.grade==="high"?"on":""}">${T("ls.gradeHigh","תיכון י׳–י״ב")}</button>
         </div></div>
-      <div class="field"><label>אורך השיעור (דק׳)</label>
+      <div class="field"><label>${T("bw.durLabel","אורך השיעור (דק׳)")}</label>
         <input type="number" id="bw-dur" value="${st.dur}" min="20" max="120" step="5"></div>
-      <div class="field"><label>כיתה</label>
+      <div class="field"><label>${T("ls.cls","כיתה")}</label>
         <input type="text" id="bw-cls" value="${esc(st.cls)}" placeholder="ט׳2"></div>
-      <div class="field"><label>מס׳ תלמידים</label>
+      <div class="field"><label>${T("bw.sizeLabel","מס׳ תלמידים")}</label>
         <input type="number" id="bw-size" value="${st.size}" min="4" max="60"></div>
-      <div class="field"><label>מקום</label>
-        <select id="bw-place">${Object.entries(PLACE_NAME).map(([k,v])=>
-          `<option value="${k}"${st.place===k?" selected":""}>${v}</option>`).join("")}</select></div>
+      <div class="field"><label>${T("bw.placeLabel","מקום")}</label>
+        <select id="bw-place">${Object.keys(PLACE_NAME_HE).map(k=>
+          `<option value="${k}"${st.place===k?" selected":""}>${placeNameBw(k)}</option>`).join("")}</select></div>
     </div>
-    <div class="hint" style="margin-top:10px">השכבה והמקום מסננים את כל האפשרויות בשלבים הבאים — כך שלא תוצע לך תופסת שדה כששיעור מתקיים בכיתה.</div>`;
+    <div class="hint" style="margin-top:10px">${T("bw.metaHint","השכבה והמקום מסננים את כל האפשרויות בשלבים הבאים — כך שלא תוצע לך תופסת שדה כששיעור מתקיים בכיתה.")}</div>`;
   }
 
   function stepWarm(){
@@ -974,23 +990,23 @@ window.LBUILD=(function(){
     const T=window.t||((k,d)=>d);
     const list=wuList();
     return `<div class="seg bw-seg" id="bw-wuType">
-        <button data-t="general" class="${st.wuType==="general"?"on":""}">🔥 כללי</button>
-        <button data-t="specific" class="${st.wuType==="specific"?"on":""}">🎯 ספציפי לענף</button>
-        <button data-t="game" class="${st.wuType==="game"?"on":""}">🎲 משחק חימום</button>
+        <button data-t="general" class="${st.wuType==="general"?"on":""}">${T("bw.tabGeneral","🔥 כללי")}</button>
+        <button data-t="specific" class="${st.wuType==="specific"?"on":""}">${T("bw.tabSpecific","🎯 ספציפי לענף")}</button>
+        <button data-t="game" class="${st.wuType==="game"?"on":""}">${T("bw.tabGame","🎲 משחק חימום")}</button>
       </div>
       <div class="hint" style="margin:9px 0 12px">${
-        st.wuType==="general"?"חימום שלא תלוי בענף — מבוסס על מודל RAMP: העלאת דופק, אקטיבציה, ניידות, והכנה לעצימות.":
-        st.wuType==="specific"?"חימום שמכין בדיוק לענף של השיעור — התלמידים מגיעים לחלק העיקרי עם מגע ראשון בכדור.":
-        "משחק שמעלה דופק בלי שאף אחד מרגיש שהוא ״מתחמם״. עובד מצוין בכיתות שקשה להתניע."}</div>
+        st.wuType==="general"?T("bw.hintGeneral","חימום שלא תלוי בענף — מבוסס על מודל RAMP: העלאת דופק, אקטיבציה, ניידות, והכנה לעצימות."):
+        st.wuType==="specific"?T("bw.hintSpecific","חימום שמכין בדיוק לענף של השיעור — התלמידים מגיעים לחלק העיקרי עם מגע ראשון בכדור."):
+        T("bw.hintGame","משחק שמעלה דופק בלי שאף אחד מרגיש שהוא ״מתחמם״. עובד מצוין בכיתות שקשה להתניע.")}</div>
       <div class="bw-cards">${list.map(w=>`
         <div class="bw-card${st.wuId===w.id?" on":""}" data-wu="${w.id}">
           <div class="hd"><span class="em">${w.em}</span><b>${esc(w.name)}</b></div>
           ${w.sport?`<span class="pill">${esc(w.sport)}</span>`:""}
           <div class="sb">${esc(w.why)}</div>
-          <div class="mt"><span class="pill">⏱ ${w.min} דק׳</span>${
+          <div class="mt"><span class="pill">⏱ ${w.min} ${T("ls.min","דק׳")}</span>${
             (w.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||`<span class="pill">${T("bw.noEquipment","בלי ציוד")}</span>`}</div>
-        </div>`).join("")||'<div class="empty-state"><div class="big">🤔</div>אין חימום שמתאים לשכבה ולמקום שבחרת — נסה לשנות מקום בשלב 1.</div>'}</div>
-      <div class="field" style="margin-top:12px;max-width:230px"><label>אורך החימום · <b>${st.wuMin}</b> דק׳</label>
+        </div>`).join("")||`<div class="empty-state"><div class="big">🤔</div>${T("bw.emptyWarm","אין חימום שמתאים לשכבה ולמקום שבחרת — נסה לשנות מקום בשלב 1.")}</div>`}</div>
+      <div class="field" style="margin-top:12px;max-width:230px"><label>${T("bw.warmMinLabel","אורך החימום · ")}<b>${st.wuMin}</b> ${T("ls.min","דק׳")}</label>
         <input type="range" id="bw-wuMin" min="5" max="20" value="${st.wuMin}"></div>`;
   }
 
@@ -1003,28 +1019,28 @@ window.LBUILD=(function(){
         return `<button data-cat="${id}" class="${st.cat===id?"on":""}">${em} ${esc(catName(id,nm))} <span class="cnt">${n}</span></button>`;
       }).join("")}</div>
       <div class="bw-grid" style="margin-top:12px">
-        <div class="field"><label>רמת התרגילים</label>
+        <div class="field"><label>${T("bw.levelLabel","רמת התרגילים")}</label>
           <div class="seg" id="bw-level">${[1,2,3].map(l=>
-            `<button data-l="${l}" class="${st.level===l?"on":""}">${LVL_NAME[l]}</button>`).join("")}</div></div>
-        <div class="field"><label>כמה תרגילים · <b>${st.count}</b></label>
+            `<button data-l="${l}" class="${st.level===l?"on":""}">${lvlName(l)}</button>`).join("")}</div></div>
+        <div class="field"><label>${T("bw.countLabel","כמה תרגילים · ")}<b>${st.count}</b></label>
           <input type="range" id="bw-count" min="2" max="8" value="${st.count}"></div>
-        <div class="field grow"><label>מבנה העבודה</label>
+        <div class="field grow"><label>${T("bw.fmtLabel","מבנה העבודה")}</label>
           <select id="bw-fmt">${MAIN_FORMATS.map(fmtLoc).map(f=>
             `<option value="${f.id}"${st.fmt===f.id?" selected":""}>${f.em} ${esc(f.name)}</option>`).join("")}</select></div>
       </div>
       <div class="bw-note">${esc(F.d)}<br><b>${esc(F.fmt(Math.max(1,st.picks.length||st.count),mm))}</b></div>
       <div class="row" style="margin:11px 0 6px;justify-content:space-between">
-        <div class="hint">נבחרו <b>${st.picks.length}</b> מתוך ${st.count} · ${mm} דק׳ לחלק העיקרי</div>
+        <div class="hint">${T("bw.picked","נבחרו")} <b>${st.picks.length}</b> ${T("bw.of","מתוך")} ${st.count} · ${mm} ${T("ls.min","דק׳")} ${T("bw.forMain","לחלק העיקרי")}</div>
         <div class="row" style="gap:7px">
-          <button class="btn sm" id="bw-auto">🎲 בחר לי</button>
-          <button class="btn sm ghost" id="bw-clear">נקה בחירה</button>
+          <button class="btn sm" id="bw-auto">${T("bw.autoPick","🎲 בחר לי")}</button>
+          <button class="btn sm ghost" id="bw-clear">${T("bw.clearPick","נקה בחירה")}</button>
         </div>
       </div>
       ${st.picks.length?`<div class="bw-picked">${st.picks.map((id,i)=>{
         const d=drillById(id); if(!d)return "";
-        return `<button class="bw-tag" data-un="${id}" title="הסר">${i+1}. ${d.em} ${esc(d.name)} <span>✕</span></button>`;
+        return `<button class="bw-tag" data-un="${id}" title="${T("bw.removeTitle","הסר")}">${i+1}. ${d.em} ${esc(d.name)} <span>✕</span></button>`;
       }).join("")}</div>
-      <div class="hint" style="margin:5px 0 9px">אפשר לערבב קטגוריות — תרגילים שנבחרו בקטגוריה אחרת נשארים ברשימה גם כשמחליפים לשונית.</div>`:""}
+      <div class="hint" style="margin:5px 0 9px">${T("bw.mixHint","אפשר לערבב קטגוריות — תרגילים שנבחרו בקטגוריה אחרת נשארים ברשימה גם כשמחליפים לשונית.")}</div>`:""}
       <div class="bw-cards">${list.map(d=>{
         const i=st.picks.indexOf(d.id);
         return `<div class="bw-card numbered${i>=0?" on":""}" data-dr="${d.id}">
@@ -1034,7 +1050,7 @@ window.LBUILD=(function(){
           <div class="mt"><span class="pill acc">${esc(d.dose[st.level]||"")}</span>
             <span class="pill">${esc(d.mus)}</span>
             ${(d.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||`<span class="pill">${T("bw.noEquipment","בלי ציוד")}</span>`}</div>
-        </div>`;}).join("")||'<div class="empty-state"><div class="big">🔍</div>אין תרגילים בקטגוריה הזו ברמה שבחרת — נסה רמה אחרת.</div>'}</div>`;
+        </div>`;}).join("")||`<div class="empty-state"><div class="big">🔍</div>${T("bw.emptyDrills","אין תרגילים בקטגוריה הזו ברמה שבחרת — נסה רמה אחרת.")}</div>`}</div>`;
   }
 
   function stepFinal(){
@@ -1044,53 +1060,54 @@ window.LBUILD=(function(){
     return `<div class="seg bw-seg" id="bw-finKind">${FINAL_KINDS.map(([id,nm,em])=>
         `<button data-k="${id}" class="${st.finKind===id?"on":""}">${em} ${esc(finKindName(id,nm))}</button>`).join("")}</div>
       <div class="hint" style="margin:9px 0 12px">${
-        st.finKind==="game"?"המשחק שהתלמידים מחכים לו כל השיעור. הגדרת הכללים מראש היא ההבדל בין משחק לכאוס.":
-        st.finKind==="chall"?"אתגר קצר ומדיד — מסיים בעצימות ומתחבר ישירות ללוח «אלופי בית הספר».":
-        "החלק שהכי קל לוותר עליו, והוא זה שמלמד את התלמידים לטפל בגוף שלהם אחרי מאמץ."}</div>
+        st.finKind==="game"?T("bw.hintFinalGame","המשחק שהתלמידים מחכים לו כל השיעור. הגדרת הכללים מראש היא ההבדל בין משחק לכאוס."):
+        st.finKind==="chall"?T("bw.hintFinalChall","אתגר קצר ומדיד — מסיים בעצימות ומתחבר ישירות ללוח «אלופי בית הספר»."):
+        T("bw.hintFinalCalm","החלק שהכי קל לוותר עליו, והוא זה שמלמד את התלמידים לטפל בגוף שלהם אחרי מאמץ.")}</div>
       <div class="bw-cards">${list.map(f=>`
         <div class="bw-card${st.finId===f.id?" on":""}" data-fin="${f.id}">
           <div class="hd"><span class="em">${f.em}</span><b>${esc(f.name)}</b></div>
           <div class="sb">${esc(f.why)}</div>
-          <div class="mt"><span class="pill">⏱ ${f.min} דק׳</span>${
+          <div class="mt"><span class="pill">⏱ ${f.min} ${T("ls.min","דק׳")}</span>${
             (f.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||`<span class="pill">${T("bw.noEquipment","בלי ציוד")}</span>`}</div>
-        </div>`).join("")||'<div class="empty-state"><div class="big">🤔</div>אין חלק סופי שמתאים לשכבה ולמקום — נסה לשנות מקום בשלב 1.</div>'}</div>
-      <div class="field" style="margin-top:12px;max-width:230px"><label>אורך החלק הסופי · <b>${st.finMin}</b> דק׳</label>
+        </div>`).join("")||`<div class="empty-state"><div class="big">🤔</div>${T("bw.emptyFinal","אין חלק סופי שמתאים לשכבה ולמקום — נסה לשנות מקום בשלב 1.")}</div>`}</div>
+      <div class="field" style="margin-top:12px;max-width:230px"><label>${T("bw.finMinLabel","אורך החלק הסופי · ")}<b>${st.finMin}</b> ${T("ls.min","דק׳")}</label>
         <input type="range" id="bw-finMin" min="5" max="25" value="${st.finMin}"></div>`;
   }
 
   function stepSum(){
     const {esc}=H();
+    const T=window.t||((k,d)=>d);
     const W=wuById(st.wuId), F=finById(st.finId), mm=mainMin();
     const picks=st.picks.map(drillById).filter(Boolean);
     const pct=n=>Math.round(n/st.dur*100);
     const missing=[];
-    if(!W)missing.push("חימום");
-    if(!picks.length)missing.push("תרגילים לחלק העיקרי");
-    if(!F)missing.push("חלק סופי");
+    if(!W)missing.push(T("bw.missingWarm","חימום"));
+    if(!picks.length)missing.push(T("bw.missingDrills","תרגילים לחלק העיקרי"));
+    if(!F)missing.push(T("bw.missingFinal","חלק סופי"));
     return `<div class="bw-bar">
-        <div class="seg-w" style="width:${pct(st.wuMin)}%">חימום ${st.wuMin}׳</div>
-        <div class="seg-m" style="width:${pct(mm)}%">עיקרי ${mm}׳</div>
-        <div class="seg-f" style="width:${pct(st.finMin)}%">סופי ${st.finMin}׳</div>
+        <div class="seg-w" style="width:${pct(st.wuMin)}%">${T("bw.warmHeading","🔥 חימום").replace(/^[^\p{L}\p{N}]+/u,"")} ${st.wuMin}${T("ls.min","דק׳")}</div>
+        <div class="seg-m" style="width:${pct(mm)}%">${T("bw.mainHeading","💪 חלק עיקרי — ").replace(/^[^\p{L}\p{N}]+/u,"").replace(/[\s—-]+$/,"")} ${mm}${T("ls.min","דק׳")}</div>
+        <div class="seg-f" style="width:${pct(st.finMin)}%">${T("bw.finalHeading","🎮 חלק סופי").replace(/^[^\p{L}\p{N}]+/u,"")} ${st.finMin}${T("ls.min","דק׳")}</div>
       </div>
-      <div class="hint" style="margin:8px 0 14px">סה״כ ${st.dur} דק׳ · ${st.grade==="mid"?"חטיבה ז׳–ט׳":"תיכון י׳–י״ב"}${
-        st.cls?" · כיתה "+esc(st.cls):""} · ${st.size} תלמידים · ${PLACE_NAME[st.place]}</div>
+      <div class="hint" style="margin:8px 0 14px">${T("bw.totalPrefix","סה״כ ")}${st.dur} ${T("ls.min","דק׳")} · ${st.grade==="mid"?T("ls.gradeMid","חטיבה ז׳–ט׳"):T("ls.gradeHigh","תיכון י׳–י״ב")}${
+        st.cls?" · "+T("ls.cls","כיתה")+" "+esc(st.cls):""} · ${st.size} ${T("ls.students","תלמידים")} · ${placeNameBw(st.place)}</div>
 
-      <div class="bw-sum"><h4>🔥 חימום</h4>
-        <p>${W?W.em+" "+esc(W.name)+" — "+st.wuMin+" דק׳":"<i>לא נבחר</i>"}</p></div>
-      <div class="bw-sum"><h4>💪 חלק עיקרי — ${esc(fmtById(st.fmt).name)}</h4>
-        <p>${picks.length?picks.map(d=>d.em+" "+esc(d.name)).join(" · "):"<i>לא נבחרו תרגילים</i>"}</p>
-        <div class="hint">רמה: ${LVL_NAME[st.level]} · ${mm} דק׳</div></div>
-      <div class="bw-sum"><h4>🎮 חלק סופי</h4>
-        <p>${F?F.em+" "+esc(F.name)+" — "+st.finMin+" דק׳":"<i>לא נבחר</i>"}</p></div>
+      <div class="bw-sum"><h4>${T("bw.warmHeading","🔥 חימום")}</h4>
+        <p>${W?W.em+" "+esc(W.name)+" — "+st.wuMin+" "+T("ls.min","דק׳"):`<i>${T("bw.notSelected","לא נבחר")}</i>`}</p></div>
+      <div class="bw-sum"><h4>${T("bw.mainHeading","💪 חלק עיקרי — ")}${esc(fmtById(st.fmt).name)}</h4>
+        <p>${picks.length?picks.map(d=>d.em+" "+esc(d.name)).join(" · "):`<i>${T("bw.noDrillsSelected","לא נבחרו תרגילים")}</i>`}</p>
+        <div class="hint">${T("bw.levelPrefix","רמה: ")}${lvlName(st.level)} · ${mm} ${T("ls.min","דק׳")}</div></div>
+      <div class="bw-sum"><h4>${T("bw.finalHeading","🎮 חלק סופי")}</h4>
+        <p>${F?F.em+" "+esc(F.name)+" — "+st.finMin+" "+T("ls.min","דק׳"):`<i>${T("bw.notSelected","לא נבחר")}</i>`}</p></div>
 
-      <div class="field" style="margin-top:12px"><label>הערה אישית למערך (רשות)</label>
-        <textarea id="bw-note" rows="2" placeholder="למשל: לשים לב שדנה חוזרת מפציעה — תפקיד שיפוט בחלק הסופי">${esc(st.note)}</textarea></div>
+      <div class="field" style="margin-top:12px"><label>${T("bw.noteLabel","הערה אישית למערך (רשות)")}</label>
+        <textarea id="bw-note" rows="2" placeholder="${T("bw.notePlaceholder","למשל: לשים לב שדנה חוזרת מפציעה — תפקיד שיפוט בחלק הסופי")}">${esc(st.note)}</textarea></div>
 
-      ${missing.length?`<div class="bw-warn">חסר עדיין: ${missing.join(" · ")}</div>`:""}
-      <button class="btn acc big" id="bw-build" style="margin-top:13px"${missing.length?" disabled":""}>✅ בנה את המערך</button>
+      ${missing.length?`<div class="bw-warn">${T("bw.missingPrefix","חסר עדיין: ")}${missing.join(" · ")}</div>`:""}
+      <button class="btn acc big" id="bw-build" style="margin-top:13px"${missing.length?" disabled":""}>${T("bw.buildBtn","✅ בנה את המערך")}</button>
       <div class="row" style="margin-top:10px;gap:8px">
-        <button class="btn sm" id="bw-tplSave">⭐ שמור כתבנית</button>
-        <button class="btn sm ghost" id="bw-reset">↺ התחל מחדש</button>
+        <button class="btn sm" id="bw-tplSave">${T("bw.saveTplBtn","⭐ שמור כתבנית")}</button>
+        <button class="btn sm ghost" id="bw-reset">${T("bw.resetBtn","↺ התחל מחדש")}</button>
       </div>
       <div id="bw-tplList" style="margin-top:10px"></div>`;
   }
@@ -1111,6 +1128,7 @@ window.LBUILD=(function(){
      ============================================================ */
   function wireStep(){
     const {$, $$}=H();
+    const T=window.t||((k,d)=>d);
     const on=(sel,ev,fn)=>{const e=$(sel);if(e)e.addEventListener(ev,fn);};
 
     /* שלב 1 */
@@ -1138,7 +1156,7 @@ window.LBUILD=(function(){
       const pool=drillList().filter(d=>!st.picks.includes(d.id));
       while(st.picks.length<st.count&&pool.length)
         st.picks.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0].id);
-      render(); H().toast("🎲 נבחרו תרגילים — אפשר להחליף כל אחד מהם");});
+      render(); H().toast(T("bw.toastAuto","🎲 נבחרו תרגילים — אפשר להחליף כל אחד מהם"));});
     on("#bw-clear","click",()=>{st.picks=[];render();});
     $$("#bw-body [data-un]").forEach(b=>b.addEventListener("click",e=>{
       e.stopPropagation();
@@ -1146,7 +1164,7 @@ window.LBUILD=(function(){
     $$("#bw-body [data-dr]").forEach(c=>c.addEventListener("click",()=>{
       const id=c.dataset.dr, i=st.picks.indexOf(id);
       if(i>=0)st.picks.splice(i,1);
-      else if(st.picks.length>=st.count)H().toast("הגעת ל-"+st.count+" תרגילים — הסר אחד או הגדל את הכמות");
+      else if(st.picks.length>=st.count)H().toast(T("bw.toastLimitPrefix","הגעת ל-")+st.count+T("bw.toastLimitSuffix"," תרגילים — הסר אחד או הגדל את הכמות"));
       else st.picks.push(id);
       render();}));
 
@@ -1161,7 +1179,7 @@ window.LBUILD=(function(){
     /* שלב 5 */
     on("#bw-note","input",e=>{st.note=e.target.value;saveSt();});
     on("#bw-build","click",build);
-    on("#bw-reset","click",()=>{if(confirm("להתחיל מחדש? כל הבחירות יימחקו."))
+    on("#bw-reset","click",()=>{if(confirm(T("bw.resetConfirm","להתחיל מחדש? כל הבחירות יימחקו.")))
       {st=Object.assign({},DEF);render();}});
     on("#bw-tplSave","click",saveTpl);
     if(st.step===5)renderTpl();
@@ -1186,26 +1204,28 @@ window.LBUILD=(function(){
      תבניות שמורות
      ============================================================ */
   function saveTpl(){
-    const nm=prompt("שם לתבנית (למשל: ״כוח ט׳ באולם״)","");
+    const T=window.t||((k,d)=>d);
+    const nm=prompt(T("bw.tplPrompt","שם לתבנית (למשל: ״כוח ט׳ באולם״)"),"");
     if(!nm)return;
     const t=H().LS.get("lb.tpl",[]);
     t.unshift({id:Date.now(),name:nm,st:JSON.parse(JSON.stringify(st))});
     H().LS.set("lb.tpl",t.slice(0,30));
-    renderTpl(); H().toast("⭐ התבנית נשמרה — אפשר לטעון אותה בשיעור הבא");
+    renderTpl(); H().toast(T("bw.tplSaved","⭐ התבנית נשמרה — אפשר לטעון אותה בשיעור הבא"));
   }
   function renderTpl(){
     const {$, $$, esc}=H();
+    const T=window.t||((k,d)=>d);
     const box=$("#bw-tplList"); if(!box)return;
     const t=H().LS.get("lb.tpl",[]);
-    if(!t.length){box.innerHTML='<div class="hint">אין עדיין תבניות. שמירת תבנית שומרת את כל הבחירות — ובשיעור הבא בונים מערך דומה בשתי לחיצות.</div>';return;}
-    box.innerHTML='<div class="hint" style="margin-bottom:6px">תבניות שמורות</div>'+t.map(x=>
+    if(!t.length){box.innerHTML=`<div class="hint">${T("bw.tplEmpty","אין עדיין תבניות. שמירת תבנית שומרת את כל הבחירות — ובשיעור הבא בונים מערך דומה בשתי לחיצות.")}</div>`;return;}
+    box.innerHTML=`<div class="hint" style="margin-bottom:6px">${T("bw.tplSavedListHint","תבניות שמורות")}</div>`+t.map(x=>
       `<div class="arc-item"><div class="grow"><div class="ttl">⭐ ${esc(x.name)}</div>
-        <div class="sb">${x.st.grade==="mid"?"חטיבה":"תיכון"} · ${x.st.dur} דק׳ · ${PLACE_NAME[x.st.place]||""} · ${(x.st.picks||[]).length} תרגילים</div></div>
-        <button class="btn sm" data-tl="${x.id}">📂 טען</button>
+        <div class="sb">${x.st.grade==="mid"?T("ls.gradeMid","חטיבה"):T("ls.gradeHigh","תיכון")} · ${x.st.dur} ${T("ls.min","דק׳")} · ${placeNameBw(x.st.place)||""} · ${(x.st.picks||[]).length} ${T("bw.exercisesWord","תרגילים")}</div></div>
+        <button class="btn sm" data-tl="${x.id}">${T("bw.tplLoad","📂 טען")}</button>
         <button class="btn sm stop" data-td="${x.id}">✕</button></div>`).join("");
     $$("#bw-tplList [data-tl]").forEach(b=>b.addEventListener("click",()=>{
       const x=H().LS.get("lb.tpl",[]).find(y=>y.id==b.dataset.tl); if(!x)return;
-      st=Object.assign({},DEF,x.st); st.step=5; render(); H().toast("התבנית נטענה");}));
+      st=Object.assign({},DEF,x.st); st.step=5; render(); H().toast(T("bw.tplLoaded","התבנית נטענה"));}));
     $$("#bw-tplList [data-td]").forEach(b=>b.addEventListener("click",()=>{
       H().LS.set("lb.tpl",H().LS.get("lb.tpl",[]).filter(y=>y.id!=b.dataset.td)); renderTpl();}));
   }
@@ -1257,9 +1277,10 @@ window.LBUILD=(function(){
   };
 
   function build(){
+    const T=window.t||((k,d)=>d);
     const W=wuById(st.wuId), F=finById(st.finId);
     const picks=st.picks.map(drillById).filter(Boolean);
-    if(!W||!F||!picks.length){H().toast("חסרות בחירות — בדוק את הסיכום");return;}
+    if(!W||!F||!picks.length){H().toast(T("bw.missingSelections","חסרות בחירות — בדוק את הסיכום"));return;}
 
     /* התרגילים יכולים להגיע מכמה קטגוריות — הכותרת והמטרות נגזרות ממה שנבחר בפועל */
     const cats=[...new Set(picks.map(d=>d.cat))];
@@ -1273,7 +1294,6 @@ window.LBUILD=(function(){
       hw:info.hw
     };
     const FT=fmtById(st.fmt), mm=mainMin();
-    const T=window.t||((k,d)=>d);
 
     /* --- שלב החימום --- */
     const phases=[{n:T("bw.warmPrefix","חימום: ")+W.name, min:st.wuMin, k:"warm", sub:
@@ -1282,7 +1302,7 @@ window.LBUILD=(function(){
 
     /* --- החלק העיקרי --- */
     if(BLOCK_FMT[st.fmt]){
-      phases.push({n:T("bw.mainPrefix","חלק עיקרי: ")+FT.name, min:mm, k:"main", sub:LVL_NAME[st.level],
+      phases.push({n:T("bw.mainPrefix","חלק עיקרי: ")+FT.name, min:mm, k:"main", sub:lvlName(st.level),
         d:[FT.fmt(picks.length,mm)+" — "+FT.d,
            ...picks.map(d=>`${d.name} (${d.dose[st.level]||""}) — ${d.cue}`),
            T("bw.adjustLow","התאמה למטה: ")+picks[0].easy,
@@ -1291,7 +1311,7 @@ window.LBUILD=(function(){
       const per=Math.floor(mm/picks.length);
       picks.forEach((d,i)=>phases.push({
         n:d.name, min:i===picks.length-1?mm-per*(picks.length-1):per, k:"main",
-        sub:LVL_NAME[st.level]+" · "+(d.dose[st.level]||""),
+        sub:lvlName(st.level)+" · "+(d.dose[st.level]||""),
         d:[FT.fmt(picks.length,mm),
            T("bw.doPrefix","ביצוע: ")+(d.dose[st.level]||"")+" · "+d.mus,
            T("bw.cuePrefix","דגש הוראה: ")+d.cue,
@@ -1315,8 +1335,8 @@ window.LBUILD=(function(){
       assess:merged.assess,
       diff:{low:picks.map(d=>d.name+": "+d.easy).join(" · "),
             high:picks.map(d=>d.name+": "+d.hard).join(" · "),
-            ex:"תפקיד פעיל: שופט, מודד זמנים, רשם תוצאות או מצלם ללוח השיאים."},
-      safe:merged.safe+(F.safe?" בחלק הסופי: "+F.safe:""),
+            ex:T("ls.diffExDefault","תפקיד פעיל: שופט, מודד זמנים, רשם תוצאות או מצלם ללוח השיאים.")},
+      safe:merged.safe+(F.safe?" "+T("bw.finalSafePrefix","בחלק הסופי: ")+F.safe:""),
       cur:null, hw:merged.hw, note:st.note||"",
       measure:false,
       mainVariants:picks.map(d=>d.name), mainSubs:[merged.title]
@@ -1324,9 +1344,9 @@ window.LBUILD=(function(){
 
     if(window.LESSON&&window.LESSON.usePlan){
       window.LESSON.usePlan(plan);
-      H().toast("✅ המערך שלך מוכן — אפשר להפעיל, לשמור או להדפיס");
+      H().toast(T("bw.planReady","✅ המערך שלך מוכן — אפשר להפעיל, לשמור או להדפיס"));
     }else{
-      H().toast("שגיאה בטעינת מודול המערכים");
+      H().toast(T("bw.planModuleError","שגיאה בטעינת מודול המערכים"));
     }
   }
 
@@ -1335,8 +1355,8 @@ window.LBUILD=(function(){
      ============================================================ */
   const SKELETON=`
     <div class="card">
-      <h2><span class="dot"></span> בונה ידני — אתה מרכיב את המערך</h2>
-      <div class="hint">חמישה שלבים: פרטי השיעור, חימום, חלק עיקרי, חלק סופי וסיכום.
+      <h2><span class="dot"></span> <span id="bw-title">בונה ידני — אתה מרכיב את המערך</span></h2>
+      <div class="hint" id="bw-introHint">חמישה שלבים: פרטי השיעור, חימום, חלק עיקרי, חלק סופי וסיכום.
         בכל שלב אתה בוחר בדיוק מה נכנס — ובסוף מתקבל בדיוק אותו מערך מלא שהמחולל המהיר מפיק,
         עם הפעלה חיה, הדפסה ושמירה לספרייה.</div>
       <div class="bw-stepbar" id="bw-steps"></div>
@@ -1347,12 +1367,22 @@ window.LBUILD=(function(){
       </div>
     </div>`;
 
+  function translateSkeleton(){
+    const {$}=H();
+    const T=window.t||((k,d)=>d);
+    const title=$("#bw-title"); if(title)title.textContent=T("bw.title","בונה ידני — אתה מרכיב את המערך");
+    const hint=$("#bw-introHint"); if(hint)hint.textContent=T("bw.introHint","חמישה שלבים: פרטי השיעור, חימום, חלק עיקרי, חלק סופי וסיכום. בכל שלב אתה בוחר בדיוק מה נכנס — ובסוף מתקבל בדיוק אותו מערך מלא שהמחולל המהיר מפיק, עם הפעלה חיה, הדפסה ושמירה לספרייה.");
+    const prev=$("#bw-prev"); if(prev)prev.textContent=T("bw.prevBtn","→ הקודם");
+    const next=$("#bw-next"); if(next)next.textContent=T("bw.nextBtn","הבא ←");
+  }
+
   function init(){
     if(inited)return; inited=true;
     const {$, $$}=H();
     const wrap=$("#ls-manWrap"); if(!wrap)return;
     loadSt();
     wrap.innerHTML=SKELETON;
+    translateSkeleton();
     $("#bw-prev").addEventListener("click",()=>{if(st.step>1){st.step--;render();window.scrollTo({top:0,behavior:"smooth"});}});
     $("#bw-next").addEventListener("click",()=>{if(st.step<5){st.step++;render();window.scrollTo({top:0,behavior:"smooth"});}});
     $$("#ls-modeTabs [data-lm]").forEach(b=>b.addEventListener("click",()=>{
@@ -1366,7 +1396,7 @@ window.LBUILD=(function(){
     /* מחזירים את המורה למצב שבו היה בפעם הקודמת */
     const m=H().LS.get("ls.mode","fast");
     if(m==="manual"){const b=$('#ls-modeTabs [data-lm="manual"]'); if(b)b.click();}
-    document.addEventListener("i18n:change",()=>{ if(inited)render(); });
+    document.addEventListener("i18n:change",()=>{ if(inited){ translateSkeleton(); render(); } });
   }
 
   return {init, drills:()=>DRILLS.map(drillLoc),

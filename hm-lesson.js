@@ -926,19 +926,19 @@ window.LESSON=(function(){
       @media print{body{padding:14px}}</style></head><body>
       <h1>${esc(plan.title)}</h1>
       <div class="meta">${school}${plan.grade==="mid"?T("ls.gradeMid","חטיבה (ז׳–ט׳)"):T("ls.gradeHigh","תיכון (י׳–י״ב)")}${plan.cls?" · "+T("ls.cls","כיתה")+" "+esc(plan.cls):""} · ${plan.date} · ${total} ${T("ls.min","דק׳")} · ${plan.size} ${T("ls.students","תלמידים")} · ${esc(placeName(plan.place))}</div>
-      <h2>${T("ls.goalsTitle","מטרות").replace(/^[^\wא-ת]+/,"")}</h2><ul>${plan.goals.map(g=>"<li>"+esc(g)+"</li>").join("")}</ul>
-      <h2>${T("ls.stdTitle","מיפוי לסטנדרטים").replace(/^[^\wא-ת]+/,"")}</h2><div>${plan.std.map(i=>'<span class="tag">'+esc(stdText(i-1))+"</span>").join("")}</div>
-      <h2>${T("ls.eqTitle","ציוד").replace(/^[^\wא-ת]+/,"")}</h2><div>${plan.eq.map(e=>'<span class="tag">'+esc(e)+"</span>").join("")}</div>
-      <h2>${T("ls.flowTitle","מהלך השיעור").replace(/^[^\wא-ת]+/,"")}</h2>${plan.phases.map(p=>`<div class="ph"><b>${esc(p.n)} · ${p.min} ${T("ls.min","דק׳")}</b>${
+      <h2>${T("ls.goalsTitle","מטרות").replace(/^[^\p{L}\p{N}]+/u,"")}</h2><ul>${plan.goals.map(g=>"<li>"+esc(g)+"</li>").join("")}</ul>
+      <h2>${T("ls.stdTitle","מיפוי לסטנדרטים").replace(/^[^\p{L}\p{N}]+/u,"")}</h2><div>${plan.std.map(i=>'<span class="tag">'+esc(stdText(i-1))+"</span>").join("")}</div>
+      <h2>${T("ls.eqTitle","ציוד").replace(/^[^\p{L}\p{N}]+/u,"")}</h2><div>${plan.eq.map(e=>'<span class="tag">'+esc(e)+"</span>").join("")}</div>
+      <h2>${T("ls.flowTitle","מהלך השיעור").replace(/^[^\p{L}\p{N}]+/u,"")}</h2>${plan.phases.map(p=>`<div class="ph"><b>${esc(p.n)} · ${p.min} ${T("ls.min","דק׳")}</b>${
         p.sub?` <span class="tag">${esc(p.sub)}</span>`:""}${
         Array.isArray(p.d)?`<ol>${p.d.map(st=>"<li>"+esc(st)+"</li>").join("")}</ol>`:`<div>${esc(p.d)}</div>`}</div>`).join("")}
-      <h2>${T("ls.diffTitle","התאמות").replace(/^[^\wא-ת]+/,"").replace(/\s*\([^)]*\)\s*$/,"")}</h2>
+      <h2>${T("ls.diffTitle","התאמות").replace(/^[^\p{L}\p{N}]+/u,"").replace(/\s*\([^)]*\)\s*$/,"")}</h2>
         <div class="d"><b>${T("ls.diffLow","מתקשה")}:</b> ${esc(plan.diff.low)}</div>
         <div class="d"><b>${T("ls.diffHigh","מתקדם")}:</b> ${esc(plan.diff.high)}</div>
         <div class="d"><b>${T("ls.diffEx","פטור / מגבלה")}:</b> ${esc(plan.diff.ex||T("ls.diffExDefault","תפקיד פעיל: שופט, מודד, רשם."))}</div>
-      <h2>${T("ls.assessTitle","הערכה מעצבת").replace(/^[^\wא-ת]+/,"")}</h2><ul>${plan.assess.map(a=>"<li>"+esc(a)+"</li>").join("")}</ul>
-      <h2>${T("ls.safeTitle","בטיחות").replace(/^[^\wא-ת]+/,"")}</h2><div class="warn">${esc(plan.safe)}${plan.note?"<br>"+esc(plan.note):""}</div>
-      <h2>${T("ls.hwTitle","משימה להמשך").replace(/^[^\wא-ת]+/,"")}</h2><div>${esc(plan.hw)}</div>
+      <h2>${T("ls.assessTitle","הערכה מעצבת").replace(/^[^\p{L}\p{N}]+/u,"")}</h2><ul>${plan.assess.map(a=>"<li>"+esc(a)+"</li>").join("")}</ul>
+      <h2>${T("ls.safeTitle","בטיחות").replace(/^[^\p{L}\p{N}]+/u,"")}</h2><div class="warn">${esc(plan.safe)}${plan.note?"<br>"+esc(plan.note):""}</div>
+      <h2>${T("ls.hwTitle","משימה להמשך").replace(/^[^\p{L}\p{N}]+/u,"")}</h2><div>${esc(plan.hw)}</div>
       ${src?`<div class="src">${T("ls.srcInline","עוגן מקצועי")}: ${esc(src.title)} — ${esc(src.org)}<br>${esc(src.url)}</div>`:""}
       <script>print()<\/script></body></html>`);
     w.document.close();

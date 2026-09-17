@@ -117,6 +117,31 @@ module.exports={title:"מחולל מערכי שיעור — תרגום מאגר 
     ok(body.indexOf("Warm-up:")>=0,"תחילית החימום באנגלית: "+body.slice(0,80));
     ok(body.indexOf("Cool-down:")>=0,"תחילית הסיום באנגלית: "+body.slice(0,400));
     ok(!heChars.test(body),"אין תווים עבריים בתוכן כשהשפה אנגלית (בלי משחק): "+body.slice(0,300));
+  }),
+
+  check("הדפסה בערבית: כותרות הסעיפים אינן נעלמות (רגרסיה על replace(/^[^\\wא-ת]+/,\"\"))",seed,async page=>{
+    /* באג אמיתי שנמצא ותוקן: אותיות ערביות אינן \\w ואינן בטווח א-ת,
+       כך שהרגקס הישן להסרת אימוג'י מכותרת מחק את כל המחרוזת הערבית
+       (כולל הטקסט עצמו, לא רק את האימוג'י) — כותרות ההדפסה יצאו ריקות. */
+    await openLesson(page);
+    await switchLang(page,"ar");
+    await pickTopic(page,"strength");
+    await genPlan(page);
+    const popupPromise=page.context().waitForEvent("popup");
+    await page.evaluate(()=>document.getElementById("ls-print").click());
+    const popup=await popupPromise;
+    await popup.waitForLoadState();
+    const html=await popup.evaluate(()=>document.body.innerHTML);
+    ok(html.indexOf("<h2></h2>")===-1,"אין כותרת h2 ריקה בהדפסה: "+html.slice(0,300));
+    ok(/<h2>[^<]*[؀-ۿ]/.test(html),"לפחות כותרת אחת מכילה טקסט ערבי אמיתי: "+html.slice(0,300));
+    await popup.close();
+  }),
+
+  check("window.LESSON.topics() מחזיר נושאים מתורגמים לרוסית",seed,async page=>{
+    await switchLang(page,"ru");
+    const topics=await page.evaluate(()=>window.LESSON.topics());
+    const strength=topics.find(t=>t.id==="strength");
+    ok(strength&&strength.name.indexOf("Сила")>=0,"נושא strength ברוסית: "+(strength&&strength.name));
   })
 
 ]};

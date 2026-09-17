@@ -86,6 +86,21 @@ module.exports={title:"בונה ידני + מאגר ענפים — תרגום",t
     ok(body.indexOf("חימום: RAMP מלא")>=0,"חזר לעברית: "+body.slice(0,200));
   }),
 
+  check("תוויות הממשק הקבועות של האשף (כותרת, שלבים, שדות) מתורגמות באנגלית/ערבית",seed,async page=>{
+    await switchLang(page,"en");
+    await openLesson(page);
+    await openManual(page);
+    const enTitle=await page.evaluate(()=>document.getElementById("bw-title").textContent);
+    ok(enTitle.indexOf("Manual Builder")>=0,"כותרת האשף באנגלית: "+enTitle);
+    const enSteps=await page.evaluate(()=>[...document.querySelectorAll("#bw-steps .t")].map(e=>e.textContent));
+    ok(enSteps.join("|")==="Lesson Details|Warm-up|Main Section|Final Section|Summary","שמות השלבים באנגלית: "+enSteps.join("|"));
+    await switchLang(page,"ar");
+    const arTitle=await page.evaluate(()=>document.getElementById("bw-title").textContent);
+    ok(arTitle.indexOf("الباني اليدوي")>=0,"כותרת האשף בערבית: "+arTitle);
+    const gradeLabel=await page.evaluate(()=>document.querySelector("#bw-body label").textContent);
+    ok(gradeLabel==="المرحلة الدراسية","תווית שכבה בערבית: "+gradeLabel);
+  }),
+
   check("RECDEFAULTS.sports() מחזיר שמות ופרוטוקולים מתורגמים לאנגלית",seed,async page=>{
     await switchLang(page,"en");
     const sp=await page.evaluate(()=>{
