@@ -470,7 +470,7 @@ window.LESSON=(function(){
       place:$("#ls-place").value,
       withGame:$("#ls-optGame").checked,
       withMeasure:$("#ls-optMeasure").checked,
-      eq:$$("#ls-eq input:checked").map(i=>i.value),
+      eq:$$("#ls-eq input:checked").map(i=>eqLoc(i.value)),
       subs:$$("#ls-subs input:checked").map(i=>i.value)
     };
   }
@@ -660,7 +660,7 @@ window.LESSON=(function(){
         <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div></div>
 
       <div class="ls-sec"><h4>${T("ls.flowTitle","⏱ מהלך השיעור")}</h4>
-      ${plan.phases.map(p=>`<div class="fit-station"><div class="ix">${p.min}׳</div>
+      ${plan.phases.map(p=>`<div class="fit-station"><div class="ix">${p.min} ${T("ls.min","דק׳")}</div>
         <div class="grow"><b>${esc(p.n)}</b>${p.sub?` <span class="pill">${esc(p.sub)}</span>`:""}${Array.isArray(p.d)
           ?`<ol class="ls-steps">${p.d.map(st=>"<li>"+esc(st)+"</li>").join("")}</ol>`
           :`<div class="sb" style="line-height:1.55;margin-top:2px">${esc(p.d)}</div>`}
@@ -965,11 +965,43 @@ window.LESSON=(function(){
     $("#ls-subs").innerHTML=subs.map(s=>
       `<label class="check"><input type="checkbox" value="${H().esc(s)}"> ${H().esc(s)}</label>`).join("");
   }
+
+  /* ============================================================
+     תרגום רשימת הציוד הקבועה (#ls-eq) — ראה docs/i18n-glossary.md
+     ------------------------------------------------------------
+     ה-value של כל checkbox נשאר בעברית (מפתח קנוני) כדי שהמיזוג עם
+     T.eq/W.eq (שכבר מתורגמים) יעבוד על אותו איברי טקסט; רק תווית
+     התצוגה וה-eq שנכנס בפועל ל-plan מתורגמים דרך eqLoc.
+     ============================================================ */
+  const EQUIP_I18N={
+    "כדורים":{en:"Balls",ar:"كرات",ru:"Мячи"},
+    "קונוסים":{en:"Cones",ar:"أقماع",ru:"Конусы"},
+    "מזרנים":{en:"Mats",ar:"سجادات",ru:"Гимнастические коврики"},
+    "חישוקים":{en:"Hoops",ar:"أطواق",ru:"Обручи"},
+    "רשת":{en:"Net",ar:"شبكة",ru:"Сетка"},
+    "חבל":{en:"Jump Rope",ar:"حبل قفز",ru:"Скакалка"},
+    "רמקול":{en:"Speaker",ar:"مكبر صوت",ru:"Колонка"},
+    "וסטים":{en:"Vests",ar:"سترات",ru:"Манишки"}
+  };
+  const eqLoc=he=>{
+    const cur=window.I18N?window.I18N.lang():"he";
+    const tr=EQUIP_I18N[he];
+    return (tr&&tr[cur])||he;
+  };
+  function translateEqLabels(){
+    const {$$}=H();
+    $$("#ls-eq input[type=checkbox]").forEach(i=>{
+      const label=eqLoc(i.value);
+      const textNode=[...i.parentElement.childNodes].find(n=>n.nodeType===3);
+      if(textNode)textNode.textContent=" "+label;
+    });
+  }
   function init(){
     if(inited)return; inited=true;
     const {$, $$}=H();
     buildTopicSelect();
     buildSubSelect();
+    translateEqLabels();
     $("#ls-focus").addEventListener("change",buildSubSelect);
     $$("#ls-gradeSeg button").forEach(b=>b.addEventListener("click",()=>{
       $$("#ls-gradeSeg button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); grade=b.dataset.g;
@@ -987,7 +1019,7 @@ window.LESSON=(function(){
     $("#ls-fbBad").addEventListener("click",()=>saveFeedback(-1));
     $("#ls-libExport").addEventListener("click",exportLib);
     document.addEventListener("i18n:change",()=>{
-      buildTopicSelect(); buildSubSelect();
+      buildTopicSelect(); buildSubSelect(); translateEqLabels();
       if(plan)renderPlan();
     });
     $("#ls-libImport").addEventListener("change",async e=>{

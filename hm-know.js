@@ -1184,7 +1184,7 @@ const catName=id=>{
   return (window.t||((k,d)=>d))(GCAT_I18N_KEY[id]||"",row[1]);
 };
 const ytUrl=q=>"https://www.youtube.com/results?search_query="+encodeURIComponent(q);
-const srcById=id=>SOURCES.find(s=>s.id===id);
+const srcById=id=>{ const s=SOURCES.find(s=>s.id===id); return s&&srcLoc(s); };
 
 /* ---------- GAMES view ---------- */
 window.GAMES=(function(){
@@ -1289,7 +1289,7 @@ window.KNOW=(function(){
   function openProg(id){
     const {$, esc}=H(), raw=PROGRAMS.find(x=>x.id===id); if(!raw)return;
     const p=prLoc(raw), T=window.t||((k,d)=>d);
-    const srcRaw=srcById(p.src), s=srcRaw?srcLoc(srcRaw):null;
+    const s=srcById(p.src);
     $("#kn-mTitle").innerHTML=p.em+" "+esc(p.name);
     $("#kn-mBody").innerHTML=`
       <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:11px">
