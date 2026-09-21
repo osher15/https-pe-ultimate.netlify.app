@@ -1580,6 +1580,169 @@ function classAttention(rows,roster,testDefs,opts){
   });
   return {asOf:fr.asOf,list:list,counts:fr.counts};
 }
+/* ============================================================
+   שלב 14 — ספריית הקוריקולום: מערכים מובנים, רב־לשוניים
+   ------------------------------------------------------------
+   LESSONDOCS (hm-plans.js) הוא ארכיון של מערכים שנכתבו והועברו
+   בפועל: `{id,title,meta,text}` — טקסט חופשי, עברית בלבד. הוא
+   נשאר כפי שהוא. הספרייה הזאת היא ישות **שנייה ונפרדת**:
+   מערכים בתקן אחיד בן 20 סעיפים, בחמש שפות, עם מטא־דאטה
+   מובנית לכל מערך.
+
+   למה שתיים ולא אחת: לשתיהן מקור, מבנה וסטטוס שונים. מערך
+   שאושר בשטח על ידי המורה שכתב אותו ומערך טיוטה שממתין לבדיקה
+   מקצועית **אינם אותו דבר**, וערבוב שלהם ברשימה אחת בלי הבחנה
+   היה שוחק בדיוק את ההבטחה שבראש ה-README — "תוכן מקצועי
+   מצוטט, לא בערך". לכן:
+
+   1. **הסטטוס נוסע עם הרשומה.** `status` הוא draft / reviewed /
+      piloted / approved, והוא נקרא מהעמוד עצמו ולא מונח. עמוד
+      שסטטוס הטיוטה שלו לא זוהה מסומן "unknown" — לא "approved".
+      ברירת מחדל שמקדמת מערך למאושר היא ניחוש, וכאן לא מנחשים.
+
+   2. **הקוד הוא הזהות, לא השם.** `BB-03` הוא אותו מערך פדגוגי
+      בכל חמש השפות; הכותרת היא תצוגה. אותו כלל בדיוק שמפריד
+      `cid` מ-`cls` ו-`sid` משם התלמיד, ומאותה סיבה: שם מתורגם,
+      מנוסח מחדש ומתוקן, ומזהה לא.
+
+   3. **נפילה לשפה אחרת היא מצב גלוי.** מערך שאין לו מהדורה
+      בשפת הממשק מוחזר עם `fallback:true` ועם השפה שנמצאה
+      בפועל. מסך שמציג אנגלית ומדווח "מתורגם" משקר למורה.
+
+   הענף נשמר כמזהה יציב (`basketball`) ולא כשם מוצג, כי שם מוצג
+   משתנה בין חמש שפות. גיל הוא נקודת הייחוס ולא מספר כיתה:
+   אין המרה אוטומטית של כיתה בין מדינות.
+   ============================================================ */
+var CURRIC_STATUS=["draft","reviewed","piloted","approved"];
+
+function curricKey(code,lang){ return String(code||"")+"|"+String(lang||""); }
+
+/* רשומה אחת לפי קוד ושפה. כשאין מהדורה בשפה המבוקשת — מוחזרת
+   מהדורה אחרת לפי סדר ההעדפה, **מסומנת כנפילה**. אין מהדורה
+   בכלל → null, ולא רשומה ריקה שנראית תקינה. */
+var CURRIC_FALLBACK=["en","he","es","ru","ar"];
+function curricOf(list,code,lang,opts){
+  opts=opts||{};
+  var all=(Array.isArray(list)?list:[]).filter(function(L){
+    return L&&L.code===code; });
+  if(!all.length)return null;
+  var want=all.filter(function(L){ return L.lang===lang; })[0];
+  if(want)return {lesson:want,lang:lang,requested:lang,fallback:false};
+  var order=opts.fallbackOrder||CURRIC_FALLBACK, i, hit;
+  for(i=0;i<order.length;i++){
+    hit=all.filter(function(L){ return L.lang===order[i]; })[0];
+    if(hit)return {lesson:hit,lang:hit.lang,requested:lang,fallback:true};
+  }
+  return {lesson:all[0],lang:all[0].lang,requested:lang,fallback:true};
+}
+
+/* סינון הספרייה. כל התנאים הם AND, וכל תנאי שלא נמסר אינו מסנן.
+   גיל: מערך נכלל אם טווח הגיל שלו **חופף** לגיל המבוקש, ולא אם
+   הוא זהה לו — מערך ל-9–11 רלוונטי לבן 10 בדיוק כמו לבן 11.
+   המיון יציב: ענף, ואז מספר בתוך הענף. אותה ספרייה תיתן תמיד
+   את אותה רשימה באותו סדר. */
+function curricList(list,opts){
+  opts=opts||{};
+  var q=String(opts.q||"").trim().toLowerCase();
+  var out=(Array.isArray(list)?list:[]).filter(function(L){
+    if(!L||!L.code)return false;
+    if(opts.lang&&L.lang!==opts.lang)return false;
+    if(opts.sport&&L.sport!==opts.sport)return false;
+    if(opts.status&&L.status!==opts.status)return false;
+    if(opts.age!=null&&!(L.ageFrom<=opts.age&&opts.age<=L.ageTo))return false;
+    if(opts.maxMinutes!=null&&L.minutes>opts.maxMinutes)return false;
+    if(opts.tag&&(L.tags||[]).indexOf(opts.tag)<0)return false;
+    if(q){
+      var hay=[L.title,L.subtopic].concat(L.tags||[],L.skills||[],L.keywords||[])
+        .join(" ").toLowerCase();
+      if(hay.indexOf(q)<0)return false;
+    }
+    return true;
+  });
+  out.sort(function(a,b){
+    if(a.sport!==b.sport)return a.sport<b.sport?-1:1;
+    if(a.n!==b.n)return a.n-b.n;
+    return a.lang<b.lang?-1:(a.lang>b.lang?1:0);
+  });
+  return out;
+}
+
+/* הענפים שיש להם מערכים בשפה הזאת, עם ספירה. סדר קבוע. */
+function curricSports(list,lang){
+  var by={};
+  curricList(list,{lang:lang}).forEach(function(L){
+    by[L.sport]=(by[L.sport]||0)+1; });
+  return Object.keys(by).sort().map(function(s){
+    return {sport:s,count:by[s]}; });
+}
+
+/* מסלול הלמידה של ענף: המערכים לפי הסדר, עם הקישורים שלהם.
+   נגזר מ-n ולא משרשור prev/next, כדי שקישור שבור יתגלה כממצא
+   ולא ישבור את הרשימה. */
+function curricPathway(list,sport,lang){
+  return curricList(list,{sport:sport,lang:lang}).map(function(L){
+    return {code:L.code,n:L.n,title:L.title,status:L.status,
+            prev:L.prev,next:L.next,ageFrom:L.ageFrom,ageTo:L.ageTo};
+  });
+}
+
+/* בדיקת שלמות הספרייה. מחזירה ממצאים — לא זורקת ולא מתקנת.
+   מה שנבדק: כפילות קוד+שפה, חור ברצף המספרים של ענף, קישור
+   prev/next שמצביע על מערך שאינו קיים, וחוסר התאמה בין הקישור
+   לבין הסדר. מערך שהבדיקה מצאה בו ממצא עדיין מוצג — הממצא הוא
+   למי שמתחזק את הספרייה, לא למורה באמצע שיעור. */
+function curricValidate(list){
+  var all=Array.isArray(list)?list:[], seen={}, issues=[];
+  all.forEach(function(L){
+    if(!L||!L.code||!L.lang){ issues.push({kind:"bad-record",code:(L&&L.code)||null}); return; }
+    var k=curricKey(L.code,L.lang);
+    if(seen[k])issues.push({kind:"duplicate",code:L.code,lang:L.lang});
+    seen[k]=1;
+    if(CURRIC_STATUS.indexOf(L.status)<0)
+      issues.push({kind:"unknown-status",code:L.code,lang:L.lang,status:L.status});
+  });
+  var langs={}; all.forEach(function(L){ if(L&&L.lang)langs[L.lang]=1; });
+  Object.keys(langs).sort().forEach(function(lang){
+    var sports={};
+    curricList(all,{lang:lang}).forEach(function(L){
+      (sports[L.sport]=sports[L.sport]||[]).push(L); });
+    Object.keys(sports).sort().forEach(function(sp){
+      var seq=sports[sp], byCode={};
+      seq.forEach(function(L){ byCode[L.code]=L; });
+      seq.forEach(function(L,i){
+        if(i>0&&seq[i-1].n!==L.n-1)
+          issues.push({kind:"gap",sport:sp,lang:lang,after:seq[i-1].code,before:L.code});
+        if(L.prev&&!byCode[L.prev])
+          issues.push({kind:"dangling-prev",code:L.code,lang:lang,points:L.prev});
+        if(L.next&&!byCode[L.next])
+          issues.push({kind:"dangling-next",code:L.code,lang:lang,points:L.next});
+        if(i>0&&L.prev&&L.prev!==seq[i-1].code)
+          issues.push({kind:"prev-mismatch",code:L.code,lang:lang,
+                       points:L.prev,expected:seq[i-1].code});
+      });
+    });
+  });
+  return {ok:issues.length===0,issues:issues,count:all.length};
+}
+
+/* הגשר אל nextLesson(): בהינתן נושא השיעור הבא שהמנוע הציע,
+   אילו מערכים בספרייה מתאימים לו. ההתאמה היא טקסטואלית מול
+   הכותרת, תת־הנושא, התגיות והמיומנויות — ובכוונה שמרנית:
+   היא **מציעה** מערכים ואינה בוחרת אחד. אין כאן ציון התאמה
+   ואין דירוג מעבר לסדר הספרייה, כי אין שום בסיס למשקולות.
+   רשימה ריקה היא תשובה כנה: אין מערך מתאים בספרייה. */
+function curricForTopic(list,topic,opts){
+  opts=opts||{};
+  var words=String(topic||"").toLowerCase().split(/[\s,־—–\-|]+/)
+    .filter(function(w){ return w.length>=3; });
+  if(!words.length)return [];
+  return curricList(list,{lang:opts.lang,sport:opts.sport,age:opts.age})
+    .filter(function(L){
+      var hay=[L.title,L.subtopic].concat(L.tags||[],L.skills||[],L.keywords||[])
+        .join(" ").toLowerCase();
+      return words.some(function(w){ return hay.indexOf(w)>=0; });
+    });
+}
 
 /* שלב 12 — אחוז נוכחות לתלמיד, לצורך הצעת מילוי בציון ההשתתפות.
    הנוסחה זהה, בית אחר בית, ל-attSummary() הקיימת ב-hm-tools.js:
@@ -2334,6 +2497,9 @@ return {
   localISO:localISO, daysBetweenISO:daysBetweenISO, evidenceState:evidenceState,
   lastMeasuredOn:lastMeasuredOn, freshnessOf:freshnessOf,
   classFreshness:classFreshness, classAttention:classAttention,
+  CURRIC_STATUS:CURRIC_STATUS, CURRIC_FALLBACK:CURRIC_FALLBACK, curricKey:curricKey,
+  curricOf:curricOf, curricList:curricList, curricSports:curricSports,
+  curricPathway:curricPathway, curricValidate:curricValidate, curricForTopic:curricForTopic,
   attendanceRateOf:attendanceRateOf,
   SESSION_ACTIVE:SESSION_ACTIVE, SESSION_DONE:SESSION_DONE, SESSION_MAX:SESSION_MAX,
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
