@@ -2617,6 +2617,19 @@ function resultsBefore(results,iso){
   return (results||[]).filter(function(r){ return r&&r.d&&r.d<iso; });
 }
 
+/* אותו רעיון בדיוק, על ls.sessions: SESSION_MAX=300 גוזר בשקט את
+   השיעורים הישנים ביותר כשעוברים אותו — מורה שמלמד הרבה כיתות
+   יכול להגיע לזה **בתוך שנת לימודים אחת**, לא אחרי כמה שנים כמו
+   ft.results. הארכוב הוא הבטחון: אין למה לחכות לגזירה כדי לפנות
+   מקום. רק שיעור שהסתיים (SESSION_DONE) נארכב — שיעור פעיל לא
+   נעלם באמצע, גם אם התאריך שלו ישן (לדוגמה שיעור שנפתח אתמול
+   ונשכח פתוח). */
+function sessionsBefore(sessions,iso){
+  return asList(sessions).filter(function(s){
+    return s&&s.date&&s.date<iso&&s.status===SESSION_DONE;
+  });
+}
+
 /* מד מקום. localStorage אינו חושף מכסה אמיתית (וזו משתנה בין
    דפדפנים) — זו הערכה שמכוונת למספר שנמדד בפועל בביקורת, לא
    הבטחה. המטרה היא אזהרה *לפני* שכתיבה נכשלת, לא רק אחריה. */
@@ -2647,6 +2660,9 @@ function buildSnapshot(o){
      מדידה שוקלת עשרות בתים, לא מגה-בייטים כמו סרטון, ולכן היא
      נוסעת בשלמותה בכל גיבוי במקום להיחתך לפי budget כמו snap.idb. */
   if(o.arc)snap.arc=o.arc;
+  /* שיעורים שהמורה ארכב — אותו טעם בדיוק, מקטע נפרד כדי שאפשר
+     יהיה לשחזר כל ארכיון בנפרד מהשני. */
+  if(o.sarc)snap.sarc=o.sarc;
   return snap;
 }
 
@@ -2701,6 +2717,7 @@ function validateBackup(obj){
     else if(Array.isArray(obj.idb.omitted)&&obj.idb.omitted.length)out.warnings.push("media-omitted:"+obj.idb.omitted.length);
   }else if(v>=2)out.warnings.push("no-media-section");
   if(obj.arc!=null&&!Array.isArray(obj.arc))out.errors.push("bad-arc");
+  if(obj.sarc!=null&&!Array.isArray(obj.sarc))out.errors.push("bad-sarc");
   out.ok=!out.errors.length;
   return out;
 }
@@ -2719,7 +2736,8 @@ function planRestore(snap,currentKeys){
     drop:cur.filter(function(k){return !inSet[k]}).sort(),
     media:(snap&&snap.idb&&Array.isArray(snap.idb.items))?snap.idb.items.length:0,
     mediaOmitted:(snap&&snap.idb&&Array.isArray(snap.idb.omitted))?snap.idb.omitted.length:0,
-    arcCount:(snap&&Array.isArray(snap.arc))?snap.arc.length:0
+    arcCount:(snap&&Array.isArray(snap.arc))?snap.arc.length:0,
+    sarcCount:(snap&&Array.isArray(snap.sarc))?snap.sarc.length:0
   };
 }
 
@@ -2790,7 +2808,7 @@ return {
   otTheory:otTheory, otScore:otScore, OT_MAX:OT_MAX, OT_PASS:OT_PASS, OT_CORE_MIN:OT_CORE_MIN,
   vo2max:vo2max, healthZone:healthZone, HFZ:HFZ, HFZ_EXC:HFZ_EXC, bmi:bmi, bmiCategory:bmiCategory,
   BK_APP:BK_APP, BK_V:BK_V, IDB_BUDGET:IDB_BUDGET,
-  resultsBefore:resultsBefore, BYTES_TYPICAL_QUOTA:BYTES_TYPICAL_QUOTA,
+  resultsBefore:resultsBefore, sessionsBefore:sessionsBefore, BYTES_TYPICAL_QUOTA:BYTES_TYPICAL_QUOTA,
   fmtBytes:fmtBytes, storageLevel:storageLevel,
   buildSnapshot:buildSnapshot, planMedia:planMedia, validateBackup:validateBackup, planRestore:planRestore
 };

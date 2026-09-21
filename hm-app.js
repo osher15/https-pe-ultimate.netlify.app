@@ -499,7 +499,7 @@ $("#set-save").addEventListener("click",()=>{ SET.school=$("#set-school").value.
   SET.syncUrl=$("#set-syncUrl").value.trim(); SET.syncCode=$("#set-syncCode").value.trim();
   saveSet(); modal("setModal",false); toast(t("set.saved","ההגדרות נשמרו"));
   if(typeof REC!=="undefined"&&REC.applyRole)REC.applyRole(); });
-  wireBackup(); wireGDrive(); wireAbout(); wirePurge(); wireArchive(); wireStorageWarn();
+  wireBackup(); wireGDrive(); wireAbout(); wirePurge(); wireArchive(); wireSessionArchive(); wireStorageWarn();
 }
 
 /* ============================================================
@@ -1828,6 +1828,13 @@ async function bkSnapshotFull(budget){
       if(arc.items.length)snap.arc=arc.items;
     }
   }catch(e){}
+  /* ושיעורים שהמורה ארכב — מקטע נפרד, אותה סיבה. */
+  try{
+    if(typeof SARC!=="undefined"&&SARC.exportAll){
+      const sarc=await SARC.exportAll();
+      if(sarc.items.length)snap.sarc=sarc.items;
+    }
+  }catch(e){}
   return snap;
 }
 /* ספירה קריאה לאדם לכל מפתח — «57 תוצאות» ולא «4.2KB» */
@@ -2005,10 +2012,16 @@ async function bkApply(snap){
   if(snap.arc&&typeof RARC!=="undefined"&&RARC.importAll){
     try{ arc=await RARC.importAll(snap.arc); }catch(e){ arc.added=-1; }
   }
+  /* ושיעורים שהיו בארכיון — חוזרים לארכיון של SARC, לא ל-ls.sessions,
+     מאותה סיבה. */
+  let sarc={added:0};
+  if(snap.sarc&&typeof SARC!=="undefined"&&SARC.importAll){
+    try{ sarc=await SARC.importAll(snap.sarc); }catch(e){ sarc.added=-1; }
+  }
   /* קובץ ישן נושא סכמה ישנה. ההסבה רצה עכשיו על מה ששוחזר, כדי
      שהמכשיר לא יישאר בגרסה שהאפליקציה כבר לא מכירה. */
   try{ runMigration(); }catch(e){}
-  return {keys:Object.keys(snap.data).length,failed,media,arc};
+  return {keys:Object.keys(snap.data).length,failed,media,arc,sarc};
 }
 function wireBackup(){
   if(!$("#set-bkExport"))return;
@@ -2335,6 +2348,69 @@ function wireArchive(){
   });
 }
 
+/* ---------- ארכוב שיעורים ישנים ----------
+   אותו דפוס בדיוק כמו wireArchive — תאריך, אותם קיצורים, ארכיון
+   הפיך — אבל על ls.sessions ולא ft.results. הכפילות מכוונת: שני
+   ארכיונים נפרדים (SARC/RARC), שני חלונות נפרדים, כדי שאפשר יהיה
+   לארכב את אחד בלי לגעת בשני. */
+function wireSessionArchive(){
+  const b=$("#set-archiveSess"); if(!b||typeof SARC==="undefined")return;
+  const dated=()=>{ const s=LS.get(SES_KEY,[]); return Array.isArray(s)?s:[]; };
+  const paintCount=async()=>{
+    const el=$("#sam-count"); if(!el)return;
+    const n=await SARC.count().catch(()=>0);
+    el.textContent=n?n+" שיעורים בארכיון כרגע.":"הארכיון ריק כרגע.";
+    $("#sam-restoreAll").disabled=!n;
+  };
+  const paint=()=>{
+    const iso=$("#sam-date").value;
+    const go=$("#sam-go");
+    if(!iso){ $("#sam-preview").textContent="בחר תאריך כדי לראות מה יעבור לארכיון."; go.disabled=true; return; }
+    const move=DATA.sessionsBefore(dated(),iso);
+    $("#sam-preview").innerHTML=move.length
+      ? "יעברו לארכיון <b>"+move.length+"</b> שיעורים מתוך "+dated().length+
+        " (ב-"+[...new Set(move.map(s=>s.clsSnapshot||s.cid))].length+" כיתות) — כל מה שהסתיים לפני "+iso+"."
+      : "אין שיעורים שהסתיימו לפני "+iso+" — אין מה לארכב.";
+    go.disabled=!move.length;
+  };
+  b.addEventListener("click",()=>{
+    modal("setModal",false); $("#sam-date").value="";
+    $$("#sam-quick button").forEach(x=>x.classList.remove("on"));
+    paint(); paintCount(); modal("sessArchiveModal",true);
+  });
+  $("#sam-date").addEventListener("change",paint);
+  $$("#sam-quick button").forEach(q=>q.addEventListener("click",()=>{
+    const d=new Date(); d.setMonth(d.getMonth()-(+q.dataset.m));
+    $("#sam-date").value=d.toISOString().slice(0,10);
+    $$("#sam-quick button").forEach(x=>x.classList.toggle("on",x===q));
+    paint();
+  }));
+  $("#sam-go").addEventListener("click",async()=>{
+    const iso=$("#sam-date").value; if(!iso)return;
+    const move=DATA.sessionsBefore(dated(),iso);
+    if(!move.length)return;
+    if(!confirm("להעביר "+move.length+" שיעורים שהסתיימו לפני "+iso+" לארכיון?\n\n"+
+      "הם לא יימחקו — אבל לא ייכללו יותר בהתקדמות היחידה בתוכנית השנתית, עד שתשחזר אותם."))return;
+    $("#sam-go").disabled=true; toast("מארכב…");
+    try{
+      const r=await SARC.archiveOld(iso);
+      modal("sessArchiveModal",false);
+      toast("✓ "+r.archived+" שיעורים עברו לארכיון · טוען מחדש");
+      setTimeout(()=>location.reload(),700);
+    }catch(e){ $("#sam-go").disabled=false; toast("הארכוב נכשל: "+e.message); }
+  });
+  $("#sam-restoreAll").addEventListener("click",async()=>{
+    if(!confirm("להחזיר את כל השיעורים שבארכיון לפעיל?"))return;
+    toast("משחזר…");
+    try{
+      const r=await SARC.restoreAll();
+      modal("sessArchiveModal",false);
+      toast(r.restored?("✓ "+r.restored+" שיעורים חזרו לפעיל · טוען מחדש"):"הארכיון היה ריק");
+      if(r.restored)setTimeout(()=>location.reload(),700);
+    }catch(e){ toast("השחזור נכשל: "+e.message); }
+  });
+}
+
 /* קוד שגיאה אחד למשפט אחד. «הקובץ פגום» לא עוזר למורה להבין אם
    כדאי לנסות להוריד שוב או שהקובץ הזה אבוד. */
 const BK_ERRMSG={
@@ -2370,6 +2446,7 @@ function bkPreview(snap){
     "<span>"+inFile.length+" קבוצות נתונים</span>"+
     (plan.media?"<span>"+plan.media+" שיאים</span>":"")+
     (plan.arcCount?"<span>"+plan.arcCount+" מדידות בארכיון</span>":"")+
+    (plan.sarcCount?"<span>"+plan.sarcCount+" שיעורים בארכיון</span>":"")+
     (snap.v<DATA.BK_V?"<span>גיבוי בפורמט ישן</span>":"");
   $("#bk-diff").innerHTML=all.map(k=>{
     const fv=snap.data[k]!=null?bkCount(snap.data[k]):"—";
@@ -2400,7 +2477,8 @@ function bkPreview(snap){
        לחשוב שיש לו סרטונים שאין לו. */
     toast(r.failed?("שוחזר חלקית — "+r.failed+" קבוצות נתונים לא נכתבו")
       :("✓ שוחזר "+r.keys+" קבוצות נתונים"+(r.media.added?" · "+r.media.added+" שיאים":"")+
-        (r.arc.added>0?" · "+r.arc.added+" מדידות בארכיון":"")+" — טוען מחדש"));
+        (r.arc.added>0?" · "+r.arc.added+" מדידות בארכיון":"")+
+        (r.sarc.added>0?" · "+r.sarc.added+" שיעורים בארכיון":"")+" — טוען מחדש"));
     setTimeout(()=>location.reload(),r.failed?2500:900);
   };
   /* חלון ההגדרות נפתח לפני זה ויושב אחריו ב-DOM, ולכן הוא היה מכסה
@@ -4266,15 +4344,18 @@ const REC=(function(){
   /* ---------- IndexedDB ---------- */
   function openDB(){
     return new Promise((res,rej)=>{
-      /* גרסה 2: הוסיף את "oldres" (מדידות שארכבו) לצד "rec" (סרטוני
-         שיאים). היצירה מגוננת בשני הכיוונים — מכשיר חדש מקבל את שני
-         המחסנים, מכשיר בגרסה 1 מקבל רק את מה שחסר לו. RARC למטה
-         פותח את אותו מסד באותה גרסה, ולכן שתי החתימות חייבות להסכים. */
-      const rq=indexedDB.open(BRAND.idbName,2);
+      /* גרסה 3: הוסיפה את "oldsessions" (שיעורים שארכבו, SARC) לצד
+         "rec" (סרטוני שיאים) ו-"oldres" (מדידות שארכבו, גרסה 2).
+         היצירה מגוננת בשלושת הכיוונים — מכשיר חדש מקבל את שלושת
+         המחסנים, מכשיר בגרסה 1/2 מקבל רק את מה שחסר לו. RARC ו-SARC
+         למטה פותחים את אותו מסד באותה גרסה, ולכן שלוש החתימות
+         חייבות להסכים. */
+      const rq=indexedDB.open(BRAND.idbName,3);
       rq.onupgradeneeded=()=>{
         const d=rq.result;
         if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
         if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldsessions"))d.createObjectStore("oldsessions",{keyPath:"id"});
       };
       rq.onsuccess=()=>{db=rq.result;res(db)};
       rq.onerror=()=>rej(rq.error);
@@ -5031,14 +5112,15 @@ const RARC=(function(){
   let db=null;
   function openDB(){
     return new Promise((res,rej)=>{
-      /* אותו מסד ואותה גרסה כמו REC.openDB — שתי הפתיחות האלה
-         חייבות להסכים, אחרת open() השני זורק VersionError. היצירה
-         כאן מגוננת באותה צורה, למקרה שהמודול הזה מתאתחל ראשון. */
-      const rq=indexedDB.open(BRAND.idbName,2);
+      /* אותו מסד ואותה גרסה כמו REC.openDB — כל הפתיחות האלה חייבות
+         להסכים, אחרת open() הבא זורק VersionError. היצירה כאן
+         מגוננת באותה צורה, למקרה שהמודול הזה מתאתחל ראשון. */
+      const rq=indexedDB.open(BRAND.idbName,3);
       rq.onupgradeneeded=()=>{
         const d=rq.result;
         if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
         if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldsessions"))d.createObjectStore("oldsessions",{keyPath:"id"});
       };
       rq.onsuccess=()=>{db=rq.result;res(db)};
       rq.onerror=()=>rej(rq.error);
@@ -5092,6 +5174,94 @@ const RARC=(function(){
   }
   /* שחזור מוסיף ולא מוחק — מזהה קיים בארכיון נדרס, אחד שקיים רק
      במכשיר נשאר. תואם את מדיניות REC.importAll. */
+  async function importAll(items){
+    if(!Array.isArray(items)||!items.length)return {added:0};
+    if(!db)await openDB();
+    await dbPutMany(items);
+    return {added:items.length};
+  }
+  return {count,archiveOld,restoreAll,exportAll,importAll};
+})();
+
+/* ============================================================
+   ארכוב שיעורים ישנים (SARC)
+   ------------------------------------------------------------
+   אותו דפוס בדיוק כמו RARC — אבל על ls.sessions, לא ft.results.
+   הסיבה שזה לא אותו מודול: SESSION_MAX=300 גוזר בשקט את השיעורים
+   הישנים ביותר כשעוברים אותו (createSession, hm-data.js), ומורה
+   שמלמד הרבה כיתות מגיע לזה **בתוך שנת לימודים אחת** — לא אחרי
+   כמה שנים כמו ft.results. מאז שהשכבה השנתית (§13.3 פריט 6)
+   נשענת על ls.sessions להתקדמות יחידה לאורך כל השנה, גזירה שקטה
+   אינה רק "היסטוריה נעלמת" — היא "ההתקדמות שכבר הוצגה יורדת".
+
+   הארכוב לא פותר את המכסה בעצמו (אף פעולה כאן לא רצה אוטומטית —
+   בדיוק כמו RARC), אבל הוא נותן למורה כלי לפנות מקום מתחת ל-300
+   *לפני* שהגזירה השקטה קורית, במקום לגלות אותה בדיעבד. */
+const SARC=(function(){
+  let db=null;
+  function openDB(){
+    return new Promise((res,rej)=>{
+      /* אותו מסד ואותה גרסה כמו REC.openDB — כל הפתיחות האלה חייבות
+         להסכים, אחרת open() הבא זורק VersionError. */
+      const rq=indexedDB.open(BRAND.idbName,3);
+      rq.onupgradeneeded=()=>{
+        const d=rq.result;
+        if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldsessions"))d.createObjectStore("oldsessions",{keyPath:"id"});
+      };
+      rq.onsuccess=()=>{db=rq.result;res(db)};
+      rq.onerror=()=>rej(rq.error);
+    });
+  }
+  function store(mode){ return db.transaction("oldsessions",mode||"readonly").objectStore("oldsessions"); }
+  function dbAll(){ return new Promise((res,rej)=>{ const rq=store().getAll(); rq.onsuccess=()=>res(rq.result||[]); rq.onerror=()=>rej(rq.error); }); }
+  function dbPutMany(rows){
+    return new Promise((res,rej)=>{
+      const tx=db.transaction("oldsessions","readwrite"), os=tx.objectStore("oldsessions");
+      rows.forEach(r=>os.put(r));
+      tx.oncomplete=()=>res(rows.length); tx.onerror=()=>rej(tx.error);
+    });
+  }
+  function dbClear(){ return new Promise((res,rej)=>{ const rq=store("readwrite").clear(); rq.onsuccess=()=>res(); rq.onerror=()=>rej(rq.error); }); }
+
+  async function count(){
+    try{ if(!db)await openDB(); return await new Promise((res,rej)=>{ const rq=store().count(); rq.onsuccess=()=>res(rq.result||0); rq.onerror=()=>rej(rq.error); }); }
+    catch(e){ return 0; }
+  }
+  /* מעביר לארכיון כל שיעור שהסתיים מלפני iso — sessionsBefore כבר
+     דואגת ששיעור פעיל לא ייגע, גם אם התאריך שלו ישן. */
+  async function archiveOld(iso){
+    const all=LS.get(SES_KEY,[]);
+    const move=DATA.sessionsBefore(all,iso);
+    if(!move.length)return {archived:0};
+    if(!db)await openDB();
+    await dbPutMany(move);
+    const ids=new Set(move.map(s=>s.id));
+    LS.set(SES_KEY,all.filter(s=>!ids.has(s.id)));
+    return {archived:move.length};
+  }
+  /* שסתום הביטחון: הכול חוזר לפעיל, בלי הכרעה למי — כמו RARC.
+     שיעור ששוחזר חוזר ל-ls.sessions ומיד שוב בטווח SESSION_MAX. */
+  async function restoreAll(){
+    if(!db)await openDB();
+    const arc=await dbAll();
+    if(!arc.length)return {restored:0};
+    const cur=LS.get(SES_KEY,[]);
+    const have=new Set(cur.map(s=>s.id));
+    const merged=cur.concat(arc.filter(s=>!have.has(s.id)));
+    LS.set(SES_KEY,merged);
+    await dbClear();
+    return {restored:arc.length};
+  }
+  /* לגיבוי מלא — כל מה שבארכיון, כמות שהוא. שיעור שוקל עשרות
+     בתים, לא מגה-בייטים כמו סרטון — אין תקציב פה, כמו RARC. */
+  async function exportAll(){
+    try{ if(!db)await openDB(); const items=await dbAll(); return {store:"oldsessions",db:BRAND.idbName,count:items.length,items}; }
+    catch(e){ return {store:"oldsessions",db:BRAND.idbName,count:0,items:[],error:String(e&&e.message||e)}; }
+  }
+  /* שחזור מוסיף ולא מוחק — מזהה קיים בארכיון נדרס, אחד שקיים רק
+     במכשיר נשאר. תואם את מדיניות RARC.importAll. */
   async function importAll(items){
     if(!Array.isArray(items)||!items.length)return {added:0};
     if(!db)await openDB();
@@ -5423,7 +5593,7 @@ const FIT=(function(){
 
 
 /* ===== bridge for new modules ===== */
-window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT; window.RARC=RARC;
+window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT; window.RARC=RARC; window.SARC=SARC;
 window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,

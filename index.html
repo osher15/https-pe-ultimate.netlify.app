@@ -11,14 +11,14 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="159680d9">
+<meta name="hm-build" content="628e69b5">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hm-styles.css?v=df53f1af">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-data.js?v=32781a84"></script>
+<script src="hm-data.js?v=1cf8c5c7"></script>
 <script src="hm-i18n.js?v=17d19955"></script>
-<script src="hm-app.js?v=7a6afb0f"></script>
+<script src="hm-app.js?v=5e89d45c"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=9607ebef"></script>
 <script src="hm-know.js?v=ac83607f"></script>
@@ -1632,6 +1632,29 @@
   <button class="btn sm ghost grow" id="am-restoreAll" style="margin-top:8px" disabled>↩ שחזר את כל הארכיון לפעיל</button>
 </div></div>
 
+<div class="modal" id="sessArchiveModal"><div class="box" style="max-width:520px">
+  <h3><span>🗄️ ארכוב שיעורים ישנים</span><button class="x" data-close="sessArchiveModal">✕</button></h3>
+  <div class="hint">מעביר <b>שיעורים שהסתיימו לפני התאריך שתבחר</b> לאחסון נפרד, כדי לפנות מקום מתחת
+    למכסת ‎300‎ השיעורים — בלי למחוק אותם. בשונה מגזירה שקטה בהגעה למכסה, זה <b>הפיך</b>: אפשר
+    להחזיר הכול בלחיצה אחת. שיעור פעיל לעולם לא נארכב, גם אם התאריך שלו ישן. חשוב לדעת: שיעור
+    בארכיון לא נכלל בהתקדמות היחידה בתוכנית השנתית, עד שתשחזר אותו.</div>
+  <div class="row" style="margin-top:11px;gap:9px;align-items:end">
+    <div class="field" style="width:180px"><label>ארכב שיעורים שהסתיימו לפני</label>
+      <input type="date" id="sam-date"></div>
+    <div class="seg" id="sam-quick">
+      <button data-m="12">שנה</button><button data-m="24">שנתיים</button><button data-m="36">3 שנים</button>
+    </div>
+  </div>
+  <div class="bw-note" id="sam-preview" style="margin-top:12px">בחר תאריך כדי לראות מה יעבור לארכיון.</div>
+  <div class="row" style="margin-top:12px">
+    <button class="btn stop grow" id="sam-go" disabled>🗄️ ארכב את מה שלמעלה</button>
+    <button class="btn ghost" data-close="sessArchiveModal">ביטול</button>
+  </div>
+  <hr style="border:none;border-top:1px solid var(--line);margin:14px 0">
+  <div class="hint" id="sam-count">—</div>
+  <button class="btn sm ghost grow" id="sam-restoreAll" style="margin-top:8px" disabled>↩ שחזר את כל הארכיון לפעיל</button>
+</div></div>
+
 <!-- ----- פוטו־פיניש: הדרכת פתיחה ----- -->
 <div class="modal" id="pfGuideModal"><div class="box" style="max-width:520px">
   <h3><span>📷 פוטו־פיניש — ‎4‎ שלבים</span><button class="x" data-close="pfGuideModal">✕</button></h3>
@@ -1836,6 +1859,7 @@
     <button class="btn sm ghost grow" id="set-about" data-i18n="set.about">📘 אודות, גרסה וקרדיטים</button>
     <button class="btn sm ghost grow" id="set-purge" data-i18n="set.purge">🧹 נקה נתונים ישנים</button>
     <button class="btn sm ghost grow" id="set-archive" data-i18n="set.archive">🗄️ ארכב מדידות ישנות</button>
+    <button class="btn sm ghost grow" id="set-archiveSess" data-i18n="set.archiveSess">🗄️ ארכב שיעורים ישנים</button>
   </div>
   <div class="hint" id="set-build" style="margin-top:9px;text-align:center;font-family:'Share Tech Mono'"></div>
   <!-- שסתום ביטחון: אפליקציה מותקנת שנתקעה על גרסה ישנה אין לה

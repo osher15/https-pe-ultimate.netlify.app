@@ -16,14 +16,15 @@ const base={
 async function seedRecord(page,id,bytes){
   await page.evaluate(async a=>{
     const db=await new Promise((res,rej)=>{
-      /* גרסה 2, כמו האפליקציה עצמה מאז RARC — מסד שכבר עלה לגרסה 2
-         (למשל כי בדיקה קודמת פתחה אותו) זורק VersionError על בקשה
-         לגרסה 1, ואין כאן onerror שהיה תופס את זה. */
-      const rq=indexedDB.open("peultimate-records",2);
+      /* גרסה 3, כמו האפליקציה עצמה מאז SARC — מסד שכבר עלה לגרסה
+         גבוהה יותר (למשל כי בדיקה קודמת פתחה אותו) זורק VersionError
+         על בקשה לגרסה נמוכה מזו, ואין כאן onerror שהיה תופס את זה. */
+      const rq=indexedDB.open("peultimate-records",3);
       rq.onupgradeneeded=()=>{
         const d=rq.result;
         if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
         if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldsessions"))d.createObjectStore("oldsessions",{keyPath:"id"});
       };
       rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error);
     });
@@ -68,11 +69,12 @@ module.exports={title:"גיבוי ושחזור",tests:[
        האפליקציה מחזיקה חיבור פתוח, ואז הבדיקה תלויה לנצח. */
     await page.evaluate(async()=>{
       Object.keys(localStorage).filter(k=>k.indexOf("peultimate.")===0).forEach(k=>localStorage.removeItem(k));
-      const db=await new Promise((res,rej)=>{ const rq=indexedDB.open("peultimate-records",2);
+      const db=await new Promise((res,rej)=>{ const rq=indexedDB.open("peultimate-records",3);
         rq.onupgradeneeded=()=>{
           const d=rq.result;
           if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
           if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+          if(!d.objectStoreNames.contains("oldsessions"))d.createObjectStore("oldsessions",{keyPath:"id"});
         };
         rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error); });
       await new Promise((res,rej)=>{ const rq=db.transaction("rec","readwrite").objectStore("rec").clear();
@@ -87,10 +89,11 @@ module.exports={title:"גיבוי ושחזור",tests:[
     eq(r.media.added,1,"והשיא עם הסרטון חזר");
     eq(await page.evaluate(()=>window.HM.LS.get("ft.results",[]).length),1,"המדידה חזרה");
     const vid=await page.evaluate(async()=>{
-      const db=await new Promise(res=>{ const rq=indexedDB.open("peultimate-records",2); rq.onupgradeneeded=()=>{
+      const db=await new Promise(res=>{ const rq=indexedDB.open("peultimate-records",3); rq.onupgradeneeded=()=>{
         const d=rq.result;
         if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
         if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldsessions"))d.createObjectStore("oldsessions",{keyPath:"id"});
       }; rq.onsuccess=()=>res(rq.result); });
       const all=await new Promise(res=>{ const rq=db.transaction("rec").objectStore("rec").getAll(); rq.onsuccess=()=>res(rq.result); });
       db.close();
@@ -108,10 +111,11 @@ module.exports={title:"גיבוי ושחזור",tests:[
     await seedRecord(page,"rec2",512);      /* שיא חדש שאינו בקובץ */
     await page.evaluate(s=>window.HM.backupTest.apply(s),snap);
     const n=await page.evaluate(async()=>{
-      const db=await new Promise(res=>{ const rq=indexedDB.open("peultimate-records",2); rq.onupgradeneeded=()=>{
+      const db=await new Promise(res=>{ const rq=indexedDB.open("peultimate-records",3); rq.onupgradeneeded=()=>{
         const d=rq.result;
         if(!d.objectStoreNames.contains("rec"))d.createObjectStore("rec",{keyPath:"id"});
         if(!d.objectStoreNames.contains("oldres"))d.createObjectStore("oldres",{keyPath:"id"});
+        if(!d.objectStoreNames.contains("oldsessions"))d.createObjectStore("oldsessions",{keyPath:"id"});
       }; rq.onsuccess=()=>res(rq.result); });
       const all=await new Promise(res=>{ const rq=db.transaction("rec").objectStore("rec").getAll(); rq.onsuccess=()=>res(rq.result); });
       db.close(); return all.length;
