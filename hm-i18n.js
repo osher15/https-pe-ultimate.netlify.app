@@ -149,7 +149,7 @@ en:{
   /* --- תפריט «עוד» --- */
   "more.title":"\u2630 Menu",
   "more.home":"What now \u2014 home", "more.sched":"Timetable", "more.groups":"Teaching groups",
-  "more.ft":"Fitness tests", "more.lesson":"Lesson plans", "more.beep":"Beep test", "more.photo":"Photo finish",
+  "more.ft":"Fitness tests", "more.lesson":"Lesson plans", "more.curric":"Curriculum library", "more.beep":"Beep test", "more.photo":"Photo finish",
   "more.guide":"Screen guide", "more.settings":"Settings and backup",
   "more.records":"School champions", "more.students":"Students and grades",
   "more.knowledge":"Knowledge", "more.tools":"Class tools", "more.nutrition":"Nutrition corner",
@@ -295,7 +295,7 @@ ar:{
 
   "more.title":"\u2630 القائمة",
   "more.home":"ماذا الآن — الصفحة الرئيسية", "more.sched":"جدول الحصص", "more.groups":"مجموعات التدريس",
-  "more.ft":"اختبارات اللياقة", "more.lesson":"خطط الدروس", "more.beep":"اختبار الصافرة", "more.photo":"صورة النهاية",
+  "more.ft":"اختبارات اللياقة", "more.lesson":"خطط الدروس", "more.curric":"مكتبة المنهج", "more.beep":"اختبار الصافرة", "more.photo":"صورة النهاية",
   "more.guide":"دليل الشاشة", "more.settings":"الإعدادات والنسخ الاحتياطي",
   "more.records":"أبطال المدرسة", "more.students":"الطلاب والعلامات",
   "more.knowledge":"المعرفة", "more.tools":"أدوات الصف", "more.nutrition":"ركن التغذية",
@@ -445,7 +445,7 @@ ru:{
 
   "more.title":"\u2630 Меню",
   "more.home":"Что сейчас — главная", "more.sched":"Расписание", "more.groups":"Учебные группы",
-  "more.ft":"Тесты физподготовки", "more.lesson":"Планы уроков", "more.beep":"Бип-тест", "more.photo":"Фотофиниш",
+  "more.ft":"Тесты физподготовки", "more.lesson":"Планы уроков", "more.curric":"Библиотека программы", "more.beep":"Бип-тест", "more.photo":"Фотофиниш",
   "more.guide":"Гид по экрану", "more.settings":"Настройки и резервная копия",
   "more.records":"Чемпионы школы", "more.students":"Ученики и оценки",
   "more.knowledge":"Знания", "more.tools":"Инструменты класса", "more.nutrition":"Уголок питания",

@@ -197,3 +197,73 @@ test("הספרייה שנבנתה מ-Notion נטענת ועוברת את הסכ�
     assert.ok(L.src&&L.src.page,L.code+" — בלי מזהה עמוד מקור");
   });
 });
+
+/* ---------- תג הסטטוס ---------- */
+
+test("curricBadge: טיוטה מוצגת, ואומרת מה חסר",()=>{
+  const b=D.curricBadge({status:"draft"});
+  assert.equal(b.show,true);
+  assert.equal(b.tone,"warn");
+  assert.ok(b.why.length>0,"«טיוטה» לבד לא עוזר למורה להחליט");
+});
+
+test("curricBadge: כל מה שאינו approved מציג תג",()=>{
+  ["draft","reviewed","piloted","unknown"].forEach(s=>
+    assert.equal(D.curricBadge({status:s}).show,true,s+" חייב להציג תג"));
+  assert.equal(D.curricBadge({status:"approved"}).show,false);
+});
+
+test("curricBadge: סטטוס שאינו מוכר נופל ל-unknown, לא ל-approved",()=>{
+  const b=D.curricBadge({status:"probably-fine"});
+  assert.equal(b.status,"unknown");
+  assert.equal(b.show,true);
+  assert.equal(b.tone,"stop","«לא ידוע» חמור מ«טיוטה», לא קל ממנו");
+});
+
+test("curricBadge: רשומה בלי סטטוס בכלל אינה מאושרת",()=>{
+  assert.equal(D.curricBadge({}).status,"unknown");
+  assert.equal(D.curricBadge(null).show,true);
+});
+
+test("curricBadge מעביר את משפט הסטטוס מהמקור",()=>{
+  const b=D.curricBadge({status:"draft",statusNote:"נדרשת בדיקת איש מקצוע"});
+  assert.equal(b.note,"נדרשת בדיקת איש מקצוע");
+});
+
+test("curricBadge מחזיר שם מצב ולא צבע",()=>{
+  const b=D.curricBadge({status:"draft"});
+  assert.equal(/^#|rgb/.test(b.tone),false,"מיפוי לצבע שייך ל-CSS");
+});
+
+/* ---------- הודעת השפה ---------- */
+
+test("curricLangNotice: אין הודעה כשאין נפילה",()=>{
+  assert.equal(D.curricLangNotice({fallback:false,lang:"he",requested:"he"}),null,
+    "הודעה שמופיעה תמיד מלמדת את המורה להתעלם ממנה");
+  assert.equal(D.curricLangNotice(null),null);
+});
+
+test("curricLangNotice נוקב בשתי השפות בשמן",()=>{
+  const n=D.curricLangNotice({fallback:true,lang:"he",requested:"en"});
+  assert.match(n.text,/אנגלית/);
+  assert.match(n.text,/עברית/);
+});
+
+test("curricLangNotice על שפה שאינה במילון אינה קורסת",()=>{
+  const n=D.curricLangNotice({fallback:true,lang:"he",requested:"zz"});
+  assert.equal(n.requestedName,"zz");
+});
+
+/* ---------- המערכים האמיתיים נושאים תג ---------- */
+
+test("כל מערך בספרייה שנבנתה מציג תג סטטוס",()=>{
+  const fs=require("fs");
+  if(!fs.existsSync("hm-curric-he.js"))return;
+  global.window={};
+  eval(fs.readFileSync("hm-curric-he.js","utf8"));
+  global.window.CURRIC.forEach(L=>{
+    const b=D.curricBadge(L);
+    assert.equal(b.show,true,L.code+" — מערך טיוטה חייב להציג תג");
+    assert.ok(b.note.length>0,L.code+" — משפט הסטטוס מהמקור אבד");
+  });
+});

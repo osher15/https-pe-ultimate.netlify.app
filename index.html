@@ -11,14 +11,14 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="c7eab464">
+<meta name="hm-build" content="3c0339ce">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=09d036eb">
+<link rel="stylesheet" href="hm-styles.css?v=8189e6a1">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-data.js?v=401e3b45"></script>
-<script src="hm-i18n.js?v=a5bcc8f5"></script>
-<script src="hm-app.js?v=4027e101"></script>
+<script src="hm-data.js?v=b0aac1e6"></script>
+<script src="hm-i18n.js?v=cf06cdec"></script>
+<script src="hm-app.js?v=3d7fc799"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
 <script src="hm-know.js?v=bc3e6c15"></script>
@@ -27,6 +27,7 @@
 <script src="hm-tools.js?v=ad0fc1aa"></script>
 <script src="hm-plans.js?v=20cf74cb"></script>
 <script src="hm-curric-he.js?v=473b9803"></script>
+<script src="hm-curric.js?v=d6975acf"></script>
 <script src="hm-lesson.js?v=fc5b69b2"></script>
 <script src="hm-build.js?v=4a132915"></script>
 <script src="hm-tests.js?v=c430e3e8"></script>
@@ -662,6 +663,7 @@
 <section class="view" id="view-fit">
   <div class="pf-tabs lesson-cluster">
     <button data-go="lesson">📋 בניית מערך</button>
+    <button data-go="curric">📘 קוריקולום</button>
     <button data-go="fit" class="on">⏱ כושר</button>
     <button data-go="games">🎮 משחקים</button>
   </div>
@@ -957,6 +959,7 @@
 <section class="view" id="view-lesson">
   <div class="pf-tabs lesson-cluster">
     <button data-go="lesson" class="on">📋 בניית מערך</button>
+    <button data-go="curric">📘 קוריקולום</button>
     <button data-go="fit">⏱ כושר</button>
     <button data-go="games">🎮 משחקים</button>
   </div>
@@ -1082,6 +1085,47 @@
     <div class="empty-state" id="ls-libEmpty"><div class="big">📚</div>עוד לא שמרת מערכים.<br>בנה מערך ולחץ «שמור» — הוא יחכה כאן לשיעור הבא.</div>
   </div>
 </section>
+<section class="view" id="view-curric">
+  <div class="pf-tabs lesson-cluster">
+    <button data-go="lesson">📋 בניית מערך</button>
+    <button data-go="curric" class="on">📘 קוריקולום</button>
+    <button data-go="fit">⏱ כושר</button>
+    <button data-go="games">🎮 משחקים</button>
+  </div>
+  <div class="card">
+    <h2><span class="dot"></span> ספריית הקוריקולום</h2>
+    <div class="hint">מערכים בתקן אחיד בן ‎20‎ סעיפים, לפי ענף ומסלול למידה. כולם נושאים
+      תג סטטוס — מערך שלא נבדק מקצועית ולא נוסה בשטח אומר זאת במפורש, בכרטיס ובמערך הפתוח.</div>
+    <div id="cu-sports" class="cu-chips"></div>
+    <div class="row" style="margin-top:11px">
+      <div class="field grow"><label>חיפוש</label>
+        <input type="text" id="cu-search" placeholder="נושא, מיומנות, תגית…"></div>
+      <div class="field" style="width:132px"><label>גיל</label>
+        <select id="cu-age">
+          <option value="">כל הגילים</option>
+          <option value="7">7</option><option value="8">8</option>
+          <option value="9">9</option><option value="10">10</option>
+          <option value="11">11</option><option value="12">12</option>
+          <option value="13">13</option><option value="14">14</option>
+          <option value="15">15</option><option value="16">16</option>
+          <option value="17">17</option><option value="18">18</option>
+        </select></div>
+    </div>
+    <div class="hint" id="cu-count" style="margin-top:8px"></div>
+  </div>
+  <div class="card" id="cu-pathWrap" style="display:none">
+    <h2><span class="dot"></span> <span id="cu-pathTitle"></span></h2>
+    <div class="cu-pathline" id="cu-path"></div>
+    <div class="hint" id="cu-pathNote" style="margin-top:9px"></div>
+  </div>
+  <div class="gm-grid" id="cu-grid"></div>
+  <div class="hint" id="cu-empty" style="display:none">אין מערך שמתאים לסינון שנבחר.</div>
+  <div class="modal" id="cu-modal"><div class="box">
+    <h3><span id="cu-mTitle"></span><button class="x" data-close="cu-modal">✕</button></h3>
+    <div id="cu-mBody"></div>
+  </div></div>
+</section>
+
 <section class="view" id="view-ft">
   <div class="pf-tabs" id="ft-tabs">
     <button data-ft="tests" class="on">🏅 מבחנים</button>
@@ -1329,6 +1373,7 @@
 <section class="view" id="view-games">
   <div class="pf-tabs lesson-cluster">
     <button data-go="lesson">📋 בניית מערך</button>
+    <button data-go="curric">📘 קוריקולום</button>
     <button data-go="fit">⏱ כושר</button>
     <button data-go="games" class="on">🎮 משחקים</button>
   </div>
@@ -1698,6 +1743,7 @@
     <div class="more-h">🏅 הוראה ומדידה</div>
     <button class="more-item" data-go="ft" data-close="navDrawer"><span class="ic">🏅</span><span data-i18n="more.ft">מבחני כושר</span><span class="go">→</span></button>
     <button class="more-item" data-go="lesson" data-close="navDrawer"><span class="ic">📋</span><span data-i18n="more.lesson">מערכי שיעור</span><span class="go">→</span></button>
+    <button class="more-item" data-go="curric" data-close="navDrawer"><span class="ic">📘</span><span data-i18n="more.curric">ספריית הקוריקולום</span><span class="go">→</span></button>
     <button class="more-item" data-go="beep" data-close="navDrawer"><span class="ic">🎵</span><span data-i18n="more.beep">ביפ טסט</span><span class="go">→</span></button>
     <button class="more-item" data-go="photo" data-close="navDrawer"><span class="ic">📷</span><span data-i18n="more.photo">פוטו־פיניש</span><span class="go">→</span></button>
   </div>

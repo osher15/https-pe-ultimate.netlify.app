@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="c7eab464">
+<meta name="hm-build" content="3c0339ce">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,6 +40,7 @@ body[data-mod="photo"]{--acc:#fb923c;--accDim:rgba(251,146,60,.20)}
 body[data-mod="rec"]{--acc:#fbbf24;--accDim:rgba(251,191,36,.18)}
 body[data-mod="fit"]{--acc:#a78bfa;--accDim:rgba(167,139,250,.20)}
 body[data-mod="stu"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
+body[data-mod="curric"]{--acc:#38bdf8;--accDim:rgba(56,189,248,.18)}
 body[data-mod="lesson"]{--acc:#f472b6;--accDim:rgba(244,114,182,.18)}
 body[data-mod="nut"]{--acc:#4ade80;--accDim:rgba(74,222,128,.18)}
 .app{max-width:1180px;margin:0 auto;padding:0 14px calc(var(--nav-h) + 26px)}
@@ -1582,6 +1583,85 @@ body[data-dir="ltr"] #stWarn *{unicode-bidi:plaintext}
 body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 #ft-startLesson{margin-top:9px}
 
+/* ============================================================
+   ספריית הקוריקולום
+   ------------------------------------------------------------
+   תג הסטטוס הוא הרכיב המרכזי כאן, ולכן הוא מוגדר ראשון. שלושה
+   דברים מכוונים בו:
+
+   1. **הוא אינו נשען על צבע בלבד.** לכל גוון יש גם מילה, ומסגרת
+      בעובי שונה. מורה עם עיוורון צבעים ומורה שמסתכל על מסך בשמש
+      חייבים לראות את ההבדל בין "טיוטה" ל"מאושר".
+   2. **הוא בולט ולא עדין.** מערך שלא נבדק מקצועית אינו הערת
+      שוליים; אם התג נראה כמו קישוט, הוא לא עושה את עבודתו.
+   3. **stop כהה מ-warn.** "סטטוס לא ידוע" חמור מ"טיוטה", והעיצוב
+      אומר את זה בלי להסתמך על שהמורה יקרא את הטקסט.
+   ============================================================ */
+.cu-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;
+  border-radius:99px;padding:3px 9px;border:1.5px solid;letter-spacing:.2px}
+.cu-badge.warn{color:var(--warn);border-color:var(--warn);background:rgba(255,210,63,.12)}
+.cu-badge.stop{color:var(--stop);border-color:var(--stop);background:rgba(255,77,94,.14)}
+.cu-badge.info{color:var(--cy);border-color:var(--cy);background:rgba(56,189,248,.12)}
+.cu-badge.ok{color:var(--green);border-color:var(--green);background:rgba(52,211,153,.12)}
+.cu-badges{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}
+
+/* הפס בראש המערך הפתוח — אותה הודעה, בגודל שאי אפשר לפספס */
+.cu-strip{border-radius:12px;padding:10px 13px;margin-bottom:11px;font-size:13px;line-height:1.5;
+  border:1.5px solid;border-inline-start-width:5px}
+.cu-strip.warn{color:var(--warn);border-color:var(--warn);background:rgba(255,210,63,.10)}
+.cu-strip.stop{color:var(--stop);border-color:var(--stop);background:rgba(255,77,94,.12)}
+.cu-strip.info{color:var(--cy);border-color:var(--cy);background:rgba(56,189,248,.10)}
+.cu-strip.ok{color:var(--green);border-color:var(--green);background:rgba(52,211,153,.10)}
+.cu-strip b{font-size:14px}
+.cu-strip-note{margin-top:5px;font-size:12px;opacity:.85;font-weight:400}
+
+/* בוררי הענף */
+.cu-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.cu-chip{font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;
+  background:var(--panel2);color:var(--muted);border:1px solid var(--line);
+  border-radius:99px;padding:9px 14px;min-height:calc(40px + var(--touch))}
+.cu-chip:hover{border-color:var(--acc);color:var(--ink)}
+.cu-chip.on{background:var(--accDim);border-color:var(--acc);color:var(--acc)}
+
+/* מסלול הלמידה — שורה גוללת, כי עשרה מערכים לא נכנסים לרוחב טלפון */
+.cu-pathline{display:flex;align-items:stretch;gap:6px;overflow-x:auto;padding:4px 0 9px;
+  scrollbar-width:thin}
+.cu-step{flex:0 0 auto;width:152px;text-align:start;cursor:pointer;font-family:inherit;
+  background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:9px 11px;
+  min-height:calc(56px + var(--touch));
+  color:var(--ink);display:flex;flex-direction:column;gap:3px}
+.cu-step:hover{border-color:var(--acc)}
+.cu-step .n{font-family:'Secular One',sans-serif;font-size:16px;color:var(--acc);line-height:1}
+.cu-step .t{font-size:12px;font-weight:600;line-height:1.35}
+.cu-step .a{font-size:11px;color:var(--faint)}
+.cu-arrow{align-self:center;color:var(--faint);flex:0 0 auto}
+
+/* כרטיס מערך */
+.cu-card{cursor:pointer}
+.cu-facts{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);
+  padding:10px 0;border-block:1px solid var(--line);margin-bottom:11px}
+.cu-facts b{color:var(--faint);font-weight:600;font-size:11px;display:block}
+.cu-sum{background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+  padding:11px 13px;margin-bottom:11px;font-size:13px}
+.cu-sum b{display:block;margin-bottom:6px;color:var(--acc);font-size:12px}
+.cu-sum ul{margin:0;padding-inline-start:18px;line-height:1.65}
+
+/* עשרים הסעיפים — סגורים כברירת מחדל חוץ משלושת הראשונים.
+   מערך פתוח במלואו הוא קיר של טקסט, ומורה שמחפש את סעיף
+   הבטיחות באמצע שיעור לא אמור לגלול דרך הכול. */
+.cu-sec{border:1px solid var(--line);border-radius:12px;margin-bottom:7px;background:var(--panel2)}
+.cu-sec>summary{cursor:pointer;padding:10px 13px;font-weight:700;font-size:13.5px;
+  min-height:calc(40px + var(--touch));display:flex;align-items:center}
+.cu-sec>summary::marker{color:var(--acc)}
+.cu-sec[open]>summary{border-bottom:1px solid var(--line);color:var(--acc)}
+.cu-md{padding:11px 13px;font-size:13px;line-height:1.7;color:var(--ink)}
+.cu-md p{margin:0 0 7px}
+.cu-md h5{margin:11px 0 5px;font-size:13px;color:var(--acc);font-family:'Secular One',sans-serif}
+.cu-md ul{margin:0 0 7px;padding-inline-start:18px}
+.cu-md li{margin-bottom:3px}
+.cu-md b{color:var(--ink)}
+.cu-src{margin-top:11px;font-size:11px;color:var(--faint);text-align:center}
+
 </style>
 </head>
 <body>
@@ -2215,6 +2295,7 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 <section class="view" id="view-fit">
   <div class="pf-tabs lesson-cluster">
     <button data-go="lesson">📋 בניית מערך</button>
+    <button data-go="curric">📘 קוריקולום</button>
     <button data-go="fit" class="on">⏱ כושר</button>
     <button data-go="games">🎮 משחקים</button>
   </div>
@@ -2510,6 +2591,7 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 <section class="view" id="view-lesson">
   <div class="pf-tabs lesson-cluster">
     <button data-go="lesson" class="on">📋 בניית מערך</button>
+    <button data-go="curric">📘 קוריקולום</button>
     <button data-go="fit">⏱ כושר</button>
     <button data-go="games">🎮 משחקים</button>
   </div>
@@ -2635,6 +2717,47 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     <div class="empty-state" id="ls-libEmpty"><div class="big">📚</div>עוד לא שמרת מערכים.<br>בנה מערך ולחץ «שמור» — הוא יחכה כאן לשיעור הבא.</div>
   </div>
 </section>
+<section class="view" id="view-curric">
+  <div class="pf-tabs lesson-cluster">
+    <button data-go="lesson">📋 בניית מערך</button>
+    <button data-go="curric" class="on">📘 קוריקולום</button>
+    <button data-go="fit">⏱ כושר</button>
+    <button data-go="games">🎮 משחקים</button>
+  </div>
+  <div class="card">
+    <h2><span class="dot"></span> ספריית הקוריקולום</h2>
+    <div class="hint">מערכים בתקן אחיד בן ‎20‎ סעיפים, לפי ענף ומסלול למידה. כולם נושאים
+      תג סטטוס — מערך שלא נבדק מקצועית ולא נוסה בשטח אומר זאת במפורש, בכרטיס ובמערך הפתוח.</div>
+    <div id="cu-sports" class="cu-chips"></div>
+    <div class="row" style="margin-top:11px">
+      <div class="field grow"><label>חיפוש</label>
+        <input type="text" id="cu-search" placeholder="נושא, מיומנות, תגית…"></div>
+      <div class="field" style="width:132px"><label>גיל</label>
+        <select id="cu-age">
+          <option value="">כל הגילים</option>
+          <option value="7">7</option><option value="8">8</option>
+          <option value="9">9</option><option value="10">10</option>
+          <option value="11">11</option><option value="12">12</option>
+          <option value="13">13</option><option value="14">14</option>
+          <option value="15">15</option><option value="16">16</option>
+          <option value="17">17</option><option value="18">18</option>
+        </select></div>
+    </div>
+    <div class="hint" id="cu-count" style="margin-top:8px"></div>
+  </div>
+  <div class="card" id="cu-pathWrap" style="display:none">
+    <h2><span class="dot"></span> <span id="cu-pathTitle"></span></h2>
+    <div class="cu-pathline" id="cu-path"></div>
+    <div class="hint" id="cu-pathNote" style="margin-top:9px"></div>
+  </div>
+  <div class="gm-grid" id="cu-grid"></div>
+  <div class="hint" id="cu-empty" style="display:none">אין מערך שמתאים לסינון שנבחר.</div>
+  <div class="modal" id="cu-modal"><div class="box">
+    <h3><span id="cu-mTitle"></span><button class="x" data-close="cu-modal">✕</button></h3>
+    <div id="cu-mBody"></div>
+  </div></div>
+</section>
+
 <section class="view" id="view-ft">
   <div class="pf-tabs" id="ft-tabs">
     <button data-ft="tests" class="on">🏅 מבחנים</button>
@@ -2882,6 +3005,7 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 <section class="view" id="view-games">
   <div class="pf-tabs lesson-cluster">
     <button data-go="lesson">📋 בניית מערך</button>
+    <button data-go="curric">📘 קוריקולום</button>
     <button data-go="fit">⏱ כושר</button>
     <button data-go="games" class="on">🎮 משחקים</button>
   </div>
@@ -3251,6 +3375,7 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     <div class="more-h">🏅 הוראה ומדידה</div>
     <button class="more-item" data-go="ft" data-close="navDrawer"><span class="ic">🏅</span><span data-i18n="more.ft">מבחני כושר</span><span class="go">→</span></button>
     <button class="more-item" data-go="lesson" data-close="navDrawer"><span class="ic">📋</span><span data-i18n="more.lesson">מערכי שיעור</span><span class="go">→</span></button>
+    <button class="more-item" data-go="curric" data-close="navDrawer"><span class="ic">📘</span><span data-i18n="more.curric">ספריית הקוריקולום</span><span class="go">→</span></button>
     <button class="more-item" data-go="beep" data-close="navDrawer"><span class="ic">🎵</span><span data-i18n="more.beep">ביפ טסט</span><span class="go">→</span></button>
     <button class="more-item" data-go="photo" data-close="navDrawer"><span class="ic">📷</span><span data-i18n="more.photo">פוטו־פיניש</span><span class="go">→</span></button>
   </div>
@@ -5293,6 +5418,61 @@ function curricForTopic(list,topic,opts){
       return words.some(function(w){ return hay.indexOf(w)>=0; });
     });
 }
+/* ============================================================
+   תג הסטטוס — מה המורה חייב לראות לפני שהוא לוקח מערך לשיעור
+   ------------------------------------------------------------
+   כל ‎300‎ עמודי הקוריקולום נושאים במקור את המשפט "נדרשת בדיקת
+   איש מקצוע, עריכת שפה ופיילוט לפני פרסום". השדה `status` נושא
+   את זה בנתונים; הפונקציה הזאת היא מה שהופך אותו לדבר שהמורה
+   רואה, ולא לשדה שיושב בקובץ ואיש לא קורא.
+
+   שלושה כללים:
+
+   1. **כל מה שאינו `approved` מציג תג.** אין מצב ביניים שבו
+      מערך שלא נבדק נראה כמו מערך שנבדק. ברירת המחדל היא להציג.
+
+   2. **`unknown` חמור מ-`draft`, לא קל ממנו.** סטטוס שלא זוהה
+      פירושו שאין לנו מושג מה מצב המערך — וזה גרוע מלדעת שהוא
+      טיוטה. מערכת שמתייחסת ל"לא ידוע" כאל "כנראה בסדר" היא
+      בדיוק מה שהמוצר הזה נמנע ממנו בכל שכבה אחרת.
+
+   3. **התג אומר מה חסר, לא רק שחסר.** "טיוטה" לבד לא עוזר
+      למורה להחליט; "טיוטה — לא נבדקה מקצועית ולא נוסתה בשטח"
+      כן. מורה שמבין מה הפער יכול להחליט בעצמו אם לקחת את המערך
+      לכיתה שלו, וזו ההחלטה שלו ולא של האפליקציה.
+
+   הפונקציה מחזירה נתונים בלבד — `tone` הוא שם מצב ולא צבע.
+   המיפוי לצבע שייך ל-CSS, כדי שהחלטה על ניגודיות או על מצב
+   שמש לא תדרוש שינוי בשכבת הנתונים.
+   ============================================================ */
+var CURRIC_BADGE={
+  draft:   {tone:"warn",  label:"טיוטה",        why:"לא נבדקה מקצועית ולא נוסתה בשטח"},
+  reviewed:{tone:"info",  label:"נבדק מקצועית", why:"טרם נוסה בשטח"},
+  piloted: {tone:"info",  label:"נוסה בשטח",    why:"טרם אושר לפרסום"},
+  approved:{tone:"ok",    label:"מאושר",        why:""},
+  unknown: {tone:"stop",  label:"סטטוס לא ידוע",why:"לא ניתן לקבוע אם המערך נבדק"}
+};
+function curricBadge(lesson){
+  var st=(lesson&&lesson.status)||"unknown";
+  var b=CURRIC_BADGE[st]||CURRIC_BADGE.unknown;
+  return {status:CURRIC_BADGE[st]?st:"unknown",
+          tone:b.tone, label:b.label, why:b.why,
+          show:st!=="approved"||!CURRIC_BADGE[st],
+          note:(lesson&&lesson.statusNote)||""};
+}
+
+/* הודעת השפה. מוחזרת רק כשבאמת הוגשה מהדורה בשפה אחרת — מסך
+   שמציג "מתורגם" על טקסט עברי משקר, ומסך שמציג הודעת נפילה
+   כשאין נפילה מלמד את המורה להתעלם ממנה. */
+var CURRIC_LANGNAME={he:"עברית",en:"אנגלית",ru:"רוסית",ar:"ערבית",es:"ספרדית"};
+function curricLangNotice(res){
+  if(!res||!res.fallback)return null;
+  return {lang:res.lang, requested:res.requested,
+          langName:CURRIC_LANGNAME[res.lang]||res.lang,
+          requestedName:CURRIC_LANGNAME[res.requested]||res.requested,
+          text:"אין מהדורה ב"+(CURRIC_LANGNAME[res.requested]||res.requested)+
+               "; מוצגת המהדורה ב"+(CURRIC_LANGNAME[res.lang]||res.lang)+"."};
+}
 
 /* שלב 12 — אחוז נוכחות לתלמיד, לצורך הצעת מילוי בציון ההשתתפות.
    הנוסחה זהה, בית אחר בית, ל-attSummary() הקיימת ב-hm-tools.js:
@@ -6050,6 +6230,8 @@ return {
   CURRIC_STATUS:CURRIC_STATUS, CURRIC_FALLBACK:CURRIC_FALLBACK, curricKey:curricKey,
   curricOf:curricOf, curricList:curricList, curricSports:curricSports,
   curricPathway:curricPathway, curricValidate:curricValidate, curricForTopic:curricForTopic,
+  CURRIC_BADGE:CURRIC_BADGE, curricBadge:curricBadge,
+  CURRIC_LANGNAME:CURRIC_LANGNAME, curricLangNotice:curricLangNotice,
   attendanceRateOf:attendanceRateOf,
   SESSION_ACTIVE:SESSION_ACTIVE, SESSION_DONE:SESSION_DONE, SESSION_MAX:SESSION_MAX,
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
@@ -6237,7 +6419,7 @@ en:{
   /* --- תפריט «עוד» --- */
   "more.title":"\u2630 Menu",
   "more.home":"What now \u2014 home", "more.sched":"Timetable", "more.groups":"Teaching groups",
-  "more.ft":"Fitness tests", "more.lesson":"Lesson plans", "more.beep":"Beep test", "more.photo":"Photo finish",
+  "more.ft":"Fitness tests", "more.lesson":"Lesson plans", "more.curric":"Curriculum library", "more.beep":"Beep test", "more.photo":"Photo finish",
   "more.guide":"Screen guide", "more.settings":"Settings and backup",
   "more.records":"School champions", "more.students":"Students and grades",
   "more.knowledge":"Knowledge", "more.tools":"Class tools", "more.nutrition":"Nutrition corner",
@@ -6383,7 +6565,7 @@ ar:{
 
   "more.title":"\u2630 القائمة",
   "more.home":"ماذا الآن — الصفحة الرئيسية", "more.sched":"جدول الحصص", "more.groups":"مجموعات التدريس",
-  "more.ft":"اختبارات اللياقة", "more.lesson":"خطط الدروس", "more.beep":"اختبار الصافرة", "more.photo":"صورة النهاية",
+  "more.ft":"اختبارات اللياقة", "more.lesson":"خطط الدروس", "more.curric":"مكتبة المنهج", "more.beep":"اختبار الصافرة", "more.photo":"صورة النهاية",
   "more.guide":"دليل الشاشة", "more.settings":"الإعدادات والنسخ الاحتياطي",
   "more.records":"أبطال المدرسة", "more.students":"الطلاب والعلامات",
   "more.knowledge":"المعرفة", "more.tools":"أدوات الصف", "more.nutrition":"ركن التغذية",
@@ -6533,7 +6715,7 @@ ru:{
 
   "more.title":"\u2630 Меню",
   "more.home":"Что сейчас — главная", "more.sched":"Расписание", "more.groups":"Учебные группы",
-  "more.ft":"Тесты физподготовки", "more.lesson":"Планы уроков", "more.beep":"Бип-тест", "more.photo":"Фотофиниш",
+  "more.ft":"Тесты физподготовки", "more.lesson":"Планы уроков", "more.curric":"Библиотека программы", "more.beep":"Бип-тест", "more.photo":"Фотофиниш",
   "more.guide":"Гид по экрану", "more.settings":"Настройки и резервная копия",
   "more.records":"Чемпионы школы", "more.students":"Ученики и оценки",
   "more.knowledge":"Знания", "more.tools":"Инструменты класса", "more.nutrition":"Уголок питания",
@@ -6876,9 +7058,9 @@ function applyRole(){
 }
 
 /* ---------- router ---------- */
-const MODS={home:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1};
+const MODS={home:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,curric:1,nut:1,games:1,know:1,tools:1,ft:1};
 /* מודולים שנגישים דרך כפתור «עוד» ולא ישירות בסרגל — כדי שהכפתור יודגש כשנמצאים באחד מהם */
-const MORE_MODS=["stu","know","tools","nut","rec"];
+const MORE_MODS=["stu","know","tools","nut","rec","curric"];
 const inited={};
 function go(mod){
   if(!MODS[mod])mod="home";
@@ -6895,7 +7077,7 @@ function go(mod){
   /* «התלמידים שלי» ומסך הכיתה קוראים את stu.list — הגשר רץ לפניהם,
      אחרת מסך שלם מציג אפס בזמן שהרשימות מלאות. */
   if(mod==="stu"||mod==="home")syncStudents();
-  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init}[mod]; if(f)f(); }
+  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,curric:window.CURRICUI&&window.CURRICUI.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init}[mod]; if(f)f(); }
   if(mod==="home"){ homeStats();
     /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
        המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
@@ -14204,6 +14386,201 @@ window.CURRIC=(window.CURRIC||[]).concat(
  }
 ]
 );
+
+;
+"use strict";
+/* ============================================================
+   PE Ultimate — ספריית הקוריקולום
+   ------------------------------------------------------------
+   המסך של window.CURRIC: מערכים בתקן בן ‎20‎ סעיפים, מסוננים לפי
+   ענף, גיל וחיפוש, עם מסלול הלמידה של כל ענף.
+
+   כל ההכרעות יושבות ב-hm-data.js ונבדקות ב-Node. כאן יש ציור
+   בלבד — סינון, מיון, מצב הסטטוס והודעת השפה מגיעים משם.
+   הסיבה מעשית: מסך אי אפשר לבדוק בשנייה ב-CI, ופונקציה טהורה
+   כן, ותג שמפסיק להופיע הוא בדיוק סוג הבאג שאיש לא מבחין בו.
+
+   ההחלטה המרכזית במסך הזה: **תג הסטטוס אינו ניתן לכיבוי.**
+   הוא מופיע בכרטיס, שוב בראש המערך הפתוח, ושוב ליד כפתור
+   ההדפסה. כל ‎300‎ העמודים במקור נושאים "נדרשת בדיקת איש מקצוע
+   לפני פרסום", ומורה שלוקח מערך לכיתה צריך לדעת את זה בלי
+   לחפש. אין כאן "אל תציג שוב".
+   ============================================================ */
+(function(){
+const H=()=>window.HM;
+const D=()=>window.HMDATA;
+const lib=()=>window.CURRIC||[];
+
+/* מצב המסך. lang נגזר מהממשק ולא נשמר בנפרד: מורה שמחליף שפה
+   מצפה שגם הספרייה תתחלף. */
+const st={sport:"",age:"",q:"",open:null};
+/* I18N.lang היא פונקציה ולא תכונה. קריאה בלעדיה מחזירה את
+   האובייקט עצמו, והסינון לפי שפה מסנן הכול החוצה בשקט — ספרייה
+   מלאה שנראית ריקה. */
+const uiLang=()=>{
+  try{ const l=window.I18N&&window.I18N.lang&&window.I18N.lang();
+       return (typeof l==="string"&&l)||"he"; }catch(e){ return "he"; }
+};
+
+const SPORT_NAME={basketball:"כדורסל",football:"כדורגל",handball:"כדוריד",
+  volleyball:"כדורעף",athletics:"אתלטיקה",fitness:"כושר"};
+const SPORT_EM={basketball:"🏀",football:"⚽",handball:"🤾",
+  volleyball:"🏐",athletics:"🏃",fitness:"💪"};
+
+function badgeHtml(L,extra){
+  const b=D().curricBadge(L);
+  if(!b.show)return "";
+  return `<span class="cu-badge ${b.tone}" title="${H().esc(b.why||b.label)}">${
+    H().esc(b.label)}${extra&&b.why?' — '+H().esc(b.why):""}</span>`;
+}
+
+function filtered(){
+  const age=st.age===""?null:+st.age;
+  return D().curricList(lib(),{lang:uiLang(),sport:st.sport||undefined,
+    age:age==null?undefined:age, q:st.q});
+}
+
+function renderSports(){
+  const {$, esc}=H();
+  const all=D().curricSports(lib(),uiLang());
+  const total=all.reduce((a,s)=>a+s.count,0);
+  $("#cu-sports").innerHTML=
+    `<button class="cu-chip${st.sport?"":" on"}" data-sport="">הכול · ${total}</button>`+
+    all.map(s=>`<button class="cu-chip${st.sport===s.sport?" on":""}" data-sport="${s.sport}">${
+      SPORT_EM[s.sport]||"•"} ${esc(SPORT_NAME[s.sport]||s.sport)} · ${s.count}</button>`).join("");
+}
+
+function renderGrid(){
+  const {$, esc}=H();
+  const list=filtered();
+  $("#cu-count").textContent=list.length
+    ? list.length+" מערכים"+(st.sport?" ב"+(SPORT_NAME[st.sport]||st.sport):"")
+    : "";
+  $("#cu-empty").style.display=list.length?"none":"block";
+  $("#cu-grid").innerHTML=list.map(L=>`
+    <div class="gm-card cu-card" data-code="${esc(L.code)}">
+      <div class="hd">
+        <span class="em">${SPORT_EM[L.sport]||"📘"}</span>
+        <div class="grow">
+          <b>${esc(L.title)}</b>
+          <span class="tag">${esc(L.code)} · ${esc(SPORT_NAME[L.sport]||L.sport)}</span>
+        </div>
+      </div>
+      <div class="gl">${esc(L.subtopic||"")}</div>
+      <div class="meta">
+        <span>גיל ${L.ageFrom}–${L.ageTo}</span>
+        <span>${L.minutes} דק׳</span>
+        <span>${esc(L.level||"")}</span>
+      </div>
+      <div class="cu-badges">${badgeHtml(L)}</div>
+    </div>`).join("");
+}
+
+/* מסלול הלמידה של הענף. מוצג רק כשענף אחד נבחר — "הכול" היה
+   מערבב שישה מסלולים לרשימה אחת חסרת משמעות. */
+function renderPath(){
+  const {$, esc}=H();
+  const wrap=$("#cu-pathWrap");
+  if(!st.sport){ wrap.style.display="none"; return; }
+  wrap.style.display="";
+  const p=D().curricPathway(lib(),st.sport,uiLang());
+  $("#cu-pathTitle").textContent=(SPORT_EM[st.sport]||"")+" מסלול הלמידה — "+
+    (SPORT_NAME[st.sport]||st.sport);
+  $("#cu-path").innerHTML=p.map((x,i)=>`
+    <button class="cu-step" data-code="${esc(x.code)}">
+      <span class="n">${x.n}</span>
+      <span class="t">${esc(x.title)}</span>
+      <span class="a">גיל ${x.ageFrom}–${x.ageTo}</span>
+    </button>${i<p.length-1?'<span class="cu-arrow">←</span>':""}`).join("");
+  /* חור ברצף הוא ממצא למי שמתחזק, לא למורה — אבל הוא לא מוסתר:
+     רשימה שמדלגת מ-‎03‎ ל-‎05‎ בלי לומר כלום נקראת כמו ספרייה מלאה. */
+  const v=D().curricValidate(D().curricList(lib(),{lang:uiLang(),sport:st.sport}));
+  const gaps=v.issues.filter(i=>i.kind==="gap"||/^dangling/.test(i.kind));
+  $("#cu-pathNote").innerHTML=gaps.length
+    ? `<span class="cu-badge warn">חלקי</span> ${p.length} מערכים יובאו עד כה; המסלול במקור ארוך יותר.`
+    : "";
+}
+
+function render(){ renderSports(); renderPath(); renderGrid(); }
+
+/* ---------- המערך הפתוח ---------- */
+
+function open(code){
+  const {$, esc}=H();
+  const res=D().curricOf(lib(),code,uiLang());
+  if(!res)return;
+  const L=res.lesson;
+  st.open=code;
+
+  const notice=D().curricLangNotice(res);
+  const b=D().curricBadge(L);
+
+  $("#cu-mTitle").textContent=L.title;
+  $("#cu-mBody").innerHTML=
+    (b.show?`<div class="cu-strip ${b.tone}">
+        <b>${esc(b.label)}</b>${b.why?" — "+esc(b.why):""}
+        ${b.note?`<div class="cu-strip-note">${esc(b.note)}</div>`:""}
+      </div>`:"")+
+    (notice?`<div class="cu-strip info">${esc(notice.text)}</div>`:"")+
+    `<div class="cu-facts">
+       <span><b>קוד</b> ${esc(L.code)}</span>
+       <span><b>ענף</b> ${esc(SPORT_NAME[L.sport]||L.sport)}</span>
+       <span><b>גיל</b> ${L.ageFrom}–${L.ageTo}</span>
+       <span><b>משך</b> ${L.minutes} דק׳</span>
+       <span><b>רמה</b> ${esc(L.level||"")}</span>
+       <span><b>מורכבות</b> ${esc(L.complexity||"")}</span>
+     </div>`+
+    (L.summary&&L.summary.length?`<div class="cu-sum"><b>תקציר למורה</b><ul>${
+      L.summary.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>`:"")+
+    (L.sections||[]).map(s=>`<details class="cu-sec"${s.n<=3?" open":""}>
+        <summary>${s.n}. ${esc(s.title)}</summary>
+        <div class="cu-md">${md(s.md)}</div>
+      </details>`).join("")+
+    `<div class="cu-src">${esc(L.src&&L.src.page?"מקור: Notion · "+L.src.page:"")}</div>`;
+  H().modal("cu-modal");
+}
+
+/* עיבוד Markdown מצומצם בכוונה: כותרות משנה, הדגשה ורשימות —
+   בדיוק מה שהתקן מייצר, ולא יותר. כל השאר נמלט. מפענח מלא היה
+   פותח דלת ל-HTML מתוך תוכן, ואין שום סיבה לפתוח אותה. */
+function md(text){
+  const esc=H().esc;
+  const lines=String(text||"").split(/\r?\n/);
+  let out="", inList=false;
+  const inline=s=>esc(s).replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>");
+  lines.forEach(l=>{
+    const li=/^[-*]\s+(.*)$/.exec(l);
+    if(li){ if(!inList){ out+="<ul>"; inList=true; } out+="<li>"+inline(li[1])+"</li>"; return; }
+    if(inList){ out+="</ul>"; inList=false; }
+    const h=/^##\s+(.*)$/.exec(l);
+    if(h){ out+="<h5>"+inline(h[1])+"</h5>"; return; }
+    if(l.trim())out+="<p>"+inline(l)+"</p>";
+  });
+  if(inList)out+="</ul>";
+  return out;
+}
+
+/* ---------- init ---------- */
+
+function init(){
+  const {$, $$}=H();
+  $("#cu-sports").addEventListener("click",e=>{
+    const b=e.target.closest("[data-sport]"); if(!b)return;
+    st.sport=b.dataset.sport; H().ac(); render();
+  });
+  $("#cu-search").addEventListener("input",e=>{ st.q=e.target.value; renderGrid(); });
+  $("#cu-age").addEventListener("change",e=>{ st.age=e.target.value; render(); });
+  $("#cu-grid").addEventListener("click",e=>{
+    const c=e.target.closest("[data-code]"); if(c){ H().ac(); open(c.dataset.code); }
+  });
+  $("#cu-path").addEventListener("click",e=>{
+    const c=e.target.closest("[data-code]"); if(c){ H().ac(); open(c.dataset.code); }
+  });
+  render();
+}
+
+window.CURRICUI={init:init,render:render,open:open,_md:md};
+})();
 
 ;
 "use strict";

@@ -1743,6 +1743,61 @@ function curricForTopic(list,topic,opts){
       return words.some(function(w){ return hay.indexOf(w)>=0; });
     });
 }
+/* ============================================================
+   תג הסטטוס — מה המורה חייב לראות לפני שהוא לוקח מערך לשיעור
+   ------------------------------------------------------------
+   כל ‎300‎ עמודי הקוריקולום נושאים במקור את המשפט "נדרשת בדיקת
+   איש מקצוע, עריכת שפה ופיילוט לפני פרסום". השדה `status` נושא
+   את זה בנתונים; הפונקציה הזאת היא מה שהופך אותו לדבר שהמורה
+   רואה, ולא לשדה שיושב בקובץ ואיש לא קורא.
+
+   שלושה כללים:
+
+   1. **כל מה שאינו `approved` מציג תג.** אין מצב ביניים שבו
+      מערך שלא נבדק נראה כמו מערך שנבדק. ברירת המחדל היא להציג.
+
+   2. **`unknown` חמור מ-`draft`, לא קל ממנו.** סטטוס שלא זוהה
+      פירושו שאין לנו מושג מה מצב המערך — וזה גרוע מלדעת שהוא
+      טיוטה. מערכת שמתייחסת ל"לא ידוע" כאל "כנראה בסדר" היא
+      בדיוק מה שהמוצר הזה נמנע ממנו בכל שכבה אחרת.
+
+   3. **התג אומר מה חסר, לא רק שחסר.** "טיוטה" לבד לא עוזר
+      למורה להחליט; "טיוטה — לא נבדקה מקצועית ולא נוסתה בשטח"
+      כן. מורה שמבין מה הפער יכול להחליט בעצמו אם לקחת את המערך
+      לכיתה שלו, וזו ההחלטה שלו ולא של האפליקציה.
+
+   הפונקציה מחזירה נתונים בלבד — `tone` הוא שם מצב ולא צבע.
+   המיפוי לצבע שייך ל-CSS, כדי שהחלטה על ניגודיות או על מצב
+   שמש לא תדרוש שינוי בשכבת הנתונים.
+   ============================================================ */
+var CURRIC_BADGE={
+  draft:   {tone:"warn",  label:"טיוטה",        why:"לא נבדקה מקצועית ולא נוסתה בשטח"},
+  reviewed:{tone:"info",  label:"נבדק מקצועית", why:"טרם נוסה בשטח"},
+  piloted: {tone:"info",  label:"נוסה בשטח",    why:"טרם אושר לפרסום"},
+  approved:{tone:"ok",    label:"מאושר",        why:""},
+  unknown: {tone:"stop",  label:"סטטוס לא ידוע",why:"לא ניתן לקבוע אם המערך נבדק"}
+};
+function curricBadge(lesson){
+  var st=(lesson&&lesson.status)||"unknown";
+  var b=CURRIC_BADGE[st]||CURRIC_BADGE.unknown;
+  return {status:CURRIC_BADGE[st]?st:"unknown",
+          tone:b.tone, label:b.label, why:b.why,
+          show:st!=="approved"||!CURRIC_BADGE[st],
+          note:(lesson&&lesson.statusNote)||""};
+}
+
+/* הודעת השפה. מוחזרת רק כשבאמת הוגשה מהדורה בשפה אחרת — מסך
+   שמציג "מתורגם" על טקסט עברי משקר, ומסך שמציג הודעת נפילה
+   כשאין נפילה מלמד את המורה להתעלם ממנה. */
+var CURRIC_LANGNAME={he:"עברית",en:"אנגלית",ru:"רוסית",ar:"ערבית",es:"ספרדית"};
+function curricLangNotice(res){
+  if(!res||!res.fallback)return null;
+  return {lang:res.lang, requested:res.requested,
+          langName:CURRIC_LANGNAME[res.lang]||res.lang,
+          requestedName:CURRIC_LANGNAME[res.requested]||res.requested,
+          text:"אין מהדורה ב"+(CURRIC_LANGNAME[res.requested]||res.requested)+
+               "; מוצגת המהדורה ב"+(CURRIC_LANGNAME[res.lang]||res.lang)+"."};
+}
 
 /* שלב 12 — אחוז נוכחות לתלמיד, לצורך הצעת מילוי בציון ההשתתפות.
    הנוסחה זהה, בית אחר בית, ל-attSummary() הקיימת ב-hm-tools.js:
@@ -2500,6 +2555,8 @@ return {
   CURRIC_STATUS:CURRIC_STATUS, CURRIC_FALLBACK:CURRIC_FALLBACK, curricKey:curricKey,
   curricOf:curricOf, curricList:curricList, curricSports:curricSports,
   curricPathway:curricPathway, curricValidate:curricValidate, curricForTopic:curricForTopic,
+  CURRIC_BADGE:CURRIC_BADGE, curricBadge:curricBadge,
+  CURRIC_LANGNAME:CURRIC_LANGNAME, curricLangNotice:curricLangNotice,
   attendanceRateOf:attendanceRateOf,
   SESSION_ACTIVE:SESSION_ACTIVE, SESSION_DONE:SESSION_DONE, SESSION_MAX:SESSION_MAX,
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
