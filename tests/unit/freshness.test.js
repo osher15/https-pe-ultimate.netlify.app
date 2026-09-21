@@ -254,3 +254,38 @@ test("classAttention על כיתה שכולה טרייה מחזירה רשימה
   assert.deepEqual(at.list,[]);
   assert.equal(at.counts.fresh,1);
 });
+
+/* ---------- תאריך עתידי ---------- */
+
+test("classAttention: תאריך עתידי נכנס לרשימה ואינו נבלע ב«טרי»",()=>{
+  const rs=[{id:"r1",test:"push",sid:"a",cid:X,cls:"ח1",val:20,d:"2026-12-01"}];
+  const rst=[{id:"a",name:"Alice",cid:X}];
+  const at=D.classAttention(rs,rst,TESTS,opts());
+  assert.equal(at.list.length,1,"השורה היחידה שאמורה להתריע נעלמה");
+  assert.equal(at.list[0].reason,"future");
+  assert.equal(at.list[0].future,true);
+});
+
+test("classAttention: תאריך עתידי קודם לכל סיבה אחרת",()=>{
+  const rs=rows().concat([{id:"r9",test:"push",sid:"a",cid:X,cls:"ח1",val:1,d:"2026-12-01"}]);
+  const at=D.classAttention(rs,roster(),TESTS,opts());
+  assert.equal(at.list[0].reason,"future","שגיאה שניתן לתקן מיד אינה ראשונה");
+  assert.equal(at.list[0].stud.id,"a");
+});
+
+test("classAttention: תאריך עתידי אצל תלמיד שגם חסרים לו מבחנים — עדיין future",()=>{
+  const rs=[
+    {id:"r1",test:"push", sid:"a",cid:X,cls:"ח1",val:20,d:"2026-12-01"},
+    {id:"r2",test:"situp",sid:"b",cid:X,cls:"ח1",val:30,d:"2026-09-20"}
+  ];
+  const rst=[{id:"a",name:"Alice",cid:X},{id:"b",name:"Bob",cid:X}];
+  const at=D.classAttention(rs,rst,TESTS,opts());
+  const a=at.list.find(x=>x.stud.id==="a");
+  assert.equal(a.reason,"future");
+  assert.deepEqual(a.missing,["situp"],"המבחנים החסרים עדיין מדווחים");
+});
+
+test("ATTENTION_ORDER פותח ב-future ומכיל את כל הסיבות",()=>{
+  assert.equal(D.ATTENTION_ORDER[0],"future");
+  assert.deepEqual(D.ATTENTION_ORDER,["future","never","expired","stale","missing"]);
+});

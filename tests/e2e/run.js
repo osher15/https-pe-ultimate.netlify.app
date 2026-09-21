@@ -32,7 +32,8 @@ const suites=[
   require("./menu.e2e.js"),
   require("./rostersync.e2e.js"),
   require("./manual.e2e.js"),
-  require("./curric.e2e.js")
+  require("./curric.e2e.js"),
+  require("./attention.e2e.js")
 ];
 run(suites).then(fail=>process.exit(fail?1:0))
   .catch(e=>{ console.error(e); process.exit(1); });

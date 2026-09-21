@@ -27,10 +27,14 @@ const openProg=async page=>{ await go(page,"ft"); await page.evaluate(()=>docume
 
 module.exports={title:"שלב 11 — תובנות התקדמות לכיתה",tests:[
 
-  check("הלשונית החדשה קיימת בבורר, לצד «מה חסר לכיתה»",seed(),async page=>{
+  /* הרשימה מקובעת בכוונה: לשונית שנוספת או נעלמת בלי שמישהו
+     שם לב היא שינוי בניווט של מסך שמורה עובד בו בכל שיעור.
+     «att» ("מי לא נמדד") נוספה בשלב ‎13‎ ויושבת בין «מה חסר»
+     לבין «תובנות התקדמות» — שלושתן שאלות על אותה כיתה. */
+  check("הלשוניות בבורר, בסדר הקבוע שלהן",seed(),async page=>{
     await go(page,"ft");
     const tabs=await page.evaluate(()=>[...document.querySelectorAll("#ft-tabs button")].map(b=>b.dataset.ft));
-    eq(tabs,["tests","idx","ot","cov","prog"]);
+    eq(tabs,["tests","idx","ot","cov","att","prog"]);
   }),
 
   check("בחירת כיתה מציגה את טבלת התובנות עם השם מהרישום",seed(),async page=>{

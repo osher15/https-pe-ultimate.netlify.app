@@ -1632,6 +1632,101 @@ window.FT=(function(){
   }
 
   /* ============================================================
+     4ב2. «מי לא נמדד» — רשימת עבודה לפי גיל הראיה
+     ------------------------------------------------------------
+     «מה חסר לכיתה» עונה על *האם* יש מדידה. הלשונית הזאת עונה על
+     *מתי*: מדידה מדצמבר נספרת שם כ-✓ בדיוק כמו מדידה מאתמול,
+     ולכן כיתה שלמה יכולה להיראות מכוסה בזמן שאיש לא נמדד בה
+     חודשיים.
+
+     שכבת תצוגה דקה מעל DATA.classAttention(), שבעצמה בנויה על
+     classCoverage — אותה הגדרה בדיוק ל«נמדד» כמו בשתי הלשוניות
+     האחרות. אין כאן כלל חדש ואין עריכה.
+
+     שלושה דברים שהמסך הזה **אינו** אומר, ובכוונה:
+
+     1. **הוא אינו אומר למה לא נמדד.** ft.results מתעד מדידות,
+        לא היעדרויות: תלמיד שחלה חודשיים ותלמיד שלא הגיע לתור
+        שלו נראים כאן זהים לחלוטין. לכן הניסוח הוא «אין מדידה
+        מאז» ולא «לא השתתף». ההצלבה מול הנוכחות היא שלב בפני
+        עצמו, והיא כתובה בהערה על המסך כדי שהמורה יידע.
+
+     2. **הוא אינו מדרג תלמידים.** הסדר הוא לפי גיל הראיה, וזו
+        שאלה על מי שמודד — לא על מי שנמדד. אין כאן ציון, אין
+        השוואה בין תלמידים ואין תווית יכולת.
+
+     3. **«ישן» אינו «גרוע».** מדידה בת ‎70‎ יום אומרת שכדאי למדוד
+        שוב; היא אינה אומרת שהיכולת ירדה.
+     ============================================================ */
+
+  /* תוויות הסיבה. חיות כאן ולא בשכבת הנתונים: הסיבה היא קוד,
+     והמילה שמתארת אותה היא החלטת ממשק — בדיוק כמו RATING_LABEL. */
+  const ATT_LABEL={
+    future: {t:"תאריך עתידי",   c:"stop", d:"המדידה נושאת תאריך שעוד לא הגיע — כנראה שגיאת הקלדה"},
+    never:  {t:"לא נמדד מעולם", c:"stop", d:"אין לתלמיד אף מדידה בכיתה הזאת"},
+    expired:{t:"ישן מאוד",      c:"stop", d:"המדידה האחרונה ישנה מ-‎90‎ יום"},
+    stale:  {t:"ישן",           c:"warn", d:"המדידה האחרונה ישנה מ-‎30‎ יום"},
+    missing:{t:"חסרים מבחנים",  c:"info", d:"נמדד לאחרונה, אך לא בכל מה שהכיתה עשתה"}
+  };
+  const ago=d=>d==null?"" : d===0?"היום" : d===1?"אתמול" : "לפני "+d+" ימים";
+
+  function renderAttention(){
+    const {$, esc}=H();
+    const c=cls(), rst=roster(c);
+    const asOf=DATA.localISO();
+    const att=DATA.classAttention(allRes(),rst,TESTS,{cid:cidOf(c),asOf:asOf});
+    const total=rst.length;
+    const need=att.list.length;
+
+    let body;
+    if(!total){
+      body=`<div class="empty-state"><div class="big">👥</div>אין תלמידים ברשימת כיתה ${esc(disp(c))}.</div>`;
+    }else if(!need){
+      body=`<div class="empty-state"><div class="big">✓</div>
+        כל התלמידים בכיתה ${esc(disp(c))} נמדדו לאחרונה, ולאיש לא חסר מבחן שהכיתה עשתה.</div>`;
+    }else{
+      body=`<div class="att-list">${att.list.map(x=>{
+        const L=ATT_LABEL[x.reason]||ATT_LABEL.missing;
+        const miss=(x.missing||[]).map(t=>{
+          const T=testById(t); return T?((T.em?T.em+" ":"")+T.name):t; });
+        return `<div class="att-row">
+          <div class="att-head">
+            <b>${esc(x.stud.name||"—")}</b>
+            <span class="cu-badge ${L.c}" title="${esc(L.d)}">${L.t}</span>
+            ${(x.future&&x.reason!=="future")?`<span class="cu-badge stop" title="תאריך שעוד לא הגיע — כנראה שגיאת הקלדה">תאריך עתידי</span>`:""}
+          </div>
+          <div class="att-ev">${!x.last
+            ? "אין מדידה בכיתה הזאת"
+            : x.future
+              ? "מדידה אחרונה רשומה ל-"+esc(x.last)+" — תאריך שעוד לא הגיע"
+              : "מדידה אחרונה "+esc(x.last)+" · "+ago(x.days)}</div>
+          ${miss.length?`<div class="att-miss">חסר: ${esc(miss.join(" · "))}</div>`:""}
+        </div>`;
+      }).join("")}</div>
+      <div class="hint" style="margin-top:11px">
+        המסך אינו יודע <b>למה</b> תלמיד לא נמדד, ולכן אינו מנחש: קובץ המדידות מתעד מדידות
+        ולא היעדרויות, ותלמיד שחלה חודשיים ותלמיד שלא הגיע לתורו נראים כאן זהים.
+        ההצלבה מול לשונית הנוכחות היא שלב נפרד שטרם נבנה.</div>`;
+    }
+
+    $("#ft-att").innerHTML=`
+      <div class="card">
+        <h2><span class="dot"></span> מי לא נמדד — ${esc(disp(c))}</h2>
+        <div class="hint">«מה חסר לכיתה» עונה על <b>האם</b> יש מדידה. כאן התשובה היא <b>מתי</b> —
+          מי לא נמדד כבר זמן רב, ומי לא נמדד מעולם. המיון הוא לפי גיל הראיה, והוא שאלה על המדידה
+          ולא על התלמיד.</div>
+        ${total?`<div class="ft-idxsum">
+          <div><span class="k">תלמידים</span><span class="v">${total}</span></div>
+          <div><span class="k">דורשים תשומת לב</span><span class="v">${need}</span></div>
+          <div><span class="k">לא נמדדו מעולם</span><span class="v">${att.counts.never}</span></div>
+          <div><span class="k">נמדדו לאחרונה</span><span class="v">${att.counts.fresh}</span></div>
+        </div>
+        <div class="hint" style="margin-top:7px">נכון ל-${esc(att.asOf)}. «ישן» = מעל ${DATA.STALE_DAYS} יום, «ישן מאוד» = מעל ${DATA.EXPIRED_DAYS} יום.</div>`:""}
+      </div>
+      <div class="card">${body}</div>`;
+  }
+
+  /* ============================================================
      4ג. «תובנות התקדמות» — כמה תלמידים משתפרים בכל מבחן, קריאה בלבד
      ------------------------------------------------------------
      שכבת תצוגה דקה מעל DATA.classProgress() (hm-data.js), שבעצמה
@@ -2309,13 +2404,23 @@ window.FT=(function(){
   function renderTab(){
     const {$, $$}=H();
     $$("#ft-tabs button").forEach(b=>b.classList.toggle("on",b.dataset.ft===st.tab));
-    const idx=st.tab==="idx", ot=st.tab==="ot", cov=st.tab==="cov", prog=st.tab==="prog";
+    /* שש לשוניות אינן נכנסות לרוחב טלפון, והסרגל נגלל. בלי זה
+       המורה נוחת על מסך פעיל שהלשונית שלו מחוץ לתצוגה — ולא רואה
+       איפה הוא נמצא. גלילה אופקית בתוך הסרגל בלבד, ולכן block:
+       "nearest": scrollIntoView ברירת מחדל היה מזיז גם את הדף. */
+    const onBtn=$('#ft-tabs button.on');
+    if(onBtn&&onBtn.scrollIntoView)
+      try{ onBtn.scrollIntoView({block:"nearest",inline:"center"}); }catch(e){}
+    const idx=st.tab==="idx", ot=st.tab==="ot", cov=st.tab==="cov",
+          att=st.tab==="att", prog=st.tab==="prog";
     $("#ft-idx").style.display=idx?"":"none";
     $("#ft-ot").style.display=ot?"":"none";
     $("#ft-cov").style.display=cov?"":"none";
+    $("#ft-att").style.display=att?"":"none";
     $("#ft-prog").style.display=prog?"":"none";
-    if(idx||ot||cov||prog){ $("#ft-pick").style.display="none"; $("#ft-run").style.display="none"; stopClock(true); stopCd();
-      if(idx)renderIndex(); else if(ot)renderOt(); else if(cov)renderCoverage(); else renderInsights(); }
+    if(idx||ot||cov||att||prog){ $("#ft-pick").style.display="none"; $("#ft-run").style.display="none"; stopClock(true); stopCd();
+      if(idx)renderIndex(); else if(ot)renderOt(); else if(cov)renderCoverage();
+      else if(att)renderAttention(); else renderInsights(); }
     else if(st.test)renderRun();
     else renderPicker();
   }

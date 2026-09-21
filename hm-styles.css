@@ -1667,3 +1667,12 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 .cu-plan.off,.cu-plan.on{display:block;font-size:12.5px;color:var(--muted)}
 .cu-plan.on{color:var(--green);font-weight:700}
 .cu-plan-note{font-size:11.5px;color:var(--faint)}
+
+/* «מי לא נמדד» — רשימת עבודה לפי גיל הראיה */
+.att-list{margin-top:11px}
+.att-row{background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+  padding:11px 13px;margin-bottom:8px}
+.att-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.att-head b{font-size:14px}
+.att-ev{margin-top:5px;font-size:12.5px;color:var(--muted)}
+.att-miss{margin-top:4px;font-size:11.5px;color:var(--faint)}

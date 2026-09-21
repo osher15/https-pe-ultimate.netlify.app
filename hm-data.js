@@ -1557,14 +1557,19 @@ function classFreshness(rows,roster,testDefs,opts){
    מה שהרשימה **לא** עושה: היא לא מדרגת תלמידים לפי יכולת, לא
    מייצרת קבוצות קבועות ולא נותנת ציון. היא עונה על שאלה אחת —
    את מי לא ראיתי מספיק זמן — וזו שאלה על המורה, לא על התלמיד. */
-var ATTENTION_ORDER=["never","expired","stale","missing"];
+/* "future" ראשון, לפני "never": תאריך שעוד לא הגיע הוא שגיאת
+   הקלדה, והוא היחיד ברשימה שהמורה יכול לתקן מיד. הוא גם מסוכן
+   יותר משנראה — הוא הופך את התלמיד ל"טרי" ומעלים אותו מהרשימה,
+   כך שהשורה היחידה שהייתה אמורה להתריע נעלמת בשקט. */
+var ATTENTION_ORDER=["future","never","expired","stale","missing"];
 function classAttention(rows,roster,testDefs,opts){
   var fr=classFreshness(rows,roster,testDefs,opts);
   var rank={}; ATTENTION_ORDER.forEach(function(r,i){ rank[r]=i; });
   var list=[];
   fr.students.forEach(function(s){
     var reason=null;
-    if(s.state===EVIDENCE.NEVER)reason="never";
+    if(s.future)reason="future";
+    else if(s.state===EVIDENCE.NEVER)reason="never";
     else if(s.state===EVIDENCE.EXPIRED)reason="expired";
     else if(s.state===EVIDENCE.STALE)reason="stale";
     else if(s.missing.length)reason="missing";
