@@ -267,3 +267,220 @@ test("כל מערך בספרייה שנבנתה מציג תג סטטוס",()=>{
     assert.ok(b.note.length>0,L.code+" — משפט הסטטוס מהמקור אבד");
   });
 });
+
+/* ---------- הגשר: nextLesson ↔ הספרייה ---------- */
+
+let seq2=0;
+/* שרשרת שיעורים שהסתיימו, עם נושא, דירוג ו-planId אופציונלי */
+function hist(items,cid){
+  let L=[];
+  items.forEach(it=>{
+    const c=D.createSession(L,{cid:cid||"c:ט:3",clsSnapshot:"ט׳3",
+      date:"2026-09-"+String(10+(seq2%18)).padStart(2,"0"),
+      now:1757000000000+(++seq2)*100000,
+      planTitle:it.topic,planId:it.planId||null});
+    L=c.list;
+    L=D.completeSession(L,c.session.id,1757000000000+seq2*100000+60000,
+      {rating:it.rating}).list;
+  });
+  return L;
+}
+const CUR=()=>[
+  L("BB-01","he",{next:"BB-02",tags:["כדורסל"],skills:["כדרור"],title:"כדורסל 01 — כדרור"}),
+  L("BB-02","he",{prev:"BB-01",next:"BB-03",tags:["כדורסל"],title:"כדורסל 02 — עצירה"}),
+  L("BB-03","he",{prev:"BB-02",tags:["כדורסל"],title:"כדורסל 03 — מסירה"})
+];
+
+test("בלי opts.curric ההתנהגות זהה — אין שדות מערכים",()=>{
+  const r=D.nextLesson(hist([{topic:"כדורסל",rating:1}]),{cid:"c:ט:3"});
+  assert.equal(r.ok,true);
+  assert.deepEqual(r.lessons,[],"קורא קיים אינו אמור לקבל המלצות שלא ביקש");
+  assert.equal(r.lessonsFrom,null);
+  assert.ok(Array.isArray(r.steps)&&r.steps.length>0,"הסולם לא נפגע");
+});
+
+test("הסולם אינו מוחלף — המערכים מתווספים לו",()=>{
+  const h=hist([{topic:"כדורסל",rating:1}]);
+  const a=D.nextLesson(h,{cid:"c:ט:3"});
+  const b=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.deepEqual(b.steps,a.steps,"הסולם השתנה בגלל הספרייה");
+  assert.deepEqual(b.why,a.why,"הנימוקים הקיימים השתנו");
+  assert.equal(b.stage,a.stage);
+});
+
+/* --- מסלול (א): לפי הרצף --- */
+
+test("רצף: 👍 מצביע על המערך הבא",()=>{
+  const h=hist([{topic:"כדורסל",rating:1,planId:D.curricPlanId("BB-01")}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.equal(r.lessonsFrom,"pathway");
+  assert.deepEqual(r.lessons.map(x=>x.code),["BB-02"]);
+  assert.match(r.lessonsWhy,/BB-01/,"הנימוק אינו נוקב במערך שנלמד");
+});
+
+test("רצף: 👎 חוזר למערך שלפניו",()=>{
+  const h=hist([{topic:"כדורסל",rating:-1,planId:D.curricPlanId("BB-02")}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.equal(r.lessonsFrom,"pathway");
+  assert.deepEqual(r.lessons.map(x=>x.code),["BB-01"]);
+});
+
+test("רצף: 😐 נשאר על אותו מערך",()=>{
+  const h=hist([{topic:"כדורסל",rating:0,planId:D.curricPlanId("BB-02")}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.deepEqual(r.lessons.map(x=>x.code),["BB-02"]);
+});
+
+test("רצף: בלי משוב — אותו מערך, ולא קפיצה קדימה",()=>{
+  const h=hist([{topic:"כדורסל",planId:D.curricPlanId("BB-02")}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.deepEqual(r.lessons.map(x=>x.code),["BB-02"],
+    "העדר משוב אינו אישור להתקדם");
+});
+
+test("רצף: סוף המסלול אומר זאת ולא מציע משהו אחר",()=>{
+  const h=hist([{topic:"כדורסל",rating:1,planId:D.curricPlanId("BB-03")}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.equal(r.lessonsFrom,"pathway");
+  assert.deepEqual(r.lessons,[]);
+  assert.match(r.lessonsWhy,/האחרון/,"סוף מסלול הוחלף בהתאמה מעורפלת");
+});
+
+test("רצף: תחילת המסלול אין לה «קודם»",()=>{
+  const h=hist([{topic:"כדורסל",rating:-1,planId:D.curricPlanId("BB-01")}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.deepEqual(r.lessons,[]);
+  assert.match(r.lessonsWhy,/הראשון/);
+});
+
+test("רצף: מערך שטרם יובא מדווח ככזה ולא מוחלף",()=>{
+  const partial=CUR().slice(0,2);          /* BB-03 אינו בספרייה */
+  const h=hist([{topic:"כדורסל",rating:1,planId:D.curricPlanId("BB-02")}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:partial});
+  assert.equal(r.lessonsFrom,"pathway");
+  assert.deepEqual(r.lessons,[]);
+  assert.match(r.lessonsWhy,/BB-03/);
+  assert.match(r.lessonsWhy,/לא יובא/);
+});
+
+/* --- מסלול (ב): לפי נושא --- */
+
+test("נושא: שיעור שלא נפתח מהספרייה מסומן כהתאמת טקסט",()=>{
+  const h=hist([{topic:"כדורסל — כדרור",rating:1}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.equal(r.lessonsFrom,"topic","התאמת טקסט מוצגת כצעד ברצף");
+  assert.ok(r.lessons.length>0);
+  assert.match(r.lessonsWhy,/לא לפי מיקום ברצף/,
+    "המסך חייב לדעת שההתאמה חלשה יותר");
+});
+
+test("נושא: planId שאינו של הספרייה אינו נקרא כקוד",()=>{
+  const h=hist([{topic:"כדורסל",rating:1,planId:"bi-doc-volley-serve"}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.equal(r.lessonsFrom,"topic");
+});
+
+test("נושא: אין התאמה — רשימה ריקה ולא ניחוש",()=>{
+  const h=hist([{topic:"שחייה בתעלה",rating:1}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  assert.deepEqual(r.lessons,[]);
+  assert.equal(r.lessonsFrom,null);
+});
+
+test("נושא: לכל היותר שלוש הצעות",()=>{
+  const many=[];
+  for(let i=1;i<=8;i++)
+    many.push(L("BB-"+String(i).padStart(2,"0"),"he",{tags:["כדורסל"]}));
+  const h=hist([{topic:"כדורסל",rating:1}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:many});
+  assert.equal(r.lessons.length,D.CURRIC_MAX_SUGGEST);
+});
+
+/* --- מזהה התוכנית --- */
+
+test("curricPlanId ו-curricCodeOfPlan הם הפוכים זה לזה",()=>{
+  ["BB-01","FIT-10","AT-07"].forEach(c=>
+    assert.equal(D.curricCodeOfPlan(D.curricPlanId(c)),c));
+});
+
+test("curricCodeOfPlan דוחה כל מה שאינו קוד תקין",()=>{
+  ["","bi-x","curric:","curric:bb-01","curric:BB-1","curric:BB-011",null,undefined,42]
+    .forEach(v=>assert.equal(D.curricCodeOfPlan(v),null,"התקבל: "+v));
+});
+
+test("curricSuggest על ספרייה ריקה אינו קורס",()=>{
+  const r=D.curricSuggest([],{planId:"curric:BB-01"},"כדורסל",1,{});
+  assert.deepEqual(r,{lessons:[],from:null,why:""});
+});
+
+test("הצעות הרצף נושאות את הסטטוס — מערך טיוטה נשאר טיוטה",()=>{
+  const h=hist([{topic:"כדורסל",rating:1,planId:D.curricPlanId("BB-01")}]);
+  const r=D.nextLesson(h,{cid:"c:ט:3",curric:CUR()});
+  r.lessons.forEach(x=>assert.equal(D.curricBadge(x).show,true,
+    x.code+" — הצעה בלי תג סטטוס"));
+});
+
+/* ---------- סימון המערך לשיעור הפתוח ---------- */
+
+test("setSessionPlan מסמן מערך לשיעור פתוח",()=>{
+  const c=D.createSession([],{cid:"c:ט:3",clsSnapshot:"ט׳3",date:"2026-09-12"});
+  const r=D.setSessionPlan(c.list,c.session.id,
+    {planId:D.curricPlanId("BB-01"),planTitle:"כדורסל 01"});
+  assert.equal(r.ok,true);
+  assert.equal(r.session.planId,"curric:BB-01");
+  assert.equal(r.session.planTitle,"כדורסל 01");
+  assert.equal(D.curricCodeOfPlan(r.session.planId),"BB-01");
+});
+
+test("setSessionPlan אינה נוגעת בשיעור שהסתיים",()=>{
+  const c=D.createSession([],{cid:"c:ט:3",date:"2026-09-12"});
+  const done=D.completeSession(c.list,c.session.id,999,{rating:1});
+  const r=D.setSessionPlan(done.list,c.session.id,{planId:D.curricPlanId("BB-02")});
+  assert.equal(r.ok,false);
+  assert.equal(r.outcome,"not-active","שינוי בדיעבד משכתב היסטוריה שההמלצה נשענת עליה");
+  assert.equal(r.session.planId,null,"הרשומה ההיסטורית נגעה");
+});
+
+test("setSessionPlan אינה משנה סטטוס, דירוג או זמנים",()=>{
+  const c=D.createSession([],{cid:"c:ט:3",date:"2026-09-12",now:1000});
+  const before=c.session;
+  const r=D.setSessionPlan(c.list,c.session.id,{planId:D.curricPlanId("BB-01")});
+  ["id","cid","clsSnapshot","date","startedAt","endedAt","status"].forEach(k=>
+    assert.deepEqual(r.session[k],before[k],"השדה "+k+" השתנה"));
+});
+
+test("setSessionPlan על מזהה שאינו קיים מחזירה not-found",()=>{
+  const c=D.createSession([],{cid:"c:ט:3",date:"2026-09-12"});
+  assert.equal(D.setSessionPlan(c.list,"אין-כזה",{planId:"x"}).outcome,"not-found");
+});
+
+test("setSessionPlan אינה משכפלת ואינה מוחקת שיעורים",()=>{
+  const a=D.createSession([],{cid:"c:ט:3",date:"2026-09-12",now:1000});
+  const done=D.completeSession(a.list,a.session.id,2000,{rating:1});
+  const b=D.createSession(done.list,{cid:"c:ח:1",date:"2026-09-13",now:3000});
+  const r=D.setSessionPlan(b.list,b.session.id,{planId:D.curricPlanId("BB-01")});
+  assert.equal(r.list.length,b.list.length);
+  assert.equal(r.list.filter(x=>x.id===b.session.id).length,1);
+});
+
+test("הלולאה נסגרת: סימון → סיום 👍 → המערך הבא ברצף",()=>{
+  /* בדיוק המסלול שהמורה עובר: פותח שיעור, מסמן מערך, מסיים
+     בסימון «עבד מצוין», ומקבל את המערך הבא. */
+  const c=D.createSession([],{cid:"c:ט:3",clsSnapshot:"ט׳3",
+    date:"2026-09-12",now:1757000000000});
+  const marked=D.setSessionPlan(c.list,c.session.id,
+    {planId:D.curricPlanId("BB-01"),planTitle:"כדורסל 01 — כדרור"});
+  const done=D.completeSession(marked.list,c.session.id,1757000060000,{rating:1});
+  const rec=D.nextLesson(done.list,{cid:"c:ט:3",curric:CUR()});
+  assert.equal(rec.ok,true);
+  assert.equal(rec.lessonsFrom,"pathway","הלולאה לא נסגרה — נפלנו להתאמת טקסט");
+  assert.deepEqual(rec.lessons.map(x=>x.code),["BB-02"]);
+});
+
+test("בלי סימון אותה לולאה נופלת להתאמת נושא — ומסומנת ככזאת",()=>{
+  const c=D.createSession([],{cid:"c:ט:3",clsSnapshot:"ט׳3",
+    date:"2026-09-12",now:1757000000000,planTitle:"כדורסל — כדרור"});
+  const done=D.completeSession(c.list,c.session.id,1757000060000,{rating:1});
+  const rec=D.nextLesson(done.list,{cid:"c:ט:3",curric:CUR()});
+  assert.equal(rec.lessonsFrom,"topic");
+});

@@ -1941,6 +1941,30 @@ function completeSession(list,id,now,o){
   return {ok:true,outcome:"completed",list:out,session:sessionById(out,id)};
 }
 
+/* סימון תוכנית לשיעור פתוח. שיעור נפתח לעתים קרובות לפני שהמורה
+   החליט מה בדיוק ילמד — מהמערכת, או בלחיצה על «התחל שיעור» — ואז
+   planId נשאר ריק. בלי הפונקציה הזאת המערך שנבחר בפועל לא נרשם
+   לשום מקום, וההמלצה לשיעור הבא נאלצת לנחש מהנושא.
+
+   שני כללים: **רק שיעור פתוח.** שיעור שהסתיים הוא רשומה היסטורית,
+   ושינוי בדיעבד של מה שנלמד בו היה משכתב היסטוריה שההמלצה נשענת
+   עליה. ו**אינה משנה סטטוס, דירוג או זמנים** — היא נוגעת בשני
+   שדות ותו לא. */
+function setSessionPlan(list,id,o){
+  o=o||{};
+  var all=asList(list);
+  var ses=sessionById(all,id);
+  if(!ses)return {ok:false,outcome:"not-found",list:all,session:null};
+  if(ses.status!==SESSION_ACTIVE)
+    return {ok:false,outcome:"not-active",list:all,session:ses};
+  var pid=o.planId==null?null:String(o.planId);
+  var ttl=String(o.planTitle==null?"":o.planTitle).trim().slice(0,200);
+  var out=all.map(function(x){
+    return (!x||x.id!==id)?x:Object.assign({},x,{planId:pid,planTitle:ttl});
+  });
+  return {ok:true,outcome:"set",list:out,session:sessionById(out,id)};
+}
+
 /* חידוש: מחזיר את השיעור הפעיל הקיים. לעולם לא יוצר חדש —
    זה מה שמבדיל «חזרתי לאפליקציה» מ«התחלתי שיעור». */
 function resumeSession(list){
@@ -2231,6 +2255,82 @@ function ladderStage(list){
 
 /* ההמלצה. מקבלת את כל השיעורים ואת שורות המדידה, ומחזירה הצעה
    אחת עם הנימוקים שלה — או ok:false עם סיבה מפורשת. */
+/* ============================================================
+   הגשר בין ההמלצה לספריית הקוריקולום
+   ------------------------------------------------------------
+   nextLesson עונה על "איך ללמד את השיעור הבא" — סולם בן חמישה
+   שלבים שמתאר צורת הוראה ולא תוכן. הספרייה עונה על "איזה מערך".
+   שתי שאלות שונות, ולכן ההמלצה **מוסיפה** מערכים ואינה מחליפה
+   בהם את הסולם: הסולם נשאר בדיוק כפי שהיה.
+
+   שני מסלולים, ובכוונה לא אחד:
+
+   **מסלול (א) — לפי הרצף.** כששיעור נפתח מתוך הספרייה, planId
+   נושא את קוד המערך (`curric:BB-01`). אז ידוע בדיוק איפה הכיתה
+   נמצאת, והמשוב של המורה מזיז אותה: 👍 למערך הבא, 👎 לקודם,
+   😐 לאותו מערך בגיוון אחר. זו המלצה שאפשר לבדוק.
+
+   **מסלול (ב) — לפי הנושא.** כששיעור נפתח מהמערכת או מהבונה,
+   אין קוד — יש רק טקסט חופשי. אז ההתאמה היא טקסטואלית, והיא
+   חלשה יותר. **היא מסומנת ככזאת.** מסך שמציג התאמת טקסט מעורפלת
+   באותו ביטחון שבו הוא מציג צעד ברצף מלמד את המורה לא לסמוך על
+   שניהם.
+
+   מה שהגשר לא עושה: אינו בוחר מערך, אינו מדרג, ואינו ממציא
+   ציון התאמה. אין שום בסיס למשקולות, ורשימה ריקה היא תשובה כנה.
+   ============================================================ */
+var CURRIC_PLAN_PREFIX="curric:";
+function curricPlanId(code){ return CURRIC_PLAN_PREFIX+String(code||""); }
+/* קוד המערך מתוך planId של שיעור, או null אם השיעור לא נפתח
+   מהספרייה. פורמט לא מוכר מחזיר null ולא ניחוש. */
+function curricCodeOfPlan(planId){
+  var s=String(planId||"");
+  if(s.indexOf(CURRIC_PLAN_PREFIX)!==0)return null;
+  var code=s.slice(CURRIC_PLAN_PREFIX.length);
+  return /^[A-Z]{2,3}-\d{2}$/.test(code)?code:null;
+}
+
+var CURRIC_MAX_SUGGEST=3;
+/* המערכים שההמלצה מציעה, והסיבה שהם הוצעו.
+   מחזיר {lessons,from,why} — from הוא "pathway" | "topic" | null. */
+function curricSuggest(list,last,topic,rating,opts){
+  opts=opts||{};
+  var lang=opts.lang||"he";
+  var none={lessons:[],from:null,why:""};
+  if(!Array.isArray(list)||!list.length)return none;
+
+  /* (א) רצף — רק כששיעור קודם נפתח מתוך הספרייה */
+  var code=curricCodeOfPlan(last&&last.planId);
+  if(code){
+    var cur=curricOf(list,code,lang);
+    if(cur){
+      var L=cur.lesson, want, why;
+      if(rating===RATING_UP){ want=L.next;
+        why="השיעור הקודם היה "+L.code+" וסימנת «עבד מצוין» — הבא ברצף"; }
+      else if(rating===RATING_DOWN){ want=L.prev;
+        why="השיעור הקודם היה "+L.code+" וסימנת «לא עבד» — חוזרים למערך שלפניו"; }
+      else { want=L.code;
+        why="השיעור הקודם היה "+L.code+" — אותו מערך, בגיוון שמתאים לשלב בסולם"; }
+      if(!want)
+        return {lessons:[],from:"pathway",
+          why:rating===RATING_DOWN
+            ? L.code+" הוא הראשון במסלול; אין אליו קודם"
+            : L.code+" הוא האחרון שיובא במסלול"};
+      var hit=curricOf(list,want,lang);
+      if(!hit)
+        return {lessons:[],from:"pathway",
+          why:want+" שייך למסלול אך עדיין לא יובא לספרייה"};
+      return {lessons:[hit.lesson],from:"pathway",why:why};
+    }
+  }
+
+  /* (ב) נושא — התאמה טקסטואלית, מסומנת ככזאת */
+  var byTopic=curricForTopic(list,topic,{lang:lang});
+  if(!byTopic.length)return none;
+  return {lessons:byTopic.slice(0,CURRIC_MAX_SUGGEST),from:"topic",
+    why:"התאמה לפי נושא השיעור האחרון, לא לפי מיקום ברצף"};
+}
+
 var NEXT_MEASURE_GAP=4;   /* שיעורים בלי מדידה עד שמזכירים */
 function nextLesson(sessions,opts){
   opts=opts||{};
@@ -2275,9 +2375,16 @@ function nextLesson(sessions,opts){
       why.push(since+" שיעורים ללא מדידה — שווה לשלב מדידה אחת בשיעור הבא");
     }
   }
+  /* מערכים מהספרייה — רק כשהיא נמסרה. בלי opts.curric ההתנהגות
+     זהה בית-בית למה שהייתה, ולכן קוראים קיימים אינם מושפעים. */
+  var sug=opts.curric
+    ? curricSuggest(opts.curric,last,lad.topic,r,{lang:opts.lang})
+    : {lessons:[],from:null,why:""};
+
   return {ok:true,topic:lad.topic,stage:stage,streak:lad.streak,
     rating:r,note:String(last.note||""),session:last,
-    title:lad.topic,steps:steps,why:why,measure:measure};
+    title:lad.topic,steps:steps,why:why,measure:measure,
+    lessons:sug.lessons,lessonsFrom:sug.from,lessonsWhy:sug.why};
 }
 
 /* ============================================================
@@ -2562,6 +2669,7 @@ return {
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
   sessionById:sessionById, completeSession:completeSession, resumeSession:resumeSession,
   listSessions:listSessions, sessionMeasurements:sessionMeasurements,
+  setSessionPlan:setSessionPlan,
   SCHED_MAX:SCHED_MAX, DAYS_HE:DAYS_HE, newSlotId:newSlotId,
   timeMin:timeMin, fmtTime:fmtTime, validSlot:validSlot, dayOfISO:dayOfISO,
   schedList:schedList, schedAdd:schedAdd, schedRemove:schedRemove,
@@ -2575,6 +2683,9 @@ return {
   bellByHour:bellByHour, bellOfTime:bellOfTime, slotWindow:slotWindow, slotNow:slotNow,
   RATING_UP:RATING_UP, RATING_MID:RATING_MID, RATING_DOWN:RATING_DOWN,
   LADDER:LADDER, NEXT_MEASURE_GAP:NEXT_MEASURE_GAP,
+  CURRIC_PLAN_PREFIX:CURRIC_PLAN_PREFIX, curricPlanId:curricPlanId,
+  curricCodeOfPlan:curricCodeOfPlan, curricSuggest:curricSuggest,
+  CURRIC_MAX_SUGGEST:CURRIC_MAX_SUGGEST,
   ratingOf:ratingOf, ladderStage:ladderStage, nextLesson:nextLesson,
   ASSESS_VERSION:ASSESS_VERSION, ASSESS_REASON:ASSESS_REASON, assess:assess,
   archiveNorm:archiveNorm,

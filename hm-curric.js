@@ -146,8 +146,53 @@ function open(code){
         <summary>${s.n}. ${esc(s.title)}</summary>
         <div class="cu-md">${md(s.md)}</div>
       </details>`).join("")+
+    planBar(L)+
     `<div class="cu-src">${esc(L.src&&L.src.page?"מקור: Notion · "+L.src.page:"")}</div>`;
+  wirePlan(L);
   H().modal("cu-modal");
+}
+
+/* ============================================================
+   סימון המערך כתוכנית השיעור הפתוח
+   ------------------------------------------------------------
+   זה מה שסוגר את הלולאה. כל עוד שיעור נפתח בלי לדעת איזה מערך
+   נלמד בו, ההמלצה לשיעור הבא נאלצת לנחש מתוך טקסט הנושא. ברגע
+   שהמערך מסומן, השיעור הבא נגזר מהרצף עצמו: 👍 למערך הבא,
+   👎 לקודם.
+
+   הכפתור מופיע **רק כששיעור פתוח.** בלי שיעור פתוח אין למה
+   לשייך, וכפתור שמייצר שיעור כתופעת לוואי של צפייה במערך הוא
+   בדיוק סוג ההפתעה שאין לה מקום באמצע יום הוראה.
+   ============================================================ */
+function planBar(L){
+  const {esc}=H();
+  const S=window.HM.session;
+  const act=S&&S.active&&S.active();
+  if(!act)return `<div class="cu-plan off">כדי לשייך את המערך לשיעור — פתחו שיעור בכיתה.</div>`;
+  const cur=window.HMDATA.curricCodeOfPlan(act.planId);
+  if(cur===L.code)
+    return `<div class="cu-plan on">✓ זהו המערך המסומן לשיעור הפתוח ב${esc(act.clsSnapshot||"כיתה")}.</div>`;
+  return `<div class="cu-plan">
+      <button class="btn sm acc" id="cu-setPlan">📌 סמן כמערך השיעור הפתוח</button>
+      <div class="cu-plan-note">${esc(act.clsSnapshot||"כיתה")}${
+        cur?" · כרגע מסומן "+esc(cur):""}</div>
+    </div>`;
+}
+
+function wirePlan(L){
+  const b=H().$("#cu-setPlan");
+  if(!b)return;
+  b.addEventListener("click",()=>{
+    H().ac();
+    const S=window.HM.session;
+    const act=S.active();
+    if(!act){ H().toast("אין שיעור פתוח"); return; }
+    const r=S.setPlan(act.id,{planId:window.HMDATA.curricPlanId(L.code),
+      planTitle:L.title});
+    if(!r.ok){ H().toast("לא נשמר — נסו שוב"); return; }
+    H().toast("📌 "+L.code+" סומן לשיעור הפתוח");
+    open(L.code);            /* מצייר מחדש כדי שהפס יעבור למצב «מסומן» */
+  });
 }
 
 /* עיבוד Markdown מצומצם בכוונה: כותרות משנה, הדגשה ורשימות —

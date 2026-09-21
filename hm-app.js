@@ -495,6 +495,13 @@ const SESSION={
       return {ok:false,outcome:"not-saved",session:null};
     return r;
   },
+  /* סימון המערך שנלמד בפועל בשיעור הפתוח. */
+  setPlan(id,o){
+    const r=DATA.setSessionPlan(sesAll(),id,o);
+    if(r.ok&&!sesSave(r.list))return {ok:false,outcome:"not-saved",session:null};
+    if(r.ok)paintSessionBar();
+    return r;
+  },
   /* o = {rating, note} — מה שקרה בשיעור. שניהם רשות. */
   complete(id,o){
     const r=DATA.completeSession(sesAll(),id,null,o);
@@ -1319,6 +1326,34 @@ function clsDisp(cid){
   const p=DATA.cidParts(cid);
   return p?DATA.clsName(p.grade,p.num):(cid||"");
 }
+/* המערכים שההמלצה מצאה בספריית הקוריקולום.
+   שני מקורות, ושניהם נאמרים במפורש: צעד ברצף הוא ידיעה, והתאמה
+   לפי נושא היא ניחוש מושכל. הצגה של שניהם באותו ביטחון מלמדת את
+   המורה לא לסמוך על אף אחד מהם.
+
+   כל הצעה נושאת את תג הסטטוס שלה. מערך טיוטה שמגיע דרך ההמלצה
+   הוא עדיין מערך טיוטה — התג לא נעלם רק משום שהמערכת היא שהציעה
+   אותו, וזו בדיוק הנקודה שבה קל לשכוח אותו. */
+function curricBlock(rec){
+  if(!rec||!rec.lessonsFrom)return "";
+  const src=rec.lessonsFrom==="pathway"
+    ? '<span class="pill acc">לפי הרצף</span>'
+    : '<span class="pill">התאמה לפי נושא</span>';
+  if(!rec.lessons.length)
+    return '<div class="cls-curric">'+src+
+      '<div class="why">· '+esc(rec.lessonsWhy)+'</div></div>';
+  return '<div class="cls-curric">'+src+
+    '<div class="why">· '+esc(rec.lessonsWhy)+'</div>'+
+    rec.lessons.map(L=>{
+      const b=DATA.curricBadge(L);
+      return '<button class="cls-curric-item" data-curric="'+esc(L.code)+'">'+
+        '<span class="t">'+esc(L.title)+'</span>'+
+        '<span class="m">'+esc(L.code)+' · גיל '+L.ageFrom+'–'+L.ageTo+' · '+L.minutes+' דק׳</span>'+
+        (b.show?'<span class="cu-badge '+b.tone+'">'+esc(b.label)+'</span>':"")+
+      '</button>';
+    }).join("")+'</div>';
+}
+
 function openClassScreen(cid){
   if(!cid)return;
   syncStudents();   /* «X תלמידים» כאן קורא את stu.list — הגשר לפניו */
@@ -1331,7 +1366,11 @@ function openClassScreen(cid){
   const stu=(()=>{ try{ return DATA.studentsIn(REGSTORE,cid,LS.get("stu.list",[])); }
     catch(e){ return []; } })();
   const grp=(()=>{ try{ return DATA.groupOf(REGSTORE,cid); }catch(e){ return null; } })();
-  const rec=DATA.nextLesson(ses,{cid,rows});
+  /* הספרייה נמסרת להמלצה, ולא נקראת בתוכה: nextLesson נשארת
+     פונקציה טהורה שאפשר לבדוק ב-Node בלי window. */
+  const rec=DATA.nextLesson(ses,{cid,rows,
+    curric:window.CURRIC||null,
+    lang:(window.I18N&&window.I18N.lang&&window.I18N.lang())||"he"});
   const act=SESSION.active();
 
   $("#cls-title").textContent=(grp?"קבוצה ":"כיתה ")+clsDisp(cid);
@@ -1352,7 +1391,8 @@ function openClassScreen(cid){
       rec.steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+
       (rec.measure?'<div class="pill" style="margin-bottom:7px">＋ לשלב מדידה</div>':"")+
       '<div class="why">'+rec.why.map(w=>'· '+esc(w)).join("<br>")+'</div>'+
-      (rec.note?'<div class="why">· מההערה שלך: “'+esc(rec.note)+'”</div>':"");
+      (rec.note?'<div class="why">· מההערה שלך: “'+esc(rec.note)+'”</div>':"")+
+      curricBlock(rec);
   }else{
     html+='<b>💡 המשך מומלץ</b><div class="why">'+
       (rec.reason==="no-history"
@@ -1400,6 +1440,12 @@ function openClassScreen(cid){
   });
   const ft=$("#cls-ft");
   if(ft)ft.addEventListener("click",()=>{ modal("clsModal",false); go("ft"); });
+  $$("#cls-body [data-curric]").forEach(el=>el.addEventListener("click",()=>{
+    modal("clsModal",false); go("curric");
+    /* המסך עולה לפני שהמערך נפתח, אחרת החלון נפתח מעל מסך שעוד
+       לא צויר וסגירתו מחזירה למסך הקודם. */
+    setTimeout(()=>{ try{ window.CURRICUI.open(el.dataset.curric); }catch(e){} },60);
+  }));
   modal("clsModal",true);
 }
 

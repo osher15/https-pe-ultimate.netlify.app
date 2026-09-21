@@ -221,6 +221,110 @@ module.exports={title:"ספריית הקוריקולום",tests:[
     ok(after>before,"הבוררים אינם משתתפים במצב ההגדלה: "+before+" → "+after);
   }),
 
+  /* ---------- הלולאה: מערך → שיעור → ההמלצה הבאה ---------- */
+
+  check("בלי שיעור פתוח אין כפתור שיוך — צפייה אינה פותחת שיעור",seed,async page=>{
+    await openCurric(page);
+    await page.evaluate(()=>window.CURRICUI.open("BB-01"));
+    await page.waitForTimeout(400);
+    const r=await page.evaluate(()=>({
+      btn:!!document.querySelector("#cu-setPlan"),
+      off:!!document.querySelector(".cu-plan.off"),
+      ses:!!window.HM.session.active()}));
+    ok(!r.btn,"הוצע שיוך בלי שיעור פתוח");
+    ok(r.off,"אין הסבר למה אי אפשר לשייך");
+    ok(!r.ses,"צפייה במערך פתחה שיעור");
+  }),
+
+  check("שיוך מערך לשיעור פתוח נשמר ומוצג",seed,async page=>{
+    await openCurric(page);
+    await page.evaluate(()=>window.HM.session.start(
+      {cid:"c:ט:3",clsSnapshot:"ט׳3",date:"2026-09-12"}));
+    await page.evaluate(()=>window.CURRICUI.open("BB-01"));
+    await page.waitForTimeout(400);
+    await page.evaluate(()=>document.querySelector("#cu-setPlan").click());
+    await page.waitForTimeout(500);
+    const r=await page.evaluate(()=>({
+      planId:window.HM.session.active().planId,
+      marked:!!document.querySelector(".cu-plan.on")}));
+    eq(r.planId,"curric:BB-01","המערך לא נשמר לשיעור");
+    ok(r.marked,"הפס לא עבר למצב «מסומן»");
+  }),
+
+  check("הלולאה נסגרת: 👍 מביא את המערך הבא, ולא התאמת טקסט",seed,async page=>{
+    await openCurric(page);
+    const rec=await page.evaluate(async()=>{
+      const S=window.HM.session, D=window.HMDATA;
+      const a=S.start({cid:"c:ט:3",clsSnapshot:"ט׳3",date:"2026-09-12"});
+      S.setPlan(a.session.id,{planId:D.curricPlanId("BB-01"),planTitle:"כדורסל 01"});
+      S.complete(a.session.id,{rating:1});
+      await new Promise(r=>setTimeout(r,200));
+      return D.nextLesson(S.list({cid:"c:ט:3"}),
+        {cid:"c:ט:3",curric:window.CURRIC,lang:"he"});
+    });
+    eq(rec.lessonsFrom,"pathway","נפלנו להתאמת טקסט אף שהמערך סומן");
+    eq(rec.lessons.map(x=>x.code).join(","),"BB-02");
+  }),
+
+  check("מסך הכיתה מציג את המערך המומלץ עם תג הסטטוס שלו",seed,async page=>{
+    await page.evaluate(async()=>{
+      const S=window.HM.session, D=window.HMDATA;
+      const a=S.start({cid:"c:ט:3",clsSnapshot:"ט׳3",date:"2026-09-12"});
+      S.setPlan(a.session.id,{planId:D.curricPlanId("BB-01"),planTitle:"כדורסל 01"});
+      S.complete(a.session.id,{rating:1});
+      await new Promise(r=>setTimeout(r,200));
+      window.HM.openClassScreen("c:ט:3");
+    });
+    await page.waitForTimeout(700);
+    const r=await page.evaluate(()=>{
+      const it=document.querySelector("#cls-body [data-curric]");
+      return it?{code:it.dataset.curric,
+        badge:(it.querySelector(".cu-badge")||{}).textContent||null,
+        src:(document.querySelector("#cls-body .cls-curric .pill")||{}).textContent||null}:null;
+    });
+    ok(r,"אין מערך מומלץ במסך הכיתה");
+    eq(r.code,"BB-02");
+    eq(r.badge,"טיוטה","המלצה הציגה מערך טיוטה בלי תג");
+    ok(/רצף/.test(r.src),"מקור ההמלצה אינו מסומן: "+r.src);
+  }),
+
+  check("התאמה לפי נושא מסומנת אחרת מצעד ברצף",seed,async page=>{
+    await page.evaluate(async()=>{
+      const S=window.HM.session;
+      const a=S.start({cid:"c:ט:3",clsSnapshot:"ט׳3",date:"2026-09-12"});
+      S.setPlan(a.session.id,{planId:null,planTitle:"כדורסל — כדרור"});
+      S.complete(a.session.id,{rating:1});
+      await new Promise(r=>setTimeout(r,200));
+      window.HM.openClassScreen("c:ט:3");
+    });
+    await page.waitForTimeout(700);
+    const src=await page.evaluate(()=>
+      (document.querySelector("#cls-body .cls-curric .pill")||{}).textContent||null);
+    ok(src&&/נושא/.test(src),
+      "התאמת טקסט הוצגה באותו ביטחון כמו צעד ברצף: "+src);
+  }),
+
+  check("לחיצה על מערך מומלץ פותחת אותו בספרייה",seed,async page=>{
+    await page.evaluate(async()=>{
+      const S=window.HM.session, D=window.HMDATA;
+      const a=S.start({cid:"c:ט:3",clsSnapshot:"ט׳3",date:"2026-09-12"});
+      S.setPlan(a.session.id,{planId:D.curricPlanId("BB-01"),planTitle:"כדורסל 01"});
+      S.complete(a.session.id,{rating:1});
+      await new Promise(r=>setTimeout(r,200));
+      window.HM.openClassScreen("c:ט:3");
+    });
+    await page.waitForTimeout(700);
+    await page.evaluate(()=>document.querySelector("#cls-body [data-curric]").click());
+    await page.waitForTimeout(700);
+    const r=await page.evaluate(()=>({
+      mod:document.body.dataset.mod,
+      title:(document.querySelector("#cu-mTitle")||{}).textContent||"",
+      open:!!document.querySelector("#cu-modal.on")}));
+    eq(r.mod,"curric","לא עברנו למסך הספרייה");
+    ok(r.open,"המערך לא נפתח");
+    ok(/02/.test(r.title),"נפתח מערך אחר: "+r.title);
+  }),
+
   check("המסך נגיש מהתפריט הראשי",seed,async page=>{
     await page.evaluate(()=>document.getElementById("btnMenu").click());
     await page.waitForTimeout(320);
