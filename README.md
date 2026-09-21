@@ -111,7 +111,8 @@ GitHub**, ולא "בנה לי אתר" — הקוד כבר קיים כאן, אי�
 | `build-standalone.js` | בונה את `Hamegrash.html` |
 | `Hamegrash.html` | קובץ יחיד אופליין — נבנה, לא נערך ידנית |
 | `docs/ORIGIN_VISION.md` | מסמך חזון מקורי, ירושה מהמגרש PRO — עדיין ראוי לקריאה |
-| `tests/` | ‎480‎ בדיקות יחידה (`hm-data.js`, Node) + ‎355‎ בדיקות דפדפן (Playwright) |
+| `docs/KNOWLEDGE_REVIEW.md` | ביקורת מסמך הידע: מה אומץ, מה נדחה, ולמה |
+| `tests/` | ‎513‎ בדיקות יחידה (`hm-data.js`, Node) + ‎355‎ בדיקות דפדפן (Playwright) |
 
 ## מה שונה מהמגרש PRO, בפועל
 

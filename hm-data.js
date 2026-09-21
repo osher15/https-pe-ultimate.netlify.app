@@ -1414,6 +1414,172 @@ function classProgress(rows,roster,testDefs,opts){
   });
   return {tests:tests};
 }
+/* ============================================================
+   שלב 13 — טריות הראיה: «מתי נמדד», לא רק «האם נמדד»
+   ------------------------------------------------------------
+   classCoverage עונה על «האם יש מדידה». היא אינה עונה על «מתי»:
+   מדידה מדצמבר נספרת שם כ-done בדיוק כמו מדידה מאתמול, ולכן
+   כיתה שלמה יכולה להיראות מכוסה בזמן שאיש לא נמדד בה חודשים.
+   זה בדיוק המצב שמסמך החזון מתאר כתובנה שהמוצר חייב לתת —
+   «ארבעה תלמידים לא נמדדו באף מבחן מאז דצמבר» — והשכבה הזאת
+   היא מה שמאפשר אותה.
+
+   ארבע החלטות שמגדירות אותה:
+
+   1. **היא לא מכריעה מחדש כלום.** מי שייך לאיזו כיתה, ומה נחשב
+      «נמדד», נלקח מ-classCoverage/missingTests כמו שהוא. מתווסף
+      שדה אחד בלבד — תאריך המדידה האחרונה — וממנו נגזר המצב. שתי
+      הגדרות שונות ל«נמדד» בשני מסכי כיתה הן באג, לא פיצ׳ר.
+
+   2. **התאריך נכנס מבחוץ.** asOf הוא פרמטר ולא קריאה לשעון:
+      פונקציה שקוראת את השעון בעצמה אי אפשר לבדוק, ושתי קריאות
+      באותה שנייה יכולות ליפול משני צדי גבול יום. ברירת המחדל
+      קיימת לנוחות, אבל היא היום **המקומי** ולא UTC — ראו localISO.
+
+   3. **«ישן» אינו «גרוע».** המצב מתאר את גיל הראיה, לא את
+      התלמיד. מדידה בת ‎70‎ יום אומרת שכדאי למדוד שוב; היא אינה
+      אומרת שהיכולת ירדה, שהתלמיד נסוג, או שמגיע לו ציון נמוך.
+      אין כאן ציון, אין דירוג ואין השוואה בין תלמידים.
+
+   4. **היא לא יודעת למה לא נמדד, ולא מנחשת.** ft.results מתעד
+      מדידות, לא היעדרויות: תלמיד שחלה חודשיים ותלמיד שפשוט לא
+      הגיע לתור שלו נראים כאן זהים לחלוטין. לכן הניסוח הוא «אין
+      מדידה מאז X» ולא «לא השתתף». ההצלבה מול tools.att היא שלב
+      בפני עצמו — ראו docs/KNOWLEDGE_REVIEW.md §«נדחה להמשך».
+
+   הספים (‎30‎ / ‎90‎ יום) הם ברירת מחדל של מוצר, לא ממצא מחקרי.
+   הם נחשפים כקבועים כדי שאפשר יהיה לכוונן אותם אחרי שימוש אמיתי
+   בשטח, ולא יהיו פזורים כמספרי קסם בתוך מסכים.
+   ============================================================ */
+var STALE_DAYS=30;     /* מדידה ישנה מזה — «כדאי למדוד שוב»      */
+var EXPIRED_DAYS=90;   /* ישנה מזה — אין תמונה עדכנית בכלל       */
+var EVIDENCE={NEVER:"never",EXPIRED:"expired",STALE:"stale",FRESH:"fresh"};
+
+/* היום המקומי כ-ISO. **לא** toISOString().slice(0,10): זה מחזיר
+   את היום לפי UTC, ולמורה בישראל (UTC+2/+3) שפותח את האפליקציה
+   אחרי חצות זה עדיין אתמול. פה הפירוק הוא מהשדות המקומיים. */
+function localISO(now){
+  var d=(now==null)?new Date():new Date(now);
+  if(isNaN(d.getTime()))return null;
+  var p=function(n){ return (n<10?"0":"")+n; };
+  return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+}
+
+/* הפרש ימים בין שני תאריכי ISO. אותו טריק של dayOfISO: פירוק ידני
+   ו-Date.UTC, כי new Date("2026-09-21") מפרש UTC ואילו
+   new Date(2026,8,21) מפרש מקומי — וערבוב בין השניים מזיז יום שלם.
+   כאן שני הצדדים נמדדים באותה סרגל, ולכן ההפרש נכון בכל אזור זמן. */
+function daysBetweenISO(from,to){
+  var a=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(from||""));
+  var b=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(to||""));
+  if(!a||!b)return null;
+  return Math.round((Date.UTC(+b[1],+b[2]-1,+b[3])-
+                     Date.UTC(+a[1],+a[2]-1,+a[3]))/86400000);
+}
+
+/* גיל הראיה → מצב. null הוא NEVER ולא «ישן מאוד»: «לא נמדד
+   מעולם» ו«נמדד לפני הרבה זמן» הם שני מצבים עם שתי פעולות
+   שונות, ומיזוג שלהם היה מסתיר את הראשון בתוך השני. */
+function evidenceState(days){
+  if(days==null)return EVIDENCE.NEVER;
+  if(days>EXPIRED_DAYS)return EVIDENCE.EXPIRED;
+  if(days>STALE_DAYS)return EVIDENCE.STALE;
+  return EVIDENCE.FRESH;
+}
+
+/* התאריך האחרון שבו התלמיד נמדד בהיקף הזה. opts.testId מצמצם
+   למבחן אחד; בלעדיו — כל מבחן בקטלוג.
+
+   הסינון זהה בית-בית ל-missingTests (אותו byId, אותו cid/cls),
+   כולל זה שמדידה פגומה נספרת: אם classCoverage מציגה «השלים»
+   על רשומה כזאת, לא ייתכן שהמסך השני יגיד «לא נמדד מעולם». */
+function lastMeasuredOn(rows,stud,testDefs,opts){
+  opts=opts||{};
+  var byId={}; (testDefs||[]).forEach(function(t){ if(t&&t.id)byId[t.id]=t; });
+  var cid=isCid(opts.cid)?opts.cid:null;
+  var k=(!cid&&opts.cls)?clsKey(opts.cls):null;
+  var only=opts.testId||null;
+  var best=null;
+  (rows||[]).forEach(function(r){
+    if(!r||!byId[r.test])return;
+    if(only&&r.test!==only)return;
+    if(cid&&!rowInClass(r,cid))return;
+    if(k&&clsKey(r.cls)!==k)return;
+    if(!sameStudent(r,stud))return;
+    var d=String(r.d||"");
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return;   /* בלי תאריך אין גיל */
+    if(!best||d>best)best=d;
+  });
+  return best;
+}
+
+/* טריות לתלמיד אחד. future מסמן תאריך שעוד לא הגיע — שגיאת
+   הקלדה, לא ראיה טרייה במיוחד. הוא מסומן ולא מתוקן ולא נמחק:
+   המורה הוא שמכריע מה התאריך הנכון. */
+function freshnessOf(rows,stud,testDefs,opts){
+  opts=opts||{};
+  var asOf=opts.asOf||localISO();
+  var last=lastMeasuredOn(rows,stud,testDefs,opts);
+  var days=last?daysBetweenISO(last,asOf):null;
+  return {last:last,days:days,state:evidenceState(days),
+          future:(days!=null&&days<0),asOf:asOf};
+}
+
+/* אותה מטריצה של classCoverage, ועוד עמודה אחת: מתי כל תלמיד
+   נמדד לאחרונה ומה המצב שנגזר מזה. counts הוא סיכום הכיתה —
+   ארבעת הדליים חלוקה מלאה של הרשימה, בלי לספור תלמיד פעמיים
+   ובלי להשמיט אחד. */
+function classFreshness(rows,roster,testDefs,opts){
+  opts=opts||{};
+  var asOf=opts.asOf||localISO();
+  var cov=classCoverage(rows,roster,testDefs,opts);
+  var counts={never:0,expired:0,stale:0,fresh:0};
+  var students=cov.students.map(function(row){
+    var f=freshnessOf(rows,row.stud,testDefs,
+      {cid:opts.cid,cls:opts.cls,asOf:asOf});
+    counts[f.state]++;
+    var missing=cov.tests.filter(function(t){ return !row.done[t]; });
+    return {stud:row.stud,done:row.done,missing:missing,
+            last:f.last,days:f.days,state:f.state,future:f.future};
+  });
+  return {asOf:asOf,tests:cov.tests,students:students,counts:counts};
+}
+
+/* «מי צריך תשומת לב, ולמה» — רשימת עבודה מסודרת מעל
+   classFreshness. הסיבה הראשונה שמתאימה היא הסיבה שנרשמת, לפי
+   הסדר שלמטה: לתלמיד שלא נמדד מעולם אין טעם לספר גם שחסרים לו
+   מבחנים, זו אותה עובדה בניסוח חלש יותר.
+
+   המיון: קודם חומרת הסיבה, ואז המוזנח ביותר בתוך כל סיבה
+   (הרבה ימים לפני מעט), ולבסוף מזהה התלמיד כשובר-שוויון יציב —
+   כדי שאותם נתונים ייתנו תמיד את אותה רשימה באותו סדר.
+
+   מה שהרשימה **לא** עושה: היא לא מדרגת תלמידים לפי יכולת, לא
+   מייצרת קבוצות קבועות ולא נותנת ציון. היא עונה על שאלה אחת —
+   את מי לא ראיתי מספיק זמן — וזו שאלה על המורה, לא על התלמיד. */
+var ATTENTION_ORDER=["never","expired","stale","missing"];
+function classAttention(rows,roster,testDefs,opts){
+  var fr=classFreshness(rows,roster,testDefs,opts);
+  var rank={}; ATTENTION_ORDER.forEach(function(r,i){ rank[r]=i; });
+  var list=[];
+  fr.students.forEach(function(s){
+    var reason=null;
+    if(s.state===EVIDENCE.NEVER)reason="never";
+    else if(s.state===EVIDENCE.EXPIRED)reason="expired";
+    else if(s.state===EVIDENCE.STALE)reason="stale";
+    else if(s.missing.length)reason="missing";
+    if(!reason)return;
+    list.push({stud:s.stud,reason:reason,state:s.state,
+               last:s.last,days:s.days,missing:s.missing,future:s.future});
+  });
+  list.sort(function(a,b){
+    if(rank[a.reason]!==rank[b.reason])return rank[a.reason]-rank[b.reason];
+    var da=(a.days==null)?-1:a.days, db=(b.days==null)?-1:b.days;
+    if(da!==db)return db-da;
+    return String(studentKey(a.stud)).localeCompare(String(studentKey(b.stud)));
+  });
+  return {asOf:fr.asOf,list:list,counts:fr.counts};
+}
 
 /* שלב 12 — אחוז נוכחות לתלמיד, לצורך הצעת מילוי בציון ההשתתפות.
    הנוסחה זהה, בית אחר בית, ל-attSummary() הקיימת ב-hm-tools.js:
@@ -2164,6 +2330,10 @@ return {
   ambiguous:ambiguous, ambiguousGroups:ambiguousGroups,
   resolveCandidates:resolveCandidates, resolveAmbiguous:resolveAmbiguous,
   profileOf:profileOf, missingTests:missingTests, classCoverage:classCoverage, classProgress:classProgress,
+  STALE_DAYS:STALE_DAYS, EXPIRED_DAYS:EXPIRED_DAYS, EVIDENCE:EVIDENCE, ATTENTION_ORDER:ATTENTION_ORDER,
+  localISO:localISO, daysBetweenISO:daysBetweenISO, evidenceState:evidenceState,
+  lastMeasuredOn:lastMeasuredOn, freshnessOf:freshnessOf,
+  classFreshness:classFreshness, classAttention:classAttention,
   attendanceRateOf:attendanceRateOf,
   SESSION_ACTIVE:SESSION_ACTIVE, SESSION_DONE:SESSION_DONE, SESSION_MAX:SESSION_MAX,
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
