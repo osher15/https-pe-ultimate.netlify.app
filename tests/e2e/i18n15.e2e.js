@@ -150,10 +150,67 @@ module.exports={title:"שלב 15 — תזונה, פוטו־פיניש ומדרי
     eq(await txt(page,"#view-ft"),before,"טקסט המסך זהה למקור");
   }),
 
+  /* הדרישה: מי שבוחר שפה אחרת לא רואה עברית. סריקה של כל המסכים וכל
+     הלשוניות שבהם — טקסט גלוי בלבד. */
+  check("רוסית: אין אות עברית גלויה באף מסך ובאף לשונית",seed,async page=>{
+    await switchLang(page,"ru");
+    const mods=["home","ft","fit","lesson","games","know","tools","rec","stu","beep","photo","nut"];
+    const left=[];
+    for(const m of mods){
+      await go(page,m,600);
+      const n=await page.evaluate(x=>document.querySelectorAll("#view-"+x+" .tabs button, #view-"+x+" [data-tab], #view-"+x+" .seg button").length,m);
+      for(let i=-1;i<n;i++){
+        if(i>=0){ await page.evaluate(([x,i])=>{const b=document.querySelectorAll("#view-"+x+" .tabs button, #view-"+x+" [data-tab], #view-"+x+" .seg button")[i]; if(b)b.click();},[m,i]); await page.waitForTimeout(120); }
+        const r=await page.evaluate(x=>{ const out=[]; const w=document.createTreeWalker(document.getElementById("view-"+x),NodeFilter.SHOW_TEXT);
+          for(let t=w.nextNode();t;t=w.nextNode()){ const p=t.parentElement; if(/[֐-׿]/.test(t.nodeValue)&&p&&p.offsetParent!==null)out.push(t.nodeValue.trim()); } return out; },m);
+        r.forEach(v=>{ if(left.indexOf(m+": "+v)<0)left.push(m+": "+v); });
+      }
+    }
+    eq(left.length,0,"נשארה עברית:\n  "+left.slice(0,25).join("\n  "));
+  }),
+
+  /* מעבר לסריקת המסכים: התוכן העמוק שנפתח בחלונות — כל משחק, כל תוכנית
+     אימון, מערך שנבנה לכל נושא ולשתי השכבות, וכל מסמך בארכיון המערכים. */
+  check("רוסית, תוכן עמוק: משחקים, תוכניות, מערכים שנבנים ומסמכי הארכיון — בלי עברית",seed,async page=>{
+    await switchLang(page,"ru");
+    const scan=()=>page.evaluate(()=>{ const out=[]; const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+      for(let t=w.nextNode();t;t=w.nextNode()){ const p=t.parentElement;
+        if(/[֐-׿]/.test(t.nodeValue)&&p&&p.offsetParent!==null&&!p.closest("script,style,textarea"))out.push(t.nodeValue.trim().slice(0,90)); }
+      return out; });
+    const closeAll=()=>page.evaluate(()=>document.querySelectorAll(".modal.on [data-close]").forEach(b=>b.click()));
+    const left=new Set(); const note=(where,arr)=>arr.forEach(v=>left.add(where+": "+v));
+    await go(page,"games");
+    const nG=await page.evaluate(()=>document.querySelectorAll("#gm-grid .gm-card").length);
+    for(let i=0;i<nG;i++){ await page.evaluate(i=>document.querySelectorAll("#gm-grid .gm-card")[i].click(),i);
+      await page.waitForTimeout(60); note("game "+i,await scan()); await closeAll(); }
+    await go(page,"know");
+    await page.evaluate(()=>{ const b=document.querySelector('#kn-tabs [data-kt="prog"]')||document.querySelectorAll("#kn-tabs [data-kt]")[1]; if(b)b.click(); });
+    await page.waitForTimeout(150);
+    const nP=await page.evaluate(()=>document.querySelectorAll("#kn-progList .kn-prog").length);
+    for(let i=0;i<nP;i++){ await page.evaluate(i=>document.querySelectorAll("#kn-progList .kn-prog")[i].click(),i);
+      await page.waitForTimeout(60); note("program "+i,await scan()); await closeAll(); }
+    await go(page,"lesson");
+    for(const g of ["mid","high"]){
+      await page.evaluate(g=>document.querySelector('#ls-gradeSeg [data-g="'+g+'"]').click(),g);
+      const topics=await page.evaluate(()=>[...document.querySelectorAll("#ls-focus option")].map(o=>o.value));
+      for(const t of topics){
+        await page.evaluate(t=>{ const s=document.getElementById("ls-focus"); s.value=t; s.dispatchEvent(new Event("change")); document.getElementById("ls-gen").click(); },t);
+        await page.waitForTimeout(80); note("plan "+g+"/"+t,await scan()); await closeAll();
+      }
+    }
+    await page.evaluate(()=>{ const b=[...document.querySelectorAll("#ls-modeTabs button, #view-lesson .tabs button")].find(x=>/библиотек|Библиотек/i.test(x.textContent)); if(b)b.click(); });
+    await page.waitForTimeout(200);
+    const nD=await page.evaluate(()=>document.querySelectorAll("#ls-libList [data-doc]").length);
+    for(let i=0;i<nD;i++){ await page.evaluate(i=>document.querySelectorAll("#ls-libList [data-doc]")[i].click(),i);
+      await page.waitForTimeout(80); note("doc "+i,await scan()); await closeAll(); }
+    ok(nG>=40&&nP>=10,"נפתחו "+nG+" משחקים ו-"+nP+" תוכניות");
+    eq(left.size,0,"נשארה עברית:\n  "+[...left].slice(0,30).join("\n  "));
+  }),
+
   check("תבניות: מרחקים, שלבים ושכבות מתורגמים גם כשהם נבנים ממספרים",seed,async page=>{
     const r=await page.evaluate(()=>{ window.I18N.set("ru");
-      return ["300 מ׳","⏱ 15–25 דק׳","👥 ז׳–ט׳ · 10–30 משתתפים","שלב 12"].map(s=>window.I18N.term(s)); });
-    eq(JSON.stringify(r),JSON.stringify(["300 м","⏱ 15–25 мин","👥 7–9 кл. · 10–30 участников","Ступень 12"]));
+      return ["300 מ׳","⏱ 15–25 דק׳","👥 ח׳–י׳ · 5–9 משתתפים","שלב 12"].map(s=>window.I18N.term(s)); });
+    eq(JSON.stringify(r),JSON.stringify(["300 м","⏱ 15–25 мин","👥 8–10 кл. · 5–9 участников","Ступень 12"]));
   })
 
 ]};

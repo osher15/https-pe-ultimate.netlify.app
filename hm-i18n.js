@@ -1458,7 +1458,7 @@ const NUMBERED={"שלב":["Stage","المرحلة","Ступень","Nivel"],"מ
   "הקפה":["Lap","اللفّة","Круг","Vuelta"],"קבוצה":["Team","الفريق","Команда","Equipo"]};
 const GRADE={"א׳":1,"ב׳":2,"ג׳":3,"ד׳":4,"ה׳":5,"ו׳":6,"ז׳":7,"ח׳":8,"ט׳":9,"י׳":10,"י״א":11,"י״ב":12};
 const GR="(י״[אב]|[א-י]׳)";
-function termCore(core,col){
+function termCore(core,col,noTpl){
   const T=window.I18N_TERMS, row=T&&T[core];
   if(row&&row[col])return row[col];
   if(UNITS[core])return UNITS[core][col];
@@ -1481,7 +1481,7 @@ function termCore(core,col){
     if(!tail)return null;
     return g+" · "+tail+(grp?" ("+["in groups","في مجموعات","в группах","en grupos"][col]+")":"");
   }
-  return tplMatch(core,col);
+  return noTpl?null:tplMatch(core,col);
 }
 /* תבניות: משפט שנבנה בקוד מחלקים קבועים וערכים משתנים («{0} זמנים ייכנסו
    למבחן «{1} מטר»»). המילון מחזיק את המשפט עם {0},{1}; כאן הוא הופך
@@ -1496,7 +1496,11 @@ function tplIndex(){
     const parts=k.split(/\{\d+\}/);
     const lit=parts.reduce((a,b)=>b.length>a.length?b:a,"").trim();
     if(!HEB.test(lit))return;
-    const re=new RegExp("^"+parts.map(p=>p.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("([\\s\\S]+?)")+"$");
+    /* תבנית שהחלק הקבוע שלה זעיר («מ{0}» — תווית מסלול) הייתה בולעת כל
+       מילה שמתחילה באותה אות. לתבניות כאלה המשתנה חייב להיות מספר. */
+    const tiny=parts.join("").replace(/[^\p{L}]/gu,"").length<4;
+    const any=tiny?"([\\d.,:+\\-–]+)":"([\\s\\S]*?)";   /* ערך יכול להיות ריק (תוספת מותנית) */
+    const re=new RegExp("^"+parts.map(p=>p.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join(any)+"$","u");
     TPL.push({k,lit,re});
   });
   /* הארוך קודם — תבנית ספציפית גוברת על כללית */
@@ -1509,11 +1513,18 @@ function tplMatch(core,col){
     if(core.indexOf(t.lit)<0)continue;
     const m=t.re.exec(core); if(!m)continue;
     const row=T[t.k]; if(!row||!row[col])continue;
-    return row[col].replace(/\{(\d+)\}/g,(_,i)=>{
-      const v=m[+i+1]; if(v==null)return "";
+    /* ערך שנתפס ונשאר עברית: שם (תלמיד, כיתה) — תקין; משפט שלם — סימן
+       שהתבנית נתפסה על טקסט אחר, ולכן מוותרים עליה */
+    let bad=false;
+    const vals=m.slice(1).map(v=>{
       const lead=v.match(/^\s*/)[0], trail=v.match(/\s*$/)[0], c=v.trim();
-      return lead+(HEB.test(c)?(termCore(c,col)||c):c)+trail;
+      if(!HEB.test(c))return v;
+      const tt=termCore(c,col);
+      if(!tt&&(c.split(/\s+/).length>3||/[.!?]/.test(c)))bad=true;
+      return lead+(tt||c)+trail;
     });
+    if(bad)continue;
+    return row[col].replace(/\{(\d+)\}/g,(_,i)=>vals[+i]==null?"":vals[+i]);
   }
   return null;
 }
@@ -1521,16 +1532,76 @@ function term(src){
   const col=TERM_COL[cur];
   if(col==null||!window.I18N_TERMS||!HEB.test(src))return null;
   const [pre,core,post]=splitTerm(src);
-  const out=termCore(core,col);
-  if(out)return pre+out+post;
+  const out=termCore(core,col,true);
+  if(out)return heQ(pre)+out+heQ(post);
+  /* טקסט מורכב — שורת מקור «כותרת — ארגון», משחק שהוכנס למערך
+     («צעד. צעד. · מטרה: …»), סעיף ממוספר. מפרקים לחלקים שכל אחד מהם
+     מוכר במילון; מתרגמים רק אם אף חלק לא נשאר עברית. */
+  const cp=composite(core,col);
+  if(cp)return heQ(pre)+cp+heQ(post);
   /* טקסט רב־שורתי (הודעות, מסמכי מערך) — שורה אחרי שורה */
   if(/\n/.test(src)){
     let hit=false;
     const lines=src.split("\n").map(l=>{ const t=HEB.test(l)?term(l):null; if(t){hit=true;return t;} return l; });
-    return hit?lines.join("\n"):null;
+    if(hit)return lines.join("\n");
   }
+  const tp=tplMatch(core,col);
+  return tp?heQ(pre)+tp+heQ(post):null;
+}
+function piece(p,col){
+  p=p.trim(); if(!p)return p; if(!HEB.test(p))return p;
+  let t=termCore(p,col,true); if(t)return t;
+  const [pre,core,post]=splitTerm(p);
+  if(core!==p){ t=termCore(core,col,true); if(t)return heQ(pre)+t+heQ(post); }
+  let m=/^(\d+[.)])\s+([\s\S]+)$/.exec(p);
+  if(m){ t=piece(m[2],col); if(t)return m[1]+" "+t; }
+  m=/^([^:.!?]{1,30}):\s+([\s\S]+)$/.exec(p);
+  if(m&&HEB.test(m[1])){ const a=termCore(m[1].trim(),col,true), b2=piece(m[2],col); if(a&&b2)return a+": "+b2; }
+  t=headOf(p,col); if(t)return t;
+  /* כמה משפטים ברצף (שני צעדי משחק שהודבקו יחד) — הרצף הארוך ביותר
+     שקיים במילון, ואז משפט־משפט */
+  const SENT=/(?<=[.!?;])\s+(?=\S)/;
+  if(SENT.test(p)){ const r=joinRuns(p,col," ",SENT); if(r)return r; }
+  for(const sep of [" — "," – "]){
+    if(p.indexOf(sep)>0){ const r=joinRuns(p,col,sep); if(r)return r; }
+  }
+  t=tplMatch(p,col); if(t&&!HEB.test(t))return t;
   return null;
 }
+/* «שם — הסבר» במילון, כשבמסך מוצג רק השם: החלק הראשון של המפתח מול
+   החלק הראשון של התרגום — רק כשהתרגום מתפצל באותו אופן */
+let HEADS=null;
+function headOf(p,col){
+  if(!HEADS){ HEADS={}; const T=window.I18N_TERMS||{};
+    Object.keys(T).forEach(k=>{ const i=k.indexOf(" — "); if(i<0)return;
+      const h=k.slice(0,i); if(T[h]||HEADS[h])return;
+      const row=T[k].map(x=>{ const m=/\s[—–]\s|:\s/.exec(x); return m&&m.index>0?x.slice(0,m.index):null; });
+      if(row.every(Boolean))HEADS[h]=row; }); }
+  const r=HEADS[p]; return r?r[col]:null;
+}
+/* התאמה מדויקת, גם כשסביב הרצף יש גרשיים/סמלים שנחתכו מהמפתח */
+function exactish(k,col){
+  const t=termCore(k,col,true); if(t)return t;
+  const [pre,core,post]=splitTerm(k);
+  if(core===k)return null;
+  const u=termCore(core,col,true); return u?heQ(pre)+u+heQ(post):null;
+}
+function joinRuns(core,col,sep,splitRe){
+  const parts=splitRe?core.split(splitRe):core.split(sep), out=[];
+  for(let i=0;i<parts.length;){
+    let j=parts.length, t=null;
+    for(;j>i;j--){ const k=parts.slice(i,j).join(sep); t=j-i>1?exactish(k,col):piece(k,col); if(t)break; }
+    if(!t)return null;
+    out.push(t); i=j;
+  }
+  const r=out.join(sep); return HEB.test(r)?null:r;
+}
+function composite(core,col){
+  if(core.indexOf(" · ")>0){ const r=joinRuns(core,col," · "); if(r)return r; }
+  const r=piece(core,col); return r&&!HEB.test(r)?r:null;
+}
+/* גרשיים ומרכאות עבריים (״ ׳) שנשארו סביב טקסט מתורגם */
+function heQ(x){ return x.replace(/״/g,'"').replace(/׳/g,"'"); }
 /* תרגום של מחרוזת שלמה לשימוש בקוד (הודעות, קול, קנבס) — תמיד מחזיר טקסט */
 function tr(s){ return (s==null||cur==="he")?s:(term(String(s))||s); }
 function skipped(n){
