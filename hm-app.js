@@ -101,10 +101,13 @@ function beep(freq=880,dur=0.12,vol=0.5,type="square"){
 }
 function horn(){ if(!SET.sound)return; beep(520,0.45,0.6,"sawtooth"); setTimeout(()=>beep(392,0.5,0.6,"sawtooth"),60); }
 function tripleBeep(){ beep(660,0.1); setTimeout(()=>beep(660,0.1),150); setTimeout(()=>beep(990,0.22),300); }
-/* lang — קוד שפה לקול (voiceLoc()). בלי פרמטר נשאר he-IL: הכריזות בביפ
-   ובטיימרים נכתבו עברית, ולקרוא אותן בקול זר היה משבש אותן. */
+/* lang — קוד שפה לקול (voiceLoc()). הכריזות בביפ ובטיימרים נכתבו עברית;
+   בשפה אחרת הן עוברות קודם דרך המילון ונקראות בקול של אותה שפה. כריזה
+   שלא נמצא לה תרגום נשארת עברית בקול עברי — ולא עברית בקול זר. */
 function say(txt,lang){
   if(!SET.voice||!("speechSynthesis"in window))return;
+  if(!lang&&window.I18N&&window.I18N.lang()!=="he"){
+    const tt=window.I18N.tr(txt); if(tt!==txt){ txt=tt; lang=voiceLoc(); } }
   try{ const u=new SpeechSynthesisUtterance(txt); u.lang=lang||"he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
 }
 

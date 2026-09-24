@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="f248710b">
+<meta name="hm-build" content="9fd87bda">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -6925,6 +6925,11 @@ window.I18N_TERMS={
 
 ;
 "use strict";
+/* טקסטים — כל התוכן המקצועי בארבע שפות (נבנה מתוך תרגום מלא; ראו hm-i18n.js) */
+Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{});
+
+;
+"use strict";
 /* ============================================================
    מודול 0 — שפות (I18N)
    ------------------------------------------------------------
@@ -6938,8 +6943,10 @@ window.I18N_TERMS={
      · הכותרות במסכים המקצועיים (שמות מבחנים, משחקים, תרגילים,
        לשוניות וכפתורים) מתורגמות דרך מילון המונחים ב-hm-terms.js,
        שנבנה מחיפוש מינוח בשטח בכל שפה — ראו applyTerms למטה.
-     · התוכן העמוק (תיאורי משחקים, שלבי מערך, דגשי מבחנים) נשאר
-       עברית עד שיתורגם בידי אדם שמכיר את המינוח.
+     · כל שאר התוכן (תיאורי משחקים, שלבי מערך, הסברי תרגילים, הודעות)
+       מתורגם ב-hm-texts.js באותו מנגנון — כולל משפטים עם ערכים משתנים,
+       חלונות alert/confirm, טקסט על קנבס וחלונות הדפסה. מי שבוחר שפה
+       אחרת לא אמור לראות עברית. התרגום הוא טיוטה לעריכת שפת־אם.
 
    אין ספרייה ואין שלב בנייה: הכול בקובץ אחד כדי שהאפליקציה
    תמשיך לעבוד גם כקובץ יחיד מ-file:// ובלי רשת.
@@ -7098,7 +7105,7 @@ en:{
   "set.clsHint":"Renaming only changes the name. Students, measurements and lessons of the class stay with it — they are identified by a fixed id, not by the name.",
   "set.clsPick":"Class", "set.clsCurLbl":"Current name", "set.clsNewLbl":"New name",
   "set.clsNewPh":"e.g. 9th grade, section 3 — Honors", "set.clsSaveBtn":"Save",
-  "set.lang":"Language", "set.langHint":"The interface changes language immediately. In the professional screens, headings, names of tests, games and exercises, and buttons are translated too; detailed descriptions (game rules, lesson steps) are still in Hebrew.",
+  "set.lang":"Language", "set.langHint":"The interface changes language immediately. All content — screens, tests, games, lesson plans, the knowledge base and messages — is translated. The translation is a professional draft awaiting native-speaker review.",
   "set.about":"📘 About, version and credits",
   "set.purge":"🧹 Clear old data",
   "set.install":"📲 Install as an app: in Chrome — menu ⋮ then \"Add to Home screen\". On iPhone — Share then \"Add to Home Screen\". Saved as a file, the app works without internet too (only the fonts load from the network).",
@@ -7133,7 +7140,7 @@ en:{
 
   /* --- כללי --- */
   "thm.dark":"Night", "thm.turf":"Turf", "thm.slate":"Slate", "thm.day":"Day", "thm.sun":"Bright sun",
-  "i18n.partial":"Interface and headings translated. Detailed descriptions are still in Hebrew.",
+  "i18n.partial":"Fully translated (draft awaiting native-speaker review).",
   "ui.close":"Close", "ui.cancel":"Cancel", "ui.save":"Save", "ui.delete":"Delete",
   "ui.edit":"Edit", "ui.add":"Add", "ui.export":"Export", "ui.import":"Import",
   "ui.search":"Search", "ui.sort":"Sort", "ui.class":"Class", "ui.grade":"Year",
@@ -7357,7 +7364,7 @@ ar:{
   "set.clsHint":"تغيير الاسم يغيّر الاسم فقط. الطلاب والقياسات والحصص الخاصة بالصف يبقون معه — يُعرَّفون بمعرّف ثابت، لا بالاسم.",
   "set.clsPick":"الصف", "set.clsCurLbl":"الاسم الحالي", "set.clsNewLbl":"اسم جديد",
   "set.clsNewPh":"مثال: تاسع 3 — متفوقين", "set.clsSaveBtn":"حفظ",
-  "set.lang":"اللغة", "set.langHint":"تتغيّر لغة الواجهة فورًا. في الشاشات المهنية تُترجم أيضًا العناوين وأسماء الاختبارات والألعاب والتمارين والأزرار؛ أما الأوصاف التفصيلية (قواعد الألعاب، خطوات الدرس) فما زالت بالعبرية.",
+  "set.lang":"اللغة", "set.langHint":"تتغيّر لغة الواجهة فورًا. كل المحتوى مترجم — الشاشات والاختبارات والألعاب وخطط الدروس وقاعدة المعرفة والرسائل. الترجمة مسودة مهنية بانتظار مراجعة متحدث أصلي.",
   "set.about":"📘 حول، الإصدار والاعتمادات",
   "set.purge":"🧹 مسح البيانات القديمة",
   "set.install":"📲 التثبيت كتطبيق: في كروم — القائمة ⋮ ثم \"إضافة إلى الشاشة الرئيسية\". في آيفون — مشاركة ثم \"إضافة إلى الشاشة الرئيسية\". التطبيق يعمل بدون إنترنت أيضًا (الخطوط فقط تُحمّل من الشبكة).",
@@ -7390,7 +7397,7 @@ ar:{
   "bk.bad":"هذا الملف ليس نسخة احتياطية لـ PE Ultimate",
 
   "thm.dark":"ليل", "thm.turf":"عشب", "thm.slate":"رمادي", "thm.day":"نهار", "thm.sun":"شمس ساطعة",
-  "i18n.partial":"الواجهة والعناوين مترجمة. الأوصاف التفصيلية ما زالت بالعبرية.",
+  "i18n.partial":"مترجم بالكامل (مسودة بانتظار مراجعة متحدث أصلي).",
   "ui.close":"إغلاق", "ui.cancel":"إلغاء", "ui.save":"حفظ", "ui.delete":"حذف",
   "ui.edit":"تحرير", "ui.add":"إضافة", "ui.export":"تصدير", "ui.import":"استيراد",
   "ui.search":"بحث", "ui.sort":"ترتيب", "ui.class":"الصف", "ui.grade":"المرحلة",
@@ -7682,7 +7689,7 @@ ru:{
   "set.clsHint":"Переименование меняет только название. Ученики, измерения и уроки класса остаются с ним — они определяются по постоянному id, а не по названию.",
   "set.clsPick":"Класс", "set.clsCurLbl":"Текущее название", "set.clsNewLbl":"Новое название",
   "set.clsNewPh":"например: 9 класс, группа 3 — с углублённым изучением", "set.clsSaveBtn":"Сохранить",
-  "set.lang":"Язык", "set.langHint":"Язык интерфейса меняется сразу. В профессиональных экранах переведены также заголовки, названия тестов, игр и упражнений и кнопки; подробные описания (правила игр, шаги урока) пока на иврите.",
+  "set.lang":"Язык", "set.langHint":"Язык интерфейса меняется сразу. Переведено всё содержимое — экраны, тесты, игры, планы уроков, база знаний и сообщения. Перевод — профессиональный черновик, ожидающий проверки носителем языка.",
   "set.about":"📘 О программе, версия и благодарности",
   "set.purge":"🧹 Очистить старые данные",
   "set.install":"📲 Установка как приложение: в Chrome — меню ⋮ и «Добавить на главный экран». На iPhone — «Поделиться» и «На экран «Домой»». Сохранённое как файл, приложение работает и без интернета (из сети грузятся только шрифты).",
@@ -7715,7 +7722,7 @@ ru:{
   "bk.bad":"Этот файл не является резервной копией PE Ultimate",
 
   "thm.dark":"Ночь", "thm.turf":"Газон", "thm.slate":"Сланец", "thm.day":"День", "thm.sun":"Яркое солнце",
-  "i18n.partial":"Интерфейс и заголовки переведены. Подробные описания пока на иврите.",
+  "i18n.partial":"Переведено полностью (черновик, ожидает проверки носителем языка).",
   "ui.close":"Закрыть", "ui.cancel":"Отмена", "ui.save":"Сохранить", "ui.delete":"Удалить",
   "ui.edit":"Изменить", "ui.add":"Добавить", "ui.export":"Экспорт", "ui.import":"Импорт",
   "ui.search":"Поиск", "ui.sort":"Сортировка", "ui.class":"Класс", "ui.grade":"Параллель",
@@ -8106,7 +8113,7 @@ es:{
   "set.clsNewPh":"p. ej. 3.º ESO B — Deportivo",
   "set.clsSaveBtn":"Guardar",
   "set.lang":"Idioma",
-  "set.langHint":"La interfaz cambia de idioma al instante. En las pantallas profesionales también se traducen los títulos, los nombres de pruebas, juegos y ejercicios, y los botones; las descripciones detalladas (reglas de juegos, pasos de la sesión) siguen en hebreo.",
+  "set.langHint":"La interfaz cambia de idioma al instante. Todo el contenido está traducido: pantallas, pruebas, juegos, planes de sesión, base de conocimiento y mensajes. La traducción es un borrador profesional pendiente de revisión por hablantes nativos.",
   "set.about":"📘 Acerca de, versión y créditos",
   "set.purge":"🧹 Borrar datos antiguos",
   "set.install":"📲 Instalar como aplicación: en Chrome — menú ⋮ y luego «Añadir a pantalla de inicio». En iPhone — Compartir y luego «Añadir a pantalla de inicio». Guardada como archivo, la aplicación funciona también sin internet (solo las fuentes se cargan de la red).",
@@ -8145,7 +8152,7 @@ es:{
   "thm.slate":"Pizarra",
   "thm.day":"Día",
   "thm.sun":"Sol intenso",
-  "i18n.partial":"Interfaz y títulos traducidos. Las descripciones detalladas siguen en hebreo.",
+  "i18n.partial":"Traducción completa (borrador pendiente de revisión nativa).",
   "ui.close":"Cerrar",
   "ui.cancel":"Cancelar",
   "ui.save":"Guardar",
@@ -8405,6 +8412,40 @@ function termCore(core,col){
     if(!tail)return null;
     return g+" · "+tail+(grp?" ("+["in groups","في مجموعات","в группах","en grupos"][col]+")":"");
   }
+  return tplMatch(core,col);
+}
+/* תבניות: משפט שנבנה בקוד מחלקים קבועים וערכים משתנים («{0} זמנים ייכנסו
+   למבחן «{1} מטר»»). המילון מחזיק את המשפט עם {0},{1}; כאן הוא הופך
+   לביטוי רגולרי, והערכים שנתפסו מתורגמים בעצמם אם הם מונחים (שם מבחן,
+   שם משחק) — אחרת נשארים כמות שהם (מספר, שם תלמיד). */
+let TPL=null;
+function tplIndex(){
+  TPL=[];
+  const T=window.I18N_TERMS||{};
+  Object.keys(T).forEach(k=>{
+    if(k.indexOf("{0}")<0)return;
+    const parts=k.split(/\{\d+\}/);
+    const lit=parts.reduce((a,b)=>b.length>a.length?b:a,"").trim();
+    if(!HEB.test(lit))return;
+    const re=new RegExp("^"+parts.map(p=>p.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("([\\s\\S]+?)")+"$");
+    TPL.push({k,lit,re});
+  });
+  /* הארוך קודם — תבנית ספציפית גוברת על כללית */
+  TPL.sort((a,b)=>b.k.length-a.k.length);
+}
+function tplMatch(core,col){
+  if(!TPL)tplIndex();
+  const T=window.I18N_TERMS;
+  for(const t of TPL){
+    if(core.indexOf(t.lit)<0)continue;
+    const m=t.re.exec(core); if(!m)continue;
+    const row=T[t.k]; if(!row||!row[col])continue;
+    return row[col].replace(/\{(\d+)\}/g,(_,i)=>{
+      const v=m[+i+1]; if(v==null)return "";
+      const lead=v.match(/^\s*/)[0], trail=v.match(/\s*$/)[0], c=v.trim();
+      return lead+(HEB.test(c)?(termCore(c,col)||c):c)+trail;
+    });
+  }
   return null;
 }
 function term(src){
@@ -8412,8 +8453,17 @@ function term(src){
   if(col==null||!window.I18N_TERMS||!HEB.test(src))return null;
   const [pre,core,post]=splitTerm(src);
   const out=termCore(core,col);
-  return out?pre+out+post:null;
+  if(out)return pre+out+post;
+  /* טקסט רב־שורתי (הודעות, מסמכי מערך) — שורה אחרי שורה */
+  if(/\n/.test(src)){
+    let hit=false;
+    const lines=src.split("\n").map(l=>{ const t=HEB.test(l)?term(l):null; if(t){hit=true;return t;} return l; });
+    return hit?lines.join("\n"):null;
+  }
+  return null;
 }
+/* תרגום של מחרוזת שלמה לשימוש בקוד (הודעות, קול, קנבס) — תמיד מחזיר טקסט */
+function tr(s){ return (s==null||cur==="he")?s:(term(String(s))||s); }
 function skipped(n){
   for(let e=n.parentElement;e;e=e.parentElement){
     if(SKIP[e.tagName]||e.isContentEditable||e.hasAttribute("data-no-t"))return true;
@@ -8442,7 +8492,7 @@ function applyTerms(root){
   const scope=root||document.body; if(!scope)return;
   if(scope.nodeType===3){ termText(scope); return; }
   if(scope.nodeType!==1)return;
-  const w=document.createTreeWalker(scope,NodeFilter.SHOW_TEXT);
+  const w=(scope.ownerDocument||document).createTreeWalker(scope,NodeFilter.SHOW_TEXT);
   for(let n=w.nextNode();n;n=w.nextNode())termText(n);
   termAttrs(scope);
   scope.querySelectorAll("[placeholder],[title],[aria-label]").forEach(termAttrs);
@@ -8472,9 +8522,40 @@ function set(code){
   return true;
 }
 
-function init(){ applyDir(); applyDom(); applyTerms(); watchTerms(); }
+/* מה שלא עובר דרך ה-DOM של הדף: חלונות alert/confirm/prompt, טקסט שמצויר
+   על קנבס (תמונת סיום, תעודות), וחלונות הדפסה שנפתחים ונכתבים ב-JS.
+   בעברית כל אלה עוברים ישירות, בלי שום שינוי. */
+function hookOutside(){
+  if(hookOutside.done)return; hookOutside.done=true;
+  ["alert","confirm"].forEach(fn=>{
+    const orig=window[fn]; if(typeof orig!=="function")return;
+    window[fn]=function(msg){ return orig.call(window,tr(msg)); };
+  });
+  const op=window.prompt;
+  if(typeof op==="function")window.prompt=function(msg,def){ return op.call(window,tr(msg),def); };
+  const C=window.CanvasRenderingContext2D&&window.CanvasRenderingContext2D.prototype;
+  if(C)["fillText","strokeText","measureText"].forEach(fn=>{
+    const orig=C[fn]; if(typeof orig!=="function")return;
+    C[fn]=function(text,...rest){ return orig.call(this,typeof text==="string"?tr(text):text,...rest); };
+  });
+  const wo=window.open;
+  if(typeof wo==="function")window.open=function(url,...rest){
+    const w=wo.call(window,url,...rest);
+    if(w&&!url&&cur!=="he")try{
+      const d=w.document, dw=d.write, dc=d.close;
+      const fix=()=>{ try{ applyTerms(d.body||d.documentElement);
+        d.documentElement.setAttribute("dir",info(cur).dir); d.documentElement.setAttribute("lang",cur);
+        if(d.title)d.title=tr(d.title); }catch(e){} };
+      d.write=function(...a){ const r=dw.apply(d,a); fix(); return r; };
+      d.close=function(){ const r=dc.call(d); fix(); return r; };
+    }catch(e){}
+    return w;
+  };
+}
 
-return {t,set,init,applyDom,applyDir,applyTerms,term,langs:()=>LANGS.slice(),
+function init(){ applyDir(); applyDom(); applyTerms(); watchTerms(); hookOutside(); }
+
+return {t,set,init,applyDom,applyDir,applyTerms,term,tr,langs:()=>LANGS.slice(),
         lang:()=>cur, dir:()=>info(cur).dir, info:()=>info(cur),
         /* כמה מפתחות תורגמו לכל שפה — לשקיפות במסך ההגדרות */
         coverage:()=>{ const base=Object.keys(DICT.en).length;
@@ -8587,10 +8668,13 @@ function beep(freq=880,dur=0.12,vol=0.5,type="square"){
 }
 function horn(){ if(!SET.sound)return; beep(520,0.45,0.6,"sawtooth"); setTimeout(()=>beep(392,0.5,0.6,"sawtooth"),60); }
 function tripleBeep(){ beep(660,0.1); setTimeout(()=>beep(660,0.1),150); setTimeout(()=>beep(990,0.22),300); }
-/* lang — קוד שפה לקול (voiceLoc()). בלי פרמטר נשאר he-IL: הכריזות בביפ
-   ובטיימרים נכתבו עברית, ולקרוא אותן בקול זר היה משבש אותן. */
+/* lang — קוד שפה לקול (voiceLoc()). הכריזות בביפ ובטיימרים נכתבו עברית;
+   בשפה אחרת הן עוברות קודם דרך המילון ונקראות בקול של אותה שפה. כריזה
+   שלא נמצא לה תרגום נשארת עברית בקול עברי — ולא עברית בקול זר. */
 function say(txt,lang){
   if(!SET.voice||!("speechSynthesis"in window))return;
+  if(!lang&&window.I18N&&window.I18N.lang()!=="he"){
+    const tt=window.I18N.tr(txt); if(tt!==txt){ txt=tt; lang=voiceLoc(); } }
   try{ const u=new SpeechSynthesisUtterance(txt); u.lang=lang||"he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
 }
 
