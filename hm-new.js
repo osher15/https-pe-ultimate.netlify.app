@@ -773,27 +773,41 @@ window.NUT=(function(){
     {c:"myth",t:"שוברים מיתוס",tx:"דיאטות קיצוניות בגיל ההתבגרות פוגעות בגדילה ובביצועים. תלמיד שמדבר על צום/דיאטה חריפה — שווה שיחה שקטה והפניה ליועצת."}
   ];
   const CATS=[["all","הכל"],["before","לפני פעילות"],["after","אחרי פעילות"],["water","שתייה"],["food","צלחת ספורטאי"],["myth","שוברים מיתוס"]];
-  function daily(){ const d=new Date(); return TIPS[(d.getFullYear()*372+d.getMonth()*31+d.getDate())%TIPS.length]; }
+  /* העברית כאן היא ברירת המחדל; בשפות אחרות הטיפ נשלף מהמילון לפי
+     המיקום שלו ברשימה (nut.tip.N) והתווית לפי הקטגוריה (nut.c.X). */
+  const loc=i=>{ const t=TIPS[i], tr=H().t;
+    return {c:t.c,t:tr("nut.c."+t.c,t.t),tx:tr("nut.tip."+i,t.tx)}; };
+  const dayIdx=()=>{ const d=new Date(); return (d.getFullYear()*372+d.getMonth()*31+d.getDate())%TIPS.length; };
+  function daily(){ return loc(dayIdx()); }
+  let shown=null;   /* הטיפ שמוצג כרגע למעלה — כדי שהחלפת שפה תתרגם אותו ולא תגריל אחר */
+  function paintDaily(){
+    const {$, esc}=H(); const d=loc(shown);
+    $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(d.t)+" · </b>"+esc(d.tx);
+  }
+  function paintCats(){
+    const {$, $$, t}=H();
+    $("#nut-cats").innerHTML=CATS.map(([id,nm])=>`<button data-nc="${id}" class="${id===cat?"on":""}">${t("nut.c."+id,nm)}</button>`).join("");
+    $$("#nut-cats [data-nc]").forEach(b=>b.addEventListener("click",()=>{
+      cat=b.dataset.nc; $$("#nut-cats [data-nc]").forEach(x=>x.classList.toggle("on",x===b)); render();
+    }));
+  }
   function render(){
-    const {$, $$, esc}=H();
-    $("#nut-list").innerHTML=TIPS.filter(t=>cat==="all"||t.c===cat).map(t=>
+    const {$, esc}=H();
+    $("#nut-list").innerHTML=TIPS.map((_,i)=>loc(i)).filter(t=>cat==="all"||t.c===cat).map(t=>
       `<div class="nut-tip"><span class="catpill" style="background:var(--acc);color:#14152a">${esc(t.t)}</span><div>${esc(t.tx)}</div></div>`).join("");
   }
   function init(){
     if(inited)return; inited=true;
-    const {$, $$, esc, say}=H();
-    const d=daily();
-    $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(d.t)+" · </b>"+esc(d.tx);
+    const {$, say, voiceLoc}=H();
+    shown=dayIdx(); paintDaily();
     $("#nut-shuffle").addEventListener("click",()=>{
-      const t=TIPS[Math.floor(Math.random()*TIPS.length)];
-      $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(t.t)+" · </b>"+esc(t.tx);
+      shown=Math.floor(Math.random()*TIPS.length); paintDaily();
     });
-    $("#nut-say").addEventListener("click",()=>{ say($("#nut-dailyTxt").textContent); });
-    $("#nut-cats").innerHTML=CATS.map(([id,nm])=>`<button data-nc="${id}" class="${id===cat?"on":""}">${nm}</button>`).join("");
-    $$("#nut-cats [data-nc]").forEach(b=>b.addEventListener("click",()=>{
-      cat=b.dataset.nc; $$("#nut-cats [data-nc]").forEach(x=>x.classList.toggle("on",x===b)); render();
-    }));
+    /* ההקראה בשפת הממשק — טיפ בערבית שמוקרא בקול עברי לא נגיש לאף אחד */
+    $("#nut-say").addEventListener("click",()=>{ say($("#nut-dailyTxt").textContent,voiceLoc()); });
+    paintCats();
     render();
+    document.addEventListener("i18n:change",()=>{ paintDaily(); paintCats(); render(); });
   }
   return {init,daily};
 })();
@@ -1007,8 +1021,10 @@ window.HMBootNew=function(){
   });
   chRender();
   /* nutrition line on home */
-  const d=window.NUT.daily();
-  $("#hx-nutTip").innerHTML="🥗 <b style='color:var(--acc)'>"+esc(d.t)+":</b> "+esc(d.tx);
+  const nutLine=()=>{ const d=window.NUT.daily();
+    $("#hx-nutTip").innerHTML="🥗 <b style='color:var(--acc)'>"+esc(d.t)+":</b> "+esc(d.tx); };
+  nutLine();
+  document.addEventListener("i18n:change",nutLine);
   /* date on hero */
   $("#hx-date").textContent=new Date().toLocaleDateString(H_LOC(),{weekday:"long",day:"numeric",month:"long"});
   /* save-beep-to-tracking button */

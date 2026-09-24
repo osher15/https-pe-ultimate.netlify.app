@@ -101,9 +101,11 @@ function beep(freq=880,dur=0.12,vol=0.5,type="square"){
 }
 function horn(){ if(!SET.sound)return; beep(520,0.45,0.6,"sawtooth"); setTimeout(()=>beep(392,0.5,0.6,"sawtooth"),60); }
 function tripleBeep(){ beep(660,0.1); setTimeout(()=>beep(660,0.1),150); setTimeout(()=>beep(990,0.22),300); }
-function say(txt){
+/* lang — קוד שפה לקול (voiceLoc()). בלי פרמטר נשאר he-IL: הכריזות בביפ
+   ובטיימרים נכתבו עברית, ולקרוא אותן בקול זר היה משבש אותן. */
+function say(txt,lang){
   if(!SET.voice||!("speechSynthesis"in window))return;
-  try{ const u=new SpeechSynthesisUtterance(txt); u.lang="he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
+  try{ const u=new SpeechSynthesisUtterance(txt); u.lang=lang||"he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
 }
 
 /* ---------- wake lock ---------- */
@@ -270,8 +272,13 @@ function hasAnyData(){
   return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
 }
 const ONBOARD_TIP="חדשים כאן? לחצו 🎬 «מצב הדגמה» במסך הכניסה — כיתה לדוגמה עם תוצאות אמיתיות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים.";
+let tipIdx=-1;   /* ‎-1‎ = טיפ ההתחלה. נשמר כדי שהחלפת שפה תתרגם את אותו טיפ */
+function paintFieldTip(){
+  $("#fieldTip").textContent=tipIdx<0?t("home.onboard",ONBOARD_TIP):t("home.tip."+tipIdx,TIPS[tipIdx]);
+}
 function homeInit(){
-  $("#fieldTip").textContent=hasAnyData()?TIPS[Math.floor(Math.random()*TIPS.length)]:ONBOARD_TIP;
+  tipIdx=hasAnyData()?Math.floor(Math.random()*TIPS.length):-1;
+  paintFieldTip();
 }
 function homeStats(){
   $("#qsRuns").textContent=LS.get("pf.totalRaces",0);
@@ -313,7 +320,12 @@ function t(key,def){ return window.I18N?window.I18N.t(key,def):(def!=null?def:ke
    ולכן דף הבית בערבית הציג כותרת ערבית מעל תאריך עברי. */
 function loc(){
   const l=window.I18N?window.I18N.lang():"he";
-  return {he:"he-IL",en:"en-GB",ar:"ar",ru:"ru-RU"}[l]||"he-IL";
+  return {he:"he-IL",en:"en-GB",ar:"ar",ru:"ru-RU",es:"es-ES"}[l]||"he-IL";
+}
+/* לקול צריך אזור מלא — "ar" לבד לא בוחר קול בחלק מהמכשירים. */
+function voiceLoc(){
+  const l=window.I18N?window.I18N.lang():"he";
+  return {he:"he-IL",en:"en-GB",ar:"ar-SA",ru:"ru-RU",es:"es-ES"}[l]||"he-IL";
 }
 
 function wireLang(){
@@ -3619,11 +3631,13 @@ const PF=(function(){
     let pfgI=0;
     function pfgPaint(){
       const [em,h,p]=PFG[pfgI];
-      $("#pfg-body").innerHTML='<div class="step"><div class="art">'+em+'</div><h4>'+h+'</h4><p>'+p+'</p></div>';
+      $("#pfg-body").innerHTML='<div class="step"><div class="art">'+em+'</div><h4>'+t("pfg."+pfgI+".h",h)+'</h4><p>'+t("pfg."+pfgI+".p",p)+'</p></div>';
       $("#pfg-dots").innerHTML=PFG.map((_,i)=>'<i class="'+(i===pfgI?"on":"")+'"></i>').join("");
       $("#pfg-prev").disabled=pfgI===0;
-      $("#pfg-next").textContent=pfgI===PFG.length-1?"יאללה, בוא נמדוד":"הבא ←";
+      $("#pfg-next").textContent=pfgI===PFG.length-1?t("pfg.go","יאללה, בוא נמדוד"):t("pfg.next","הבא ←");
     }
+    /* ההדרכה פתוחה בזמן החלפת שפה — מציירים את אותו שלב בשפה החדשה */
+    document.addEventListener("i18n:change",()=>{ if($("#pfGuideModal").classList.contains("on"))pfgPaint(); });
     function pfgClose(){
       if($("#pfg-skip").checked)LS.set("pf.guideSeen",true);
       modal("pfGuideModal",false);
@@ -4872,7 +4886,7 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
@@ -4923,6 +4937,7 @@ window.HMBoot=function(){
      מ-applyDom, ולכן החלפת שפה מציירת אותם מחדש. */
   document.addEventListener("i18n:change",()=>{
     try{ homeStats(); }catch(e){}
+    try{ if($("#fieldTip"))paintFieldTip(); }catch(e){}
     try{ if(window.HMBootNew&&$("#hx-date"))
       $("#hx-date").textContent=new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"}); }catch(e){}
     const mod=document.body.dataset.mod;

@@ -11,14 +11,14 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="602360af">
+<meta name="hm-build" content="e3e6f810">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hm-styles.css?v=09d036eb">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-data.js?v=be8da8d9"></script>
-<script src="hm-i18n.js?v=a5bcc8f5"></script>
-<script src="hm-app.js?v=4027e101"></script>
+<script src="hm-i18n.js?v=04b2fb38"></script>
+<script src="hm-app.js?v=3d9a8740"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
 <script src="hm-know.js?v=bc3e6c15"></script>
@@ -29,7 +29,7 @@
 <script src="hm-lesson.js?v=fc5b69b2"></script>
 <script src="hm-build.js?v=4a132915"></script>
 <script src="hm-tests.js?v=c430e3e8"></script>
-<script src="hm-new.js?v=e1c37e9c"></script>
+<script src="hm-new.js?v=c7329da6"></script>
 </helmet>
 <div class="app" dir="rtl">
 <!-- ============================================================
@@ -1387,15 +1387,15 @@
 
 <section class="view" id="view-nut">
   <div class="card nut-daily">
-    <h2><span class="dot"></span> הטיפ של היום</h2>
+    <h2><span class="dot"></span> <span data-i18n="nut.daily">הטיפ של היום</span></h2>
     <div class="hint" id="nut-dailyTxt" style="font-size:14px;color:var(--ink)"></div>
     <div class="row" style="margin-top:12px">
-      <button class="btn sm acc" id="nut-say">🔊 הקרא לכיתה</button>
-      <button class="btn sm ghost" id="nut-shuffle">🔀 טיפ אחר</button>
+      <button class="btn sm acc" id="nut-say" data-i18n="nut.say">🔊 הקרא לכיתה</button>
+      <button class="btn sm ghost" id="nut-shuffle" data-i18n="nut.shuffle">🔀 טיפ אחר</button>
     </div>
   </div>
   <div class="card">
-    <h2><span class="dot"></span> כל הטיפים</h2>
+    <h2><span class="dot"></span> <span data-i18n="nut.all">כל הטיפים</span></h2>
     <div id="nut-cats"></div>
     <div class="nut-list" id="nut-list"></div>
   </div>
@@ -1437,25 +1437,25 @@
      שהתשובה תהיה לשאלה שנשאלה ולא לתפריט שלם.
      ============================================================ -->
 <div class="modal" id="infoModal"><div class="box" style="max-width:600px">
-  <h3><span>ℹ️ מדריך מהיר</span><button class="x" data-close="infoModal">✕</button></h3>
-  <div class="info-top">
+  <h3><span data-i18n="info.title">ℹ️ מדריך מהיר</span><button class="x" data-close="infoModal">✕</button></h3>
+  <div class="info-top" data-i18n="info.top">
     ערכת שטח אחת: מבחני כושר, ביפ טסט, פוטו־פיניש, מערכי שיעור, שיאים, נוכחות וציונים.
     עובדת גם בלי קליטה, וכל הנתונים שמורים <b>במכשיר הזה בלבד</b> — לכן כדאי לגבות לקובץ מדי פעם
     (⚙ הגדרות ← «גבה הכל לקובץ»).
   </div>
 
-  <details class="info-sec" data-info="home"><summary>🚀 מאיפה מתחילים</summary>
-    <p class="info-w">שלושה צעדים, פעם אחת, ואפשר לעבוד.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="home"><summary data-i18n="info.home.s">🚀 מאיפה מתחילים</summary>
+    <p class="info-w" data-i18n="info.home.w">שלושה צעדים, פעם אחת, ואפשר לעבוד.</p>
+    <ul class="info-l" data-i18n="info.home.l">
       <li><b>קוד מורה</b> נקבע בכניסה הראשונה, ושומר על אזור המורה כשהטלפון עובר בין ידיים.</li>
       <li><b>🎬 מצב הדגמה</b> במסך הכניסה — כיתה לדוגמה עם תוצאות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים. אפשר לנקות בלחיצה.</li>
       <li><b>כיתה אחת אמיתית</b> — «מבחני כושר» ← בוחרים שכבה ומספר ← «👥 רשימה». מרגע זה אותה רשימה זמינה בכל שאר המסכים.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="ft"><summary>🏅 מבחני כושר</summary>
-    <p class="info-w">הלב של האפליקציה: 31 מבחנים עם שעון ומונה. בוחרים כיתה ומבחן, ומזינים תוצאה לכל תלמיד.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="ft"><summary data-i18n="info.ft.s">🏅 מבחני כושר</summary>
+    <p class="info-w" data-i18n="info.ft.w">הלב של האפליקציה: 31 מבחנים עם שעון ומונה. בוחרים כיתה ומבחן, ומזינים תוצאה לכל תלמיד.</p>
+    <ul class="info-l" data-i18n="info.ft.l">
       <li><b>🏅 מבחנים</b> המסך שבו מודדים בפועל. כל תוצאה נשמרת לתלמיד ולא נמחקת.</li>
       <li><b>📊 מדד הכושר</b> ציון כושר כולל לכל תלמיד מול הנורמות.</li>
       <li><b>🏅 אות החינוך הגופני</b> מי עומד בדרישות ומה חסר לו.</li>
@@ -1464,9 +1464,9 @@
     </ul>
   </details>
 
-  <details class="info-sec" data-info="lesson"><summary>📋 מערכי שיעור</summary>
-    <p class="info-w">מערך מלא — חימום, תחנות, משחק וסיום — בלחיצה אחת או בבנייה ידנית.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="lesson"><summary data-i18n="info.lesson.s">📋 מערכי שיעור</summary>
+    <p class="info-w" data-i18n="info.lesson.w">מערך מלא — חימום, תחנות, משחק וסיום — בלחיצה אחת או בבנייה ידנית.</p>
+    <ul class="info-l" data-i18n="info.lesson.l">
       <li><b>⚡ מהיר</b> בוחרים נושא, שכבה, אורך ומקום — והמערך נבנה לבד, מקושר לסטנדרטים.</li>
       <li><b>🧩 בונה ידני</b> מרכיבים את השיעור בעצמכם משלבים מוכנים.</li>
       <li><b>▶ התחל שיעור</b> פותח «שיעור פעיל», וכל מדידה מכאן נרשמת אליו. אם הכפתור מבקש כיתה — «🏷 בחר כיתה» לידו.</li>
@@ -1474,9 +1474,9 @@
     </ul>
   </details>
 
-  <details class="info-sec" data-info="fit"><summary>⏱ כושר</summary>
-    <p class="info-w">הכלים שמפעילים את השיעור עצמו, בלי להכין כלום מראש.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="fit"><summary data-i18n="info.fit.s">⏱ כושר</summary>
+    <p class="info-w" data-i18n="info.fit.w">הכלים שמפעילים את השיעור עצמו, בלי להכין כלום מראש.</p>
+    <ul class="info-l" data-i18n="info.fit.l">
       <li><b>⏱ טיימר אינטרוולים</b> עבודה/מנוחה עם כריזה קולית.</li>
       <li><b>🔁 תחנות לכיתה</b> סבב תחנות מוכן להקרנה.</li>
       <li><b>📖 ספריית תרגילים · 🎲 קוביית הכושר</b> תרגיל לפי צורך, או הגרלה כשצריך לגוון.</li>
@@ -1484,51 +1484,51 @@
     </ul>
   </details>
 
-  <details class="info-sec" data-info="games"><summary>🎮 משחקים</summary>
-    <p class="info-w">משחקים לשעות פנאי ולסוף שיעור — עם מטרה, וריאציות ודגשי בטיחות.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="games"><summary data-i18n="info.games.s">🎮 משחקים</summary>
+    <p class="info-w" data-i18n="info.games.w">משחקים לשעות פנאי ולסוף שיעור — עם מטרה, וריאציות ודגשי בטיחות.</p>
+    <ul class="info-l" data-i18n="info.games.l">
       <li>מחפשים לפי שם, ציוד או מטרה.</li>
       <li>אפשר לקחת כל משחק ישירות לתוך מערך שיעור.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="beep"><summary>🎵 ביפ טסט</summary>
-    <p class="info-w">מריץ את מבחן הביפ בדיוק שעון אודיו, מחשב VO₂max ומשווה לנורמות FITNESSGRAM.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="beep"><summary data-i18n="info.beep.s">🎵 ביפ טסט</summary>
+    <p class="info-w" data-i18n="info.beep.w">מריץ את מבחן הביפ בדיוק שעון אודיו, מחשב VO₂max ומשווה לנורמות FITNESSGRAM.</p>
+    <ul class="info-l" data-i18n="info.beep.l">
       <li><b>טעינת כיתה</b> שולפת את הרשימה שכבר הזנתם — בלי להקליד שמות מחדש.</li>
       <li><b>רישום נשירה</b> לוחצים על התלמיד ברגע שעצר, והשלב נרשם לו.</li>
       <li><b>שליחה למבחני כושר</b> התוצאה נכנסת לכרטיס התלמיד ולמדד הכושר.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="photo"><summary>📷 פוטו־פיניש</summary>
-    <p class="info-w">מודד זמני ריצה מהמצלמה של הטלפון, ומראה בתמונה מי עבר ראשון.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="photo"><summary data-i18n="info.photo.s">📷 פוטו־פיניש</summary>
+    <p class="info-w" data-i18n="info.photo.w">מודד זמני ריצה מהמצלמה של הטלפון, ומראה בתמונה מי עבר ראשון.</p>
+    <ul class="info-l" data-i18n="info.photo.l">
       <li><b>🎯 מסלול חי</b> מכוונים את המצלמה לקו הסיום ומתחילים מקצה.</li>
       <li><b>🎞 תמונת סיום · 🏁 תוצאות</b> רגע החצייה והזמנים המדויקים לכל מסלול.</li>
       <li><b>🔄 הקפות · 🗄 ארכיון</b> מקצים ארוכים, ומקצים קודמים לחזרה אליהם.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="rec"><summary>🏆 אלופי בית הספר</summary>
-    <p class="info-w">לוח שיאים בית־ספרי מול שיא ישראל והעולם.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="rec"><summary data-i18n="info.rec.s">🏆 אלופי בית הספר</summary>
+    <p class="info-w" data-i18n="info.rec.w">לוח שיאים בית־ספרי מול שיא ישראל והעולם.</p>
+    <ul class="info-l" data-i18n="info.rec.l">
       <li>תלמיד שולח שיא עם סרטון הוכחה — והוא עולה ללוח <b>רק אחרי אישור שלך</b>.</li>
       <li><b>📺 מצב טלוויזיה</b> למסך בכניסה לאולם · <b>🔗 קישור / QR</b> לשיתוף עם התלמידים.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="stu"><summary>👥 תלמידים וציונים</summary>
-    <p class="info-w">רשימת התלמידים, טבלת ציונים לפי תקופות הערכה, והערכת עמיתים.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="stu"><summary data-i18n="info.stu.s">👥 תלמידים וציונים</summary>
+    <p class="info-w" data-i18n="info.stu.w">רשימת התלמידים, טבלת ציונים לפי תקופות הערכה, והערכת עמיתים.</p>
+    <ul class="info-l" data-i18n="info.stu.l">
       <li><b>⬇ מלא לפי נוכחות</b> ממלא את ציון ההשתתפות מנתוני הנוכחות — רק בשדות ריקים, בלי לדרוס ציון שהזנת.</li>
       <li><b>⬇ CSV</b> מוציא את הטבלה לגיליון.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="tools"><summary>🧰 כלי כיתה</summary>
-    <p class="info-w">ארבעה כלים לרגעים שחוזרים בכל שיעור.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="tools"><summary data-i18n="info.tools.s">🧰 כלי כיתה</summary>
+    <p class="info-w" data-i18n="info.tools.w">ארבעה כלים לרגעים שחוזרים בכל שיעור.</p>
+    <ul class="info-l" data-i18n="info.tools.l">
       <li><b>👥 קבוצות</b> חלוקה מאוזנת לפי התוצאה האחרונה — בלי קבוצה שאין לה סיכוי.</li>
       <li><b>🎯 הגרלה</b> בוחר תלמיד אקראי.</li>
       <li><b>✅ נוכחות</b> רישום יומי — וממנו נמלא ציון ההשתתפות.</li>
@@ -1536,21 +1536,21 @@
     </ul>
   </details>
 
-  <details class="info-sec" data-info="know"><summary>📚 ידע</summary>
-    <p class="info-w">גיבוי מקצועי להחלטות — מקורות, תוכניות ומספרים.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="know"><summary data-i18n="info.know.s">📚 ידע</summary>
+    <p class="info-w" data-i18n="info.know.w">גיבוי מקצועי להחלטות — מקורות, תוכניות ומספרים.</p>
+    <ul class="info-l" data-i18n="info.know.l">
       <li><b>📚 מקורות רשמיים</b> כל פריט מקושר למסמך החי.</li>
       <li><b>🏋️ תוכניות מוערכות · 📌 מספרים שכדאי לזכור</b> לרגע שצריך לגבות החלטה מול הורה או מנהל.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="nut"><summary>🥗 פינת תזונה</summary>
-    <p class="info-w">טיפ יומי קצר להקראה לכיתה, ומאגר טיפים לפי נושא.</p>
+  <details class="info-sec" data-info="nut"><summary data-i18n="info.nut.s">🥗 פינת תזונה</summary>
+    <p class="info-w" data-i18n="info.nut.w">טיפ יומי קצר להקראה לכיתה, ומאגר טיפים לפי נושא.</p>
   </details>
 
-  <details class="info-sec" data-info="data"><summary>💾 הנתונים שלך</summary>
-    <p class="info-w">אין שרת ואין חשבון — וזה גם היתרון וגם האחריות.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="data"><summary data-i18n="info.data.s">💾 הנתונים שלך</summary>
+    <p class="info-w" data-i18n="info.data.w">אין שרת ואין חשבון — וזה גם היתרון וגם האחריות.</p>
+    <ul class="info-l" data-i18n="info.data.l">
       <li><b>גיבוי</b> ⚙ הגדרות ← «⬇ גבה הכל לקובץ». «⬆ שחזר מקובץ» מחזיר הכול במכשיר חדש.</li>
       <li><b>הצפנה</b> אפשר להצפין את הגיבוי בסיסמה — אבל אין שחזור סיסמה. אבדה הסיסמה, אבד הקובץ.</li>
       <li><b>שם כיתה שגוי?</b> ⚙ הגדרות ← «🏷 שמות הכיתות». שינוי השם לא מנתק אף תלמיד ואף מדידה.</li>
@@ -1563,23 +1563,23 @@
   <h3><span dir="auto" data-i18n="about.title">📘 אודות PE Ultimate</span><button class="x" data-close="aboutModal">✕</button></h3>
   <div class="ab-hero"><div class="lg">⏱️</div>
     <div><b dir="auto" data-i18n="brand.full">PE Ultimate</b><span id="ab-ver">גרסה —</span></div></div>
-  <p class="ab-p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
+  <p class="ab-p" data-i18n="ab.p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
     לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, בשפה אחת, ובלי להוציא שום דבר החוצה.</p>
-  <div class="ab-sec"><b>🔒 פרטיות</b>
-    <p class="ab-p">נתוני התלמידים — רשימות, ציונים ומדידות — נשמרים ב-localStorage של המכשיר הזה בלבד.
+  <div class="ab-sec"><b data-i18n="ab.privT">🔒 פרטיות</b>
+    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, ציונים ומדידות — נשמרים ב-localStorage של המכשיר הזה בלבד.
       <b>אין שרת, אין חשבון, ואין שליחה לשום מקום.</b> אלה נתונים על קטינים, ולכן זו החלטת תכנון ולא
       מקריות. ייצוא CSV או גיבוי הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש
       גיבוי. הדבר היחיד שיוצא מהמכשיר הוא פרטי הקשר שלך (המורה) שהוזנו במסך הפתיחה הראשון — לא נתון
       על תלמיד — ונשלחים פעם אחת בלבד.</p></div>
-  <div class="ab-sec"><b>📚 מקורות מקצועיים</b>
-    <p class="ab-p">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
+  <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
+    <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
       הגופני — סטנדרטים להערכת הישגי התלמידים», משרד החינוך, המזכירות הפדגוגית · תוכנית הלימודים
       בחינוך גופני. הנורמות הבית־ספריות הן נתון של המורה ונשמרות במכשיר.</p></div>
-  <div class="ab-sec"><b>🛠 נבנה עם</b>
-    <p class="ab-p">JavaScript, HTML ו-CSS בלבד — בלי ספריות חיצוניות ובלי שלב בנייה בדפדפן, כדי
+  <div class="ab-sec"><b data-i18n="ab.builtT">🛠 נבנה עם</b>
+    <p class="ab-p" data-i18n="ab.built">JavaScript, HTML ו-CSS בלבד — בלי ספריות חיצוניות ובלי שלב בנייה בדפדפן, כדי
       שהאפליקציה תיפתח מהר ותעבוד בשטח בלי רשת. פותח בשיתוף עם Claude Code.</p></div>
-  <div class="ab-sec"><b>⚠️ אחריות</b>
-    <p class="ab-p">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
+  <div class="ab-sec"><b data-i18n="ab.warnT">⚠️ אחריות</b>
+    <p class="ab-p" data-i18n="ab.warn">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
       תחליף לציוד מדידה מוסמך לתחרות רשמית. ההחלטה החינוכית והציון הם שלך.</p></div>
   <div class="hint" id="ab-build" style="margin-top:12px;text-align:center;font-family:'Share Tech Mono'"></div>
 </div></div>
@@ -1609,39 +1609,39 @@
 
 <!-- ----- פוטו־פיניש: הדרכת פתיחה ----- -->
 <div class="modal" id="pfGuideModal"><div class="box" style="max-width:520px">
-  <h3><span>📷 פוטו־פיניש — ‎4‎ שלבים</span><button class="x" data-close="pfGuideModal">✕</button></h3>
+  <h3><span data-i18n="pfg.title">📷 פוטו־פיניש — ‎4‎ שלבים</span><button class="x" data-close="pfGuideModal">✕</button></h3>
   <div class="pfg" id="pfg-body"></div>
   <div class="pfg-dots" id="pfg-dots"></div>
   <div class="row" style="margin-top:13px">
-    <button class="btn ghost" id="pfg-prev">→ הקודם</button>
+    <button class="btn ghost" id="pfg-prev" data-i18n="pfg.prev">→ הקודם</button>
     <button class="btn acc grow" id="pfg-next">הבא ←</button>
   </div>
-  <label class="check" style="margin-top:11px"><input type="checkbox" id="pfg-skip"> אל תציג שוב</label>
+  <label class="check" style="margin-top:11px"><input type="checkbox" id="pfg-skip"> <span data-i18n="pfg.skip">אל תציג שוב</span></label>
 </div></div>
 
 <!-- ----- פוטו־פיניש: בדיקת שפיות ----- -->
 <div class="modal" id="pfSanityModal"><div class="box" style="max-width:500px">
-  <h3><span>✅ בדיקת שפיות של דקה</span><button class="x" data-close="pfSanityModal">✕</button></h3>
-  <div class="hint">עושים את זה פעם אחת בכל מקום חדש. זה מה שמפריד בין מדידה למספר שנראה כמו מדידה.</div>
-  <ol class="pf-check">
+  <h3><span data-i18n="pfs.title">✅ בדיקת שפיות של דקה</span><button class="x" data-close="pfSanityModal">✕</button></h3>
+  <div class="hint" data-i18n="pfs.hint">עושים את זה פעם אחת בכל מקום חדש. זה מה שמפריד בין מדידה למספר שנראה כמו מדידה.</div>
+  <ol class="pf-check" data-i18n="pfs.list">
     <li><b>הטלפון יציב.</b> חצובה, גדר או תיק — לא ביד. תזוזה של סנטימטר מזיזה את קו הסיום.</li>
     <li><b>שורת הסטטוס ירוקה:</b> «🟢 מצלמה פעילה · זיהוי חמוש». תקוע על «מכייל רקע…» = משהו זז או שהתאורה משתנה.</li>
     <li><b>תלמיד חוצה בהליכה.</b> הצפצוף חייב להישמע <b>בדיוק</b> כשהוא על הקו. מוקדם מדי — הקו האדום לא יושב על קו הסיום; תקן ב«מיקום קו הסיום».</li>
     <li><b>אחרי המקצה</b> — «🎞 תמונת סיום» מציגה רזולוציית זמן ‎±X‎ מ״ש. זו מדידה אמיתית מהטלפון שלך, לא הבטחה.</li>
     <li><b>לגמר צמוד:</b> לחץ על הרץ עצמו ברצועה. אינטרפולציה בין העמודות מדויקת יותר מהטריגר האוטומטי.</li>
   </ol>
-  <div class="row" style="margin-top:12px"><button class="btn acc grow" data-close="pfSanityModal">הבנתי — יאללה</button></div>
+  <div class="row" style="margin-top:12px"><button class="btn acc grow" data-close="pfSanityModal" data-i18n="pfs.ok">הבנתי — יאללה</button></div>
 </div></div>
 
 <!-- ----- פוטו־פיניש: מספרי חזה ----- -->
 <div class="modal" id="pfNumModal"><div class="box" style="max-width:460px">
-  <h3><span>🔢 מספרי חזה</span><button class="x" data-close="pfNumModal">✕</button></h3>
-  <div class="hint">כשהרצים עם מספרי חזה ולא לפי רשימה — רשום כאן את המספר בכל מסלול.
+  <h3><span data-i18n="pfn.title">🔢 מספרי חזה</span><button class="x" data-close="pfNumModal">✕</button></h3>
+  <div class="hint" data-i18n="pfn.hint">כשהרצים עם מספרי חזה ולא לפי רשימה — רשום כאן את המספר בכל מסלול.
     הוא יופיע בלוח, בייצוא ובתעודה. אפשר להשאיר ריק במסלול שאין בו רץ.</div>
   <div id="pf-numBody" style="margin-top:11px"></div>
   <div class="row" style="margin-top:12px">
-    <button class="btn acc grow" id="pf-numSave">שמור</button>
-    <button class="btn ghost" data-close="pfNumModal">ביטול</button>
+    <button class="btn acc grow" id="pf-numSave" data-i18n="ui.save">שמור</button>
+    <button class="btn ghost" data-close="pfNumModal" data-i18n="ui.cancel">ביטול</button>
   </div>
 </div></div>
 

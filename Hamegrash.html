@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="602360af">
+<meta name="hm-build" content="e3e6f810">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2941,15 +2941,15 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 
 <section class="view" id="view-nut">
   <div class="card nut-daily">
-    <h2><span class="dot"></span> הטיפ של היום</h2>
+    <h2><span class="dot"></span> <span data-i18n="nut.daily">הטיפ של היום</span></h2>
     <div class="hint" id="nut-dailyTxt" style="font-size:14px;color:var(--ink)"></div>
     <div class="row" style="margin-top:12px">
-      <button class="btn sm acc" id="nut-say">🔊 הקרא לכיתה</button>
-      <button class="btn sm ghost" id="nut-shuffle">🔀 טיפ אחר</button>
+      <button class="btn sm acc" id="nut-say" data-i18n="nut.say">🔊 הקרא לכיתה</button>
+      <button class="btn sm ghost" id="nut-shuffle" data-i18n="nut.shuffle">🔀 טיפ אחר</button>
     </div>
   </div>
   <div class="card">
-    <h2><span class="dot"></span> כל הטיפים</h2>
+    <h2><span class="dot"></span> <span data-i18n="nut.all">כל הטיפים</span></h2>
     <div id="nut-cats"></div>
     <div class="nut-list" id="nut-list"></div>
   </div>
@@ -2991,25 +2991,25 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
      שהתשובה תהיה לשאלה שנשאלה ולא לתפריט שלם.
      ============================================================ -->
 <div class="modal" id="infoModal"><div class="box" style="max-width:600px">
-  <h3><span>ℹ️ מדריך מהיר</span><button class="x" data-close="infoModal">✕</button></h3>
-  <div class="info-top">
+  <h3><span data-i18n="info.title">ℹ️ מדריך מהיר</span><button class="x" data-close="infoModal">✕</button></h3>
+  <div class="info-top" data-i18n="info.top">
     ערכת שטח אחת: מבחני כושר, ביפ טסט, פוטו־פיניש, מערכי שיעור, שיאים, נוכחות וציונים.
     עובדת גם בלי קליטה, וכל הנתונים שמורים <b>במכשיר הזה בלבד</b> — לכן כדאי לגבות לקובץ מדי פעם
     (⚙ הגדרות ← «גבה הכל לקובץ»).
   </div>
 
-  <details class="info-sec" data-info="home"><summary>🚀 מאיפה מתחילים</summary>
-    <p class="info-w">שלושה צעדים, פעם אחת, ואפשר לעבוד.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="home"><summary data-i18n="info.home.s">🚀 מאיפה מתחילים</summary>
+    <p class="info-w" data-i18n="info.home.w">שלושה צעדים, פעם אחת, ואפשר לעבוד.</p>
+    <ul class="info-l" data-i18n="info.home.l">
       <li><b>קוד מורה</b> נקבע בכניסה הראשונה, ושומר על אזור המורה כשהטלפון עובר בין ידיים.</li>
       <li><b>🎬 מצב הדגמה</b> במסך הכניסה — כיתה לדוגמה עם תוצאות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים. אפשר לנקות בלחיצה.</li>
       <li><b>כיתה אחת אמיתית</b> — «מבחני כושר» ← בוחרים שכבה ומספר ← «👥 רשימה». מרגע זה אותה רשימה זמינה בכל שאר המסכים.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="ft"><summary>🏅 מבחני כושר</summary>
-    <p class="info-w">הלב של האפליקציה: 31 מבחנים עם שעון ומונה. בוחרים כיתה ומבחן, ומזינים תוצאה לכל תלמיד.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="ft"><summary data-i18n="info.ft.s">🏅 מבחני כושר</summary>
+    <p class="info-w" data-i18n="info.ft.w">הלב של האפליקציה: 31 מבחנים עם שעון ומונה. בוחרים כיתה ומבחן, ומזינים תוצאה לכל תלמיד.</p>
+    <ul class="info-l" data-i18n="info.ft.l">
       <li><b>🏅 מבחנים</b> המסך שבו מודדים בפועל. כל תוצאה נשמרת לתלמיד ולא נמחקת.</li>
       <li><b>📊 מדד הכושר</b> ציון כושר כולל לכל תלמיד מול הנורמות.</li>
       <li><b>🏅 אות החינוך הגופני</b> מי עומד בדרישות ומה חסר לו.</li>
@@ -3018,9 +3018,9 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     </ul>
   </details>
 
-  <details class="info-sec" data-info="lesson"><summary>📋 מערכי שיעור</summary>
-    <p class="info-w">מערך מלא — חימום, תחנות, משחק וסיום — בלחיצה אחת או בבנייה ידנית.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="lesson"><summary data-i18n="info.lesson.s">📋 מערכי שיעור</summary>
+    <p class="info-w" data-i18n="info.lesson.w">מערך מלא — חימום, תחנות, משחק וסיום — בלחיצה אחת או בבנייה ידנית.</p>
+    <ul class="info-l" data-i18n="info.lesson.l">
       <li><b>⚡ מהיר</b> בוחרים נושא, שכבה, אורך ומקום — והמערך נבנה לבד, מקושר לסטנדרטים.</li>
       <li><b>🧩 בונה ידני</b> מרכיבים את השיעור בעצמכם משלבים מוכנים.</li>
       <li><b>▶ התחל שיעור</b> פותח «שיעור פעיל», וכל מדידה מכאן נרשמת אליו. אם הכפתור מבקש כיתה — «🏷 בחר כיתה» לידו.</li>
@@ -3028,9 +3028,9 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     </ul>
   </details>
 
-  <details class="info-sec" data-info="fit"><summary>⏱ כושר</summary>
-    <p class="info-w">הכלים שמפעילים את השיעור עצמו, בלי להכין כלום מראש.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="fit"><summary data-i18n="info.fit.s">⏱ כושר</summary>
+    <p class="info-w" data-i18n="info.fit.w">הכלים שמפעילים את השיעור עצמו, בלי להכין כלום מראש.</p>
+    <ul class="info-l" data-i18n="info.fit.l">
       <li><b>⏱ טיימר אינטרוולים</b> עבודה/מנוחה עם כריזה קולית.</li>
       <li><b>🔁 תחנות לכיתה</b> סבב תחנות מוכן להקרנה.</li>
       <li><b>📖 ספריית תרגילים · 🎲 קוביית הכושר</b> תרגיל לפי צורך, או הגרלה כשצריך לגוון.</li>
@@ -3038,51 +3038,51 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     </ul>
   </details>
 
-  <details class="info-sec" data-info="games"><summary>🎮 משחקים</summary>
-    <p class="info-w">משחקים לשעות פנאי ולסוף שיעור — עם מטרה, וריאציות ודגשי בטיחות.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="games"><summary data-i18n="info.games.s">🎮 משחקים</summary>
+    <p class="info-w" data-i18n="info.games.w">משחקים לשעות פנאי ולסוף שיעור — עם מטרה, וריאציות ודגשי בטיחות.</p>
+    <ul class="info-l" data-i18n="info.games.l">
       <li>מחפשים לפי שם, ציוד או מטרה.</li>
       <li>אפשר לקחת כל משחק ישירות לתוך מערך שיעור.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="beep"><summary>🎵 ביפ טסט</summary>
-    <p class="info-w">מריץ את מבחן הביפ בדיוק שעון אודיו, מחשב VO₂max ומשווה לנורמות FITNESSGRAM.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="beep"><summary data-i18n="info.beep.s">🎵 ביפ טסט</summary>
+    <p class="info-w" data-i18n="info.beep.w">מריץ את מבחן הביפ בדיוק שעון אודיו, מחשב VO₂max ומשווה לנורמות FITNESSGRAM.</p>
+    <ul class="info-l" data-i18n="info.beep.l">
       <li><b>טעינת כיתה</b> שולפת את הרשימה שכבר הזנתם — בלי להקליד שמות מחדש.</li>
       <li><b>רישום נשירה</b> לוחצים על התלמיד ברגע שעצר, והשלב נרשם לו.</li>
       <li><b>שליחה למבחני כושר</b> התוצאה נכנסת לכרטיס התלמיד ולמדד הכושר.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="photo"><summary>📷 פוטו־פיניש</summary>
-    <p class="info-w">מודד זמני ריצה מהמצלמה של הטלפון, ומראה בתמונה מי עבר ראשון.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="photo"><summary data-i18n="info.photo.s">📷 פוטו־פיניש</summary>
+    <p class="info-w" data-i18n="info.photo.w">מודד זמני ריצה מהמצלמה של הטלפון, ומראה בתמונה מי עבר ראשון.</p>
+    <ul class="info-l" data-i18n="info.photo.l">
       <li><b>🎯 מסלול חי</b> מכוונים את המצלמה לקו הסיום ומתחילים מקצה.</li>
       <li><b>🎞 תמונת סיום · 🏁 תוצאות</b> רגע החצייה והזמנים המדויקים לכל מסלול.</li>
       <li><b>🔄 הקפות · 🗄 ארכיון</b> מקצים ארוכים, ומקצים קודמים לחזרה אליהם.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="rec"><summary>🏆 אלופי בית הספר</summary>
-    <p class="info-w">לוח שיאים בית־ספרי מול שיא ישראל והעולם.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="rec"><summary data-i18n="info.rec.s">🏆 אלופי בית הספר</summary>
+    <p class="info-w" data-i18n="info.rec.w">לוח שיאים בית־ספרי מול שיא ישראל והעולם.</p>
+    <ul class="info-l" data-i18n="info.rec.l">
       <li>תלמיד שולח שיא עם סרטון הוכחה — והוא עולה ללוח <b>רק אחרי אישור שלך</b>.</li>
       <li><b>📺 מצב טלוויזיה</b> למסך בכניסה לאולם · <b>🔗 קישור / QR</b> לשיתוף עם התלמידים.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="stu"><summary>👥 תלמידים וציונים</summary>
-    <p class="info-w">רשימת התלמידים, טבלת ציונים לפי תקופות הערכה, והערכת עמיתים.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="stu"><summary data-i18n="info.stu.s">👥 תלמידים וציונים</summary>
+    <p class="info-w" data-i18n="info.stu.w">רשימת התלמידים, טבלת ציונים לפי תקופות הערכה, והערכת עמיתים.</p>
+    <ul class="info-l" data-i18n="info.stu.l">
       <li><b>⬇ מלא לפי נוכחות</b> ממלא את ציון ההשתתפות מנתוני הנוכחות — רק בשדות ריקים, בלי לדרוס ציון שהזנת.</li>
       <li><b>⬇ CSV</b> מוציא את הטבלה לגיליון.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="tools"><summary>🧰 כלי כיתה</summary>
-    <p class="info-w">ארבעה כלים לרגעים שחוזרים בכל שיעור.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="tools"><summary data-i18n="info.tools.s">🧰 כלי כיתה</summary>
+    <p class="info-w" data-i18n="info.tools.w">ארבעה כלים לרגעים שחוזרים בכל שיעור.</p>
+    <ul class="info-l" data-i18n="info.tools.l">
       <li><b>👥 קבוצות</b> חלוקה מאוזנת לפי התוצאה האחרונה — בלי קבוצה שאין לה סיכוי.</li>
       <li><b>🎯 הגרלה</b> בוחר תלמיד אקראי.</li>
       <li><b>✅ נוכחות</b> רישום יומי — וממנו נמלא ציון ההשתתפות.</li>
@@ -3090,21 +3090,21 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     </ul>
   </details>
 
-  <details class="info-sec" data-info="know"><summary>📚 ידע</summary>
-    <p class="info-w">גיבוי מקצועי להחלטות — מקורות, תוכניות ומספרים.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="know"><summary data-i18n="info.know.s">📚 ידע</summary>
+    <p class="info-w" data-i18n="info.know.w">גיבוי מקצועי להחלטות — מקורות, תוכניות ומספרים.</p>
+    <ul class="info-l" data-i18n="info.know.l">
       <li><b>📚 מקורות רשמיים</b> כל פריט מקושר למסמך החי.</li>
       <li><b>🏋️ תוכניות מוערכות · 📌 מספרים שכדאי לזכור</b> לרגע שצריך לגבות החלטה מול הורה או מנהל.</li>
     </ul>
   </details>
 
-  <details class="info-sec" data-info="nut"><summary>🥗 פינת תזונה</summary>
-    <p class="info-w">טיפ יומי קצר להקראה לכיתה, ומאגר טיפים לפי נושא.</p>
+  <details class="info-sec" data-info="nut"><summary data-i18n="info.nut.s">🥗 פינת תזונה</summary>
+    <p class="info-w" data-i18n="info.nut.w">טיפ יומי קצר להקראה לכיתה, ומאגר טיפים לפי נושא.</p>
   </details>
 
-  <details class="info-sec" data-info="data"><summary>💾 הנתונים שלך</summary>
-    <p class="info-w">אין שרת ואין חשבון — וזה גם היתרון וגם האחריות.</p>
-    <ul class="info-l">
+  <details class="info-sec" data-info="data"><summary data-i18n="info.data.s">💾 הנתונים שלך</summary>
+    <p class="info-w" data-i18n="info.data.w">אין שרת ואין חשבון — וזה גם היתרון וגם האחריות.</p>
+    <ul class="info-l" data-i18n="info.data.l">
       <li><b>גיבוי</b> ⚙ הגדרות ← «⬇ גבה הכל לקובץ». «⬆ שחזר מקובץ» מחזיר הכול במכשיר חדש.</li>
       <li><b>הצפנה</b> אפשר להצפין את הגיבוי בסיסמה — אבל אין שחזור סיסמה. אבדה הסיסמה, אבד הקובץ.</li>
       <li><b>שם כיתה שגוי?</b> ⚙ הגדרות ← «🏷 שמות הכיתות». שינוי השם לא מנתק אף תלמיד ואף מדידה.</li>
@@ -3117,23 +3117,23 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
   <h3><span dir="auto" data-i18n="about.title">📘 אודות PE Ultimate</span><button class="x" data-close="aboutModal">✕</button></h3>
   <div class="ab-hero"><div class="lg">⏱️</div>
     <div><b dir="auto" data-i18n="brand.full">PE Ultimate</b><span id="ab-ver">גרסה —</span></div></div>
-  <p class="ab-p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
+  <p class="ab-p" data-i18n="ab.p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
     לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, בשפה אחת, ובלי להוציא שום דבר החוצה.</p>
-  <div class="ab-sec"><b>🔒 פרטיות</b>
-    <p class="ab-p">נתוני התלמידים — רשימות, ציונים ומדידות — נשמרים ב-localStorage של המכשיר הזה בלבד.
+  <div class="ab-sec"><b data-i18n="ab.privT">🔒 פרטיות</b>
+    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, ציונים ומדידות — נשמרים ב-localStorage של המכשיר הזה בלבד.
       <b>אין שרת, אין חשבון, ואין שליחה לשום מקום.</b> אלה נתונים על קטינים, ולכן זו החלטת תכנון ולא
       מקריות. ייצוא CSV או גיבוי הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש
       גיבוי. הדבר היחיד שיוצא מהמכשיר הוא פרטי הקשר שלך (המורה) שהוזנו במסך הפתיחה הראשון — לא נתון
       על תלמיד — ונשלחים פעם אחת בלבד.</p></div>
-  <div class="ab-sec"><b>📚 מקורות מקצועיים</b>
-    <p class="ab-p">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
+  <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
+    <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
       הגופני — סטנדרטים להערכת הישגי התלמידים», משרד החינוך, המזכירות הפדגוגית · תוכנית הלימודים
       בחינוך גופני. הנורמות הבית־ספריות הן נתון של המורה ונשמרות במכשיר.</p></div>
-  <div class="ab-sec"><b>🛠 נבנה עם</b>
-    <p class="ab-p">JavaScript, HTML ו-CSS בלבד — בלי ספריות חיצוניות ובלי שלב בנייה בדפדפן, כדי
+  <div class="ab-sec"><b data-i18n="ab.builtT">🛠 נבנה עם</b>
+    <p class="ab-p" data-i18n="ab.built">JavaScript, HTML ו-CSS בלבד — בלי ספריות חיצוניות ובלי שלב בנייה בדפדפן, כדי
       שהאפליקציה תיפתח מהר ותעבוד בשטח בלי רשת. פותח בשיתוף עם Claude Code.</p></div>
-  <div class="ab-sec"><b>⚠️ אחריות</b>
-    <p class="ab-p">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
+  <div class="ab-sec"><b data-i18n="ab.warnT">⚠️ אחריות</b>
+    <p class="ab-p" data-i18n="ab.warn">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
       תחליף לציוד מדידה מוסמך לתחרות רשמית. ההחלטה החינוכית והציון הם שלך.</p></div>
   <div class="hint" id="ab-build" style="margin-top:12px;text-align:center;font-family:'Share Tech Mono'"></div>
 </div></div>
@@ -3163,39 +3163,39 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 
 <!-- ----- פוטו־פיניש: הדרכת פתיחה ----- -->
 <div class="modal" id="pfGuideModal"><div class="box" style="max-width:520px">
-  <h3><span>📷 פוטו־פיניש — ‎4‎ שלבים</span><button class="x" data-close="pfGuideModal">✕</button></h3>
+  <h3><span data-i18n="pfg.title">📷 פוטו־פיניש — ‎4‎ שלבים</span><button class="x" data-close="pfGuideModal">✕</button></h3>
   <div class="pfg" id="pfg-body"></div>
   <div class="pfg-dots" id="pfg-dots"></div>
   <div class="row" style="margin-top:13px">
-    <button class="btn ghost" id="pfg-prev">→ הקודם</button>
+    <button class="btn ghost" id="pfg-prev" data-i18n="pfg.prev">→ הקודם</button>
     <button class="btn acc grow" id="pfg-next">הבא ←</button>
   </div>
-  <label class="check" style="margin-top:11px"><input type="checkbox" id="pfg-skip"> אל תציג שוב</label>
+  <label class="check" style="margin-top:11px"><input type="checkbox" id="pfg-skip"> <span data-i18n="pfg.skip">אל תציג שוב</span></label>
 </div></div>
 
 <!-- ----- פוטו־פיניש: בדיקת שפיות ----- -->
 <div class="modal" id="pfSanityModal"><div class="box" style="max-width:500px">
-  <h3><span>✅ בדיקת שפיות של דקה</span><button class="x" data-close="pfSanityModal">✕</button></h3>
-  <div class="hint">עושים את זה פעם אחת בכל מקום חדש. זה מה שמפריד בין מדידה למספר שנראה כמו מדידה.</div>
-  <ol class="pf-check">
+  <h3><span data-i18n="pfs.title">✅ בדיקת שפיות של דקה</span><button class="x" data-close="pfSanityModal">✕</button></h3>
+  <div class="hint" data-i18n="pfs.hint">עושים את זה פעם אחת בכל מקום חדש. זה מה שמפריד בין מדידה למספר שנראה כמו מדידה.</div>
+  <ol class="pf-check" data-i18n="pfs.list">
     <li><b>הטלפון יציב.</b> חצובה, גדר או תיק — לא ביד. תזוזה של סנטימטר מזיזה את קו הסיום.</li>
     <li><b>שורת הסטטוס ירוקה:</b> «🟢 מצלמה פעילה · זיהוי חמוש». תקוע על «מכייל רקע…» = משהו זז או שהתאורה משתנה.</li>
     <li><b>תלמיד חוצה בהליכה.</b> הצפצוף חייב להישמע <b>בדיוק</b> כשהוא על הקו. מוקדם מדי — הקו האדום לא יושב על קו הסיום; תקן ב«מיקום קו הסיום».</li>
     <li><b>אחרי המקצה</b> — «🎞 תמונת סיום» מציגה רזולוציית זמן ‎±X‎ מ״ש. זו מדידה אמיתית מהטלפון שלך, לא הבטחה.</li>
     <li><b>לגמר צמוד:</b> לחץ על הרץ עצמו ברצועה. אינטרפולציה בין העמודות מדויקת יותר מהטריגר האוטומטי.</li>
   </ol>
-  <div class="row" style="margin-top:12px"><button class="btn acc grow" data-close="pfSanityModal">הבנתי — יאללה</button></div>
+  <div class="row" style="margin-top:12px"><button class="btn acc grow" data-close="pfSanityModal" data-i18n="pfs.ok">הבנתי — יאללה</button></div>
 </div></div>
 
 <!-- ----- פוטו־פיניש: מספרי חזה ----- -->
 <div class="modal" id="pfNumModal"><div class="box" style="max-width:460px">
-  <h3><span>🔢 מספרי חזה</span><button class="x" data-close="pfNumModal">✕</button></h3>
-  <div class="hint">כשהרצים עם מספרי חזה ולא לפי רשימה — רשום כאן את המספר בכל מסלול.
+  <h3><span data-i18n="pfn.title">🔢 מספרי חזה</span><button class="x" data-close="pfNumModal">✕</button></h3>
+  <div class="hint" data-i18n="pfn.hint">כשהרצים עם מספרי חזה ולא לפי רשימה — רשום כאן את המספר בכל מסלול.
     הוא יופיע בלוח, בייצוא ובתעודה. אפשר להשאיר ריק במסלול שאין בו רץ.</div>
   <div id="pf-numBody" style="margin-top:11px"></div>
   <div class="row" style="margin-top:12px">
-    <button class="btn acc grow" id="pf-numSave">שמור</button>
-    <button class="btn ghost" data-close="pfNumModal">ביטול</button>
+    <button class="btn acc grow" id="pf-numSave" data-i18n="ui.save">שמור</button>
+    <button class="btn ghost" data-close="pfNumModal" data-i18n="ui.cancel">ביטול</button>
   </div>
 </div></div>
 
@@ -5773,7 +5773,8 @@ const LANGS=[
   {code:"he", name:"עברית",   native:"עברית",    dir:"rtl", flag:"🇮🇱"},
   {code:"en", name:"אנגלית",  native:"English",  dir:"ltr", flag:"🇬🇧"},
   {code:"ar", name:"ערבית",   native:"العربية",  dir:"rtl", flag:"🇸🇦"},
-  {code:"ru", name:"רוסית",   native:"Русский",  dir:"ltr", flag:"🇷🇺"}
+  {code:"ru", name:"רוסית",   native:"Русский",  dir:"ltr", flag:"🇷🇺"},
+  {code:"es", name:"ספרדית",  native:"Español",  dir:"ltr", flag:"🇪🇸"}
 ];
 
 /* ---------- מילון המעטפת ----------
@@ -5969,7 +5970,121 @@ en:{
   "ui.info":"Quick guide — what this screen does",
   "ui.demoBar":"Demo mode", "ui.demoNote":"— the data here is a sample",
   "ui.demoClear":"Clear demo data",
-  "ui.explain":"Explanation"
+  "ui.explain":"Explanation",
+
+  /* --- תזונה --- */
+  "nut.daily":"Tip of the day",
+  "nut.say":"🔊 Read to the class",
+  "nut.shuffle":"🔀 Another tip",
+  "nut.all":"All tips",
+  "nut.c.all":"All",
+  "nut.c.before":"Before activity",
+  "nut.c.after":"After activity",
+  "nut.c.water":"Hydration",
+  "nut.c.food":"Athlete's plate",
+  "nut.c.myth":"Myth busters",
+  "nut.tip.0":"1.5–2 hours before an intense lesson: an easy-to-digest carbohydrate — a slice of bread with honey, a banana, porridge. Nothing fried, nothing fatty.",
+  "nut.tip.1":"Half an hour before a beep test or an exam — water only. Eating too close to effort = side stitches and heaviness.",
+  "nut.tip.2":"Lesson in first period? A small breakfast beats nothing: yoghurt, fruit, a slice of bread. A fasting body tires faster.",
+  "nut.tip.3":"The recovery window: within an hour after effort — carbohydrate + protein. Chocolate milk and a cheese sandwich are a great, simple combination.",
+  "nut.tip.4":"Stiff muscles the next day? That's natural DOMS. Water, protein at meals and light movement beat complete rest.",
+  "nut.tip.5":"Rule of thumb for a lesson: a glass of water before, a sip every 15 min, a glass at the end. In summer — double it.",
+  "nut.tip.6":"Urine colour = the easiest dehydration gauge. Darker than pale lemonade? You're short of fluids even before you feel thirsty.",
+  "nut.tip.7":"Energy drinks are off-limits before sport for teenagers — caffeine raises the heart rate and masks signs of overload. Water always wins.",
+  "nut.tip.8":"A balanced plate: half vegetables, a quarter protein (chicken/fish/legumes/egg), a quarter whole-grain carbohydrate. Simple — and that's 80% of the job.",
+  "nut.tip.9":"Iron is especially important for active adolescents (and especially for girls): lean meat, legumes, tahini. Iron deficiency = fatigue in the beep test.",
+  "nut.tip.10":"Calcium + vitamin D during adolescence build the peak bone mass of a lifetime. Dairy, tahini, sunshine outdoors — exactly what a PE lesson provides.",
+  "nut.tip.11":"«Protein = muscle»? The amount of protein the body can use is limited. A training teenager needs ~1.2–1.6 g per kg from ordinary food — powders are unnecessary at school age.",
+  "nut.tip.12":"«Sweating = losing weight»: sweat is fluid loss, not fat. The weight comes back with a glass of water. What counts is the energy balance over time.",
+  "nut.tip.13":"«Carbs make you fat»: for a young athlete, carbohydrate is fuel. No fuel — no good beep test. The question is which carbohydrate and how much, not whether.",
+  "nut.tip.14":"Extreme diets during adolescence harm growth and performance. A student talking about fasting or a harsh diet deserves a quiet conversation and a referral to the school counsellor.",
+
+  /* --- טיפי שטח בדף הבית --- */
+  "home.tip.0":"Beep test: stand at the end of the track so the whole class hears the speaker — and turn the volume up before the start.",
+  "home.tip.1":"Photo-finish: enter the runners in lane order from fastest to slowest — detection assigns times in list order.",
+  "home.tip.2":"TV mode on the records board is great for the school entrance — connect a computer to a screen via HDMI and press 📺.",
+  "home.tip.3":"The fitness dice works great as a warm-up: 3 rolls = a full warm-up, and no student argues with a dice.",
+  "home.tip.4":"The phone screen won't switch off mid-activity — keep-awake is active while a timer runs (you can turn it off in Settings).",
+  "home.tip.5":"You can install the app on your home screen — browser menu, then «Add to Home screen».",
+  "home.onboard":"New here? Tap 🎬 «Demo mode» on the sign-in screen — a sample class with real results, so you can see how everything works before entering real students.",
+
+  /* --- פוטו־פיניש: הדרכת פתיחה --- */
+  "pfg.title":"📷 Photo-finish — 4 steps",
+  "pfg.prev":"← Previous",
+  "pfg.next":"Next →",
+  "pfg.go":"Let's measure",
+  "pfg.skip":"Don't show again",
+  "pfg.0.h":"Mount the phone — not in your hand",
+  "pfg.0.p":"The camera must see the <b>finish line from the side</b>, at roughly chest height. A tripod, a fence, a bench or a bag — anything stable. A one-centimetre shift moves the line, and every time moves with it.",
+  "pfg.1.h":"Align the red line with the finish line",
+  "pfg.1.p":"Move «Finish-line position» until the red line on the screen sits <b>exactly</b> on the finish line on the field. This is the one setting where a mistake invalidates the whole heat.",
+  "pfg.2.h":"If there is a starting gun — enter the distance from it",
+  "pfg.2.p":"Sound travels 343 m per second. A camera standing 34 m from the start hears the shot a tenth of a second late, and every time comes out short by exactly that tenth. Entering the distance cancels it out.",
+  "pfg.3.h":"For a close finish — tap the runner in the image",
+  "pfg.3.p":"After the heat, in «🎞 Finish image», tapping the runner's torso gives a time interpolated between the columns. <b>More accurate than the automatic trigger</b> — this is how to work a final.",
+
+  /* --- פוטו־פיניש: בדיקת שפיות --- */
+  "pfs.title":"✅ One-minute sanity check",
+  "pfs.hint":"Do this once at every new location. It is what separates a measurement from a number that only looks like one.",
+  "pfs.list":"<li><b>The phone is stable.</b> Tripod, fence or bag — not in your hand. A one-centimetre shift moves the finish line.</li><li><b>The status line is green:</b> «🟢 Camera active · detection armed». Stuck on «Calibrating background…» = something is moving or the lighting is changing.</li><li><b>A student walks across.</b> The beep must sound <b>exactly</b> when they are on the line. Too early — the red line is not on the finish line; fix it in «Finish-line position».</li><li><b>After the heat</b> — «🎞 Finish image» shows a time resolution of ±X ms. That is a real measurement from your phone, not a promise.</li><li><b>For a close finish:</b> tap the runner in the strip. Interpolating between columns is more accurate than the automatic trigger.</li>",
+  "pfs.ok":"Got it — let's go",
+
+  /* --- פוטו־פיניש: מספרי חזה --- */
+  "pfn.title":"🔢 Bib numbers",
+  "pfn.hint":"When runners wear bib numbers rather than following a list — enter the number for each lane here. It appears on the board, in exports and on the certificate. Leave a lane empty if nobody runs in it.",
+
+  /* --- מדריך מהיר (ℹ) --- */
+  "info.title":"ℹ️ Quick guide",
+  "info.top":"One field kit: fitness tests, beep test, photo-finish, lesson plans, records, attendance and grades. It works without reception too, and all data is stored <b>on this device only</b> — so back up to a file from time to time (⚙ Settings → «Back up everything to a file»).",
+  "info.home.s":"🚀 Where to start",
+  "info.home.w":"Three steps, once, and you're ready to work.",
+  "info.home.l":"<li><b>Teacher code</b> is set on first sign-in, and protects the teacher area when the phone changes hands.</li><li><b>🎬 Demo mode</b> on the sign-in screen — a sample class with results, so you can see how everything works before entering real students. Clear it with one tap.</li><li><b>One real class</b> — «Fitness tests» → pick year and number → «👥 Roster». From then on the same roster is available on every other screen.</li>",
+  "info.ft.s":"🏅 Fitness tests",
+  "info.ft.w":"The heart of the app: 31 tests with a stopwatch and counter. Pick a class and a test, and enter a result for each student.",
+  "info.ft.l":"<li><b>🏅 Tests</b> the screen where you actually measure. Every result is saved to the student and never deleted.</li><li><b>📊 Fitness index</b> an overall fitness score for each student against the norms.</li><li><b>🏅 PE badge</b> who meets the requirements and what they still need.</li><li><b>📋 What the class is missing</b> who has already been measured in each test and who hasn't — instead of searching through lists.</li><li><b>📈 Progress insights</b> for each test: how many improved, how many declined, how many unchanged.</li>",
+  "info.lesson.s":"📋 Lesson plans",
+  "info.lesson.w":"A complete plan — warm-up, stations, game and cool-down — in one tap or built by hand.",
+  "info.lesson.l":"<li><b>⚡ Quick</b> pick a topic, year, length and venue — the plan builds itself, linked to the standards.</li><li><b>🧩 Manual builder</b> assemble the lesson yourself from ready-made stages.</li><li><b>▶ Start lesson</b> opens an «active lesson», and every measurement from then on is logged to it. If the button asks for a class — «🏷 Pick class» next to it.</li><li><b>💾 Save · 🖨 Print</b> the plan is saved to the library for reuse next year.</li>",
+  "info.fit.s":"⏱ Fitness",
+  "info.fit.w":"The tools that run the lesson itself, with nothing to prepare in advance.",
+  "info.fit.l":"<li><b>⏱ Interval timer</b> work/rest with voice announcements.</li><li><b>🔁 Class stations</b> a ready station rotation to project.</li><li><b>📖 Exercise library · 🎲 Fitness dice</b> an exercise by need, or a random draw when you want variety.</li><li><b>🏋️ Gym programme</b> for the older years.</li>",
+  "info.games.s":"🎮 Games",
+  "info.games.w":"Games for free time and the end of a lesson — with an objective, variations and safety points.",
+  "info.games.l":"<li>Search by name, equipment or objective.</li><li>Any game can go straight into a lesson plan.</li>",
+  "info.beep.s":"🎵 Beep test",
+  "info.beep.w":"Runs the beep test with audio-clock accuracy, calculates VO₂max and compares it with FITNESSGRAM norms.",
+  "info.beep.l":"<li><b>Load class</b> pulls in the roster you already entered — no retyping names.</li><li><b>Record drop-out</b> tap the student the moment they stop, and their stage is recorded.</li><li><b>Send to fitness tests</b> the result goes to the student's card and to the fitness index.</li>",
+  "info.photo.s":"📷 Photo-finish",
+  "info.photo.w":"Times races with the phone camera and shows in the image who crossed first.",
+  "info.photo.l":"<li><b>🎯 Live lane</b> aim the camera at the finish line and start a heat.</li><li><b>🎞 Finish image · 🏁 Results</b> the moment of crossing and the precise time for each lane.</li><li><b>🔄 Laps · 🗄 Archive</b> longer races, and earlier heats to go back to.</li>",
+  "info.rec.s":"🏆 School champions",
+  "info.rec.w":"A school records board compared with the national and world records.",
+  "info.rec.l":"<li>A student submits a record with a proof video — and it goes on the board <b>only after your approval</b>.</li><li><b>📺 TV mode</b> for the screen at the gym entrance · <b>🔗 Link / QR</b> to share with students.</li>",
+  "info.stu.s":"👥 Students and grades",
+  "info.stu.w":"The student list, a grade table by assessment period, and peer assessment.",
+  "info.stu.l":"<li><b>⬇ Fill from attendance</b> fills the participation grade from attendance data — only in empty cells, never overwriting a grade you entered.</li><li><b>⬇ CSV</b> exports the table to a spreadsheet.</li>",
+  "info.tools.s":"🧰 Class tools",
+  "info.tools.w":"Four tools for the moments that come up in every lesson.",
+  "info.tools.l":"<li><b>👥 Teams</b> a balanced split based on the latest result — no team without a chance.</li><li><b>🎯 Random pick</b> chooses a random student.</li><li><b>✅ Attendance</b> daily register — the participation grade is filled from it.</li><li><b>📋 Rubrics</b> assessment by criteria.</li>",
+  "info.know.s":"📚 Knowledge",
+  "info.know.w":"Professional backing for decisions — sources, programmes and numbers.",
+  "info.know.l":"<li><b>📚 Official sources</b> every item links to the live document.</li><li><b>🏋️ Evaluated programmes · 📌 Numbers worth remembering</b> for the moment you need to back a decision with a parent or principal.</li>",
+  "info.nut.s":"🥗 Nutrition corner",
+  "info.nut.w":"A short daily tip to read to the class, and a bank of tips by topic.",
+  "info.data.s":"💾 Your data",
+  "info.data.w":"No server and no account — that is both the advantage and the responsibility.",
+  "info.data.l":"<li><b>Backup</b> ⚙ Settings → «⬇ Back up everything to a file». «⬆ Restore from a file» brings everything back on a new device.</li><li><b>Encryption</b> you can encrypt the backup with a password — but there is no password recovery. Lose the password, lose the file.</li><li><b>Wrong class name?</b> ⚙ Settings → «🏷 Class names». Renaming does not disconnect any student or measurement.</li><li><b>Hard to read in the sun?</b> ☀ in the top bar, and «Large buttons» in Settings for one-handed use.</li>",
+
+  /* --- אודות --- */
+  "ab.p":"A field kit for PE teachers: fitness tests, beep test, camera photo-finish, lesson plans, records board, class tools and grades — all on one screen, and without sending anything out.",
+  "ab.privT":"🔒 Privacy",
+  "ab.priv":"Student data — rosters, grades and measurements — is stored in this device's localStorage only. <b>No server, no account, and nothing is sent anywhere.</b> This is data about minors, so it is a design decision, not an accident. CSV export or backup is always an action you initiate. Clearing site data in the browser deletes everything — that is why there is a backup. The only thing that leaves the device is your (the teacher's) contact details entered on the first welcome screen — not data about any student — sent once only.",
+  "ab.srcT":"📚 Professional sources",
+  "ab.src":"Léger protocol (beep test) · FITNESSGRAM® norms by The Cooper Institute · «PE badge — standards for assessing student achievement», Israeli Ministry of Education, Pedagogical Secretariat · the physical education curriculum. School norms are the teacher's data and are stored on the device.",
+  "ab.builtT":"🛠 Built with",
+  "ab.built":"JavaScript, HTML and CSS only — no external libraries and no build step in the browser, so the app opens fast and works in the field without a network. Developed together with Claude Code.",
+  "ab.warnT":"⚠️ Disclaimer",
+  "ab.warn":"A teaching aid. Camera and stopwatch measurements are as good as field conditions allow, and are not a substitute for certified timing equipment in official competition. The educational decision and the grade are yours."
 },
 
 ar:{
@@ -6112,7 +6227,182 @@ ar:{
   "ui.info":"دليل سريع — ماذا تفعل هذه الشاشة",
   "ui.demoBar":"وضع العرض التوضيحي", "ui.demoNote":"— البيانات هنا نموذجية",
   "ui.demoClear":"مسح بيانات العرض",
-  "ui.explain":"شرح"
+  "ui.explain":"شرح",
+
+  /* --- השלמה: מפתחות שהיו חסרים בערבית --- */
+  "bt.std":"↺ قياسي (8.0)",
+  "bt.proto":"البروتوكول القياسي",
+  "bt.protoOff":"بروتوكول معدّل",
+  "bt.saveProf":"💾 حفظ الملف الشخصي",
+  "bt.profDel":"حذف الملف الشخصي",
+  "bt.prof":"— ملف شخصي —",
+  "bt.warn":"⚠️ البروتوكول يختلف عن القياسي (20 م، بداية ≥ 8.0 كم/س) — قيم VO₂max تُعرض كتقدير فقط.",
+  "bt.inStage":"التقدّم داخل المرحلة",
+  "bt.laneMode":"التسجيل حسب رقم المسار",
+  "bt.laneN":"كم مسارًا",
+  "bt.undo":"↩ تراجع عن آخر تسجيل",
+  "bt.keys":"اختصارات: مسافة = انطلاق/إيقاف مؤقت · Enter = تسجيل",
+  "bt.heatHint":"حمّل صفًا واضغط على الطالب الذي توقّف بدل الزر الكبير — يدخل الاسم إلى اللوحة بدقة، بلا كتابة لاحقًا.",
+  "bt.byOrder":"حسب الترتيب",
+  "bt.byDist":"حسب المسافة",
+  "bt.toTrack":"⇧ حفظ في المتابعة",
+  "bt.toFt":"🏅 إرسال إلى اختبارات اللياقة",
+  "bt.cStage":"مرحلة·شوط",
+  "bt.emptyHint":"أثناء الجري — عندما يتوقّف طالب، اضغط زر التسجيل فيدخل إلى اللوحة.",
+  "bt.refTable":"📋 جدول المراحل والمسافات الكامل",
+  "bt.normTable":"📚 جدول معايير VO₂max (FITNESSGRAM®)",
+  "pf.simMode":"وضع المحاكاة",
+  "pf.resetRace":"↺ تصفير السباق",
+  "pf.sens":"حساسية الكشف ·",
+  "pf.slit":"عرض الشقّ ·",
+  "pf.minT":"أدنى فاصل (ث)",
+  "pf.autoDetect":"كشف تلقائي للحركة عند خط النهاية",
+  "pf.micStart":"انطلاق صوتي — مسدس / تصفيق (ميكروفون)",
+  "pf.gunDist":"بُعد الميكروفون عن مُطلِق السباق (م)",
+  "pf.noOffset":"بلا تعويض",
+  "pf.paste":"📋 لصق قائمة",
+  "pf.editNames":"✎ تعديل الأسماء",
+  "pf.laneCount":"عدد المسارات ·",
+  "pf.tapHint":"الضغط على مسار يسجّل عبورًا الآن · المفاتيح 1–9 تفعل الشيء نفسه من لوحة المفاتيح.",
+  "pf.sanity":"✅ فحص سلامة لمدة دقيقة — قبل كل سباق",
+  "pf.cSrc":"المصدر",
+  "pf.emptyRes":"لا نتائج بعد. شغّل سباقًا أو استورد ملف CSV.",
+  "pf.ai":"🎙️ تقرير تعليق",
+  "pf.arcSave":"💾 حفظ في الأرشيف",
+  "pf.csv":"⬇ تصدير CSV",
+  "pf.sheet":"🖼 صورة + جدول",
+  "pf.cert":"🖨 شهادة الفائز",
+  "pf.mail":"✉ إرسال النتائج",
+  "pf.addRow":"＋ صف",
+  "pf.numbers":"🔢 أرقام الصدر",
+  "stu.tabPeer":"🤝 تقييم الأقران",
+  "stu.searchPh":"اسم الطالب",
+  "stu.sName":"حسب الاسم",
+  "stu.sCls":"حسب الصف",
+  "stu.sVo2":"VO₂max — من الأعلى إلى الأدنى",
+  "stu.sVo2a":"VO₂max — من الأدنى إلى الأعلى",
+  "stu.sTrend":"المتراجعون أولًا",
+  "stu.sTests":"الأقل قياسات",
+  "stu.fromBeep":"⇩ من لوحة اختبار البيب",
+  "stu.csv":"⬇ ملف CSV للصف",
+  "stu.below":"خطر صحي",
+  "stu.falling":"في تراجع",
+  "stu.empty":"لا يوجد طلاب بعد.",
+  "stu.emptyHint":"أضف قائمة يدويًا، أو استورد الأسماء من لوحة اختبار البيب.",
+
+  /* --- תזונה --- */
+  "nut.daily":"نصيحة اليوم",
+  "nut.say":"🔊 اقرأ للصف",
+  "nut.shuffle":"🔀 نصيحة أخرى",
+  "nut.all":"كل النصائح",
+  "nut.c.all":"الكل",
+  "nut.c.before":"قبل النشاط",
+  "nut.c.after":"بعد النشاط",
+  "nut.c.water":"الشرب",
+  "nut.c.food":"طبق الرياضي",
+  "nut.c.myth":"نكسر الخرافات",
+  "nut.tip.0":"قبل درس مكثّف بساعة ونصف إلى ساعتين: كربوهيدرات سهلة الهضم — شريحة خبز بالعسل، موزة، عصيدة. لا مقليات ولا دهون.",
+  "nut.tip.1":"قبل اختبار البيب أو امتحان بنصف ساعة — ماء فقط. الأكل القريب جدًا من الجهد = وخز في الجنب وثِقَل.",
+  "nut.tip.2":"الدرس في الحصة الأولى؟ فطور صغير أفضل من لا شيء: لبن، فاكهة، شريحة خبز. الجسم الصائم يتعب أسرع.",
+  "nut.tip.3":"نافذة الاستشفاء: خلال ساعة بعد الجهد — كربوهيدرات + بروتين. حليب بالشوكولاتة وشطيرة جبن مزيج ممتاز وبسيط.",
+  "nut.tip.4":"عضلات متيبّسة في اليوم التالي؟ هذا ألم عضلي متأخر (DOMS) طبيعي. الماء والبروتين في الوجبات والحركة الخفيفة أفضل من الراحة التامة.",
+  "nut.tip.5":"قاعدة بسيطة للدرس: كوب ماء قبله، رشفة كل 15 دقيقة، كوب في النهاية. في الصيف — ضاعِف.",
+  "nut.tip.6":"لون البول = أسهل مقياس للجفاف. أغمق من عصير الليمون الفاتح؟ ينقصك السائل حتى قبل أن تشعر بالعطش.",
+  "nut.tip.7":"مشروبات الطاقة ممنوعة قبل الرياضة للمراهقين — الكافيين يرفع النبض ويخفي علامات الإجهاد. الماء يفوز دائمًا.",
+  "nut.tip.8":"طبق متوازن: نصفه خضار، ربعه بروتين (دجاج/سمك/بقوليات/بيض)، ربعه كربوهيدرات كاملة. بسيط — وهذا 80% من العمل.",
+  "nut.tip.9":"الحديد مهم خصوصًا للمراهقين النشيطين (وخاصة للفتيات): لحم قليل الدهن، بقوليات، طحينة. نقص الحديد = تعب في اختبار البيب.",
+  "nut.tip.10":"الكالسيوم + فيتامين D في سن المراهقة يبنيان ذروة كتلة العظم مدى الحياة. منتجات الألبان، الطحينة، الشمس في الخارج — تمامًا ما يقدّمه درس التربية البدنية.",
+  "nut.tip.11":"«البروتين = عضلات»؟ كمية البروتين التي يستفيد منها الجسم محدودة. يحتاج المراهق المتدرّب نحو 1.2–1.6 غ لكل كغ من الطعام العادي — المساحيق غير ضرورية في سن المدرسة.",
+  "nut.tip.12":"«التعرّق = خسارة الوزن»: العرق فقدان سوائل وليس دهونًا. يعود الوزن مع كوب ماء. ما يحسم هو توازن الطاقة على المدى الطويل.",
+  "nut.tip.13":"«الكربوهيدرات تُسمِّن»: للرياضي الصغير الكربوهيدرات وقود. بلا وقود — لا اختبار بيب جيدًا. السؤال أيّ كربوهيدرات وكم، لا هل.",
+  "nut.tip.14":"الحميات القاسية في سن المراهقة تضرّ بالنمو والأداء. الطالب الذي يتحدّث عن صيام أو حمية حادّة يستحق حديثًا هادئًا وتحويلًا إلى المرشدة.",
+
+  /* --- טיפי שטח בדף הבית --- */
+  "home.tip.0":"في اختبار البيب: قفوا في طرف المسار بحيث يسمع الصف كله السمّاعة — وارفعوا الصوت قبل الانطلاق.",
+  "home.tip.1":"في تصوير خط النهاية: سجّلوا المتسابقين حسب ترتيب المسارات من الأسرع إلى الأبطأ — الكشف يوزّع الأزمنة حسب ترتيب القائمة.",
+  "home.tip.2":"وضع التلفاز في لوحة الأرقام القياسية ممتاز لمدخل المدرسة — صِلوا حاسوبًا بشاشة عبر HDMI واضغطوا 📺.",
+  "home.tip.3":"نرد اللياقة ممتاز للإحماء: 3 رميات = إحماء كامل، ولا يجادل أي طالب النرد.",
+  "home.tip.4":"شاشة الهاتف لن تنطفئ أثناء النشاط — منع إطفاء الشاشة يعمل عندما يعمل مؤقّت (يمكن إيقافه في الإعدادات).",
+  "home.tip.5":"يمكن تثبيت التطبيق على الشاشة الرئيسية — قائمة المتصفح ثم «إضافة إلى الشاشة الرئيسية».",
+  "home.onboard":"جديد هنا؟ اضغط 🎬 «وضع العرض التوضيحي» في شاشة الدخول — صف نموذجي بنتائج حقيقية، لترى كيف يعمل كل شيء قبل إدخال طلاب حقيقيين.",
+
+  /* --- פוטו־פיניש: הדרכת פתיחה --- */
+  "pfg.title":"📷 تصوير خط النهاية — 4 خطوات",
+  "pfg.prev":"→ السابق",
+  "pfg.next":"التالي ←",
+  "pfg.go":"هيا نقيس",
+  "pfg.skip":"لا تعرض مرة أخرى",
+  "pfg.0.h":"ثبّت الهاتف — لا تمسكه بيدك",
+  "pfg.0.p":"يجب أن ترى الكاميرا <b>خط النهاية من الجانب</b>، على ارتفاع الصدر تقريبًا. حامل ثلاثي، سياج، مقعد أو حقيبة — أي شيء ثابت. انزياح سنتيمتر واحد يحرّك الخط، وتتحرّك معه كل الأزمنة.",
+  "pfg.1.h":"طابِق الخط الأحمر مع خط النهاية",
+  "pfg.1.p":"حرّك «موضع خط النهاية» حتى يقع الخط الأحمر على الشاشة <b>تمامًا</b> على خط النهاية في الملعب. هذا هو الإعداد الوحيد الذي يُبطل الخطأ فيه السباق كله.",
+  "pfg.2.h":"إن كان هناك مسدس انطلاق — أدخل المسافة منه",
+  "pfg.2.p":"ينتقل الصوت 343 م في الثانية. كاميرا تقف على بُعد 34 م من الانطلاق تسمع الطلقة متأخرة عُشر ثانية، فتخرج كل الأزمنة أقصر بهذا العُشر بالضبط. إدخال المسافة يعوّض ذلك.",
+  "pfg.3.h":"للنهاية المتقاربة — اضغط على العدّاء في الصورة",
+  "pfg.3.p":"بعد السباق، في «🎞 صورة النهاية»، الضغط على جذع العدّاء يعطي زمنًا بالاستيفاء بين الأعمدة. <b>أدقّ من المُشغِّل التلقائي</b> — هكذا يُعمل في النهائي.",
+
+  /* --- פוטו־פיניש: בדיקת שפיות --- */
+  "pfs.title":"✅ فحص سلامة لمدة دقيقة",
+  "pfs.hint":"افعل ذلك مرة واحدة في كل مكان جديد. هذا ما يفرّق بين قياس حقيقي ورقم يبدو كأنه قياس.",
+  "pfs.list":"<li><b>الهاتف ثابت.</b> حامل ثلاثي أو سياج أو حقيبة — لا في اليد. انزياح سنتيمتر يحرّك خط النهاية.</li><li><b>سطر الحالة أخضر:</b> «🟢 الكاميرا تعمل · الكشف مُفعَّل». عالق على «معايرة الخلفية…» = شيء ما يتحرّك أو الإضاءة تتغيّر.</li><li><b>طالب يعبر مشيًا.</b> يجب أن تُسمع الصافرة <b>تمامًا</b> عندما يكون على الخط. مبكرًا جدًا — الخط الأحمر ليس على خط النهاية؛ صحّحه في «موضع خط النهاية».</li><li><b>بعد السباق</b> — «🎞 صورة النهاية» تعرض دقّة زمنية ±X م.ث. هذا قياس حقيقي من هاتفك، لا وعد.</li><li><b>للنهاية المتقاربة:</b> اضغط على العدّاء نفسه في الشريط. الاستيفاء بين الأعمدة أدقّ من المُشغِّل التلقائي.</li>",
+  "pfs.ok":"فهمت — هيا بنا",
+
+  /* --- פוטו־פיניש: מספרי חזה --- */
+  "pfn.title":"🔢 أرقام الصدر",
+  "pfn.hint":"عندما يحمل العدّاؤون أرقام صدر بدل الجري حسب قائمة — سجّل هنا الرقم لكل مسار. سيظهر في اللوحة وفي التصدير وفي الشهادة. يمكن ترك المسار الفارغ بلا رقم.",
+
+  /* --- מדריך מהיר (ℹ) --- */
+  "info.title":"ℹ️ دليل سريع",
+  "info.top":"عُدّة ميدانية واحدة: اختبارات اللياقة، اختبار البيب، تصوير خط النهاية، خطط الدروس، الأرقام القياسية، الحضور والعلامات. تعمل أيضًا بلا تغطية، وكل البيانات محفوظة <b>على هذا الجهاز فقط</b> — لذا يُستحسن النسخ الاحتياطي إلى ملف من حين لآخر (⚙ الإعدادات ← «انسخ كل شيء إلى ملف»).",
+  "info.home.s":"🚀 من أين نبدأ",
+  "info.home.w":"ثلاث خطوات، مرة واحدة، وتصبح جاهزًا للعمل.",
+  "info.home.l":"<li><b>رمز المعلّم</b> يُحدَّد عند الدخول الأول، ويحمي منطقة المعلّم حين ينتقل الهاتف بين الأيدي.</li><li><b>🎬 وضع العرض التوضيحي</b> في شاشة الدخول — صف نموذجي بنتائج، لترى كيف يعمل كل شيء قبل إدخال طلاب حقيقيين. يُمسح بضغطة واحدة.</li><li><b>صف حقيقي واحد</b> — «اختبارات اللياقة» ← اختر الطبقة والرقم ← «👥 القائمة». من هنا تتوفّر القائمة نفسها في كل الشاشات الأخرى.</li>",
+  "info.ft.s":"🏅 اختبارات اللياقة",
+  "info.ft.w":"قلب التطبيق: 31 اختبارًا مع ساعة إيقاف وعدّاد. اختر صفًا واختبارًا، وأدخل نتيجة لكل طالب.",
+  "info.ft.l":"<li><b>🏅 الاختبارات</b> الشاشة التي تقيس فيها فعلًا. كل نتيجة تُحفظ للطالب ولا تُحذف.</li><li><b>📊 مؤشّر اللياقة</b> علامة لياقة شاملة لكل طالب مقابل المعايير.</li><li><b>🏅 شارة التربية البدنية</b> من يستوفي المتطلبات وما الذي ينقصه.</li><li><b>📋 ما ينقص الصف</b> من قيس في كل اختبار ومن لم يُقَس بعد — بدل البحث في القوائم.</li><li><b>📈 مؤشّرات التقدّم</b> لكل اختبار: كم تحسّن، كم تراجع، كم بلا تغيير.</li>",
+  "info.lesson.s":"📋 خطط الدروس",
+  "info.lesson.w":"خطة كاملة — إحماء، محطات، لعبة وختام — بضغطة واحدة أو ببناء يدوي.",
+  "info.lesson.l":"<li><b>⚡ سريع</b> اختر موضوعًا وطبقة ومدّة ومكانًا — وتُبنى الخطة وحدها، مرتبطة بالمعايير.</li><li><b>🧩 بناء يدوي</b> ركّب الدرس بنفسك من مراحل جاهزة.</li><li><b>▶ ابدأ الدرس</b> يفتح «درسًا نشطًا»، وكل قياس من هنا يُسجَّل فيه. إن طلب الزر صفًا — «🏷 اختر صفًا» بجانبه.</li><li><b>💾 حفظ · 🖨 طباعة</b> تُحفظ الخطة في المكتبة لإعادة استخدامها في السنة القادمة.</li>",
+  "info.fit.s":"⏱ اللياقة",
+  "info.fit.w":"الأدوات التي تدير الدرس نفسه، دون تحضير مسبق.",
+  "info.fit.l":"<li><b>⏱ مؤقّت فترات</b> عمل/راحة مع إعلان صوتي.</li><li><b>🔁 محطات للصف</b> دورة محطات جاهزة للعرض.</li><li><b>📖 مكتبة التمارين · 🎲 نرد اللياقة</b> تمرين حسب الحاجة، أو قرعة حين تريد التنويع.</li><li><b>🏋️ برنامج صالة اللياقة</b> للطبقات الكبرى.</li>",
+  "info.games.s":"🎮 ألعاب",
+  "info.games.w":"ألعاب لأوقات الفراغ ولنهاية الدرس — مع هدف وتنويعات ونقاط سلامة.",
+  "info.games.l":"<li>ابحث بالاسم أو الأدوات أو الهدف.</li><li>يمكن نقل أي لعبة مباشرة إلى خطة درس.</li>",
+  "info.beep.s":"🎵 اختبار البيب",
+  "info.beep.w":"يشغّل اختبار البيب بدقّة ساعة الصوت، ويحسب VO₂max ويقارنه بمعايير FITNESSGRAM.",
+  "info.beep.l":"<li><b>تحميل صف</b> يجلب القائمة التي أدخلتها مسبقًا — بلا إعادة كتابة الأسماء.</li><li><b>تسجيل انسحاب</b> اضغط على الطالب لحظة توقّفه، فتُسجَّل مرحلته.</li><li><b>إرسال إلى اختبارات اللياقة</b> تدخل النتيجة إلى بطاقة الطالب وإلى مؤشّر اللياقة.</li>",
+  "info.photo.s":"📷 تصوير خط النهاية",
+  "info.photo.w":"يقيس أزمنة الجري بكاميرا الهاتف، ويُظهر في الصورة من عبر أولًا.",
+  "info.photo.l":"<li><b>🎯 المسار المباشر</b> وجّه الكاميرا إلى خط النهاية وابدأ سباقًا.</li><li><b>🎞 صورة النهاية · 🏁 النتائج</b> لحظة العبور والزمن الدقيق لكل مسار.</li><li><b>🔄 اللفّات · 🗄 الأرشيف</b> سباقات طويلة، وسباقات سابقة للعودة إليها.</li>",
+  "info.rec.s":"🏆 أبطال المدرسة",
+  "info.rec.w":"لوحة أرقام قياسية مدرسية مقابل الرقم الوطني والعالمي.",
+  "info.rec.l":"<li>يرسل الطالب رقمًا قياسيًا مع فيديو إثبات — ويظهر في اللوحة <b>فقط بعد موافقتك</b>.</li><li><b>📺 وضع التلفاز</b> لشاشة مدخل القاعة · <b>🔗 رابط / QR</b> للمشاركة مع الطلاب.</li>",
+  "info.stu.s":"👥 الطلاب والعلامات",
+  "info.stu.w":"قائمة الطلاب، جدول علامات حسب فترات التقييم، وتقييم الأقران.",
+  "info.stu.l":"<li><b>⬇ املأ حسب الحضور</b> يملأ علامة المشاركة من بيانات الحضور — في الخانات الفارغة فقط، دون الكتابة فوق علامة أدخلتها.</li><li><b>⬇ CSV</b> يصدّر الجدول إلى جدول بيانات.</li>",
+  "info.tools.s":"🧰 أدوات الصف",
+  "info.tools.w":"أربع أدوات للّحظات التي تتكرّر في كل درس.",
+  "info.tools.l":"<li><b>👥 مجموعات</b> تقسيم متوازن حسب آخر نتيجة — بلا مجموعة لا فرصة لها.</li><li><b>🎯 قرعة</b> تختار طالبًا عشوائيًا.</li><li><b>✅ الحضور</b> تسجيل يومي — ومنه تُملأ علامة المشاركة.</li><li><b>📋 سلالم التقييم</b> تقييم حسب معايير.</li>",
+  "info.know.s":"📚 المعرفة",
+  "info.know.w":"سند مهني للقرارات — مصادر وبرامج وأرقام.",
+  "info.know.l":"<li><b>📚 مصادر رسمية</b> كل بند مرتبط بالوثيقة الحيّة.</li><li><b>🏋️ برامج مُقيَّمة · 📌 أرقام تستحق التذكّر</b> للّحظة التي تحتاج فيها إلى دعم قرار أمام وليّ أمر أو مدير.</li>",
+  "info.nut.s":"🥗 ركن التغذية",
+  "info.nut.w":"نصيحة يومية قصيرة لقراءتها للصف، ومجموعة نصائح حسب الموضوع.",
+  "info.data.s":"💾 بياناتك",
+  "info.data.w":"لا خادم ولا حساب — وهذه هي الميزة والمسؤولية معًا.",
+  "info.data.l":"<li><b>النسخ الاحتياطي</b> ⚙ الإعدادات ← «⬇ انسخ كل شيء إلى ملف». «⬆ استعادة من ملف» تعيد كل شيء على جهاز جديد.</li><li><b>التشفير</b> يمكن تشفير النسخة الاحتياطية بكلمة مرور — لكن لا توجد استعادة لكلمة المرور. ضاعت كلمة المرور، ضاع الملف.</li><li><b>اسم صف خاطئ؟</b> ⚙ الإعدادات ← «🏷 أسماء الصفوف». تغيير الاسم لا يفصل أي طالب ولا أي قياس.</li><li><b>صعب القراءة في الشمس؟</b> ☀ في الشريط العلوي، و«أزرار كبيرة» في الإعدادات للاستخدام بيد واحدة.</li>",
+
+  /* --- אודות --- */
+  "ab.p":"عُدّة ميدانية لمعلّم التربية البدنية: اختبارات اللياقة، اختبار البيب، تصوير خط النهاية بالكاميرا، خطط الدروس، لوحة الأرقام القياسية، أدوات الصف والعلامات — كل ذلك في شاشة واحدة، ودون إرسال أي شيء إلى الخارج.",
+  "ab.privT":"🔒 الخصوصية",
+  "ab.priv":"بيانات الطلاب — القوائم والعلامات والقياسات — محفوظة في localStorage على هذا الجهاز فقط. <b>لا خادم، لا حساب، ولا إرسال إلى أي مكان.</b> هذه بيانات عن قاصرين، ولذلك هذا قرار تصميمي وليس صدفة. تصدير CSV أو النسخ الاحتياطي فعلٌ تبادر إليه أنت دائمًا. مسح بيانات الموقع في المتصفح يحذف كل شيء — لذلك يوجد نسخ احتياطي. الشيء الوحيد الذي يخرج من الجهاز هو بيانات الاتصال الخاصة بك (المعلّم) التي أُدخلت في شاشة الترحيب الأولى — لا بيانات عن أي طالب — وتُرسل مرة واحدة فقط.",
+  "ab.srcT":"📚 مصادر مهنية",
+  "ab.src":"بروتوكول Léger (اختبار البيب) · معايير FITNESSGRAM® من Cooper Institute · «شارة التربية البدنية — معايير تقييم تحصيل الطلاب»، وزارة التربية والتعليم الإسرائيلية، السكرتارية التربوية · منهاج التربية البدنية. المعايير المدرسية بيانات المعلّم وتُحفظ على الجهاز.",
+  "ab.builtT":"🛠 بُني باستخدام",
+  "ab.built":"JavaScript وHTML وCSS فقط — بلا مكتبات خارجية وبلا مرحلة بناء في المتصفح، ليفتح التطبيق بسرعة ويعمل في الميدان بلا شبكة. طُوِّر بالتعاون مع Claude Code.",
+  "ab.warnT":"⚠️ إخلاء مسؤولية",
+  "ab.warn":"أداة مساعدة للتدريس. قياسات الكاميرا والساعة جيدة بقدر ما تسمح ظروف الميدان، وليست بديلًا عن معدات توقيت معتمدة للمنافسات الرسمية. القرار التربوي والعلامة لك."
 },
 
 ru:{
@@ -6262,7 +6552,571 @@ ru:{
   "ui.info":"Краткое руководство — что делает этот экран",
   "ui.demoBar":"Демо-режим", "ui.demoNote":"— данные здесь учебные",
   "ui.demoClear":"Очистить демо-данные",
-  "ui.explain":"Пояснение"
+  "ui.explain":"Пояснение",
+
+  /* --- השלמה: מפתחות שהיו חסרים ברוסית --- */
+  "bt.protoOff":"Изменённый протокол",
+  "bt.profDel":"Удалить профиль",
+  "bt.prof":"— профиль —",
+  "bt.warn":"⚠️ Протокол отличается от стандартного (20 м, старт ≥ 8.0 км/ч) — значения VO₂max показаны только как оценка.",
+  "bt.keys":"Клавиши: Пробел = старт/пауза · Enter = запись",
+  "bt.heatHint":"Загрузите класс и нажимайте на остановившегося ученика вместо большой кнопки — имя попадёт в таблицу точно, без набора потом.",
+  "bt.toTrack":"⇧ Сохранить в мониторинг",
+  "bt.toFt":"🏅 Отправить в тесты физподготовки",
+  "bt.cStage":"Ступень·отрезок",
+  "bt.emptyHint":"Во время бега — когда ученик останавливается, нажмите кнопку записи, и он попадёт в таблицу.",
+  "bt.refTable":"📋 Полная таблица ступеней и дистанций",
+  "bt.normTable":"📚 Таблица норм VO₂max (FITNESSGRAM®)",
+  "pf.simMode":"Режим симуляции",
+  "pf.resetRace":"↺ Сбросить забег",
+  "pf.slit":"Ширина щели ·",
+  "pf.minT":"Мин. интервал (с)",
+  "pf.autoDetect":"Автоматическое обнаружение движения на линии финиша",
+  "pf.micStart":"Звуковой старт — пистолет / хлопок (микрофон)",
+  "pf.gunDist":"Расстояние микрофона от стартёра (м)",
+  "pf.noOffset":"без поправки",
+  "pf.paste":"📋 Вставить список",
+  "pf.editNames":"✎ Изменить имена",
+  "pf.laneCount":"Число дорожек ·",
+  "pf.tapHint":"Нажатие на дорожку фиксирует пересечение сейчас · клавиши 1–9 делают то же с клавиатуры.",
+  "pf.sanity":"✅ Проверка за одну минуту — перед каждым забегом",
+  "pf.emptyRes":"Результатов пока нет. Проведите забег или импортируйте CSV.",
+  "pf.ai":"🎙️ Комментаторский отчёт",
+  "pf.arcSave":"💾 Сохранить в архив",
+  "pf.csv":"⬇ Экспорт CSV",
+  "pf.sheet":"🖼 Снимок + таблица",
+  "pf.cert":"🖨 Грамота победителю",
+  "pf.mail":"✉ Отправить результаты",
+  "pf.addRow":"＋ Строка",
+  "pf.numbers":"🔢 Стартовые номера",
+  "stu.tabPeer":"🤝 Взаимооценка",
+  "stu.searchPh":"Имя ученика",
+  "stu.sName":"По имени",
+  "stu.sCls":"По классу",
+  "stu.sVo2":"VO₂max — по убыванию",
+  "stu.sVo2a":"VO₂max — по возрастанию",
+  "stu.sTrend":"Сначала со спадом",
+  "stu.sTests":"Меньше всего измерений",
+  "stu.fromBeep":"⇩ Из таблицы бип-теста",
+  "stu.csv":"⬇ CSV класса",
+  "stu.empty":"Учеников пока нет.",
+  "stu.emptyHint":"Добавьте список вручную или импортируйте имена из таблицы бип-теста.",
+
+  /* --- תזונה --- */
+  "nut.daily":"Совет дня",
+  "nut.say":"🔊 Прочитать классу",
+  "nut.shuffle":"🔀 Другой совет",
+  "nut.all":"Все советы",
+  "nut.c.all":"Все",
+  "nut.c.before":"До нагрузки",
+  "nut.c.after":"После нагрузки",
+  "nut.c.water":"Питьё",
+  "nut.c.food":"Тарелка спортсмена",
+  "nut.c.myth":"Разрушаем мифы",
+  "nut.tip.0":"За 1,5–2 часа до интенсивного урока: легкоусвояемые углеводы — ломтик хлеба с мёдом, банан, каша. Ничего жареного и жирного.",
+  "nut.tip.1":"За полчаса до бип-теста или зачёта — только вода. Еда слишком близко к нагрузке = колики в боку и тяжесть.",
+  "nut.tip.2":"Урок первым? Маленький завтрак лучше, чем ничего: йогурт, фрукт, ломтик хлеба. Голодный организм устаёт быстрее.",
+  "nut.tip.3":"Окно восстановления: в течение часа после нагрузки — углеводы + белок. Какао и бутерброд с сыром — отличное и простое сочетание.",
+  "nut.tip.4":"Мышцы забиты на следующий день? Это естественная отсроченная боль (DOMS). Вода, белок в еде и лёгкое движение лучше полного покоя.",
+  "nut.tip.5":"Простое правило для урока: стакан воды до, глоток каждые 15 мин, стакан в конце. Летом — вдвое больше.",
+  "nut.tip.6":"Цвет мочи = самый доступный индикатор обезвоживания. Темнее светлого лимонада? Жидкости не хватает ещё до того, как появилась жажда.",
+  "nut.tip.7":"Энергетические напитки подросткам перед спортом запрещены — кофеин повышает пульс и скрывает признаки перегрузки. Вода всегда выигрывает.",
+  "nut.tip.8":"Сбалансированная тарелка: половина — овощи, четверть — белок (курица/рыба/бобовые/яйцо), четверть — цельнозерновые углеводы. Просто — и это 80% дела.",
+  "nut.tip.9":"Железо особенно важно для активных подростков (и особенно для девочек): нежирное мясо, бобовые, тхина. Нехватка железа = усталость на бип-тесте.",
+  "nut.tip.10":"Кальций + витамин D в подростковом возрасте формируют пиковую костную массу на всю жизнь. Молочные продукты, тхина, солнце на улице — ровно то, что даёт урок физкультуры.",
+  "nut.tip.11":"«Белок = мышцы»? Организм усваивает ограниченное количество белка. Тренирующемуся подростку нужно ~1,2–1,6 г на кг из обычной еды — порошки в школьном возрасте не нужны.",
+  "nut.tip.12":"«Потеть = худеть»: пот — это потеря жидкости, а не жира. Вес возвращается со стаканом воды. Решает энергетический баланс на длинной дистанции.",
+  "nut.tip.13":"«Углеводы полнят»: для юного спортсмена углеводы — топливо. Нет топлива — нет хорошего бип-теста. Вопрос в том, какие углеводы и сколько, а не нужны ли они.",
+  "nut.tip.14":"Жёсткие диеты в подростковом возрасте вредят росту и результатам. Ученик, который говорит о голодании или строгой диете, заслуживает спокойного разговора и направления к школьному психологу.",
+
+  /* --- טיפי שטח בדף הבית --- */
+  "home.tip.0":"Бип-тест: встаньте в конце дорожки, чтобы весь класс слышал динамик, — и прибавьте громкость перед стартом.",
+  "home.tip.1":"Фотофиниш: вносите бегунов по порядку дорожек от самого быстрого к самому медленному — распознавание раздаёт время по порядку списка.",
+  "home.tip.2":"Режим ТВ в таблице рекордов отлично подходит для входа в школу — подключите компьютер к экрану через HDMI и нажмите 📺.",
+  "home.tip.3":"Кубик физподготовки — отличная разминка: 3 броска = полная разминка, и ни один ученик не спорит с кубиком.",
+  "home.tip.4":"Экран телефона не погаснет посреди занятия — запрет выключения экрана активен, пока идёт таймер (можно отключить в настройках).",
+  "home.tip.5":"Приложение можно установить на главный экран — меню браузера, затем «Добавить на главный экран».",
+  "home.onboard":"Впервые здесь? Нажмите 🎬 «Демо-режим» на экране входа — учебный класс с настоящими результатами, чтобы увидеть, как всё работает, до ввода реальных учеников.",
+
+  /* --- פוטו־פיניש: הדרכת פתיחה --- */
+  "pfg.title":"📷 Фотофиниш — 4 шага",
+  "pfg.prev":"← Назад",
+  "pfg.next":"Далее →",
+  "pfg.go":"Поехали, измеряем",
+  "pfg.skip":"Больше не показывать",
+  "pfg.0.h":"Закрепите телефон — не держите в руке",
+  "pfg.0.p":"Камера должна видеть <b>линию финиша сбоку</b>, примерно на высоте груди. Штатив, забор, скамейка или сумка — что угодно устойчивое. Сдвиг на сантиметр смещает линию, а вместе с ней и все времена.",
+  "pfg.1.h":"Совместите красную линию с линией финиша",
+  "pfg.1.p":"Двигайте «Положение линии финиша», пока красная линия на экране не ляжет <b>точно</b> на линию финиша на площадке. Это единственный параметр, ошибка в котором обесценивает весь забег.",
+  "pfg.2.h":"Если есть стартовый пистолет — введите расстояние до него",
+  "pfg.2.p":"Звук проходит 343 м в секунду. Камера в 34 м от старта слышит выстрел на десятую долю секунды позже, и все времена получаются короче ровно на эту десятую. Ввод расстояния это компенсирует.",
+  "pfg.3.h":"При плотном финише — нажмите на бегуна на снимке",
+  "pfg.3.p":"После забега, в «🎞 Снимок финиша», нажатие на корпус бегуна даёт время с интерполяцией между столбцами. <b>Точнее автоматического триггера</b> — так работают в финале.",
+
+  /* --- פוטו־פיניש: בדיקת שפיות --- */
+  "pfs.title":"✅ Проверка за одну минуту",
+  "pfs.hint":"Делайте это один раз на каждом новом месте. Именно это отличает измерение от числа, которое только похоже на измерение.",
+  "pfs.list":"<li><b>Телефон неподвижен.</b> Штатив, забор или сумка — не в руке. Сдвиг на сантиметр смещает линию финиша.</li><li><b>Строка состояния зелёная:</b> «🟢 Камера активна · распознавание включено». Застряло на «Калибровка фона…» = что-то двигается или меняется освещение.</li><li><b>Ученик проходит шагом.</b> Сигнал должен прозвучать <b>ровно</b> в момент, когда он на линии. Слишком рано — красная линия не на линии финиша; исправьте в «Положение линии финиша».</li><li><b>После забега</b> — «🎞 Снимок финиша» показывает временное разрешение ±X мс. Это реальное измерение с вашего телефона, а не обещание.</li><li><b>При плотном финише:</b> нажмите на самого бегуна на ленте. Интерполяция между столбцами точнее автоматического триггера.</li>",
+  "pfs.ok":"Понятно — поехали",
+
+  /* --- פוטו־פיניש: מספרי חזה --- */
+  "pfn.title":"🔢 Стартовые номера",
+  "pfn.hint":"Когда бегуны с нагрудными номерами, а не по списку, — впишите здесь номер для каждой дорожки. Он появится в таблице, в экспорте и в грамоте. Дорожку без бегуна можно оставить пустой.",
+
+  /* --- מדריך מהיר (ℹ) --- */
+  "info.title":"ℹ️ Краткое руководство",
+  "info.top":"Один полевой набор: тесты физподготовки, бип-тест, фотофиниш, планы уроков, рекорды, посещаемость и оценки. Работает и без связи, а все данные хранятся <b>только на этом устройстве</b> — поэтому время от времени делайте резервную копию в файл (⚙ Настройки → «Сохранить всё в файл»).",
+  "info.home.s":"🚀 С чего начать",
+  "info.home.w":"Три шага, один раз — и можно работать.",
+  "info.home.l":"<li><b>Код учителя</b> задаётся при первом входе и защищает зону учителя, когда телефон переходит из рук в руки.</li><li><b>🎬 Демо-режим</b> на экране входа — учебный класс с результатами, чтобы увидеть, как всё работает, до ввода реальных учеников. Очищается одним нажатием.</li><li><b>Один настоящий класс</b> — «Тесты физподготовки» → выберите параллель и номер → «👥 Список». С этого момента тот же список доступен на всех остальных экранах.</li>",
+  "info.ft.s":"🏅 Тесты физподготовки",
+  "info.ft.w":"Сердце приложения: 31 тест с секундомером и счётчиком. Выберите класс и тест и введите результат каждому ученику.",
+  "info.ft.l":"<li><b>🏅 Тесты</b> экран, где идут реальные измерения. Каждый результат сохраняется за учеником и не удаляется.</li><li><b>📊 Индекс физподготовки</b> общая оценка физподготовки каждого ученика относительно норм.</li><li><b>🏅 Значок по физкультуре</b> кто выполняет требования и чего ему не хватает.</li><li><b>📋 Чего не хватает классу</b> кто уже прошёл каждый тест, а кто ещё нет, — вместо поиска по спискам.</li><li><b>📈 Динамика</b> по каждому тесту: сколько улучшились, сколько ухудшились, сколько без изменений.</li>",
+  "info.lesson.s":"📋 Планы уроков",
+  "info.lesson.w":"Полный план — разминка, станции, игра и заключение — одним нажатием или вручную.",
+  "info.lesson.l":"<li><b>⚡ Быстро</b> выберите тему, параллель, длительность и место — план соберётся сам, со связью со стандартами.</li><li><b>🧩 Ручной конструктор</b> соберите урок сами из готовых этапов.</li><li><b>▶ Начать урок</b> открывает «активный урок», и каждое измерение с этого момента записывается в него. Если кнопка просит класс — «🏷 Выбрать класс» рядом.</li><li><b>💾 Сохранить · 🖨 Печать</b> план сохраняется в библиотеке для повторного использования в следующем году.</li>",
+  "info.fit.s":"⏱ Фитнес",
+  "info.fit.w":"Инструменты, которые ведут сам урок, без подготовки заранее.",
+  "info.fit.l":"<li><b>⏱ Интервальный таймер</b> работа/отдых с голосовыми объявлениями.</li><li><b>🔁 Станции для класса</b> готовая круговая тренировка для показа на экране.</li><li><b>📖 Библиотека упражнений · 🎲 Кубик физподготовки</b> упражнение по задаче или жеребьёвка, когда нужно разнообразие.</li><li><b>🏋️ Программа тренажёрного зала</b> для старших классов.</li>",
+  "info.games.s":"🎮 Игры",
+  "info.games.w":"Игры для перемен и конца урока — с целью, вариациями и правилами безопасности.",
+  "info.games.l":"<li>Поиск по названию, инвентарю или цели.</li><li>Любую игру можно сразу перенести в план урока.</li>",
+  "info.beep.s":"🎵 Бип-тест",
+  "info.beep.w":"Проводит бип-тест с точностью аудиочасов, рассчитывает VO₂max и сравнивает с нормами FITNESSGRAM.",
+  "info.beep.l":"<li><b>Загрузить класс</b> подтягивает уже введённый список — без повторного набора имён.</li><li><b>Записать сход</b> нажмите на ученика в момент остановки, и его ступень будет записана.</li><li><b>Отправить в тесты физподготовки</b> результат попадает в карточку ученика и в индекс физподготовки.</li>",
+  "info.photo.s":"📷 Фотофиниш",
+  "info.photo.w":"Измеряет время забега камерой телефона и показывает на снимке, кто пересёк линию первым.",
+  "info.photo.l":"<li><b>🎯 Живая дорожка</b> наведите камеру на линию финиша и начните забег.</li><li><b>🎞 Снимок финиша · 🏁 Результаты</b> момент пересечения и точное время по каждой дорожке.</li><li><b>🔄 Круги · 🗄 Архив</b> длинные забеги и прошлые забеги, к которым можно вернуться.</li>",
+  "info.rec.s":"🏆 Чемпионы школы",
+  "info.rec.w":"Таблица школьных рекордов в сравнении с рекордами страны и мира.",
+  "info.rec.l":"<li>Ученик отправляет рекорд с видео-доказательством — и он появляется в таблице <b>только после вашего подтверждения</b>.</li><li><b>📺 Режим ТВ</b> для экрана у входа в зал · <b>🔗 Ссылка / QR</b> чтобы поделиться с учениками.</li>",
+  "info.stu.s":"👥 Ученики и оценки",
+  "info.stu.w":"Список учеников, таблица оценок по периодам и взаимооценка.",
+  "info.stu.l":"<li><b>⬇ Заполнить по посещаемости</b> ставит оценку за участие по данным посещаемости — только в пустые ячейки, не затирая введённую вами оценку.</li><li><b>⬇ CSV</b> выгружает таблицу в электронную таблицу.</li>",
+  "info.tools.s":"🧰 Инструменты класса",
+  "info.tools.w":"Четыре инструмента для моментов, которые повторяются на каждом уроке.",
+  "info.tools.l":"<li><b>👥 Команды</b> сбалансированное деление по последнему результату — без команды, у которой нет шансов.</li><li><b>🎯 Жребий</b> выбирает случайного ученика.</li><li><b>✅ Посещаемость</b> ежедневная отметка — из неё заполняется оценка за участие.</li><li><b>📋 Рубрики</b> оценивание по критериям.</li>",
+  "info.know.s":"📚 Знания",
+  "info.know.w":"Профессиональная опора для решений — источники, программы и цифры.",
+  "info.know.l":"<li><b>📚 Официальные источники</b> каждый пункт связан с актуальным документом.</li><li><b>🏋️ Проверенные программы · 📌 Цифры, которые стоит помнить</b> для момента, когда решение нужно обосновать перед родителем или директором.</li>",
+  "info.nut.s":"🥗 Уголок питания",
+  "info.nut.w":"Короткий совет дня, чтобы прочитать классу, и подборка советов по темам.",
+  "info.data.s":"💾 Ваши данные",
+  "info.data.w":"Нет сервера и нет аккаунта — это и преимущество, и ответственность.",
+  "info.data.l":"<li><b>Резервная копия</b> ⚙ Настройки → «⬇ Сохранить всё в файл». «⬆ Восстановить из файла» возвращает всё на новом устройстве.</li><li><b>Шифрование</b> резервную копию можно зашифровать паролем — но восстановления пароля нет. Потерян пароль — потерян файл.</li><li><b>Неверное название класса?</b> ⚙ Настройки → «🏷 Названия классов». Переименование не отвязывает ни одного ученика и ни одного измерения.</li><li><b>Трудно читать на солнце?</b> ☀ в верхней панели, а в настройках — «Крупные кнопки» для работы одной рукой.</li>",
+
+  /* --- אודות --- */
+  "ab.p":"Полевой набор для учителя физкультуры: тесты физподготовки, бип-тест, фотофиниш с камеры, планы уроков, таблица рекордов, инструменты класса и оценки — всё на одном экране и без отправки чего-либо наружу.",
+  "ab.privT":"🔒 Конфиденциальность",
+  "ab.priv":"Данные учеников — списки, оценки и измерения — хранятся только в localStorage этого устройства. <b>Нет сервера, нет аккаунта, ничего никуда не отправляется.</b> Это данные о несовершеннолетних, поэтому так задумано, а не случайно. Экспорт CSV или резервная копия — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё — поэтому есть резервная копия. Единственное, что покидает устройство, — ваши (учителя) контактные данные, введённые на первом приветственном экране, — не данные об учениках, — и отправляются они один раз.",
+  "ab.srcT":"📚 Профессиональные источники",
+  "ab.src":"Протокол Léger (бип-тест) · нормы FITNESSGRAM® от Cooper Institute · «Значок по физкультуре — стандарты оценки достижений учащихся», Министерство образования Израиля, Педагогический секретариат · учебная программа по физической культуре. Школьные нормы — данные учителя и хранятся на устройстве.",
+  "ab.builtT":"🛠 Сделано с помощью",
+  "ab.built":"Только JavaScript, HTML и CSS — без внешних библиотек и без шага сборки в браузере, чтобы приложение быстро открывалось и работало в поле без сети. Разработано совместно с Claude Code.",
+  "ab.warnT":"⚠️ Ограничение ответственности",
+  "ab.warn":"Вспомогательный инструмент для преподавания. Измерения камерой и секундомером настолько хороши, насколько позволяют условия на площадке, и не заменяют сертифицированное хронометражное оборудование для официальных соревнований. Педагогическое решение и оценка — за вами."
+},
+
+es:{
+  "brand.word":"PE",
+  "brand.full":"PE Ultimate",
+  "about.title":"📘 Acerca de PE Ultimate",
+  "bt.setup":"Configuración de la prueba",
+  "bt.dist":"Longitud del tramo",
+  "bt.speed":"Velocidad del nivel 1 (km/h)",
+  "bt.std":"↺ Estándar (8.0)",
+  "bt.proto":"Protocolo estándar",
+  "bt.protoOff":"Protocolo modificado",
+  "bt.saveProf":"💾 Guardar perfil",
+  "bt.profDel":"Eliminar perfil",
+  "bt.prof":"— perfil —",
+  "bt.age":"Edad del grupo",
+  "bt.sex":"Sexo (para baremos)",
+  "bt.voice":"Anuncios por voz",
+  "bt.beeps":"Pitidos",
+  "bt.warn":"⚠️ El protocolo difiere del estándar (20 m, inicio ≥ 8.0 km/h) — los valores de VO₂max se muestran solo como estimación.",
+  "bt.live":"Prueba en curso",
+  "bt.ready":"Listo para empezar",
+  "bt.paused":"En pausa",
+  "bt.ended":"Finalizada",
+  "bt.metres":"m",
+  "bt.stage":"Nivel · tramo",
+  "bt.time":"Tiempo",
+  "bt.speedNow":"Velocidad",
+  "bt.inStage":"Progreso dentro del nivel",
+  "bt.vo2":"VO₂max actual",
+  "bt.start":"▶ Empezar",
+  "bt.reset":"↺ Reiniciar",
+  "bt.drop":"🛑 Registrar abandono · el alumno se detuvo",
+  "bt.laneMode":"Registrar por número de calle",
+  "bt.laneN":"Cuántas calles",
+  "bt.undo":"↩ Deshacer el último registro",
+  "bt.keys":"Atajos: Espacio = empezar/pausa · Enter = registrar",
+  "bt.heat":"Lista de la serie",
+  "bt.loadCls":"👥 Cargar grupo",
+  "bt.clearCls":"✕ Borrar",
+  "bt.heatHint":"Carga un grupo y toca al alumno que se detuvo en lugar del botón grande — el nombre entra en la tabla con exactitud, sin teclear después.",
+  "bt.board":"Resultados",
+  "bt.byOrder":"Por orden",
+  "bt.byDist":"Por distancia",
+  "bt.toTrack":"⇧ Guardar en el seguimiento",
+  "bt.toFt":"🏅 Enviar a las pruebas de condición física",
+  "bt.cRank":"Puesto",
+  "bt.cName":"Nombre",
+  "bt.cStage":"Nivel·tramo",
+  "bt.cDist":"Distancia",
+  "bt.cCat":"Categoría",
+  "bt.empty":"Aún no hay registros.",
+  "bt.emptyHint":"Durante la carrera — cuando un alumno se detiene, pulsa el botón de registro y entra en la tabla.",
+  "bt.refTable":"📋 Tabla completa de niveles y distancias",
+  "bt.normTable":"📚 Tabla de baremos de VO₂max (FITNESSGRAM®)",
+  "pf.tLive":"🎯 Calle en directo",
+  "pf.tStrip":"🎞 Imagen de llegada",
+  "pf.tRes":"🏁 Resultados",
+  "pf.tLaps":"🔄 Vueltas",
+  "pf.tArc":"🗄 Archivo",
+  "pf.tMeta":"📋 Datos de la carrera",
+  "pf.sim":"Simulación",
+  "pf.cam":"Cámara",
+  "pf.simMode":"Modo simulación",
+  "pf.gun":"🔫 Salida",
+  "pf.stop":"⏹ Detener carrera",
+  "pf.resetRace":"↺ Reiniciar carrera",
+  "pf.line":"Posición de la línea de meta",
+  "pf.sens":"Sensibilidad de detección ·",
+  "pf.slit":"Ancho de la ranura ·",
+  "pf.minT":"Separación mín. (s)",
+  "pf.autoDetect":"Detección automática de movimiento en la línea de meta",
+  "pf.micStart":"Salida por sonido — pistola / palmada (micrófono)",
+  "pf.gunDist":"Distancia del micrófono al juez de salida (m)",
+  "pf.noOffset":"sin compensación",
+  "pf.lanes":"Calles y participantes",
+  "pf.loadCls":"👥 Cargar grupo",
+  "pf.paste":"📋 Pegar lista",
+  "pf.editNames":"✎ Editar nombres",
+  "pf.laneCount":"Número de calles ·",
+  "pf.tapHint":"Tocar una calle registra un paso ahora · las teclas 1–9 hacen lo mismo desde el teclado.",
+  "pf.sanity":"✅ Comprobación de un minuto — antes de cada carrera",
+  "pf.board":"Resultados oficiales",
+  "pf.cLane":"Calle",
+  "pf.cTime":"Tiempo",
+  "pf.cGap":"Diferencia",
+  "pf.cSrc":"Origen",
+  "pf.emptyRes":"Aún no hay resultados. Haz una carrera o importa un CSV.",
+  "pf.ai":"🎙️ Informe narrado",
+  "pf.arcSave":"💾 Guardar en el archivo",
+  "pf.csv":"⬇ Exportar CSV",
+  "pf.sheet":"🖼 Imagen + tabla",
+  "pf.cert":"🖨 Diploma del ganador",
+  "pf.mail":"✉ Enviar resultados",
+  "pf.addRow":"＋ Fila",
+  "pf.numbers":"🔢 Dorsales",
+  "stu.tabList":"👥 Mi alumnado",
+  "stu.tabGrades":"📊 Calificaciones",
+  "stu.tabPeer":"🤝 Coevaluación",
+  "stu.title":"Mi alumnado",
+  "stu.search":"Buscar",
+  "stu.searchPh":"Nombre del alumno",
+  "stu.sort":"Ordenar",
+  "stu.sName":"Por nombre",
+  "stu.sCls":"Por grupo",
+  "stu.sVo2":"VO₂max — de mayor a menor",
+  "stu.sVo2a":"VO₂max — de menor a mayor",
+  "stu.sTrend":"Primero los que bajan",
+  "stu.sTests":"Menos mediciones",
+  "stu.add":"+ Añadir alumnado",
+  "stu.fromBeep":"⇩ Desde la tabla del test de la bip",
+  "stu.csv":"⬇ CSV del grupo",
+  "stu.count":"Alumnos",
+  "stu.avg":"VO₂max medio",
+  "stu.below":"Riesgo para la salud",
+  "stu.falling":"En descenso",
+  "stu.allCls":"Todos los grupos",
+  "stu.empty":"Aún no hay alumnado.",
+  "stu.emptyHint":"Añade una lista a mano o importa los nombres desde la tabla del test de la bip.",
+  "lock.sub":"Zona docente — introduce tu código",
+  "lock.enter":"Entrada docente",
+  "lock.or":"o",
+  "lock.student":"👦 Entrada de alumnado — sin código",
+  "lock.studentNote":"Modo alumnado: ver la tabla de récords y la página de juegos, y enviar un nuevo récord para que el docente lo apruebe. Sin acceso al alumnado, las pruebas, los ajustes ni la aprobación de récords.",
+  "lock.demo":"🎬 Modo demostración — un recorrido, sin código",
+  "lock.demoNote":"Demostración: un grupo de ejemplo con resultados, para ver cómo funciona todo antes de introducir alumnado real. Puedes borrar los datos de demostración con un toque.",
+  "lock.aboutQ":"¿Qué es esto?",
+  "lock.aboutA":"Un kit de campo para docentes de Educación Física: pruebas de condición física, test de la bip, foto-finish con la cámara, planes de sesión, récords y calificaciones.",
+  "lock.dataQ":"¿Dónde están los datos?",
+  "lock.dataA":"Solo en este dispositivo. Sin servidor, sin cuenta, no se envía nada a ninguna parte.",
+  "lock.newCode":"Crea un código docente — elige uno que solo tú conozcas",
+  "lock.setCode":"Guardar código y entrar",
+  "lock.newCodePh":"Código nuevo",
+  "lock.welcome":"¡Hola de nuevo, profe! 👋",
+  "lock.wrong":"Código incorrecto",
+  "lock.tooShort":"Elige un código de al menos 4 dígitos",
+  "lead.title":"Justo antes de empezar",
+  "lead.sub":"La aplicación es totalmente gratuita — sin tarjeta, sin pago, sin compromiso. Déjanos unos datos para enviarte un breve cuestionario de opinión — nos ayudará a mejorar la aplicación y hacerla más profesional.",
+  "lead.contactHint":"Móvil o correo — con uno basta. Es solo una forma de contactarte, nada más.",
+  "lead.first":"Nombre",
+  "lead.last":"Apellidos",
+  "lead.phone":"Móvil",
+  "lead.email":"Correo electrónico",
+  "lead.send":"Enviar y continuar",
+  "lead.note":"Sin coste y sin tarjeta — la aplicación es gratuita. Estos datos nos llegan directamente solo para ponernos en contacto contigo. Todo lo demás — alumnado, calificaciones, mediciones — sigue solo en tu dispositivo, como siempre.",
+  "nav.home":"Inicio",
+  "nav.tests":"Pruebas",
+  "nav.lesson":"Sesión",
+  "nav.beep":"Bip",
+  "nav.photo":"Meta",
+  "nav.records":"Récords",
+  "nav.games":"Juegos",
+  "nav.more":"Más",
+  "nav.back":"Atrás",
+  "home.greet":"Buenos días,",
+  "home.coach":"profe.",
+  "home.statRuns":"carreras cronometradas",
+  "home.statBeep":"mejor bip",
+  "home.statRecs":"récords aprobados",
+  "home.statStu":"alumnos en seguimiento",
+  "home.today":"Mis sesiones de hoy",
+  "home.schedEdit":"🗓 Horario",
+  "home.lastLesson":"Última sesión",
+  "home.allLessons":"📖 Todas las sesiones",
+  "home.ft":"Pruebas de condición física",
+  "home.ftSub":"31 pruebas · cronómetro y contador · lista del grupo · índice de condición física",
+  "home.lesson":"Planes de sesión",
+  "home.lessonSub":"calentamiento → estaciones → medición · rápido o a mano",
+  "home.beep":"Test de la bip",
+  "home.beepSub":"pitidos con precisión de reloj de audio · VO₂max · baremos FITNESSGRAM",
+  "home.photo":"Foto-finish",
+  "home.photoSub":"cronometraje con cámara · velocidad · vueltas · diplomas",
+  "home.know":"Conocimiento",
+  "home.knowSub":"fuentes oficiales · programas basados en evidencia · juegos",
+  "home.more":"Más opciones",
+  "home.moreSub":"campeones del centro · alumnado y calificaciones · conocimiento · herramientas de clase · nutrición",
+  "home.challenge":"Reto de la semana",
+  "home.chPlus":"+ sumar",
+  "home.chEdit":"✎ nuevo reto",
+  "home.tip":"Consejo de campo",
+  "more.title":"☰ Menú",
+  "more.home":"¿Y ahora qué? — inicio",
+  "more.sched":"Horario",
+  "more.groups":"Grupos de clase",
+  "more.ft":"Pruebas de condición física",
+  "more.lesson":"Planes de sesión",
+  "more.beep":"Test de la bip",
+  "more.photo":"Foto-finish",
+  "more.guide":"Guía de pantallas",
+  "more.settings":"Ajustes y copia de seguridad",
+  "more.records":"Campeones del centro",
+  "more.students":"Alumnado y calificaciones",
+  "more.knowledge":"Conocimiento",
+  "more.tools":"Herramientas de clase",
+  "more.nutrition":"Rincón de nutrición",
+  "set.title":"Ajustes",
+  "set.school":"Nombre del centro (aparece en la cabecera, en los diplomas y en el modo TV)",
+  "set.theme":"Tema de color",
+  "set.themeHint":"«Día» y «Sol intenso» están pensados para exteriores — fondo claro y alto contraste que se leen bien a pleno sol.",
+  "set.sound":"Sonidos",
+  "set.voice":"Anuncios por voz",
+  "set.wake":"Mantener la pantalla encendida durante la actividad",
+  "set.lock":"Bloquear la zona docente al entrar",
+  "set.touch":"Botones grandes (uso con una mano durante la sesión)",
+  "set.save":"Guardar",
+  "set.saved":"Ajustes guardados",
+  "set.clsTitle":"🏷 Nombres de los grupos",
+  "set.clsHint":"Renombrar solo cambia el nombre. El alumnado, las mediciones y las sesiones del grupo siguen con él — se identifican por un id fijo, no por el nombre.",
+  "set.clsPick":"Grupo",
+  "set.clsCurLbl":"Nombre actual",
+  "set.clsNewLbl":"Nombre nuevo",
+  "set.clsNewPh":"p. ej. 3.º ESO B — Deportivo",
+  "set.clsSaveBtn":"Guardar",
+  "set.lang":"Idioma",
+  "set.langHint":"La interfaz cambia de idioma al instante. El contenido profesional (juegos, planes de sesión, base de conocimiento) sigue en hebreo y se está traduciendo poco a poco.",
+  "set.about":"📘 Acerca de, versión y créditos",
+  "set.purge":"🧹 Borrar datos antiguos",
+  "set.install":"📲 Instalar como aplicación: en Chrome — menú ⋮ y luego «Añadir a pantalla de inicio». En iPhone — Compartir y luego «Añadir a pantalla de inicio». Guardada como archivo, la aplicación funciona también sin internet (solo las fuentes se cargan de la red).",
+  "bk.title":"💾 Copia de seguridad y restauración",
+  "bk.body":"Todos tus datos — alumnado, resultados, récords, calificaciones, baremos y ajustes — se guardan <b>solo en este dispositivo</b>. Un dispositivo roto o borrar los datos del sitio significa perderlos, sin vuelta atrás. Un archivo de copia lo resuelve, y además lo traslada todo a un dispositivo nuevo o a otro docente.",
+  "bk.export":"⬇ Copiar todo a un archivo",
+  "bk.import":"⬆ Restaurar desde un archivo",
+  "bk.encrypt":"🔐 Cifrar la copia con una contraseña",
+  "bk.encryptHint":"Un archivo cifrado puede guardarse en Drive o enviarse por correo sin que nadie — ni siquiera el servicio de almacenamiento — pueda leerlo. <b>No hay recuperación de contraseña:</b> si pierdes la contraseña, pierdes el archivo. Eso es un cifrado de verdad. Sin esta casilla — un archivo normal, sin cifrar, que cualquier herramienta que lea JSON puede abrir.",
+  "bk.pass":"Contraseña",
+  "bk.passAgain":"Otra vez, para confirmar",
+  "bk.passTitleNew":"🔐 Contraseña de la copia",
+  "bk.passTitleOpen":"🔐 Este archivo está cifrado",
+  "bk.passHintNew":"Elige una contraseña. <b>No hay forma de recuperarla</b> — guárdala donde la recuerdes, o el archivo se pierde.",
+  "bk.passHintOpen":"Este archivo está cifrado. Introduce la contraseña con la que se creó.",
+  "bk.passShort":"La contraseña debe tener al menos 8 caracteres.",
+  "bk.passMismatch":"Las dos contraseñas no coinciden.",
+  "bk.passWrongLeft":"Contraseña incorrecta — quedan {n} intentos",
+  "bk.passWrongFinal":"Contraseña incorrecta. El archivo no se abrió.",
+  "bk.never":"nunca se ha hecho copia",
+  "bk.lastAt":"última copia",
+  "bk.groups":"grupos de datos",
+  "bk.restoreTitle":"⬆ Restaurar desde un archivo de copia",
+  "bk.restoreHint":"Esto es lo que contiene el archivo. Restaurar <b>sustituye</b> los datos de este dispositivo — así que haz primero una copia del estado actual.",
+  "bk.colItem":"Datos",
+  "bk.colFile":"En el archivo",
+  "bk.colHere":"En el dispositivo ahora",
+  "bk.safety":"⬇ Copiar primero el estado actual",
+  "bk.go":"✓ Restaurar y sustituir",
+  "bk.cancel":"Cancelar",
+  "bk.confirm":"¿Restaurar? Todos los datos de este dispositivo se sustituirán por los del archivo.",
+  "bk.done":"✓ Restaurado — recargando",
+  "bk.bad":"Ese archivo no es una copia de PE Ultimate",
+  "thm.dark":"Noche",
+  "thm.turf":"Césped",
+  "thm.slate":"Pizarra",
+  "thm.day":"Día",
+  "thm.sun":"Sol intenso",
+  "i18n.partial":"Interfaz traducida. El contenido profesional sigue en hebreo.",
+  "ui.close":"Cerrar",
+  "ui.cancel":"Cancelar",
+  "ui.save":"Guardar",
+  "ui.delete":"Eliminar",
+  "ui.edit":"Editar",
+  "ui.add":"Añadir",
+  "ui.export":"Exportar",
+  "ui.import":"Importar",
+  "ui.search":"Buscar",
+  "ui.sort":"Ordenar",
+  "ui.class":"Grupo",
+  "ui.grade":"Curso",
+  "ui.name":"Nombre",
+  "ui.date":"Fecha",
+  "ui.result":"Resultado",
+  "ui.score":"Puntuación",
+  "ui.boys":"Chicos",
+  "ui.girls":"Chicas",
+  "ui.all":"Todos",
+  "ui.none":"Ninguno",
+  "ui.yes":"Sí",
+  "ui.no":"No",
+  "ui.back":"Atrás",
+  "ui.next":"Siguiente",
+  "ui.done":"Hecho",
+  "ui.sun":"Modo sol intenso — alto contraste para la luz del día",
+  "ui.sunOff":"Volver al tema normal",
+  "ui.menu":"Menú — todas las pantallas",
+  "ui.settings":"Ajustes",
+  "ui.info":"Guía rápida — qué hace esta pantalla",
+  "ui.demoBar":"Modo demostración",
+  "ui.demoNote":"— los datos aquí son de ejemplo",
+  "ui.demoClear":"Borrar datos de demostración",
+  "ui.explain":"Explicación",
+
+  /* --- תזונה --- */
+  "nut.daily":"Consejo del día",
+  "nut.say":"🔊 Leer a la clase",
+  "nut.shuffle":"🔀 Otro consejo",
+  "nut.all":"Todos los consejos",
+  "nut.c.all":"Todos",
+  "nut.c.before":"Antes de la actividad",
+  "nut.c.after":"Después de la actividad",
+  "nut.c.water":"Hidratación",
+  "nut.c.food":"Plato del deportista",
+  "nut.c.myth":"Rompiendo mitos",
+  "nut.tip.0":"1,5–2 horas antes de una sesión intensa: un hidrato de carbono fácil de digerir — una rebanada de pan con miel, un plátano, unas gachas. Nada frito ni graso.",
+  "nut.tip.1":"Media hora antes del test de la bip o de un examen — solo agua. Comer demasiado cerca del esfuerzo = flato y pesadez.",
+  "nut.tip.2":"¿Sesión a primera hora? Un desayuno pequeño es mejor que nada: yogur, fruta, una rebanada de pan. Un cuerpo en ayunas se cansa antes.",
+  "nut.tip.3":"La ventana de recuperación: hasta una hora después del esfuerzo — hidratos + proteína. Un batido de cacao y un bocadillo de queso son una combinación excelente y sencilla.",
+  "nut.tip.4":"¿Agujetas al día siguiente? Es DOMS, algo natural. Agua, proteína en las comidas y movimiento suave son mejores que el reposo absoluto.",
+  "nut.tip.5":"Regla práctica para la sesión: un vaso de agua antes, un sorbo cada 15 min, un vaso al final. En verano — el doble.",
+  "nut.tip.6":"El color de la orina = el indicador de deshidratación más a mano. ¿Más oscuro que una limonada clara? Faltan líquidos incluso antes de tener sed.",
+  "nut.tip.7":"Las bebidas energéticas están prohibidas antes del deporte para adolescentes — la cafeína sube el pulso y oculta los signos de sobrecarga. El agua siempre gana.",
+  "nut.tip.8":"Un plato equilibrado: la mitad verduras, un cuarto proteína (pollo/pescado/legumbres/huevo), un cuarto hidratos integrales. Sencillo — y es el 80 % del trabajo.",
+  "nut.tip.9":"El hierro es especialmente importante para adolescentes activos (y sobre todo para las chicas): carne magra, legumbres, tahini. Falta de hierro = cansancio en el test de la bip.",
+  "nut.tip.10":"Calcio + vitamina D en la adolescencia construyen el pico de masa ósea de toda la vida. Lácteos, tahini, sol al aire libre — justo lo que da una sesión de Educación Física.",
+  "nut.tip.11":"«¿Proteína = músculo?» La cantidad de proteína que el cuerpo aprovecha es limitada. Un adolescente que entrena necesita ~1,2–1,6 g por kg de comida normal — los batidos de proteína sobran en edad escolar.",
+  "nut.tip.12":"«Sudar = adelgazar»: el sudor es pérdida de líquido, no de grasa. El peso vuelve con un vaso de agua. Lo que cuenta es el balance energético a lo largo del tiempo.",
+  "nut.tip.13":"«Los hidratos engordan»: para un deportista joven, los hidratos son combustible. Sin combustible — no hay buen test de la bip. La cuestión es qué hidrato y cuánto, no si tomarlo.",
+  "nut.tip.14":"Las dietas extremas en la adolescencia perjudican el crecimiento y el rendimiento. Un alumno que habla de ayunos o de una dieta estricta merece una conversación tranquila y una derivación al departamento de orientación.",
+
+  /* --- טיפי שטח בדף הבית --- */
+  "home.tip.0":"Test de la bip: colocaos al final de la pista para que toda la clase oiga el altavoz — y subid el volumen antes de la salida.",
+  "home.tip.1":"Foto-finish: introduce a los corredores por orden de calles, del más rápido al más lento — la detección asigna los tiempos según el orden de la lista.",
+  "home.tip.2":"El modo TV de la tabla de récords es ideal para la entrada del centro — conecta un ordenador a una pantalla por HDMI y pulsa 📺.",
+  "home.tip.3":"El dado de condición física funciona genial como calentamiento: 3 tiradas = un calentamiento completo, y nadie discute con un dado.",
+  "home.tip.4":"La pantalla del móvil no se apagará en plena actividad — el bloqueo de apagado está activo mientras corre un temporizador (se puede desactivar en Ajustes).",
+  "home.tip.5":"Puedes instalar la aplicación en la pantalla de inicio — menú del navegador y luego «Añadir a pantalla de inicio».",
+  "home.onboard":"¿Eres nuevo aquí? Pulsa 🎬 «Modo demostración» en la pantalla de entrada — un grupo de ejemplo con resultados reales, para ver cómo funciona todo antes de introducir alumnado real.",
+
+  /* --- פוטו־פיניש: הדרכת פתיחה --- */
+  "pfg.title":"📷 Foto-finish — 4 pasos",
+  "pfg.prev":"← Anterior",
+  "pfg.next":"Siguiente →",
+  "pfg.go":"¡Vamos a medir!",
+  "pfg.skip":"No volver a mostrar",
+  "pfg.0.h":"Fija el móvil — no en la mano",
+  "pfg.0.p":"La cámara debe ver <b>la línea de meta de lado</b>, más o menos a la altura del pecho. Trípode, valla, banco o mochila — cualquier cosa estable. Un desplazamiento de un centímetro mueve la línea, y todos los tiempos se mueven con ella.",
+  "pfg.1.h":"Alinea la línea roja con la línea de meta",
+  "pfg.1.p":"Mueve «Posición de la línea de meta» hasta que la línea roja de la pantalla quede <b>exactamente</b> sobre la línea de meta de la pista. Es el único ajuste en el que un error invalida toda la serie.",
+  "pfg.2.h":"Si hay pistola de salida — introduce la distancia a ella",
+  "pfg.2.p":"El sonido recorre 343 m por segundo. Una cámara a 34 m de la salida oye el disparo una décima de segundo tarde, y todos los tiempos salen cortos exactamente en esa décima. Introducir la distancia lo compensa.",
+  "pfg.3.h":"En una llegada ajustada — toca al corredor en la imagen",
+  "pfg.3.p":"Tras la serie, en «🎞 Imagen de llegada», tocar el tronco del corredor da un tiempo interpolado entre columnas. <b>Más preciso que el disparador automático</b> — así se trabaja una final.",
+
+  /* --- פוטו־פיניש: בדיקת שפיות --- */
+  "pfs.title":"✅ Comprobación de un minuto",
+  "pfs.hint":"Hazlo una vez en cada lugar nuevo. Es lo que separa una medición de un número que solo lo parece.",
+  "pfs.list":"<li><b>El móvil está fijo.</b> Trípode, valla o mochila — no en la mano. Un centímetro de desplazamiento mueve la línea de meta.</li><li><b>La línea de estado está en verde:</b> «🟢 Cámara activa · detección armada». ¿Atascado en «Calibrando fondo…»? = algo se mueve o la luz está cambiando.</li><li><b>Un alumno cruza andando.</b> El pitido debe sonar <b>justo</b> cuando está sobre la línea. ¿Demasiado pronto? — la línea roja no está sobre la meta; corrígelo en «Posición de la línea de meta».</li><li><b>Tras la serie</b> — «🎞 Imagen de llegada» muestra una resolución temporal de ±X ms. Es una medición real de tu móvil, no una promesa.</li><li><b>En una llegada ajustada:</b> toca al propio corredor en la tira. La interpolación entre columnas es más precisa que el disparador automático.</li>",
+  "pfs.ok":"Entendido — ¡vamos!",
+
+  /* --- פוטו־פיניש: מספרי חזה --- */
+  "pfn.title":"🔢 Dorsales",
+  "pfn.hint":"Cuando los corredores llevan dorsal en lugar de ir por lista — escribe aquí el número de cada calle. Aparecerá en la tabla, en la exportación y en el diploma. Puedes dejar vacía una calle sin corredor.",
+
+  /* --- מדריך מהיר (ℹ) --- */
+  "info.title":"ℹ️ Guía rápida",
+  "info.top":"Un solo kit de campo: pruebas de condición física, test de la bip, foto-finish, planes de sesión, récords, asistencia y calificaciones. Funciona también sin cobertura, y todos los datos se guardan <b>solo en este dispositivo</b> — por eso conviene hacer una copia en archivo de vez en cuando (⚙ Ajustes → «Copiar todo a un archivo»).",
+  "info.home.s":"🚀 Por dónde empezar",
+  "info.home.w":"Tres pasos, una sola vez, y a trabajar.",
+  "info.home.l":"<li><b>El código docente</b> se crea en la primera entrada y protege la zona docente cuando el móvil pasa de mano en mano.</li><li><b>🎬 Modo demostración</b> en la pantalla de entrada — un grupo de ejemplo con resultados, para ver cómo funciona todo antes de introducir alumnado real. Se borra con un toque.</li><li><b>Un grupo real</b> — «Pruebas de condición física» → elige curso y número → «👥 Lista». Desde ese momento la misma lista está disponible en todas las demás pantallas.</li>",
+  "info.ft.s":"🏅 Pruebas de condición física",
+  "info.ft.w":"El corazón de la aplicación: 31 pruebas con cronómetro y contador. Elige un grupo y una prueba, e introduce un resultado para cada alumno.",
+  "info.ft.l":"<li><b>🏅 Pruebas</b> la pantalla donde se mide de verdad. Cada resultado se guarda en el alumno y no se borra.</li><li><b>📊 Índice de condición física</b> una puntuación global de condición física de cada alumno frente a los baremos.</li><li><b>🏅 Insignia de Educación Física</b> quién cumple los requisitos y qué le falta.</li><li><b>📋 Qué le falta al grupo</b> quién ya ha hecho cada prueba y quién no — en lugar de buscar en listas.</li><li><b>📈 Evolución</b> por prueba: cuántos mejoraron, cuántos empeoraron, cuántos sin cambios.</li>",
+  "info.lesson.s":"📋 Planes de sesión",
+  "info.lesson.w":"Un plan completo — calentamiento, estaciones, juego y vuelta a la calma — con un toque o construido a mano.",
+  "info.lesson.l":"<li><b>⚡ Rápido</b> elige tema, curso, duración y espacio — el plan se construye solo, vinculado a los estándares.</li><li><b>🧩 Constructor manual</b> monta la sesión tú mismo con fases ya preparadas.</li><li><b>▶ Empezar sesión</b> abre una «sesión activa», y cada medición desde ese momento queda registrada en ella. Si el botón pide un grupo — «🏷 Elegir grupo» al lado.</li><li><b>💾 Guardar · 🖨 Imprimir</b> el plan se guarda en la biblioteca para reutilizarlo el curso que viene.</li>",
+  "info.fit.s":"⏱ Condición física",
+  "info.fit.w":"Las herramientas que hacen funcionar la sesión, sin preparar nada de antemano.",
+  "info.fit.l":"<li><b>⏱ Temporizador de intervalos</b> trabajo/descanso con anuncios por voz.</li><li><b>🔁 Estaciones para la clase</b> un circuito listo para proyectar.</li><li><b>📖 Biblioteca de ejercicios · 🎲 Dado de condición física</b> un ejercicio según la necesidad, o un sorteo cuando toca variar.</li><li><b>🏋️ Programa de gimnasio</b> para los cursos mayores.</li>",
+  "info.games.s":"🎮 Juegos",
+  "info.games.w":"Juegos para el recreo y el final de la sesión — con objetivo, variantes y pautas de seguridad.",
+  "info.games.l":"<li>Busca por nombre, material u objetivo.</li><li>Cualquier juego puede pasar directamente a un plan de sesión.</li>",
+  "info.beep.s":"🎵 Test de la bip",
+  "info.beep.w":"Ejecuta el test de la bip con la precisión de un reloj de audio, calcula el VO₂max y lo compara con los baremos FITNESSGRAM.",
+  "info.beep.l":"<li><b>Cargar grupo</b> trae la lista que ya introdujiste — sin volver a teclear nombres.</li><li><b>Registrar abandono</b> toca al alumno en cuanto se detiene, y se registra su nivel.</li><li><b>Enviar a las pruebas de condición física</b> el resultado entra en la ficha del alumno y en el índice de condición física.</li>",
+  "info.photo.s":"📷 Foto-finish",
+  "info.photo.w":"Cronometra carreras con la cámara del móvil y muestra en la imagen quién cruzó primero.",
+  "info.photo.l":"<li><b>🎯 Calle en directo</b> apunta la cámara a la línea de meta y empieza una serie.</li><li><b>🎞 Imagen de llegada · 🏁 Resultados</b> el momento del cruce y el tiempo exacto de cada calle.</li><li><b>🔄 Vueltas · 🗄 Archivo</b> carreras largas, y series anteriores a las que volver.</li>",
+  "info.rec.s":"🏆 Campeones del centro",
+  "info.rec.w":"Una tabla de récords del centro frente al récord nacional y mundial.",
+  "info.rec.l":"<li>Un alumno envía un récord con un vídeo como prueba — y entra en la tabla <b>solo cuando tú lo apruebas</b>.</li><li><b>📺 Modo TV</b> para la pantalla de la entrada del pabellón · <b>🔗 Enlace / QR</b> para compartir con el alumnado.</li>",
+  "info.stu.s":"👥 Alumnado y calificaciones",
+  "info.stu.w":"La lista del alumnado, una tabla de calificaciones por periodos de evaluación y la coevaluación.",
+  "info.stu.l":"<li><b>⬇ Rellenar según asistencia</b> completa la nota de participación con los datos de asistencia — solo en celdas vacías, sin sobrescribir una nota que hayas puesto.</li><li><b>⬇ CSV</b> exporta la tabla a una hoja de cálculo.</li>",
+  "info.tools.s":"🧰 Herramientas de clase",
+  "info.tools.w":"Cuatro herramientas para los momentos que se repiten en cada sesión.",
+  "info.tools.l":"<li><b>👥 Equipos</b> un reparto equilibrado según el último resultado — ningún equipo sin opciones.</li><li><b>🎯 Sorteo</b> elige a un alumno al azar.</li><li><b>✅ Asistencia</b> registro diario — de ahí sale la nota de participación.</li><li><b>📋 Rúbricas</b> evaluación por criterios.</li>",
+  "info.know.s":"📚 Conocimiento",
+  "info.know.w":"Respaldo profesional para las decisiones — fuentes, programas y cifras.",
+  "info.know.l":"<li><b>📚 Fuentes oficiales</b> cada elemento enlaza al documento vigente.</li><li><b>🏋️ Programas evaluados · 📌 Cifras que conviene recordar</b> para cuando necesitas respaldar una decisión ante una familia o la dirección.</li>",
+  "info.nut.s":"🥗 Rincón de nutrición",
+  "info.nut.w":"Un consejo diario breve para leer a la clase, y un banco de consejos por tema.",
+  "info.data.s":"💾 Tus datos",
+  "info.data.w":"Sin servidor ni cuenta — esa es la ventaja y también la responsabilidad.",
+  "info.data.l":"<li><b>Copia de seguridad</b> ⚙ Ajustes → «⬇ Copiar todo a un archivo». «⬆ Restaurar desde un archivo» lo recupera todo en un dispositivo nuevo.</li><li><b>Cifrado</b> puedes cifrar la copia con una contraseña — pero no hay recuperación de contraseña. Si pierdes la contraseña, pierdes el archivo.</li><li><b>¿Nombre de grupo incorrecto?</b> ⚙ Ajustes → «🏷 Nombres de los grupos». Cambiar el nombre no desvincula a ningún alumno ni ninguna medición.</li><li><b>¿Cuesta leer al sol?</b> ☀ en la barra superior, y «Botones grandes» en Ajustes para usarla con una mano.</li>",
+
+  /* --- אודות --- */
+  "ab.p":"Un kit de campo para docentes de Educación Física: pruebas de condición física, test de la bip, foto-finish con la cámara, planes de sesión, tabla de récords, herramientas de clase y calificaciones — todo en una sola pantalla y sin enviar nada fuera.",
+  "ab.privT":"🔒 Privacidad",
+  "ab.priv":"Los datos del alumnado — listas, calificaciones y mediciones — se guardan solo en el localStorage de este dispositivo. <b>Sin servidor, sin cuenta y sin envíos a ninguna parte.</b> Son datos de menores, así que es una decisión de diseño, no una casualidad. Exportar a CSV o hacer una copia es siempre una acción que inicias tú. Borrar los datos del sitio en el navegador lo elimina todo — por eso existe la copia de seguridad. Lo único que sale del dispositivo son tus datos de contacto (del docente) introducidos en la primera pantalla de bienvenida — ningún dato de alumnado — y se envían una sola vez.",
+  "ab.srcT":"📚 Fuentes profesionales",
+  "ab.src":"Protocolo de Léger (test de la bip) · baremos FITNESSGRAM® de The Cooper Institute · «Insignia de Educación Física — estándares para evaluar el rendimiento del alumnado», Ministerio de Educación de Israel, Secretaría Pedagógica · el currículo de Educación Física. Los baremos del centro son datos del docente y se guardan en el dispositivo.",
+  "ab.builtT":"🛠 Hecho con",
+  "ab.built":"Solo JavaScript, HTML y CSS — sin bibliotecas externas ni paso de compilación en el navegador, para que la aplicación abra rápido y funcione en la pista sin red. Desarrollada junto con Claude Code.",
+  "ab.warnT":"⚠️ Aviso",
+  "ab.warn":"Una herramienta de apoyo a la docencia. Las mediciones con cámara y cronómetro son tan buenas como lo permitan las condiciones de la pista, y no sustituyen a un equipo de cronometraje homologado para competición oficial. La decisión educativa y la calificación son tuyas."
 }
 };
 
@@ -6304,7 +7158,7 @@ function applyDom(root){
   });
 }
 
-/* כיוון: ערבית ועברית מימין לשמאל, אנגלית ורוסית משמאל לימין.
+/* כיוון: ערבית ועברית מימין לשמאל, אנגלית, רוסית וספרדית משמאל לימין.
    ה-CSS משתמש בתכונות לוגיות (inset-inline, margin-inline) ולכן
    החלפת dir לבדה מספיקה כדי להפוך את הפריסה. */
 function applyDir(){
@@ -6441,9 +7295,11 @@ function beep(freq=880,dur=0.12,vol=0.5,type="square"){
 }
 function horn(){ if(!SET.sound)return; beep(520,0.45,0.6,"sawtooth"); setTimeout(()=>beep(392,0.5,0.6,"sawtooth"),60); }
 function tripleBeep(){ beep(660,0.1); setTimeout(()=>beep(660,0.1),150); setTimeout(()=>beep(990,0.22),300); }
-function say(txt){
+/* lang — קוד שפה לקול (voiceLoc()). בלי פרמטר נשאר he-IL: הכריזות בביפ
+   ובטיימרים נכתבו עברית, ולקרוא אותן בקול זר היה משבש אותן. */
+function say(txt,lang){
   if(!SET.voice||!("speechSynthesis"in window))return;
-  try{ const u=new SpeechSynthesisUtterance(txt); u.lang="he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
+  try{ const u=new SpeechSynthesisUtterance(txt); u.lang=lang||"he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
 }
 
 /* ---------- wake lock ---------- */
@@ -6610,8 +7466,13 @@ function hasAnyData(){
   return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
 }
 const ONBOARD_TIP="חדשים כאן? לחצו 🎬 «מצב הדגמה» במסך הכניסה — כיתה לדוגמה עם תוצאות אמיתיות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים.";
+let tipIdx=-1;   /* ‎-1‎ = טיפ ההתחלה. נשמר כדי שהחלפת שפה תתרגם את אותו טיפ */
+function paintFieldTip(){
+  $("#fieldTip").textContent=tipIdx<0?t("home.onboard",ONBOARD_TIP):t("home.tip."+tipIdx,TIPS[tipIdx]);
+}
 function homeInit(){
-  $("#fieldTip").textContent=hasAnyData()?TIPS[Math.floor(Math.random()*TIPS.length)]:ONBOARD_TIP;
+  tipIdx=hasAnyData()?Math.floor(Math.random()*TIPS.length):-1;
+  paintFieldTip();
 }
 function homeStats(){
   $("#qsRuns").textContent=LS.get("pf.totalRaces",0);
@@ -6653,7 +7514,12 @@ function t(key,def){ return window.I18N?window.I18N.t(key,def):(def!=null?def:ke
    ולכן דף הבית בערבית הציג כותרת ערבית מעל תאריך עברי. */
 function loc(){
   const l=window.I18N?window.I18N.lang():"he";
-  return {he:"he-IL",en:"en-GB",ar:"ar",ru:"ru-RU"}[l]||"he-IL";
+  return {he:"he-IL",en:"en-GB",ar:"ar",ru:"ru-RU",es:"es-ES"}[l]||"he-IL";
+}
+/* לקול צריך אזור מלא — "ar" לבד לא בוחר קול בחלק מהמכשירים. */
+function voiceLoc(){
+  const l=window.I18N?window.I18N.lang():"he";
+  return {he:"he-IL",en:"en-GB",ar:"ar-SA",ru:"ru-RU",es:"es-ES"}[l]||"he-IL";
 }
 
 function wireLang(){
@@ -9959,11 +10825,13 @@ const PF=(function(){
     let pfgI=0;
     function pfgPaint(){
       const [em,h,p]=PFG[pfgI];
-      $("#pfg-body").innerHTML='<div class="step"><div class="art">'+em+'</div><h4>'+h+'</h4><p>'+p+'</p></div>';
+      $("#pfg-body").innerHTML='<div class="step"><div class="art">'+em+'</div><h4>'+t("pfg."+pfgI+".h",h)+'</h4><p>'+t("pfg."+pfgI+".p",p)+'</p></div>';
       $("#pfg-dots").innerHTML=PFG.map((_,i)=>'<i class="'+(i===pfgI?"on":"")+'"></i>').join("");
       $("#pfg-prev").disabled=pfgI===0;
-      $("#pfg-next").textContent=pfgI===PFG.length-1?"יאללה, בוא נמדוד":"הבא ←";
+      $("#pfg-next").textContent=pfgI===PFG.length-1?t("pfg.go","יאללה, בוא נמדוד"):t("pfg.next","הבא ←");
     }
+    /* ההדרכה פתוחה בזמן החלפת שפה — מציירים את אותו שלב בשפה החדשה */
+    document.addEventListener("i18n:change",()=>{ if($("#pfGuideModal").classList.contains("on"))pfgPaint(); });
     function pfgClose(){
       if($("#pfg-skip").checked)LS.set("pf.guideSeen",true);
       modal("pfGuideModal",false);
@@ -11212,7 +12080,7 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
@@ -11263,6 +12131,7 @@ window.HMBoot=function(){
      מ-applyDom, ולכן החלפת שפה מציירת אותם מחדש. */
   document.addEventListener("i18n:change",()=>{
     try{ homeStats(); }catch(e){}
+    try{ if($("#fieldTip"))paintFieldTip(); }catch(e){}
     try{ if(window.HMBootNew&&$("#hx-date"))
       $("#hx-date").textContent=new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"}); }catch(e){}
     const mod=document.body.dataset.mod;
@@ -18843,27 +19712,41 @@ window.NUT=(function(){
     {c:"myth",t:"שוברים מיתוס",tx:"דיאטות קיצוניות בגיל ההתבגרות פוגעות בגדילה ובביצועים. תלמיד שמדבר על צום/דיאטה חריפה — שווה שיחה שקטה והפניה ליועצת."}
   ];
   const CATS=[["all","הכל"],["before","לפני פעילות"],["after","אחרי פעילות"],["water","שתייה"],["food","צלחת ספורטאי"],["myth","שוברים מיתוס"]];
-  function daily(){ const d=new Date(); return TIPS[(d.getFullYear()*372+d.getMonth()*31+d.getDate())%TIPS.length]; }
+  /* העברית כאן היא ברירת המחדל; בשפות אחרות הטיפ נשלף מהמילון לפי
+     המיקום שלו ברשימה (nut.tip.N) והתווית לפי הקטגוריה (nut.c.X). */
+  const loc=i=>{ const t=TIPS[i], tr=H().t;
+    return {c:t.c,t:tr("nut.c."+t.c,t.t),tx:tr("nut.tip."+i,t.tx)}; };
+  const dayIdx=()=>{ const d=new Date(); return (d.getFullYear()*372+d.getMonth()*31+d.getDate())%TIPS.length; };
+  function daily(){ return loc(dayIdx()); }
+  let shown=null;   /* הטיפ שמוצג כרגע למעלה — כדי שהחלפת שפה תתרגם אותו ולא תגריל אחר */
+  function paintDaily(){
+    const {$, esc}=H(); const d=loc(shown);
+    $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(d.t)+" · </b>"+esc(d.tx);
+  }
+  function paintCats(){
+    const {$, $$, t}=H();
+    $("#nut-cats").innerHTML=CATS.map(([id,nm])=>`<button data-nc="${id}" class="${id===cat?"on":""}">${t("nut.c."+id,nm)}</button>`).join("");
+    $$("#nut-cats [data-nc]").forEach(b=>b.addEventListener("click",()=>{
+      cat=b.dataset.nc; $$("#nut-cats [data-nc]").forEach(x=>x.classList.toggle("on",x===b)); render();
+    }));
+  }
   function render(){
-    const {$, $$, esc}=H();
-    $("#nut-list").innerHTML=TIPS.filter(t=>cat==="all"||t.c===cat).map(t=>
+    const {$, esc}=H();
+    $("#nut-list").innerHTML=TIPS.map((_,i)=>loc(i)).filter(t=>cat==="all"||t.c===cat).map(t=>
       `<div class="nut-tip"><span class="catpill" style="background:var(--acc);color:#14152a">${esc(t.t)}</span><div>${esc(t.tx)}</div></div>`).join("");
   }
   function init(){
     if(inited)return; inited=true;
-    const {$, $$, esc, say}=H();
-    const d=daily();
-    $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(d.t)+" · </b>"+esc(d.tx);
+    const {$, say, voiceLoc}=H();
+    shown=dayIdx(); paintDaily();
     $("#nut-shuffle").addEventListener("click",()=>{
-      const t=TIPS[Math.floor(Math.random()*TIPS.length)];
-      $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(t.t)+" · </b>"+esc(t.tx);
+      shown=Math.floor(Math.random()*TIPS.length); paintDaily();
     });
-    $("#nut-say").addEventListener("click",()=>{ say($("#nut-dailyTxt").textContent); });
-    $("#nut-cats").innerHTML=CATS.map(([id,nm])=>`<button data-nc="${id}" class="${id===cat?"on":""}">${nm}</button>`).join("");
-    $$("#nut-cats [data-nc]").forEach(b=>b.addEventListener("click",()=>{
-      cat=b.dataset.nc; $$("#nut-cats [data-nc]").forEach(x=>x.classList.toggle("on",x===b)); render();
-    }));
+    /* ההקראה בשפת הממשק — טיפ בערבית שמוקרא בקול עברי לא נגיש לאף אחד */
+    $("#nut-say").addEventListener("click",()=>{ say($("#nut-dailyTxt").textContent,voiceLoc()); });
+    paintCats();
     render();
+    document.addEventListener("i18n:change",()=>{ paintDaily(); paintCats(); render(); });
   }
   return {init,daily};
 })();
@@ -19077,8 +19960,10 @@ window.HMBootNew=function(){
   });
   chRender();
   /* nutrition line on home */
-  const d=window.NUT.daily();
-  $("#hx-nutTip").innerHTML="🥗 <b style='color:var(--acc)'>"+esc(d.t)+":</b> "+esc(d.tx);
+  const nutLine=()=>{ const d=window.NUT.daily();
+    $("#hx-nutTip").innerHTML="🥗 <b style='color:var(--acc)'>"+esc(d.t)+":</b> "+esc(d.tx); };
+  nutLine();
+  document.addEventListener("i18n:change",nutLine);
   /* date on hero */
   $("#hx-date").textContent=new Date().toLocaleDateString(H_LOC(),{weekday:"long",day:"numeric",month:"long"});
   /* save-beep-to-tracking button */
