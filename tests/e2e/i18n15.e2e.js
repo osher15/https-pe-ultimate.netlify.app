@@ -114,6 +114,46 @@ module.exports={title:"שלב 15 — תזונה, פוטו־פיניש ומדרי
     eq(await page.evaluate(()=>document.querySelectorAll("#infoModal details[data-info]").length),13,"13 קטעים");
     await switchLang(page,"he");
     ok((await txt(page,'#infoModal [data-info="photo"] summary')).indexOf("פוטו־פיניש")>=0,"חזרה לעברית");
+  }),
+
+  /* ---------- מילון המונחים: כותרות המסכים המקצועיים ---------- */
+
+  check("משחקים: שמות המשחקים, הקטגוריות ושדה החיפוש מתורגמים בכל שפה",seed,async page=>{
+    await go(page,"games");
+    const want={en:"Dodgeball",ar:"الكرة المحرقة",ru:"Вышибалы",es:"Balón prisionero"};
+    for(const l of LANGS){
+      await switchLang(page,l);
+      ok((await txt(page,"#view-games")).indexOf(want[l])>=0,l+": «מחניים» מתורגם");
+      ok(!HEB.test(await page.evaluate(()=>document.querySelector("#view-games input[placeholder]").placeholder)),l+": placeholder");
+    }
+  }),
+
+  check("ציור מחדש אחרי החלפת שפה (מעבר מסך, סינון) נשאר מתורגם",seed,async page=>{
+    await switchLang(page,"es");
+    await go(page,"ft"); await go(page,"games"); await go(page,"know");
+    await go(page,"ft");
+    const tabs=await page.evaluate(()=>[...document.querySelectorAll("#ft-tabs button")].map(b=>b.textContent));
+    ok(tabs.some(t=>t.indexOf("Pruebas")>=0)&&tabs.every(t=>!HEB.test(t)),"לשוניות: "+tabs.join(" | "));
+  }),
+
+  check("שם תלמיד אינו מונח — נשאר בדיוק כפי שהוזן",withStudent,async page=>{
+    await switchLang(page,"en");
+    await go(page,"stu",700);
+    ok((await txt(page,"#view-stu")).indexOf("דן אבירם")>=0,"השם העברי נשמר");
+  }),
+
+  check("הלוך־חזור לעברית מחזיר את מסך המבחנים אות באות",withStudent,async page=>{
+    await go(page,"ft",700);
+    const before=await txt(page,"#view-ft");
+    for(const l of LANGS)await switchLang(page,l);
+    await switchLang(page,"he"); await page.waitForTimeout(200);
+    eq(await txt(page,"#view-ft"),before,"טקסט המסך זהה למקור");
+  }),
+
+  check("תבניות: מרחקים, שלבים ושכבות מתורגמים גם כשהם נבנים ממספרים",seed,async page=>{
+    const r=await page.evaluate(()=>{ window.I18N.set("ru");
+      return ["300 מ׳","⏱ 15–25 דק׳","👥 ז׳–ט׳ · 10–30 משתתפים","שלב 12"].map(s=>window.I18N.term(s)); });
+    eq(JSON.stringify(r),JSON.stringify(["300 м","⏱ 15–25 мин","👥 7–9 кл. · 10–30 участников","Ступень 12"]));
   })
 
 ]};

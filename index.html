@@ -11,25 +11,26 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="e3e6f810">
+<meta name="hm-build" content="f248710b">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hm-styles.css?v=09d036eb">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-data.js?v=be8da8d9"></script>
-<script src="hm-i18n.js?v=04b2fb38"></script>
+<script src="hm-terms.js?v=b4606b63"></script>
+<script src="hm-i18n.js?v=52b095eb"></script>
 <script src="hm-app.js?v=3d9a8740"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
 <script src="hm-know.js?v=bc3e6c15"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="hm-tools.js?v=ad0fc1aa"></script>
+<script src="hm-tools.js?v=2554a767"></script>
 <script src="hm-plans.js?v=20cf74cb"></script>
 <script src="hm-lesson.js?v=fc5b69b2"></script>
 <script src="hm-build.js?v=4a132915"></script>
 <script src="hm-tests.js?v=c430e3e8"></script>
-<script src="hm-new.js?v=c7329da6"></script>
+<script src="hm-new.js?v=144f7820"></script>
 </helmet>
 <div class="app" dir="rtl">
 <!-- ============================================================
@@ -465,7 +466,7 @@
       <div class="field"><label>שם התחרות / האירוע</label><input type="text" id="pf-setTitle" placeholder="אליפות בית הספר — ריצת 60 מ׳"></div>
       <div class="row" style="margin-top:10px">
         <div class="field" style="width:150px"><label>שלב</label>
-          <select id="pf-setRound"><option>גמר</option><option>חצי גמר</option><option>מוקדמות</option><option>מקצה</option><option>אימון</option></select></div>
+          <select id="pf-setRound"><option value="גמר">גמר</option><option value="חצי גמר">חצי גמר</option><option value="מוקדמות">מוקדמות</option><option value="מקצה">מקצה</option><option value="אימון">אימון</option></select></div>
         <div class="field" style="width:130px"><label>מרחק (מטר)</label><input type="number" id="pf-setDist" value="60" min="0"></div>
         <div class="field" style="width:160px"><label>תאריך</label><input type="date" id="pf-setDate"></div>
         <div class="field" style="width:120px"><label>רוח (מ/ש)</label><input type="number" id="pf-setWind" step="0.1" placeholder="+1.2"></div>

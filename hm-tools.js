@@ -305,7 +305,7 @@ window.TOOLS=(function(){
     const opts=v=>'<option value="">כל הכיתות</option>'+co.map(c=>`<option value="${esc(c.cid)}" ${c.cid===v?"selected":""}>${esc(c.name)}</option>`).join("");
     $("#tl-teamCls").innerHTML=opts(teamCls);
     $("#tl-pickCls").innerHTML=opts(pickCls);
-    $("#tl-attCls").innerHTML='<option value="">כל הכיתות</option>'+cs.map(c=>`<option ${c===attCls?"selected":""}>${esc(c)}</option>`).join("");
+    $("#tl-attCls").innerHTML='<option value="">כל הכיתות</option>'+cs.map(c=>`<option value="${esc(c)}" ${c===attCls?"selected":""}>${esc(c)}</option>`).join("");
     $("#tl-rubCls").innerHTML=opts(rubCls);
   }
   /* ============================================================

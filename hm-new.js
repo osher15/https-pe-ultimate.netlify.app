@@ -330,7 +330,7 @@ window.STU=(function(){
     $("#gr-classSel").innerHTML='<option value="">כל הכיתות</option>'+classes.map(c=>`<option value="${esc(c.cid)}" ${c.cid===grClsF?"selected":""}>${esc(c.name)}</option>`).join("");
     const periods=loadPeriods();
     if(!periods.includes(grPeriod))grPeriod=periods[0];
-    $("#gr-period").innerHTML=periods.map(p=>`<option ${p===grPeriod?"selected":""}>${esc(p)}</option>`).join("");
+    $("#gr-period").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===grPeriod?"selected":""}>${esc(p)}</option>`).join("");
     renderWeightsHint();
     const weights=loadWeights();
     const examCols=examColsFor(grPeriod);
@@ -535,7 +535,7 @@ window.STU=(function(){
   function renderPaForm(){
     const {$,esc}=H();
     const periods=loadPeriods();
-    $("#pa-period").innerHTML=periods.map(p=>`<option ${p===paDraft.period?"selected":""}>${esc(p)}</option>`).join("");
+    $("#pa-period").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===paDraft.period?"selected":""}>${esc(p)}</option>`).join("");
     $("#pa-task").value=paDraft.task;
     $("#pa-notes").value=paDraft.notes;
     renderPaStuUI(); renderPaPhoto(); renderPCritList();
@@ -568,7 +568,7 @@ window.STU=(function(){
     const {$,$$,esc}=H();
     const periods=loadPeriods();
     if(!periods.includes(paPeriodF))paPeriodF=periods.includes(grPeriod)?grPeriod:periods[0];
-    $("#pa-periodF").innerHTML=periods.map(p=>`<option ${p===paPeriodF?"selected":""}>${esc(p)}</option>`).join("");
+    $("#pa-periodF").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===paPeriodF?"selected":""}>${esc(p)}</option>`).join("");
     const crit=loadPCrit();
     const all=loadAssess().filter(a=>a.period===paPeriodF).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
     const stuList=load();
