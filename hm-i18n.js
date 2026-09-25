@@ -38,6 +38,18 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "end.attDone":"Attendance marked",
+  "end.attPart":"Attendance: marked",
+  "end.attRest":"Everyone else is present",
+  "info.live.s":"▶ Lesson mode",
+  "info.live.w":"The screen you hold on the field — everything in view, and the class already known.",
+  "info.live.l":"<li><b>Tap a class</b> to open a lesson. The class that's on your timetable right now is offered first.</li><li><b>The tiles</b> — attendance, measure, beep, photo finish, timer, teams and random pick — save everything to the lesson's class, without picking it again.</li><li><b>✓ Everyone's here</b> marks the whole class in one tap. Mark the exceptions in the attendance tile.</li><li><b>Leave</b> doesn't end the lesson — the middle button in the bar brings you back. <b>⏹ End lesson</b> saves a rating and a note.</li>",
+  /* ux-redesign */
+  "u.m":"m",
+  "u.kmh":"km/h",
+  "bt.sumStd":"standard",
+  "bt.sumCustom":"⚠ custom",
+  /* ux-redesign */
   "nav.today":"Today",
   "nav.prep":"Prep",
   "nav.live":"Lesson",
@@ -416,6 +428,18 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "end.attDone":"تم تسجيل الحضور",
+  "end.attPart":"الحضور: تم تسجيل",
+  "end.attRest":"جميع الباقين حاضرون",
+  "info.live.s":"▶ وضع الدرس",
+  "info.live.w":"الشاشة التي تحملها في الملعب — كل شيء ظاهر، والصف معروف مسبقًا.",
+  "info.live.l":"<li><b>اضغط على صف</b> لفتح درس. يُعرض أولًا الصف الموجود الآن في جدول الحصص.</li><li><b>المربعات</b> — الحضور، القياس، الصافرة، صورة النهاية، المؤقّت، الفرق والسحب — تحفظ كل شيء لصف الدرس، من دون اختياره مرة أخرى.</li><li><b>✓ الجميع حاضرون</b> يسجّل الصف كله بضغطة واحدة. سجّل الاستثناءات في مربع الحضور.</li><li><b>الخروج</b> لا يُنهي الدرس — الزر الأوسط في الشريط يعيدك إليه. <b>⏹ إنهاء الدرس</b> يحفظ تقييمًا وملاحظة.</li>",
+  /* ux-redesign */
+  "u.m":"م",
+  "u.kmh":"كم/س",
+  "bt.sumStd":"قياسي",
+  "bt.sumCustom":"⚠ معدّل",
   /* ux-redesign */
   "nav.today":"اليوم",
   "nav.prep":"التحضير",
@@ -810,6 +834,18 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "end.attDone":"Посещаемость отмечена",
+  "end.attPart":"Посещаемость: отмечено",
+  "end.attRest":"Остальные присутствуют",
+  "info.live.s":"▶ Режим урока",
+  "info.live.w":"Экран, который держишь в руке на площадке: всё на виду, класс уже выбран.",
+  "info.live.l":"<li><b>Нажмите на класс</b> — откроется урок. Первым предлагается класс, который сейчас стоит в расписании.</li><li><b>Плитки</b> — посещаемость, замер, бип, фотофиниш, таймер, команды и жребий — сохраняют всё для класса урока, без повторного выбора.</li><li><b>✓ Все на месте</b> отмечает весь класс одним нажатием. Исключения отмечайте в плитке посещаемости.</li><li><b>Выйти</b> не завершает урок — средняя кнопка на панели вернёт к нему. <b>⏹ Завершить урок</b> сохраняет оценку и заметку.</li>",
+  /* ux-redesign */
+  "u.m":"м",
+  "u.kmh":"км/ч",
+  "bt.sumStd":"стандарт",
+  "bt.sumCustom":"⚠ изменён",
+  /* ux-redesign */
   "nav.today":"Сегодня",
   "nav.prep":"Подготовка",
   "nav.live":"Урок",
@@ -1196,6 +1232,18 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "end.attDone":"Asistencia registrada",
+  "end.attPart":"Asistencia: marcados",
+  "end.attRest":"El resto, presentes",
+  "info.live.s":"▶ Modo sesión",
+  "info.live.w":"La pantalla que llevas en la mano en la pista: todo a la vista y el grupo ya elegido.",
+  "info.live.l":"<li><b>Toca un grupo</b> para abrir la sesión. Primero se ofrece el grupo que ahora está en tu horario.</li><li><b>Los mosaicos</b> — asistencia, medición, bip, foto-finish, temporizador, equipos y sorteo — guardan todo en el grupo de la sesión, sin volver a elegirlo.</li><li><b>✓ Están todos</b> marca todo el grupo con un toque. Las excepciones se marcan en el mosaico de asistencia.</li><li><b>Salir</b> no termina la sesión: el botón central de la barra te devuelve a ella. <b>⏹ Terminar sesión</b> guarda una valoración y una nota.</li>",
+  /* ux-redesign */
+  "u.m":"m",
+  "u.kmh":"km/h",
+  "bt.sumStd":"estándar",
+  "bt.sumCustom":"⚠ personalizado",
   /* ux-redesign */
   "nav.today":"Hoy",
   "nav.prep":"Preparar",

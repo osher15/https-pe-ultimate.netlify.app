@@ -302,6 +302,11 @@ window.addEventListener("popstate",e=>{
     try{ navDepth++; history.pushState({mod:document.body.dataset.mod,depth:navDepth},"","#"+document.body.dataset.mod); }catch(err){}
     return;
   }
+  /* מסך פנימי (מבחן פתוח, שלב באשף) חוזר צעד בתוך המודול קודם */
+  const cur=document.body.dataset.mod;
+  for(const fn of BACK_HOOKS){ try{ if(fn(cur)){
+    try{ navDepth++; history.pushState({mod:cur,depth:navDepth},"","#"+cur); }catch(err){}
+    return; } }catch(err){} }
   const st=e.state||{};
   navDepth=st.depth||0;
   go(st.mod||location.hash.slice(1)||"home",{pop:true});
@@ -1385,7 +1390,25 @@ function openEndLesson(){
     "לא נלקחו מדידות בשיעור. ")+"השיעור יישאר בהיסטוריה.";
   $("#end-note").value="";
   $$("#end-rate button").forEach(b=>b.classList.remove("on"));
+  paintEndAtt();
   modal("endModal",true);
+}
+/* הנוכחות של השיעור, בשורה אחת בחלון הסיום. לא סומנה — כפתור אחד
+   שמסמן את כל מי שלא סומן כנוכח, כמו «✓ סמן את כולם» בנוכחות. */
+function paintEndAtt(){
+  const box=$("#end-att"); if(!box)return;
+  const st=window.TOOLS&&window.TOOLS.attStatus?window.TOOLS.attStatus():null;
+  if(!st||!st.total){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  if(st.marked>=st.total){
+    box.className="end-att ok";
+    box.innerHTML="✓ "+esc(t("end.attDone","נוכחות סומנה"))+" · "+st.cnt.p+"/"+st.total;
+    return;
+  }
+  box.className="end-att warn";
+  box.innerHTML='<span>⚠ '+esc(t("end.attPart","נוכחות: סומנו"))+" "+st.marked+"/"+st.total+'</span>'+
+    '<button class="btn sm acc" id="end-attAll">✓ '+esc(t("end.attRest","כל השאר נוכחים"))+'</button>';
+  $("#end-attAll").addEventListener("click",()=>{ ac(); window.TOOLS.markAllPresent(); paintEndAtt(); });
 }
 function wireEndLesson(){
   $$("#end-rate button").forEach(b=>b.addEventListener("click",()=>{
@@ -2239,7 +2262,9 @@ function upOffer(version){
    ============================================================ */
 const BT=(function(){
   const STAGE_SEC=60, MAX_SPEED=18.0;
-  let distance=LS.get("bt.dist",20), startSpeed=LS.get("bt.start",5.0);
+  /* ברירת המחדל היא הפרוטוקול התקני (8.0 קמ״ש). 5.0 הציג אזהרה
+     «לא תקני» לכל מורה חדש עד שמצא את כפתור «תקני». */
+  let distance=LS.get("bt.dist",20), startSpeed=LS.get("bt.start",8.0);
   let classAge=LS.get("bt.age",13), classSex=LS.get("bt.sex","boys");
   let beeps=[];
   const speedKmh=L=>startSpeed+0.5*(L-1);
@@ -2263,6 +2288,11 @@ const BT=(function(){
     $("#bt-warnBox").classList.toggle("show",!isStandard());
     const p=$("#bt-protoPill"); p.textContent=isStandard()?"פרוטוקול תקני":"פרוטוקול מותאם";
     p.classList.toggle("acc",isStandard());
+    /* שורת הסיכום של ההגדרות המקופלות — מה מוגדר, בלי לפתוח */
+    const sum=$("#bt-setSum");
+    if(sum)sum.textContent=distance+" "+t("u.m","מ׳")+" · "+startSpeed.toFixed(1)+" "+t("u.kmh","קמ״ש")+" · "+
+      (isStandard()?t("bt.sumStd","תקני"):t("bt.sumCustom","⚠ מותאם"));
+    const fold=$("#bt-setupFold"); if(fold&&!isStandard())fold.open=true;
   }
 
   /* ----- VO2 & FITNESSGRAM ----- */
@@ -4955,8 +4985,11 @@ const FIT=(function(){
 
   /* ---------- init ---------- */
   function init(){
-    $$(".pf-tabs [data-ft]").forEach(b=>b.addEventListener("click",()=>{
-      $$(".pf-tabs [data-ft]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+    /* הבורר מוגבל למסך הכושר. «.pf-tabs [data-ft]» לבד תפס גם את לשוניות
+       מבחני הכושר (שגם הן data-ft), ואחרי ביקור אחד כאן לחיצה על לשונית
+       שם הפעילה גם את הקוד הזה. */
+    $$("#view-fit .pf-tabs [data-ft]").forEach(b=>b.addEventListener("click",()=>{
+      $$("#view-fit .pf-tabs [data-ft]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
       ["timer","circuit","lib","dice","gym"].forEach(t=>$("#fit-sub-"+t).style.display=t===b.dataset.ft?"":"none");
     }));
     $("#fit-presets").innerHTML=PRESETS.map((p,i)=>`<div class="fit-pre" data-i="${i}"><b>${p.name}</b><span>${p.sub}</span></div>`).join("");
@@ -4986,7 +5019,7 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,con
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
-  session:SESSION,paintSessionBar,openSesHist,paintNavLive,sesName,areaOf,goBack,regStore:REGSTORE,
+  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,sesName,areaOf,goBack,regStore:REGSTORE,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה

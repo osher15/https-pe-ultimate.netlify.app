@@ -526,37 +526,43 @@ window.FT=(function(){
       </div>
       <div class="hint" style="margin-top:8px">${esc(T.hint)}</div>`;
 
-    /* --- הכלי: שעון או ספירה לאחור --- */
-    $("#ft-tool").innerHTML=
+    /* --- הכלי: שעון או ספירה לאחור ---
+       השעון וכפתור ההפעלה יושבים בסרגל דביק בתחתית, באזור האגודל.
+       קודם הם היו מעל הרשימה ונגללו מהמסך — עם שלושים תלמידים המורה
+       קלט זמנים בלי לראות את השעון ובלי גישה לעצירה. ההסבר ובורר
+       ההקפות נשארים למעלה: קוראים אותם פעם אחת, לא בכל קליטה. */
+    const cdLbl=T.dur?(T.dur>=60?Math.floor(T.dur/60)+":"+String(T.dur%60).padStart(2,"0"):"0:"+String(T.dur).padStart(2,"0")):"";
+    $("#ft-toolInfo").innerHTML=
       T.kind==="clock"
-      ? `<div class="ft-clock" id="ft-clockBox">
-           <div class="tm" id="ft-clockTm">0:00.00</div>
-           <div class="row" style="gap:9px;justify-content:center;margin-top:10px">
-             <button class="btn acc big" id="ft-clkGo" style="width:auto;flex:1">▶ הפעל</button>
-             <button class="btn stop" id="ft-clkStop" disabled>⏹ עצור</button>
-             <button class="btn ghost" id="ft-clkReset">↺</button>
-           </div>
-           ${T.dir==="low"?`<div class="row" style="justify-content:center;align-items:center;gap:9px;margin-top:11px">
+      ? `<div class="ft-toolinfo">
+           ${T.dir==="low"?`<div class="row" style="align-items:center;gap:9px">
              <span class="hint">מספר הקפות לכל רץ</span>
              <div class="ft-lapsel" id="ft-lapSel">${[1,2,3,4,5].map(n=>
                `<button data-lp="${n}" class="${lapsFor(T.id)===n?"on":""}">${n}</button>`).join("")}</div>
            </div>`:""}
-           <div class="hint" style="margin-top:8px;text-align:center">
+           <div class="hint">
              ${T.dir==="low"
                ? (lapsFor(T.id)>1
                   ? "הקש על שם התלמיד בכל מעבר. ההקפה האחרונה היא הסיום."
                   : "הקש על שם התלמיד ברגע שהוא חוצה את הקו")
                : "הקש על שם התלמיד ברגע שהוא מפסיק"} — הזמן נרשם אוטומטית.</div>
-         </div>
-         <div id="ft-splits"></div>`
+         </div>`
       : T.dur
-      ? `<div class="ft-clock" id="ft-cdBox">
-           <div class="tm" id="ft-cdTm">${T.dur>=60?Math.floor(T.dur/60)+":"+String(T.dur%60).padStart(2,"0"):"0:"+String(T.dur).padStart(2,"0")}</div>
-           <div class="row" style="gap:9px;justify-content:center;margin-top:10px">
-             <button class="btn acc big" id="ft-cdGo" style="width:auto;flex:1">▶ הפעל ${T.dur>=60?Math.round(T.dur/60)+" דקות":T.dur+" שניות"}</button>
-             <button class="btn stop" id="ft-cdStop" disabled>⏹</button>
-           </div>
-           <div class="hint" style="margin-top:8px;text-align:center">צפירה בסיום. ספור עם הכפתורים בשורה של כל תלמיד.</div>
+      ? `<div class="ft-toolinfo"><div class="hint">צפירה בסיום. ספור עם הכפתורים בשורה של כל תלמיד.</div></div>`
+      : "";
+    $("#ft-tool").innerHTML=
+      T.kind==="clock"
+      ? `<div class="ft-clock ft-dock" id="ft-clockBox">
+           <div class="tm" id="ft-clockTm">0:00.00</div>
+           <button class="btn acc" id="ft-clkGo">▶ הפעל</button>
+           <button class="btn stop" id="ft-clkStop" disabled>⏹</button>
+           <button class="btn ghost" id="ft-clkReset" aria-label="איפוס">↺</button>
+         </div>`
+      : T.dur
+      ? `<div class="ft-clock ft-dock" id="ft-cdBox">
+           <div class="tm" id="ft-cdTm">${cdLbl}</div>
+           <button class="btn acc" id="ft-cdGo">▶ ${T.dur>=60?Math.round(T.dur/60)+" דקות":T.dur+" שניות"}</button>
+           <button class="btn stop" id="ft-cdStop" disabled>⏹</button>
          </div>`
       : "";
 
@@ -990,7 +996,9 @@ window.FT=(function(){
 
     /* קליטת זמן — הפעולה המרכזית בזמן מקצה */
     $$("#ft-list [data-cap]").forEach(b=>b.addEventListener("click",()=>{
-      if(!clk.on&&clk.paused===0){H().toast("הפעל קודם את השעון");return;}
+      /* שעון עצור אינו קולט: קליטה אחרי «עצור» רשמה בשקט את הזמן הקפוא,
+         ובמבחני החזקה זו הייתה «התוצאה הטובה» החדשה של התלמיד. */
+      if(!clk.on){H().toast(clk.paused?"השעון עצור — ▶ ממשיך אותו":"הפעל קודם את השעון");return;}
       const k=b.dataset.cap, s=studByKey(c,k), nm=s.name;
       const need=T.dir==="low"?lapsFor(T.id):1;
       const t=elapsed();
@@ -1064,9 +1072,15 @@ window.FT=(function(){
       });
     });
     /* הזנת מדידה */
+    /* Enter עובר לתלמיד הבא — כמו במונה. בכיתה של שלושים זה ההבדל בין
+       הזנה שוטפת לבין חיפוש השדה הבא בכל פעם. */
     $$("#ft-list [data-val]").forEach(inp=>inp.addEventListener("keydown",e=>{
       if(e.key!=="Enter")return;
-      e.preventDefault(); inp.blur();
+      e.preventDefault();
+      const all=[...document.querySelectorAll("#ft-list [data-cnt],#ft-list [data-val]")];
+      const nx=all[all.indexOf(inp)+1];
+      inp.dispatchEvent(new Event("change",{bubbles:true}));
+      if(nx){ nx.focus(); try{ nx.select(); }catch(e2){} } else inp.blur();
     }));
     $$("#ft-list [data-val]").forEach(inp=>inp.addEventListener("change",()=>{
       const k=inp.dataset.val, v=+inp.value;
@@ -1074,7 +1088,9 @@ window.FT=(function(){
       const fresh=!!pendingNew[k];
       if(v>0){ saveVal(c,T.id,s,v,fresh); delete pendingNew[k]; }
       else { const cur=openAttempt(c,T.id,s); if(cur)delAttempt(cur.id); }
-      renderRun();
+      /* השורה מתעדכנת במקומה: מיון מחדש באמצע ההזנה הזיז את השורה
+         מתחת לאצבע ברגע שהוקלדה. המיון קורה כשבוחרים אותו במפורש. */
+      refreshRow(k);
     }));
     $$("#ft-list [data-del]").forEach(b=>b.addEventListener("click",()=>{
       const k=b.dataset.del, s=studByKey(c,k);
@@ -2320,13 +2336,42 @@ window.FT=(function(){
     else renderPicker();
   }
 
+  /* ============================================================
+     הכיתה של השיעור הפעיל
+     ------------------------------------------------------------
+     מורה שפתח שיעור ב-ט׳3 ולחץ «מדידה» לא אמור לבחור שוב כיתה. בכל
+     כניסה בודקים אם נפתח שיעור חדש מאז הפעם הקודמת, ואם כן — עוברים
+     לכיתה שלו. שיעור שכבר הוחל לא דורס בחירה שהמורה עשה אחריו.
+     ============================================================ */
+  function applyLessonCls(){
+    const a=(H().session&&H().session.active())||null;
+    if(!a||st.lessonId===a.id)return false;
+    st.lessonId=a.id;
+    const exp=DATA.expandCid(clsStore,a.cid);
+    const base=(DATA.isGroupId(a.cid)&&exp[0])||a.cid;
+    const p=DATA.cidParts(base)||DATA.parseCls(a.clsSnapshot);
+    if(!p||!p.grade)return false;
+    const changed=st.grade!==p.grade||st.num!==(+p.num||st.num);
+    st.grade=p.grade; st.num=+p.num||st.num;
+    if(changed){ stopClock(true); stopCd(); st.test=null; }
+    persist();
+    return true;
+  }
   function init(){
+    applyLessonCls();
     if(inited){ renderTab(); return; }
     inited=true;
     const last=LS().get("ft.last",{});
-    if(last.grade)st.grade=last.grade;
-    if(last.num)st.num=last.num;
+    if(!st.lessonId){
+      if(last.grade)st.grade=last.grade;
+      if(last.num)st.num=last.num;
+    }
     if(last.sort)st.sort=last.sort;
+    /* «חזרה» ממסך מבחן פתוח חוזרת לבחירת המבחן, לא יוצאת מהמודול */
+    if(H().onBack)H().onBack(mod=>{
+      if(mod!=="ft"||!st.test||st.tab!=="tests")return false;
+      backToPicker(); return true;
+    });
     H().$$("#ft-tabs button").forEach(b=>b.addEventListener("click",()=>{ st.tab=b.dataset.ft; renderTab(); }));
     renderTab();
   }

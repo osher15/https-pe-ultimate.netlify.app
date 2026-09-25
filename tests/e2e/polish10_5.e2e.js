@@ -47,7 +47,9 @@ module.exports={title:"שלב 10.5 — ליטוש ממוקד",tests:[
 
   check("גיבוי: הבחירה מוצפן/רגיל מוצגת לפני כפתור הגיבוי, לא אחריו",empty,async page=>{
     const order=await page.evaluate(()=>{
-      const card=document.getElementById("set-clsCard").previousElementSibling; // bk-card
+      /* כרטיס הגיבוי עצמו — עבר למקטע «גיבוי וסנכרון», ולכן מוצאים אותו
+         מתוך הכפתור ולא לפי מיקום יחסי לכרטיס אחר */
+      const card=document.getElementById("set-bkExport").closest(".bk-card");
       const all=[...card.querySelectorAll("*")];
       return {encIdx:all.findIndex(x=>x.id==="set-bkEnc"),expIdx:all.findIndex(x=>x.id==="set-bkExport")};
     });

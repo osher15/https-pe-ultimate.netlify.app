@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="98112419">
+<meta name="hm-build" content="ec77e6a5">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1334,7 +1334,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .ft-chips{display:flex;flex-wrap:wrap;gap:8px}
 .ft-chips .hc{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel2);
   border-radius:13px;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer;user-select:none;
-  transition:.14s;min-height:var(--touch,42px)}
+  transition:.14s;min-height:calc(42px + var(--touch))}
 .ft-chips .hc:active{transform:scale(.95)}
 .ft-chips .hc.done{opacity:.55;border-color:var(--acc);cursor:default}
 .ft-chips .hc .dist{font-family:'Share Tech Mono';font-size:12.5px;color:var(--acc)}
@@ -1352,7 +1352,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 /* ===== כפתור חזרה עקבי ===== */
 .backbtn{display:flex;align-items:center;gap:6px;background:var(--inset);border:1px solid var(--line);
   color:var(--ink);border-radius:11px;padding:8px 12px;font-family:'Heebo';font-size:13.5px;font-weight:600;
-  cursor:pointer;min-height:var(--touch,40px);flex:none;transition:.12s}
+  cursor:pointer;min-height:calc(40px + var(--touch));flex:none;transition:.12s}
 .backbtn[hidden]{display:none!important}
 .backbtn:active{transform:scale(.94)}
 .backbtn:hover{border-color:var(--acc);color:var(--acc)}
@@ -1454,7 +1454,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .bt-lanes:empty{display:none}
 .bt-lanes button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:12px;
   padding:13px 6px;font-family:'Share Tech Mono';font-size:20px;cursor:pointer;transition:.12s;
-  min-height:var(--touch,52px)}
+  min-height:calc(52px + var(--touch))}
 .bt-lanes button:active{transform:scale(.93)}
 .bt-lanes button.done{opacity:.5;border-color:var(--acc);cursor:default}
 .bt-lanes button small{display:block;font-family:'Heebo';font-size:10px;color:var(--acc);margin-top:2px}
@@ -1466,7 +1466,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 @keyframes qtp{50%{opacity:.55}}
 .qt-presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
 .qt-presets button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:10px;
-  padding:9px 13px;font-family:'Heebo';font-size:13px;cursor:pointer;min-height:var(--touch,38px)}
+  padding:9px 13px;font-family:'Heebo';font-size:13px;cursor:pointer;min-height:calc(38px + var(--touch))}
 .qt-presets button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--panel2))}
 .qt-presets button:active{transform:scale(.95)}
 
@@ -1475,7 +1475,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .stu-chips:empty{display:none}
 .stu-chips button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:11px;
   padding:8px 13px;font-family:'Heebo';font-size:13px;font-weight:600;cursor:pointer;transition:.12s;
-  min-height:var(--touch,36px);display:flex;align-items:center;gap:7px}
+  min-height:calc(36px + var(--touch));display:flex;align-items:center;gap:7px}
 .stu-chips button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 15%,var(--panel2))}
 .stu-chips button:active{transform:scale(.95)}
 .stu-chips button i{font-style:normal;font-family:'Share Tech Mono';font-size:11.5px;color:var(--muted)}
@@ -1485,7 +1485,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .lang-pick{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .lang-pick button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel2);
   color:var(--ink);border-radius:12px;padding:10px 14px;font-family:'Heebo';font-size:14px;cursor:pointer;
-  transition:.12s;min-height:var(--touch,42px)}
+  transition:.12s;min-height:calc(42px + var(--touch))}
 .lang-pick button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--panel2))}
 .lang-pick button:active{transform:scale(.96)}
 .lang-pick button .fl{font-size:17px;line-height:1}
@@ -1713,6 +1713,37 @@ body[data-area="live"] #lsBar{display:none!important}
 /* שלושה כפתורי פעולה בכותרת: בטלפון השעון מפנה להם מקום */
 @media(max-width:560px){ .sboard .clock{display:none} }
 
+/* ============================================================
+   שלב 2 — כלי שטח ביד אחת
+   ============================================================ */
+/* השעון של מבחן הכושר: סרגל דביק מעל הסרגל התחתון, באזור האגודל */
+#ft-tool:empty,#ft-toolInfo:empty{display:none}
+#ft-tool{position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px);z-index:30;margin-top:12px}
+#ft-tool .ft-dock{display:flex;align-items:center;gap:9px;padding:9px 11px;margin:0;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 22%,var(--panel)),var(--panel));
+  box-shadow:0 -10px 30px rgba(0,0,0,.45)}
+#ft-tool .ft-dock .tm{flex:1;min-width:0;text-align:start;font-size:clamp(32px,10.5vw,54px)}
+#ft-tool .ft-dock .btn{min-height:58px;min-width:58px;justify-content:center;font-size:17px;padding:10px 14px}
+#ft-tool #ft-clkGo,#ft-tool #ft-cdGo{min-width:110px}
+.ft-toolinfo{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:12px;
+  display:flex;flex-direction:column;gap:8px}
+/* «קלוט» — ההקשה הדחופה ביותר באפליקציה. 32px היה קטן מדי ליד רצה */
+.ft-row [data-cap]{min-height:56px;min-width:98px;font-size:16px;justify-content:center}
+.ft-row .ft-num{min-height:48px;font-size:18px}
+.ft-lapsel button{min-width:44px;min-height:44px}
+/* נוכחות: ארבעה סימונים לכל תלמיד — בגודל של אצבע ולא של עכבר */
+.tl-marks button{min-height:48px;min-width:52px;font-size:13.5px}
+/* ביפ טסט: ההגדרות מקופלות, השמות באותו כרטיס עם כפתור הנשירה */
+.bt-heat{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.bt-heat .ft-chips .hc{min-height:calc(48px + var(--touch));font-size:15px}
+.bt-setup summary{display:flex;align-items:center;gap:10px}
+.bt-setsum{margin-inline-start:auto;color:var(--muted);font-weight:500;font-size:13px}
+.end-att{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px;
+  padding:10px 12px;border-radius:12px;border:1px solid var(--line);font-weight:600;font-size:14px}
+.end-att.ok{border-color:rgba(52,211,153,.45);color:#34d399}
+.end-att.warn{border-color:rgba(255,210,63,.45)}
+.end-att .btn{min-height:44px}
+
 </style>
 </head>
 <body>
@@ -1827,8 +1858,51 @@ body[data-area="live"] #lsBar{display:none!important}
      ============================================================ -->
 <section class="view" id="view-live"><div id="lv-root"></div></section>
 <section class="view" id="view-beep">
-  <div class="card">
-    <h2><span class="dot"></span> <span data-i18n="bt.setup">הגדרת המבחן</span></h2>
+  <div class="card" id="bt-statsCard">
+    <div class="row" style="justify-content:space-between">
+      <h2 style="margin:0"><span class="dot"></span> המבחן חי</h2>
+      <span class="pill" id="bt-statePill">מוכן לזינוק</span>
+    </div>
+    <div class="bt-dist" id="bt-distVal">0<small> מ׳</small></div>
+    <div class="statgrid" style="margin-top:8px">
+      <div class="stat"><div class="lb" data-i18n="bt.stage">שלב · מקטע</div><div class="vl acc" id="bt-stageVal">—</div></div>
+      <div class="stat"><div class="lb" data-i18n="bt.time">זמן</div><div class="vl" id="bt-timeVal">00:00</div></div>
+      <div class="stat"><div class="lb" data-i18n="bt.speedNow">מהירות</div><div class="vl" id="bt-speedVal">—</div></div>
+      <div class="stat" style="grid-column:1/-1;padding:10px 14px"><div class="lb" data-i18n="bt.inStage">התקדמות בשלב</div><div class="lvlbar"><i id="bt-lvlBar"></i></div></div>
+      <div class="stat"><div class="lb" data-i18n="bt.vo2">VO₂max נוכחי</div><div class="vl" id="bt-vo2Val">—</div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn acc grow" id="bt-startBtn" data-i18n="bt.start">▶ זינוק</button>
+      <button class="btn ghost" id="bt-resetBtn" data-i18n="bt.reset">↺ איפוס</button>
+    </div>
+    <button class="btn stop big" id="bt-regBtn" style="margin-top:11px" disabled data-i18n="bt.drop">🛑 רישום נשירה · התלמיד עצר</button>
+    <!-- מי שנשר מסומן בהקשה על השם — אותו כרטיס כמו כפתור הנשירה,
+         בלי לגלול לכרטיס אחר באמצע מבחן. -->
+    <div class="bt-heat" id="bt-heatCard">
+    <div class="row" style="justify-content:space-between">
+      <b data-i18n="bt.heat">רשימת המקצה</b>
+      <div class="row"><button class="btn sm acc" id="bt-loadCls" data-i18n="bt.loadCls">👥 טען כיתה</button>
+      <button class="btn sm ghost" id="bt-clrCls" data-i18n="bt.clearCls">✕ נקה</button></div>
+    </div>
+    <div class="hint" id="bt-heatHint">טען כיתה ובמקום הכפתור הגדול פשוט הקש על התלמיד שעצר — השם נכנס ללוח מדויק, בלי להקליד אחר כך.</div>
+    <div class="ft-chips" id="bt-heatChips" style="margin-top:10px"></div>
+    </div>
+    <div class="bt-lanes" id="bt-lanes"></div>
+    <div class="row" style="margin-top:8px;gap:9px;align-items:center">
+      <label class="check"><input type="checkbox" id="bt-laneMode"> רישום לפי מספר מסלול</label>
+      <div class="field" style="width:130px"><label data-i18n="bt.laneN">כמה מסלולים</label>
+        <input type="number" id="bt-laneN" min="2" max="20" value="8"></div>
+    </div>
+    <div class="row" style="margin-top:9px;justify-content:space-between">
+      <button class="btn sm ghost" id="bt-undoBtn" disabled data-i18n="bt.undo">↩ בטל רישום אחרון</button>
+      <div class="hint" data-i18n="bt.keys">קיצורים: רווח = התחל/השהה · Enter = רישום</div>
+    </div>
+  </div>
+
+  <!-- ההגדרות נקבעות פעם אחת ונשמרות. בזמן מבחן הן רק מפריעות,
+       ולכן הן מקופלות לשורה אחת שמראה מה מוגדר עכשיו. -->
+  <details class="fold bt-setup" id="bt-setupFold"><summary><span data-i18n="bt.setup">הגדרת המבחן</span>
+    <span class="bt-setsum" id="bt-setSum"></span></summary><div class="bd">
     <div class="row">
       <div class="field" style="width:150px"><label data-i18n="bt.dist">אורך מסלול</label>
         <div class="seg" id="bt-distSeg"><button data-d="15">15 מ׳</button><button data-d="20" class="on">20 מ׳</button></div>
@@ -1855,48 +1929,7 @@ body[data-area="live"] #lsBar{display:none!important}
       <label class="check" style="margin-top:18px"><input type="checkbox" id="bt-sound" checked> ביפים</label>
     </div>
     <div class="bt-warn" id="bt-warnBox" data-i18n="bt.warn">⚠️ הפרוטוקול שונה מהתקן (20 מ׳, התחלה ≥ 8.0 קמ״ש) — ערכי ה‑VO₂max מוצגים כהערכה בלבד.</div>
-  </div>
-
-  <div class="card" id="bt-statsCard">
-    <div class="row" style="justify-content:space-between">
-      <h2 style="margin:0"><span class="dot"></span> המבחן חי</h2>
-      <span class="pill" id="bt-statePill">מוכן לזינוק</span>
-    </div>
-    <div class="bt-dist" id="bt-distVal">0<small> מ׳</small></div>
-    <div class="statgrid" style="margin-top:8px">
-      <div class="stat"><div class="lb" data-i18n="bt.stage">שלב · מקטע</div><div class="vl acc" id="bt-stageVal">—</div></div>
-      <div class="stat"><div class="lb" data-i18n="bt.time">זמן</div><div class="vl" id="bt-timeVal">00:00</div></div>
-      <div class="stat"><div class="lb" data-i18n="bt.speedNow">מהירות</div><div class="vl" id="bt-speedVal">—</div></div>
-      <div class="stat" style="grid-column:1/-1;padding:10px 14px"><div class="lb" data-i18n="bt.inStage">התקדמות בשלב</div><div class="lvlbar"><i id="bt-lvlBar"></i></div></div>
-      <div class="stat"><div class="lb" data-i18n="bt.vo2">VO₂max נוכחי</div><div class="vl" id="bt-vo2Val">—</div></div>
-    </div>
-    <div class="row" style="margin-top:14px">
-      <button class="btn acc grow" id="bt-startBtn" data-i18n="bt.start">▶ זינוק</button>
-      <button class="btn ghost" id="bt-resetBtn" data-i18n="bt.reset">↺ איפוס</button>
-    </div>
-    <button class="btn stop big" id="bt-regBtn" style="margin-top:11px" disabled data-i18n="bt.drop">🛑 רישום נשירה · התלמיד עצר</button>
-    <div class="bt-lanes" id="bt-lanes"></div>
-    <div class="row" style="margin-top:8px;gap:9px;align-items:center">
-      <label class="check"><input type="checkbox" id="bt-laneMode"> רישום לפי מספר מסלול</label>
-      <div class="field" style="width:130px"><label data-i18n="bt.laneN">כמה מסלולים</label>
-        <input type="number" id="bt-laneN" min="2" max="20" value="8"></div>
-    </div>
-    <div class="row" style="margin-top:9px;justify-content:space-between">
-      <button class="btn sm ghost" id="bt-undoBtn" disabled data-i18n="bt.undo">↩ בטל רישום אחרון</button>
-      <div class="hint" data-i18n="bt.keys">קיצורים: רווח = התחל/השהה · Enter = רישום</div>
-    </div>
-  </div>
-
-  <div class="card" id="bt-heatCard">
-    <div class="row" style="justify-content:space-between">
-      <h2 style="margin:0"><span class="dot"></span> <span data-i18n="bt.heat">רשימת המקצה</span></h2>
-      <div class="row"><button class="btn sm acc" id="bt-loadCls" data-i18n="bt.loadCls">👥 טען כיתה</button>
-      <button class="btn sm ghost" id="bt-clrCls" data-i18n="bt.clearCls">✕ נקה</button></div>
-    </div>
-    <div class="hint" id="bt-heatHint">טען כיתה ובמקום הכפתור הגדול פשוט הקש על התלמיד שעצר — השם נכנס ללוח מדויק, בלי להקליד אחר כך.</div>
-    <div class="ft-chips" id="bt-heatChips" style="margin-top:10px"></div>
-  </div>
-
+  </div></details>
   <div class="card">
     <div class="row" style="justify-content:space-between">
       <h2 style="margin:0"><span class="dot"></span> <span data-i18n="bt.board">לוח תוצאות</span></h2>
@@ -2816,11 +2849,13 @@ body[data-area="live"] #lsBar{display:none!important}
   <!-- ----- מסך המבחן ----- -->
   <div id="ft-run" style="display:none">
     <div class="card" id="ft-runHead"></div>
-    <div id="ft-tool"></div>
+    <div id="ft-toolInfo"></div>
     <div class="card">
       <div id="ft-bar"></div>
       <div id="ft-list" style="margin-top:11px"></div>
     </div>
+    <div id="ft-splits"></div>
+    <div id="ft-tool"></div>
   </div>
 
   <div class="modal" id="ft-cardModal"><div class="box" style="max-width:680px">
@@ -3129,6 +3164,15 @@ body[data-area="live"] #lsBar{display:none!important}
     (⚙ הגדרות ← «גבה הכל לקובץ»).
   </div>
 
+  <details class="info-sec" data-info="live"><summary data-i18n="info.live.s">▶ מצב שיעור</summary>
+    <p class="info-w" data-i18n="info.live.w">המסך שמחזיקים ביד במגרש — הכול גלוי, והכיתה כבר ידועה.</p>
+    <ul class="info-l" data-i18n="info.live.l">
+      <li><b>הקשה על כיתה</b> פותחת שיעור. הכיתה שבמערכת השעות עכשיו מוצעת ראשונה.</li>
+      <li><b>האריחים</b> — נוכחות, מדידה, ביפ, פיניש, טיימר, קבוצות והגרלה — שומרים הכול לכיתת השיעור, בלי לבחור אותה שוב.</li>
+      <li><b>✓ כולם נוכחים</b> מסמן את כל הכיתה בהקשה אחת. את החריגים מסמנים באריח הנוכחות.</li>
+      <li><b>יציאה</b> לא מסיימת את השיעור — הכפתור האמצעי בסרגל מחזיר אליו. <b>⏹ סיים שיעור</b> שומר דירוג והערה.</li>
+    </ul>
+  </details>
   <details class="info-sec" data-info="home"><summary data-i18n="info.home.s">🚀 מאיפה מתחילים</summary>
     <p class="info-w" data-i18n="info.home.w">שלושה צעדים, פעם אחת, ואפשר לעבוד.</p>
     <ul class="info-l" data-i18n="info.home.l">
@@ -3490,6 +3534,8 @@ body[data-area="live"] #lsBar{display:none!important}
 <div class="modal" id="endModal"><div class="box" style="max-width:460px">
   <h3>⏹ <span id="end-title">סיום שיעור</span><button class="x" data-close="endModal">✕</button></h3>
   <div class="hint" id="end-sum"></div>
+  <!-- בדיקת נוכחות לפני סיום: שיעור בלי נוכחות הוא ציון השתתפות חסר -->
+  <div class="end-att" id="end-att" hidden></div>
   <div class="field" style="margin-top:12px"><label>איך עבר השיעור?</label>
     <div class="seg" id="end-rate">
       <button data-r="1">👍 עבד מצוין</button><button data-r="0">😐 בינוני</button><button data-r="-1">👎 לא עבד</button>
@@ -11726,6 +11772,18 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "end.attDone":"Attendance marked",
+  "end.attPart":"Attendance: marked",
+  "end.attRest":"Everyone else is present",
+  "info.live.s":"▶ Lesson mode",
+  "info.live.w":"The screen you hold on the field — everything in view, and the class already known.",
+  "info.live.l":"<li><b>Tap a class</b> to open a lesson. The class that's on your timetable right now is offered first.</li><li><b>The tiles</b> — attendance, measure, beep, photo finish, timer, teams and random pick — save everything to the lesson's class, without picking it again.</li><li><b>✓ Everyone's here</b> marks the whole class in one tap. Mark the exceptions in the attendance tile.</li><li><b>Leave</b> doesn't end the lesson — the middle button in the bar brings you back. <b>⏹ End lesson</b> saves a rating and a note.</li>",
+  /* ux-redesign */
+  "u.m":"m",
+  "u.kmh":"km/h",
+  "bt.sumStd":"standard",
+  "bt.sumCustom":"⚠ custom",
+  /* ux-redesign */
   "nav.today":"Today",
   "nav.prep":"Prep",
   "nav.live":"Lesson",
@@ -12104,6 +12162,18 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "end.attDone":"تم تسجيل الحضور",
+  "end.attPart":"الحضور: تم تسجيل",
+  "end.attRest":"جميع الباقين حاضرون",
+  "info.live.s":"▶ وضع الدرس",
+  "info.live.w":"الشاشة التي تحملها في الملعب — كل شيء ظاهر، والصف معروف مسبقًا.",
+  "info.live.l":"<li><b>اضغط على صف</b> لفتح درس. يُعرض أولًا الصف الموجود الآن في جدول الحصص.</li><li><b>المربعات</b> — الحضور، القياس، الصافرة، صورة النهاية، المؤقّت، الفرق والسحب — تحفظ كل شيء لصف الدرس، من دون اختياره مرة أخرى.</li><li><b>✓ الجميع حاضرون</b> يسجّل الصف كله بضغطة واحدة. سجّل الاستثناءات في مربع الحضور.</li><li><b>الخروج</b> لا يُنهي الدرس — الزر الأوسط في الشريط يعيدك إليه. <b>⏹ إنهاء الدرس</b> يحفظ تقييمًا وملاحظة.</li>",
+  /* ux-redesign */
+  "u.m":"م",
+  "u.kmh":"كم/س",
+  "bt.sumStd":"قياسي",
+  "bt.sumCustom":"⚠ معدّل",
   /* ux-redesign */
   "nav.today":"اليوم",
   "nav.prep":"التحضير",
@@ -12498,6 +12568,18 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "end.attDone":"Посещаемость отмечена",
+  "end.attPart":"Посещаемость: отмечено",
+  "end.attRest":"Остальные присутствуют",
+  "info.live.s":"▶ Режим урока",
+  "info.live.w":"Экран, который держишь в руке на площадке: всё на виду, класс уже выбран.",
+  "info.live.l":"<li><b>Нажмите на класс</b> — откроется урок. Первым предлагается класс, который сейчас стоит в расписании.</li><li><b>Плитки</b> — посещаемость, замер, бип, фотофиниш, таймер, команды и жребий — сохраняют всё для класса урока, без повторного выбора.</li><li><b>✓ Все на месте</b> отмечает весь класс одним нажатием. Исключения отмечайте в плитке посещаемости.</li><li><b>Выйти</b> не завершает урок — средняя кнопка на панели вернёт к нему. <b>⏹ Завершить урок</b> сохраняет оценку и заметку.</li>",
+  /* ux-redesign */
+  "u.m":"м",
+  "u.kmh":"км/ч",
+  "bt.sumStd":"стандарт",
+  "bt.sumCustom":"⚠ изменён",
+  /* ux-redesign */
   "nav.today":"Сегодня",
   "nav.prep":"Подготовка",
   "nav.live":"Урок",
@@ -12884,6 +12966,18 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "end.attDone":"Asistencia registrada",
+  "end.attPart":"Asistencia: marcados",
+  "end.attRest":"El resto, presentes",
+  "info.live.s":"▶ Modo sesión",
+  "info.live.w":"La pantalla que llevas en la mano en la pista: todo a la vista y el grupo ya elegido.",
+  "info.live.l":"<li><b>Toca un grupo</b> para abrir la sesión. Primero se ofrece el grupo que ahora está en tu horario.</li><li><b>Los mosaicos</b> — asistencia, medición, bip, foto-finish, temporizador, equipos y sorteo — guardan todo en el grupo de la sesión, sin volver a elegirlo.</li><li><b>✓ Están todos</b> marca todo el grupo con un toque. Las excepciones se marcan en el mosaico de asistencia.</li><li><b>Salir</b> no termina la sesión: el botón central de la barra te devuelve a ella. <b>⏹ Terminar sesión</b> guarda una valoración y una nota.</li>",
+  /* ux-redesign */
+  "u.m":"m",
+  "u.kmh":"km/h",
+  "bt.sumStd":"estándar",
+  "bt.sumCustom":"⚠ personalizado",
   /* ux-redesign */
   "nav.today":"Hoy",
   "nav.prep":"Preparar",
@@ -13997,6 +14091,11 @@ window.addEventListener("popstate",e=>{
     try{ navDepth++; history.pushState({mod:document.body.dataset.mod,depth:navDepth},"","#"+document.body.dataset.mod); }catch(err){}
     return;
   }
+  /* מסך פנימי (מבחן פתוח, שלב באשף) חוזר צעד בתוך המודול קודם */
+  const cur=document.body.dataset.mod;
+  for(const fn of BACK_HOOKS){ try{ if(fn(cur)){
+    try{ navDepth++; history.pushState({mod:cur,depth:navDepth},"","#"+cur); }catch(err){}
+    return; } }catch(err){} }
   const st=e.state||{};
   navDepth=st.depth||0;
   go(st.mod||location.hash.slice(1)||"home",{pop:true});
@@ -15080,7 +15179,25 @@ function openEndLesson(){
     "לא נלקחו מדידות בשיעור. ")+"השיעור יישאר בהיסטוריה.";
   $("#end-note").value="";
   $$("#end-rate button").forEach(b=>b.classList.remove("on"));
+  paintEndAtt();
   modal("endModal",true);
+}
+/* הנוכחות של השיעור, בשורה אחת בחלון הסיום. לא סומנה — כפתור אחד
+   שמסמן את כל מי שלא סומן כנוכח, כמו «✓ סמן את כולם» בנוכחות. */
+function paintEndAtt(){
+  const box=$("#end-att"); if(!box)return;
+  const st=window.TOOLS&&window.TOOLS.attStatus?window.TOOLS.attStatus():null;
+  if(!st||!st.total){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  if(st.marked>=st.total){
+    box.className="end-att ok";
+    box.innerHTML="✓ "+esc(t("end.attDone","נוכחות סומנה"))+" · "+st.cnt.p+"/"+st.total;
+    return;
+  }
+  box.className="end-att warn";
+  box.innerHTML='<span>⚠ '+esc(t("end.attPart","נוכחות: סומנו"))+" "+st.marked+"/"+st.total+'</span>'+
+    '<button class="btn sm acc" id="end-attAll">✓ '+esc(t("end.attRest","כל השאר נוכחים"))+'</button>';
+  $("#end-attAll").addEventListener("click",()=>{ ac(); window.TOOLS.markAllPresent(); paintEndAtt(); });
 }
 function wireEndLesson(){
   $$("#end-rate button").forEach(b=>b.addEventListener("click",()=>{
@@ -15934,7 +16051,9 @@ function upOffer(version){
    ============================================================ */
 const BT=(function(){
   const STAGE_SEC=60, MAX_SPEED=18.0;
-  let distance=LS.get("bt.dist",20), startSpeed=LS.get("bt.start",5.0);
+  /* ברירת המחדל היא הפרוטוקול התקני (8.0 קמ״ש). 5.0 הציג אזהרה
+     «לא תקני» לכל מורה חדש עד שמצא את כפתור «תקני». */
+  let distance=LS.get("bt.dist",20), startSpeed=LS.get("bt.start",8.0);
   let classAge=LS.get("bt.age",13), classSex=LS.get("bt.sex","boys");
   let beeps=[];
   const speedKmh=L=>startSpeed+0.5*(L-1);
@@ -15958,6 +16077,11 @@ const BT=(function(){
     $("#bt-warnBox").classList.toggle("show",!isStandard());
     const p=$("#bt-protoPill"); p.textContent=isStandard()?"פרוטוקול תקני":"פרוטוקול מותאם";
     p.classList.toggle("acc",isStandard());
+    /* שורת הסיכום של ההגדרות המקופלות — מה מוגדר, בלי לפתוח */
+    const sum=$("#bt-setSum");
+    if(sum)sum.textContent=distance+" "+t("u.m","מ׳")+" · "+startSpeed.toFixed(1)+" "+t("u.kmh","קמ״ש")+" · "+
+      (isStandard()?t("bt.sumStd","תקני"):t("bt.sumCustom","⚠ מותאם"));
+    const fold=$("#bt-setupFold"); if(fold&&!isStandard())fold.open=true;
   }
 
   /* ----- VO2 & FITNESSGRAM ----- */
@@ -18681,7 +18805,7 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,con
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
-  session:SESSION,paintSessionBar,openSesHist,paintNavLive,sesName,areaOf,goBack,regStore:REGSTORE,
+  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,sesName,areaOf,goBack,regStore:REGSTORE,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
@@ -23578,37 +23702,43 @@ window.FT=(function(){
       </div>
       <div class="hint" style="margin-top:8px">${esc(T.hint)}</div>`;
 
-    /* --- הכלי: שעון או ספירה לאחור --- */
-    $("#ft-tool").innerHTML=
+    /* --- הכלי: שעון או ספירה לאחור ---
+       השעון וכפתור ההפעלה יושבים בסרגל דביק בתחתית, באזור האגודל.
+       קודם הם היו מעל הרשימה ונגללו מהמסך — עם שלושים תלמידים המורה
+       קלט זמנים בלי לראות את השעון ובלי גישה לעצירה. ההסבר ובורר
+       ההקפות נשארים למעלה: קוראים אותם פעם אחת, לא בכל קליטה. */
+    const cdLbl=T.dur?(T.dur>=60?Math.floor(T.dur/60)+":"+String(T.dur%60).padStart(2,"0"):"0:"+String(T.dur).padStart(2,"0")):"";
+    $("#ft-toolInfo").innerHTML=
       T.kind==="clock"
-      ? `<div class="ft-clock" id="ft-clockBox">
-           <div class="tm" id="ft-clockTm">0:00.00</div>
-           <div class="row" style="gap:9px;justify-content:center;margin-top:10px">
-             <button class="btn acc big" id="ft-clkGo" style="width:auto;flex:1">▶ הפעל</button>
-             <button class="btn stop" id="ft-clkStop" disabled>⏹ עצור</button>
-             <button class="btn ghost" id="ft-clkReset">↺</button>
-           </div>
-           ${T.dir==="low"?`<div class="row" style="justify-content:center;align-items:center;gap:9px;margin-top:11px">
+      ? `<div class="ft-toolinfo">
+           ${T.dir==="low"?`<div class="row" style="align-items:center;gap:9px">
              <span class="hint">מספר הקפות לכל רץ</span>
              <div class="ft-lapsel" id="ft-lapSel">${[1,2,3,4,5].map(n=>
                `<button data-lp="${n}" class="${lapsFor(T.id)===n?"on":""}">${n}</button>`).join("")}</div>
            </div>`:""}
-           <div class="hint" style="margin-top:8px;text-align:center">
+           <div class="hint">
              ${T.dir==="low"
                ? (lapsFor(T.id)>1
                   ? "הקש על שם התלמיד בכל מעבר. ההקפה האחרונה היא הסיום."
                   : "הקש על שם התלמיד ברגע שהוא חוצה את הקו")
                : "הקש על שם התלמיד ברגע שהוא מפסיק"} — הזמן נרשם אוטומטית.</div>
-         </div>
-         <div id="ft-splits"></div>`
+         </div>`
       : T.dur
-      ? `<div class="ft-clock" id="ft-cdBox">
-           <div class="tm" id="ft-cdTm">${T.dur>=60?Math.floor(T.dur/60)+":"+String(T.dur%60).padStart(2,"0"):"0:"+String(T.dur).padStart(2,"0")}</div>
-           <div class="row" style="gap:9px;justify-content:center;margin-top:10px">
-             <button class="btn acc big" id="ft-cdGo" style="width:auto;flex:1">▶ הפעל ${T.dur>=60?Math.round(T.dur/60)+" דקות":T.dur+" שניות"}</button>
-             <button class="btn stop" id="ft-cdStop" disabled>⏹</button>
-           </div>
-           <div class="hint" style="margin-top:8px;text-align:center">צפירה בסיום. ספור עם הכפתורים בשורה של כל תלמיד.</div>
+      ? `<div class="ft-toolinfo"><div class="hint">צפירה בסיום. ספור עם הכפתורים בשורה של כל תלמיד.</div></div>`
+      : "";
+    $("#ft-tool").innerHTML=
+      T.kind==="clock"
+      ? `<div class="ft-clock ft-dock" id="ft-clockBox">
+           <div class="tm" id="ft-clockTm">0:00.00</div>
+           <button class="btn acc" id="ft-clkGo">▶ הפעל</button>
+           <button class="btn stop" id="ft-clkStop" disabled>⏹</button>
+           <button class="btn ghost" id="ft-clkReset" aria-label="איפוס">↺</button>
+         </div>`
+      : T.dur
+      ? `<div class="ft-clock ft-dock" id="ft-cdBox">
+           <div class="tm" id="ft-cdTm">${cdLbl}</div>
+           <button class="btn acc" id="ft-cdGo">▶ ${T.dur>=60?Math.round(T.dur/60)+" דקות":T.dur+" שניות"}</button>
+           <button class="btn stop" id="ft-cdStop" disabled>⏹</button>
          </div>`
       : "";
 
@@ -24042,7 +24172,9 @@ window.FT=(function(){
 
     /* קליטת זמן — הפעולה המרכזית בזמן מקצה */
     $$("#ft-list [data-cap]").forEach(b=>b.addEventListener("click",()=>{
-      if(!clk.on&&clk.paused===0){H().toast("הפעל קודם את השעון");return;}
+      /* שעון עצור אינו קולט: קליטה אחרי «עצור» רשמה בשקט את הזמן הקפוא,
+         ובמבחני החזקה זו הייתה «התוצאה הטובה» החדשה של התלמיד. */
+      if(!clk.on){H().toast(clk.paused?"השעון עצור — ▶ ממשיך אותו":"הפעל קודם את השעון");return;}
       const k=b.dataset.cap, s=studByKey(c,k), nm=s.name;
       const need=T.dir==="low"?lapsFor(T.id):1;
       const t=elapsed();
@@ -24116,9 +24248,15 @@ window.FT=(function(){
       });
     });
     /* הזנת מדידה */
+    /* Enter עובר לתלמיד הבא — כמו במונה. בכיתה של שלושים זה ההבדל בין
+       הזנה שוטפת לבין חיפוש השדה הבא בכל פעם. */
     $$("#ft-list [data-val]").forEach(inp=>inp.addEventListener("keydown",e=>{
       if(e.key!=="Enter")return;
-      e.preventDefault(); inp.blur();
+      e.preventDefault();
+      const all=[...document.querySelectorAll("#ft-list [data-cnt],#ft-list [data-val]")];
+      const nx=all[all.indexOf(inp)+1];
+      inp.dispatchEvent(new Event("change",{bubbles:true}));
+      if(nx){ nx.focus(); try{ nx.select(); }catch(e2){} } else inp.blur();
     }));
     $$("#ft-list [data-val]").forEach(inp=>inp.addEventListener("change",()=>{
       const k=inp.dataset.val, v=+inp.value;
@@ -24126,7 +24264,9 @@ window.FT=(function(){
       const fresh=!!pendingNew[k];
       if(v>0){ saveVal(c,T.id,s,v,fresh); delete pendingNew[k]; }
       else { const cur=openAttempt(c,T.id,s); if(cur)delAttempt(cur.id); }
-      renderRun();
+      /* השורה מתעדכנת במקומה: מיון מחדש באמצע ההזנה הזיז את השורה
+         מתחת לאצבע ברגע שהוקלדה. המיון קורה כשבוחרים אותו במפורש. */
+      refreshRow(k);
     }));
     $$("#ft-list [data-del]").forEach(b=>b.addEventListener("click",()=>{
       const k=b.dataset.del, s=studByKey(c,k);
@@ -25372,13 +25512,42 @@ window.FT=(function(){
     else renderPicker();
   }
 
+  /* ============================================================
+     הכיתה של השיעור הפעיל
+     ------------------------------------------------------------
+     מורה שפתח שיעור ב-ט׳3 ולחץ «מדידה» לא אמור לבחור שוב כיתה. בכל
+     כניסה בודקים אם נפתח שיעור חדש מאז הפעם הקודמת, ואם כן — עוברים
+     לכיתה שלו. שיעור שכבר הוחל לא דורס בחירה שהמורה עשה אחריו.
+     ============================================================ */
+  function applyLessonCls(){
+    const a=(H().session&&H().session.active())||null;
+    if(!a||st.lessonId===a.id)return false;
+    st.lessonId=a.id;
+    const exp=DATA.expandCid(clsStore,a.cid);
+    const base=(DATA.isGroupId(a.cid)&&exp[0])||a.cid;
+    const p=DATA.cidParts(base)||DATA.parseCls(a.clsSnapshot);
+    if(!p||!p.grade)return false;
+    const changed=st.grade!==p.grade||st.num!==(+p.num||st.num);
+    st.grade=p.grade; st.num=+p.num||st.num;
+    if(changed){ stopClock(true); stopCd(); st.test=null; }
+    persist();
+    return true;
+  }
   function init(){
+    applyLessonCls();
     if(inited){ renderTab(); return; }
     inited=true;
     const last=LS().get("ft.last",{});
-    if(last.grade)st.grade=last.grade;
-    if(last.num)st.num=last.num;
+    if(!st.lessonId){
+      if(last.grade)st.grade=last.grade;
+      if(last.num)st.num=last.num;
+    }
     if(last.sort)st.sort=last.sort;
+    /* «חזרה» ממסך מבחן פתוח חוזרת לבחירת המבחן, לא יוצאת מהמודול */
+    if(H().onBack)H().onBack(mod=>{
+      if(mod!=="ft"||!st.test||st.tab!=="tests")return false;
+      backToPicker(); return true;
+    });
     H().$$("#ft-tabs button").forEach(b=>b.addEventListener("click",()=>{ st.tab=b.dataset.ft; renderTab(); }));
     renderTab();
   }

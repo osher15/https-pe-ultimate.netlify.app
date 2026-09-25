@@ -1322,7 +1322,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .ft-chips{display:flex;flex-wrap:wrap;gap:8px}
 .ft-chips .hc{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel2);
   border-radius:13px;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer;user-select:none;
-  transition:.14s;min-height:var(--touch,42px)}
+  transition:.14s;min-height:calc(42px + var(--touch))}
 .ft-chips .hc:active{transform:scale(.95)}
 .ft-chips .hc.done{opacity:.55;border-color:var(--acc);cursor:default}
 .ft-chips .hc .dist{font-family:'Share Tech Mono';font-size:12.5px;color:var(--acc)}
@@ -1340,7 +1340,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 /* ===== כפתור חזרה עקבי ===== */
 .backbtn{display:flex;align-items:center;gap:6px;background:var(--inset);border:1px solid var(--line);
   color:var(--ink);border-radius:11px;padding:8px 12px;font-family:'Heebo';font-size:13.5px;font-weight:600;
-  cursor:pointer;min-height:var(--touch,40px);flex:none;transition:.12s}
+  cursor:pointer;min-height:calc(40px + var(--touch));flex:none;transition:.12s}
 .backbtn[hidden]{display:none!important}
 .backbtn:active{transform:scale(.94)}
 .backbtn:hover{border-color:var(--acc);color:var(--acc)}
@@ -1442,7 +1442,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .bt-lanes:empty{display:none}
 .bt-lanes button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:12px;
   padding:13px 6px;font-family:'Share Tech Mono';font-size:20px;cursor:pointer;transition:.12s;
-  min-height:var(--touch,52px)}
+  min-height:calc(52px + var(--touch))}
 .bt-lanes button:active{transform:scale(.93)}
 .bt-lanes button.done{opacity:.5;border-color:var(--acc);cursor:default}
 .bt-lanes button small{display:block;font-family:'Heebo';font-size:10px;color:var(--acc);margin-top:2px}
@@ -1454,7 +1454,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 @keyframes qtp{50%{opacity:.55}}
 .qt-presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
 .qt-presets button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:10px;
-  padding:9px 13px;font-family:'Heebo';font-size:13px;cursor:pointer;min-height:var(--touch,38px)}
+  padding:9px 13px;font-family:'Heebo';font-size:13px;cursor:pointer;min-height:calc(38px + var(--touch))}
 .qt-presets button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--panel2))}
 .qt-presets button:active{transform:scale(.95)}
 
@@ -1463,7 +1463,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .stu-chips:empty{display:none}
 .stu-chips button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:11px;
   padding:8px 13px;font-family:'Heebo';font-size:13px;font-weight:600;cursor:pointer;transition:.12s;
-  min-height:var(--touch,36px);display:flex;align-items:center;gap:7px}
+  min-height:calc(36px + var(--touch));display:flex;align-items:center;gap:7px}
 .stu-chips button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 15%,var(--panel2))}
 .stu-chips button:active{transform:scale(.95)}
 .stu-chips button i{font-style:normal;font-family:'Share Tech Mono';font-size:11.5px;color:var(--muted)}
@@ -1473,7 +1473,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .lang-pick{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .lang-pick button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel2);
   color:var(--ink);border-radius:12px;padding:10px 14px;font-family:'Heebo';font-size:14px;cursor:pointer;
-  transition:.12s;min-height:var(--touch,42px)}
+  transition:.12s;min-height:calc(42px + var(--touch))}
 .lang-pick button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--panel2))}
 .lang-pick button:active{transform:scale(.96)}
 .lang-pick button .fl{font-size:17px;line-height:1}
@@ -1700,3 +1700,34 @@ body[data-area="live"] #lsBar{display:none!important}
 .lv-phase.empty .btn,.lv-other .btn{min-height:48px}
 /* שלושה כפתורי פעולה בכותרת: בטלפון השעון מפנה להם מקום */
 @media(max-width:560px){ .sboard .clock{display:none} }
+
+/* ============================================================
+   שלב 2 — כלי שטח ביד אחת
+   ============================================================ */
+/* השעון של מבחן הכושר: סרגל דביק מעל הסרגל התחתון, באזור האגודל */
+#ft-tool:empty,#ft-toolInfo:empty{display:none}
+#ft-tool{position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px);z-index:30;margin-top:12px}
+#ft-tool .ft-dock{display:flex;align-items:center;gap:9px;padding:9px 11px;margin:0;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 22%,var(--panel)),var(--panel));
+  box-shadow:0 -10px 30px rgba(0,0,0,.45)}
+#ft-tool .ft-dock .tm{flex:1;min-width:0;text-align:start;font-size:clamp(32px,10.5vw,54px)}
+#ft-tool .ft-dock .btn{min-height:58px;min-width:58px;justify-content:center;font-size:17px;padding:10px 14px}
+#ft-tool #ft-clkGo,#ft-tool #ft-cdGo{min-width:110px}
+.ft-toolinfo{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:12px;
+  display:flex;flex-direction:column;gap:8px}
+/* «קלוט» — ההקשה הדחופה ביותר באפליקציה. 32px היה קטן מדי ליד רצה */
+.ft-row [data-cap]{min-height:56px;min-width:98px;font-size:16px;justify-content:center}
+.ft-row .ft-num{min-height:48px;font-size:18px}
+.ft-lapsel button{min-width:44px;min-height:44px}
+/* נוכחות: ארבעה סימונים לכל תלמיד — בגודל של אצבע ולא של עכבר */
+.tl-marks button{min-height:48px;min-width:52px;font-size:13.5px}
+/* ביפ טסט: ההגדרות מקופלות, השמות באותו כרטיס עם כפתור הנשירה */
+.bt-heat{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.bt-heat .ft-chips .hc{min-height:calc(48px + var(--touch));font-size:15px}
+.bt-setup summary{display:flex;align-items:center;gap:10px}
+.bt-setsum{margin-inline-start:auto;color:var(--muted);font-weight:500;font-size:13px}
+.end-att{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px;
+  padding:10px 12px;border-radius:12px;border:1px solid var(--line);font-weight:600;font-size:14px}
+.end-att.ok{border-color:rgba(52,211,153,.45);color:#34d399}
+.end-att.warn{border-color:rgba(255,210,63,.45)}
+.end-att .btn{min-height:44px}

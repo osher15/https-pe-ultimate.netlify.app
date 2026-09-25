@@ -33,7 +33,8 @@ const suites=[
   require("./rostersync.e2e.js"),
   require("./manual.e2e.js"),
   require("./i18n15.e2e.js"),
-  require("./shell16.e2e.js")
+  require("./shell16.e2e.js"),
+  require("./field17.e2e.js")
 ];
 run(suites).then(fail=>process.exit(fail?1:0))
   .catch(e=>{ console.error(e); process.exit(1); });

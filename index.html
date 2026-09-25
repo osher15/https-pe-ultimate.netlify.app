@@ -11,16 +11,16 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="98112419">
+<meta name="hm-build" content="ec77e6a5">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=b2a3fbdc">
+<link rel="stylesheet" href="hm-styles.css?v=24039b32">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-data.js?v=be8da8d9"></script>
 <script src="hm-terms.js?v=ce1b7f7f"></script>
 <script src="hm-texts.js?v=4311c742"></script>
-<script src="hm-i18n.js?v=5d427c86"></script>
-<script src="hm-app.js?v=3a76327b"></script>
+<script src="hm-i18n.js?v=5472f1f7"></script>
+<script src="hm-app.js?v=f63866f5"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
 <script src="hm-know.js?v=bc3e6c15"></script>
@@ -30,7 +30,7 @@
 <script src="hm-plans.js?v=20cf74cb"></script>
 <script src="hm-lesson.js?v=98e544d9"></script>
 <script src="hm-build.js?v=4a132915"></script>
-<script src="hm-tests.js?v=c430e3e8"></script>
+<script src="hm-tests.js?v=cc479b42"></script>
 <script src="hm-new.js?v=144f7820"></script>
 <script src="hm-live.js?v=20fbd685"></script>
 </helmet>
@@ -145,8 +145,51 @@
      ============================================================ -->
 <section class="view" id="view-live"><div id="lv-root"></div></section>
 <section class="view" id="view-beep">
-  <div class="card">
-    <h2><span class="dot"></span> <span data-i18n="bt.setup">הגדרת המבחן</span></h2>
+  <div class="card" id="bt-statsCard">
+    <div class="row" style="justify-content:space-between">
+      <h2 style="margin:0"><span class="dot"></span> המבחן חי</h2>
+      <span class="pill" id="bt-statePill">מוכן לזינוק</span>
+    </div>
+    <div class="bt-dist" id="bt-distVal">0<small> מ׳</small></div>
+    <div class="statgrid" style="margin-top:8px">
+      <div class="stat"><div class="lb" data-i18n="bt.stage">שלב · מקטע</div><div class="vl acc" id="bt-stageVal">—</div></div>
+      <div class="stat"><div class="lb" data-i18n="bt.time">זמן</div><div class="vl" id="bt-timeVal">00:00</div></div>
+      <div class="stat"><div class="lb" data-i18n="bt.speedNow">מהירות</div><div class="vl" id="bt-speedVal">—</div></div>
+      <div class="stat" style="grid-column:1/-1;padding:10px 14px"><div class="lb" data-i18n="bt.inStage">התקדמות בשלב</div><div class="lvlbar"><i id="bt-lvlBar"></i></div></div>
+      <div class="stat"><div class="lb" data-i18n="bt.vo2">VO₂max נוכחי</div><div class="vl" id="bt-vo2Val">—</div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn acc grow" id="bt-startBtn" data-i18n="bt.start">▶ זינוק</button>
+      <button class="btn ghost" id="bt-resetBtn" data-i18n="bt.reset">↺ איפוס</button>
+    </div>
+    <button class="btn stop big" id="bt-regBtn" style="margin-top:11px" disabled data-i18n="bt.drop">🛑 רישום נשירה · התלמיד עצר</button>
+    <!-- מי שנשר מסומן בהקשה על השם — אותו כרטיס כמו כפתור הנשירה,
+         בלי לגלול לכרטיס אחר באמצע מבחן. -->
+    <div class="bt-heat" id="bt-heatCard">
+    <div class="row" style="justify-content:space-between">
+      <b data-i18n="bt.heat">רשימת המקצה</b>
+      <div class="row"><button class="btn sm acc" id="bt-loadCls" data-i18n="bt.loadCls">👥 טען כיתה</button>
+      <button class="btn sm ghost" id="bt-clrCls" data-i18n="bt.clearCls">✕ נקה</button></div>
+    </div>
+    <div class="hint" id="bt-heatHint">טען כיתה ובמקום הכפתור הגדול פשוט הקש על התלמיד שעצר — השם נכנס ללוח מדויק, בלי להקליד אחר כך.</div>
+    <div class="ft-chips" id="bt-heatChips" style="margin-top:10px"></div>
+    </div>
+    <div class="bt-lanes" id="bt-lanes"></div>
+    <div class="row" style="margin-top:8px;gap:9px;align-items:center">
+      <label class="check"><input type="checkbox" id="bt-laneMode"> רישום לפי מספר מסלול</label>
+      <div class="field" style="width:130px"><label data-i18n="bt.laneN">כמה מסלולים</label>
+        <input type="number" id="bt-laneN" min="2" max="20" value="8"></div>
+    </div>
+    <div class="row" style="margin-top:9px;justify-content:space-between">
+      <button class="btn sm ghost" id="bt-undoBtn" disabled data-i18n="bt.undo">↩ בטל רישום אחרון</button>
+      <div class="hint" data-i18n="bt.keys">קיצורים: רווח = התחל/השהה · Enter = רישום</div>
+    </div>
+  </div>
+
+  <!-- ההגדרות נקבעות פעם אחת ונשמרות. בזמן מבחן הן רק מפריעות,
+       ולכן הן מקופלות לשורה אחת שמראה מה מוגדר עכשיו. -->
+  <details class="fold bt-setup" id="bt-setupFold"><summary><span data-i18n="bt.setup">הגדרת המבחן</span>
+    <span class="bt-setsum" id="bt-setSum"></span></summary><div class="bd">
     <div class="row">
       <div class="field" style="width:150px"><label data-i18n="bt.dist">אורך מסלול</label>
         <div class="seg" id="bt-distSeg"><button data-d="15">15 מ׳</button><button data-d="20" class="on">20 מ׳</button></div>
@@ -173,48 +216,7 @@
       <label class="check" style="margin-top:18px"><input type="checkbox" id="bt-sound" checked> ביפים</label>
     </div>
     <div class="bt-warn" id="bt-warnBox" data-i18n="bt.warn">⚠️ הפרוטוקול שונה מהתקן (20 מ׳, התחלה ≥ 8.0 קמ״ש) — ערכי ה‑VO₂max מוצגים כהערכה בלבד.</div>
-  </div>
-
-  <div class="card" id="bt-statsCard">
-    <div class="row" style="justify-content:space-between">
-      <h2 style="margin:0"><span class="dot"></span> המבחן חי</h2>
-      <span class="pill" id="bt-statePill">מוכן לזינוק</span>
-    </div>
-    <div class="bt-dist" id="bt-distVal">0<small> מ׳</small></div>
-    <div class="statgrid" style="margin-top:8px">
-      <div class="stat"><div class="lb" data-i18n="bt.stage">שלב · מקטע</div><div class="vl acc" id="bt-stageVal">—</div></div>
-      <div class="stat"><div class="lb" data-i18n="bt.time">זמן</div><div class="vl" id="bt-timeVal">00:00</div></div>
-      <div class="stat"><div class="lb" data-i18n="bt.speedNow">מהירות</div><div class="vl" id="bt-speedVal">—</div></div>
-      <div class="stat" style="grid-column:1/-1;padding:10px 14px"><div class="lb" data-i18n="bt.inStage">התקדמות בשלב</div><div class="lvlbar"><i id="bt-lvlBar"></i></div></div>
-      <div class="stat"><div class="lb" data-i18n="bt.vo2">VO₂max נוכחי</div><div class="vl" id="bt-vo2Val">—</div></div>
-    </div>
-    <div class="row" style="margin-top:14px">
-      <button class="btn acc grow" id="bt-startBtn" data-i18n="bt.start">▶ זינוק</button>
-      <button class="btn ghost" id="bt-resetBtn" data-i18n="bt.reset">↺ איפוס</button>
-    </div>
-    <button class="btn stop big" id="bt-regBtn" style="margin-top:11px" disabled data-i18n="bt.drop">🛑 רישום נשירה · התלמיד עצר</button>
-    <div class="bt-lanes" id="bt-lanes"></div>
-    <div class="row" style="margin-top:8px;gap:9px;align-items:center">
-      <label class="check"><input type="checkbox" id="bt-laneMode"> רישום לפי מספר מסלול</label>
-      <div class="field" style="width:130px"><label data-i18n="bt.laneN">כמה מסלולים</label>
-        <input type="number" id="bt-laneN" min="2" max="20" value="8"></div>
-    </div>
-    <div class="row" style="margin-top:9px;justify-content:space-between">
-      <button class="btn sm ghost" id="bt-undoBtn" disabled data-i18n="bt.undo">↩ בטל רישום אחרון</button>
-      <div class="hint" data-i18n="bt.keys">קיצורים: רווח = התחל/השהה · Enter = רישום</div>
-    </div>
-  </div>
-
-  <div class="card" id="bt-heatCard">
-    <div class="row" style="justify-content:space-between">
-      <h2 style="margin:0"><span class="dot"></span> <span data-i18n="bt.heat">רשימת המקצה</span></h2>
-      <div class="row"><button class="btn sm acc" id="bt-loadCls" data-i18n="bt.loadCls">👥 טען כיתה</button>
-      <button class="btn sm ghost" id="bt-clrCls" data-i18n="bt.clearCls">✕ נקה</button></div>
-    </div>
-    <div class="hint" id="bt-heatHint">טען כיתה ובמקום הכפתור הגדול פשוט הקש על התלמיד שעצר — השם נכנס ללוח מדויק, בלי להקליד אחר כך.</div>
-    <div class="ft-chips" id="bt-heatChips" style="margin-top:10px"></div>
-  </div>
-
+  </div></details>
   <div class="card">
     <div class="row" style="justify-content:space-between">
       <h2 style="margin:0"><span class="dot"></span> <span data-i18n="bt.board">לוח תוצאות</span></h2>
@@ -1134,11 +1136,13 @@
   <!-- ----- מסך המבחן ----- -->
   <div id="ft-run" style="display:none">
     <div class="card" id="ft-runHead"></div>
-    <div id="ft-tool"></div>
+    <div id="ft-toolInfo"></div>
     <div class="card">
       <div id="ft-bar"></div>
       <div id="ft-list" style="margin-top:11px"></div>
     </div>
+    <div id="ft-splits"></div>
+    <div id="ft-tool"></div>
   </div>
 
   <div class="modal" id="ft-cardModal"><div class="box" style="max-width:680px">
@@ -1447,6 +1451,15 @@
     (⚙ הגדרות ← «גבה הכל לקובץ»).
   </div>
 
+  <details class="info-sec" data-info="live"><summary data-i18n="info.live.s">▶ מצב שיעור</summary>
+    <p class="info-w" data-i18n="info.live.w">המסך שמחזיקים ביד במגרש — הכול גלוי, והכיתה כבר ידועה.</p>
+    <ul class="info-l" data-i18n="info.live.l">
+      <li><b>הקשה על כיתה</b> פותחת שיעור. הכיתה שבמערכת השעות עכשיו מוצעת ראשונה.</li>
+      <li><b>האריחים</b> — נוכחות, מדידה, ביפ, פיניש, טיימר, קבוצות והגרלה — שומרים הכול לכיתת השיעור, בלי לבחור אותה שוב.</li>
+      <li><b>✓ כולם נוכחים</b> מסמן את כל הכיתה בהקשה אחת. את החריגים מסמנים באריח הנוכחות.</li>
+      <li><b>יציאה</b> לא מסיימת את השיעור — הכפתור האמצעי בסרגל מחזיר אליו. <b>⏹ סיים שיעור</b> שומר דירוג והערה.</li>
+    </ul>
+  </details>
   <details class="info-sec" data-info="home"><summary data-i18n="info.home.s">🚀 מאיפה מתחילים</summary>
     <p class="info-w" data-i18n="info.home.w">שלושה צעדים, פעם אחת, ואפשר לעבוד.</p>
     <ul class="info-l" data-i18n="info.home.l">
@@ -1808,6 +1821,8 @@
 <div class="modal" id="endModal"><div class="box" style="max-width:460px">
   <h3>⏹ <span id="end-title">סיום שיעור</span><button class="x" data-close="endModal">✕</button></h3>
   <div class="hint" id="end-sum"></div>
+  <!-- בדיקת נוכחות לפני סיום: שיעור בלי נוכחות הוא ציון השתתפות חסר -->
+  <div class="end-att" id="end-att" hidden></div>
   <div class="field" style="margin-top:12px"><label>איך עבר השיעור?</label>
     <div class="seg" id="end-rate">
       <button data-r="1">👍 עבד מצוין</button><button data-r="0">😐 בינוני</button><button data-r="-1">👎 לא עבד</button>
