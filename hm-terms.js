@@ -49,7 +49,7 @@ window.I18N_TERMS={
 "HIIT קצר לכיתה (40/20)":["Short class HIIT (40/20)", "HIIT قصير للصف (40/20)", "Короткий HIIT для класса (40/20)", "HIIT corto para la clase (40/20)"],
 "IJBNPA — סיכום הראיות של WHO":["IJBNPA — WHO evidence summary", "IJBNPA — ملخص أدلة منظمة الصحة العالمية", "IJBNPA — сводка доказательств ВОЗ", "IJBNPA — resumen de la evidencia de la OMS"],
 "Legs — רגליים":["Legs", "Legs — الأرجل", "Legs — ноги", "Legs — piernas"],
-"Lower + קונדישן":["Lower + conditioning", "Lower + تحمّل", "Lower + кондиция", "Lower + acondicionamiento"],
+"Lower + קונדישן":["Lower + conditioning", "Lower + تحمّل", "Lower + общая выносливость", "Lower + acondicionamiento"],
 "Lower — כוח תחתון":["Lower — lower-body strength", "Lower — قوة الجزء السفلي", "Lower — сила низа тела", "Lower — fuerza tren inferior"],
 "Pull — משיכה":["Pull", "Pull — السحب", "Pull — тяга", "Pull — tracción"],
 "Push — דחיפה":["Push", "Push — الدفع", "Push — жим", "Push — empuje"],
@@ -247,7 +247,7 @@ window.I18N_TERMS={
 "החזקת כדור קבוצתית":["Team possession", "الاستحواذ الجماعي", "Командное владение мячом", "Posesión colectiva"],
 "הטוב":["Best", "الأفضل", "Лучший", "Mejor"],
 "הטובה":["Best", "الأفضل", "Лучший", "Mejor"],
-"הטחות כדורגל":["Football shooting", "التسديد في كرة القدم", "Удары по воротам", "Tiros a portería"],
+"הטחות כדורגל":["Football keepy-ups", "تنطيط كرة القدم", "Набивание мяча", "Toques de balón"],
 "הטל קוביות!":["Roll the dice!", "ارمِ النرد!", "Бросай кубики!", "¡Tira los dados!"],
 "הטלה מסובבת — מבוא":["Rotational throw — intro", "الرمي الدوراني — مدخل", "Бросок с поворотом — введение", "Lanzamiento con giro — introducción"],
 "הטלות מדודות":["Measured throws", "رميات مُقاسة", "Броски на результат", "Lanzamientos medidos"],
@@ -1170,5 +1170,6 @@ window.I18N_TERMS={
 "תרגול חופשי מודרך":["Guided free practice", "تدريب حرّ موجَّه", "Свободная практика под руководством", "Práctica libre guiada"],
 "תרגיל":["Exercise", "التمرين", "Упражнение", "Ejercicio"],
 "תרגיל T — שינויי כיוון":["T-drill — changes of direction", "تمرين T — تغيير الاتجاه", "T-тест — смена направления", "Test en T — cambios de dirección"],
-"תת־משקל":["Underweight", "نقص وزن", "Недостаточный вес", "Bajo peso"]
+"תת־משקל":["Underweight", "نقص وزن", "Недостаточный вес", "Bajo peso"],
+"סיום:":["Cool-down:", "الختام:", "Заминка:", "Vuelta a la calma:"],
 };

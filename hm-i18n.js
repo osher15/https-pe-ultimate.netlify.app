@@ -145,7 +145,7 @@ en:{
   "hub.peerN":"peer assessments",
   "hub.openPeer":"Peer assessment",
   "hub.openRub":"Rubrics",
-  "hub.empty":"No classes yet. Add a class here — grade and number — and then its student list.",
+  "hub.empty":"No classes yet. Add a class here — year and number — and then its student list.",
   "hub.addCls":"New class",
   "hub.addBtn":"Add class",
   "hub.inLesson":"in a lesson now",
@@ -200,8 +200,8 @@ en:{
   "live.whichHint":"Tap a class to open a lesson. Attendance, measurements and teams will be saved to that class.",
   "live.planWill":"The plan on screen will open with it:",
   "live.students":"students",
-  "live.noClasses":"No classes yet. Pick a grade and number below — the class will be registered and saved.",
-  "live.other":"Another class — grade and number",
+  "live.noClasses":"No classes yet. Pick a year and number below — the class will be registered and saved.",
+  "live.other":"Another class — year and number",
   "live.startCls":"Start lesson",
   "live.noClassTools":"Tools without a class",
   "live.tMeas":"Measure",
@@ -345,7 +345,6 @@ en:{
   "home.photoSub":"camera timing · sprints · laps · certificates",
   "home.know":"Knowledge",
   "home.knowSub":"official sources · evidence-informed programs · games",
-  "home.more":"More options",
   "home.moreSub":"school champions · students and grades · knowledge · class tools · nutrition",
   "home.challenge":"Challenge of the week",
   "home.chPlus":"+ add count", "home.chEdit":"✎ new challenge",
@@ -360,9 +359,9 @@ en:{
   "more.knowledge":"Knowledge", "more.tools":"Class tools", "more.nutrition":"Nutrition corner",
 
   /* --- הגדרות --- */
-  "set.title":"Settings",
+  "set.title":"⚙️ Settings",
   "set.school":"School name (appears in the header, on certificates and in TV mode)",
-  "set.theme":"Colour theme",
+  "set.theme":"Colour theme — saved on this device",
   "set.themeHint":"«Day» and «Bright sun» are made for outdoor use — a light background and high contrast that stay readable in direct sunlight.",
   "set.sound":"Sounds", "set.voice":"Voice announcements",
   "set.wake":"Keep the screen awake during activity",
@@ -505,7 +504,7 @@ en:{
   "info.games.l":"<li>Search by name, equipment or objective.</li><li>Any game can go straight into a lesson plan.</li>",
   "info.beep.s":"🎵 Beep test",
   "info.beep.w":"Runs the beep test with audio-clock accuracy, calculates VO₂max and compares it with FITNESSGRAM norms.",
-  "info.beep.l":"<li><b>Load class</b> pulls in the roster you already entered — no retyping names.</li><li><b>Record drop-out</b> tap the student the moment they stop, and their stage is recorded.</li><li><b>Send to fitness tests</b> the result goes to the student's card and to the fitness index.</li>",
+  "info.beep.l":"<li><b>Load class</b> pulls in the roster you already entered — no retyping names.</li><li><b>Record drop-out</b> tap the student the moment they stop, and their stage is recorded.</li><li><b>🏅 Save to class</b> the result goes into the fitness tests, the student card and the fitness index.</li>",
   "info.photo.s":"📷 Photo-finish",
   "info.photo.w":"Times races with the phone camera and shows in the image who crossed first.",
   "info.photo.l":"<li><b>🏁 Race</b> clock, start and lanes — only what you need at the line.</li><li><b>📐 Setup</b> once beforehand: camera position, finish line, gun distance and detection sensitivity.</li><li><b>🎞 Finish image · 🏁 Results</b> the moment of crossing and the precise time for each lane; «Save to class» puts the times into the fitness tests.</li><li><b>🔄 Laps</b> longer races. Earlier heats are in the archive under the results board.</li>",
@@ -681,8 +680,8 @@ ar:{
   "area.tools":"أدوات الصف",
   "home.quick":"أدوات القياس — حتى من دون درس",
   "home.qFt":"اختبارات اللياقة",
-  "home.qBeep":"اختبار الصافرة",
-  "home.qPhoto":"صورة النهاية",
+  "home.qBeep":"اختبار البيب",
+  "home.qPhoto":"تصوير خط النهاية",
   "home.qTimer":"مؤقّت",
   "home.more":"تحدّي الأسبوع، أرقام ونصيحة ميدانية",
   "set.guide":"دليل الشاشة التي جئت منها",
@@ -709,9 +708,9 @@ ar:{
   "live.noClassTools":"أدوات من دون صف",
   "live.tMeas":"قياس",
   "live.tMeasSub":"31 اختبار لياقة",
-  "live.tBeep":"اختبار الصافرة",
+  "live.tBeep":"اختبار البيب",
   "live.tBeepSub":"الانطلاق وتسجيل الانسحاب",
-  "live.tPhoto":"صورة النهاية",
+  "live.tPhoto":"تصوير خط النهاية",
   "live.tPhotoSub":"الكاميرا والمسارات",
   "live.tTimer":"مؤقّت",
   "live.tTimerSub":"فترات · محطات",
@@ -805,7 +804,6 @@ ar:{
   "home.photoSub":"توقيت بالكاميرا · سباقات سرعة · لفّات · شهادات",
   "home.know":"المعرفة",
   "home.knowSub":"مصادر رسمية · برامج تدريب مبنية على الأدلة · ألعاب",
-  "home.more":"خيارات أخرى",
   "home.moreSub":"أبطال المدرسة · الطلاب والعلامات · المعرفة · أدوات الصف · التغذية",
   "home.challenge":"تحدّي الأسبوع",
   "home.chPlus":"+ أضف عدًّا", "home.chEdit":"✎ تحدٍّ جديد",
@@ -818,9 +816,9 @@ ar:{
   "more.records":"أبطال المدرسة", "more.students":"الطلاب والعلامات",
   "more.knowledge":"المعرفة", "more.tools":"أدوات الصف", "more.nutrition":"ركن التغذية",
 
-  "set.title":"الإعدادات",
+  "set.title":"⚙️ الإعدادات",
   "set.school":"اسم المدرسة (يظهر في الترويسة وعلى الشهادات وفي وضع التلفاز)",
-  "set.theme":"سِمة الألوان",
+  "set.theme":"سِمة الألوان — تُحفظ على هذا الجهاز",
   "set.themeHint":"«نهار» و«شمس ساطعة» مخصّصتان للاستخدام في الخارج — خلفية فاتحة وتباين عالٍ يبقيان مقروءين تحت أشعة الشمس المباشرة.",
   "set.sound":"الأصوات", "set.voice":"الإعلانات الصوتية",
   "set.wake":"إبقاء الشاشة مضاءة أثناء النشاط",
@@ -1022,7 +1020,7 @@ ar:{
   "info.games.l":"<li>ابحث بالاسم أو الأدوات أو الهدف.</li><li>يمكن نقل أي لعبة مباشرة إلى خطة درس.</li>",
   "info.beep.s":"🎵 اختبار البيب",
   "info.beep.w":"يشغّل اختبار البيب بدقّة ساعة الصوت، ويحسب VO₂max ويقارنه بمعايير FITNESSGRAM.",
-  "info.beep.l":"<li><b>تحميل صف</b> يجلب القائمة التي أدخلتها مسبقًا — بلا إعادة كتابة الأسماء.</li><li><b>تسجيل انسحاب</b> اضغط على الطالب لحظة توقّفه، فتُسجَّل مرحلته.</li><li><b>إرسال إلى اختبارات اللياقة</b> تدخل النتيجة إلى بطاقة الطالب وإلى مؤشّر اللياقة.</li>",
+  "info.beep.l":"<li><b>تحميل صف</b> يجلب القائمة التي أدخلتها مسبقًا — بلا إعادة كتابة الأسماء.</li><li><b>تسجيل انسحاب</b> اضغط على الطالب لحظة توقّفه، فتُسجَّل مرحلته.</li><li><b>🏅 حفظ للصف</b> تدخل النتيجة إلى اختبارات اللياقة وبطاقة الطالب ومؤشّر اللياقة.</li>",
   "info.photo.s":"📷 تصوير خط النهاية",
   "info.photo.w":"يقيس أزمنة الجري بكاميرا الهاتف، ويُظهر في الصورة من عبر أولًا.",
   "info.photo.l":"<li><b>🏁 السباق</b> الساعة والانطلاق والمسارات — فقط ما تحتاجه عند الخط.</li><li><b>📐 التجهيز</b> مرة واحدة مسبقًا: موضع الكاميرا وخط النهاية ومسافة المسدس وحساسية الكشف.</li><li><b>🎞 صورة النهاية · 🏁 النتائج</b> لحظة العبور والزمن الدقيق لكل مسار؛ «حفظ للصف» يُدخل الأزمنة إلى اختبارات اللياقة.</li><li><b>🔄 اللفّات</b> سباقات طويلة. السباقات السابقة في الأرشيف أسفل لوحة النتائج.</li>",
@@ -1034,7 +1032,7 @@ ar:{
   "info.stu.l":"<li><b>⬇ املأ حسب الحضور</b> يملأ علامة المشاركة من بيانات الحضور — في الخانات الفارغة فقط، دون الكتابة فوق علامة أدخلتها.</li><li><b>⬇ CSV</b> يصدّر الجدول إلى جدول بيانات.</li>",
   "info.tools.s":"🧰 أدوات الصف",
   "info.tools.w":"أربع أدوات للّحظات التي تتكرّر في كل درس.",
-  "info.tools.l":"<li><b>👥 مجموعات</b> تقسيم متوازن حسب آخر نتيجة — بلا مجموعة لا فرصة لها.</li><li><b>🎯 قرعة</b> تختار طالبًا عشوائيًا.</li><li><b>✅ الحضور</b> تسجيل يومي — ومنه تُملأ علامة المشاركة.</li><li><b>📋 سلالم التقييم</b> تقييم حسب معايير.</li>",
+  "info.tools.l":"<li><b>👥 الفرق</b> تقسيم متوازن حسب آخر نتيجة — بلا مجموعة لا فرصة لها.</li><li><b>🎯 قرعة</b> تختار طالبًا عشوائيًا.</li><li><b>✅ الحضور</b> تسجيل يومي — ومنه تُملأ علامة المشاركة.</li><li><b>📋 سلالم التقدير</b> تقييم حسب معايير.</li>",
   "info.know.s":"📚 المعرفة",
   "info.know.w":"سند مهني للقرارات — مصادر وبرامج وأرقام.",
   "info.know.l":"<li><b>📚 مصادر رسمية</b> كل بند مرتبط بالوثيقة الحيّة.</li><li><b>🏋️ برامج مُقيَّمة · 📌 أرقام تستحق التذكّر</b> للّحظة التي تحتاج فيها إلى دعم قرار أمام وليّ أمر أو مدير.</li>",
@@ -1201,7 +1199,7 @@ ru:{
   "home.qBeep":"Бип-тест",
   "home.qPhoto":"Фотофиниш",
   "home.qTimer":"Таймер",
-  "home.more":"Вызов недели, цифры и полевой совет",
+  "home.more":"Вызов недели, цифры и совет для площадки",
   "set.guide":"Гид по экрану, с которого вы пришли",
   "set.secGeneral":"Общие",
   "set.secGeneralSub":"Язык, школа, вид и звуки",
@@ -1329,7 +1327,6 @@ ru:{
   "home.photoSub":"замер с камеры · спринт · круги · грамоты",
   "home.know":"Знания",
   "home.knowSub":"официальные источники · проверенные программы тренировок · игры",
-  "home.more":"Другие возможности",
   "home.moreSub":"чемпионы школы · ученики и оценки · знания · инструменты класса · питание",
   "home.challenge":"Вызов недели",
   "home.chPlus":"+ добавить", "home.chEdit":"✎ новый вызов",
@@ -1342,9 +1339,9 @@ ru:{
   "more.records":"Чемпионы школы", "more.students":"Ученики и оценки",
   "more.knowledge":"Знания", "more.tools":"Инструменты класса", "more.nutrition":"Уголок питания",
 
-  "set.title":"Настройки",
+  "set.title":"⚙️ Настройки",
   "set.school":"Название школы (в шапке, на грамотах и в режиме ТВ)",
-  "set.theme":"Цветовая тема",
+  "set.theme":"Цветовая тема — сохраняется на этом устройстве",
   "set.themeHint":"«День» и «Яркое солнце» — для улицы: светлый фон и высокий контраст, читаемые под прямым солнцем.",
   "set.sound":"Звуки", "set.voice":"Голосовые объявления",
   "set.wake":"Не гасить экран во время активности",
@@ -1533,7 +1530,7 @@ ru:{
   "info.games.l":"<li>Поиск по названию, инвентарю или цели.</li><li>Любую игру можно сразу перенести в план урока.</li>",
   "info.beep.s":"🎵 Бип-тест",
   "info.beep.w":"Проводит бип-тест с точностью аудиочасов, рассчитывает VO₂max и сравнивает с нормами FITNESSGRAM.",
-  "info.beep.l":"<li><b>Загрузить класс</b> подтягивает уже введённый список — без повторного набора имён.</li><li><b>Записать сход</b> нажмите на ученика в момент остановки, и его ступень будет записана.</li><li><b>Отправить в тесты физподготовки</b> результат попадает в карточку ученика и в индекс физподготовки.</li>",
+  "info.beep.l":"<li><b>Загрузить класс</b> подтягивает уже введённый список — без повторного набора имён.</li><li><b>Записать сход</b> нажмите на ученика в момент остановки, и его ступень будет записана.</li><li><b>🏅 Сохранить для класса</b> результат попадает в тесты физподготовки, карточку ученика и индекс физподготовки.</li>",
   "info.photo.s":"📷 Фотофиниш",
   "info.photo.w":"Измеряет время забега камерой телефона и показывает на снимке, кто пересёк линию первым.",
   "info.photo.l":"<li><b>🏁 Забег</b> часы, старт и дорожки — только то, что нужно у линии.</li><li><b>📐 Установка</b> один раз заранее: положение камеры, линия финиша, расстояние до пистолета и чувствительность распознавания.</li><li><b>🎞 Снимок финиша · 🏁 Результаты</b> момент пересечения и точное время по каждой дорожке; «Сохранить для класса» заносит времена в тесты физподготовки.</li><li><b>🔄 Круги</b> длинные забеги. Прошлые забеги — в архиве под таблицей результатов.</li>",
@@ -1712,7 +1709,7 @@ es:{
   "home.qBeep":"Test de la bip",
   "home.qPhoto":"Foto-finish",
   "home.qTimer":"Temporizador",
-  "home.more":"Reto de la semana, cifras y consejo de campo",
+  "home.more":"Reto de la semana, cifras y un consejo práctico",
   "set.guide":"Guía de la pantalla de la que vienes",
   "set.secGeneral":"General",
   "set.secGeneralSub":"Idioma, centro, aspecto y sonidos",
@@ -1938,7 +1935,6 @@ es:{
   "home.photoSub":"cronometraje con cámara · velocidad · vueltas · diplomas",
   "home.know":"Conocimiento",
   "home.knowSub":"fuentes oficiales · programas basados en evidencia · juegos",
-  "home.more":"Más opciones",
   "home.moreSub":"campeones del centro · alumnado y calificaciones · conocimiento · herramientas de clase · nutrición",
   "home.challenge":"Reto de la semana",
   "home.chPlus":"+ sumar",
@@ -1959,9 +1955,9 @@ es:{
   "more.knowledge":"Conocimiento",
   "more.tools":"Herramientas de clase",
   "more.nutrition":"Rincón de nutrición",
-  "set.title":"Ajustes",
+  "set.title":"⚙️ Ajustes",
   "set.school":"Nombre del centro (aparece en la cabecera, en los diplomas y en el modo TV)",
-  "set.theme":"Tema de color",
+  "set.theme":"Tema de color — se guarda en este dispositivo",
   "set.themeHint":"«Día» y «Sol intenso» están pensados para exteriores — fondo claro y alto contraste que se leen bien a pleno sol.",
   "set.sound":"Sonidos",
   "set.voice":"Anuncios por voz",
@@ -2134,7 +2130,7 @@ es:{
   "info.games.l":"<li>Busca por nombre, material u objetivo.</li><li>Cualquier juego puede pasar directamente a un plan de sesión.</li>",
   "info.beep.s":"🎵 Test de la bip",
   "info.beep.w":"Ejecuta el test de la bip con la precisión de un reloj de audio, calcula el VO₂max y lo compara con los baremos FITNESSGRAM.",
-  "info.beep.l":"<li><b>Cargar grupo</b> trae la lista que ya introdujiste — sin volver a teclear nombres.</li><li><b>Registrar abandono</b> toca al alumno en cuanto se detiene, y se registra su nivel.</li><li><b>Enviar a las pruebas de condición física</b> el resultado entra en la ficha del alumno y en el índice de condición física.</li>",
+  "info.beep.l":"<li><b>Cargar grupo</b> trae la lista que ya introdujiste — sin volver a teclear nombres.</li><li><b>Registrar abandono</b> toca al alumno en cuanto se detiene, y se registra su nivel.</li><li><b>🏅 Guardar para la clase</b> el resultado entra en las pruebas de condición física, la ficha del alumno y el índice de condición física.</li>",
   "info.photo.s":"📷 Foto-finish",
   "info.photo.w":"Cronometra carreras con la cámara del móvil y muestra en la imagen quién cruzó primero.",
   "info.photo.l":"<li><b>🏁 Carrera</b> reloj, salida y calles — solo lo que necesitas junto a la línea.</li><li><b>📐 Colocación</b> una vez antes: posición de la cámara, línea de meta, distancia a la pistola y sensibilidad de detección.</li><li><b>🎞 Imagen de llegada · 🏁 Resultados</b> el momento del cruce y el tiempo exacto de cada calle; «Guardar para la clase» pasa los tiempos a las pruebas de condición física.</li><li><b>🔄 Vueltas</b> carreras largas. Las series anteriores están en el archivo bajo la tabla de resultados.</li>",
@@ -2329,12 +2325,12 @@ function term(src){
   if(col==null||!window.I18N_TERMS||!HEB.test(src))return null;
   const [pre,core,post]=splitTerm(src);
   const out=termCore(core,col,true);
-  if(out)return heQ(pre)+out+heQ(post);
+  if(out)return heQpre(pre,out)+out+heQ(post);
   /* טקסט מורכב — שורת מקור «כותרת — ארגון», משחק שהוכנס למערך
      («צעד. צעד. · מטרה: …»), סעיף ממוספר. מפרקים לחלקים שכל אחד מהם
      מוכר במילון; מתרגמים רק אם אף חלק לא נשאר עברית. */
   const cp=composite(core,col);
-  if(cp)return heQ(pre)+cp+heQ(post);
+  if(cp)return heQpre(pre,cp)+cp+heQ(post);
   /* טקסט רב־שורתי (הודעות, מסמכי מערך) — שורה אחרי שורה */
   if(/\n/.test(src)){
     let hit=false;
@@ -2342,7 +2338,7 @@ function term(src){
     if(hit)return lines.join("\n");
   }
   const tp=tplMatch(core,col);
-  return tp?heQ(pre)+tp+heQ(post):null;
+  return tp?heQpre(pre,tp)+tp+heQ(post):null;
 }
 function piece(p,col){
   p=p.trim(); if(!p)return p; if(!HEB.test(p))return p;
@@ -2352,7 +2348,10 @@ function piece(p,col){
   let m=/^(\d+[.)])\s+([\s\S]+)$/.exec(p);
   if(m){ t=piece(m[2],col); if(t)return m[1]+" "+t; }
   m=/^([^:.!?]{1,30}):\s+([\s\S]+)$/.exec(p);
-  if(m&&HEB.test(m[1])){ const a=termCore(m[1].trim(),col,true), b2=piece(m[2],col); if(a&&b2)return a+": "+b2; }
+  /* תווית לפני נקודתיים יכולה להיות ערך משלה במילון («סיום:» — שלב הסיום
+     של מערך, לא «סיום» של כפתור). אם אין — התווית עצמה, כמו קודם. */
+  if(m&&HEB.test(m[1])){ const lc=termCore(m[1].trim()+":",col,true);
+    const a=lc?lc.replace(/:\s*$/,""):termCore(m[1].trim(),col,true), b2=piece(m[2],col); if(a&&b2)return a+": "+b2; }
   t=headOf(p,col); if(t)return t;
   /* כמה משפטים ברצף (שני צעדי משחק שהודבקו יחד) — הרצף הארוך ביותר
      שקיים במילון, ואז משפט־משפט */
@@ -2398,6 +2397,15 @@ function composite(core,col){
 }
 /* גרשיים ומרכאות עבריים (״ ׳) שנשארו סביב טקסט מתורגם */
 function heQ(x){ return x.replace(/״/g,'"').replace(/׳/g,"'"); }
+/* מירכאה פותחת שנחתכה מלפני הטקסט («״מגן״ אחד…») — התרגום קובע אותה:
+   אם הוא פותח מירכאות משלו (“shield”, «حامٍ») היא מיותרת; אם הוא סוגר
+   ב־» או ב־” — הפותחת המתאימה, כדי שלא ייצא ״Red” או "قرش»" */
+function heQpre(pre,out){
+  if(pre.indexOf("״")<0)return heQ(pre);
+  const m=/[«“"»”]/.exec(out); let q='"';
+  if(m){ const c=m[0]; if(c==="«"||c==="“")return heQ(pre.replace(/״/g,"")); if(c==="»")q="«"; else if(c==="”")q="“"; }
+  return pre.replace(/״/g,q).replace(/׳/g,"'");
+}
 /* תרגום של מחרוזת שלמה לשימוש בקוד (הודעות, קול, קנבס) — תמיד מחזיר טקסט */
 function tr(s){ return (s==null||cur==="he")?s:(term(String(s))||s); }
 function skipped(n){
