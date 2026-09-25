@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="1d0f0b69">
+<meta name="hm-build" content="c8a29d58">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12058,6 +12058,15 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "grp.need2":"You need at least two classes with students to combine",
+  "grp.joinT":"🔗 Combine classes",
+  "grp.joinM":"Tick the classes that learn together. Every test, grade and attendance is entered once for all of them, and each result is saved to the student's own class.",
+  "grp.joinOk":"Combine",
+  "grp.pick2":"Tick at least two classes",
+  "grp.exists":"These classes are already combined",
+  "grp.joinBtn":"Combine classes",
+  "ft.grpLbl":"Classes that learn together",
+  /* ux-redesign */
   "ask.ok":"OK",
   "ask.cancel":"Cancel",
   "ask.type":"Type «{0}» to confirm",
@@ -12145,7 +12154,6 @@ en:{
   "hub.meas":"measurements",
   "hub.testsN":"different tests",
   "hub.lastMeas":"last",
-  "hub.groupNote":"The full screens (students, grades, fitness tests) work per class — open them through the classes in the group.",
   "hub.students":"Students",
   "hub.inList":"on the list",
   "hub.openList":"Student list",
@@ -12500,6 +12508,15 @@ en:{
 
 ar:{
   /* ux-redesign */
+  "grp.need2":"تحتاج إلى صفّين على الأقل فيهما طلاب لدمجهما",
+  "grp.joinT":"🔗 دمج صفوف",
+  "grp.joinM":"حدّد الصفوف التي تتعلّم معًا. كل اختبار وعلامة وحضور يُدخَل مرة واحدة للجميع، وتُحفظ كل نتيجة في صف الطالب نفسه.",
+  "grp.joinOk":"دمج",
+  "grp.pick2":"حدّد صفّين على الأقل",
+  "grp.exists":"هذه الصفوف مدموجة بالفعل",
+  "grp.joinBtn":"دمج صفوف",
+  "ft.grpLbl":"صفوف تتعلّم معًا",
+  /* ux-redesign */
   "ask.ok":"موافق",
   "ask.cancel":"إلغاء",
   "ask.type":"اكتب «{0}» للتأكيد",
@@ -12587,7 +12604,6 @@ ar:{
   "hub.meas":"قياسات",
   "hub.testsN":"اختبارات مختلفة",
   "hub.lastMeas":"الأخير",
-  "hub.groupNote":"الشاشات الكاملة (الطلاب، العلامات، اختبارات اللياقة) تعمل حسب الصف — افتحها من خلال صفوف المجموعة.",
   "hub.students":"الطلاب",
   "hub.inList":"في القائمة",
   "hub.openList":"قائمة الطلاب",
@@ -12946,6 +12962,15 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "grp.need2":"Чтобы объединить, нужны хотя бы два класса с учениками",
+  "grp.joinT":"🔗 Объединить классы",
+  "grp.joinM":"Отметьте классы, которые занимаются вместе. Каждый тест, оценка и посещаемость вводятся один раз для всех, а каждый результат сохраняется в классе самого ученика.",
+  "grp.joinOk":"Объединить",
+  "grp.pick2":"Отметьте хотя бы два класса",
+  "grp.exists":"Эти классы уже объединены",
+  "grp.joinBtn":"Объединить классы",
+  "ft.grpLbl":"Классы, которые занимаются вместе",
+  /* ux-redesign */
   "ask.ok":"OK",
   "ask.cancel":"Отмена",
   "ask.type":"Введите «{0}» для подтверждения",
@@ -13033,7 +13058,6 @@ ru:{
   "hub.meas":"замеров",
   "hub.testsN":"разных тестов",
   "hub.lastMeas":"последний",
-  "hub.groupNote":"Полные экраны (ученики, оценки, тесты) работают по классам — открывайте их через классы группы.",
   "hub.students":"Ученики",
   "hub.inList":"в списке",
   "hub.openList":"Список учеников",
@@ -13385,6 +13409,15 @@ ru:{
 
 es:{
   /* ux-redesign */
+  "grp.need2":"Necesitas al menos dos clases con alumnos para unirlas",
+  "grp.joinT":"🔗 Unir clases",
+  "grp.joinM":"Marca las clases que tienen clase juntas. Cada prueba, nota y asistencia se introduce una sola vez para todas, y cada resultado se guarda en la clase propia del alumno.",
+  "grp.joinOk":"Unir",
+  "grp.pick2":"Marca al menos dos clases",
+  "grp.exists":"Estas clases ya están unidas",
+  "grp.joinBtn":"Unir clases",
+  "ft.grpLbl":"Clases que tienen clase juntas",
+  /* ux-redesign */
   "ask.ok":"Aceptar",
   "ask.cancel":"Cancelar",
   "ask.type":"Escribe «{0}» para confirmar",
@@ -13472,7 +13505,6 @@ es:{
   "hub.meas":"mediciones",
   "hub.testsN":"pruebas distintas",
   "hub.lastMeas":"última",
-  "hub.groupNote":"Las pantallas completas (alumnado, calificaciones, pruebas) funcionan por grupo: ábrelas desde los grupos que forman la agrupación.",
   "hub.students":"Alumnado",
   "hub.inList":"en la lista",
   "hub.openList":"Lista del alumnado",
@@ -16021,11 +16053,9 @@ function classOverviewHtml(cid){
   if(act&&act.cid===cid)html+='<span class="pill acc">שיעור פתוח בכיתה הזאת</span>';
   else if(act)html+='<span class="pill">פתוח שיעור בכיתה '+esc(sesName(act))+'</span>';
   else html+='<button class="btn sm acc" id="cls-start">▶ התחל שיעור בכיתה הזאת</button>';
-  /* מבחני הכושר עדיין עובדים על כיתה בודדת. עדיף לא להציע כפתור
-     שיפתח את הכיתה הלא נכונה מאשר להציע אותו ולהטעות. */
-  html+=(grp?"":'<button class="btn sm ghost" id="cls-ft">🏅 מבחני כושר</button>')+'</div>'+
-    (grp?'<div class="hint" style="margin-top:9px">מדידה בקבוצה נעשית בינתיים דרך הכיתה עצמה — '+
-      esc(DATA.groupSummary(REGSTORE,cid))+'.</div>':"");
+  /* מבחני הכושר נפתחים גם על קבוצה: כל התלמידים של הכיתות יחד,
+     וכל תוצאה נשמרת בכיתה של התלמיד. */
+  html+='<button class="btn sm ghost" id="cls-ft">🏅 מבחני כושר</button></div>';
 
   return html;
 }
@@ -21377,7 +21407,10 @@ const classesOf=l=>[...new Set(l.map(s=>s.cls).filter(Boolean))].sort();
 const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v)};
 const cidOf=s=>window.HMDATA.cidOfStudent(s,store);
 const cidOfLabel=c=>c?window.HMDATA.resolveClassId(store,c):null;
-const inClass=(s,cid)=>!cid||cidOf(s)===cid;
+/* כיתות שלומדות יחד (קבוצה, מזהה g:…): כל התלמידים של הכיתות החברות,
+   וכל אחד נשאר בכיתה שלו. */
+const isGrp=c=>!!c&&window.HMDATA.isGroupId(c)&&!!window.HMDATA.groupOf(store,c);
+const inClass=(s,cid)=>!cid||(window.HMDATA.isGroupId(cid)?window.HMDATA.studentInScope(store,cid,s):cidOf(s)===cid);
 /* הכיתות לבוררים שנושאים מזהה: [{cid,name}], השם מהרישום כשיש */
 const classOptions=l=>{
   const by={};
@@ -21385,6 +21418,9 @@ const classOptions=l=>{
     const reg=window.HMDATA.classOf(store,cid); by[cid]={cid,name:(reg&&reg.name)||s.cls||cid}; });
   return Object.values(by).sort((a,b)=>a.name.localeCompare(b.name,"he"));
 };
+const groupOptions=l=>window.HMDATA.listGroups(store)
+  .filter(g=>l.some(s=>window.HMDATA.studentInScope(store,g.id,s)))
+  .map(g=>({cid:g.id,name:"👥 "+g.name}));
 const labelOf=cid=>{ const c=classOptions(students()).find(x=>x.cid===cid); return c?c.name:(cid||""); };
 /* השוואת כיתה סלחנית, כמו במבחני הכושר. בלעדיה כיתת השיעור «ט׳3»
    לא תואמת ל«ט3» שהמורה הקליד בכרטיס התלמיד, וההקשר מהשיעור פשוט
@@ -21522,19 +21558,34 @@ window.TOOLS=(function(){
   let attCls="", attDate=today();
   /* הנוכחות: הבורר נושא את שם הכיתה (tools.att ממופתח תאריך|שם, וזה
      לא משתנה), אבל מי נחשב «בכיתה» נקבע לפי cid. */
-  const attPool=()=>{ const cid=cidOfLabel(attCls); return students().filter(s=>inClass(s,cid)); };
+  const attPool=()=>{ const cid=isGrp(attCls)?attCls:cidOfLabel(attCls); return students().filter(s=>inClass(s,cid)); };
+  /* בקבוצה הנוכחות נכתבת לכל תלמיד תחת הכיתה שלו (תאריך|שם הכיתה),
+     כך שדוח הכיתה, מרכז הכיתה וציון ההשתתפות רואים אותה כרגיל.
+     תווית הכיתה: זו שכבר יש לה רישום באותו יום, אחרת הראשונה. */
+  function keyOf(s,all){
+    if(!isGrp(attCls))return attKey(attDate,attCls);
+    const cid=cidOf(s); if(!cid)return attKey(attDate,"");
+    const labels=classesOf(students()).filter(c=>cidOfLabel(c)===cid);
+    return attKey(attDate,labels.find(c=>all[attKey(attDate,c)])||labels[0]||s.cls||"");
+  }
+  /* הסימונים של המאגר הנוכחי: {sid:mark} — בכיתה ובקבוצה כאחד */
+  function marksOf(pool,all){
+    const rec={};
+    pool.forEach(s=>{ const v=(all[keyOf(s,all)]||{})[s.id]; if(v)rec[s.id]=v; });
+    return rec;
+  }
   function renderAtt(){
     const {$, $$, esc}=H();
     /* אומרים למורה למה המסך נפתח על הכיתה והתאריך האלה */
     const ctx=$("#tl-attCtx"), a=lessonCtx();
     if(ctx){
-      const on=!!(a&&(a.cid?cidOfLabel(attCls)===a.cid:sameCls(attCls,a.clsSnapshot))&&attDate===a.date);
+      const on=!!(a&&(a.cid?(isGrp(attCls)?attCls:cidOfLabel(attCls))===a.cid:sameCls(attCls,a.clsSnapshot))&&attDate===a.date);
       ctx.hidden=!on;
       if(on)ctx.innerHTML="▶ <b>שיעור פעיל</b> · "+esc(a.clsSnapshot)+" · "+esc(a.date)+
         " — הנוכחות נפתחה עליו. אפשר לשנות כיתה או תאריך.";
     }
     const l=attPool();
-    const all=ATT(), rec=all[attKey(attDate,attCls)]||{};
+    const all=ATT(), rec=marksOf(l,all);
     const cnt={p:0,h:0,e:0,a:0};
     l.forEach(s=>{ if(rec[s.id])cnt[rec[s.id]]=(cnt[rec[s.id]]||0)+1; });
     $("#tl-attStats").innerHTML=MARKS.map(([k,nm,c])=>
@@ -21547,7 +21598,8 @@ window.TOOLS=(function(){
     </div>`).join(""):'<div class="empty-state"><div class="big">👥</div>אין תלמידים בכיתה הזו.<br>הוסף תלמידים במודול «התלמידים שלי».</div>';
     $$("#tl-attList [data-att]").forEach(b=>b.addEventListener("click",()=>{
       const [id,k]=b.dataset.att.split("|");
-      const a=ATT(), key=attKey(attDate,attCls);
+      const st=l.find(x=>x.id===id)||{id};
+      const a=ATT(), key=keyOf(st,a);
       a[key]=a[key]||{};
       if(a[key][id]===k)delete a[key][id]; else a[key][id]=k;
       H().LS.set("tools.att",a); renderAtt();
@@ -21556,10 +21608,10 @@ window.TOOLS=(function(){
   function attSummary(){
     const {esc}=H();
     const all=ATT(), l=attPool();
-    const per={};
+    const per={}, G=isGrp(attCls), mine=new Set(l.map(cidOf));
     Object.keys(all).forEach(k=>{
       const [d,c]=k.split("|");
-      if(attCls&&c!==attCls)return;
+      if(G?(!c||c==="all"||!mine.has(cidOfLabel(c))):(attCls&&c!==attCls))return;
       Object.entries(all[k]).forEach(([id,v])=>{ per[id]=per[id]||{p:0,h:0,e:0,a:0,days:0}; per[id][v]++; per[id].days++; });
     });
     const rows=[["שם","כיתה","שיעורים","השתתפות מלאה","חלקית","פטור","נעדר","% השתתפות"]];
@@ -21568,7 +21620,8 @@ window.TOOLS=(function(){
       const pct=x.days?Math.round((x.p+x.h*0.5)/x.days*100):0;
       rows.push([s.name,s.cls||"",x.days,x.p,x.h,x.e,x.a,pct+"%"]);
     });
-    H().dlCSV("attendance_"+(attCls||"all")+".csv",rows);
+    const g=isGrp(attCls)?window.HMDATA.groupOf(store,attCls):null;
+    H().dlCSV("attendance_"+String((g&&g.name)||attCls||"all").replace(/[\\/:*?"<>|]/g,"")+".csv",rows);
     H().toast("דוח נוכחות הורד");
   }
 
@@ -21665,10 +21718,13 @@ window.TOOLS=(function(){
        נוכחות: הערך נשאר שם הכיתה, כי tools.att ממופתח תאריך|שם —
        והמבנה הזה לא משתנה בשלב 8. הסינון עצמו כבר לפי cid. */
     const co=classOptions(l), cs=classesOf(l);
-    const opts=v=>'<option value="">כל הכיתות</option>'+co.map(c=>`<option value="${esc(c.cid)}" ${c.cid===v?"selected":""}>${esc(c.name)}</option>`).join("");
+    const go=groupOptions(l);
+    const one=v=>c=>`<option value="${esc(c.cid)}" ${c.cid===v?"selected":""}>${esc(c.name)}</option>`;
+    const grp=v=>go.length?'<optgroup label="'+esc(H().t("ft.grpLbl","כיתות שלומדות יחד"))+'">'+go.map(one(v)).join("")+"</optgroup>":"";
+    const opts=v=>'<option value="">כל הכיתות</option>'+co.map(one(v)).join("")+grp(v);
     $("#tl-teamCls").innerHTML=opts(teamCls);
     $("#tl-pickCls").innerHTML=opts(pickCls);
-    $("#tl-attCls").innerHTML='<option value="">כל הכיתות</option>'+cs.map(c=>`<option value="${esc(c)}" ${c===attCls?"selected":""}>${esc(c)}</option>`).join("");
+    $("#tl-attCls").innerHTML='<option value="">כל הכיתות</option>'+cs.map(c=>`<option value="${esc(c)}" ${c===attCls?"selected":""}>${esc(c)}</option>`).join("")+grp(attCls);
     $("#tl-rubCls").innerHTML=opts(rubCls);
   }
   /* ============================================================
@@ -21694,6 +21750,8 @@ window.TOOLS=(function(){
      ולכן הנוכחות לא נפתחת ריקה. */
   function applyLessonCtx(){
     const a=lessonCtx(); if(!a)return false;
+    /* שיעור בקבוצה — הנוכחות נפתחת על כל הכיתות שבה יחד */
+    if(isGrp(a.cid)){ attCls=a.cid; attDate=a.date||attDate; return true; }
     const labels=classesOf(students());
     const hit=labels.find(c=>c===a.clsSnapshot)
       ||(a.cid&&(labels.find(c=>cidOfLabel(c)===a.cid&&sameCls(c,a.clsSnapshot))
@@ -21733,8 +21791,8 @@ window.TOOLS=(function(){
     $("#tl-attCls").addEventListener("change",e=>{attCls=e.target.value;renderAtt();});
     $("#tl-attAll").addEventListener("click",()=>{
       const l=attPool();
-      const a=ATT(), key=attKey(attDate,attCls); a[key]=a[key]||{};
-      l.forEach(s=>{ if(!a[key][s.id])a[key][s.id]="p"; });
+      const a=ATT();
+      l.forEach(s=>{ const key=keyOf(s,a); a[key]=a[key]||{}; if(!a[key][s.id])a[key][s.id]="p"; });
       H().LS.set("tools.att",a); renderAtt(); H().toast("כל מי שלא סומן — השתתפות מלאה");
     });
     $("#tl-attCsv").addEventListener("click",attSummary);
@@ -21768,7 +21826,7 @@ window.TOOLS=(function(){
     const save={c:attCls,d:attDate};
     try{
       if(!applyLessonCtx())return null;
-      const pool=attPool(), rec=ATT()[attKey(attDate,attCls)]||{};
+      const pool=attPool(), rec=marksOf(pool,ATT());
       const cnt={p:0,h:0,e:0,a:0}; let marked=0;
       pool.forEach(s=>{ const v=rec[s.id]; if(v){ cnt[v]=(cnt[v]||0)+1; marked++; } });
       return {total:pool.length,marked,cnt};
@@ -21778,8 +21836,9 @@ window.TOOLS=(function(){
     const save={c:attCls,d:attDate};
     try{
       if(!applyLessonCtx())return 0;
-      const l=attPool(), a=ATT(), key=attKey(attDate,attCls); a[key]=a[key]||{};
-      let n=0; l.forEach(s=>{ if(!a[key][s.id]){ a[key][s.id]="p"; n++; } });
+      const l=attPool(), a=ATT();
+      let n=0; l.forEach(s=>{ const key=keyOf(s,a); a[key]=a[key]||{};
+        if(!a[key][s.id]){ a[key][s.id]="p"; n++; } });
       H().LS.set("tools.att",a);
       if(inited)renderAtt();
       return n;
@@ -21789,7 +21848,7 @@ window.TOOLS=(function(){
      ולכן בוחרים את התווית של אותה כיתה מתוך רשימת התלמידים. */
   function show(cid,t){
     teamCls=pickCls=rubCls=cid||"";
-    const lbl=cid?classesOf(students()).find(c=>cidOfLabel(c)===cid):"";
+    const lbl=isGrp(cid)?cid:cid?classesOf(students()).find(c=>cidOfLabel(c)===cid):"";
     attCls=lbl||"";
     skipCtx=true;
     H().go("tools");
@@ -21801,6 +21860,16 @@ window.TOOLS=(function(){
      (מלאה = 1, חלקית = חצי) — אותה נוסחה של דוח הנוכחות. */
   function attSummaryFor(cid){
     const all=ATT(); let days=0,p=0,h=0,marks=0;
+    /* קבוצה: הנוכחות של התלמידים שבה, מכל הכיתות; יום נספר פעם אחת */
+    if(isGrp(cid)){
+      const ids=new Set(students().filter(s=>inClass(s,cid)).map(s=>s.id)), dates=new Set();
+      Object.keys(all).forEach(k=>{
+        const c=k.slice(k.indexOf("|")+1); if(!c||c==="all")return;
+        const v=Object.keys(all[k]||{}).filter(id=>ids.has(id)).map(id=>all[k][id]); if(!v.length)return;
+        dates.add(k.slice(0,k.indexOf("|"))); v.forEach(x=>{ marks++; if(x==="p")p++; else if(x==="h")h++; });
+      });
+      return {days:dates.size,pct:marks?Math.round((p+h*0.5)/marks*100):null};
+    }
     Object.keys(all).forEach(k=>{
       const c=k.slice(k.indexOf("|")+1);
       if(!c||c==="all"||cidOfLabel(c)!==cid)return;
@@ -26960,6 +27029,22 @@ window.STU=(function(){
     });
     return Object.values(by).sort((a,b)=>a.name.localeCompare(b.name,"he"));
   }
+  /* כיתות שלומדות יחד (קבוצות): מסננות את כל התלמידים של הכיתות
+     החברות, וכל אחד נשאר בכיתה שלו. inF — הסינון היחיד לכיתה או לקבוצה. */
+  const DTA=()=>window.HMDATA;
+  const inF=(s,f)=>!f||(DTA().isGroupId(f)?DTA().studentInScope(store,f,s):cidOf(s)===f);
+  function groupList(list){
+    return DTA().listGroups(store).map(g=>({cid:g.id,name:g.name,
+      n:list.filter(s=>DTA().studentInScope(store,g.id,s)).length})).filter(g=>g.n>0);
+  }
+  /* אפשרויות הבורר: כיתות, ואחריהן הקבוצות */
+  function classOpts(list,classes,cur){
+    const {esc}=H(), gs=groupList(list);
+    return '<option value="">כל הכיתות</option>'+
+      classes.map(c=>`<option value="${esc(c.cid)}" ${c.cid===cur?"selected":""}>${esc(c.name)}</option>`).join("")+
+      (gs.length?'<optgroup label="'+esc(H().t("ft.grpLbl","כיתות שלומדות יחד"))+'">'+
+        gs.map(g=>`<option value="${esc(g.cid)}" ${g.cid===cur?"selected":""}>👥 ${esc(g.name)}</option>`).join("")+"</optgroup>":"");
+  }
   let q="",clsF="",sortBy=H().LS.get("stu.sort","name");
   function latest(s){return s.tests.length?s.tests[s.tests.length-1]:null;}
   function trend(s){
@@ -26973,8 +27058,8 @@ window.STU=(function(){
     const {$, $$, esc}=H(); const list=load();
     /* הבורר מציג שמות אבל נושא מזהים: הערך הוא cid, התווית היא השם. */
     const classes=classList(list);
-    $("#stu-classSel").innerHTML='<option value="">כל הכיתות</option>'+classes.map(c=>`<option value="${esc(c.cid)}" ${c.cid===clsF?"selected":""}>${esc(c.name)}</option>`).join("");
-    let view=list.filter(s=>(!q||s.name.includes(q))&&(!clsF||cidOf(s)===clsF));
+    $("#stu-classSel").innerHTML=classOpts(list,classes,clsF);
+    let view=list.filter(s=>(!q||s.name.includes(q))&&inF(s,clsF));
     const withT=list.filter(s=>s.tests.length);
     const avg=withT.length?withT.reduce((a,s)=>a+(latest(s).vo2||0),0)/withT.length:0;
     const below=withT.filter(s=>latest(s).zone==="סיכון בריאותי").length;
@@ -26991,6 +27076,8 @@ window.STU=(function(){
       chips.innerHTML=classes.length>1
         ? '<button data-c=""'+(clsF?"":' class="on"')+">כל הכיתות <i>"+list.length+"</i></button>"+
           classes.map(c=>'<button data-c="'+esc(c.cid)+'"'+(clsF===c.cid?' class="on"':"")+">"+esc(c.name)+
+            " <i>"+c.n+"</i></button>").join("")+
+          groupList(list).map(c=>'<button data-c="'+esc(c.cid)+'"'+(clsF===c.cid?' class="on"':"")+">👥 "+esc(c.name)+
             " <i>"+c.n+"</i></button>").join("")
         : "";
       H().$$("#stu-chips button").forEach(b=>b.addEventListener("click",()=>{
@@ -27113,12 +27200,18 @@ window.STU=(function(){
     const res=LS.get("bt.results",[]); if(!res.length){ if(!o.quiet)toast("אין רישומים בלוח הביפ"); return 0; }
     const age=LS.get("bt.age",14),sex=LS.get("bt.sex","boys");
     const list=load(); let n=0;
+    /* קבוצה (כיתות שלומדות יחד): התלמיד נמצא בתוך הקבוצה ונשאר בכיתה
+       שלו. שם הקבוצה אינו כיתה, ולכן תלמיד חדש לא מקבל אותו. */
+    const sg=DTA().isGroupId(o.cid)?o.cid:DTA().resolveScope(store,o.cls||"");
+    const gid=(DTA().isGroupId(sg)&&DTA().groupOf(store,sg))?sg:null;
     res.forEach(r=>{
       if(!(r.dist>0))return;
       const nm=r.name.trim(); if(!nm||/^תלמיד \d+$/.test(nm))return;
-      let s=(o.cid&&list.find(x=>x.name===nm&&x.cid===o.cid))||list.find(x=>x.name===nm);
+      let s=gid?list.find(x=>x.name===nm&&DTA().studentInScope(store,gid,x))
+               :(o.cid&&list.find(x=>x.name===nm&&x.cid===o.cid));
+      s=s||list.find(x=>x.name===nm);
       /* לוח הביפ לא מכיר כיתה. תלמיד בלי כיתה הוא מצב חוקי: cid:null. */
-      if(!s){ s={id:window.HMDATA.uid("s"),name:nm,cls:o.cls||"",cid:o.cid||null,sex,age,h:null,w:null,tests:[]}; list.push(s); }
+      if(!s){ s={id:window.HMDATA.uid("s"),name:nm,cls:gid?"":(o.cls||""),cid:gid?null:(o.cid||null),sex,age,h:null,w:null,tests:[]}; list.push(s); }
       if(s.tests.some(t=>t.d===today()&&t.type==="ביפ"&&t.dist===r.dist))return;
       const v=vo2f(r.speed,s.age||age);
       s.tests.push({d:today(),type:"ביפ",dist:r.dist,level:r.level+"·"+r.sh,speed:r.speed,vo2:v>0?v:null,zone:v>0?zoneOf(v,s.age||age,s.sex||sex).g:""});
@@ -27249,14 +27342,14 @@ window.STU=(function(){
     const {$, $$, esc}=H();
     const list=load();
     const classes=classList(list);
-    $("#gr-classSel").innerHTML='<option value="">כל הכיתות</option>'+classes.map(c=>`<option value="${esc(c.cid)}" ${c.cid===grClsF?"selected":""}>${esc(c.name)}</option>`).join("");
+    $("#gr-classSel").innerHTML=classOpts(list,classes,grClsF);
     const periods=loadPeriods();
     if(!periods.includes(grPeriod))grPeriod=periods[0];
     $("#gr-period").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===grPeriod?"selected":""}>${esc(p)}</option>`).join("");
     renderWeightsHint();
     const weights=loadWeights();
     const examCols=examColsFor(grPeriod);
-    const view=list.filter(s=>!grClsF||cidOf(s)===grClsF).sort((a,b)=>a.name.localeCompare(b.name,"he"));
+    const view=list.filter(s=>inF(s,grClsF)).sort((a,b)=>a.name.localeCompare(b.name,"he"));
     $("#gr-empty").style.display=view.length?"none":"block";
     /* אין מה להציע כשקטגוריית ההשתתפות כבויה (משקל 0) — אותו תנאי
        בדיוק שכבר מסתיר את העמודה עצמה. */
@@ -27353,7 +27446,7 @@ window.STU=(function(){
     H().undo(`התקופה «${was}» נמחקה, עם הציונים שבה`,()=>{ back(); grPeriod=was; renderGrades(); },8000);
   }
   function exportGradesCsv(){
-    const list=load().filter(s=>!grClsF||cidOf(s)===grClsF).sort((a,b)=>a.name.localeCompare(b.name,"he"));
+    const list=load().filter(s=>inF(s,grClsF)).sort((a,b)=>a.name.localeCompare(b.name,"he"));
     if(!list.length){H().toast("אין תלמידים");return;}
     const weights=loadWeights(), examCols=examColsFor(grPeriod);
     const rows=[["שם","כיתה","השתתפות ורצינות",...examCols,"ממוצע מבחנים","שיפור והתמדה","עבודת צוות","ציון סופי"]];
@@ -27373,7 +27466,7 @@ window.STU=(function(){
      של attSummary() ב-hm-tools.js. tools.att לא נקרא כאן פעם
      נוספת בצורה חדשה — נקרא ישירות מהמפתח הקיים, כמו כל מקום אחר. */
   function fillFromAttendance(){
-    const list=load().filter(s=>!grClsF||cidOf(s)===grClsF);
+    const list=load().filter(s=>inF(s,grClsF));
     if(!list.length){ H().toast("אין תלמידים"); return; }
     const att=H().LS.get("tools.att",{});
     let filled=0;
@@ -27690,7 +27783,7 @@ window.STU=(function(){
   function summary(cid){
     const periods=loadPeriods(), period=grPeriod||periods[0];
     const w=loadWeights(), cols=examColsFor(period);
-    const l=load().filter(s=>cidOf(s)===cid);
+    const l=load().filter(s=>inF(s,cid));
     const graded=l.filter(s=>computeFinal(s,period,w,cols).total!=null).length;
     const ids=new Set(l.map(s=>s.id));
     const peer=(loadAssess()||[]).filter(a=>(a.students||[]).some(id=>ids.has(id))).length;
@@ -28300,19 +28393,14 @@ function card(ic,title,lines,btns){
     '<div class="bd">'+lines.map(x=>'<div>'+x+'</div>').join("")+'</div>'+
     '<div class="ft">'+btns.map(([id,lbl,pri])=>'<button class="btn sm'+(pri?" acc":" ghost")+'" data-hub="'+id+'">'+esc(lbl)+'</button>').join("")+'</div></div>';
 }
-function cards(cid,isGroup){
+function cards(cid){
   const stuS=window.STU&&window.STU.summary?window.STU.summary(cid):{total:0,graded:0,peer:0,period:""};
   const att=window.TOOLS&&window.TOOLS.attSummaryFor?window.TOOLS.attSummaryFor(cid):{days:0,pct:null};
   const fit=window.FT&&window.FT.summary?window.FT.summary(cid):{n:0,tests:0,last:""};
   let n=0; try{ n=D().studentsIn(store(),cid,H().LS.get("stu.list",[])).length; }catch(e){}
   const num=(v,l)=>'<span class="n">'+esc(String(v))+'</span> '+esc(l);
-  if(isGroup){
-    /* הכלים המלאים עובדים לפי כיתה. בקבוצה — הסקירה והנוכחות של
-       השיעורים; את השאר פותחים דרך הכיתות שבקבוצה. */
-    return '<div class="hub-cards">'+
-      card("🏅",t("hub.fit","כושר"),[num(fit.n,t("hub.meas","מדידות")),num(fit.tests,t("hub.testsN","מבחנים שונים"))],[])+
-      '</div><div class="hint">'+esc(t("hub.groupNote","המסכים המלאים (תלמידים, ציונים, מבחני כושר) עובדים לפי כיתה — פתחו אותם דרך הכיתות שבקבוצה."))+'</div>';
-  }
+  /* קבוצה (כיתות שלומדות יחד) — אותם כרטיסים בדיוק: כל מסך פותח את
+     כל התלמידים שבה יחד, וכל תוצאה נשמרת בכיתה של התלמיד. */
   return '<div class="hub-cards">'+
     card("👥",t("hub.students","תלמידים"),[num(n,t("hub.inList","ברשימה"))],
       [["stu",t("hub.openList","רשימת התלמידים"),true]])+
@@ -28342,6 +28430,7 @@ function addBox(open){
     '<div class="seg wrap" id="hub-an" style="margin-top:8px">'+NUMS.map(n=>'<button data-an="'+n+'"'+(add.n===n?' class="on"':"")+'>'+n+'</button>').join("")+'</div>'+
     '<button class="btn acc big" id="hub-addGo" style="margin-top:10px"'+(add.g&&add.n?"":" disabled")+'>+ '+
       esc(t("hub.addBtn","הוסף כיתה"))+(add.g&&add.n?" · "+esc(D().clsName(add.g,add.n)):"")+'</button>'+
+    '<button class="btn ghost" id="hub-join" style="margin-top:8px">🔗 '+esc(t("grp.joinBtn","חבר כיתות"))+'</button>'+
   '</div></details>';
 }
 function paint(){
@@ -28349,7 +28438,6 @@ function paint(){
   const cid=current();
   if(!cid){ paintEmpty(root); applyI18n(root); return; }
   H().LS.set(K,cid);
-  const r=reg(), isGroup=D().isGroupRec(r[cid]);
   let act=null; try{ act=H().session.active(); }catch(e){}
   root.innerHTML=
     '<div class="hub-top"><div><div class="kick">'+esc(t("hub.title","מרכז הכיתה"))+'</div>'+
@@ -28357,7 +28445,7 @@ function paint(){
     '<div class="hub-chips">'+list().map(c=>'<button class="chip'+(c.cid===cid?" on":"")+'" data-cls="'+esc(c.cid)+'">'+
       (c.group?"👥 ":"")+esc(c.name)+(act&&act.cid===c.cid?' <span class="livedot" title="'+esc(t("hub.inLesson","בשיעור עכשיו"))+'">●</span>':"")+'</button>').join("")+'</div>'+
     '<div class="card hub-ov" id="cls-body">'+H().classOverviewHtml(cid)+'</div>'+
-    cards(cid,isGroup)+
+    cards(cid)+
     addBox(false);
   H().wireClassOverview(cid);
   applyI18n(root);
@@ -28375,6 +28463,12 @@ function onClick(e){
     const c=D().registerClass(store(),D().clsName(add.g,add.n));
     if(c){ H().LS.set(K,c.id); H().toast("✓ "+c.name); add={g:null,n:null}; }
     paint(); return;
+  }
+  if(b.id==="hub-join"){
+    const c0=current(), pre=(c0&&!D().isGroupId(c0))?[c0]:[];
+    (H().joinClasses?H().joinClasses(pre):Promise.resolve(null)).then(gid=>{
+      if(gid){ H().LS.set(K,gid); paint(); } });
+    return;
   }
   const k=b.dataset.hub; if(!k)return;
   H().ac();

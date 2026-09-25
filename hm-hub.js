@@ -48,19 +48,14 @@ function card(ic,title,lines,btns){
     '<div class="bd">'+lines.map(x=>'<div>'+x+'</div>').join("")+'</div>'+
     '<div class="ft">'+btns.map(([id,lbl,pri])=>'<button class="btn sm'+(pri?" acc":" ghost")+'" data-hub="'+id+'">'+esc(lbl)+'</button>').join("")+'</div></div>';
 }
-function cards(cid,isGroup){
+function cards(cid){
   const stuS=window.STU&&window.STU.summary?window.STU.summary(cid):{total:0,graded:0,peer:0,period:""};
   const att=window.TOOLS&&window.TOOLS.attSummaryFor?window.TOOLS.attSummaryFor(cid):{days:0,pct:null};
   const fit=window.FT&&window.FT.summary?window.FT.summary(cid):{n:0,tests:0,last:""};
   let n=0; try{ n=D().studentsIn(store(),cid,H().LS.get("stu.list",[])).length; }catch(e){}
   const num=(v,l)=>'<span class="n">'+esc(String(v))+'</span> '+esc(l);
-  if(isGroup){
-    /* הכלים המלאים עובדים לפי כיתה. בקבוצה — הסקירה והנוכחות של
-       השיעורים; את השאר פותחים דרך הכיתות שבקבוצה. */
-    return '<div class="hub-cards">'+
-      card("🏅",t("hub.fit","כושר"),[num(fit.n,t("hub.meas","מדידות")),num(fit.tests,t("hub.testsN","מבחנים שונים"))],[])+
-      '</div><div class="hint">'+esc(t("hub.groupNote","המסכים המלאים (תלמידים, ציונים, מבחני כושר) עובדים לפי כיתה — פתחו אותם דרך הכיתות שבקבוצה."))+'</div>';
-  }
+  /* קבוצה (כיתות שלומדות יחד) — אותם כרטיסים בדיוק: כל מסך פותח את
+     כל התלמידים שבה יחד, וכל תוצאה נשמרת בכיתה של התלמיד. */
   return '<div class="hub-cards">'+
     card("👥",t("hub.students","תלמידים"),[num(n,t("hub.inList","ברשימה"))],
       [["stu",t("hub.openList","רשימת התלמידים"),true]])+
@@ -90,6 +85,7 @@ function addBox(open){
     '<div class="seg wrap" id="hub-an" style="margin-top:8px">'+NUMS.map(n=>'<button data-an="'+n+'"'+(add.n===n?' class="on"':"")+'>'+n+'</button>').join("")+'</div>'+
     '<button class="btn acc big" id="hub-addGo" style="margin-top:10px"'+(add.g&&add.n?"":" disabled")+'>+ '+
       esc(t("hub.addBtn","הוסף כיתה"))+(add.g&&add.n?" · "+esc(D().clsName(add.g,add.n)):"")+'</button>'+
+    '<button class="btn ghost" id="hub-join" style="margin-top:8px">🔗 '+esc(t("grp.joinBtn","חבר כיתות"))+'</button>'+
   '</div></details>';
 }
 function paint(){
@@ -97,7 +93,6 @@ function paint(){
   const cid=current();
   if(!cid){ paintEmpty(root); applyI18n(root); return; }
   H().LS.set(K,cid);
-  const r=reg(), isGroup=D().isGroupRec(r[cid]);
   let act=null; try{ act=H().session.active(); }catch(e){}
   root.innerHTML=
     '<div class="hub-top"><div><div class="kick">'+esc(t("hub.title","מרכז הכיתה"))+'</div>'+
@@ -105,7 +100,7 @@ function paint(){
     '<div class="hub-chips">'+list().map(c=>'<button class="chip'+(c.cid===cid?" on":"")+'" data-cls="'+esc(c.cid)+'">'+
       (c.group?"👥 ":"")+esc(c.name)+(act&&act.cid===c.cid?' <span class="livedot" title="'+esc(t("hub.inLesson","בשיעור עכשיו"))+'">●</span>':"")+'</button>').join("")+'</div>'+
     '<div class="card hub-ov" id="cls-body">'+H().classOverviewHtml(cid)+'</div>'+
-    cards(cid,isGroup)+
+    cards(cid)+
     addBox(false);
   H().wireClassOverview(cid);
   applyI18n(root);
@@ -123,6 +118,12 @@ function onClick(e){
     const c=D().registerClass(store(),D().clsName(add.g,add.n));
     if(c){ H().LS.set(K,c.id); H().toast("✓ "+c.name); add={g:null,n:null}; }
     paint(); return;
+  }
+  if(b.id==="hub-join"){
+    const c0=current(), pre=(c0&&!D().isGroupId(c0))?[c0]:[];
+    (H().joinClasses?H().joinClasses(pre):Promise.resolve(null)).then(gid=>{
+      if(gid){ H().LS.set(K,gid); paint(); } });
+    return;
   }
   const k=b.dataset.hub; if(!k)return;
   H().ac();
