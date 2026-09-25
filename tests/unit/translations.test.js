@@ -79,7 +79,7 @@ test("תווית שלב «סיום:» במערך איננה «Done/Готово�
 });
 
 test("שגיאות שנמצאו בתרגום החוזר לא חוזרות",()=>{
-  assert.equal(T["הטחות כדורגל"][0],"Football keepy-ups");
+  assert.equal(T["הקפצות כדורגל"][0],"Football keepy-ups");
   const hiit="ג׳אמפינג ג׳ק · ברכיים גבוהות · מטפס הרים · סקוואט · שכיבות סמיכה (ברכיים למתקשים) · פלאנק · דילוגי חבל דמיוניים · ברפי מותאם";
   T[hiit].forEach((t,i)=>assert.equal(t.split(" · ").length,8,LANGS[i]+": פריט נשמט"));
   for(const k of Object.keys(T)){

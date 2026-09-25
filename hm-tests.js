@@ -70,7 +70,7 @@ const TESTS=[
    hint:"5 הקפות. לתיכון בעיקר — ודא שתייה זמינה לפני ואחרי."},
   {id:"shut", em:"🔀", name:"ריצת שאטל 10×5 מ׳", cat:"run", kind:"clock", dir:"low", unit:"שנ׳",
    hint:"שני קווים במרחק 5 מ׳, 10 מעברים. כף רגל חייבת לחצות את הקו בכל מעבר."},
-  {id:"shut4x10", em:"↔️", name:"ריצת שאטל 4×10 מ׳", cat:"run", kind:"clock", dir:"low", unit:"שנ׳",
+  {id:"shut4x10", em:"↔️", name:"מבחן זריזות 4×10 מ׳", cat:"run", kind:"clock", dir:"low", unit:"שנ׳",
    hint:"שני קווים במרחק 10 מ׳, ארבעה מעברים. נגיעה ביד בקו בכל היפוך — לא ״כמעט״."},
 
   /* ---------- סבולת ---------- */
@@ -173,7 +173,7 @@ const percentile=window.HMDATA.percentile;
    ============================================================ */
 window.FT=(function(){
   let inited=false;
-  let st={grade:"ז",num:1,test:null,sort:"todo",tab:"tests"};
+  let st={grade:"ז",num:1,gid:null,test:null,sort:"todo",tab:"tests"};
   let clk={on:false,t0:0,raf:0,paused:0};      /* השעון המשותף לכיתה */
   /* הקפות של המקצה הנוכחי: {שם: [זמן הקפה 1, 2, ...]}. חי בזיכרון בזמן
      המקצה; הזמן הסופי נשמר כרגיל, והפערים נשמרים איתו לצפייה מאוחרת. */
@@ -183,7 +183,11 @@ window.FT=(function(){
   let cd ={on:false,end:0,raf:0};              /* ספירה לאחור למבחנים קצובים */
 
   const LS=()=>H().LS;
-  const cls=()=>clsName(st.grade,st.num);
+  /* ההקשר הנבחר: כיתה (תווית «ט׳3») או קבוצה מעורבת (מזהה «g:…»).
+     בקבוצה המסך מציג את כל התלמידים של הכיתות יחד, וכל מדידה נכתבת
+     לכיתה האמיתית של התלמיד — ראו sc() ו-DATA.studentInScope. */
+  const cls=()=>(st.gid&&DATA.groupOf(clsStore,st.gid))?st.gid:clsName(st.grade,st.num);
+  const isG=c=>DATA.isGroupId(c);
 
   /* ---------- אחסון ---------- */
   const allRes =()=>LS().get("ft.results",[]);
@@ -192,7 +196,12 @@ window.FT=(function(){
      מבט על stu.list לפי זהות הכיתה. roster() מחזיר עותקים, ו-setRoster()
      מחיל את ההבדל — הוספה, שם, מין והסרה — על הרשימה האחת. */
   function roster(c){
-    return DATA.classRoster(clsStore,LS().get("stu.list",[]),cidOf(c));
+    const list=LS().get("stu.list",[]);
+    if(isG(c))return DATA.studentsIn(clsStore,c,list).map(s=>{
+      const cc=DATA.cidOfStudent(s,clsStore);
+      return {id:s.id||null,name:String(s.name==null?"":s.name),sex:s.sex||null,cls:DATA.classLabel(clsStore,cc)||s.cls||"",cid:cc||null};
+    });
+    return DATA.classRoster(clsStore,list,cidOf(c));
   }
   function setRoster(c,list){
     /* כיתה נכנסת לרישום ברגע שיש לה רשימה — זאת הנקודה היחידה שבה
@@ -208,7 +217,17 @@ window.FT=(function(){
   function registerCls(c){ try{ return DATA.registerClass(clsStore,c); }catch(e){ return null; } }
   /* תווית → זהות, דרך הרישום: כיתה ששמה שונה שומרת על המזהה שלה.
      כשהיא לא רשומה — נגזר מהתווית, כמו קודם. */
-  const cidOf=c=>DATA.resolveClassId(clsStore,c);
+  const cidOf=c=>isG(c)?c:DATA.resolveClassId(clsStore,c);
+  /* הכיתה האמיתית של תלמיד בהקשר: בכיתה — הכיתה עצמה; בקבוצה — הכיתה
+     שלו. כל קריאה וכתיבה של מדידה לתלמיד עוברת כאן. */
+  function sc(c,who){
+    if(!isG(c))return c;
+    const s=(who&&typeof who==="object")?who:studByKey(c,who);
+    if(s&&s.cls&&!isG(s.cls))return s.cls;
+    const k=refKey(s||{}), hit=roster(c).find(x=>refKey(x)===k||(!s.id&&x.name===s.name));
+    return (hit&&hit.cls)||c;
+  }
+  const gradeOf=c=>{ const p=DATA.parseCls(c); return p?p.grade:null; };
   /* שם הכיתה לתצוגה: הרישום הוא מקור האמת. התווית c (שכבה+מספר)
      נשארת מפתח הרשימה ונקודת הפתרון לזהות; מה שהמורה רואה הוא השם
      הרשום — וכיתה שאינה רשומה מוצגת בתווית עצמה. */
@@ -263,17 +282,18 @@ window.FT=(function(){
   /* ---------- תוצאות ---------- */
   /* «מדידה של הכיתה הזאת» — לפי cid (מדידה ישנה בלי cid נמדדת לפי
      התווית שעליה, ראו DATA.rowInClass). */
-  const inCls=(r,c)=>DATA.rowInClass(r,cidOf(c));
+  const inCls=(r,c)=>DATA.rowInScope(r,clsStore,cidOf(c));
   const resultsFor=(c,testId)=>allRes().filter(r=>inCls(r,c)&&r.test===testId);
   /* כל המדידות של תלמיד אחד בכיתה אחת ובמבחן אחד */
-  const resultsOf=(c,who)=>{ const s=asStud(c,who);
-    return allRes().filter(r=>inCls(r,c)&&DATA.sameStudent(r,s)); };
+  const resultsOf=(c,who)=>{ const s=asStud(c,who), cc=sc(c,s);
+    return allRes().filter(r=>inCls(r,cc)&&DATA.sameStudent(r,s)); };
   /* ---------- ניסיונות ----------
      כל מדידה נשמרת כרשומה נפרדת, ולא דורסת את הקודמת. תלמיד יכול
      לנסות שוב באותו שיעור וגם בשיעור אחר, וההיסטוריה נשמרת כדי
      שאפשר יהיה לראות התקדמות. התוצאה שנחשבת היא תמיד הטובה ביותר. */
   function attempts(c,testId,who){
-    return DATA.attemptsOf(allRes(),c,testId,asStud(c,who),{cid:cidOf(c)});
+    const s=asStud(c,who), cc=sc(c,s);
+    return DATA.attemptsOf(allRes(),cc,testId,s,{cid:cidOf(cc)});
   }
   function bestOf(T,list){
     if(!list||!list.length)return null;
@@ -323,6 +343,7 @@ window.FT=(function(){
   }
   function saveVal(c,testId,stud,val,fresh){
     const T=testById(testId); if(!T||!(val>0))return;
+    c=sc(c,stud);   /* בקבוצה — הכיתה של התלמיד */
     const rs=allRes();
     let i=-1;
     if(!fresh){
@@ -332,7 +353,7 @@ window.FT=(function(){
     const rec={id:i>=0?rs[i].id:DATA.uid("f"),
       ts:Date.now(),d:today(),cls:c,cid:cidOf(c),test:testId,
       name:stud.name,sid:DATA.studentKey(stud),
-      gradeKey:st.grade,sex:stud.sex||null,
+      gradeKey:gradeOf(c)||st.grade,sex:stud.sex||null,
       /* גרסת כללי הניקוד שהיו בתוקף כשהמדידה נלקחה. הציון עצמו לא
          נשמר — הוא נגזר בכל תצוגה — אבל בלי החותמת הזאת החלפת טבלת
          נורמה הייתה משנה בשקט את הפרשנות של כל ההיסטוריה. */
@@ -348,7 +369,7 @@ window.FT=(function(){
   }
   function delAttempt(id){ setRes(allRes().filter(r=>r.id!==id)); }
   function clearVal(c,testId,who){
-    const s=asStud(c,who);
+    const s=asStud(c,who); c=sc(c,s);
     setRes(allRes().filter(r=>!(inCls(r,c)&&r.test===testId&&DATA.sameStudent(r,s)&&r.d===today())));
   }
   /* «better» מוגדר למטה יחד עם fmtVal — כאן רק מפנים אליו */
@@ -422,6 +443,7 @@ window.FT=(function(){
   }
   /* המדד המשוקלל של תלמיד: ממוצע הציונים על המבחנים שנבחרו */
   function indexFor(c,stud,grade){
+    if(isG(c))grade=gradeOf(sc(c,stud))||grade;   /* הנורמה לפי השכבה של התלמיד */
     const want=idxTests();
     const mine=resultsOf(c,stud);
     /* התוצאה האחרונה בכל מבחן */
@@ -449,12 +471,22 @@ window.FT=(function(){
     $("#ft-ot").style.display="none";
     $("#ft-pick").style.display="";
 
+    const G=isG(c);
     $("#ft-grades").innerHTML=GRADES.map(([g,lbl])=>
-      `<button data-g="${g}" class="${st.grade===g?"on":""}">${lbl}</button>`).join("");
+      `<button data-g="${g}" class="${!G&&st.grade===g?"on":""}">${lbl}</button>`).join("");
     $("#ft-nums").innerHTML=NUMS.map(n=>
-      `<button data-n="${n}" class="${st.num===n?"on":""}">${n}</button>`).join("");
-    $("#ft-clsName").textContent=disp(c);
-    $("#ft-clsInfo").textContent=rst.length
+      `<button data-n="${n}" class="${!G&&st.num===n?"on":""}">${n}</button>`).join("");
+    /* קבוצות מעורבות — כמה כיתות שלומדות יחד, והקשה אחת לחבר חדשות */
+    const gbox=$("#ft-groups");
+    if(gbox){
+      gbox.innerHTML=DATA.listGroups(clsStore).map(g=>
+        `<button data-gid="${esc(g.id)}" class="${st.gid===g.id?"on":""}">👥 ${esc(g.name)}</button>`).join("")+
+        `<button data-join="1" class="ghost">🔗 ${esc(H().t("grp.joinBtn","חבר כיתות"))}</button>`;
+    }
+    $("#ft-clsName").textContent=(G?"👥 ":"")+disp(c);
+    $("#ft-clsInfo").textContent=G
+      ? DATA.groupSummary(clsStore,c)+" · "+rst.length+" תלמידים"
+      : rst.length
       ? rst.length+" תלמידים ברשימה"
       : "אין עדיין רשימה לכיתה הזו — אפשר לייבא, להדביק או להוסיף ידנית";
 
@@ -485,13 +517,20 @@ window.FT=(function(){
     wireStartLesson();
     /* שינוי שם — דרך הרישום, בהגדרות. הכיתה נרשמת קודם כדי שיהיה מה לשנות. */
     const rb=$("#ft-clsRename");
-    if(rb)rb.onclick=()=>{ registerCls(c); if(H().openClassRename)H().openClassRename(cidOf(c)); };
-    $$("#ft-grades [data-g]").forEach(b=>b.addEventListener("click",()=>{st.grade=b.dataset.g;persist();renderPicker();}));
-    $$("#ft-nums [data-n]").forEach(b=>b.addEventListener("click",()=>{st.num=+b.dataset.n;persist();renderPicker();}));
+    if(rb){ rb.hidden=G; rb.style.display=G?"none":"";
+      rb.onclick=()=>{ registerCls(c); if(H().openClassRename)H().openClassRename(cidOf(c)); }; }
+    $$("#ft-grades [data-g]").forEach(b=>b.addEventListener("click",()=>{st.grade=b.dataset.g;st.gid=null;persist();renderPicker();}));
+    $$("#ft-nums [data-n]").forEach(b=>b.addEventListener("click",()=>{st.num=+b.dataset.n;st.gid=null;persist();renderPicker();}));
+    $$("#ft-groups [data-gid]").forEach(b=>b.addEventListener("click",()=>{
+      st.gid=st.gid===b.dataset.gid?null:b.dataset.gid; persist(); renderPicker(); }));
+    $$("#ft-groups [data-join]").forEach(b=>b.addEventListener("click",async()=>{
+      const pre=G?[]:[cidOf(c)];
+      const gid=H().joinClasses?await H().joinClasses(pre):null;
+      if(gid){ st.gid=gid; persist(); renderPicker(); } }));
     $$("#ft-tests [data-t]").forEach(b=>b.addEventListener("click",()=>openTest(b.dataset.t)));
   }
 
-  function persist(){ LS().set("ft.last",{grade:st.grade,num:st.num,sort:st.sort}); }
+  function persist(){ LS().set("ft.last",{grade:st.grade,num:st.num,gid:st.gid||null,sort:st.sort}); }
 
   /* ============================================================
      5. מסך המבחן
@@ -536,7 +575,7 @@ window.FT=(function(){
       <div class="ft-rh">
         <button class="btn sm ghost" id="ft-back">→ חזרה</button>
         <div class="grow"><b>${T.em} ${esc(T.name)}</b>
-          <div class="sb">כיתה ${esc(disp(c))} · ${done.length}/${rst.length} נמדדו${
+          <div class="sb">${isG(c)?"👥":"כיתה"} ${esc(disp(c))} · ${done.length}/${rst.length} נמדדו${
             avg!=null?` · ממוצע ${fmtVal(T,avg)} ${esc(T.unit)}`:""}${
             best!=null?` · הטוב ${fmtVal(T,best)}`:""}</div></div>
       </div>
@@ -591,8 +630,8 @@ window.FT=(function(){
           <button data-s="res"  class="${st.sort==="res"?"on":""}">תוצאה</button>
         </div>
         <div class="grow"></div>
-        <button class="btn sm" id="ft-addOne">+ תלמיד</button>
-        <button class="btn sm ghost" id="ft-rosterBtn">👥 רשימה</button>
+        ${isG(c)?"":`<button class="btn sm" id="ft-addOne">+ תלמיד</button>
+        <button class="btn sm ghost" id="ft-rosterBtn">👥 רשימה</button>`}
         <button class="btn sm ghost" id="ft-csv">⬇ CSV</button>
       </div>`;
 
@@ -612,6 +651,7 @@ window.FT=(function(){
       }
       return `<div class="ft-row${r?" done":""}" data-n="${esc(k)}" data-nm="${esc(s.name)}">
         <div class="nm" data-card="${esc(k)}" title="כרטיס התלמיד">${esc(s.name)}${
+          isG(c)&&s.cls?`<span class="ccls">${esc(disp(s.cls))}</span>`:""}${
           all.length?`<span class="pv">${
             bst?`⭐ הטוב: ${fmtVal(T,bst.val)}`:""}${all.length>1?` · ${all.length} ניסיונות`:""}</span>`:""}</div>
         <div class="vl${isPR?" pr":""}" data-hist="${esc(k)}" title="היסטוריית ניסיונות">${
@@ -718,7 +758,7 @@ window.FT=(function(){
     const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
     const best=vals.length?(T.dir==="low"?Math.min(...vals):Math.max(...vals)):null;
     const sb=$("#ft-runHead").querySelector(".sb");
-    if(sb)sb.textContent=`כיתה ${disp(c)} · ${vals.length}/${rst.length} נמדדו`
+    if(sb)sb.textContent=`${isG(c)?"👥":"כיתה"} ${disp(c)} · ${vals.length}/${rst.length} נמדדו`
       +(avg!=null?` · ממוצע ${fmtVal(T,avg)} ${T.unit}`:"")
       +(best!=null?` · הטוב ${fmtVal(T,best)}`:"");
   }
@@ -1620,7 +1660,8 @@ window.FT=(function(){
   function renderCoverage(){
     const {$, esc}=H();
     const c=cls(), rst=roster(c);
-    const cov=DATA.classCoverage(allRes(),rst,TESTS,{cid:cidOf(c)});
+    const cov=isG(c)?DATA.classCoverage(allRes().filter(r=>inCls(r,c)),rst,TESTS,{})
+                    :DATA.classCoverage(allRes(),rst,TESTS,{cid:cidOf(c)});
     const total=cov.students.length;
     const allDone=s=>cov.tests.length>0&&cov.tests.every(t=>s.done[t]);
     const fullyDone=cov.students.filter(allDone).length;
@@ -1668,7 +1709,8 @@ window.FT=(function(){
   function renderInsights(){
     const {$, esc}=H();
     const c=cls(), rst=roster(c);
-    const prog=DATA.classProgress(allRes(),rst,TESTS,{cid:cidOf(c)});
+    const prog=isG(c)?DATA.classProgress(allRes().filter(r=>inCls(r,c)),rst,TESTS,{})
+                     :DATA.classProgress(allRes(),rst,TESTS,{cid:cidOf(c)});
     const totalImproved=prog.tests.reduce((a,t)=>a+t.improved,0);
     const totalDeclined=prog.tests.reduce((a,t)=>a+t.declined,0);
 
@@ -1835,7 +1877,7 @@ window.FT=(function(){
     }).filter(Boolean).join("");
     const gapBlock=gaps?'<h2>מי עוד לא נמדד</h2><table><thead><tr><th style="width:24%">מבחן</th><th style="width:8%">חסרים</th><th>תלמידים</th></tr></thead><tbody>'+gaps+'</tbody></table>':"";
     rptOpen("דוח כיתה — "+c,
-      rptHead("דוח כושר כיתתי","כיתה "+disp(c)+" · "+(scoreMode()==="norm"?"ניקוד לפי טבלת נורמה":"ניקוד יחסי לשכבה"))+
+      rptHead("דוח כושר כיתתי",(isG(c)?"👥 ":"כיתה ")+disp(c)+" · "+(scoreMode()==="norm"?"ניקוד לפי טבלת נורמה":"ניקוד יחסי לשכבה"))+
       kpi+'<h2>ציוני יכולת</h2><table><thead>'+head+'</thead><tbody>'+body+'</tbody></table>'+gapBlock+
       '<div class="note">כל ציון מחושב מהתוצאה הטובה ביותר של התלמיד באותו מבחן. '+
       'הדוח משקף יכולת גופנית בלבד — הציון בתעודה מורכב גם מהשתתפות, שיפור והתמדה, ואינו זהה למדד הזה. '+
@@ -2139,10 +2181,12 @@ window.FT=(function(){
   const otAll =()=>LS().get("ft.ot",{});
   const otSet =o=>LS().set("ft.ot",o);
   function otRec(c,name){
+    if(isG(c))c=sc(c,roster(c).find(x=>x.name===name)||{name});
     const all=otAll(), k=clsKey(c);
     return (all[k]&&all[k][name])||{aer:[0,0,0],cir:[0,0,0],theory:null,part:0,club:0,event:0,diary:0};
   }
   function otSave(c,name,rec){
+    if(isG(c))c=sc(c,roster(c).find(x=>x.name===name)||{name});
     const all=otAll(), k=clsKey(c);
     all[k]=all[k]||{}; all[k][name]=rec; otSet(all);
   }
@@ -2155,7 +2199,9 @@ window.FT=(function(){
   function renderOt(){
     const {$, $$, esc}=H();
     const c=cls(), rst=roster(c);
-    const eligible=OT_GRADES.includes(st.grade);
+    /* בקבוצה — הזכאות לפי השכבות של הכיתות שבה */
+    const eligible=isG(c)?DATA.expandCid(clsStore,c).every(m=>{ const p=DATA.cidParts(m); return p&&OT_GRADES.includes(p.grade); })
+                         :OT_GRADES.includes(st.grade);
     const rows=rst.map(s=>({s,...otScore(otRec(c,s.name))}));
     const got=rows.filter(r=>r.ok).length;
 
@@ -2166,7 +2212,7 @@ window.FT=(function(){
           משרד החינוך, המזכירות הפדגוגית, תשס״ח/2007. <b>${OT_MAX}</b> נקודות אפשריות;
           זכאות ל<b>אות</b> מ-<b>${OT_PASS}</b> נקודות ומעלה, מהן <b>${OT_CORE_MIN}</b> לפחות
           במבדק האירובי ובאימון המחזורי.</div>
-        ${!eligible?`<div class="bw-warn">האות מיועד לשכבות <b>י–י״ב</b>. השכבה שנבחרה היא ${esc(clsName(st.grade,st.num).replace(String(st.num),""))} —
+        ${!eligible?`<div class="bw-warn">האות מיועד לשכבות <b>י–י״ב</b>. השכבה שנבחרה היא ${esc(isG(c)?DATA.groupSummary(clsStore,c):clsName(st.grade,st.num).replace(String(st.num),""))} —
           אפשר למלא, אבל זה חורג ממה שהמסמך מגדיר.</div>`:""}
         ${rows.length?`<div class="ft-idxsum">
           <div><span class="k">זכאים לאות</span><span class="v">${got}/${rows.length}</span></div>
@@ -2246,6 +2292,8 @@ window.FT=(function(){
      כאלה — אין כרטיס, ואין למורה שום דבר חדש להתמודד איתו.
      ============================================================ */
   function ambFor(c){
+    if(isG(c)){ const ks=DATA.expandCid(clsStore,c).map(m=>clsKey(DATA.classLabel(clsStore,m)||""));
+      return DATA.ambiguousGroups(allRes()).filter(g=>ks.indexOf(clsKey(g.cls))>=0); }
     const k=clsKey(c);
     return DATA.ambiguousGroups(allRes()).filter(g=>clsKey(g.cls)===k);
   }
@@ -2325,8 +2373,8 @@ window.FT=(function(){
     b.disabled=false;
     b.textContent="▶ התחל שיעור";
     b.onclick=()=>{
-      registerCls(c);
-      const r=S.start({cid,clsSnapshot:c,date:today()});
+      if(!isG(c))registerCls(c);
+      const r=S.start({cid,clsSnapshot:isG(c)?disp(c):c,date:today()});
       if(r.outcome==="blocked"){
         H().toast("כבר פתוח שיעור בכיתה "+sesName(r.active)+" — סיים אותו קודם");
         return;
@@ -2367,12 +2415,18 @@ window.FT=(function(){
     const a=(H().session&&H().session.active())||null;
     if(!a||st.lessonId===a.id)return false;
     st.lessonId=a.id;
+    /* שיעור בקבוצה — המבחנים נפתחים על הקבוצה כולה */
+    if(isG(a.cid)&&DATA.groupOf(clsStore,a.cid)){
+      const changed=st.gid!==a.cid; st.gid=a.cid;
+      if(changed){ stopClock(true); stopCd(); st.test=null; }
+      persist(); return true;
+    }
     const exp=DATA.expandCid(clsStore,a.cid);
     const base=(DATA.isGroupId(a.cid)&&exp[0])||a.cid;
     const p=DATA.cidParts(base)||DATA.parseCls(a.clsSnapshot);
     if(!p||!p.grade)return false;
-    const changed=st.grade!==p.grade||st.num!==(+p.num||st.num);
-    st.grade=p.grade; st.num=+p.num||st.num;
+    const changed=!!st.gid||st.grade!==p.grade||st.num!==(+p.num||st.num);
+    st.grade=p.grade; st.num=+p.num||st.num; st.gid=null;
     if(changed){ stopClock(true); stopCd(); st.test=null; }
     persist();
     return true;
@@ -2385,6 +2439,7 @@ window.FT=(function(){
     if(!st.lessonId){
       if(last.grade)st.grade=last.grade;
       if(last.num)st.num=last.num;
+      st.gid=(last.gid&&DATA.groupOf(clsStore,last.gid))?last.gid:null;
     }
     if(last.sort)st.sort=last.sort;
     /* «חזרה» ממסך מבחן פתוח חוזרת לבחירת המבחן, לא יוצאת מהמודול */
@@ -2404,10 +2459,12 @@ window.FT=(function(){
      החוצה כ-FT.pick כדי שכל מודול יקבל בדיוק את אותה רשימה, עם
      אותה התאמה סלחנית של שם הכיתה, בלי לשכפל את הלוגיקה.
 
-       FT.pick({title, note, max, onPick(names, clsLabel)})
+       FT.pick({title, note, max, onPick(names, clsLabel, cid)})
 
      max — תקרת בחירה (מסלולי הפוטו־פיניש מוגבלים ל-9), ובלעדיה
-     אין הגבלה. onPick מקבל מערך שמות ואת שם הכיתה לתצוגה.
+     אין הגבלה. onPick מקבל מערך שמות, את שם הכיתה לתצוגה ואת הזהות
+     שלה. בקבוצה (כיתות שלומדות יחד) השם הוא שם הקבוצה והזהות היא
+     מזהה הקבוצה — FT.ingest יודע לפזר ממנה כל תוצאה לכיתה של התלמיד.
      ============================================================ */
   function pick(opts){
     const o=opts||{}, $=H().$, $$=H().$$;
@@ -2422,18 +2479,18 @@ window.FT=(function(){
        ============================================================ */
     const act=(H().session&&H().session.active())||null;
     /* הזהות קודם: שכבה/מספר מתוך cid השיעור; הצילום — נפילה אחורה */
-    /* שיעור בקבוצה: אין לו שכבה ומספר משלו, ולכן הבורר נפתח על
-       הכיתה הראשונה שבקבוצה — זו שסביר שהמורה ימדוד קודם. */
-    const actExp=act?DATA.expandCid(clsStore,act.cid):[];
-    const actBase=act?((DATA.isGroupId(act.cid)&&actExp[0])||act.cid):null;
-    const actCls=act?(DATA.cidParts(actBase)||DATA.parseCls(act.clsSnapshot)):null;
+    /* שיעור בקבוצה: הבורר נפתח על הקבוצה עצמה — כל התלמידים של
+       הכיתות שלומדות יחד, ברשימה אחת. בלי שיעור — הקבוצה האחרונה. */
+    const actG=(act&&isG(act.cid)&&DATA.groupOf(clsStore,act.cid))?act.cid:null;
+    const actCls=(act&&!actG)?(DATA.cidParts(act.cid)||DATA.parseCls(act.clsSnapshot)):null;
     let g=(actCls&&actCls.grade)||last.grade||"ט";
     let num=(actCls&&actCls.num)||+last.num||1;
+    let gid=actG||((!act&&last.gid&&DATA.groupOf(clsStore,last.gid))?last.gid:null);
     let sel=null;
     const host=id=>$("#"+id);
     host("cp-title").querySelector("span").textContent=o.title||"טעינת כיתה";
     /* אומרים למורה למה הבורר פתוח דווקא כאן */
-    host("cp-note").textContent=(act&&actCls)
+    host("cp-note").textContent=(act&&(actCls||actG))
       ? ("שיעור פעיל בכיתה "+sesName(act)+" — הבורר נפתח עליה. "+(o.note||""))
       : (o.note||"");
     host("cp-grades").innerHTML=GRADES.map(([k,lbl])=>
@@ -2441,15 +2498,29 @@ window.FT=(function(){
     host("cp-nums").innerHTML=NUMS.map(n=>
       `<button data-n="${n}"${n===num?' class="on"':""}>${n}</button>`).join("");
 
+    const cur=()=>gid||clsName(g,num);
+    const paintGroups=()=>{
+      const box=host("cp-groups"); if(!box)return;
+      box.innerHTML=DATA.listGroups(clsStore).map(x=>
+        `<button data-gid="${H().esc(x.id)}"${gid===x.id?' class="on"':""}>👥 ${H().esc(x.name)}</button>`).join("")+
+        `<button data-join="1" class="ghost">🔗 ${H().esc(H().t("grp.joinBtn","חבר כיתות"))}</button>`;
+      $$("#cp-groups [data-gid]").forEach(b=>b.addEventListener("click",()=>{
+        gid=gid===b.dataset.gid?null:b.dataset.gid; paint(); }));
+      $$("#cp-groups [data-join]").forEach(b=>b.addEventListener("click",async()=>{
+        const pre=gid?[]:[cidOf(clsName(g,num))];
+        const n=H().joinClasses?await H().joinClasses(pre):null;
+        if(n){ gid=n; paint(); } }));
+    };
     const paint=()=>{
-      $$("#cp-grades button").forEach(b=>b.classList.toggle("on",b.dataset.g===g));
-      $$("#cp-nums button").forEach(b=>b.classList.toggle("on",+b.dataset.n===num));
-      const c=clsName(g,num);
+      $$("#cp-grades button").forEach(b=>b.classList.toggle("on",!gid&&b.dataset.g===g));
+      $$("#cp-nums button").forEach(b=>b.classList.toggle("on",!gid&&+b.dataset.n===num));
+      paintGroups();
+      const c=cur(), G=isG(c);
       let list=roster(c);
       sel=new Set(list.map(x=>x.name));
       if(o.max&&list.length>o.max) sel=new Set(list.slice(0,o.max).map(x=>x.name));
       host("cp-list").innerHTML=list.length
-        ? list.map(x=>`<label class="cp-item"><input type="checkbox" value="${H().esc(x.name)}"${sel.has(x.name)?" checked":""}><span>${H().esc(x.name)}</span></label>`).join("")
+        ? list.map(x=>`<label class="cp-item"><input type="checkbox" value="${H().esc(x.name)}"${sel.has(x.name)?" checked":""}><span>${H().esc(x.name)}${G&&x.cls?` <small class="ccls">${H().esc(x.cls)}</small>`:""}</span></label>`).join("")
         : `<div class="empty-state" style="margin:0"><div class="big">👥</div>אין עדיין רשימה לכיתה ${disp(c)}.<br>
            פתח «🏅 מבחני כושר» ← הכיתה הזאת ← «👥 רשימה» וייבא אותה פעם אחת — ומאז היא זמינה בכל המודולים.</div>`;
       $$("#cp-list input").forEach(i=>i.addEventListener("change",()=>{
@@ -2464,18 +2535,18 @@ window.FT=(function(){
       host("cp-stat").textContent=n?("נבחרו "+sel.size+" מתוך "+n+(o.max?" · עד "+o.max:"")):"";
       host("cp-load").disabled=!sel||!sel.size;
     };
-    $$("#cp-grades button").forEach(b=>b.addEventListener("click",()=>{ g=b.dataset.g; paint(); }));
-    $$("#cp-nums button").forEach(b=>b.addEventListener("click",()=>{ num=+b.dataset.n; paint(); }));
+    $$("#cp-grades button").forEach(b=>b.addEventListener("click",()=>{ g=b.dataset.g; gid=null; paint(); }));
+    $$("#cp-nums button").forEach(b=>b.addEventListener("click",()=>{ num=+b.dataset.n; gid=null; paint(); }));
     host("cp-all").onclick=()=>{ $$("#cp-list input").forEach(i=>{
       if(o.max&&sel.size>=o.max&&!i.checked)return; i.checked=true; sel.add(i.value); }); stat(); };
     host("cp-none").onclick=()=>{ $$("#cp-list input").forEach(i=>i.checked=false); sel.clear(); stat(); };
     host("cp-load").onclick=()=>{
-      const c=clsName(g,num);
+      const c=cur(), G=isG(c);
       const names=roster(c).map(x=>x.name).filter(n=>sel.has(n));
       if(!names.length){ H().toast("לא נבחר אף תלמיד"); return; }
-      LS().set("ft.last",Object.assign({},last,{grade:g,num}));
+      LS().set("ft.last",Object.assign({},last,{grade:g,num,gid:gid||null}));
       H().modal("cp-pickModal",false);
-      o.onPick&&o.onPick(names,c);
+      o.onPick&&o.onPick(names,G?disp(c):c,cidOf(c));
     };
     paint(); H().modal("cp-pickModal",true);
   }
@@ -2496,14 +2567,22 @@ window.FT=(function(){
      בלעדיו הזהות נפתרת מהתווית דרך הרישום. התווית עצמה נשארת
      ההקשר על המדידה ומפתח הרשימה. */
   function ingest(cls,testId,rows,src,opts){
-    const T=testById(testId), pc=parseCls(cls);
-    if(!T||!pc||!Array.isArray(rows))return {added:0,dup:0,skipped:0};
-    const c=clsName(pc.grade,pc.num), rs=allRes();
-    const cid=(opts&&DATA.isCid(opts.cid))?opts.cid:cidOf(c);
+    const T=testById(testId);
+    if(!T||!Array.isArray(rows))return {added:0,dup:0,skipped:0};
+    /* קבוצה (כיתות שלומדות יחד): מזוהה מ-opts.cid או משם הקבוצה.
+       המדידה עצמה נשמרת תמיד בכיתה האמיתית של התלמיד — הקבוצה היא
+       רק ההקשר שבו מדדו. */
+    const rawG=(opts&&isG(opts.cid))?opts.cid:DATA.resolveScope(clsStore,cls);
+    const gid=(isG(rawG)&&DATA.groupOf(clsStore,rawG))?rawG:null;
+    const pc=gid?null:parseCls(cls);
+    if(!gid&&!pc)return {added:0,dup:0,skipped:0};
+    const c=gid||clsName(pc.grade,pc.num), rs=allRes();
+    const cid=gid||((opts&&DATA.isCid(opts.cid))?opts.cid:cidOf(c));
+    const list=roster(c);
     /* מפתח הכפילות הוא הזהות ולא השם: שני תלמידים בשם «דן כהן»
        שרצו את אותו זמן הם שתי מדידות, לא אחת. */
     const idOf=r=>r.sid?("id:"+r.sid):("nm:"+String(r.name||""));
-    const seen=new Set(rs.filter(r=>DATA.rowInClass(r,cid)&&r.test===testId&&r.d===today())
+    const seen=new Set(rs.filter(r=>DATA.rowInScope(r,clsStore,cid)&&r.test===testId&&r.d===today())
       .map(r=>idOf(r)+"|"+(+r.val).toFixed(2)));
     let added=0,dup=0,skipped=0;
     rows.forEach(row=>{
@@ -2513,15 +2592,19 @@ window.FT=(function(){
          כאן עדיין מתרגמים שם למזהה — אבל רק כאן, בנקודת הכניסה. */
       /* התאמה יחידה בלבד. שני תלמידים באותו שם ברשימה — לא מנחשים:
          המדידה נשמרת בלי sid ומסומנת להכרעה, כמו במיגרציה. */
-      const same=roster(c).filter(x=>x.name===nm);
+      const same=list.filter(x=>x.name===nm);
       const known=same.length===1?same[0]:null;
+      /* בקבוצה הכיתה נגזרת מהתלמיד — בלי התאמה יחידה אין לאן לשמור */
+      const rc=gid?(known&&known.cls):c, rp=gid?(rc&&parseCls(rc)):pc;
+      if(gid&&(!known||!rp)){ skipped++; return; }
+      const rcid=gid?(known.cid||cidOf(rc)):cid;
       const key=(known&&known.id?("id:"+known.id):("nm:"+nm))+"|"+v.toFixed(2);
       if(seen.has(key)){ dup++; return; }
       seen.add(key);
       rs.push({id:DATA.uid("f"),ts:Date.now(),d:today(),
-        cls:c,cid:cid,test:testId,name:nm,sid:known?(known.id||null):null,
+        cls:rc,cid:rcid,test:testId,name:nm,sid:known?(known.id||null):null,
         ...(same.length>1?{sidAmbig:"duplicate-name"}:{}),
-        normVer:normVersion(),sessionId:sessionFor(c),gradeKey:pc.grade,
+        normVer:normVersion(),sessionId:sessionFor(rc),gradeKey:rp.grade,
         sex:(row.sex||(known&&known.sex)||null),val:+v.toFixed(2),unit:T.unit,src:src||null});
       added++;
     });
@@ -2580,10 +2663,16 @@ window.FT=(function(){
   /* פתיחה על כיתה ולשונית — ממרכז הכיתה («מדד הכושר», «מה חסר»).
      קבוצה נפתחת על הכיתה הראשונה שבה, כמו בבורר המשותף. */
   function show(cid,tab){
+    if(isG(cid)&&DATA.groupOf(clsStore,cid)){
+      stopClock(true); stopCd(); st.gid=cid; st.test=null; persist();
+      st.tab=tab||"tests";
+      const act0=H().session&&H().session.active(); if(act0)st.lessonId=act0.id;
+      H().go("ft"); if(inited)renderTab(); return;
+    }
     const exp=DATA.expandCid(clsStore,cid);
     const base=(DATA.isGroupId(cid)&&exp[0])||cid;
     const p=DATA.cidParts(base);
-    if(p&&p.grade){ stopClock(true); stopCd(); st.grade=p.grade; st.num=+p.num||st.num; st.test=null; persist(); }
+    if(p&&p.grade){ stopClock(true); stopCd(); st.grade=p.grade; st.num=+p.num||st.num; st.gid=null; st.test=null; persist(); }
     st.tab=tab||"tests";
     /* הבחירה ממרכז הכיתה גוברת: השיעור הפתוח כבר «הוחל» ולא ידרוס אותה */
     const act=H().session&&H().session.active(); if(act)st.lessonId=act.id;

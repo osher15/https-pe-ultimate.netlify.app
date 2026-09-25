@@ -258,3 +258,35 @@ test("תיאור קבוצת למידה אינו נקרא כשארית של מש�
   const mix=D.makeGroup(st,{name:"מעורבת",members:["c:ז:1"],sids:["c"]}).group;
   assert.ok(/ז׳1 · \+1/.test(D.groupSummary(st,mix.id)),D.groupSummary(st,mix.id));
 });
+
+/* ---------- כיתות שלומדות יחד: הזנה אחת לכל הקבוצה ---------- */
+
+test("resolveScope: שם הקבוצה או המזהה שלה → הקבוצה; תווית כיתה → הכיתה",()=>{
+  const st=withClasses();
+  const g=D.makeGroup(st,{name:"ז׳1+ז׳3",members:["c:ז:1","c:ז:3"]}).group;
+  assert.equal(D.resolveScope(st,"ז׳1+ז׳3"),g.id);
+  assert.equal(D.resolveScope(st,g.id),g.id);
+  assert.equal(D.resolveScope(st,"ז3"),"c:ז:3","כיתה רגילה לא נפגעת");
+  assert.equal(D.resolveScope(st,"g:nope"),null,"מזהה קבוצה שלא קיים");
+  assert.equal(D.groupByName(st,"ז׳1+ז׳3").id,g.id);
+  assert.equal(D.groupByName(st,"אין כזו"),null);
+});
+
+test("studentInScope: חבר בכיתה שבקבוצה או מצורף — כן; כיתה אחרת — לא",()=>{
+  const st=withClasses();
+  const g=D.makeGroup(st,{name:"מעורבת",members:["c:ז:1"],sids:["c"]}).group;
+  assert.equal(D.studentInScope(st,g.id,STU[0]),true,"חבר בכיתה");
+  assert.equal(D.studentInScope(st,g.id,STU[2]),true,"מצורף במפורש");
+  assert.equal(D.studentInScope(st,g.id,STU[1]),false,"כיתה שאינה בקבוצה");
+  assert.equal(D.studentInScope(st,g.id,STU[3]),false,"חבר לכיתה של המצורף — לא מצורף");
+  assert.equal(D.studentInScope(st,"c:ז:3",STU[1]),true,"כיתה רגילה");
+  assert.equal(D.studentInScope(st,"c:ז:3",null),false);
+});
+
+test("classLabel: שם הכיתה של מזהה, גם כשהיא לא רשומה",()=>{
+  const st=withClasses();
+  assert.equal(D.classLabel(st,"c:ז:1"),"ז׳1");
+  assert.equal(D.classLabel(st,"c:ט:4"),"ט׳4");
+  const g=D.makeGroup(st,{name:"ז׳1+ז׳3",members:["c:ז:1","c:ז:3"]}).group;
+  assert.equal(D.classLabel(st,g.id),"ז׳1+ז׳3");
+});

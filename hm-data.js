@@ -283,6 +283,43 @@ function groupSummary(store,gid){
   if(n)parts.push(parts.length?("+"+n+" תלמידים"):(n+" תלמידים מכמה כיתות"));
   return parts.join(" · ");
 }
+/* ============================================================
+   הקשר מלא — כיתה או קבוצה, באותו ממשק
+   ------------------------------------------------------------
+   המסכים (מבחני כושר, ציונים, נוכחות, ביפ ופוטו־פיניש) נבנו על
+   «כיתה אחת». כדי שמורה של ט׳1+ט׳4 יזין הכול פעם אחת, כל מסך מקבל
+   הקשר שיכול להיות גם קבוצה — ואת כל שאלת «למי זה שייך» הוא שואל
+   כאן. הכלל של §2ב לא משתנה: הזנה בקבוצה נכתבת לכיתה האמיתית של
+   כל תלמיד, ולכן כל מה שכבר מסוכם לפי כיתה ממשיך להיות נכון.
+   ============================================================ */
+/* קבוצה לפי שם — שם קבוצה לעולם לא נקרא ככיתה (makeGroup אוכף) */
+function groupByName(store,name){
+  var k=clsKey(name); if(!k||!store)return null;
+  var l=listGroups(store);
+  for(var i=0;i<l.length;i++)if(l[i].key===k||clsKey(l[i].name)===k)return l[i];
+  return null;
+}
+/* תווית, שם קבוצה או מזהה → מזהה ההקשר (כיתה או קבוצה) */
+function resolveScope(store,raw){
+  if(isGroupId(raw))return store&&groupOf(store,raw)?raw:null;
+  var g=groupByName(store,raw); if(g)return g.id;
+  return resolveClassId(store,raw);
+}
+/* תלמיד בהקשר: כיתה — הכיתה שלו; קבוצה — אחת מחבריה או מצורף במפורש */
+function studentInScope(store,cid,s){
+  if(!s||typeof s!=="object"||!isCid(cid))return false;
+  var g=store?groupOf(store,cid):null, sc=cidOfStudent(s,store);
+  if(!g)return sc===cid;
+  if(s.id&&asList(g.sids).indexOf(s.id)>=0)return true;
+  return !!sc&&asList(g.members).indexOf(sc)>=0;
+}
+/* התווית של כיתה אמיתית, בצורה שהמסכים משתמשים בה כמפתח («ט׳3»).
+   כיתה בלי שכבה ומספר — השם הרשום שלה. */
+function classLabel(store,cid){
+  var p=cidParts(cid); if(p)return clsName(p.grade,p.num);
+  var c=store?classOf(store,cid):null;
+  return (c&&c.name)||null;
+}
 
 /* ============================================================
    2ג. רשימות הכיתה הן רשימת התלמידים
@@ -2283,6 +2320,7 @@ return {
   groupId:groupId, makeGroup:makeGroup, updateGroup:updateGroup, removeGroup:removeGroup,
   groupOf:groupOf, listGroups:listGroups, realClasses:realClasses,
   expandCid:expandCid, rowInScope:rowInScope, studentsIn:studentsIn, groupSummary:groupSummary,
+  groupByName:groupByName, resolveScope:resolveScope, studentInScope:studentInScope, classLabel:classLabel,
   syncStudentsFromRosters:syncStudentsFromRosters,classRoster:classRoster,applyRoster:applyRoster,
   mergeRoster:mergeRoster, findStudent:findStudent,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,

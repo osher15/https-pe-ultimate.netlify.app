@@ -476,8 +476,10 @@ window.LESSON=(function(){
     const last=H().LS.get("ft.last",{});
     /* הכיתה של המערך קודם (מהשדה או מהשיוך); אחרת הכיתה האחרונה במבחנים */
     const pc=planCid(), pcr=pc?DT().classOf(store(),pc):null;
-    const c=pcr?pcr.name:((window.FT.classOf&&last.grade)?window.FT.classOf(last.grade,last.num||1):"");
-    const cid=pcr?pc:window.HMDATA.classId(c);
+    /* קבוצה שנבחרה אחרונה (כיתות שלומדות יחד) — השיעור נפתח עליה */
+    const lg=(!pcr&&last.gid&&DT().groupOf)?DT().groupOf(store(),last.gid):null;
+    const c=pcr?pcr.name:lg?lg.name:((window.FT.classOf&&last.grade)?window.FT.classOf(last.grade,last.num||1):"");
+    const cid=pcr?pc:lg?last.gid:window.HMDATA.classId(c);
     const act=S.active();
     b.hidden=false;
     if(act){ b.textContent="▶ שיעור פתוח · "+(act.clsSnapshot||""); b.disabled=true; if(pickBtn)pickBtn.hidden=true; return; }
