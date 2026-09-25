@@ -1268,21 +1268,20 @@ function paintLastLesson(){
 let grpEdit=null;   /* מזהה הקבוצה שנערכת, או null ליצירה */
 
 /* ============================================================
-   הגשר: רשימות הכיתה → «התלמידים שלי»
+   רשימה אחת — מה שנשאר מהגשר
    ------------------------------------------------------------
-   מורה שהדביק רשימה לכל כיתה בנפרד ראה «התלמידים שלי» ריק וקבוצות
-   הוראה שמדווחות «0 תלמידים». הנתונים היו שם כל הזמן, במאגר השני.
-
-   הגשר רץ בעלייה ולפני כל מסך שקורא את הרשימה, וכותב רק כשבאמת
-   נוסף מישהו — כך שמורה שכבר מסונכרן לא משלם על זה כתיבה בכל
-   ניווט. ההחלטה מי נוסף ומה לא נדרס יושבת ב-hm-data, ונבדקת שם.
+   מאז סכמה 5 רשימות הכיתה הן «התלמידים שלי» (DATA.classRoster), ואין
+   מה לגשר. אם בכל זאת הופיע ft.roster — גיבוי ישן ששוחזר, או מכשיר
+   שעוד לא עבר את ההסבה — מקפלים אותו מיד באותה הסבה (4→5), לפני
+   שמסך כלשהו קורא את הרשימה. בכל מקרה אחר זו קריאה אחת בלי כתיבה.
    ============================================================ */
 function syncStudents(){
   try{
-    const r=DATA.syncStudentsFromRosters(REGSTORE,LS.get("stu.list",[]),LS.get("ft.roster",{}));
-    if(r.added||r.filled)LS.set("stu.list",r.list);
-    return r;
-  }catch(e){ return {list:[],added:0,filled:0,classes:0}; }
+    const v=LS.get("ft.roster",null);
+    if(!v||typeof v!=="object"||Array.isArray(v))return {added:0,filled:0,classes:0};
+    const rep=runMigration();
+    return {added:(rep&&rep.rosterAdded)||0,filled:(rep&&rep.rosterSex)||0,classes:0};
+  }catch(e){ return {added:0,filled:0,classes:0}; }
 }
 function grpStudents(){ syncStudents(); const v=LS.get("stu.list",[]); return Array.isArray(v)?v:[]; }
 function grpName(cid){
@@ -1809,7 +1808,7 @@ const RATING_LABEL={"1":"👍 עבד מצוין","0":"😐 בינוני","-1":"�
    של המצב הנוכחי לפני הדריסה.
    ============================================================ */
 const BK_PREFIX=BRAND.ns;
-const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה","ft.norms":"טבלת נורמה",
+const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
   "rec.pass":"קוד המורה","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",

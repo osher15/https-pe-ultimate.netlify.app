@@ -188,21 +188,20 @@ window.FT=(function(){
   /* ---------- אחסון ---------- */
   const allRes =()=>LS().get("ft.results",[]);
   const setRes =r=>LS().set("ft.results",r);
-  const rosters=()=>LS().get("ft.roster",{});
-  const setRosters=r=>LS().set("ft.roster",r);
-
-  /* רשימת הכיתה: מה שהמודול מכיר, ואם ריק — מייבא מ«התלמידים שלי» */
+  /* רשימת הכיתה היא «התלמידים שלי» (סכמה 5, ראו DATA.classRoster):
+     מבט על stu.list לפי זהות הכיתה. roster() מחזיר עותקים, ו-setRoster()
+     מחיל את ההבדל — הוספה, שם, מין והסרה — על הרשימה האחת. */
   function roster(c){
-    const all=rosters(), k=clsKey(c);
-    if(Array.isArray(all[k]))return all[k];
-    return [];
+    return DATA.classRoster(clsStore,LS().get("stu.list",[]),cidOf(c));
   }
   function setRoster(c,list){
-    const all=rosters(); all[clsKey(c)]=list; setRosters(all);
     /* כיתה נכנסת לרישום ברגע שיש לה רשימה — זאת הנקודה היחידה שבה
        כיתה «נוצרת» בפועל. registerClass לא כותב אם היא כבר רשומה,
        ולכן זה לא מייקר שמירה חוזרת. */
     registerCls(c);
+    const r=DATA.applyRoster(clsStore,LS().get("stu.list",[]),cidOf(c),disp(c),list);
+    if(r.added||r.removed||r.changed)LS().set("stu.list",r.list);
+    return r;
   }
   /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. */
   const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
@@ -220,14 +219,6 @@ window.FT=(function(){
   /* מייבא מ«התלמידים שלי» את תלמידי הכיתה — לפי זהות הכיתה (cid), ולא
      לפי שם; והמיזוג לרשימה לפי מזהה תלמיד, כך ששני «דן כהן» עם שני
      sid נשארים שניים (ראו DATA.mergeRoster). */
-  function importFromStu(c){
-    const stu=LS().get("stu.list",[]);
-    const cid=cidOf(c);
-    const hits=stu.filter(s=>s&&cid&&DATA.cidOfStudent(s,clsStore)===cid);
-    if(!hits.length)return 0;
-    const m=DATA.mergeRoster(roster(c),hits);
-    setRoster(c,m.list); return m.added;
-  }
 
   /* ============================================================
      זהות תלמיד
@@ -1165,12 +1156,6 @@ window.FT=(function(){
     renderRosterList();
     H().modal("ft-rosModal");
     $("#ft-rosFile").onclick=()=>{ H().modal("ft-rosModal",false); openImport(); };
-    $("#ft-rosImport").onclick=()=>{
-      const n=importFromStu(c);
-      if(n)H().toast("יובאו "+n+" תלמידים מ«התלמידים שלי»");
-      else H().toast("לא נמצאו תלמידים עם הכיתה «"+disp(c)+"» ב«התלמידים שלי»");
-      renderRosterList();
-    };
     $("#ft-rosPaste").onclick=()=>{
       const txt=$("#ft-rosBulk").value;
       const lines=txt.split(/\r?\n/).map(l=>l.split(",")[0].trim()).filter(Boolean);
@@ -1192,13 +1177,15 @@ window.FT=(function(){
          <button data-sx="girls" data-n="${esc(k)}" class="${s.sex==="girls"?"on":""}">בת</button>
        </div>
        <button class="btn sm stop" data-rd="${esc(k)}">✕</button></div>`;}).join("")
-      : '<div class="hint">הרשימה ריקה. ייבא מ«התלמידים שלי», או הדבק שמות למטה.</div>';
+      : '<div class="hint">הרשימה ריקה. הדבק שמות למטה, או ייבא קובץ מהמערכת הבית ספרית.</div>';
     $("#ft-rosCount").textContent=list.length?list.length+" תלמידים":"";
     $$("#ft-rosList [data-rd]").forEach(b=>b.addEventListener("click",()=>{
-      /* המחיקה מסירה את התלמיד מהרשימה בלבד. המדידות שלו נשארות
-         בקובץ עם המזהה שלהן — מורה שמסיר תלמיד בטעות ומחזיר אותו
-         מקבל בחזרה את כל ההיסטוריה. */
+      /* רשימה אחת: הסרה מהכיתה היא הסרה מ«התלמידים שלי». המדידות
+         נשארות בקובץ עם המזהה שלהן, ו«↩ בטל» מחזיר את התלמיד כמו
+         שהיה — עם הציונים, הנוכחות וכל ההיסטוריה. */
+      const back=H().snap(["stu.list"]);
       setRoster(c,roster(c).filter(x=>refKey(x)!==b.dataset.rd)); renderRosterList();
+      H().undo("הוסר מהרשימה",()=>{ back(); renderRosterList(); renderTab(); });
     }));
     /* המין דרוש לניקוד — נורמות כושר נפרדות לבנים ולבנות */
     $$("#ft-rosList [data-sx]").forEach(b=>b.addEventListener("click",()=>{
@@ -1462,42 +1449,29 @@ window.FT=(function(){
   function impApply(){
     const built=impBuild().filter(x=>x.ok);
     if(!built.length){H().toast("אין שורות לייבוא");return;}
-    const alsoStu=H().$("#ft-impStu").checked;
-    const all=rosters(); let added=0,updated=0;
-    /* מזהה אחד לכל תלמיד שנוצר בייבוא הזה.
-       עד עכשיו אותו ילד נכנס פעמיים — פעם לרשימת הכיתה עם מזהה
-       «f…» ופעם ל«התלמידים שלי» עם מזהה «s…» — וכך נוצרו שתי
-       זהויות לאדם אחד כבר ברגע הייבוא. */
+    let added=0,updated=0;
+    /* מזהה אחד לכל תלמיד שנוצר בייבוא הזה — שם + כיתה, כך ששורה כפולה
+       בקובץ לא יוצרת שני תלמידים. */
     const newId={};
     const idFor=x=>{
       const k=clsKey(x.cls)+"|"+x.name;
       return (newId[k]=newId[k]||DATA.uid("f"));
     };
-    built.forEach(x=>{
-      const k=clsKey(x.cls);
-      const list=Array.isArray(all[k])?all[k]:(all[k]=[]);
-      const ex=list.find(y=>y.name===x.name);
-      if(ex){ if(x.sex&&ex.sex!==x.sex){ex.sex=x.sex;updated++;} newId[k+"|"+x.name]=ex.id; }
-      else { list.push({id:idFor(x),name:x.name,sex:x.sex||null}); added++; }
-      registerCls(x.cls);
-    });
-    setRosters(all);
-    let stuAdded=0;
-    if(alsoStu){
-      const stu=LS().get("stu.list",[]);
-      built.forEach(x=>{
-        /* התאמה לפי שם + זהות כיתה. «דן כהן» מט׳3 ו«דן כהן» מי׳1 הם
-           שני תלמידים; תלמיד באותו שם בלי כיתה מאמץ את הכיתה. */
-        const xc=cidOf(x.cls);
-        let s=DATA.findStudent(stu,x.name,xc,clsStore);
-        if(!s){ stu.push({id:idFor(x),name:x.name,cls:x.cls,cid:xc,
-          sex:x.sex||"boys",age:14,h:null,w:null,tests:[]}); stuAdded++; }
-        else { if(!s.cls){s.cls=x.cls; s.cid=xc; if(s.cidAmbig)delete s.cidAmbig;} if(x.sex)s.sex=x.sex; }
+    /* כיתה אחרי כיתה, דרך אותה רשימה אחת */
+    const byCls={};
+    built.forEach(x=>{ (byCls[x.cls]=byCls[x.cls]||[]).push(x); });
+    Object.keys(byCls).forEach(c0=>{
+      registerCls(c0);
+      const list=roster(c0);
+      byCls[c0].forEach(x=>{
+        const ex=list.find(y=>y.name===x.name);
+        if(ex){ if(x.sex&&ex.sex!==x.sex){ex.sex=x.sex;updated++;} }
+        else { list.push({id:idFor(x),name:x.name,sex:x.sex||null}); added++; }
       });
-      LS().set("stu.list",stu);
-    }
+      setRoster(c0,list);
+    });
     H().modal("ft-impModal",false);
-    H().toast(`✓ ${added} תלמידים חדשים · ${updated} עודכן מין`+(alsoStu?` · ${stuAdded} נוספו ל«התלמידים שלי»`:""));
+    H().toast(`✓ ${added} תלמידים חדשים · ${updated} עודכן מין`);
     renderTab();
   }
 
@@ -2472,7 +2446,6 @@ window.FT=(function(){
       $$("#cp-nums button").forEach(b=>b.classList.toggle("on",+b.dataset.n===num));
       const c=clsName(g,num);
       let list=roster(c);
-      if(!list.length){ importFromStu(c); list=roster(c); }
       sel=new Set(list.map(x=>x.name));
       if(o.max&&list.length>o.max) sel=new Set(list.slice(0,o.max).map(x=>x.name));
       host("cp-list").innerHTML=list.length

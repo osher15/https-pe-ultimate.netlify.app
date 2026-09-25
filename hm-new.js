@@ -957,13 +957,12 @@ window.HMBootNew=function(){
     return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
   }
   function seedDemo(){
-    const cls="ט׳3", key="ט3", cid=window.HMDATA.classId(cls);
+    const cls="ט׳3", cid=window.HMDATA.classId(cls);
     /* כיתת ההדגמה נרשמת כמו כל כיתה אחרת — כדי שההדגמה תדגים את
        המודל האמיתי: מזהה על התלמיד, על המדידה וברישום. */
     try{ window.HMDATA.registerClass({get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},cls); }catch(e){}
     const kids=[["דן אבירם","boys"],["איתי כהן","boys"],["רון לוי","boys"],["עומר בר","boys"],
                 ["יהב שני","boys"],["ניר גל","boys"],["אלון מור","boys"],["גיא פרץ","boys"]];
-    LS.set("ft.roster",{[key]:kids.map((k,i)=>({id:"demo"+i,name:k[0],sex:k[1]}))});
     LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1]})));
     LS.set("ft.last",{grade:"ט",num:3,sort:"todo"});
     const day=n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
@@ -1065,16 +1064,6 @@ window.HMBootNew=function(){
   $("#hx-date").textContent=new Date().toLocaleDateString(H_LOC(),{weekday:"long",day:"numeric",month:"long"});
   /* save-beep-to-tracking button */
   const fb=$("#stu-fromBeep"); if(fb)fb.addEventListener("click",window.STU.importFromBeep);
-  /* הגשר מרשימות הכיתה — רץ לבד בכל כניסה למסך, והכפתור הוא הדרך
-     לבקש אותו במפורש ולראות מה קרה. */
-  const fr=$("#stu-fromRoster");
-  if(fr)fr.addEventListener("click",()=>{
-    const r=H().syncStudents?H().syncStudents():{added:0,filled:0,classes:0};
-    H().toast(r.added?("✓ נוספו "+r.added+" תלמידים מ-"+r.classes+" כיתות")
-      :(r.filled?"✓ הושלמו פרטים לתלמידים שכבר היו כאן"
-        :"אין רשימות כיתה להביא מהן — העלה רשימה במבחני הכושר"));
-    if(window.STU&&window.STU.init)try{window.STU.init()}catch(e){}
-  });
   /* students count on home band */
   const sc=$("#qsStu"); if(sc)sc.textContent=window.STU.count();
 };

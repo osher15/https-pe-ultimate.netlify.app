@@ -11,16 +11,16 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="25736dbe">
+<meta name="hm-build" content="9a3f9be0">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hm-styles.css?v=95e8e08f">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-data.js?v=be8da8d9"></script>
+<script src="hm-data.js?v=e7c30428"></script>
 <script src="hm-terms.js?v=ce1b7f7f"></script>
 <script src="hm-texts.js?v=54051156"></script>
 <script src="hm-i18n.js?v=8e958e58"></script>
-<script src="hm-app.js?v=850d69dd"></script>
+<script src="hm-app.js?v=d91ee66e"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
 <script src="hm-know.js?v=52230b9a"></script>
@@ -30,8 +30,8 @@
 <script src="hm-plans.js?v=20cf74cb"></script>
 <script src="hm-lesson.js?v=10137c19"></script>
 <script src="hm-build.js?v=f4f0f0e3"></script>
-<script src="hm-tests.js?v=b84eaf5b"></script>
-<script src="hm-new.js?v=3ffc2296"></script>
+<script src="hm-tests.js?v=4b9d3a79"></script>
+<script src="hm-new.js?v=4c2e1553"></script>
 <script src="hm-live.js?v=dfa3fe12"></script>
 <script src="hm-hub.js?v=c46b61c6"></script>
 </helmet>
@@ -869,12 +869,10 @@
       </div>
       <div class="stu-chips" id="stu-chips"></div>
       <div class="stu-list" id="stu-list"></div>
-      <!-- המסך הזה נראה למורה מיותר כשהוא ריק, והוא היה ריק בדיוק אצל
-           מי שכבר העלה רשימות כיתה — שני מאגרים בלי גשר ביניהם. הגשר
-           רץ עכשיו לבד; הכפתור נשאר בשביל הרגע שבו כלום לא קרה. -->
+      <!-- רשימה אחת (סכמה 5): רשימת כיתה שהודבקה במבחני הכושר היא
+           הרשימה הזאת עצמה, ולכן אין יותר כפתור «קח מרשימות הכיתה». -->
       <div class="empty-state" id="stu-empty"><div class="big">👥</div>אין עדיין תלמידים.<br>
         אם כבר יש לך רשימות כיתה במבחני הכושר — הן נכנסות לכאן לבד.<br>
-        <button class="btn sm acc" id="stu-fromRoster" style="margin-top:11px">👥 קח את התלמידים מרשימות הכיתה</button>
         <div class="hint" style="margin-top:9px">או הוסף רשימה ידנית, או ייבא שמות מלוח הביפ טסט.</div></div>
     </div>
   </div>
@@ -1180,8 +1178,6 @@
     <div class="field" style="margin-top:9px">
       <textarea id="ft-impPaste" rows="4" placeholder="שם משפחה	שם פרטי	כיתה	מין&#10;כהן	דנה	ט3	נ"></textarea></div>
     <div id="ft-impBody" style="margin-top:11px"></div>
-    <label class="check" style="margin-top:11px"><input type="checkbox" id="ft-impStu" checked>
-      להוסיף גם ל«התלמידים שלי» (לציונים ולמעקב)</label>
     <button class="btn acc big" id="ft-impGo" style="margin-top:12px" disabled>✓ ייבא לכיתות</button>
   </div></div>
 
@@ -1255,7 +1251,6 @@
     <h3><span id="ft-rosTitle">👥 רשימת כיתה</span><button class="x" data-close="ft-rosModal">✕</button></h3>
     <div class="row" style="gap:8px">
       <button class="btn sm acc" id="ft-rosFile">📄 ייבוא מקובץ בית ספרי</button>
-      <button class="btn sm" id="ft-rosImport">📥 ייבא מ«התלמידים שלי»</button>
       <span class="hint grow" id="ft-rosCount"></span>
     </div>
     <div id="ft-rosList" style="margin-top:11px;max-height:280px;overflow:auto"></div>

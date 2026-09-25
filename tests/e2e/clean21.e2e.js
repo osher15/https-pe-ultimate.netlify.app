@@ -216,5 +216,30 @@ module.exports={title:"ניקוי: שאלות בתוך האפליקציה, בי�
     await page.waitForTimeout(2200);
     eq(await page.evaluate(()=>!!document.querySelector("#toastT.act.show")),false);
   })
+,
 
+  check("רשימה אחת: תלמיד שנוסף במבחני הכושר מופיע ב«התלמידים שלי»",base,async page=>{
+    await go(page,"ft");
+    await page.evaluate(()=>document.querySelector('#ft-tests [data-t="ljump"]').click()); await page.waitForTimeout(500);
+    await page.evaluate(()=>document.getElementById("ft-rosterBtn").click()); await page.waitForTimeout(250);
+    await page.fill("#ft-rosBulk","מיה כהן"); await page.click("#ft-rosPaste"); await page.waitForTimeout(250);
+    const st=await LSget(page,"stu.list");
+    const m=st.find(s=>s.name==="מיה כהן");
+    ok(m,"נכנסה ל«התלמידים שלי»"); eq(m.cid,"c:ט:3");
+    eq(await LSget(page,"ft.roster"),null,"אין רשימה שנייה");
+    await page.evaluate(()=>window.STU.show("","list")); await page.waitForTimeout(300);
+    ok((await page.evaluate(()=>document.getElementById("stu-list").textContent)).indexOf("מיה כהן")>=0,"ומוצגת שם");
+  }),
+
+  check("רשימה אחת: הסרה מרשימת הכיתה — מיידית, ו«↩ בטל» מחזיר עם הציונים",Object.assign({},base,{
+    "stu.list":[Object.assign(S("a","דן אבירם","ט׳3","c:ט:3"),{grades:{"רבעון 1":{exams:{x:90}}}}),S("b","נועה לוי","ט׳3","c:ט:3")]}),async page=>{
+    await go(page,"ft");
+    await page.evaluate(()=>document.querySelector('#ft-tests [data-t="ljump"]').click()); await page.waitForTimeout(500);
+    await page.evaluate(()=>document.getElementById("ft-rosterBtn").click()); await page.waitForTimeout(250);
+    await page.evaluate(()=>document.querySelector('#ft-rosList [data-rd="id:a"]').click()); await page.waitForTimeout(250);
+    eq((await LSget(page,"stu.list")).map(s=>s.id),["b"]);
+    await undoBtn(page);
+    const a=(await LSget(page,"stu.list")).find(s=>s.id==="a");
+    ok(a&&a.grades["רבעון 1"].exams.x===90,"חזר עם הציונים");
+  })
 ]};

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="25736dbe">
+<meta name="hm-build" content="9a3f9be0">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2678,12 +2678,10 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
       </div>
       <div class="stu-chips" id="stu-chips"></div>
       <div class="stu-list" id="stu-list"></div>
-      <!-- המסך הזה נראה למורה מיותר כשהוא ריק, והוא היה ריק בדיוק אצל
-           מי שכבר העלה רשימות כיתה — שני מאגרים בלי גשר ביניהם. הגשר
-           רץ עכשיו לבד; הכפתור נשאר בשביל הרגע שבו כלום לא קרה. -->
+      <!-- רשימה אחת (סכמה 5): רשימת כיתה שהודבקה במבחני הכושר היא
+           הרשימה הזאת עצמה, ולכן אין יותר כפתור «קח מרשימות הכיתה». -->
       <div class="empty-state" id="stu-empty"><div class="big">👥</div>אין עדיין תלמידים.<br>
         אם כבר יש לך רשימות כיתה במבחני הכושר — הן נכנסות לכאן לבד.<br>
-        <button class="btn sm acc" id="stu-fromRoster" style="margin-top:11px">👥 קח את התלמידים מרשימות הכיתה</button>
         <div class="hint" style="margin-top:9px">או הוסף רשימה ידנית, או ייבא שמות מלוח הביפ טסט.</div></div>
     </div>
   </div>
@@ -2989,8 +2987,6 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
     <div class="field" style="margin-top:9px">
       <textarea id="ft-impPaste" rows="4" placeholder="שם משפחה	שם פרטי	כיתה	מין&#10;כהן	דנה	ט3	נ"></textarea></div>
     <div id="ft-impBody" style="margin-top:11px"></div>
-    <label class="check" style="margin-top:11px"><input type="checkbox" id="ft-impStu" checked>
-      להוסיף גם ל«התלמידים שלי» (לציונים ולמעקב)</label>
     <button class="btn acc big" id="ft-impGo" style="margin-top:12px" disabled>✓ ייבא לכיתות</button>
   </div></div>
 
@@ -3064,7 +3060,6 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
     <h3><span id="ft-rosTitle">👥 רשימת כיתה</span><button class="x" data-close="ft-rosModal">✕</button></h3>
     <div class="row" style="gap:8px">
       <button class="btn sm acc" id="ft-rosFile">📄 ייבוא מקובץ בית ספרי</button>
-      <button class="btn sm" id="ft-rosImport">📥 ייבא מ«התלמידים שלי»</button>
       <span class="hint grow" id="ft-rosCount"></span>
     </div>
     <div id="ft-rosList" style="margin-top:11px;max-height:280px;overflow:auto"></div>
@@ -4142,6 +4137,53 @@ function syncStudentsFromRosters(store,stu,rosters){
 }
 
 /* ============================================================
+   2ד. רשימה אחת — «התלמידים שלי» (סכמה 5)
+   ------------------------------------------------------------
+   שני המאגרים שלמעלה אוחדו. stu.list הוא המקור היחיד, ורשימת הכיתה
+   במבחני הכושר היא מבט עליו: כל התלמידים שזהות הכיתה שלהם (cid)
+   היא הכיתה הזאת, לפי הסדר שבו נוספו. תלמיד שנוסף בכל מסך מופיע בכל
+   המסכים, והסרה מהרשימה היא הסרה מ«התלמידים שלי».
+
+   classRoster מחזיר עותקים ({id,name,sex}) — הקורא רשאי לשנות אותם
+   ולהחזיר דרך applyRoster, שמחיל את ההבדל על stu.list: עדכון שם ומין,
+   הוספה, והסרה של מי שהיה בכיתה ואינו ברשימה. שאר השדות של התלמיד
+   (גיל, ציונים, מבחנים) לא נוגעים.
+   ============================================================ */
+function classRoster(store,stu,cid){
+  if(!isCid(cid))return [];
+  return asList(stu).filter(function(s){ return s&&typeof s==="object"&&cidOfStudent(s,store)===cid; })
+    .map(function(s){ return {id:s.id||null,name:String(s.name==null?"":s.name),sex:s.sex||null}; });
+}
+function applyRoster(store,stu,cid,label,list){
+  var out=asList(stu).slice(), byId={}, want={}, added=0, removed=0, changed=0;
+  if(!isCid(cid))return {list:out,added:0,removed:0,changed:0};
+  out.forEach(function(s){ if(s&&s.id)byId[s.id]=s; });
+  asList(list).forEach(function(e){
+    if(!e||typeof e!=="object")return;
+    var nm=String(e.name==null?"":e.name).trim(); if(!nm)return;
+    var s=(e.id&&byId[e.id])||null;
+    /* רשומה בלי מזהה — אותו שם באותה כיתה שעוד לא נתפס */
+    if(!s&&!e.id)s=out.filter(function(x){ return x&&x.id&&!want[x.id]&&cidOfStudent(x,store)===cid&&
+      String(x.name||"").trim()===nm; })[0]||null;
+    if(s){
+      if(s.name!==nm){ s.name=nm; changed++; }
+      if(Object.prototype.hasOwnProperty.call(e,"sex")&&(e.sex||null)!==(s.sex||null)){ s.sex=e.sex||null; changed++; }
+      if(cidOfStudent(s,store)!==cid){ s.cid=cid; s.cls=label||s.cls; if(s.cidAmbig)delete s.cidAmbig; changed++; }
+      if(s.id)want[s.id]=1;
+      return;
+    }
+    var rec={id:e.id||uid("s"),name:nm,cls:label||"",cid:cid,sex:e.sex||null,age:14,h:null,w:null,tests:[]};
+    out.push(rec); byId[rec.id]=rec; want[rec.id]=1; added++;
+  });
+  var kept=out.filter(function(s){
+    if(!s||typeof s!=="object"||!s.id||want[s.id])return true;
+    if(cidOfStudent(s,store)!==cid)return true;
+    removed++; return false;
+  });
+  return {list:kept,added:added,removed:removed,changed:changed};
+}
+
+/* ============================================================
    מזהה רשומה
    ------------------------------------------------------------
    Date.now() לבדו אינו ייחודי: שתי רשומות שנוצרות באותה מילישנייה
@@ -4234,7 +4276,7 @@ function attemptsOf(results,clsName,testId,stud,opts){
    • לא הרסני — רק הוספת שדות. אף רשומה לא נמחקת ואף שדה קיים
      לא נדרס. מה שלא ניתן לזהות בוודאות מסומן, לא מנוחש.
    ============================================================ */
-var SCHEMA_VERSION=4;
+var SCHEMA_VERSION=5;
 var SCHEMA_KEY="schema.version";
 
 /* --- 1 → 2: זהות תלמיד ---------------------------------- */
@@ -4404,10 +4446,91 @@ function mig_studentClassClosure(store,rep){
   if(touched)store.set("stu.list",stu);
 }
 
+/* --- 4 → 5: רשימה אחת ----------------------------------------
+   ft.roster מתקפל לתוך stu.list (ראו 2ד), ונשמר כארכיון בשם
+   ft.roster.v4 — אף קוד לא קורא אותו, אבל הוא נשאר במכשיר ובגיבויים,
+   כך ששום נתון לא אובד.
+
+   שתי החלטות שהאיחוד מחייב:
+   • מזהה: תלמיד שנמצא בשתי הרשימות עם שני מזהים שונים שומר את המזהה
+     של «התלמידים שלי» — עליו יושבים נוכחות, מחוונים, קבוצות וציונים.
+     המדידות שנרשמו במזהה של רשימת הכיתה (ft.results.sid) עוברות אליו.
+   • מין: מה שסומן ברשימת הכיתה גובר. שם הוא נקבע במפורש ולפיו נוקדו
+     המבחנים; ב«התלמידים שלי» «בן» הוא ברירת מחדל שקטה.
+
+   רשימה שאי אפשר לשייך לכיתה בוודאות (שתי כיתות באותו שם) לא נכנסת,
+   ונשמרת ב-ft.rosterUnplaced. לא מנחשים.
+
+   רצה גם מעל גרסה 5 כשהמפתח ft.roster קיים (when) — גיבוי ישן
+   ששוחזר, או מסלול ישן שכתב אותו — ומתקפלת שוב באותו אופן. */
+function rosterClassMap(store){
+  var reg=store?classes(store):{}, byKey={}, dup={};
+  Object.keys(reg).forEach(function(id){
+    var c=reg[id]; if(!c||!c.key||isGroupRec(c))return;
+    if(byKey[c.key])dup[c.key]=1; else byKey[c.key]=c;
+  });
+  return {byKey:byKey,dup:dup};
+}
+function mig_singleRoster(store,rep){
+  var rosters=store.get("ft.roster",null);
+  if(!rosters||typeof rosters!=="object"||Array.isArray(rosters))return;
+  var list=asList(store.get("stu.list",[])).slice(), byId={}, claimed={};
+  list.forEach(function(s){ if(s&&s.id)byId[s.id]=s; });
+  var map=rosterClassMap(store), remap={}, unplaced={}, nUnplaced=0, sexSet=0, added=0;
+  var put=function(key,e){ (unplaced[key]=unplaced[key]||[]).push(e); nUnplaced++; };
+  Object.keys(rosters).forEach(function(key){
+    var arr=asList(rosters[key]).filter(function(e){ return e&&typeof e==="object"&&String(e.name==null?"":e.name).trim(); });
+    if(!arr.length)return;
+    var dup=map.dup[key]||map.dup[clsKey(key)];
+    var c=dup?null:(map.byKey[key]||map.byKey[clsKey(key)]||null);
+    var cid=dup?null:(c?c.id:classId(key)), label=c?c.name:key;
+    if(!cid){ arr.forEach(function(e){ put(key,e); }); return; }
+    var hit=new Array(arr.length);
+    /* א. לפי מזהה — הזהות שכבר משותפת לשתי הרשימות */
+    arr.forEach(function(e,i){ var s=e.id&&byId[e.id]; if(s&&!claimed[s.id]){ hit[i]=s; claimed[s.id]=1; } });
+    /* ב. לפי שם באותה כיתה (או תלמיד בלי כיתה) — רק מי שעוד לא נתפס.
+       שני «דן כהן» ברשימה הם שני תלמידים, גם אם ב«התלמידים שלי» יש אחד. */
+    arr.forEach(function(e,i){
+      if(hit[i])return;
+      var nm=String(e.name).trim(), same=null, orphan=null;
+      list.forEach(function(x){
+        if(!x||!x.id||claimed[x.id]||String(x.name||"").trim()!==nm)return;
+        var xc=cidOfStudent(x,store);
+        if(xc===cid){ if(!same)same=x; } else if(!xc&&!orphan)orphan=x;
+      });
+      var s=same||orphan;
+      if(s){ hit[i]=s; claimed[s.id]=1; return; }
+      var rec={id:(e.id&&!byId[e.id])?e.id:uid("s"),name:nm,cls:label,cid:cid,sex:e.sex||null,age:14,h:null,w:null,tests:[]};
+      list.push(rec); byId[rec.id]=rec; claimed[rec.id]=1; hit[i]=rec; added++;
+    });
+    arr.forEach(function(e,i){
+      var s=hit[i]; if(!s)return;
+      if(e.id&&e.id!==s.id)remap[e.id]=s.id;
+      if(!s.cls&&!isCid(s.cid)){ s.cls=label; s.cid=cid; if(s.cidAmbig)delete s.cidAmbig; }
+      if(e.sex&&s.sex!==e.sex){ s.sex=e.sex; sexSet++; }
+    });
+  });
+  var res=store.get("ft.results",null), rk=0;
+  if(Array.isArray(res)&&Object.keys(remap).length){
+    res.forEach(function(x){ if(x&&x.sid&&remap[x.sid]){ x.sid=remap[x.sid]; rk++; } });
+    if(rk)store.set("ft.results",res);
+  }
+  store.set("stu.list",list);
+  store.set("ft.roster.v4",rosters);
+  if(nUnplaced)store.set("ft.rosterUnplaced",unplaced);
+  if(typeof store.del==="function")store.del("ft.roster"); else store.set("ft.roster",null);
+  rep.rosterAdded=(rep.rosterAdded||0)+added;
+  rep.rosterSex=(rep.rosterSex||0)+sexSet;
+  rep.resRekeyed=(rep.resRekeyed||0)+rk;
+  rep.rosterUnplaced=(rep.rosterUnplaced||0)+nUnplaced;
+}
+
 var MIGRATIONS=[
   {to:2,name:"student-identity",run:mig_studentIdentity},
   {to:3,name:"class-identity",  run:mig_classIdentity},
-  {to:4,name:"student-class-closure",run:mig_studentClassClosure}
+  {to:4,name:"student-class-closure",run:mig_studentClassClosure},
+  {to:5,name:"single-roster",run:mig_singleRoster,
+   when:function(store){ var v=store.get("ft.roster",null); return !!v&&typeof v==="object"&&!Array.isArray(v); }}
 ];
 
 /* מזהה את גרסת הנתונים שעל המכשיר. התקנה חדשה לגמרי מסומנת מיד
@@ -4435,7 +4558,7 @@ function migrate(store){
       return rep;
     }
     MIGRATIONS.forEach(function(m){
-      if(m.to<=from)return;
+      if(m.to<=from&&!(m.when&&m.when(store)))return;
       m.run(store,rep);
       rep.applied.push(m.name);
     });
@@ -5945,7 +6068,7 @@ return {
   groupId:groupId, makeGroup:makeGroup, updateGroup:updateGroup, removeGroup:removeGroup,
   groupOf:groupOf, listGroups:listGroups, realClasses:realClasses,
   expandCid:expandCid, rowInScope:rowInScope, studentsIn:studentsIn, groupSummary:groupSummary,
-  syncStudentsFromRosters:syncStudentsFromRosters,
+  syncStudentsFromRosters:syncStudentsFromRosters,classRoster:classRoster,applyRoster:applyRoster,
   mergeRoster:mergeRoster, findStudent:findStudent,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
@@ -15624,21 +15747,20 @@ function paintLastLesson(){
 let grpEdit=null;   /* מזהה הקבוצה שנערכת, או null ליצירה */
 
 /* ============================================================
-   הגשר: רשימות הכיתה → «התלמידים שלי»
+   רשימה אחת — מה שנשאר מהגשר
    ------------------------------------------------------------
-   מורה שהדביק רשימה לכל כיתה בנפרד ראה «התלמידים שלי» ריק וקבוצות
-   הוראה שמדווחות «0 תלמידים». הנתונים היו שם כל הזמן, במאגר השני.
-
-   הגשר רץ בעלייה ולפני כל מסך שקורא את הרשימה, וכותב רק כשבאמת
-   נוסף מישהו — כך שמורה שכבר מסונכרן לא משלם על זה כתיבה בכל
-   ניווט. ההחלטה מי נוסף ומה לא נדרס יושבת ב-hm-data, ונבדקת שם.
+   מאז סכמה 5 רשימות הכיתה הן «התלמידים שלי» (DATA.classRoster), ואין
+   מה לגשר. אם בכל זאת הופיע ft.roster — גיבוי ישן ששוחזר, או מכשיר
+   שעוד לא עבר את ההסבה — מקפלים אותו מיד באותה הסבה (4→5), לפני
+   שמסך כלשהו קורא את הרשימה. בכל מקרה אחר זו קריאה אחת בלי כתיבה.
    ============================================================ */
 function syncStudents(){
   try{
-    const r=DATA.syncStudentsFromRosters(REGSTORE,LS.get("stu.list",[]),LS.get("ft.roster",{}));
-    if(r.added||r.filled)LS.set("stu.list",r.list);
-    return r;
-  }catch(e){ return {list:[],added:0,filled:0,classes:0}; }
+    const v=LS.get("ft.roster",null);
+    if(!v||typeof v!=="object"||Array.isArray(v))return {added:0,filled:0,classes:0};
+    const rep=runMigration();
+    return {added:(rep&&rep.rosterAdded)||0,filled:(rep&&rep.rosterSex)||0,classes:0};
+  }catch(e){ return {added:0,filled:0,classes:0}; }
 }
 function grpStudents(){ syncStudents(); const v=LS.get("stu.list",[]); return Array.isArray(v)?v:[]; }
 function grpName(cid){
@@ -16165,7 +16287,7 @@ const RATING_LABEL={"1":"👍 עבד מצוין","0":"😐 בינוני","-1":"�
    של המצב הנוכחי לפני הדריסה.
    ============================================================ */
 const BK_PREFIX=BRAND.ns;
-const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה","ft.norms":"טבלת נורמה",
+const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
   "rec.pass":"קוד המורה","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
@@ -24517,21 +24639,20 @@ window.FT=(function(){
   /* ---------- אחסון ---------- */
   const allRes =()=>LS().get("ft.results",[]);
   const setRes =r=>LS().set("ft.results",r);
-  const rosters=()=>LS().get("ft.roster",{});
-  const setRosters=r=>LS().set("ft.roster",r);
-
-  /* רשימת הכיתה: מה שהמודול מכיר, ואם ריק — מייבא מ«התלמידים שלי» */
+  /* רשימת הכיתה היא «התלמידים שלי» (סכמה 5, ראו DATA.classRoster):
+     מבט על stu.list לפי זהות הכיתה. roster() מחזיר עותקים, ו-setRoster()
+     מחיל את ההבדל — הוספה, שם, מין והסרה — על הרשימה האחת. */
   function roster(c){
-    const all=rosters(), k=clsKey(c);
-    if(Array.isArray(all[k]))return all[k];
-    return [];
+    return DATA.classRoster(clsStore,LS().get("stu.list",[]),cidOf(c));
   }
   function setRoster(c,list){
-    const all=rosters(); all[clsKey(c)]=list; setRosters(all);
     /* כיתה נכנסת לרישום ברגע שיש לה רשימה — זאת הנקודה היחידה שבה
        כיתה «נוצרת» בפועל. registerClass לא כותב אם היא כבר רשומה,
        ולכן זה לא מייקר שמירה חוזרת. */
     registerCls(c);
+    const r=DATA.applyRoster(clsStore,LS().get("stu.list",[]),cidOf(c),disp(c),list);
+    if(r.added||r.removed||r.changed)LS().set("stu.list",r.list);
+    return r;
   }
   /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. */
   const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
@@ -24549,14 +24670,6 @@ window.FT=(function(){
   /* מייבא מ«התלמידים שלי» את תלמידי הכיתה — לפי זהות הכיתה (cid), ולא
      לפי שם; והמיזוג לרשימה לפי מזהה תלמיד, כך ששני «דן כהן» עם שני
      sid נשארים שניים (ראו DATA.mergeRoster). */
-  function importFromStu(c){
-    const stu=LS().get("stu.list",[]);
-    const cid=cidOf(c);
-    const hits=stu.filter(s=>s&&cid&&DATA.cidOfStudent(s,clsStore)===cid);
-    if(!hits.length)return 0;
-    const m=DATA.mergeRoster(roster(c),hits);
-    setRoster(c,m.list); return m.added;
-  }
 
   /* ============================================================
      זהות תלמיד
@@ -25494,12 +25607,6 @@ window.FT=(function(){
     renderRosterList();
     H().modal("ft-rosModal");
     $("#ft-rosFile").onclick=()=>{ H().modal("ft-rosModal",false); openImport(); };
-    $("#ft-rosImport").onclick=()=>{
-      const n=importFromStu(c);
-      if(n)H().toast("יובאו "+n+" תלמידים מ«התלמידים שלי»");
-      else H().toast("לא נמצאו תלמידים עם הכיתה «"+disp(c)+"» ב«התלמידים שלי»");
-      renderRosterList();
-    };
     $("#ft-rosPaste").onclick=()=>{
       const txt=$("#ft-rosBulk").value;
       const lines=txt.split(/\r?\n/).map(l=>l.split(",")[0].trim()).filter(Boolean);
@@ -25521,13 +25628,15 @@ window.FT=(function(){
          <button data-sx="girls" data-n="${esc(k)}" class="${s.sex==="girls"?"on":""}">בת</button>
        </div>
        <button class="btn sm stop" data-rd="${esc(k)}">✕</button></div>`;}).join("")
-      : '<div class="hint">הרשימה ריקה. ייבא מ«התלמידים שלי», או הדבק שמות למטה.</div>';
+      : '<div class="hint">הרשימה ריקה. הדבק שמות למטה, או ייבא קובץ מהמערכת הבית ספרית.</div>';
     $("#ft-rosCount").textContent=list.length?list.length+" תלמידים":"";
     $$("#ft-rosList [data-rd]").forEach(b=>b.addEventListener("click",()=>{
-      /* המחיקה מסירה את התלמיד מהרשימה בלבד. המדידות שלו נשארות
-         בקובץ עם המזהה שלהן — מורה שמסיר תלמיד בטעות ומחזיר אותו
-         מקבל בחזרה את כל ההיסטוריה. */
+      /* רשימה אחת: הסרה מהכיתה היא הסרה מ«התלמידים שלי». המדידות
+         נשארות בקובץ עם המזהה שלהן, ו«↩ בטל» מחזיר את התלמיד כמו
+         שהיה — עם הציונים, הנוכחות וכל ההיסטוריה. */
+      const back=H().snap(["stu.list"]);
       setRoster(c,roster(c).filter(x=>refKey(x)!==b.dataset.rd)); renderRosterList();
+      H().undo("הוסר מהרשימה",()=>{ back(); renderRosterList(); renderTab(); });
     }));
     /* המין דרוש לניקוד — נורמות כושר נפרדות לבנים ולבנות */
     $$("#ft-rosList [data-sx]").forEach(b=>b.addEventListener("click",()=>{
@@ -25791,42 +25900,29 @@ window.FT=(function(){
   function impApply(){
     const built=impBuild().filter(x=>x.ok);
     if(!built.length){H().toast("אין שורות לייבוא");return;}
-    const alsoStu=H().$("#ft-impStu").checked;
-    const all=rosters(); let added=0,updated=0;
-    /* מזהה אחד לכל תלמיד שנוצר בייבוא הזה.
-       עד עכשיו אותו ילד נכנס פעמיים — פעם לרשימת הכיתה עם מזהה
-       «f…» ופעם ל«התלמידים שלי» עם מזהה «s…» — וכך נוצרו שתי
-       זהויות לאדם אחד כבר ברגע הייבוא. */
+    let added=0,updated=0;
+    /* מזהה אחד לכל תלמיד שנוצר בייבוא הזה — שם + כיתה, כך ששורה כפולה
+       בקובץ לא יוצרת שני תלמידים. */
     const newId={};
     const idFor=x=>{
       const k=clsKey(x.cls)+"|"+x.name;
       return (newId[k]=newId[k]||DATA.uid("f"));
     };
-    built.forEach(x=>{
-      const k=clsKey(x.cls);
-      const list=Array.isArray(all[k])?all[k]:(all[k]=[]);
-      const ex=list.find(y=>y.name===x.name);
-      if(ex){ if(x.sex&&ex.sex!==x.sex){ex.sex=x.sex;updated++;} newId[k+"|"+x.name]=ex.id; }
-      else { list.push({id:idFor(x),name:x.name,sex:x.sex||null}); added++; }
-      registerCls(x.cls);
-    });
-    setRosters(all);
-    let stuAdded=0;
-    if(alsoStu){
-      const stu=LS().get("stu.list",[]);
-      built.forEach(x=>{
-        /* התאמה לפי שם + זהות כיתה. «דן כהן» מט׳3 ו«דן כהן» מי׳1 הם
-           שני תלמידים; תלמיד באותו שם בלי כיתה מאמץ את הכיתה. */
-        const xc=cidOf(x.cls);
-        let s=DATA.findStudent(stu,x.name,xc,clsStore);
-        if(!s){ stu.push({id:idFor(x),name:x.name,cls:x.cls,cid:xc,
-          sex:x.sex||"boys",age:14,h:null,w:null,tests:[]}); stuAdded++; }
-        else { if(!s.cls){s.cls=x.cls; s.cid=xc; if(s.cidAmbig)delete s.cidAmbig;} if(x.sex)s.sex=x.sex; }
+    /* כיתה אחרי כיתה, דרך אותה רשימה אחת */
+    const byCls={};
+    built.forEach(x=>{ (byCls[x.cls]=byCls[x.cls]||[]).push(x); });
+    Object.keys(byCls).forEach(c0=>{
+      registerCls(c0);
+      const list=roster(c0);
+      byCls[c0].forEach(x=>{
+        const ex=list.find(y=>y.name===x.name);
+        if(ex){ if(x.sex&&ex.sex!==x.sex){ex.sex=x.sex;updated++;} }
+        else { list.push({id:idFor(x),name:x.name,sex:x.sex||null}); added++; }
       });
-      LS().set("stu.list",stu);
-    }
+      setRoster(c0,list);
+    });
     H().modal("ft-impModal",false);
-    H().toast(`✓ ${added} תלמידים חדשים · ${updated} עודכן מין`+(alsoStu?` · ${stuAdded} נוספו ל«התלמידים שלי»`:""));
+    H().toast(`✓ ${added} תלמידים חדשים · ${updated} עודכן מין`);
     renderTab();
   }
 
@@ -26801,7 +26897,6 @@ window.FT=(function(){
       $$("#cp-nums button").forEach(b=>b.classList.toggle("on",+b.dataset.n===num));
       const c=clsName(g,num);
       let list=roster(c);
-      if(!list.length){ importFromStu(c); list=roster(c); }
       sel=new Set(list.map(x=>x.name));
       if(o.max&&list.length>o.max) sel=new Set(list.slice(0,o.max).map(x=>x.name));
       host("cp-list").innerHTML=list.length
@@ -27918,13 +28013,12 @@ window.HMBootNew=function(){
     return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
   }
   function seedDemo(){
-    const cls="ט׳3", key="ט3", cid=window.HMDATA.classId(cls);
+    const cls="ט׳3", cid=window.HMDATA.classId(cls);
     /* כיתת ההדגמה נרשמת כמו כל כיתה אחרת — כדי שההדגמה תדגים את
        המודל האמיתי: מזהה על התלמיד, על המדידה וברישום. */
     try{ window.HMDATA.registerClass({get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},cls); }catch(e){}
     const kids=[["דן אבירם","boys"],["איתי כהן","boys"],["רון לוי","boys"],["עומר בר","boys"],
                 ["יהב שני","boys"],["ניר גל","boys"],["אלון מור","boys"],["גיא פרץ","boys"]];
-    LS.set("ft.roster",{[key]:kids.map((k,i)=>({id:"demo"+i,name:k[0],sex:k[1]}))});
     LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1]})));
     LS.set("ft.last",{grade:"ט",num:3,sort:"todo"});
     const day=n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
@@ -28026,16 +28120,6 @@ window.HMBootNew=function(){
   $("#hx-date").textContent=new Date().toLocaleDateString(H_LOC(),{weekday:"long",day:"numeric",month:"long"});
   /* save-beep-to-tracking button */
   const fb=$("#stu-fromBeep"); if(fb)fb.addEventListener("click",window.STU.importFromBeep);
-  /* הגשר מרשימות הכיתה — רץ לבד בכל כניסה למסך, והכפתור הוא הדרך
-     לבקש אותו במפורש ולראות מה קרה. */
-  const fr=$("#stu-fromRoster");
-  if(fr)fr.addEventListener("click",()=>{
-    const r=H().syncStudents?H().syncStudents():{added:0,filled:0,classes:0};
-    H().toast(r.added?("✓ נוספו "+r.added+" תלמידים מ-"+r.classes+" כיתות")
-      :(r.filled?"✓ הושלמו פרטים לתלמידים שכבר היו כאן"
-        :"אין רשימות כיתה להביא מהן — העלה רשימה במבחני הכושר"));
-    if(window.STU&&window.STU.init)try{window.STU.init()}catch(e){}
-  });
   /* students count on home band */
   const sc=$("#qsStu"); if(sc)sc.textContent=window.STU.count();
 };

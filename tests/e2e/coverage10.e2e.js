@@ -115,7 +115,7 @@ module.exports={title:"שלב 10 — מה חסר לכיתה",tests:[
     await page.waitForTimeout(500);
     const st=await page.evaluate(()=>({
       reg:window.HM.LS.get("ft.classes",{}), stu:window.HM.LS.get("stu.list",[]).length,
-      roster:Object.keys(window.HM.LS.get("ft.roster",{}))}));
+      roster:Object.keys(window.HM.LS.get("ft.roster.v4",{}))}));
     eq(Object.keys(st.reg),[X],"אותו מזהה, אין כיתה שנייה");
     eq(st.reg[X].name,"ח׳1 מצטיינים");
     eq(st.roster,["ח1"],"מפתח הרשימה לא זז");

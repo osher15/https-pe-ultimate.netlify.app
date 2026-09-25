@@ -74,7 +74,7 @@ module.exports={title:"שלב 9 — שם מהרישום ושינוי שם",tests
     const st=await page.evaluate(()=>({
       reg:window.HM.LS.get("ft.classes",{}), stu:window.HM.LS.get("stu.list",[]),
       res:window.HM.LS.get("ft.results",[]), ses:window.HM.session.active(),
-      att:Object.keys(window.HM.LS.get("tools.att",{})), roster:Object.keys(window.HM.LS.get("ft.roster",{}))}));
+      att:Object.keys(window.HM.LS.get("tools.att",{})), roster:Object.keys(window.HM.LS.get("ft.roster.v4",{}))}));
     eq(Object.keys(st.reg),[X],"אותו מזהה, אין כיתה שנייה");
     eq(st.reg[X].name,"ח׳1 מצטיינים");
     eq(st.stu.map(s=>s.cid),[X,undefined],"אליס — אותו cid; בוב לא נכתב מחדש");
@@ -139,7 +139,7 @@ module.exports={title:"שלב 9 — שם מהרישום ושינוי שם",tests
     await page.evaluate(()=>document.getElementById("ft-rosFile").click()); await page.waitForTimeout(300);
     await page.evaluate(()=>{ const t=document.getElementById("ft-impPaste"); t.value="שם,כיתה\nאליס כהן,ח׳1\nדנה גל,ח1"; t.dispatchEvent(new Event("input")); });
     await page.waitForTimeout(300);
-    await page.evaluate(()=>{ document.getElementById("ft-impStu").checked=true; document.getElementById("ft-impGo").click(); });
+    await page.evaluate(()=>{ document.getElementById("ft-impGo").click(); });
     await page.waitForTimeout(500);
     const stu=await page.evaluate(()=>window.HM.LS.get("stu.list",[]));
     eq(stu.filter(s=>s.name==="אליס כהן").length,1,"אליס לא שוכפלה");
@@ -197,7 +197,8 @@ module.exports={title:"שלב 9 — שם מהרישום ושינוי שם",tests
 
   /* ---------- זהות תלמיד בקליטה ---------- */
   check("קליטה מביפ: שני תלמידים באותו שם ברשימה — לא מנחשים, המדידה מסומנת להכרעה",seed({
-    "ft.roster":{"ח1":[{id:"a",name:"דן כהן",sex:"boys"},{id:"a2",name:"דן כהן",sex:"boys"},{id:"b",name:"בוב לוי",sex:"boys"}]},
+    /* מזהים שאינם מתנגשים עם אליס (a) — ברשימה אחת מזהה הוא אדם אחד */
+    "ft.roster":{"ח1":[{id:"d1",name:"דן כהן",sex:"boys"},{id:"d2",name:"דן כהן",sex:"boys"},{id:"b",name:"בוב לוי",sex:"boys"}]},
     "ft.results":[]
   }),async page=>{
     const r=await page.evaluate(()=>window.FT.ingest("ח׳1","beep",[{name:"דן כהן",val:900},{name:"בוב לוי",val:800}],"ביפ טסט"));

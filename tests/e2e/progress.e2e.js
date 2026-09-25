@@ -103,11 +103,10 @@ module.exports={title:"מדידה, הערכה והתקדמות",tests:[
   }),
 
   check("ההיסטוריה שורדת מעבר כיתה",seeded,async page=>{
-    /* התלמיד עובר לי׳1: נוסף לרשימה החדשה עם אותו מזהה */
+    /* התלמיד עובר לי׳1: אותו תלמיד, אותו מזהה, כיתה אחרת */
     await page.evaluate(()=>{
-      const all=window.HM.LS.get("ft.roster",{});
-      all["י1"]=[{id:"a",name:"דן אבירם",sex:"boys"}];
-      window.HM.LS.set("ft.roster",all);
+      const l=window.HM.LS.get("stu.list",[]), s=l.find(x=>x.id==="a");
+      s.cid="c:י:1"; s.cls="י׳1"; window.HM.LS.set("stu.list",l);
       const res=window.HM.LS.get("ft.results",[]);
       res.push({id:"r4",test:"r60",sid:"a",cls:"י׳1",cid:"c:י:1",d:"2027-01-01",
         ts:4,val:5.30,unit:"שנ׳",gradeKey:"י",sex:"boys"});
@@ -122,9 +121,10 @@ module.exports={title:"מדידה, הערכה והתקדמות",tests:[
 
   check("ההיסטוריה שורדת שינוי שם של התלמיד",seeded,async page=>{
     await page.evaluate(()=>{
-      const all=window.HM.LS.get("ft.roster",{});
-      all["ט3"][0].name="דן אבירם-לוי";
-      window.HM.LS.set("ft.roster",all);
+      /* רשימה אחת: שינוי שם ברשימת הכיתה הוא שינוי שם ב«התלמידים שלי» */
+      const id=window.FT.roster("ט׳3")[0].id, l=window.HM.LS.get("stu.list",[]);
+      l.find(s=>s.id===id).name="דן אבירם-לוי";
+      window.HM.LS.set("stu.list",l);
     });
     const p=await page.evaluate(()=>window.FT.progress.progress(window.FT.roster("ט׳3")[0],"r60"));
     eq(p.count,3,"המזהה קובע, לא השם");
