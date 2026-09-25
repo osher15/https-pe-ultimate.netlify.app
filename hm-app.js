@@ -205,6 +205,15 @@ function ask(o){
         x.value=Array.isArray(op)?op[0]:op; x.textContent=Array.isArray(op)?op[1]:op; el.appendChild(x); });
     }else if(f.type==="textarea"){
       el=document.createElement("textarea"); el.rows=f.rows||5;
+    }else if(f.type==="checks"){
+      /* כמה בחירות — הערך הוא מערך הערכים המסומנים */
+      el=document.createElement("div"); el.className="ask-checks";
+      (f.options||[]).forEach(op=>{ const lb=document.createElement("label"), cb=document.createElement("input");
+        cb.type="checkbox"; cb.value=Array.isArray(op)?op[0]:op;
+        if(Array.isArray(f.value)&&f.value.indexOf(cb.value)>=0)cb.checked=true;
+        const sp=document.createElement("span"); sp.textContent=Array.isArray(op)?op[1]:op;
+        lb.appendChild(cb); lb.appendChild(sp); el.appendChild(lb); });
+      Object.defineProperty(el,"value",{get:()=>[...el.querySelectorAll("input:checked")].map(x=>x.value),set:()=>{}});
     }else{
       el=document.createElement("input"); el.type=f.type||"text";
       if(f.type==="number"){ el.inputMode="decimal"; el.step=f.step||"any"; }
@@ -1383,6 +1392,40 @@ function grpSave(){
 function openGroups(){
   grpReset(); renderGrpList();
   modal("grpModal",true);
+}
+/* ============================================================
+   חיבור כיתות — «ט׳1+ט׳4» בהקשה אחת
+   ------------------------------------------------------------
+   מנהל הקבוצות המלא (שם, כיתות ותלמידים בודדים) נמצא בהגדרות. מורה
+   שמלמד שתי כיתות יחד צריך רק את המקרה הנפוץ, ובמקום שבו הוא בוחר
+   כיתה: מסמנים כיתות, והקבוצה נוצרת בשם שמורכב מהן. אותן כיתות
+   בדיוק שכבר חוברו — מחזירים את הקבוצה הקיימת ולא יוצרים שנייה.
+   מחזיר Promise עם מזהה הקבוצה, או null.
+   ============================================================ */
+async function joinClasses(pre){
+  const reg=DATA.realClasses(REGSTORE);
+  /* גם כיתה שעוד לא נרשמה אבל יש בה תלמידים — אחרת מורה שהזין רק
+     תלמידים לא יראה כאן אף כיתה */
+  grpStudents().forEach(s=>{ const c=DATA.cidOfStudent(s,REGSTORE);
+    if(c&&!reg[c]&&!DATA.isGroupId(c))reg[c]={id:c,name:DATA.classLabel(REGSTORE,c)||s.cls||c}; });
+  const cids=Object.keys(reg).sort((a,b)=>String(reg[a].name||"").localeCompare(String(reg[b].name||""),"he"));
+  if(cids.length<2){ toast(t("grp.need2","צריך לפחות שתי כיתות עם תלמידים כדי לחבר")); return null; }
+  const v=await ask({title:t("grp.joinT","🔗 חיבור כיתות"),
+    msg:t("grp.joinM","סמן את הכיתות שלומדות יחד. כל מבחן, ציון ונוכחות יוזנו פעם אחת לכולן — וכל תוצאה נשמרת בכיתה של התלמיד."),
+    fields:[{k:"m",type:"checks",options:cids.map(c=>[c,reg[c].name||c]),value:pre||[]}],
+    ok:t("grp.joinOk","חבר")});
+  if(!v)return null;
+  const members=Array.isArray(v)?v:[];
+  if(members.length<2){ toast(t("grp.pick2","סמן לפחות שתי כיתות")); return null; }
+  const key=members.slice().sort().join(",");
+  const same=DATA.listGroups(REGSTORE).find(g=>!(g.sids||[]).length&&(g.members||[]).slice().sort().join(",")===key);
+  if(same){ toast(t("grp.exists","הכיתות האלה כבר מחוברות")+" · "+same.name); return same.id; }
+  const nm=members.map(c=>reg[c].name||c).join("+");
+  const r=DATA.makeGroup(REGSTORE,{name:nm,members});
+  if(!r.ok){ toast(GRP_ERR[r.outcome]||"לא נשמר"); return null; }
+  try{ paintGroupSelect(); paintHome(); }catch(e){}
+  toast("✓ "+nm);
+  return r.group.id;
 }
 function wireGroups(){
   const s=$("#grp-save"); if(s)s.addEventListener("click",grpSave);
@@ -5420,7 +5463,7 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,ask
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
   session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,assign:ASSIGN,prepFor,classOverviewHtml,wireClassOverview,classTitle,startFromSlot,sesName,areaOf,goBack,regStore:REGSTORE,
   upOffer,pageBuild,forceUpdate,openSettings:sec=>SETTINGS_OPEN(sec),clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
-  schedSample:loadSampleWeek,schedCell:openCell,openGroups,
+  schedSample:loadSampleWeek,schedCell:openCell,openGroups,joinClasses,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
      שכישלון שקט בו עולה למורה שנה של מדידות, ולכן הוא חייב להיות
      ניתן להרצה ולהשוואה מבחוץ ולא רק דרך לחיצה על כפתור. */

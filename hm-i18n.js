@@ -38,6 +38,15 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "grp.need2":"You need at least two classes with students to combine",
+  "grp.joinT":"🔗 Combine classes",
+  "grp.joinM":"Tick the classes that learn together. Every test, grade and attendance is entered once for all of them, and each result is saved to the student's own class.",
+  "grp.joinOk":"Combine",
+  "grp.pick2":"Tick at least two classes",
+  "grp.exists":"These classes are already combined",
+  "grp.joinBtn":"Combine classes",
+  "ft.grpLbl":"Classes that learn together",
+  /* ux-redesign */
   "ask.ok":"OK",
   "ask.cancel":"Cancel",
   "ask.type":"Type «{0}» to confirm",
@@ -479,6 +488,15 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "grp.need2":"تحتاج إلى صفّين على الأقل فيهما طلاب لدمجهما",
+  "grp.joinT":"🔗 دمج صفوف",
+  "grp.joinM":"حدّد الصفوف التي تتعلّم معًا. كل اختبار وعلامة وحضور يُدخَل مرة واحدة للجميع، وتُحفظ كل نتيجة في صف الطالب نفسه.",
+  "grp.joinOk":"دمج",
+  "grp.pick2":"حدّد صفّين على الأقل",
+  "grp.exists":"هذه الصفوف مدموجة بالفعل",
+  "grp.joinBtn":"دمج صفوف",
+  "ft.grpLbl":"صفوف تتعلّم معًا",
   /* ux-redesign */
   "ask.ok":"موافق",
   "ask.cancel":"إلغاء",
@@ -926,6 +944,15 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "grp.need2":"Чтобы объединить, нужны хотя бы два класса с учениками",
+  "grp.joinT":"🔗 Объединить классы",
+  "grp.joinM":"Отметьте классы, которые занимаются вместе. Каждый тест, оценка и посещаемость вводятся один раз для всех, а каждый результат сохраняется в классе самого ученика.",
+  "grp.joinOk":"Объединить",
+  "grp.pick2":"Отметьте хотя бы два класса",
+  "grp.exists":"Эти классы уже объединены",
+  "grp.joinBtn":"Объединить классы",
+  "ft.grpLbl":"Классы, которые занимаются вместе",
+  /* ux-redesign */
   "ask.ok":"OK",
   "ask.cancel":"Отмена",
   "ask.type":"Введите «{0}» для подтверждения",
@@ -1364,6 +1391,15 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "grp.need2":"Necesitas al menos dos clases con alumnos para unirlas",
+  "grp.joinT":"🔗 Unir clases",
+  "grp.joinM":"Marca las clases que tienen clase juntas. Cada prueba, nota y asistencia se introduce una sola vez para todas, y cada resultado se guarda en la clase propia del alumno.",
+  "grp.joinOk":"Unir",
+  "grp.pick2":"Marca al menos dos clases",
+  "grp.exists":"Estas clases ya están unidas",
+  "grp.joinBtn":"Unir clases",
+  "ft.grpLbl":"Clases que tienen clase juntas",
   /* ux-redesign */
   "ask.ok":"Aceptar",
   "ask.cancel":"Cancelar",

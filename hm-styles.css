@@ -1828,3 +1828,5 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
 #rec-admTabs{flex-wrap:wrap;overflow:visible}
 #rec-admTabs .pill[hidden]{display:none}
 #rec-admTabs .pill{margin-inline-start:4px;padding:1px 7px;font-size:11px}
+.ask-checks{display:flex;flex-wrap:wrap;gap:8px}.ask-checks label{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-weight:600}.ask-checks label:has(input:checked){border-color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent)}
+#ft-groups button,#cp-groups button{flex:0 1 auto;padding-inline:12px}#ft-groups button.ghost,#cp-groups button.ghost{border-style:dashed}.ft-row .nm .ccls,.cp-item .ccls{display:inline-block;margin-inline-start:6px;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--panel2);color:var(--muted);font-weight:600;vertical-align:middle}
