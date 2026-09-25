@@ -61,11 +61,11 @@ module.exports={title:"מה קורה עכשיו",tests:[
     async page=>{
     await page.evaluate(()=>document.querySelector("#hx-todayList [data-slot]").click());
     await page.waitForTimeout(400);
-    const home=await page.evaluate(()=>{
-      const b=document.getElementById("lsBar").getBoundingClientRect();
-      return {top:Math.round(b.top),seen:b.top<window.innerHeight&&b.bottom>0};
-    });
-    ok(home.seen,"בבית — top="+home.top);
+    /* התחלה מהבית מביאה למצב שיעור — שם המסך כולו הוא השיעור, והפס
+       מוסתר בכוונה. בכל מודול אחר הוא נשאר בראש. */
+    const live=await page.evaluate(()=>({mod:document.body.dataset.mod,
+      disp:getComputedStyle(document.getElementById("lsBar")).display}));
+    eq(live,{mod:"live",disp:"none"},"במצב שיעור הפס לא משוכפל");
     await page.evaluate(()=>window.HM.go("ft"));
     await page.waitForTimeout(600);
     const ft=await page.evaluate(()=>{

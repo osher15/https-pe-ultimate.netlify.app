@@ -199,14 +199,14 @@ module.exports={title:"מעטפת: חמישה אזורים, חזרה אמיתי�
     eq(await mod(page),"live");
   }),
 
-  check("«סיים שיעור» — דירוג, סיום, וחזרה להיום",withClass,async page=>{
+  check("«סיים שיעור» — דירוג, סיום, ומעבר למרכז הכיתה (ההמלצה לשיעור הבא)",withClass,async page=>{
     await startLive(page);
     await page.click("#lv-end"); await page.waitForTimeout(300);
     await page.click('#end-rate button[data-r="1"]');
     await page.click("#end-go"); await page.waitForTimeout(500);
     const r=await page.evaluate(()=>({act:!!window.HM.session.active(),mod:document.body.dataset.mod,
       last:window.HM.session.list()[0].rating,nav:document.getElementById("navLive").classList.contains("act")}));
-    eq(r,{act:false,mod:"home",last:1,nav:false});
+    eq(r,{act:false,mod:"cls",last:1,nav:false});
   }),
 
   check("מערך שעל המסך מצטרף לשיעור: שלב, זמן ומעבר לשלב הבא",withClass,async page=>{
