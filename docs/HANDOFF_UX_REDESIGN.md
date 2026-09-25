@@ -162,5 +162,5 @@ NODE_PATH=/opt/node22/lib/node_modules node tests/e2e/some.js field20 hub18   # 
 
 ## 8. מה נשאר
 
-1. ~~תרגום חוזר~~ — בוצע, ראו `docs/BACKTRANSLATION.md`. נשאר: ניקוי ~130 מפתחות DICT שנראים מתים (§5 שם).
+1. ~~תרגום חוזר~~ — בוצע, ראו `docs/BACKTRANSLATION.md`. ~~ניקוי מפתחות מתים~~ — 123 מפתחות הוסרו, ובדיקה שומרת שלא יצטברו שוב.
 2. עריכת שפת־אם לתרגומים לפני פרסום.
