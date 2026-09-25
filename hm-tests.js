@@ -517,7 +517,7 @@ window.FT=(function(){
     wireStartLesson();
     /* שינוי שם — דרך הרישום, בהגדרות. הכיתה נרשמת קודם כדי שיהיה מה לשנות. */
     const rb=$("#ft-clsRename");
-    if(rb){ rb.hidden=G;
+    if(rb){ rb.hidden=G; rb.style.display=G?"none":"";
       rb.onclick=()=>{ registerCls(c); if(H().openClassRename)H().openClassRename(cidOf(c)); }; }
     $$("#ft-grades [data-g]").forEach(b=>b.addEventListener("click",()=>{st.grade=b.dataset.g;st.gid=null;persist();renderPicker();}));
     $$("#ft-nums [data-n]").forEach(b=>b.addEventListener("click",()=>{st.num=+b.dataset.n;st.gid=null;persist();renderPicker();}));
@@ -575,7 +575,7 @@ window.FT=(function(){
       <div class="ft-rh">
         <button class="btn sm ghost" id="ft-back">→ חזרה</button>
         <div class="grow"><b>${T.em} ${esc(T.name)}</b>
-          <div class="sb">כיתה ${esc(disp(c))} · ${done.length}/${rst.length} נמדדו${
+          <div class="sb">${isG(c)?"👥":"כיתה"} ${esc(disp(c))} · ${done.length}/${rst.length} נמדדו${
             avg!=null?` · ממוצע ${fmtVal(T,avg)} ${esc(T.unit)}`:""}${
             best!=null?` · הטוב ${fmtVal(T,best)}`:""}</div></div>
       </div>
@@ -758,7 +758,7 @@ window.FT=(function(){
     const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
     const best=vals.length?(T.dir==="low"?Math.min(...vals):Math.max(...vals)):null;
     const sb=$("#ft-runHead").querySelector(".sb");
-    if(sb)sb.textContent=`כיתה ${disp(c)} · ${vals.length}/${rst.length} נמדדו`
+    if(sb)sb.textContent=`${isG(c)?"👥":"כיתה"} ${disp(c)} · ${vals.length}/${rst.length} נמדדו`
       +(avg!=null?` · ממוצע ${fmtVal(T,avg)} ${T.unit}`:"")
       +(best!=null?` · הטוב ${fmtVal(T,best)}`:"");
   }
@@ -1877,7 +1877,7 @@ window.FT=(function(){
     }).filter(Boolean).join("");
     const gapBlock=gaps?'<h2>מי עוד לא נמדד</h2><table><thead><tr><th style="width:24%">מבחן</th><th style="width:8%">חסרים</th><th>תלמידים</th></tr></thead><tbody>'+gaps+'</tbody></table>':"";
     rptOpen("דוח כיתה — "+c,
-      rptHead("דוח כושר כיתתי","כיתה "+disp(c)+" · "+(scoreMode()==="norm"?"ניקוד לפי טבלת נורמה":"ניקוד יחסי לשכבה"))+
+      rptHead("דוח כושר כיתתי",(isG(c)?"👥 ":"כיתה ")+disp(c)+" · "+(scoreMode()==="norm"?"ניקוד לפי טבלת נורמה":"ניקוד יחסי לשכבה"))+
       kpi+'<h2>ציוני יכולת</h2><table><thead>'+head+'</thead><tbody>'+body+'</tbody></table>'+gapBlock+
       '<div class="note">כל ציון מחושב מהתוצאה הטובה ביותר של התלמיד באותו מבחן. '+
       'הדוח משקף יכולת גופנית בלבד — הציון בתעודה מורכב גם מהשתתפות, שיפור והתמדה, ואינו זהה למדד הזה. '+

@@ -1420,7 +1420,7 @@ async function joinClasses(pre){
   const key=members.slice().sort().join(",");
   const same=DATA.listGroups(REGSTORE).find(g=>!(g.sids||[]).length&&(g.members||[]).slice().sort().join(",")===key);
   if(same){ toast(t("grp.exists","הכיתות האלה כבר מחוברות")+" · "+same.name); return same.id; }
-  const nm=members.map(c=>reg[c].name||c).join("+");
+  const nm=members.map(c=>reg[c].name||c).join(" + ");
   const r=DATA.makeGroup(REGSTORE,{name:nm,members});
   if(!r.ok){ toast(GRP_ERR[r.outcome]||"לא נשמר"); return null; }
   try{ paintGroupSelect(); paintHome(); }catch(e){}

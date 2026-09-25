@@ -64,13 +64,13 @@ module.exports={title:"כיתות שלומדות יחד",tests:[
     await joinViaUi(page,"#ft-groups",["c:ט:1","c:ט:4"]);
     const g=await groups(page);
     eq(g.length,1,"נוצרה קבוצה אחת");
-    eq(g[0].name,"ט׳1+ט׳4");
+    eq(g[0].name,"ט׳1 + ט׳4");
     eq(g[0].members.slice().sort(),["c:ט:1","c:ט:4"]);
     const r=await page.evaluate(()=>({name:document.getElementById("ft-clsName").textContent,
       on:(document.querySelector("#ft-groups .on")||{}).textContent||"",
       grades:document.querySelectorAll("#ft-grades .on").length}));
-    ok(/ט׳1\+ט׳4/.test(r.name),"הבורר עבר לקבוצה: "+r.name);
-    ok(/ט׳1\+ט׳4/.test(r.on),"והשבב שלה מסומן");
+    ok(/ט׳1 \+ ט׳4/.test(r.name),"הבורר עבר לקבוצה: "+r.name);
+    ok(/ט׳1 \+ ט׳4/.test(r.on),"והשבב שלה מסומן");
     eq(r.grades,0,"שכבה בודדת כבר לא מסומנת");
   }),
 
