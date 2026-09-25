@@ -814,6 +814,81 @@ const SCHED={
 };
 
 /* ============================================================
+   שיוך מערך לשיעור
+   ------------------------------------------------------------
+   מערך שהוכן בנחת, מראש, משויך לשיעור מסוים — כיתה ותאריך — ומאז
+   הוא מופיע ב«היום» ונפתח לבד כשהשיעור מתחיל. בלי השיוך המערך חי
+   רק בזיכרון של מסך «מערכים», ונעלם ברענון.
+
+   ls.assign: { "cid|YYYY-MM-DD": {title, plan, ts} }
+   עותק של המערך ולא הפניה: מערך בספרייה יכול להשתנות או להימחק,
+   והשיעור צריך את מה שהוכן לו.
+   ============================================================ */
+const ASSIGN_KEY="ls.assign";
+const addDaysISO=(iso,n)=>{ const d=new Date(iso+"T12:00:00"); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+const ASSIGN={
+  all(){ const v=LS.get(ASSIGN_KEY,{}); return (v&&typeof v==="object"&&!Array.isArray(v))?v:{}; },
+  get(cid,iso){ return (cid&&this.all()[cid+"|"+(iso||isoToday())])||null; },
+  set(cid,iso,plan){
+    const a=this.all(), old=addDaysISO(isoToday(),-14);
+    /* שיוכים של לפני שבועיים לא משרתים אף אחד — הם רק ממלאים את האחסון */
+    Object.keys(a).forEach(k=>{ if((k.split("|")[1]||"")<old)delete a[k]; });
+    a[cid+"|"+iso]={title:(plan&&plan.title)||"",plan:JSON.parse(JSON.stringify(plan||{})),ts:Date.now()};
+    return LS.set(ASSIGN_KEY,a);
+  },
+  remove(cid,iso){ const a=this.all(); delete a[cid+"|"+iso]; LS.set(ASSIGN_KEY,a); },
+  /* המופעים הקרובים של כיתה במערכת השעות: מהיום ועד days ימים קדימה.
+     משבצת של היום שכבר נגמרה, או שיעור שכבר התקיים, לא מוצעים. */
+  upcoming(cid,days){
+    const out=[], t0=isoToday(), nm=minNow();
+    for(let i=0;i<(days||14);i++){
+      const iso=addDaysISO(t0,i);
+      DATA.schedToday(schedAll(),iso,sesAll(),i?-1:nm).forEach(r=>{
+        if(!r.startable||r.slot.cid!==cid||r.status==="done")return;
+        if(i===0){ const w=DATA.slotWindow(r.slot); if(w&&nm>=w.to)return; }
+        out.push({iso,slot:r.slot,day:i});
+      });
+    }
+    return out;
+  },
+  /* «להכנה»: שיעורים של היום (שעוד לא התחילו) ושל מחר, שאין להם מערך */
+  toPrep(){
+    const out=[], t0=isoToday(), nm=minNow();
+    for(let i=0;i<2;i++){
+      const iso=addDaysISO(t0,i);
+      DATA.schedToday(schedAll(),iso,sesAll(),i?-1:nm).forEach(r=>{
+        if(!r.startable||!r.slot.cid||r.status!=="planned")return;
+        if(i===0){ const w=DATA.slotWindow(r.slot); if(w&&nm>=w.from)return; }
+        if(!ASSIGN.get(r.slot.cid,iso))out.push({iso,slot:r.slot,day:i});
+      });
+    }
+    return out;
+  }
+};
+/* «הכן מערך» מ«היום»: מסך המערכים נפתח על הכיתה, והשיוך מוצע מראש
+   לשיעור שממנו באו. */
+function prepFor(cid,iso,time){
+  LS.set("ls.target",{cid,iso,time:time||"",name:clsDisp(cid)});
+  go("lesson");
+  if(window.LESSON&&window.LESSON.applyTarget)window.LESSON.applyTarget();
+}
+const dayWord=d=>d===0?t("prep.today","היום"):t("prep.tomorrow","מחר");
+function paintPrep(){
+  const box=$("#hx-prep"); if(!box)return;
+  let rows=[]; try{ rows=ASSIGN.toPrep(); }catch(e){}
+  if(!rows.length){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  box.innerHTML='<div class="top"><b>'+esc(t("prep.title","להכנה"))+'</b><span class="hint">'+
+    esc(t("prep.sub","שיעורים קרובים שעוד אין להם מערך"))+'</span></div>'+
+    rows.slice(0,4).map(r=>'<div class="hx-up"><span class="tm" dir="ltr">'+esc(r.slot.time||"")+'</span>'+
+      '<b>'+esc(slotName(r.slot))+'</b><span class="tp">'+esc(dayWord(r.day))+'</span>'+
+      '<button class="btn sm" data-prep="'+esc(r.slot.cid)+'|'+esc(r.iso)+'|'+esc(r.slot.time||"")+'">📝 '+
+        esc(t("prep.btn","הכן מערך"))+'</button></div>').join("");
+  box.querySelectorAll("[data-prep]").forEach(b=>b.addEventListener("click",()=>{
+    ac(); const [cid,iso,tm]=b.dataset.prep.split("|"); prepFor(cid,iso,tm); }));
+}
+
+/* ============================================================
    «השיעורים שלי היום»
    ------------------------------------------------------------
    השאלה שדף הבית לא ידע לענות עליה עד עכשיו. שורה לכל שיעור,
@@ -826,8 +901,9 @@ function startFromSlot(slot){
      לפי צילום שם ישן של כיתה ששונתה היה יוצר כיתה שנייה. */
   try{ if(!DATA.classOf(REGSTORE,slot.cid))
     DATA.registerClass(REGSTORE,slot.clsSnapshot||""); }catch(e){}
+  const as=ASSIGN.get(slot.cid,isoToday());
   const r=SESSION.start({cid:slot.cid,clsSnapshot:slot.clsSnapshot||"",
-    date:isoToday(),planTitle:slot.topic||""});
+    date:isoToday(),planTitle:(as&&as.title)||slot.topic||""});
   if(r.outcome==="blocked"){
     toast("כבר פתוח שיעור בכיתה "+sesName(r.active)+" — סיים אותו קודם");
     return;
@@ -836,6 +912,8 @@ function startFromSlot(slot){
   paintSessionBar();
   toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+
     (slot.clsSnapshot||"")+" התחיל");
+  /* המערך ששויך לשיעור הזה עולה איתו למצב שיעור */
+  if(as&&as.plan&&window.LIVE)window.LIVE.attachPlan(as.plan);
   paintHome();
   /* התחלת שיעור מביאה ישר למצב שיעור: הכיתה כבר ידועה, והכלים שם */
   go("live");
@@ -847,7 +925,7 @@ function slotName(sl){
 }
 /* שני הבלוקים של דף הבית נצבעים יחד — הם שני קצוות של אותה זרימה */
 function paintHome(){
-  try{ paintToday(); paintLastLesson(); }catch(e){}
+  try{ paintToday(); paintLastLesson(); paintPrep(); }catch(e){}
 }
 /* ============================================================
    «היום שלי» — עכשיו, הבא, ובהמשך
@@ -865,6 +943,13 @@ function slotRange(sl){
   const w=DATA.slotWindow(sl);
   return w?(DATA.fmtTime(w.from)+"–"+DATA.fmtTime(w.to)):(sl.time||"");
 }
+/* הנושא של משבצת: המערך ששויך לה היום, ואם אין — הנושא שבמערכת */
+function slotTopic(sl,cls,block){
+  const as=ASSIGN.get(sl.cid,isoToday());
+  const txt=as&&as.title?"📋 "+as.title:(sl.topic||"");
+  if(!txt)return "";
+  return block?'<div class="'+cls+'">'+esc(txt)+'</div>':'<span class="'+cls+'">'+esc(txt)+'</span>';
+}
 /* שורה קומפקטית — לשיעור שאינו במוקד. כפתור משני ולא כפתור ראשי:
    דף שכולו כפתורים ראשיים הוא דף בלי היררכיה. */
 function upRow(r,label){
@@ -873,7 +958,7 @@ function upRow(r,label){
     (label?'<span class="lbl">'+esc(label)+'</span>':"")+
     '<span class="tm" dir="ltr">'+esc(sl.time)+'</span>'+
     '<b>'+esc(slotName(sl))+'</b>'+
-    (sl.topic?'<span class="tp">'+esc(sl.topic)+'</span>':"")+
+    slotTopic(sl,"tp")+
     '<button class="btn sm ghost" data-slot="'+esc(sl.id)+'">▶ התחל</button></div>';
 }
 function focusCard(r,mode){
@@ -895,7 +980,7 @@ function focusCard(r,mode){
     '<div class="cls">'+esc(r.startable?slotName(sl):(sl.label||DATA.kindLabel(DATA.kindOf(sl))))+'</div>'+
     '<div class="when">'+esc(slotRange(sl))+'</div>'+
     (until?'<div class="until">מתחיל בעוד '+esc(until)+'</div>':"")+
-    (sl.topic?'<div class="topic">'+esc(sl.topic)+'</div>':"")+
+    slotTopic(sl,"topic",true)+
     (act1?'<div class="row" style="margin-top:11px">'+act1+'</div>':"")+
     '</div>';
 }
@@ -1428,7 +1513,20 @@ function wireEndLesson(){
     const a=SESSION.active();
     if(!a){ modal("endModal",false); return; }
     const cid=a.cid;
-    const r=SESSION.complete(a.id,{rating:endRate,note:$("#end-note").value});
+    const note=$("#end-note").value;
+    /* דירוג אחד לשיעור. הוא נשמר על השיעור (ההמלצה לשיעור הבא), ואם
+       השיעור רץ על מערך מהמחולל — גם למשוב של המחולל, שבוחר לפיו
+       גרסאות. קודם היו שני דירוגים נפרדים שאף אחד מהם לא ראה את השני. */
+    try{
+      const lp=window.LIVE&&window.LIVE.plan&&window.LIVE.plan();
+      const pl=lp&&lp.plan;
+      if(endRate!=null&&pl&&pl.topic&&pl.grade){
+        const fb=LS.get("ls.feedback",[]);
+        fb.unshift({ts:Date.now(),topic:pl.topic,grade:pl.grade,subs:pl.subs||[],variants:pl.variants||[],rating:endRate,note:note.trim()});
+        LS.set("ls.feedback",fb.slice(0,400));
+      }
+    }catch(e){}
+    const r=SESSION.complete(a.id,{rating:endRate,note});
     modal("endModal",false);
     if(!r.ok){ toast("סיום השיעור נכשל"); return; }
     toast("✓ השיעור הסתיים");
@@ -5033,7 +5131,7 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,con
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
-  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,classOverviewHtml,wireClassOverview,classTitle,startFromSlot,sesName,areaOf,goBack,regStore:REGSTORE,
+  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,assign:ASSIGN,prepFor,classOverviewHtml,wireClassOverview,classTitle,startFromSlot,sesName,areaOf,goBack,regStore:REGSTORE,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה

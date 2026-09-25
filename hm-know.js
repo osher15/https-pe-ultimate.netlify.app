@@ -956,7 +956,14 @@ window.GAMES=(function(){
     H().modal("gm-modal");
     const b=$("#gm-toLesson");
     if(b)b.addEventListener("click",()=>{
-      H().LS.set("ls.pickGame",g.id); H().modal("gm-modal",false); H().go("lesson");
+      H().modal("gm-modal",false);
+      /* יש מערך על המסך — מהיר או ידני — המשחק נכנס אליו מיד. אין —
+         הוא ממתין למערך הבא שייבנה. קודם הוא נשמר רק למחולל המהיר,
+         ובבונה הידני הלך לאיבוד. */
+      if(window.LESSON&&window.LESSON.current&&window.LESSON.current()&&window.LESSON.addGame(g)){
+        H().go("lesson"); H().toast("«"+g.name+"» "+H().t("gm.added","נוסף למערך שעל המסך")); return;
+      }
+      H().LS.set("ls.pickGame",g.id); H().go("lesson");
       H().toast("«"+g.name+"» ישובץ במערך הבא שתבנה");
     });
   }

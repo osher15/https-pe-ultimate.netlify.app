@@ -11,29 +11,29 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="ec77e6a5">
+<meta name="hm-build" content="c1531b8f">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=24039b32">
+<link rel="stylesheet" href="hm-styles.css?v=5cdc7d28">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-data.js?v=be8da8d9"></script>
 <script src="hm-terms.js?v=ce1b7f7f"></script>
 <script src="hm-texts.js?v=4311c742"></script>
-<script src="hm-i18n.js?v=5472f1f7"></script>
-<script src="hm-app.js?v=f63866f5"></script>
+<script src="hm-i18n.js?v=c7129eec"></script>
+<script src="hm-app.js?v=129c63c6"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
-<script src="hm-know.js?v=bc3e6c15"></script>
+<script src="hm-know.js?v=52230b9a"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="hm-tools.js?v=c535ac01"></script>
+<script src="hm-tools.js?v=9905bc00"></script>
 <script src="hm-plans.js?v=20cf74cb"></script>
-<script src="hm-lesson.js?v=98e544d9"></script>
+<script src="hm-lesson.js?v=a63f8d57"></script>
 <script src="hm-build.js?v=4a132915"></script>
-<script src="hm-tests.js?v=cc479b42"></script>
-<script src="hm-new.js?v=144f7820"></script>
-<script src="hm-live.js?v=20fbd685"></script>
-<script src="hm-hub.js"></script>
+<script src="hm-tests.js?v=48fce1cb"></script>
+<script src="hm-new.js?v=1668ad77"></script>
+<script src="hm-live.js?v=e0730387"></script>
+<script src="hm-hub.js?v=c46b61c6"></script>
 </helmet>
 <div class="app" dir="rtl">
 <!-- ============================================================
@@ -103,6 +103,8 @@
       <button class="btn sm ghost" id="hx-schedEdit" data-i18n="home.schedEdit">🗓 מערכת שעות</button></div>
     <div id="hx-todayList"></div>
   </div>
+  <!-- «להכנה»: שיעורים קרובים בלי מערך — הקישור בין מערכת השעות להכנה -->
+  <div class="hx-prep" id="hx-prep" hidden></div>
   <!-- כלי מדידה בלי שיעור פתוח — ליום מדידות או לשימוש חופשי.
        בשיעור פתוח הכלים האלה נמצאים באריחים של «שיעור». -->
   <div class="hx-quick" id="hx-quick">
@@ -988,7 +990,7 @@
         <div class="seg" id="ls-gradeSeg"><button data-g="mid" class="on">חטיבה ז׳–ט׳</button><button data-g="high">תיכון י׳–י״ב</button></div>
       </div>
       <div class="field" style="width:120px"><label>אורך (דק׳)</label><input type="number" id="ls-dur" value="45" min="30" max="90" step="5"></div>
-      <div class="field" style="width:110px"><label>כיתה</label><input type="text" id="ls-class" placeholder="ט׳2"></div>
+      <div class="field" style="width:110px"><label>כיתה</label><input type="text" id="ls-class" placeholder="ט׳2" list="ls-classList"><datalist id="ls-classList"></datalist></div>
       <div class="field" style="width:120px"><label>מס׳ תלמידים</label><input type="number" id="ls-size" value="30" min="4" max="60"></div>
       <div class="field" style="width:150px"><label>מקום</label>
         <select id="ls-place">
@@ -1038,48 +1040,16 @@
       <div class="row">
         <button class="btn sm ghost" id="ls-pickCls" style="display:none">🏷 בחר כיתה</button>
         <button class="btn sm acc" id="ls-startLesson">▶ התחל שיעור</button>
+        <button class="btn sm" id="ls-assignBtn" data-i18n="asg.btn">📌 שייך לשיעור</button>
         <button class="btn sm" id="ls-save">💾 שמור</button>
         <button class="btn sm ghost" id="ls-print">🖨 הדפס</button>
       </div>
     </div>
+    <!-- שיוך המערך לשיעור מסוים — מתוך מערכת השעות, או תאריך אחר -->
+    <div class="ls-assign" id="ls-assignBox" hidden></div>
     <div id="ls-planBody"></div>
-    <div class="fit-phase" id="ls-phase" data-ph="prep" style="margin-top:12px">
-      <div class="ph" id="ls-phName">מוכן להפעלה</div>
-      <div class="tm" id="ls-phTime">--:--</div>
-      <div class="nx" id="ls-phNext"></div>
-    </div>
-    <div class="row" style="margin-top:12px">
-      <button class="btn acc grow" id="ls-run">▶ הפעל שיעור</button>
-      <button class="btn stop" id="ls-stop" disabled>⏹ עצור</button>
-    </div>
-    <div class="ls-quick" id="ls-quick">
-      <div class="row" style="justify-content:space-between;align-items:center">
-        <b>⏱ טיימר מהיר</b>
-        <span class="qt-clock" id="qt-clock">00:00</span>
-      </div>
-      <div class="hint">לתרגיל בודד באמצע השיעור — בלי לצאת מהמערך ובלי לעצור אותו.</div>
-      <div class="qt-presets" id="qt-presets">
-        <button data-s="30">30 שנ׳</button><button data-s="45">45 שנ׳</button>
-        <button data-s="60">דקה</button><button data-s="90">1:30</button>
-        <button data-s="120">2 דק׳</button><button data-s="180">3 דק׳</button>
-        <button data-s="300">5 דק׳</button>
-      </div>
-      <div class="row" style="margin-top:9px;gap:8px">
-        <button class="btn sm acc grow" id="qt-go">▶ הפעל</button>
-        <button class="btn sm ghost" id="qt-reset">↺ אפס</button>
-      </div>
-    </div>
-    <div class="ls-sec" id="ls-fbBox">
-      <h4>📝 משוב מהיר על השיעור</h4>
-      <div class="hint">איך זה עבד בפועל? המשוב עוזר לגוון את המערכים הבאים לאותו נושא — ולא לחזור על אותו דבר כל הזמן.</div>
-      <div class="row" style="margin-top:8px;gap:8px">
-        <button class="btn sm" id="ls-fbGood">👍 עבד מצוין</button>
-        <button class="btn sm ghost" id="ls-fbOk">😐 בינוני</button>
-        <button class="btn sm stop" id="ls-fbBad">👎 לא עבד</button>
-      </div>
-      <textarea id="ls-fbNote" rows="2" placeholder="מה עבד / מה פחות (רשות)" style="margin-top:8px;width:100%"></textarea>
-      <div class="hint" id="ls-fbHist" style="margin-top:6px"></div>
-    </div>
+    <!-- ההפעלה עצמה — שלבים, זמנים, טיימר ודירוג — עברה למצב שיעור.
+         כאן מכינים; שם מלמדים. -->
   </div>
 
   <div class="card">

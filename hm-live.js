@@ -38,7 +38,10 @@ function planState(){ const v=H().LS.get(K_PLAN,null); return v&&typeof v==="obj
 /* שלבים בלבד — שם, דקות ותיאור. זה מה שמצב שיעור צריך, ולא כל המערך */
 function slim(p){
   if(!p||!Array.isArray(p.phases)||!p.phases.length)return null;
-  return {title:p.title||"",phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:String(x.d||"")}))};
+  /* הנושא והגרסאות נשמרים כדי שהדירוג בסיום ילמד את מחולל המערכים */
+  return {title:p.title||"",topic:p.topic||null,grade:p.grade||null,
+    variants:p.mainVariants||[],subs:p.mainSubs||[],
+    phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:Array.isArray(x.d)?x.d.join(" · "):String(x.d||"")}))};
 }
 function attachPlan(p){
   const a=active(), sp=slim(p); if(!a||!sp)return false;
@@ -75,13 +78,16 @@ function classChoices(){
   Object.keys(reg).sort((a,b)=>String(reg[a].name||a).localeCompare(String(reg[b].name||b),"he"))
     .forEach(cid=>{ if(order.indexOf(cid)<0)order.push(cid); });
   return order.filter(cid=>reg[cid]||sug[cid]).map(cid=>({cid,name:(reg[cid]&&reg[cid].name)||cid,
-    group:!!(reg[cid]&&D().isGroupRec(reg[cid])),sug:sug[cid]||"",n:studentsCount(cid)}));
+    group:!!(reg[cid]&&D().isGroupRec(reg[cid])),sug:sug[cid]||"",n:studentsCount(cid),
+    asg:((H().assign&&H().assign.get(cid,iso()))||{}).title||""}));
 }
 
 function start(cid,label){
   const S=H().session;
   const name=label||((D().classOf(store(),cid)||{}).name)||cid;
-  const p=window.LESSON&&window.LESSON.current&&window.LESSON.current();
+  /* המערך ששויך לשיעור הזה קודם; אחרת המערך שעל המסך במערכים */
+  const as=H().assign&&H().assign.get(cid,iso());
+  const p=(as&&as.plan&&as.plan.phases)?as.plan:(window.LESSON&&window.LESSON.current&&window.LESSON.current());
   const r=S.start({cid,clsSnapshot:name,date:iso(),planTitle:(p&&p.title)||""});
   if(r.outcome==="blocked"){ H().toast(t("live.blocked","כבר פתוח שיעור בכיתה")+" "+H().sesName(r.active)); return; }
   if(!r.ok){ H().toast(t("live.cantStart","לא ניתן לפתוח שיעור")); return; }
@@ -110,7 +116,8 @@ function paintPick(root){
     (list.length
       ? '<div class="lv-chips">'+list.map(c=>'<button class="lv-chip'+(c.sug?" sug":"")+'" data-cls="'+esc(c.cid)+'">'+
           '<b>'+(c.group?"👥 ":"")+esc(c.name)+'</b>'+
-          '<small>'+(c.sug?'<span class="now">'+esc(sugLbl[c.sug])+'</span> · ':"")+c.n+" "+esc(t("live.students","תלמידים"))+'</small></button>').join("")+'</div>'
+          '<small>'+(c.sug?'<span class="now">'+esc(sugLbl[c.sug])+'</span> · ':"")+c.n+" "+esc(t("live.students","תלמידים"))+'</small>'+
+          (c.asg?'<small class="asg">📋 '+esc(c.asg)+'</small>':"")+'</button>').join("")+'</div>'
       : '<div class="empty-state"><div class="big">👥</div>'+esc(t("live.noClasses","עוד אין כיתות. בחרו שכבה ומספר כאן למטה — הכיתה תירשם ותישמר."))+'</div>')+
     '<details class="lv-other"'+(list.length?"":" open")+'><summary>'+esc(t("live.other","כיתה אחרת — שכבה ומספר"))+'</summary><div class="in">'+
       '<div class="seg wrap" id="lv-og">'+GRADES.map(g=>'<button data-g="'+g+'"'+(other.g===g?' class="on"':"")+'>'+esc(D().clsName(g,"").replace(/\s+$/,""))+'</button>').join("")+'</div>'+

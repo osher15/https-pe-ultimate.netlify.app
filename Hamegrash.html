@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="ec77e6a5">
+<meta name="hm-build" content="c1531b8f">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1744,6 +1744,58 @@ body[data-area="live"] #lsBar{display:none!important}
 .end-att.warn{border-color:rgba(255,210,63,.45)}
 .end-att .btn{min-height:44px}
 
+/* ============================================================
+   מרכז הכיתה
+   ============================================================ */
+body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
+.hub-top{display:flex;align-items:flex-end;gap:12px;margin:2px 0 12px}
+.hub-top .kick{color:var(--acc);font-weight:800;font-size:13px;letter-spacing:.3px}
+.hub-top h2{margin:2px 0 0;font-family:'Heebo';font-weight:800;font-size:26px}
+.hub-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:12px}
+.hub-chips::-webkit-scrollbar{display:none}
+.hub-chips .chip{flex:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:999px;
+  padding:9px 15px;font-family:'Heebo';font-weight:700;font-size:14.5px;min-height:44px;cursor:pointer}
+.hub-chips .chip.on{background:var(--acc);border-color:var(--acc);color:#07140e}
+.hub-chips .livedot{color:var(--live);font-size:11px;vertical-align:2px}
+.hub-chips .chip.on .livedot{color:#07140e}
+.hub-ov{margin-bottom:12px}
+.hub-cards{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:640px){.hub-cards{grid-template-columns:1fr 1fr}}
+.hub-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 14px;display:flex;flex-direction:column;gap:8px}
+.hub-card .hd{display:flex;align-items:center;gap:9px}
+.hub-card .hd .ic{font-size:20px}
+.hub-card .hd b{font-size:16px}
+.hub-card .bd{display:flex;flex-direction:column;gap:3px;color:var(--muted);font-size:14px}
+.hub-card .bd .n{color:var(--ink);font-weight:800;font-family:'Share Tech Mono';font-size:17px}
+.hub-card .bd .dim{color:var(--faint);font-size:12.5px}
+.hub-card .ft{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
+.hub-card .ft .btn{min-height:44px}
+
+/* ============================================================
+   הכנה: «להכנה» בבית, שיוך לשיעור ועריכת המהלך
+   ============================================================ */
+.hx-prep{margin-top:14px;background:var(--panel);border:1px solid color-mix(in srgb,#f472b6 45%,var(--line));
+  border-radius:var(--r);padding:12px 14px}
+.hx-prep[hidden]{display:none}
+.hx-prep .top{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px}
+.hx-prep .hx-up .btn{min-height:44px}
+.ls-assign{margin:10px 0 4px;padding:12px;border-radius:14px;border:1px solid var(--acc);background:var(--accDim);
+  display:flex;flex-direction:column;gap:9px}
+.ls-assign[hidden]{display:none}
+.ls-asg-cls{display:flex;gap:7px;flex-wrap:wrap}
+.ls-asg-cls .chip{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:999px;
+  padding:7px 13px;font-family:'Heebo';font-weight:700;min-height:42px;cursor:pointer}
+.ls-asg-cls .chip.on{background:var(--acc);border-color:var(--acc);color:#1a0612}
+.ls-asg-occ{display:flex;flex-direction:column;gap:7px}
+.ls-asg-occ .btn{justify-content:space-between;min-height:48px}
+.pe-list{display:flex;flex-direction:column;gap:9px}
+.pe-row{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+.pe-row input,.pe-row textarea{width:100%;background:var(--inset);border:1px solid var(--line);border-radius:10px;color:var(--ink);
+  padding:8px 10px;font-family:'Heebo';font-size:14.5px}
+.pe-row input[type=number]{width:74px}
+.pe-row .btn{min-height:40px;min-width:44px}
+.lv-chip small.asg{color:var(--ink);font-weight:600}
+
 </style>
 </head>
 <body>
@@ -1815,6 +1867,8 @@ body[data-area="live"] #lsBar{display:none!important}
       <button class="btn sm ghost" id="hx-schedEdit" data-i18n="home.schedEdit">🗓 מערכת שעות</button></div>
     <div id="hx-todayList"></div>
   </div>
+  <!-- «להכנה»: שיעורים קרובים בלי מערך — הקישור בין מערכת השעות להכנה -->
+  <div class="hx-prep" id="hx-prep" hidden></div>
   <!-- כלי מדידה בלי שיעור פתוח — ליום מדידות או לשימוש חופשי.
        בשיעור פתוח הכלים האלה נמצאים באריחים של «שיעור». -->
   <div class="hx-quick" id="hx-quick">
@@ -1857,6 +1911,8 @@ body[data-area="live"] #lsBar{display:none!important}
      מצב שיעור — המסך שביד במגרש. נצבע כולו מ-hm-live.js.
      ============================================================ -->
 <section class="view" id="view-live"><div id="lv-root"></div></section>
+<!-- מרכז הכיתה — כל מה שקשור לכיתה אחת. נצבע מ-hm-hub.js. -->
+<section class="view" id="view-cls"><div id="hub-root"></div></section>
 <section class="view" id="view-beep">
   <div class="card" id="bt-statsCard">
     <div class="row" style="justify-content:space-between">
@@ -2698,7 +2754,7 @@ body[data-area="live"] #lsBar{display:none!important}
         <div class="seg" id="ls-gradeSeg"><button data-g="mid" class="on">חטיבה ז׳–ט׳</button><button data-g="high">תיכון י׳–י״ב</button></div>
       </div>
       <div class="field" style="width:120px"><label>אורך (דק׳)</label><input type="number" id="ls-dur" value="45" min="30" max="90" step="5"></div>
-      <div class="field" style="width:110px"><label>כיתה</label><input type="text" id="ls-class" placeholder="ט׳2"></div>
+      <div class="field" style="width:110px"><label>כיתה</label><input type="text" id="ls-class" placeholder="ט׳2" list="ls-classList"><datalist id="ls-classList"></datalist></div>
       <div class="field" style="width:120px"><label>מס׳ תלמידים</label><input type="number" id="ls-size" value="30" min="4" max="60"></div>
       <div class="field" style="width:150px"><label>מקום</label>
         <select id="ls-place">
@@ -2748,48 +2804,16 @@ body[data-area="live"] #lsBar{display:none!important}
       <div class="row">
         <button class="btn sm ghost" id="ls-pickCls" style="display:none">🏷 בחר כיתה</button>
         <button class="btn sm acc" id="ls-startLesson">▶ התחל שיעור</button>
+        <button class="btn sm" id="ls-assignBtn" data-i18n="asg.btn">📌 שייך לשיעור</button>
         <button class="btn sm" id="ls-save">💾 שמור</button>
         <button class="btn sm ghost" id="ls-print">🖨 הדפס</button>
       </div>
     </div>
+    <!-- שיוך המערך לשיעור מסוים — מתוך מערכת השעות, או תאריך אחר -->
+    <div class="ls-assign" id="ls-assignBox" hidden></div>
     <div id="ls-planBody"></div>
-    <div class="fit-phase" id="ls-phase" data-ph="prep" style="margin-top:12px">
-      <div class="ph" id="ls-phName">מוכן להפעלה</div>
-      <div class="tm" id="ls-phTime">--:--</div>
-      <div class="nx" id="ls-phNext"></div>
-    </div>
-    <div class="row" style="margin-top:12px">
-      <button class="btn acc grow" id="ls-run">▶ הפעל שיעור</button>
-      <button class="btn stop" id="ls-stop" disabled>⏹ עצור</button>
-    </div>
-    <div class="ls-quick" id="ls-quick">
-      <div class="row" style="justify-content:space-between;align-items:center">
-        <b>⏱ טיימר מהיר</b>
-        <span class="qt-clock" id="qt-clock">00:00</span>
-      </div>
-      <div class="hint">לתרגיל בודד באמצע השיעור — בלי לצאת מהמערך ובלי לעצור אותו.</div>
-      <div class="qt-presets" id="qt-presets">
-        <button data-s="30">30 שנ׳</button><button data-s="45">45 שנ׳</button>
-        <button data-s="60">דקה</button><button data-s="90">1:30</button>
-        <button data-s="120">2 דק׳</button><button data-s="180">3 דק׳</button>
-        <button data-s="300">5 דק׳</button>
-      </div>
-      <div class="row" style="margin-top:9px;gap:8px">
-        <button class="btn sm acc grow" id="qt-go">▶ הפעל</button>
-        <button class="btn sm ghost" id="qt-reset">↺ אפס</button>
-      </div>
-    </div>
-    <div class="ls-sec" id="ls-fbBox">
-      <h4>📝 משוב מהיר על השיעור</h4>
-      <div class="hint">איך זה עבד בפועל? המשוב עוזר לגוון את המערכים הבאים לאותו נושא — ולא לחזור על אותו דבר כל הזמן.</div>
-      <div class="row" style="margin-top:8px;gap:8px">
-        <button class="btn sm" id="ls-fbGood">👍 עבד מצוין</button>
-        <button class="btn sm ghost" id="ls-fbOk">😐 בינוני</button>
-        <button class="btn sm stop" id="ls-fbBad">👎 לא עבד</button>
-      </div>
-      <textarea id="ls-fbNote" rows="2" placeholder="מה עבד / מה פחות (רשות)" style="margin-top:8px;width:100%"></textarea>
-      <div class="hint" id="ls-fbHist" style="margin-top:6px"></div>
-    </div>
+    <!-- ההפעלה עצמה — שלבים, זמנים, טיימר ודירוג — עברה למצב שיעור.
+         כאן מכינים; שם מלמדים. -->
   </div>
 
   <div class="card">
@@ -3127,7 +3151,7 @@ body[data-area="live"] #lsBar{display:none!important}
   <button data-go="home" data-area="today"><span class="ic">🏠</span><span data-i18n="nav.today">היום</span></button>
   <button data-go="lesson" data-area="prep"><span class="ic">📝</span><span data-i18n="nav.prep">הכנה</span></button>
   <button data-go="live" data-area="live" id="navLive" class="nav-live"><span class="ic" id="navLiveIc">▶</span><span id="navLiveT">שיעור</span></button>
-  <button data-go="stu" data-area="classes"><span class="ic">👥</span><span data-i18n="nav.classes">כיתות</span></button>
+  <button data-go="cls" data-area="classes"><span class="ic">👥</span><span data-i18n="nav.classes">כיתות</span></button>
   <button data-go="rec" id="navRec" data-area="rec"><span class="ic">🏆</span><span data-i18n="nav.records">שיאים</span></button>
   <button data-go="games" id="navGames" data-area="prep" style="display:none"><span class="ic">🎮</span><span data-i18n="nav.games">משחקים</span></button>
 </div>
@@ -3548,10 +3572,6 @@ body[data-area="live"] #lsBar{display:none!important}
     <button class="btn ghost" data-close="endModal">ביטול</button>
   </div>
   <div class="hint" style="margin-top:9px">המשוב נשמר על השיעור עצמו — הוא מה שיבנה את ההמלצה לשיעור הבא בכיתה הזאת.</div>
-</div></div>
-<div class="modal" id="clsModal"><div class="box" style="max-width:600px">
-  <h3>🏷 <span id="cls-title">כיתה</span><button class="x" data-close="clsModal">✕</button></h3>
-  <div id="cls-body"></div>
 </div></div>
 <div class="modal" id="dayModal"><div class="box" style="max-width:520px">
   <h3>📅 <span id="day-title">היום</span><button class="x" data-close="dayModal">✕</button></h3>
@@ -11772,6 +11792,61 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "prep.today":"today",
+  "prep.tomorrow":"tomorrow",
+  "prep.title":"To prepare",
+  "prep.sub":"Upcoming lessons without a plan yet",
+  "prep.btn":"Prepare plan",
+  "ui.day":"Day",
+  "asg.btn":"📌 Assign to lesson",
+  "asg.title":"Assign to a lesson",
+  "asg.hint":"The plan will appear on «Today» and open by itself when the lesson starts.",
+  "asg.this":"assigned",
+  "asg.other":"replaces a plan",
+  "asg.noSlots":"This class has no lessons in the timetable in the next two weeks — pick a date.",
+  "asg.toDate":"Assign to date",
+  "asg.pickCls":"Pick a class.",
+  "asg.done":"Plan assigned to ",
+  "pe.newStep":"New step",
+  "pe.edit":"✎ Edit steps",
+  "pe.done":"✓ Done editing",
+  "pe.add":"+ Step",
+  "pe.total":"Total",
+  "ls.ready":"⚡ Plan ready — edit it, assign it to a lesson or save it",
+  "gm.added":"added to the plan on screen",
+  /* ux-redesign */
+  "area.cls":"Class hub",
+  "hub.title":"Class hub",
+  "hub.class":"Class",
+  "hub.group":"Group",
+  "hub.fit":"Fitness",
+  "hub.meas":"measurements",
+  "hub.testsN":"different tests",
+  "hub.lastMeas":"last",
+  "hub.groupNote":"The full screens (students, grades, fitness tests) work per class — open them through the classes in the group.",
+  "hub.students":"Students",
+  "hub.inList":"on the list",
+  "hub.openList":"Student list",
+  "hub.att":"Attendance",
+  "hub.lessonsMarked":"lessons with attendance",
+  "hub.noAtt":"No attendance marked yet",
+  "hub.partPct":"participation",
+  "hub.openAtt":"Attendance and report",
+  "hub.openIdx":"Fitness index",
+  "hub.openCov":"What's missing",
+  "hub.openProg":"Progress",
+  "hub.grades":"Grades",
+  "hub.graded":"with a final grade",
+  "hub.openGrades":"Grade table",
+  "hub.assess":"Assessments",
+  "hub.peerN":"peer assessments",
+  "hub.openPeer":"Peer assessment",
+  "hub.openRub":"Rubrics",
+  "hub.empty":"No classes yet. Add a class here — grade and number — and then its student list.",
+  "hub.addCls":"New class",
+  "hub.addBtn":"Add class",
+  "hub.inLesson":"in a lesson now",
+  /* ux-redesign */
   "end.attDone":"Attendance marked",
   "end.attPart":"Attendance: marked",
   "end.attRest":"Everyone else is present",
@@ -12162,6 +12237,61 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "prep.today":"اليوم",
+  "prep.tomorrow":"غدًا",
+  "prep.title":"للتحضير",
+  "prep.sub":"دروس قريبة ليس لها خطة بعد",
+  "prep.btn":"حضّر خطة",
+  "ui.day":"يوم",
+  "asg.btn":"📌 اربط بدرس",
+  "asg.title":"ربط بدرس",
+  "asg.hint":"ستظهر الخطة في «اليوم» وتُفتح تلقائيًا عند بدء الدرس.",
+  "asg.this":"مرتبط",
+  "asg.other":"يستبدل خطة",
+  "asg.noSlots":"لا توجد لهذا الصف دروس في الجدول خلال الأسبوعين القادمين — اختر تاريخًا.",
+  "asg.toDate":"اربط بتاريخ",
+  "asg.pickCls":"اختر صفًا.",
+  "asg.done":"رُبطت الخطة بـ",
+  "pe.newStep":"مرحلة جديدة",
+  "pe.edit":"✎ عدّل المراحل",
+  "pe.done":"✓ انتهى التعديل",
+  "pe.add":"+ مرحلة",
+  "pe.total":"المجموع",
+  "ls.ready":"⚡ الخطة جاهزة — يمكنك تعديلها أو ربطها بدرس أو حفظها",
+  "gm.added":"أُضيفت إلى الخطة المعروضة",
+  /* ux-redesign */
+  "area.cls":"مركز الصف",
+  "hub.title":"مركز الصف",
+  "hub.class":"الصف",
+  "hub.group":"المجموعة",
+  "hub.fit":"اللياقة",
+  "hub.meas":"قياسات",
+  "hub.testsN":"اختبارات مختلفة",
+  "hub.lastMeas":"الأخير",
+  "hub.groupNote":"الشاشات الكاملة (الطلاب، العلامات، اختبارات اللياقة) تعمل حسب الصف — افتحها من خلال صفوف المجموعة.",
+  "hub.students":"الطلاب",
+  "hub.inList":"في القائمة",
+  "hub.openList":"قائمة الطلاب",
+  "hub.att":"الحضور",
+  "hub.lessonsMarked":"دروس مع حضور",
+  "hub.noAtt":"لم يُسجَّل حضور بعد",
+  "hub.partPct":"مشاركة",
+  "hub.openAtt":"الحضور والتقرير",
+  "hub.openIdx":"مؤشر اللياقة",
+  "hub.openCov":"ما الناقص",
+  "hub.openProg":"التقدّم",
+  "hub.grades":"العلامات",
+  "hub.graded":"لديهم علامة نهائية",
+  "hub.openGrades":"جدول العلامات",
+  "hub.assess":"التقييمات",
+  "hub.peerN":"تقييمات الأقران",
+  "hub.openPeer":"تقييم الأقران",
+  "hub.openRub":"سلالم التقدير",
+  "hub.empty":"لا توجد صفوف بعد. أضف صفًا هنا — الطبقة والرقم — ثم قائمة طلابه.",
+  "hub.addCls":"صف جديد",
+  "hub.addBtn":"أضف صفًا",
+  "hub.inLesson":"في درس الآن",
   /* ux-redesign */
   "end.attDone":"تم تسجيل الحضور",
   "end.attPart":"الحضور: تم تسجيل",
@@ -12568,6 +12698,61 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "prep.today":"сегодня",
+  "prep.tomorrow":"завтра",
+  "prep.title":"Подготовить",
+  "prep.sub":"Ближайшие уроки без плана",
+  "prep.btn":"Подготовить план",
+  "ui.day":"День",
+  "asg.btn":"📌 Привязать к уроку",
+  "asg.title":"Привязка к уроку",
+  "asg.hint":"План появится на экране «Сегодня» и откроется сам, когда начнётся урок.",
+  "asg.this":"привязан",
+  "asg.other":"заменит план",
+  "asg.noSlots":"У этого класса нет уроков в расписании на ближайшие две недели — выберите дату.",
+  "asg.toDate":"Привязать к дате",
+  "asg.pickCls":"Выберите класс.",
+  "asg.done":"План привязан к ",
+  "pe.newStep":"Новый этап",
+  "pe.edit":"✎ Править ход урока",
+  "pe.done":"✓ Готово",
+  "pe.add":"+ Этап",
+  "pe.total":"Итого",
+  "ls.ready":"⚡ План готов — можно править, привязать к уроку или сохранить",
+  "gm.added":"добавлена в план на экране",
+  /* ux-redesign */
+  "area.cls":"Центр класса",
+  "hub.title":"Центр класса",
+  "hub.class":"Класс",
+  "hub.group":"Группа",
+  "hub.fit":"Физподготовка",
+  "hub.meas":"замеров",
+  "hub.testsN":"разных тестов",
+  "hub.lastMeas":"последний",
+  "hub.groupNote":"Полные экраны (ученики, оценки, тесты) работают по классам — открывайте их через классы группы.",
+  "hub.students":"Ученики",
+  "hub.inList":"в списке",
+  "hub.openList":"Список учеников",
+  "hub.att":"Посещаемость",
+  "hub.lessonsMarked":"уроков с посещаемостью",
+  "hub.noAtt":"Посещаемость ещё не отмечалась",
+  "hub.partPct":"участие",
+  "hub.openAtt":"Посещаемость и отчёт",
+  "hub.openIdx":"Индекс физподготовки",
+  "hub.openCov":"Чего не хватает",
+  "hub.openProg":"Прогресс",
+  "hub.grades":"Оценки",
+  "hub.graded":"с итоговой оценкой",
+  "hub.openGrades":"Таблица оценок",
+  "hub.assess":"Оценивание",
+  "hub.peerN":"взаимных оценок",
+  "hub.openPeer":"Взаимное оценивание",
+  "hub.openRub":"Рубрики",
+  "hub.empty":"Классов пока нет. Добавьте класс здесь — параллель и номер, — а затем список учеников.",
+  "hub.addCls":"Новый класс",
+  "hub.addBtn":"Добавить класс",
+  "hub.inLesson":"сейчас на уроке",
+  /* ux-redesign */
   "end.attDone":"Посещаемость отмечена",
   "end.attPart":"Посещаемость: отмечено",
   "end.attRest":"Остальные присутствуют",
@@ -12966,6 +13151,61 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "prep.today":"hoy",
+  "prep.tomorrow":"mañana",
+  "prep.title":"Por preparar",
+  "prep.sub":"Próximas sesiones sin plan",
+  "prep.btn":"Preparar plan",
+  "ui.day":"día",
+  "asg.btn":"📌 Asignar a sesión",
+  "asg.title":"Asignar a una sesión",
+  "asg.hint":"El plan aparecerá en «Hoy» y se abrirá solo cuando empiece la sesión.",
+  "asg.this":"asignado",
+  "asg.other":"sustituye un plan",
+  "asg.noSlots":"Este grupo no tiene sesiones en el horario en las próximas dos semanas: elige una fecha.",
+  "asg.toDate":"Asignar a fecha",
+  "asg.pickCls":"Elige un grupo.",
+  "asg.done":"Plan asignado a ",
+  "pe.newStep":"Fase nueva",
+  "pe.edit":"✎ Editar fases",
+  "pe.done":"✓ Terminar edición",
+  "pe.add":"+ Fase",
+  "pe.total":"Total",
+  "ls.ready":"⚡ Plan listo: puedes editarlo, asignarlo a una sesión o guardarlo",
+  "gm.added":"añadido al plan en pantalla",
+  /* ux-redesign */
+  "area.cls":"Centro del grupo",
+  "hub.title":"Centro del grupo",
+  "hub.class":"Grupo",
+  "hub.group":"Agrupación",
+  "hub.fit":"Condición física",
+  "hub.meas":"mediciones",
+  "hub.testsN":"pruebas distintas",
+  "hub.lastMeas":"última",
+  "hub.groupNote":"Las pantallas completas (alumnado, calificaciones, pruebas) funcionan por grupo: ábrelas desde los grupos que forman la agrupación.",
+  "hub.students":"Alumnado",
+  "hub.inList":"en la lista",
+  "hub.openList":"Lista del alumnado",
+  "hub.att":"Asistencia",
+  "hub.lessonsMarked":"sesiones con asistencia",
+  "hub.noAtt":"Aún no se ha pasado lista",
+  "hub.partPct":"participación",
+  "hub.openAtt":"Asistencia e informe",
+  "hub.openIdx":"Índice de condición física",
+  "hub.openCov":"Qué falta",
+  "hub.openProg":"Progreso",
+  "hub.grades":"Calificaciones",
+  "hub.graded":"con nota final",
+  "hub.openGrades":"Tabla de calificaciones",
+  "hub.assess":"Evaluaciones",
+  "hub.peerN":"evaluaciones entre iguales",
+  "hub.openPeer":"Evaluación entre iguales",
+  "hub.openRub":"Rúbricas",
+  "hub.empty":"Aún no hay grupos. Añade uno aquí (curso y número) y después su lista de alumnado.",
+  "hub.addCls":"Grupo nuevo",
+  "hub.addBtn":"Añadir grupo",
+  "hub.inLesson":"en sesión ahora",
   /* ux-redesign */
   "end.attDone":"Asistencia registrada",
   "end.attPart":"Asistencia: marcados",
@@ -14005,14 +14245,14 @@ function applyRole(){
      שיאים  — לוח בית הספר
    המודולים עצמם לא השתנו; האזור רק קובע איזה כפתור בסרגל דולק
    ואילו לשוניות מופיעות מתחת לכותרת. */
-const MODS={home:1,live:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1};
+const MODS={home:1,live:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1,cls:1};
 const AREA_OF={home:"today",live:"live",beep:"live",photo:"live",
   lesson:"prep",games:"prep",fit:"prep",know:"prep",nut:"prep",
-  stu:"classes",ft:"classes",tools:"classes",rec:"rec"};
+  cls:"classes",stu:"classes",ft:"classes",tools:"classes",rec:"rec"};
 const AREA_TABS={
   prep:[["lesson","📋","area.plans","מערכים"],["games","🎮","area.games","משחקים"],
         ["fit","🏋️","area.fit","תרגילים וטיימרים"],["know","📚","area.know","ידע"],["nut","🥗","area.nut","תזונה"]],
-  classes:[["stu","👥","area.stu","תלמידים וציונים"],["ft","🏅","area.ft","מבחני כושר"],["tools","🧰","area.tools","כלי כיתה"]]
+  classes:[["cls","🏫","area.cls","מרכז הכיתה"],["stu","👥","area.stu","תלמידים וציונים"],["ft","🏅","area.ft","מבחני כושר"],["tools","🧰","area.tools","כלי כיתה"]]
 };
 const areaOf=mod=>AREA_OF[mod]||"today";
 function paintAreaTabs(mod){
@@ -14052,14 +14292,18 @@ function go(mod,opts){
   $$(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.area===area||(!b.dataset.area&&b.dataset.go===mod)));
   /* «התלמידים שלי» ומסך הכיתה קוראים את stu.list — הגשר רץ לפניהם,
      אחרת מסך שלם מציג אפס בזמן שהרשימות מלאות. */
-  if(mod==="stu"||mod==="home"||mod==="tools")syncStudents();
-  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init}[mod]; if(f)f(); }
+  if(mod==="stu"||mod==="home"||mod==="tools"||mod==="cls")syncStudents();
+  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init,cls:window.HUB&&window.HUB.init}[mod]; if(f)f(); }
+  /* מבחני כושר וכלי כיתה נכנסים מחדש בכל ביקור: שיעור שנפתח מאז
+     הביקור הקודם קובע את הכיתה, ולא רק בביקור הראשון ביום. */
+  else if(prev!==mod){ const re={ft:window.FT&&window.FT.init,tools:window.TOOLS&&window.TOOLS.init}[mod]; if(re)try{ re(); }catch(e){} }
   if(mod==="home"){ homeStats();
     /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
        המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
        לנראה — במקום מסך שמראה מצב ישן. */
     paintHome(); }
   if(mod==="live"&&window.LIVE)window.LIVE.paint();
+  if(mod==="cls"&&window.HUB)window.HUB.paint();
   paintAreaTabs(mod);
   try{ paintNavLive(); }catch(e){}
   updateBack(); wireTips();
@@ -14264,7 +14508,7 @@ function toggleSun(){
 /* «חזרה» שבכותרת עושה בדיוק מה שעושה כפתור החזרה של הטלפון: צעד
    אחד אחורה בהיסטוריה. כשאין לאן לחזור (נכנסו ישר מקישור או
    מרענון) — לראש האזור, ומשם לבית. */
-const AREA_ROOT={today:"home",prep:"lesson",classes:"stu",rec:"rec",live:"live"};
+const AREA_ROOT={today:"home",prep:"lesson",classes:"cls",rec:"rec",live:"live"};
 function updateBack(){
   const b=$("#btnBack"); if(!b)return;
   const mod=document.body.dataset.mod||"home";
@@ -14599,6 +14843,81 @@ const SCHED={
 };
 
 /* ============================================================
+   שיוך מערך לשיעור
+   ------------------------------------------------------------
+   מערך שהוכן בנחת, מראש, משויך לשיעור מסוים — כיתה ותאריך — ומאז
+   הוא מופיע ב«היום» ונפתח לבד כשהשיעור מתחיל. בלי השיוך המערך חי
+   רק בזיכרון של מסך «מערכים», ונעלם ברענון.
+
+   ls.assign: { "cid|YYYY-MM-DD": {title, plan, ts} }
+   עותק של המערך ולא הפניה: מערך בספרייה יכול להשתנות או להימחק,
+   והשיעור צריך את מה שהוכן לו.
+   ============================================================ */
+const ASSIGN_KEY="ls.assign";
+const addDaysISO=(iso,n)=>{ const d=new Date(iso+"T12:00:00"); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+const ASSIGN={
+  all(){ const v=LS.get(ASSIGN_KEY,{}); return (v&&typeof v==="object"&&!Array.isArray(v))?v:{}; },
+  get(cid,iso){ return (cid&&this.all()[cid+"|"+(iso||isoToday())])||null; },
+  set(cid,iso,plan){
+    const a=this.all(), old=addDaysISO(isoToday(),-14);
+    /* שיוכים של לפני שבועיים לא משרתים אף אחד — הם רק ממלאים את האחסון */
+    Object.keys(a).forEach(k=>{ if((k.split("|")[1]||"")<old)delete a[k]; });
+    a[cid+"|"+iso]={title:(plan&&plan.title)||"",plan:JSON.parse(JSON.stringify(plan||{})),ts:Date.now()};
+    return LS.set(ASSIGN_KEY,a);
+  },
+  remove(cid,iso){ const a=this.all(); delete a[cid+"|"+iso]; LS.set(ASSIGN_KEY,a); },
+  /* המופעים הקרובים של כיתה במערכת השעות: מהיום ועד days ימים קדימה.
+     משבצת של היום שכבר נגמרה, או שיעור שכבר התקיים, לא מוצעים. */
+  upcoming(cid,days){
+    const out=[], t0=isoToday(), nm=minNow();
+    for(let i=0;i<(days||14);i++){
+      const iso=addDaysISO(t0,i);
+      DATA.schedToday(schedAll(),iso,sesAll(),i?-1:nm).forEach(r=>{
+        if(!r.startable||r.slot.cid!==cid||r.status==="done")return;
+        if(i===0){ const w=DATA.slotWindow(r.slot); if(w&&nm>=w.to)return; }
+        out.push({iso,slot:r.slot,day:i});
+      });
+    }
+    return out;
+  },
+  /* «להכנה»: שיעורים של היום (שעוד לא התחילו) ושל מחר, שאין להם מערך */
+  toPrep(){
+    const out=[], t0=isoToday(), nm=minNow();
+    for(let i=0;i<2;i++){
+      const iso=addDaysISO(t0,i);
+      DATA.schedToday(schedAll(),iso,sesAll(),i?-1:nm).forEach(r=>{
+        if(!r.startable||!r.slot.cid||r.status!=="planned")return;
+        if(i===0){ const w=DATA.slotWindow(r.slot); if(w&&nm>=w.from)return; }
+        if(!ASSIGN.get(r.slot.cid,iso))out.push({iso,slot:r.slot,day:i});
+      });
+    }
+    return out;
+  }
+};
+/* «הכן מערך» מ«היום»: מסך המערכים נפתח על הכיתה, והשיוך מוצע מראש
+   לשיעור שממנו באו. */
+function prepFor(cid,iso,time){
+  LS.set("ls.target",{cid,iso,time:time||"",name:clsDisp(cid)});
+  go("lesson");
+  if(window.LESSON&&window.LESSON.applyTarget)window.LESSON.applyTarget();
+}
+const dayWord=d=>d===0?t("prep.today","היום"):t("prep.tomorrow","מחר");
+function paintPrep(){
+  const box=$("#hx-prep"); if(!box)return;
+  let rows=[]; try{ rows=ASSIGN.toPrep(); }catch(e){}
+  if(!rows.length){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  box.innerHTML='<div class="top"><b>'+esc(t("prep.title","להכנה"))+'</b><span class="hint">'+
+    esc(t("prep.sub","שיעורים קרובים שעוד אין להם מערך"))+'</span></div>'+
+    rows.slice(0,4).map(r=>'<div class="hx-up"><span class="tm" dir="ltr">'+esc(r.slot.time||"")+'</span>'+
+      '<b>'+esc(slotName(r.slot))+'</b><span class="tp">'+esc(dayWord(r.day))+'</span>'+
+      '<button class="btn sm" data-prep="'+esc(r.slot.cid)+'|'+esc(r.iso)+'|'+esc(r.slot.time||"")+'">📝 '+
+        esc(t("prep.btn","הכן מערך"))+'</button></div>').join("");
+  box.querySelectorAll("[data-prep]").forEach(b=>b.addEventListener("click",()=>{
+    ac(); const [cid,iso,tm]=b.dataset.prep.split("|"); prepFor(cid,iso,tm); }));
+}
+
+/* ============================================================
    «השיעורים שלי היום»
    ------------------------------------------------------------
    השאלה שדף הבית לא ידע לענות עליה עד עכשיו. שורה לכל שיעור,
@@ -14611,8 +14930,9 @@ function startFromSlot(slot){
      לפי צילום שם ישן של כיתה ששונתה היה יוצר כיתה שנייה. */
   try{ if(!DATA.classOf(REGSTORE,slot.cid))
     DATA.registerClass(REGSTORE,slot.clsSnapshot||""); }catch(e){}
+  const as=ASSIGN.get(slot.cid,isoToday());
   const r=SESSION.start({cid:slot.cid,clsSnapshot:slot.clsSnapshot||"",
-    date:isoToday(),planTitle:slot.topic||""});
+    date:isoToday(),planTitle:(as&&as.title)||slot.topic||""});
   if(r.outcome==="blocked"){
     toast("כבר פתוח שיעור בכיתה "+sesName(r.active)+" — סיים אותו קודם");
     return;
@@ -14621,6 +14941,8 @@ function startFromSlot(slot){
   paintSessionBar();
   toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+
     (slot.clsSnapshot||"")+" התחיל");
+  /* המערך ששויך לשיעור הזה עולה איתו למצב שיעור */
+  if(as&&as.plan&&window.LIVE)window.LIVE.attachPlan(as.plan);
   paintHome();
   /* התחלת שיעור מביאה ישר למצב שיעור: הכיתה כבר ידועה, והכלים שם */
   go("live");
@@ -14632,7 +14954,7 @@ function slotName(sl){
 }
 /* שני הבלוקים של דף הבית נצבעים יחד — הם שני קצוות של אותה זרימה */
 function paintHome(){
-  try{ paintToday(); paintLastLesson(); }catch(e){}
+  try{ paintToday(); paintLastLesson(); paintPrep(); }catch(e){}
 }
 /* ============================================================
    «היום שלי» — עכשיו, הבא, ובהמשך
@@ -14650,6 +14972,13 @@ function slotRange(sl){
   const w=DATA.slotWindow(sl);
   return w?(DATA.fmtTime(w.from)+"–"+DATA.fmtTime(w.to)):(sl.time||"");
 }
+/* הנושא של משבצת: המערך ששויך לה היום, ואם אין — הנושא שבמערכת */
+function slotTopic(sl,cls,block){
+  const as=ASSIGN.get(sl.cid,isoToday());
+  const txt=as&&as.title?"📋 "+as.title:(sl.topic||"");
+  if(!txt)return "";
+  return block?'<div class="'+cls+'">'+esc(txt)+'</div>':'<span class="'+cls+'">'+esc(txt)+'</span>';
+}
 /* שורה קומפקטית — לשיעור שאינו במוקד. כפתור משני ולא כפתור ראשי:
    דף שכולו כפתורים ראשיים הוא דף בלי היררכיה. */
 function upRow(r,label){
@@ -14658,7 +14987,7 @@ function upRow(r,label){
     (label?'<span class="lbl">'+esc(label)+'</span>':"")+
     '<span class="tm" dir="ltr">'+esc(sl.time)+'</span>'+
     '<b>'+esc(slotName(sl))+'</b>'+
-    (sl.topic?'<span class="tp">'+esc(sl.topic)+'</span>':"")+
+    slotTopic(sl,"tp")+
     '<button class="btn sm ghost" data-slot="'+esc(sl.id)+'">▶ התחל</button></div>';
 }
 function focusCard(r,mode){
@@ -14680,7 +15009,7 @@ function focusCard(r,mode){
     '<div class="cls">'+esc(r.startable?slotName(sl):(sl.label||DATA.kindLabel(DATA.kindOf(sl))))+'</div>'+
     '<div class="when">'+esc(slotRange(sl))+'</div>'+
     (until?'<div class="until">מתחיל בעוד '+esc(until)+'</div>':"")+
-    (sl.topic?'<div class="topic">'+esc(sl.topic)+'</div>':"")+
+    slotTopic(sl,"topic",true)+
     (act1?'<div class="row" style="margin-top:11px">'+act1+'</div>':"")+
     '</div>';
 }
@@ -15213,13 +15542,26 @@ function wireEndLesson(){
     const a=SESSION.active();
     if(!a){ modal("endModal",false); return; }
     const cid=a.cid;
-    const r=SESSION.complete(a.id,{rating:endRate,note:$("#end-note").value});
+    const note=$("#end-note").value;
+    /* דירוג אחד לשיעור. הוא נשמר על השיעור (ההמלצה לשיעור הבא), ואם
+       השיעור רץ על מערך מהמחולל — גם למשוב של המחולל, שבוחר לפיו
+       גרסאות. קודם היו שני דירוגים נפרדים שאף אחד מהם לא ראה את השני. */
+    try{
+      const lp=window.LIVE&&window.LIVE.plan&&window.LIVE.plan();
+      const pl=lp&&lp.plan;
+      if(endRate!=null&&pl&&pl.topic&&pl.grade){
+        const fb=LS.get("ls.feedback",[]);
+        fb.unshift({ts:Date.now(),topic:pl.topic,grade:pl.grade,subs:pl.subs||[],variants:pl.variants||[],rating:endRate,note:note.trim()});
+        LS.set("ls.feedback",fb.slice(0,400));
+      }
+    }catch(e){}
+    const r=SESSION.complete(a.id,{rating:endRate,note});
     modal("endModal",false);
     if(!r.ok){ toast("סיום השיעור נכשל"); return; }
     toast("✓ השיעור הסתיים");
-    if(document.body.dataset.mod==="live")go("home");
     /* מיד אחרי הסיום זה הרגע שבו ההמלצה שווה משהו — המורה עדיין
-       זוכר את השיעור, והכיתה הבאה עוד לא נכנסה. */
+       זוכר את השיעור, והכיתה הבאה עוד לא נכנסה. לכן מסיימים במרכז
+       הכיתה, שם ההמלצה לשיעור הבא. */
     setTimeout(()=>openClassScreen(cid),350);
   });
 }
@@ -15239,8 +15581,17 @@ function clsDisp(cid){
   const p=DATA.cidParts(cid);
   return p?DATA.clsName(p.grade,p.num):(cid||"");
 }
+/* מסך הכיתה עבר מחלון למרכז הכיתה (אזור «כיתות»). הפונקציה נשארת
+   בשמה, כי אליה פונים מדף הבית, מהיום המלא ומסוף שיעור. */
 function openClassScreen(cid){
   if(!cid)return;
+  LS.set("hub.cls",cid);
+  go("cls");
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+/* הסקירה של כיתה — מספרים, המשך מומלץ ושיעורים אחרונים. מרכז הכיתה
+   (hm-hub.js) מצייר אותה בראש המסך, ומוסיף מתחתיה את הכרטיסים. */
+function classOverviewHtml(cid){
   syncStudents();   /* «X תלמידים» כאן קורא את stu.list — הגשר לפניו */
   const ses=SESSION.list({cid});
   const done=ses.filter(x=>x.status===DATA.SESSION_DONE);
@@ -15254,7 +15605,6 @@ function openClassScreen(cid){
   const rec=DATA.nextLesson(ses,{cid,rows});
   const act=SESSION.active();
 
-  $("#cls-title").textContent=(grp?"קבוצה ":"כיתה ")+clsDisp(cid);
   const stat=(n,l)=>'<div class="qs"><div class="n">'+esc(String(n))+'</div><div class="l">'+esc(l)+'</div></div>';
   const last=done[0];
   let html=grp
@@ -15312,16 +15662,18 @@ function openClassScreen(cid){
     (grp?'<div class="hint" style="margin-top:9px">מדידה בקבוצה נעשית בינתיים דרך הכיתה עצמה — '+
       esc(DATA.groupSummary(REGSTORE,cid))+'.</div>':"");
 
-  $("#cls-body").innerHTML=html;
+  return html;
+}
+function wireClassOverview(cid){
   const st=$("#cls-start");
   if(st)st.addEventListener("click",()=>{
     startFromSlot({cid,clsSnapshot:clsDisp(cid),topic:""});
-    modal("clsModal",false);
   });
   const ft=$("#cls-ft");
-  if(ft)ft.addEventListener("click",()=>{ modal("clsModal",false); go("ft"); });
-  modal("clsModal",true);
+  if(ft)ft.addEventListener("click",()=>{ if(window.FT&&window.FT.show)window.FT.show(cid,"tests"); else go("ft"); });
 }
+const classTitle=cid=>{ let g=null; try{ g=DATA.groupOf(REGSTORE,cid); }catch(e){}
+  return (g?t("hub.group","קבוצה")+" ":t("hub.class","כיתה")+" ")+clsDisp(cid); };
 
 /* תוויות המשוב על שיעור. חיות כאן ולא בשכבת הנתונים: הדירוג הוא
    מספר, והמילה שמתארת אותו היא החלטת ממשק. */
@@ -18774,8 +19126,11 @@ const FIT=(function(){
 
   /* ---------- init ---------- */
   function init(){
-    $$(".pf-tabs [data-ft]").forEach(b=>b.addEventListener("click",()=>{
-      $$(".pf-tabs [data-ft]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+    /* הבורר מוגבל למסך הכושר. «.pf-tabs [data-ft]» לבד תפס גם את לשוניות
+       מבחני הכושר (שגם הן data-ft), ואחרי ביקור אחד כאן לחיצה על לשונית
+       שם הפעילה גם את הקוד הזה. */
+    $$("#view-fit .pf-tabs [data-ft]").forEach(b=>b.addEventListener("click",()=>{
+      $$("#view-fit .pf-tabs [data-ft]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
       ["timer","circuit","lib","dice","gym"].forEach(t=>$("#fit-sub-"+t).style.display=t===b.dataset.ft?"":"none");
     }));
     $("#fit-presets").innerHTML=PRESETS.map((p,i)=>`<div class="fit-pre" data-i="${i}"><b>${p.name}</b><span>${p.sub}</span></div>`).join("");
@@ -18805,7 +19160,7 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,con
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
-  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,sesName,areaOf,goBack,regStore:REGSTORE,
+  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,assign:ASSIGN,prepFor,classOverviewHtml,wireClassOverview,classTitle,startFromSlot,sesName,areaOf,goBack,regStore:REGSTORE,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
@@ -20402,7 +20757,14 @@ window.GAMES=(function(){
     H().modal("gm-modal");
     const b=$("#gm-toLesson");
     if(b)b.addEventListener("click",()=>{
-      H().LS.set("ls.pickGame",g.id); H().modal("gm-modal",false); H().go("lesson");
+      H().modal("gm-modal",false);
+      /* יש מערך על המסך — מהיר או ידני — המשחק נכנס אליו מיד. אין —
+         הוא ממתין למערך הבא שייבנה. קודם הוא נשמר רק למחולל המהיר,
+         ובבונה הידני הלך לאיבוד. */
+      if(window.LESSON&&window.LESSON.current&&window.LESSON.current()&&window.LESSON.addGame(g)){
+        H().go("lesson"); H().toast("«"+g.name+"» "+H().t("gm.added","נוסף למערך שעל המסך")); return;
+      }
+      H().LS.set("ls.pickGame",g.id); H().go("lesson");
       H().toast("«"+g.name+"» ישובץ במערך הבא שתבנה");
     });
   }
@@ -20827,9 +21189,11 @@ window.TOOLS=(function(){
     attDate=a.date||attDate;
     return !!hit;
   }
+  let skipCtx=false;   /* פתיחה ממרכז הכיתה: הכיתה שנבחרה שם גוברת על השיעור */
   function init(){
     const {$, $$}=H();
-    applyLessonCtx();
+    if(!skipCtx)applyLessonCtx();
+    skipCtx=false;
     if(inited){ fillClassSelects(); const d=H().$("#tl-attDate"); if(d)d.value=attDate;
       renderAtt(); renderRub(); renderPicked(); return; }
     inited=true;
@@ -20911,7 +21275,31 @@ window.TOOLS=(function(){
       return n;
     }finally{ attCls=save.c; attDate=save.d; }
   }
-  return {init,openTab,attStatus,markAllPresent};
+  /* פתיחה על כיתה ולשונית ממרכז הכיתה. הנוכחות ממופתחת לפי שם הכיתה,
+     ולכן בוחרים את התווית של אותה כיתה מתוך רשימת התלמידים. */
+  function show(cid,t){
+    teamCls=pickCls=rubCls=cid||"";
+    const lbl=cid?classesOf(students()).find(c=>cidOfLabel(c)===cid):"";
+    attCls=lbl||"";
+    skipCtx=true;
+    H().go("tools");
+    skipCtx=false;
+    if(inited){ fillClassSelects(); renderAtt(); renderRub(); renderPicked(); }
+    openTab(t||"att");
+  }
+  /* סיכום הנוכחות של כיתה: בכמה שיעורים סומנה, ואחוז ההשתתפות
+     (מלאה = 1, חלקית = חצי) — אותה נוסחה של דוח הנוכחות. */
+  function attSummaryFor(cid){
+    const all=ATT(); let days=0,p=0,h=0,marks=0;
+    Object.keys(all).forEach(k=>{
+      const c=k.slice(k.indexOf("|")+1);
+      if(!c||c==="all"||cidOfLabel(c)!==cid)return;
+      const rec=all[k]||{}, v=Object.values(rec); if(!v.length)return;
+      days++; v.forEach(x=>{ marks++; if(x==="p")p++; else if(x==="h")h++; });
+    });
+    return {days,pct:marks?Math.round((p+h*0.5)/marks*100):null};
+  }
+  return {init,openTab,attStatus,markAllPresent,show,attSummaryFor};
 })();
 })();
 
@@ -21427,8 +21815,10 @@ window.LESSON=(function(){
       assess:T.assess,diff:T.diff,safe:T.safe,cur:T.cur,hw:T.hw,note:T.note||"",
       measure:o.withMeasure,
       mainVariants:mainBlocks.map(v=>v.n),mainSubs:mainBlocks.map(v=>v.sub).filter(Boolean)};
+    editPh=false;
+    if(H().LS.get("ls.target",null))asgOpen=true;
     renderPlan();
-    H().toast("⚡ המערך מוכן — אפשר להפעיל, לשמור או להדפיס");
+    H().toast(H().t("ls.ready","⚡ המערך מוכן — אפשר לערוך, לשייך לשיעור או לשמור"));
   }
 
   const placeName=p=>({field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"}[p]||p);
@@ -21465,8 +21855,10 @@ window.LESSON=(function(){
     const S=H().session;
     if(!S||!window.FT){ b.hidden=true; if(pickBtn)pickBtn.hidden=true; return; }
     const last=H().LS.get("ft.last",{});
-    const c=(window.FT.classOf&&last.grade)?window.FT.classOf(last.grade,last.num||1):"";
-    const cid=window.HMDATA.classId(c);
+    /* הכיתה של המערך קודם (מהשדה או מהשיוך); אחרת הכיתה האחרונה במבחנים */
+    const pc=planCid(), pcr=pc?DT().classOf(store(),pc):null;
+    const c=pcr?pcr.name:((window.FT.classOf&&last.grade)?window.FT.classOf(last.grade,last.num||1):"");
+    const cid=pcr?pc:window.HMDATA.classId(c);
     const act=S.active();
     b.hidden=false;
     if(act){ b.textContent="▶ שיעור פתוח · "+(act.clsSnapshot||""); b.disabled=true; if(pickBtn)pickBtn.hidden=true; return; }
@@ -21502,9 +21894,19 @@ window.LESSON=(function(){
     };
   }
 
+  /* איפה המערך הזה משויך — כדי שהמורה יראה שהשיוך נקלט */
+  function asgPills(){
+    if(!plan||!H().assign)return "";
+    const all=H().assign.all(), out=[];
+    Object.keys(all).forEach(k=>{ const a=all[k]; if(!a||a.title!==plan.title||k.split("|")[1]<today())return;
+      const [cid,iso]=k.split("|"); const c=DT().classOf(store(),cid);
+      out.push('<span class="pill acc">📌 '+H().esc((c?c.name:cid)+" · "+iso)+'</span>'); });
+    return out.slice(0,3).join("");
+  }
   function renderPlan(){
     const {$, $$, esc}=H();
     if(!plan){$("#ls-planCard").style.display="none";return;}
+    renderAssign();
     $("#ls-planCard").style.display="";
     wireStartFromPlan();
     const total=plan.phases.reduce((a,p)=>a+p.min,0);
@@ -21515,6 +21917,7 @@ window.LESSON=(function(){
         <div><b>${esc(plan.title)}</b><div class="sb">${esc(plan.group)}</div></div>
       </div>
       <div class="row" style="margin:10px 0 12px;gap:6px;flex-wrap:wrap">
+        ${asgPills()}
         <span class="pill acc">${plan.grade==="mid"?"חטיבה ז׳–ט׳":"תיכון י׳–י״ב"}</span>
         ${plan.cls?`<span class="pill">כיתה ${esc(plan.cls)}</span>`:""}
         <span class="pill">${total} דק׳</span>
@@ -21534,8 +21937,18 @@ window.LESSON=(function(){
       <div class="ls-sec"><h4>🎒 ציוד</h4>
         <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div></div>
 
-      <div class="ls-sec"><h4>⏱ מהלך השיעור</h4>
-      ${plan.phases.map(p=>`<div class="fit-station"><div class="ix">${p.min}׳</div>
+      <div class="ls-sec"><h4 class="row" style="align-items:center">⏱ מהלך השיעור<span class="grow"></span>
+        <button class="btn sm ${editPh?"acc":"ghost"}" data-pe="toggle">${editPh?H().t("pe.done","✓ סיום עריכה"):H().t("pe.edit","✎ ערוך מהלך")}</button></h4>
+      ${editPh?`<div class="pe-list">${plan.phases.map((p,i)=>`<div class="pe-row" data-pi="${i}">
+          <div class="row" style="gap:6px"><input class="grow" data-pf="n" value="${esc(p.n)}" aria-label="שם השלב">
+            <input type="number" data-pf="min" value="${p.min}" min="1" style="width:74px" aria-label="דקות"></div>
+          <textarea data-pf="d" rows="2" aria-label="תיאור">${esc(Array.isArray(p.d)?p.d.join("\n"):(p.d||""))}</textarea>
+          <div class="row" style="gap:6px"><button class="btn sm ghost" data-pe="up" aria-label="למעלה">↑</button>
+            <button class="btn sm ghost" data-pe="down" aria-label="למטה">↓</button>
+            <button class="btn sm stop" data-pe="del" aria-label="מחק שלב">🗑</button></div></div>`).join("")}
+          <div class="row" style="justify-content:space-between;align-items:center"><button class="btn sm" data-pe="add">${H().t("pe.add","+ שלב")}</button>
+            <span class="hint">${H().t("pe.total","סה״כ")} <b id="ls-peTotal">${total}</b> ${H().t("ui.min","דק׳")}</span></div></div>`
+      :plan.phases.map(p=>`<div class="fit-station"><div class="ix">${p.min}׳</div>
         <div class="grow"><b>${esc(p.n)}</b>${p.sub?` <span class="pill">${esc(p.sub)}</span>`:""}${Array.isArray(p.d)
           ?`<ol class="ls-steps">${p.d.map(st=>"<li>"+esc(st)+"</li>").join("")}</ol>`
           :`<div class="sb" style="line-height:1.55;margin-top:2px">${esc(p.d)}</div>`}
@@ -21847,14 +22260,15 @@ window.LESSON=(function(){
     }));
     $("#ls-gen").addEventListener("click",gen);
     $("#ls-again").addEventListener("click",gen);
-    $("#ls-run").addEventListener("click",runStart);
-    $("#ls-stop").addEventListener("click",()=>{stop();H().$("#ls-phName").textContent="הופסק";});
     $("#ls-save").addEventListener("click",saveLib);
-    wireQuickTimer();
     $("#ls-print").addEventListener("click",print);
-    $("#ls-fbGood").addEventListener("click",()=>saveFeedback(1));
-    $("#ls-fbOk").addEventListener("click",()=>saveFeedback(0));
-    $("#ls-fbBad").addEventListener("click",()=>saveFeedback(-1));
+    $("#ls-assignBtn").addEventListener("click",()=>{ asgOpen=!asgOpen; renderAssign(); });
+    /* עריכת המהלך ופעולות השיוך — האזנה אחת לכל הכרטיס */
+    $("#ls-planBody").addEventListener("click",onPlanClick);
+    $("#ls-planBody").addEventListener("input",onPlanInput);
+    $("#ls-assignBox").addEventListener("click",onAssignClick);
+    /* הכיתה מתוך הרשימה: מספר התלמידים מתמלא ממנה */
+    $("#ls-class").addEventListener("change",fillSizeFromClass);
     $("#ls-libExport").addEventListener("click",exportLib);
     $("#ls-libImport").addEventListener("change",async e=>{
       for(const f of e.target.files)await importLib(f);
@@ -21862,18 +22276,130 @@ window.LESSON=(function(){
     });
     renderLib();
     if(window.LBUILD)window.LBUILD.init();
+    fillClassList(); applyTarget();
     const pre=H().LS.get("ls.pickGame",null);
     if(pre)H().toast("משחק נבחר ממתין — לחץ «בנה מערך»");
   }
+  /* ============================================================
+     הכנה: כיתה מתוך הרשימה, שיוך לשיעור, ועריכת המהלך
+     ============================================================ */
+  const store=()=>H().regStore;
+  const DT=()=>window.HMDATA;
+  function fillClassList(){
+    const dl=H().$("#ls-classList"); if(!dl)return;
+    const reg=DT().classes(store());
+    dl.innerHTML=Object.keys(reg).filter(k=>!DT().isGroupRec(reg[k]))
+      .map(k=>'<option value="'+H().esc(reg[k].name||k)+'"></option>').join("");
+  }
+  function clsCount(cid){ try{ return DT().studentsIn(store(),cid,H().LS.get("stu.list",[])).length; }catch(e){ return 0; } }
+  function fillSizeFromClass(){
+    const {$}=H(), v=$("#ls-class").value.trim(); if(!v)return;
+    const c=DT().findClass(store(),v); if(!c)return;
+    const n=clsCount(c.id); if(n)$("#ls-size").value=n;
+  }
+  /* בא מ«הכן מערך» בדף הבית: הכיתה ממולאת, והשיוך מוצע לשיעור הזה */
+  function applyTarget(){
+    const tg=H().LS.get("ls.target",null); if(!tg||!tg.cid)return;
+    const {$}=H(); fillClassList();
+    const inp=$("#ls-class"); if(inp&&tg.name){ inp.value=tg.name; fillSizeFromClass(); }
+    asgCid=tg.cid;
+  }
+  let asgOpen=false, asgCid=null, editPh=false;
+  /* הכיתה של המערך: מה שכתוב בו, אחרת מה שנבחר בשיוך או בהכנה */
+  function planCid(){
+    if(asgCid)return asgCid;
+    if(plan&&plan.cls){ const c=DT().findClass(store(),plan.cls); if(c)return c.id; }
+    const tg=H().LS.get("ls.target",null); return tg&&tg.cid||null;
+  }
+  function occLabel(o){
+    const d=new Date(o.iso+"T12:00:00");
+    /* שם היום לפי שפת הממשק — לא אותיות עבריות קבועות */
+    const day=o.day===0?H().t("prep.today","היום"):o.day===1?H().t("prep.tomorrow","מחר"):
+      d.toLocaleDateString(H().loc(),{weekday:"short",day:"numeric",month:"numeric"});
+    return day+" · "+(o.slot.time||"");
+  }
+  function renderAssign(){
+    const {$, esc}=H(), box=$("#ls-assignBox"); if(!box)return;
+    if(!plan||!asgOpen){ box.hidden=true; box.innerHTML=""; return; }
+    const reg=DT().classes(store()), cid=planCid(), A=H().assign;
+    const tg=H().LS.get("ls.target",null);
+    const occ=cid?A.upcoming(cid,14):[];
+    box.hidden=false;
+    box.innerHTML='<div class="row" style="align-items:center"><b>📌 '+esc(H().t("asg.title","שיוך לשיעור"))+'</b><span class="grow"></span>'+
+        '<button class="x" data-asg="close" aria-label="סגור">✕</button></div>'+
+      '<div class="hint">'+esc(H().t("asg.hint","המערך יופיע ב«היום» ויעלה לבד כשהשיעור מתחיל."))+'</div>'+
+      '<div class="ls-asg-cls">'+Object.keys(reg).map(k=>'<button class="chip'+(k===cid?" on":"")+'" data-asg-cls="'+esc(k)+'">'+
+        (DT().isGroupRec(reg[k])?"👥 ":"")+esc(reg[k].name||k)+'</button>').join("")+'</div>'+
+      (cid?(occ.length
+        ? '<div class="ls-asg-occ">'+occ.slice(0,8).map(o=>{
+            const has=A.get(cid,o.iso), sug=tg&&tg.cid===cid&&tg.iso===o.iso;
+            return '<button class="btn'+(sug?" acc":"")+'" data-asg-iso="'+esc(o.iso)+'">'+esc(occLabel(o))+
+              (has?' <span class="pill">'+esc(has.title===plan.title?H().t("asg.this","משויך"):H().t("asg.other","יחליף מערך"))+'</span>':"")+'</button>'; }).join("")+'</div>'
+        : '<div class="hint">'+esc(H().t("asg.noSlots","אין לכיתה הזאת שיעורים במערכת השעות בשבועיים הקרובים — בחרו תאריך."))+'</div>')
+       +'<div class="row" style="gap:8px;margin-top:8px"><input type="date" id="ls-asgDate" value="'+today()+'" style="max-width:170px">'+
+        '<button class="btn sm" data-asg="date">'+esc(H().t("asg.toDate","שייך לתאריך"))+'</button></div>'
+      : '<div class="hint">'+esc(H().t("asg.pickCls","בחרו כיתה."))+'</div>');
+  }
+  function doAssign(cid,iso){
+    if(!plan||!cid||!iso)return;
+    if(!plan.cls){ const c=DT().classOf(store(),cid); if(c)plan.cls=c.name; }
+    if(!H().assign.set(cid,iso,plan)){ H().toast("⚠ השיוך לא נשמר במכשיר"); return; }
+    const tg=H().LS.get("ls.target",null);
+    if(tg&&tg.cid===cid&&tg.iso===iso)H().LS.set("ls.target",null);
+    asgOpen=false; renderAssign(); renderPlan(); H().paintHome();
+    const c=DT().classOf(store(),cid);
+    H().toast("📌 "+H().t("asg.done","המערך שויך ל")+(c?c.name:"")+" · "+iso);
+  }
+  function onAssignClick(e){
+    const b=e.target.closest("button"); if(!b)return;
+    if(b.dataset.asg==="close"){ asgOpen=false; renderAssign(); return; }
+    if(b.dataset.asgCls){ asgCid=b.dataset.asgCls; renderAssign(); return; }
+    if(b.dataset.asgIso){ doAssign(planCid(),b.dataset.asgIso); return; }
+    if(b.dataset.asg==="date"){ const v=H().$("#ls-asgDate").value; if(v)doAssign(planCid(),v); }
+  }
+  /* ---------- עריכת המהלך ----------
+     הטיוטה המהירה היא נקודת פתיחה, לא גזירה: כל שלב — שם, דקות
+     ותיאור — ניתן לשינוי, להזזה ולמחיקה, ואפשר להוסיף שלב. אותה
+     עריכה לכל מערך, מהיר או ידני. */
+  function onPlanClick(e){
+    const b=e.target.closest("button"); if(!b||!plan)return;
+    const i=+(b.closest("[data-pi]")||{dataset:{}}).dataset.pi;
+    const ph=plan.phases;
+    if(b.dataset.pe==="toggle"){ editPh=!editPh; renderPlan(); return; }
+    if(b.dataset.pe==="add"){ ph.splice(Math.max(0,ph.length-1),0,{n:H().t("pe.newStep","שלב חדש"),min:5,d:""}); renderPlan(); return; }
+    if(b.dataset.pe==="up"&&i>0){ [ph[i-1],ph[i]]=[ph[i],ph[i-1]]; renderPlan(); return; }
+    if(b.dataset.pe==="down"&&i<ph.length-1){ [ph[i+1],ph[i]]=[ph[i],ph[i+1]]; renderPlan(); return; }
+    if(b.dataset.pe==="del"&&ph.length>1){ ph.splice(i,1); renderPlan(); return; }
+  }
+  function onPlanInput(e){
+    const el=e.target, row=el.closest("[data-pi]"); if(!row||!plan)return;
+    const p=plan.phases[+row.dataset.pi]; if(!p)return;
+    if(el.dataset.pf==="n")p.n=el.value;
+    else if(el.dataset.pf==="min"){ p.min=Math.max(1,Math.round(+el.value||1));
+      const tot=H().$("#ls-peTotal"); if(tot)tot.textContent=plan.phases.reduce((a,x)=>a+(+x.min||0),0); }
+    else if(el.dataset.pf==="d")p.d=Array.isArray(p.d)?el.value.split("\n").map(x=>x.trim()).filter(Boolean):el.value;
+  }
+  /* «קח למערך» ממאגר המשחקים: יש מערך על המסך — המשחק נכנס אליו, לפני
+     שלב הסיום. אין — הוא ממתין למערך הבא, כמו קודם. */
+  function addGame(g){
+    if(!plan||!g)return false;
+    const ph=plan.phases, at=ph.length&&ph[ph.length-1].k==="cool"?ph.length-1:ph.length;
+    ph.splice(at,0,{n:"משחק: "+g.name,min:10,d:(g.how||[]).slice(0,2).join(" ")+(g.goal?" · מטרה: "+g.goal:""),k:"game",gid:g.id});
+    renderPlan();
+    return true;
+  }
   /* טעינת מערך שנבנה בבונה הידני — אותו כרטיס, אותה הפעלה, אותה הדפסה */
   function usePlan(p){
-    plan=p; renderPlan();
+    plan=p; editPh=false;
+    if(H().LS.get("ls.target",null))asgOpen=true;
+    renderPlan();
     const card=H().$("#ls-planCard");
     if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
   }
 
   /* המערך שעל המסך עכשיו — מצב שיעור מציג את שלביו */
-  return {init, usePlan, current:()=>plan, topics:()=>TOPICS, std:()=>STD};
+  return {init, usePlan, current:()=>plan, addGame, applyTarget:()=>{ if(inited){ applyTarget(); if(plan)renderPlan(); } },
+    topics:()=>TOPICS, std:()=>STD};
 })();
 })();
 
@@ -25734,7 +26260,27 @@ window.FT=(function(){
     normVersion
   };
 
-  return {init, pick, ingest, tests:()=>TESTS, results:()=>allRes(), roster,
+  /* פתיחה על כיתה ולשונית — ממרכז הכיתה («מדד הכושר», «מה חסר»).
+     קבוצה נפתחת על הכיתה הראשונה שבה, כמו בבורר המשותף. */
+  function show(cid,tab){
+    const exp=DATA.expandCid(clsStore,cid);
+    const base=(DATA.isGroupId(cid)&&exp[0])||cid;
+    const p=DATA.cidParts(base);
+    if(p&&p.grade){ stopClock(true); stopCd(); st.grade=p.grade; st.num=+p.num||st.num; st.test=null; persist(); }
+    st.tab=tab||"tests";
+    /* הבחירה ממרכז הכיתה גוברת: השיעור הפתוח כבר «הוחל» ולא ידרוס אותה */
+    const act=H().session&&H().session.active(); if(act)st.lessonId=act.id;
+    H().go("ft");
+    if(inited)renderTab();
+  }
+  /* כמה מדידות ובכמה מבחנים — לכרטיס «כושר» במרכז הכיתה */
+  function summary(cid){
+    const rs=allRes().filter(r=>{ try{ return DATA.rowInScope(r,clsStore,cid); }catch(e){ return false; } });
+    const tests=new Set(rs.map(r=>r.test));
+    const last=rs.reduce((m,r)=>r.d&&r.d>m?r.d:m,"");
+    return {n:rs.length,tests:tests.size,last};
+  }
+  return {init, pick, ingest, show, summary, tests:()=>TESTS, results:()=>allRes(), roster,
     classOf:clsName, progress:PROGRESS};
 })();
 })();
@@ -26489,7 +27035,30 @@ window.STU=(function(){
     $("#pa-applyBtn").addEventListener("click",paApplyToGrades);
     render();
   }
-  return {init,importFromBeep,count:()=>load().length};
+  /* ============================================================
+     ממשק למרכז הכיתה
+     ------------------------------------------------------------
+     show — פותח את המסך על כיתה ולשונית (רשימה / ציונים / עמיתים),
+     כך שמורה שבא ממרכז הכיתה לא בוחר שוב כיתה בבורר.
+     summary — מה שמרכז הכיתה מציג בכרטיסים: כמה תלמידים, כמה עם
+     ציון סופי בתקופה, וכמה הערכות עמיתים נוגעות בכיתה.
+     ============================================================ */
+  function show(cid,tab){
+    clsF=cid||""; grClsF=cid||"";
+    H().go("stu");
+    const b=H().$('#view-stu .pf-tabs [data-st="'+(tab||"list")+'"]'); if(b)b.click();
+    render(); if(tab==="grades")renderGrades();
+  }
+  function summary(cid){
+    const periods=loadPeriods(), period=grPeriod||periods[0];
+    const w=loadWeights(), cols=examColsFor(period);
+    const l=load().filter(s=>cidOf(s)===cid);
+    const graded=l.filter(s=>computeFinal(s,period,w,cols).total!=null).length;
+    const ids=new Set(l.map(s=>s.id));
+    const peer=(loadAssess()||[]).filter(a=>(a.students||[]).some(id=>ids.has(id))).length;
+    return {total:l.length,period,graded,peer};
+  }
+  return {init,importFromBeep,count:()=>load().length,show,summary};
 })();
 
 /* LESSON — עבר לקובץ נפרד: hm-lesson.js (מחולל מערכים מורחב) */
@@ -26828,7 +27397,10 @@ function planState(){ const v=H().LS.get(K_PLAN,null); return v&&typeof v==="obj
 /* שלבים בלבד — שם, דקות ותיאור. זה מה שמצב שיעור צריך, ולא כל המערך */
 function slim(p){
   if(!p||!Array.isArray(p.phases)||!p.phases.length)return null;
-  return {title:p.title||"",phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:String(x.d||"")}))};
+  /* הנושא והגרסאות נשמרים כדי שהדירוג בסיום ילמד את מחולל המערכים */
+  return {title:p.title||"",topic:p.topic||null,grade:p.grade||null,
+    variants:p.mainVariants||[],subs:p.mainSubs||[],
+    phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:Array.isArray(x.d)?x.d.join(" · "):String(x.d||"")}))};
 }
 function attachPlan(p){
   const a=active(), sp=slim(p); if(!a||!sp)return false;
@@ -26865,13 +27437,16 @@ function classChoices(){
   Object.keys(reg).sort((a,b)=>String(reg[a].name||a).localeCompare(String(reg[b].name||b),"he"))
     .forEach(cid=>{ if(order.indexOf(cid)<0)order.push(cid); });
   return order.filter(cid=>reg[cid]||sug[cid]).map(cid=>({cid,name:(reg[cid]&&reg[cid].name)||cid,
-    group:!!(reg[cid]&&D().isGroupRec(reg[cid])),sug:sug[cid]||"",n:studentsCount(cid)}));
+    group:!!(reg[cid]&&D().isGroupRec(reg[cid])),sug:sug[cid]||"",n:studentsCount(cid),
+    asg:((H().assign&&H().assign.get(cid,iso()))||{}).title||""}));
 }
 
 function start(cid,label){
   const S=H().session;
   const name=label||((D().classOf(store(),cid)||{}).name)||cid;
-  const p=window.LESSON&&window.LESSON.current&&window.LESSON.current();
+  /* המערך ששויך לשיעור הזה קודם; אחרת המערך שעל המסך במערכים */
+  const as=H().assign&&H().assign.get(cid,iso());
+  const p=(as&&as.plan&&as.plan.phases)?as.plan:(window.LESSON&&window.LESSON.current&&window.LESSON.current());
   const r=S.start({cid,clsSnapshot:name,date:iso(),planTitle:(p&&p.title)||""});
   if(r.outcome==="blocked"){ H().toast(t("live.blocked","כבר פתוח שיעור בכיתה")+" "+H().sesName(r.active)); return; }
   if(!r.ok){ H().toast(t("live.cantStart","לא ניתן לפתוח שיעור")); return; }
@@ -26900,7 +27475,8 @@ function paintPick(root){
     (list.length
       ? '<div class="lv-chips">'+list.map(c=>'<button class="lv-chip'+(c.sug?" sug":"")+'" data-cls="'+esc(c.cid)+'">'+
           '<b>'+(c.group?"👥 ":"")+esc(c.name)+'</b>'+
-          '<small>'+(c.sug?'<span class="now">'+esc(sugLbl[c.sug])+'</span> · ':"")+c.n+" "+esc(t("live.students","תלמידים"))+'</small></button>').join("")+'</div>'
+          '<small>'+(c.sug?'<span class="now">'+esc(sugLbl[c.sug])+'</span> · ':"")+c.n+" "+esc(t("live.students","תלמידים"))+'</small>'+
+          (c.asg?'<small class="asg">📋 '+esc(c.asg)+'</small>':"")+'</button>').join("")+'</div>'
       : '<div class="empty-state"><div class="big">👥</div>'+esc(t("live.noClasses","עוד אין כיתות. בחרו שכבה ומספר כאן למטה — הכיתה תירשם ותישמר."))+'</div>')+
     '<details class="lv-other"'+(list.length?"":" open")+'><summary>'+esc(t("live.other","כיתה אחרת — שכבה ומספר"))+'</summary><div class="in">'+
       '<div class="seg wrap" id="lv-og">'+GRADES.map(g=>'<button data-g="'+g+'"'+(other.g===g?' class="on"':"")+'>'+esc(D().clsName(g,"").replace(/\s+$/,""))+'</button>').join("")+'</div>'+
@@ -27040,6 +27616,154 @@ function init(){
   document.addEventListener("i18n:change",()=>{ if(document.body.dataset.mod==="live")paint(); });
 }
 window.LIVE={init,paint,attachPlan,plan:curPlan,_test:{classChoices}};
+})();
+
+;
+"use strict";
+/* ============================================================
+   PE Ultimate — מרכז הכיתה
+   ------------------------------------------------------------
+   «מה המצב של ט׳3?» — שאלה שעד עכשיו התשובה עליה הייתה מפוזרת
+   בשלושה מסכים, עם שלושה בוררי כיתה שונים: תלמידים וציונים, מבחני
+   כושר, וכלי כיתה (ובסך הכול כשמונה דרכים לבחור כיתה).
+
+   כאן בוחרים כיתה פעם אחת, ורואים:
+   • סקירה — מספרים, המשך מומלץ ושיעורים אחרונים (מה שהיה «מסך
+     הכיתה» בחלון)
+   • כרטיס לכל נושא — תלמידים, נוכחות, כושר, ציונים, הערכות — עם
+     סיכום קצר וכפתור שפותח את המסך המלא כבר על הכיתה הזאת
+
+   זה מסך של ניהול ומעקב, אחרי שיעור או בסוף תקופה — ולכן מותר בו
+   יותר מידע מאשר במצב שיעור. שום מבנה נתונים לא השתנה: הכרטיסים
+   קוראים מהמודולים הקיימים דרך הממשק שלהם.
+   ============================================================ */
+(function(){
+const H=()=>window.HM, D=()=>window.HMDATA;
+const K="hub.cls";
+const GRADES=["ז","ח","ט","י","יא","יב"];
+const NUMS=[1,2,3,4,5,6,7,8,9,10];
+let inited=false, add={g:null,n:null};
+
+const t=(k,d)=>H().t(k,d);
+const esc=s=>H().esc(s);
+const store=()=>H().regStore;
+
+function reg(){ try{ return D().classes(store()); }catch(e){ return {}; } }
+function list(){
+  const r=reg();
+  return Object.keys(r).map(cid=>({cid,name:r[cid].name||cid,group:D().isGroupRec(r[cid])}))
+    .sort((a,b)=>(a.group-b.group)||a.name.localeCompare(b.name,"he"));
+}
+/* הכיתה הנבחרת: מה שנבחר כאן, אחרת כיתת השיעור הפתוח, אחרת כיתת
+   השיעור האחרון, אחרת הראשונה ברשימה */
+function current(){
+  const r=reg(), saved=H().LS.get(K,null);
+  if(saved&&r[saved])return saved;
+  try{ const a=H().session.active(); if(a&&r[a.cid])return a.cid; }catch(e){}
+  try{ const l=H().session.list()||[]; const x=l.find(s=>r[s.cid]); if(x)return x.cid; }catch(e){}
+  const l=list(); return l.length?l[0].cid:null;
+}
+
+function card(ic,title,lines,btns){
+  return '<div class="hub-card"><div class="hd"><span class="ic">'+ic+'</span><b>'+esc(title)+'</b></div>'+
+    '<div class="bd">'+lines.map(x=>'<div>'+x+'</div>').join("")+'</div>'+
+    '<div class="ft">'+btns.map(([id,lbl,pri])=>'<button class="btn sm'+(pri?" acc":" ghost")+'" data-hub="'+id+'">'+esc(lbl)+'</button>').join("")+'</div></div>';
+}
+function cards(cid,isGroup){
+  const stuS=window.STU&&window.STU.summary?window.STU.summary(cid):{total:0,graded:0,peer:0,period:""};
+  const att=window.TOOLS&&window.TOOLS.attSummaryFor?window.TOOLS.attSummaryFor(cid):{days:0,pct:null};
+  const fit=window.FT&&window.FT.summary?window.FT.summary(cid):{n:0,tests:0,last:""};
+  let n=0; try{ n=D().studentsIn(store(),cid,H().LS.get("stu.list",[])).length; }catch(e){}
+  const num=(v,l)=>'<span class="n">'+esc(String(v))+'</span> '+esc(l);
+  if(isGroup){
+    /* הכלים המלאים עובדים לפי כיתה. בקבוצה — הסקירה והנוכחות של
+       השיעורים; את השאר פותחים דרך הכיתות שבקבוצה. */
+    return '<div class="hub-cards">'+
+      card("🏅",t("hub.fit","כושר"),[num(fit.n,t("hub.meas","מדידות")),num(fit.tests,t("hub.testsN","מבחנים שונים"))],[])+
+      '</div><div class="hint">'+esc(t("hub.groupNote","המסכים המלאים (תלמידים, ציונים, מבחני כושר) עובדים לפי כיתה — פתחו אותם דרך הכיתות שבקבוצה."))+'</div>';
+  }
+  return '<div class="hub-cards">'+
+    card("👥",t("hub.students","תלמידים"),[num(n,t("hub.inList","ברשימה"))],
+      [["stu",t("hub.openList","רשימת התלמידים"),true]])+
+    card("✅",t("hub.att","נוכחות"),[
+        att.days?num(att.days,t("hub.lessonsMarked","שיעורים עם נוכחות")):esc(t("hub.noAtt","עוד לא סומנה נוכחות")),
+        att.pct!=null?num(att.pct+"%",t("hub.partPct","השתתפות")):""].filter(Boolean),
+      [["att",t("hub.openAtt","נוכחות ודוח"),false]])+
+    card("🏅",t("hub.fit","כושר"),[num(fit.n,t("hub.meas","מדידות")),num(fit.tests,t("hub.testsN","מבחנים שונים"))+
+        (fit.last?' · <span class="dim">'+esc(t("hub.lastMeas","אחרונה"))+' '+esc(fit.last)+'</span>':"")],
+      [["idx",t("hub.openIdx","מדד הכושר"),true],["cov",t("hub.openCov","מה חסר"),false],["prog",t("hub.openProg","התקדמות"),false]])+
+    card("📊",t("hub.grades","ציונים"),[num(stuS.graded+"/"+stuS.total,t("hub.graded","עם ציון סופי")),
+        '<span class="dim">'+esc(stuS.period||"")+'</span>'],
+      [["grades",t("hub.openGrades","טבלת הציונים"),true]])+
+    card("🤝",t("hub.assess","הערכות"),[num(stuS.peer,t("hub.peerN","הערכות עמיתים"))],
+      [["peer",t("hub.openPeer","הערכת עמיתים"),false],["rub",t("hub.openRub","מחוונים"),false]])+
+  '</div>';
+}
+function paintEmpty(root){
+  root.innerHTML='<div class="hub-top"><div><div class="kick">'+esc(t("nav.classes","כיתות"))+'</div>'+
+    '<h2>'+esc(t("hub.title","מרכז הכיתה"))+'</h2></div></div>'+
+    '<div class="empty-state"><div class="big">🏫</div>'+esc(t("hub.empty","עוד אין כיתות. הוסיפו כיתה כאן — שכבה ומספר — ואחר כך את רשימת התלמידים."))+'</div>'+
+    addBox(true);
+}
+function addBox(open){
+  return '<details class="lv-other" id="hub-add"'+(open?" open":"")+'><summary>+ '+esc(t("hub.addCls","כיתה חדשה"))+'</summary><div class="in">'+
+    '<div class="seg wrap" id="hub-ag">'+GRADES.map(g=>'<button data-ag="'+g+'"'+(add.g===g?' class="on"':"")+'>'+esc(D().clsName(g,""))+'</button>').join("")+'</div>'+
+    '<div class="seg wrap" id="hub-an" style="margin-top:8px">'+NUMS.map(n=>'<button data-an="'+n+'"'+(add.n===n?' class="on"':"")+'>'+n+'</button>').join("")+'</div>'+
+    '<button class="btn acc big" id="hub-addGo" style="margin-top:10px"'+(add.g&&add.n?"":" disabled")+'>+ '+
+      esc(t("hub.addBtn","הוסף כיתה"))+(add.g&&add.n?" · "+esc(D().clsName(add.g,add.n)):"")+'</button>'+
+  '</div></details>';
+}
+function paint(){
+  const root=document.getElementById("hub-root"); if(!root)return;
+  const cid=current();
+  if(!cid){ paintEmpty(root); applyI18n(root); return; }
+  H().LS.set(K,cid);
+  const r=reg(), isGroup=D().isGroupRec(r[cid]);
+  let act=null; try{ act=H().session.active(); }catch(e){}
+  root.innerHTML=
+    '<div class="hub-top"><div><div class="kick">'+esc(t("hub.title","מרכז הכיתה"))+'</div>'+
+      '<h2 id="cls-title">'+esc(H().classTitle(cid))+'</h2></div></div>'+
+    '<div class="hub-chips">'+list().map(c=>'<button class="chip'+(c.cid===cid?" on":"")+'" data-cls="'+esc(c.cid)+'">'+
+      (c.group?"👥 ":"")+esc(c.name)+(act&&act.cid===c.cid?' <span class="livedot" title="'+esc(t("hub.inLesson","בשיעור עכשיו"))+'">●</span>':"")+'</button>').join("")+'</div>'+
+    '<div class="card hub-ov" id="cls-body">'+H().classOverviewHtml(cid)+'</div>'+
+    cards(cid,isGroup)+
+    addBox(false);
+  H().wireClassOverview(cid);
+  applyI18n(root);
+}
+function applyI18n(root){ if(window.I18N&&window.I18N.applyDom)try{ window.I18N.applyDom(root); }catch(e){} }
+
+function onClick(e){
+  const b=e.target.closest("button"); const root=document.getElementById("hub-root");
+  if(!b||!root||!root.contains(b))return;
+  if(b.dataset.cls){ H().ac(); H().LS.set(K,b.dataset.cls); paint(); return; }
+  if(b.dataset.ag){ add.g=b.dataset.ag; paint(); const d=document.getElementById("hub-add"); if(d)d.open=true; return; }
+  if(b.dataset.an){ add.n=+b.dataset.an; paint(); const d=document.getElementById("hub-add"); if(d)d.open=true; return; }
+  if(b.id==="hub-addGo"){
+    if(!add.g||!add.n)return;
+    const c=D().registerClass(store(),D().clsName(add.g,add.n));
+    if(c){ H().LS.set(K,c.id); H().toast("✓ "+c.name); add={g:null,n:null}; }
+    paint(); return;
+  }
+  const k=b.dataset.hub; if(!k)return;
+  H().ac();
+  const cid=current();
+  switch(k){
+    case "stu": window.STU.show(cid,"list"); break;
+    case "grades": window.STU.show(cid,"grades"); break;
+    case "peer": window.STU.show(cid,"peer"); break;
+    case "att": window.TOOLS.show(cid,"att"); break;
+    case "rub": window.TOOLS.show(cid,"rub"); break;
+    case "idx": case "cov": case "prog": window.FT.show(cid,k); break;
+  }
+}
+function init(){
+  if(inited)return; inited=true;
+  const root=document.getElementById("hub-root");
+  if(root)root.addEventListener("click",onClick);
+  document.addEventListener("i18n:change",()=>{ if(document.body.dataset.mod==="cls")paint(); });
+}
+window.HUB={init,paint,current};
 })();
 
 </script>

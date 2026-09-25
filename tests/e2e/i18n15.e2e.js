@@ -111,7 +111,7 @@ module.exports={title:"שלב 15 — תזונה, פוטו־פיניש ומדרי
       const t=await txt(page,"#infoModal, #aboutModal .ab-p, #aboutModal .ab-sec b");
       ok(!HEB.test(t),l+": "+(t.match(/.{0,30}[֐-׿].{0,30}/)||[""])[0]);
     }
-    eq(await page.evaluate(()=>document.querySelectorAll("#infoModal details[data-info]").length),13,"13 קטעים");
+    eq(await page.evaluate(()=>document.querySelectorAll("#infoModal details[data-info]").length),14,"14 קטעים — כולל «מצב שיעור»");
     await switchLang(page,"he");
     ok((await txt(page,'#infoModal [data-info="photo"] summary')).indexOf("פוטו־פיניש")>=0,"חזרה לעברית");
   }),

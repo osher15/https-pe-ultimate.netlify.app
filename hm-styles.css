@@ -1758,3 +1758,28 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
 .hub-card .bd .dim{color:var(--faint);font-size:12.5px}
 .hub-card .ft{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
 .hub-card .ft .btn{min-height:44px}
+
+/* ============================================================
+   הכנה: «להכנה» בבית, שיוך לשיעור ועריכת המהלך
+   ============================================================ */
+.hx-prep{margin-top:14px;background:var(--panel);border:1px solid color-mix(in srgb,#f472b6 45%,var(--line));
+  border-radius:var(--r);padding:12px 14px}
+.hx-prep[hidden]{display:none}
+.hx-prep .top{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px}
+.hx-prep .hx-up .btn{min-height:44px}
+.ls-assign{margin:10px 0 4px;padding:12px;border-radius:14px;border:1px solid var(--acc);background:var(--accDim);
+  display:flex;flex-direction:column;gap:9px}
+.ls-assign[hidden]{display:none}
+.ls-asg-cls{display:flex;gap:7px;flex-wrap:wrap}
+.ls-asg-cls .chip{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:999px;
+  padding:7px 13px;font-family:'Heebo';font-weight:700;min-height:42px;cursor:pointer}
+.ls-asg-cls .chip.on{background:var(--acc);border-color:var(--acc);color:#1a0612}
+.ls-asg-occ{display:flex;flex-direction:column;gap:7px}
+.ls-asg-occ .btn{justify-content:space-between;min-height:48px}
+.pe-list{display:flex;flex-direction:column;gap:9px}
+.pe-row{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+.pe-row input,.pe-row textarea{width:100%;background:var(--inset);border:1px solid var(--line);border-radius:10px;color:var(--ink);
+  padding:8px 10px;font-family:'Heebo';font-size:14.5px}
+.pe-row input[type=number]{width:74px}
+.pe-row .btn{min-height:40px;min-width:44px}
+.lv-chip small.asg{color:var(--ink);font-weight:600}

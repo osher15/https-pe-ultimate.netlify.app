@@ -429,8 +429,10 @@ window.LESSON=(function(){
       assess:T.assess,diff:T.diff,safe:T.safe,cur:T.cur,hw:T.hw,note:T.note||"",
       measure:o.withMeasure,
       mainVariants:mainBlocks.map(v=>v.n),mainSubs:mainBlocks.map(v=>v.sub).filter(Boolean)};
+    editPh=false;
+    if(H().LS.get("ls.target",null))asgOpen=true;
     renderPlan();
-    H().toast("⚡ המערך מוכן — אפשר להפעיל, לשמור או להדפיס");
+    H().toast(H().t("ls.ready","⚡ המערך מוכן — אפשר לערוך, לשייך לשיעור או לשמור"));
   }
 
   const placeName=p=>({field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"}[p]||p);
@@ -467,8 +469,10 @@ window.LESSON=(function(){
     const S=H().session;
     if(!S||!window.FT){ b.hidden=true; if(pickBtn)pickBtn.hidden=true; return; }
     const last=H().LS.get("ft.last",{});
-    const c=(window.FT.classOf&&last.grade)?window.FT.classOf(last.grade,last.num||1):"";
-    const cid=window.HMDATA.classId(c);
+    /* הכיתה של המערך קודם (מהשדה או מהשיוך); אחרת הכיתה האחרונה במבחנים */
+    const pc=planCid(), pcr=pc?DT().classOf(store(),pc):null;
+    const c=pcr?pcr.name:((window.FT.classOf&&last.grade)?window.FT.classOf(last.grade,last.num||1):"");
+    const cid=pcr?pc:window.HMDATA.classId(c);
     const act=S.active();
     b.hidden=false;
     if(act){ b.textContent="▶ שיעור פתוח · "+(act.clsSnapshot||""); b.disabled=true; if(pickBtn)pickBtn.hidden=true; return; }
@@ -504,9 +508,19 @@ window.LESSON=(function(){
     };
   }
 
+  /* איפה המערך הזה משויך — כדי שהמורה יראה שהשיוך נקלט */
+  function asgPills(){
+    if(!plan||!H().assign)return "";
+    const all=H().assign.all(), out=[];
+    Object.keys(all).forEach(k=>{ const a=all[k]; if(!a||a.title!==plan.title||k.split("|")[1]<today())return;
+      const [cid,iso]=k.split("|"); const c=DT().classOf(store(),cid);
+      out.push('<span class="pill acc">📌 '+H().esc((c?c.name:cid)+" · "+iso)+'</span>'); });
+    return out.slice(0,3).join("");
+  }
   function renderPlan(){
     const {$, $$, esc}=H();
     if(!plan){$("#ls-planCard").style.display="none";return;}
+    renderAssign();
     $("#ls-planCard").style.display="";
     wireStartFromPlan();
     const total=plan.phases.reduce((a,p)=>a+p.min,0);
@@ -517,6 +531,7 @@ window.LESSON=(function(){
         <div><b>${esc(plan.title)}</b><div class="sb">${esc(plan.group)}</div></div>
       </div>
       <div class="row" style="margin:10px 0 12px;gap:6px;flex-wrap:wrap">
+        ${asgPills()}
         <span class="pill acc">${plan.grade==="mid"?"חטיבה ז׳–ט׳":"תיכון י׳–י״ב"}</span>
         ${plan.cls?`<span class="pill">כיתה ${esc(plan.cls)}</span>`:""}
         <span class="pill">${total} דק׳</span>
@@ -536,8 +551,18 @@ window.LESSON=(function(){
       <div class="ls-sec"><h4>🎒 ציוד</h4>
         <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div></div>
 
-      <div class="ls-sec"><h4>⏱ מהלך השיעור</h4>
-      ${plan.phases.map(p=>`<div class="fit-station"><div class="ix">${p.min}׳</div>
+      <div class="ls-sec"><h4 class="row" style="align-items:center">⏱ מהלך השיעור<span class="grow"></span>
+        <button class="btn sm ${editPh?"acc":"ghost"}" data-pe="toggle">${editPh?H().t("pe.done","✓ סיום עריכה"):H().t("pe.edit","✎ ערוך מהלך")}</button></h4>
+      ${editPh?`<div class="pe-list">${plan.phases.map((p,i)=>`<div class="pe-row" data-pi="${i}">
+          <div class="row" style="gap:6px"><input class="grow" data-pf="n" value="${esc(p.n)}" aria-label="שם השלב">
+            <input type="number" data-pf="min" value="${p.min}" min="1" style="width:74px" aria-label="דקות"></div>
+          <textarea data-pf="d" rows="2" aria-label="תיאור">${esc(Array.isArray(p.d)?p.d.join("\n"):(p.d||""))}</textarea>
+          <div class="row" style="gap:6px"><button class="btn sm ghost" data-pe="up" aria-label="למעלה">↑</button>
+            <button class="btn sm ghost" data-pe="down" aria-label="למטה">↓</button>
+            <button class="btn sm stop" data-pe="del" aria-label="מחק שלב">🗑</button></div></div>`).join("")}
+          <div class="row" style="justify-content:space-between;align-items:center"><button class="btn sm" data-pe="add">${H().t("pe.add","+ שלב")}</button>
+            <span class="hint">${H().t("pe.total","סה״כ")} <b id="ls-peTotal">${total}</b> ${H().t("ui.min","דק׳")}</span></div></div>`
+      :plan.phases.map(p=>`<div class="fit-station"><div class="ix">${p.min}׳</div>
         <div class="grow"><b>${esc(p.n)}</b>${p.sub?` <span class="pill">${esc(p.sub)}</span>`:""}${Array.isArray(p.d)
           ?`<ol class="ls-steps">${p.d.map(st=>"<li>"+esc(st)+"</li>").join("")}</ol>`
           :`<div class="sb" style="line-height:1.55;margin-top:2px">${esc(p.d)}</div>`}
@@ -849,14 +874,15 @@ window.LESSON=(function(){
     }));
     $("#ls-gen").addEventListener("click",gen);
     $("#ls-again").addEventListener("click",gen);
-    $("#ls-run").addEventListener("click",runStart);
-    $("#ls-stop").addEventListener("click",()=>{stop();H().$("#ls-phName").textContent="הופסק";});
     $("#ls-save").addEventListener("click",saveLib);
-    wireQuickTimer();
     $("#ls-print").addEventListener("click",print);
-    $("#ls-fbGood").addEventListener("click",()=>saveFeedback(1));
-    $("#ls-fbOk").addEventListener("click",()=>saveFeedback(0));
-    $("#ls-fbBad").addEventListener("click",()=>saveFeedback(-1));
+    $("#ls-assignBtn").addEventListener("click",()=>{ asgOpen=!asgOpen; renderAssign(); });
+    /* עריכת המהלך ופעולות השיוך — האזנה אחת לכל הכרטיס */
+    $("#ls-planBody").addEventListener("click",onPlanClick);
+    $("#ls-planBody").addEventListener("input",onPlanInput);
+    $("#ls-assignBox").addEventListener("click",onAssignClick);
+    /* הכיתה מתוך הרשימה: מספר התלמידים מתמלא ממנה */
+    $("#ls-class").addEventListener("change",fillSizeFromClass);
     $("#ls-libExport").addEventListener("click",exportLib);
     $("#ls-libImport").addEventListener("change",async e=>{
       for(const f of e.target.files)await importLib(f);
@@ -864,17 +890,129 @@ window.LESSON=(function(){
     });
     renderLib();
     if(window.LBUILD)window.LBUILD.init();
+    fillClassList(); applyTarget();
     const pre=H().LS.get("ls.pickGame",null);
     if(pre)H().toast("משחק נבחר ממתין — לחץ «בנה מערך»");
   }
+  /* ============================================================
+     הכנה: כיתה מתוך הרשימה, שיוך לשיעור, ועריכת המהלך
+     ============================================================ */
+  const store=()=>H().regStore;
+  const DT=()=>window.HMDATA;
+  function fillClassList(){
+    const dl=H().$("#ls-classList"); if(!dl)return;
+    const reg=DT().classes(store());
+    dl.innerHTML=Object.keys(reg).filter(k=>!DT().isGroupRec(reg[k]))
+      .map(k=>'<option value="'+H().esc(reg[k].name||k)+'"></option>').join("");
+  }
+  function clsCount(cid){ try{ return DT().studentsIn(store(),cid,H().LS.get("stu.list",[])).length; }catch(e){ return 0; } }
+  function fillSizeFromClass(){
+    const {$}=H(), v=$("#ls-class").value.trim(); if(!v)return;
+    const c=DT().findClass(store(),v); if(!c)return;
+    const n=clsCount(c.id); if(n)$("#ls-size").value=n;
+  }
+  /* בא מ«הכן מערך» בדף הבית: הכיתה ממולאת, והשיוך מוצע לשיעור הזה */
+  function applyTarget(){
+    const tg=H().LS.get("ls.target",null); if(!tg||!tg.cid)return;
+    const {$}=H(); fillClassList();
+    const inp=$("#ls-class"); if(inp&&tg.name){ inp.value=tg.name; fillSizeFromClass(); }
+    asgCid=tg.cid;
+  }
+  let asgOpen=false, asgCid=null, editPh=false;
+  /* הכיתה של המערך: מה שכתוב בו, אחרת מה שנבחר בשיוך או בהכנה */
+  function planCid(){
+    if(asgCid)return asgCid;
+    if(plan&&plan.cls){ const c=DT().findClass(store(),plan.cls); if(c)return c.id; }
+    const tg=H().LS.get("ls.target",null); return tg&&tg.cid||null;
+  }
+  function occLabel(o){
+    const d=new Date(o.iso+"T12:00:00");
+    /* שם היום לפי שפת הממשק — לא אותיות עבריות קבועות */
+    const day=o.day===0?H().t("prep.today","היום"):o.day===1?H().t("prep.tomorrow","מחר"):
+      d.toLocaleDateString(H().loc(),{weekday:"short",day:"numeric",month:"numeric"});
+    return day+" · "+(o.slot.time||"");
+  }
+  function renderAssign(){
+    const {$, esc}=H(), box=$("#ls-assignBox"); if(!box)return;
+    if(!plan||!asgOpen){ box.hidden=true; box.innerHTML=""; return; }
+    const reg=DT().classes(store()), cid=planCid(), A=H().assign;
+    const tg=H().LS.get("ls.target",null);
+    const occ=cid?A.upcoming(cid,14):[];
+    box.hidden=false;
+    box.innerHTML='<div class="row" style="align-items:center"><b>📌 '+esc(H().t("asg.title","שיוך לשיעור"))+'</b><span class="grow"></span>'+
+        '<button class="x" data-asg="close" aria-label="סגור">✕</button></div>'+
+      '<div class="hint">'+esc(H().t("asg.hint","המערך יופיע ב«היום» ויעלה לבד כשהשיעור מתחיל."))+'</div>'+
+      '<div class="ls-asg-cls">'+Object.keys(reg).map(k=>'<button class="chip'+(k===cid?" on":"")+'" data-asg-cls="'+esc(k)+'">'+
+        (DT().isGroupRec(reg[k])?"👥 ":"")+esc(reg[k].name||k)+'</button>').join("")+'</div>'+
+      (cid?(occ.length
+        ? '<div class="ls-asg-occ">'+occ.slice(0,8).map(o=>{
+            const has=A.get(cid,o.iso), sug=tg&&tg.cid===cid&&tg.iso===o.iso;
+            return '<button class="btn'+(sug?" acc":"")+'" data-asg-iso="'+esc(o.iso)+'">'+esc(occLabel(o))+
+              (has?' <span class="pill">'+esc(has.title===plan.title?H().t("asg.this","משויך"):H().t("asg.other","יחליף מערך"))+'</span>':"")+'</button>'; }).join("")+'</div>'
+        : '<div class="hint">'+esc(H().t("asg.noSlots","אין לכיתה הזאת שיעורים במערכת השעות בשבועיים הקרובים — בחרו תאריך."))+'</div>')
+       +'<div class="row" style="gap:8px;margin-top:8px"><input type="date" id="ls-asgDate" value="'+today()+'" style="max-width:170px">'+
+        '<button class="btn sm" data-asg="date">'+esc(H().t("asg.toDate","שייך לתאריך"))+'</button></div>'
+      : '<div class="hint">'+esc(H().t("asg.pickCls","בחרו כיתה."))+'</div>');
+  }
+  function doAssign(cid,iso){
+    if(!plan||!cid||!iso)return;
+    if(!plan.cls){ const c=DT().classOf(store(),cid); if(c)plan.cls=c.name; }
+    if(!H().assign.set(cid,iso,plan)){ H().toast("⚠ השיוך לא נשמר במכשיר"); return; }
+    const tg=H().LS.get("ls.target",null);
+    if(tg&&tg.cid===cid&&tg.iso===iso)H().LS.set("ls.target",null);
+    asgOpen=false; renderAssign(); renderPlan(); H().paintHome();
+    const c=DT().classOf(store(),cid);
+    H().toast("📌 "+H().t("asg.done","המערך שויך ל")+(c?c.name:"")+" · "+iso);
+  }
+  function onAssignClick(e){
+    const b=e.target.closest("button"); if(!b)return;
+    if(b.dataset.asg==="close"){ asgOpen=false; renderAssign(); return; }
+    if(b.dataset.asgCls){ asgCid=b.dataset.asgCls; renderAssign(); return; }
+    if(b.dataset.asgIso){ doAssign(planCid(),b.dataset.asgIso); return; }
+    if(b.dataset.asg==="date"){ const v=H().$("#ls-asgDate").value; if(v)doAssign(planCid(),v); }
+  }
+  /* ---------- עריכת המהלך ----------
+     הטיוטה המהירה היא נקודת פתיחה, לא גזירה: כל שלב — שם, דקות
+     ותיאור — ניתן לשינוי, להזזה ולמחיקה, ואפשר להוסיף שלב. אותה
+     עריכה לכל מערך, מהיר או ידני. */
+  function onPlanClick(e){
+    const b=e.target.closest("button"); if(!b||!plan)return;
+    const i=+(b.closest("[data-pi]")||{dataset:{}}).dataset.pi;
+    const ph=plan.phases;
+    if(b.dataset.pe==="toggle"){ editPh=!editPh; renderPlan(); return; }
+    if(b.dataset.pe==="add"){ ph.splice(Math.max(0,ph.length-1),0,{n:H().t("pe.newStep","שלב חדש"),min:5,d:""}); renderPlan(); return; }
+    if(b.dataset.pe==="up"&&i>0){ [ph[i-1],ph[i]]=[ph[i],ph[i-1]]; renderPlan(); return; }
+    if(b.dataset.pe==="down"&&i<ph.length-1){ [ph[i+1],ph[i]]=[ph[i],ph[i+1]]; renderPlan(); return; }
+    if(b.dataset.pe==="del"&&ph.length>1){ ph.splice(i,1); renderPlan(); return; }
+  }
+  function onPlanInput(e){
+    const el=e.target, row=el.closest("[data-pi]"); if(!row||!plan)return;
+    const p=plan.phases[+row.dataset.pi]; if(!p)return;
+    if(el.dataset.pf==="n")p.n=el.value;
+    else if(el.dataset.pf==="min"){ p.min=Math.max(1,Math.round(+el.value||1));
+      const tot=H().$("#ls-peTotal"); if(tot)tot.textContent=plan.phases.reduce((a,x)=>a+(+x.min||0),0); }
+    else if(el.dataset.pf==="d")p.d=Array.isArray(p.d)?el.value.split("\n").map(x=>x.trim()).filter(Boolean):el.value;
+  }
+  /* «קח למערך» ממאגר המשחקים: יש מערך על המסך — המשחק נכנס אליו, לפני
+     שלב הסיום. אין — הוא ממתין למערך הבא, כמו קודם. */
+  function addGame(g){
+    if(!plan||!g)return false;
+    const ph=plan.phases, at=ph.length&&ph[ph.length-1].k==="cool"?ph.length-1:ph.length;
+    ph.splice(at,0,{n:"משחק: "+g.name,min:10,d:(g.how||[]).slice(0,2).join(" ")+(g.goal?" · מטרה: "+g.goal:""),k:"game",gid:g.id});
+    renderPlan();
+    return true;
+  }
   /* טעינת מערך שנבנה בבונה הידני — אותו כרטיס, אותה הפעלה, אותה הדפסה */
   function usePlan(p){
-    plan=p; renderPlan();
+    plan=p; editPh=false;
+    if(H().LS.get("ls.target",null))asgOpen=true;
+    renderPlan();
     const card=H().$("#ls-planCard");
     if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
   }
 
   /* המערך שעל המסך עכשיו — מצב שיעור מציג את שלביו */
-  return {init, usePlan, current:()=>plan, topics:()=>TOPICS, std:()=>STD};
+  return {init, usePlan, current:()=>plan, addGame, applyTarget:()=>{ if(inited){ applyTarget(); if(plan)renderPlan(); } },
+    topics:()=>TOPICS, std:()=>STD};
 })();
 })();
