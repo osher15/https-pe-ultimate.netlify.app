@@ -21,123 +21,24 @@ const ftSeed={
   "ft.roster":{"ט3":[{id:"a",name:"דן אבירם",sex:"boys"}]},
   "ft.last":{grade:"ט",num:3},"pf.guideSeen":true,"schema.version":D.SCHEMA_VERSION
 };
-const open=async page=>{
-  await page.evaluate(()=>document.getElementById("btnMenu").click());
-  await page.waitForTimeout(320);
-};
 const openFt=async page=>{
   await page.evaluate(()=>window.HM.go("ft"));
   await page.waitForTimeout(700);
 };
 
-module.exports={title:"התפריט הראשי ודף הבית הקצר",tests:[
-
-  /* ---------- המגירה ---------- */
-
-  check("כפתור ☰ נמצא בראש ונראה גם בטלפון צר",seed,async page=>{
-    await page.setViewportSize({width:360,height:740});
-    await page.waitForTimeout(250);
-    const r=await page.evaluate(()=>{
-      const b=document.getElementById("btnMenu");
-      if(!b)return null;
-      const x=b.getBoundingClientRect();
-      return {w:Math.round(x.width),h:Math.round(x.height),top:Math.round(x.top),
-        right:Math.round(x.right),vw:window.innerWidth,
-        disp:getComputedStyle(b).display};
-    });
-    ok(r,"הכפתור קיים");
-    ok(r.disp!=="none","ולא מוסתר");
-    ok(r.w>=32&&r.h>=32,"ושטח הנגיעה שלו סביר: "+r.w+"×"+r.h);
-    ok(r.top>=0&&r.right<=r.vw,"והוא בתוך המסך — top="+r.top+" right="+r.right+"/"+r.vw);
-  }),
-
-  check("המגירה נצמדת לצד שממנו נפתחה ותופסת את כל הגובה",seed,async page=>{
-    await page.setViewportSize({width:390,height:780});
-    await open(page);
-    const r=await page.evaluate(()=>{
-      const b=document.querySelector("#navDrawer .box").getBoundingClientRect();
-      return {top:Math.round(b.top),h:Math.round(b.height),right:Math.round(b.right),
-        w:Math.round(b.width),vh:window.innerHeight,vw:window.innerWidth};
-    });
-    ok(r.h>=r.vh-2,"גובה מלא: "+r.h+" מתוך "+r.vh);
-    ok(Math.abs(r.right-r.vw)<=2,"ונצמדת לימין בעברית — right="+r.right+"/"+r.vw);
-    ok(r.w<r.vw,"אבל לא מכסה את כל הרוחב, כדי שאפשר יהיה לסגור בהקשה בחוץ");
-  }),
-
-  check("הקשה מחוץ למגירה סוגרת אותה",seed,async page=>{
-    await open(page);
-    await page.mouse.click(20,400);
-    await page.waitForTimeout(250);
-    eq(await page.evaluate(()=>document.getElementById("navDrawer").classList.contains("on")),false);
-  }),
-
-  check("«מערכת שעות» מהתפריט פותחת את הטבלה — ולא שתי שכבות זו על זו",seed,async page=>{
-    await open(page);
-    await page.evaluate(()=>document.getElementById("dw-sched").click());
-    await page.waitForTimeout(400);
-    const r=await page.evaluate(()=>({
-      sched:document.getElementById("schedModal").classList.contains("on"),
-      drawer:document.getElementById("navDrawer").classList.contains("on")
-    }));
-    ok(r.sched,"הטבלה נפתחה");
-    eq(r.drawer,false,"והמגירה נסגרה מאחוריה");
-  }),
-
-  check("«קבוצות הוראה» מהתפריט פותחת את מסך הקבוצות",seed,async page=>{
-    await open(page);
-    await page.evaluate(()=>document.getElementById("dw-groups").click());
-    await page.waitForTimeout(400);
-    ok(await page.evaluate(()=>document.getElementById("grpModal").classList.contains("on")));
-  }),
-
-  check("«הגדרות» ו«מדריך» עברו מהסרגל אל תוך המגירה — ולא שוכפלו",seed,async page=>{
-    const r=await page.evaluate(()=>({
-      inBar:[...document.querySelectorAll(".topbar #btnSettings, .topbar #btnInfo")].length,
-      inDrawer:[...document.querySelectorAll("#navDrawer #btnSettings, #navDrawer #btnInfo")].length,
-      copies:document.querySelectorAll("#btnSettings").length+document.querySelectorAll("#btnInfo").length
-    }));
-    eq(r.inBar,0,"הסרגל העליון השתחרר מהם");
-    eq(r.inDrawer,2,"והם נמצאים במגירה");
-    eq(r.copies,2,"עותק אחד לכל אחד — לא כפתור־צל שקורא לכפתור אחר");
-  }),
-
-  check("«הגדרות» מהתפריט פותחת את ההגדרות",seed,async page=>{
-    await open(page);
-    await page.evaluate(()=>document.getElementById("btnSettings").click());
-    await page.waitForTimeout(400);
-    const r=await page.evaluate(()=>({
-      set:document.getElementById("setModal").classList.contains("on"),
-      drawer:document.getElementById("navDrawer").classList.contains("on")
-    }));
-    ok(r.set,"ההגדרות נפתחו");
-    eq(r.drawer,false,"והמגירה נסגרה");
-  }),
-
-  check("«מדריך המסך» מהתפריט פותח את המדריך של המסך שבו אני",seed,async page=>{
-    await page.evaluate(()=>window.HM.go("ft"));
-    await page.waitForTimeout(600);
-    await open(page);
-    await page.evaluate(()=>document.getElementById("btnInfo").click());
-    await page.waitForTimeout(400);
-    const r=await page.evaluate(()=>({
-      on:document.getElementById("infoModal").classList.contains("on"),
-      drawer:document.getElementById("navDrawer").classList.contains("on")
-    }));
-    ok(r.on,"המדריך נפתח");
-    eq(r.drawer,false,"והמגירה נסגרה");
-  }),
+module.exports={title:"דף הבית הקצר וסדר המבחנים",tests:[
 
   /* ---------- הבית ---------- */
 
-  check("הבית מציג את «עכשיו» ושתי פעולות — לא רשימת מודולים",seed,async page=>{
+  check("הבית מציג את «עכשיו» וכלי מדידה — לא רשימת מודולים",seed,async page=>{
     const r=await page.evaluate(()=>({
-      tiles:[...document.querySelectorAll(".hx-mods .hx-mod[data-go]")].map(e=>e.dataset.go),
-      today:!!document.getElementById("hx-today")
+      tools:[...document.querySelectorAll("#hx-quick [data-go]")].map(e=>e.dataset.go),
+      today:!!document.getElementById("hx-today"),
+      more:!!document.querySelector("#hx-more:not([open])")
     }));
     ok(r.today,"כרטיס «מה עכשיו» קיים");
-    eq(r.tiles.length,2,"ושתי פעולות בלבד: "+r.tiles.join(","));
-    eq(r.tiles[0],"ft","הראשונה — מבחני כושר");
-    eq(r.tiles[1],"lesson","השנייה — מערכי שיעור");
+    eq(r.tools,["ft","beep","photo","fit"],"ארבעה כלי מדידה בלי שיעור");
+    ok(r.more,"אתגר, מספרים וטיפ — מקופלים למטה");
   }),
 
   /* ---------- סדר המבחנים ---------- */

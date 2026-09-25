@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="d3c04793">
+<meta name="hm-build" content="98112419">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,20 +95,6 @@ body[data-mod="nut"]{--acc:#4ade80;--accDim:rgba(74,222,128,.18)}
 .more-item:hover{border-color:var(--acc)}
 .more-item .ic{font-size:19px;flex:none}
 .more-item .go{margin-inline-start:auto;color:var(--acc);font-size:16px;transform:scaleX(-1)}
-/* ---------- המגירה הראשית (☰) ----------
-   מגירה ולא חלון: היא נצמדת לצד שממנו נפתחה (בעברית — ימין, דרך
-   place-items:start על הציר הלוגי), תופסת את כל הגובה, והכותרת
-   שלה נשארת דביקה כדי שה-✕ לא ייעלם ברשימה ארוכה. */
-.menubtn{font-size:18px;flex:none}
-.modal.drawer{padding:0;place-items:stretch start}
-.modal.drawer .box{width:min(340px,86vw);height:100%;max-height:none;border-radius:0;
-  border-block:none;border-inline-start:none;padding:14px;
-  padding-bottom:calc(18px + env(safe-area-inset-bottom));animation:dwin .18s ease}
-.modal.drawer .box h3{position:sticky;top:-14px;z-index:1;margin:-14px -14px 12px;padding:14px;
-  padding-top:calc(14px + env(safe-area-inset-top));border-bottom:1px solid var(--line);
-  background:var(--panel);font-size:16px}
-@keyframes dwin{from{opacity:.3;transform:scale(.985)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){.modal.drawer .box{animation:none}}
 /* ---------- views ---------- */
 .view{display:none;animation:vin .22s ease}
 .view.on{display:block}
@@ -1582,6 +1568,151 @@ body[data-dir="ltr"] #stWarn *{unicode-bidi:plaintext}
 body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 #ft-startLesson{margin-top:9px}
 
+
+/* ============================================================
+   מעטפת: חמישה אזורים (היום · הכנה · שיעור · כיתות · שיאים)
+   ------------------------------------------------------------
+   העיקרון: מינימום מאמץ ותפעול. בשיעור הכול גלוי וגדול; בהכנה
+   ובהגדרות מותר לקבץ, כי שם יש זמן.
+   ============================================================ */
+:root{--live:#a3e635;--liveDim:rgba(163,230,53,.16)}
+/* חמישה כפתורים נכנסים בכל רוחב — אין צורך בגלילה אופקית */
+.nav,.nav{justify-content:space-around;overflow:visible}
+.nav button{flex:1;min-width:0;max-width:140px}
+@media(max-width:640px){
+  .nav{justify-content:space-around;overflow:visible}
+  .nav button{flex:1;min-width:0;max-width:none;font-size:11px}
+}
+/* הכפתור האמצעי: «▶ שיעור». כשיש שיעור פתוח — שם הכיתה בעיגול
+   ודקות מתחתיו, כדי שמכל מסך יהיה ברור שהשיעור עוד רץ ואיך חוזרים */
+.nav .nav-live .ic{width:54px;height:54px;border-radius:50%;margin-top:-24px;display:grid;place-items:center;
+  background:var(--live);color:#10200a;font-size:22px;font-weight:800;filter:none;
+  border:4px solid rgb(var(--bar));box-shadow:0 6px 20px rgba(163,230,53,.33)}
+.nav .nav-live.act .ic{font-size:12.5px;line-height:1.05;padding:0 3px;text-align:center;overflow:hidden;
+  font-family:'Heebo';word-break:break-word;animation:livePulse 2.4s ease-in-out infinite}
+.nav .nav-live.act{color:var(--ink)}
+.nav .nav-live.on::before{display:none}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(163,230,53,.45)}50%{box-shadow:0 0 0 7px rgba(163,230,53,0)}}
+@media(prefers-reduced-motion:reduce){.nav .nav-live.act .ic{animation:none}}
+
+/* ---------- כותרת: שפה מהירה ---------- */
+.langbtn{font-family:'Heebo';font-size:13px;font-weight:800}
+.lang-pop{position:fixed;z-index:160;top:calc(60px + env(safe-area-inset-top));inset-inline-end:12px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;min-width:180px}
+.lang-pop[hidden]{display:none}
+.lang-pop button{display:flex;gap:10px;align-items:center;background:none;border:none;color:var(--ink);
+  font-family:'Heebo';font-size:15px;font-weight:600;padding:10px 12px;border-radius:10px;min-height:44px;text-align:start;cursor:pointer}
+.lang-pop button.on{background:var(--accDim);color:var(--acc)}
+.lang-pop .fl{font-size:18px}
+
+/* ---------- לשוניות האזור ---------- */
+.area-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 14px;
+  background:rgba(var(--bar),.92);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.area-tabs[hidden]{display:none}
+.area-tabs::-webkit-scrollbar{display:none}
+.area-tabs button{flex:none;display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:transparent;
+  color:var(--muted);border-radius:999px;padding:7px 13px;font-family:'Heebo';font-size:13.5px;font-weight:700;min-height:40px;cursor:pointer}
+.area-tabs button.on{background:var(--panel2);color:var(--ink);border-color:var(--acc)}
+.area-tabs .ic{font-size:15px}
+
+/* ---------- היום ---------- */
+.hx-quick{margin-top:14px}
+.qtools{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qtools button{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:10px 4px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;font-family:'Heebo';font-size:12.5px;font-weight:700;
+  color:var(--ink);min-height:72px;cursor:pointer}
+.qtools button:hover{border-color:var(--acc)}
+.qtools .ic{font-size:22px;line-height:1}
+.hx-more,.lv-other{margin-top:14px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.hx-more summary,.lv-other summary{list-style:none;cursor:pointer;padding:13px 14px;font-weight:700;display:flex;align-items:center;gap:8px;min-height:48px}
+.hx-more summary::-webkit-details-marker,.lv-other summary::-webkit-details-marker{display:none}
+.hx-more summary::after,.lv-other summary::after{content:"＋";margin-inline-start:auto;color:var(--faint)}
+.hx-more[open] summary::after,.lv-other[open] summary::after{content:"－"}
+.hx-more .in,.lv-other .in{padding:0 12px 12px}
+.hx-more .scoreband{margin-top:0}
+
+/* ---------- הגדרות: עמוד עם מקטעים ---------- */
+.modal.page .box{width:min(680px,100%)}
+@media(max-width:640px){
+  .modal.page{padding:0}
+  .modal.page .box{height:100%;max-height:none;border-radius:0;border:none;
+    padding-top:calc(14px + env(safe-area-inset-top))}
+}
+.set-guide{display:flex;align-items:center;gap:12px;width:100%;text-align:start;background:var(--accDim);
+  border:1px solid transparent;border-radius:12px;padding:11px 13px;cursor:pointer;color:var(--ink);
+  font-family:'Heebo';font-size:14px;font-weight:600;min-height:48px}
+.set-guide .ic{font-size:19px}
+.set-guide .go{margin-inline-start:auto;color:var(--acc);transform:scaleX(-1)}
+.set-sec{border:1px solid var(--line);border-radius:14px;background:var(--panel2);margin-top:10px}
+.set-sec summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;
+  column-gap:11px;align-items:center;font-weight:700;font-size:15px;min-height:52px}
+.set-sec summary::-webkit-details-marker{display:none}
+.set-sec summary .ic{grid-row:1/span 2;font-size:21px}
+.set-sec summary small{grid-column:2;color:var(--muted);font-weight:500;font-size:12px}
+.set-sec summary::after{content:"＋";grid-row:1/span 2;grid-column:3;color:var(--faint)}
+.set-sec[open] summary::after{content:"－"}
+.set-sec .in{padding:2px 14px 14px}
+.set-sec .bk-card{margin-top:10px}
+.set-links{display:flex;flex-direction:column;gap:0;margin-bottom:6px}
+.set-savebar{position:sticky;bottom:-18px;margin:14px -18px -18px;padding:12px 18px calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(0deg,var(--bg2) 72%,transparent);z-index:2}
+.set-savebar .btn{margin-top:0!important}
+
+/* ---------- מצב שיעור ---------- */
+body[data-area="live"]{--acc:var(--live);--accDim:var(--liveDim)}
+.lv-head{display:flex;align-items:center;gap:12px;padding:4px 2px 12px}
+.lv-head .cls{font-family:'Heebo';font-weight:800;font-size:30px;line-height:1.05}
+.lv-head .sub{color:var(--muted);font-size:13.5px;margin-top:3px}
+.lv-head .clk{font-size:30px;color:var(--acc);font-variant-numeric:tabular-nums}
+.lv-head.pick{display:block}
+.lv-head.pick .kick{color:var(--acc);font-weight:800;font-size:13px;letter-spacing:.3px}
+.lv-head.pick h2{margin:2px 0 4px;font-family:'Heebo';font-weight:800;font-size:26px}
+.lv-plannote b{color:var(--ink)}
+.lv-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}
+.lv-chip{min-height:78px;border-radius:16px;border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;padding:10px 14px;
+  text-align:start;cursor:pointer;font-family:'Heebo'}
+.lv-chip b{font-size:21px;line-height:1.1}
+.lv-chip small{color:var(--muted);font-size:12.5px}
+.lv-chip.sug{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc);background:linear-gradient(135deg,var(--accDim),var(--panel) 70%)}
+.lv-chip .now{color:var(--acc);font-weight:700}
+.lv-other .seg.wrap button{min-height:46px;min-width:46px}
+.lv-phase{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:13px 14px;
+  display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.lv-phase .nm{font-family:'Heebo';font-weight:800;font-size:22px}
+.lv-phase .left{font-size:32px;color:var(--acc);font-variant-numeric:tabular-nums}
+.lv-phase.over .left{color:var(--warn)}
+.lv-phase .nx{color:var(--muted);font-size:13px}
+.lv-phase.empty{flex-direction:row;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);flex-wrap:wrap}
+.lv-bar{height:7px;background:var(--panel2);border-radius:99px;overflow:hidden}
+.lv-bar i{display:block;height:100%;background:var(--acc);transition:width .9s linear}
+.lv-desc{color:var(--muted);font-size:14.5px;line-height:1.55}
+.lv-phbtns{gap:10px}
+.lv-phbtns .btn{flex:1;min-height:52px;justify-content:center}
+.lv-allin{margin-bottom:12px;min-height:60px}
+.lv-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:720px){.lv-tiles{grid-template-columns:repeat(4,1fr)}}
+.lv-tile{position:relative;min-height:102px;border-radius:18px;border:1px solid var(--line);background:var(--panel);
+  color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:2px;
+  padding:12px 14px;text-align:start;cursor:pointer;font-family:'Heebo'}
+.lv-tile:hover{border-color:var(--acc)}
+.lv-tile .ic{font-size:30px;line-height:1;margin-bottom:auto}
+.lv-tile b{font-size:18px}
+.lv-tile small{color:var(--muted);font-size:12.5px;line-height:1.35}
+.lv-tile .bd{position:absolute;top:10px;inset-inline-end:10px}
+.lv-tile:active,.lv-chip:active{transform:scale(.98)}
+.pill.ok{border-color:rgba(52,211,153,.5);color:#34d399}
+.pill.warn{border-color:rgba(255,210,63,.5);color:var(--warn)}
+.lv-foot{display:flex;gap:10px;margin-top:16px;align-items:stretch}
+.lv-foot .btn{min-height:60px;justify-content:center}
+.lv-foot .btn.stop{flex:1;font-size:18px;width:auto}
+/* בשיעור עצמו הפס «שיעור פעיל» מיותר — המסך כולו הוא השיעור */
+body[data-area="live"] #lsBar{display:none!important}
+.lv-phase.empty .btn,.lv-other .btn{min-height:48px}
+/* שלושה כפתורי פעולה בכותרת: בטלפון השעון מפנה להם מקום */
+@media(max-width:560px){ .sboard .clock{display:none} }
+
 </style>
 </head>
 <body>
@@ -1601,15 +1732,21 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 <header class="apphead">
 <div class="topbar">
   <button class="backbtn" id="btnBack" hidden>→<span data-i18n="nav.back">חזרה</span></button>
-  <button class="iconbtn menubtn" id="btnMenu" title="תפריט — כל המסכים" data-i18n-title="ui.menu" aria-label="תפריט">☰</button>
   <div class="brand"><div class="logo">⏱️</div>
     <div><div class="ttl" dir="auto"><span data-i18n="brand.word">PE</span> <b style="color:var(--acc)">Ultimate</b></div><div class="sub" id="schoolSub" dir="auto">ערכת שטח למורה לחינוך גופני</div></div>
   </div>
   <div class="sboard">
     <button id="roleBadge" style="display:none">👦 מצב תלמיד<span id="roleExit">יציאה 🔓</span></button>
     <span class="clock" id="topClock">--:--</span>
-    <button class="iconbtn" id="btnSun" title="מצב שמש — ניגודיות גבוהה לאור יום" data-i18n-title="ui.sun">☀</button></div>
+    <button class="iconbtn langbtn" id="btnLang" title="שפת הממשק" data-i18n-title="ui.lang" aria-label="שפת הממשק" aria-haspopup="true">עב</button>
+    <button class="iconbtn" id="btnSun" title="מצב שמש — ניגודיות גבוהה לאור יום" data-i18n-title="ui.sun">☀</button>
+    <button class="iconbtn" id="btnSettings" title="הגדרות" data-i18n-title="ui.settings" aria-label="הגדרות">⚙</button></div>
 </div>
+<div class="lang-pop" id="langPop" hidden></div>
+<!-- לשוניות האזור: כל אזור (הכנה, כיתות) מחזיק כמה מסכים קרובים,
+     והמעבר ביניהם הוא שורה אחת כאן — במקום מגירה שבה כל המסכים
+     שטוחים באותו מישור. -->
+<nav class="area-tabs" id="areaTabs" hidden></nav>
 <!-- ----- גרסה חדשה מוכנה ----- -->
 <div id="upBar" hidden><span>✨ גרסה חדשה מוכנה</span>
   <!-- שתי החותמות מוצגות בכוונה: כשפס כזה נתקע, ההבדל ביניהן הוא
@@ -1647,17 +1784,23 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
       <button class="btn sm ghost" id="hx-schedEdit" data-i18n="home.schedEdit">🗓 מערכת שעות</button></div>
     <div id="hx-todayList"></div>
   </div>
-  <div class="hx-mods">
-    <div class="hx-mod primary" data-go="ft" style="--lc:#f59e0b"><div class="no">01</div>
-      <div class="tx"><b data-i18n="home.ft">מבחני כושר</b><span data-i18n="home.ftSub">31 מבחנים · שעון ומונה · רשימת כיתה · מדד הכושר</span></div><div class="go">→</div></div>
-    <div class="hx-mod" data-go="lesson" style="--lc:#f472b6"><div class="no">02</div>
-      <div class="tx"><b data-i18n="home.lesson">מערכי שיעור</b><span data-i18n="home.lessonSub">חימום → תחנות → מדידה · מהיר או בנייה ידנית</span></div><div class="go">→</div></div>
+  <!-- כלי מדידה בלי שיעור פתוח — ליום מדידות או לשימוש חופשי.
+       בשיעור פתוח הכלים האלה נמצאים באריחים של «שיעור». -->
+  <div class="hx-quick" id="hx-quick">
+    <div class="hx-sec" data-i18n="home.quick">כלי מדידה גם בלי שיעור</div>
+    <div class="qtools">
+      <button data-go="ft"><span class="ic">🏅</span><span data-i18n="home.qFt">מבחני כושר</span></button>
+      <button data-go="beep"><span class="ic">🎵</span><span data-i18n="home.qBeep">ביפ טסט</span></button>
+      <button data-go="photo"><span class="ic">📷</span><span data-i18n="home.qPhoto">פיניש</span></button>
+      <button data-go="fit" data-fit-tab="timer"><span class="ic">⏲</span><span data-i18n="home.qTimer">טיימר</span></button>
+    </div>
   </div>
   <div class="hx-last" id="hx-last" hidden>
     <div class="top"><b data-i18n="home.lastLesson">השיעור האחרון</b>
       <button class="btn sm ghost" id="hx-lastHist" data-i18n="home.allLessons">📖 כל השיעורים</button></div>
     <div id="hx-lastBody"></div>
   </div>
+  <details class="hx-more" id="hx-more"><summary><span data-i18n="home.more">אתגר השבוע, מספרים וטיפ שטח</span></summary><div class="in">
   <div class="scoreband">
     <div class="sb"><div class="n" id="qsRuns">0</div><div class="l" data-i18n="home.statRuns">מקצים נמדדו</div></div>
     <div class="div"></div>
@@ -1677,7 +1820,12 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
   </div>
   <div class="hx-nut"><div id="hx-nutTip"></div></div>
   <div class="card" style="margin-top:14px"><h2><span class="dot"></span> <span data-i18n="home.tip">טיפ שטח</span></h2><div class="hint" id="fieldTip"></div></div>
+  </div></details>
 </section>
+<!-- ============================================================
+     מצב שיעור — המסך שביד במגרש. נצבע כולו מ-hm-live.js.
+     ============================================================ -->
+<section class="view" id="view-live"><div id="lv-root"></div></section>
 <section class="view" id="view-beep">
   <div class="card">
     <h2><span class="dot"></span> <span data-i18n="bt.setup">הגדרת המבחן</span></h2>
@@ -2213,11 +2361,6 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 
 
 <section class="view" id="view-fit">
-  <div class="pf-tabs lesson-cluster">
-    <button data-go="lesson">📋 בניית מערך</button>
-    <button data-go="fit" class="on">⏱ כושר</button>
-    <button data-go="games">🎮 משחקים</button>
-  </div>
   <div class="pf-tabs">
     <button data-ft="timer" class="on">⏱ טיימר אינטרוולים</button>
     <button data-ft="circuit">🔁 תחנות לכיתה</button>
@@ -2508,11 +2651,6 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
   </div></div>
 </section>
 <section class="view" id="view-lesson">
-  <div class="pf-tabs lesson-cluster">
-    <button data-go="lesson" class="on">📋 בניית מערך</button>
-    <button data-go="fit">⏱ כושר</button>
-    <button data-go="games">🎮 משחקים</button>
-  </div>
   <div class="pf-tabs" id="ls-modeTabs">
     <button data-lm="fast" class="on">⚡ מהיר — מערך בלחיצה</button>
     <button data-lm="manual">🧩 בונה ידני — שלב אחרי שלב</button>
@@ -2880,11 +3018,6 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 </section>
 
 <section class="view" id="view-games">
-  <div class="pf-tabs lesson-cluster">
-    <button data-go="lesson">📋 בניית מערך</button>
-    <button data-go="fit">⏱ כושר</button>
-    <button data-go="games" class="on">🎮 משחקים</button>
-  </div>
   <div class="card">
     <h2><span class="dot"></span> משחקים לשעות פנאי</h2>
     <div class="hint">כל משחק עם הסבר מלא, מטרה, למי הוא מתאים, וריאציות, דגשי בטיחות וקישור לצפייה. אפשר לקחת כל משחק ישירות למערך שיעור.</div>
@@ -2956,14 +3089,12 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 </section>
 </div>
 <div class="nav">
-  <button data-go="home"><span class="ic">🏠</span><span data-i18n="nav.home">בית</span></button>
-  <button data-go="ft"><span class="ic">🏅</span><span data-i18n="nav.tests">מבחנים</span></button>
-  <button data-go="lesson"><span class="ic">📋</span><span data-i18n="nav.lesson">שיעור</span></button>
-  <button data-go="beep"><span class="ic">🎵</span><span data-i18n="nav.beep">ביפ</span></button>
-  <button data-go="photo"><span class="ic">📷</span><span data-i18n="nav.photo">פיניש</span></button>
-  <button data-go="rec" id="navRec" data-stuonly="1"><span class="ic">🏆</span><span data-i18n="nav.records">שיאים</span></button>
-  <button data-go="games" id="navGames" style="display:none"><span class="ic">🎮</span><span data-i18n="nav.games">משחקים</span></button>
-  <button id="navMore"><span class="ic">⋯</span><span data-i18n="nav.more">עוד</span></button>
+  <button data-go="home" data-area="today"><span class="ic">🏠</span><span data-i18n="nav.today">היום</span></button>
+  <button data-go="lesson" data-area="prep"><span class="ic">📝</span><span data-i18n="nav.prep">הכנה</span></button>
+  <button data-go="live" data-area="live" id="navLive" class="nav-live"><span class="ic" id="navLiveIc">▶</span><span id="navLiveT">שיעור</span></button>
+  <button data-go="stu" data-area="classes"><span class="ic">👥</span><span data-i18n="nav.classes">כיתות</span></button>
+  <button data-go="rec" id="navRec" data-area="rec"><span class="ic">🏆</span><span data-i18n="nav.records">שיאים</span></button>
+  <button data-go="games" id="navGames" data-area="prep" style="display:none"><span class="ic">🎮</span><span data-i18n="nav.games">משחקים</span></button>
 </div>
 <!-- more menu -->
 <!-- ----- בורר כיתה משותף (ביפ טסט / פוטו־פיניש) ----- -->
@@ -3231,50 +3362,13 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
   </div>
 </div></div>
 
-<!-- ============================================================
-     התפריט הראשי — ☰
-     ------------------------------------------------------------
-     קודם היו שתי דרכים חלקיות: ארבעה אריחים בבית, וחלון «עוד» שבו
-     מה שלא נכנס אליהם. מודול שעבר מכאן לשם נעלם — זה קרה ל«ידע»
-     פעם אחת בפועל. מגירה אחת שמחזיקה את **כל** המסכים מוציאה את
-     הצירוף הזה מהעולם: הבית מקצר, והתפריט לא מאבד כלום.
-     ============================================================ -->
-<div class="modal drawer" id="navDrawer"><div class="box">
-  <h3><span data-i18n="more.title">☰ תפריט</span><button class="x" data-close="navDrawer">✕</button></h3>
-  <div class="more-grp">
-    <div class="more-h">📍 גישה מהירה</div>
-    <button class="more-item" data-go="home" data-close="navDrawer"><span class="ic">🏠</span><span data-i18n="more.home">מה עכשיו — דף הבית</span><span class="go">→</span></button>
-    <button class="more-item" id="dw-sched" data-close="navDrawer"><span class="ic">🗓</span><span data-i18n="more.sched">מערכת שעות</span><span class="go">→</span></button>
-    <button class="more-item" id="dw-groups" data-close="navDrawer"><span class="ic">👫</span><span data-i18n="more.groups">קבוצות הוראה</span><span class="go">→</span></button>
-  </div>
-  <div class="more-grp">
-    <div class="more-h">🏅 הוראה ומדידה</div>
-    <button class="more-item" data-go="ft" data-close="navDrawer"><span class="ic">🏅</span><span data-i18n="more.ft">מבחני כושר</span><span class="go">→</span></button>
-    <button class="more-item" data-go="lesson" data-close="navDrawer"><span class="ic">📋</span><span data-i18n="more.lesson">מערכי שיעור</span><span class="go">→</span></button>
-    <button class="more-item" data-go="beep" data-close="navDrawer"><span class="ic">🎵</span><span data-i18n="more.beep">ביפ טסט</span><span class="go">→</span></button>
-    <button class="more-item" data-go="photo" data-close="navDrawer"><span class="ic">📷</span><span data-i18n="more.photo">פוטו־פיניש</span><span class="go">→</span></button>
-  </div>
-  <div class="more-grp">
-    <div class="more-h">📊 תלמידים והערכה</div>
-    <button class="more-item" data-go="stu" data-close="navDrawer"><span class="ic">👥</span><span data-i18n="more.students">תלמידים וציונים</span><span class="go">→</span></button>
-    <button class="more-item" data-go="rec" data-close="navDrawer"><span class="ic">🏆</span><span data-i18n="more.records">אלופי בית הספר</span><span class="go">→</span></button>
-  </div>
-  <div class="more-grp">
-    <div class="more-h">🧰 תוכן וכלים</div>
-    <button class="more-item" data-go="know" data-close="navDrawer"><span class="ic">📚</span><span data-i18n="more.knowledge">ידע</span><span class="go">→</span></button>
-    <button class="more-item" data-go="tools" data-close="navDrawer"><span class="ic">🧰</span><span data-i18n="more.tools">כלי כיתה</span><span class="go">→</span></button>
-    <button class="more-item" data-go="nut" data-close="navDrawer"><span class="ic">🥗</span><span data-i18n="more.nutrition">פינת תזונה</span><span class="go">→</span></button>
-  </div>
-  <div class="more-grp">
-    <div class="more-h">⚙️ הגדרות</div>
-    <button class="more-item" id="btnInfo" data-close="navDrawer" title="מדריך — מה עושים במסך הזה" data-i18n-title="ui.info"><span class="ic">ℹ️</span><span data-i18n="more.guide">מדריך המסך</span><span class="go">→</span></button>
-    <button class="more-item" id="btnSettings" data-close="navDrawer" title="הגדרות" data-i18n-title="ui.settings"><span class="ic">⚙️</span><span data-i18n="more.settings">הגדרות וגיבוי</span><span class="go">→</span></button>
-  </div>
-  <div class="hint" style="margin-top:12px">כושר ומשחקים נמצאים בתוך «מערכי שיעור» — נגישים משם בכל רגע, בלי לחפש אותם כאן.</div>
-</div></div>
 <!-- settings modal -->
-<div class="modal" id="setModal"><div class="box">
+<div class="modal page" id="setModal"><div class="box">
   <h3><span data-i18n="set.title">⚙️ הגדרות</span><button class="x" data-close="setModal">✕</button></h3>
+  <!-- ההגדרות מחולקות לפי תדירות: מה שמשנים לפעמים (כללי) פתוח,
+       מה שעושים פעם בשנה (תחילת שנה) ופעם בחודש (גיבוי) מקופל. -->
+  <button class="set-guide" id="btnInfo" data-close="setModal" title="מדריך — מה עושים במסך הזה" data-i18n-title="ui.info"><span class="ic">ℹ️</span><span data-i18n="set.guide">מדריך למסך שממנו הגעת</span><span class="go">→</span></button>
+  <details class="set-sec" open><summary><span class="ic">🎛</span><span data-i18n="set.secGeneral">כללי</span><small data-i18n="set.secGeneralSub">שפה, בית ספר, מראה וצלילים</small></summary><div class="in">
   <div class="field"><label data-i18n="set.lang">שפת הממשק</label>
     <div class="lang-pick" id="set-lang"></div>
     <div class="hint" id="set-langHint" data-i18n="set.langHint" style="margin-top:6px">שפת הממשק מתחלפת מיד. תוכן מקצועי (משחקים, מערכי שיעור, מאגר ידע) עדיין בעברית ומתורגם בהדרגה.</div>
@@ -3297,19 +3391,27 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     <label class="check"><input type="checkbox" id="set-lock" checked> <span data-i18n="set.lock">נעילת אזור מורה בכניסה</span></label>
     <label class="check"><input type="checkbox" id="set-touch"> <span data-i18n="set.touch">כפתורים גדולים (הפעלה ביד אחת תוך כדי שיעור)</span></label>
   </div>
-  <div class="field" style="margin-top:13px"><label>קישור לטופס העלאת סרטונים (Google Forms)</label>
-    <input type="url" id="set-driveForm" placeholder="https://forms.gle/..." style="direction:ltr;text-align:left;font-size:12px"></div>
-  <div class="field" style="margin-top:9px"><label>קישור לתיקיית הסרטונים בדרייב</label>
-    <input type="url" id="set-driveFolder" placeholder="https://drive.google.com/drive/folders/..." style="direction:ltr;text-align:left;font-size:12px"></div>
-  <div class="hint" style="margin-top:7px">כשממלאים את הטופס — תלמידים במצב אורח מקבלים כפתור העלאה ישיר, ואתה מקבל קיצור לתיקייה מלוח השיאים.</div>
-
-  <div class="field" style="margin-top:17px"><label>סנכרון שיאים בין כמה מורים (מתקדם, רשות)</label>
-    <input type="url" id="set-syncUrl" placeholder="https://script.google.com/macros/s/.../exec" style="direction:ltr;text-align:left;font-size:12px"></div>
-  <div class="field" style="margin-top:9px"><label>קוד סנכרון (אותו קוד לכל המורים בבית הספר)</label>
-    <input type="text" id="set-syncCode" placeholder="קוד סודי משותף"></div>
-  <div class="hint" style="margin-top:7px">כשזה מוגדר, טבלת השיאים (שם, ענף, תוצאה, סטטוס — <b>בלי סרטונים</b>) נשלחת ל-Google Sheet משותף שאתה מקים, כדי שכל המורים יראו את אותה טבלה. בלי זה — הכול נשאר במכשיר בלבד, כמו היום. הקמה חד-פעמית: ראו README, סעיף «סנכרון שיאים בין כמה מורים».</div>
-
-  <div class="hint" style="margin-top:13px" data-i18n="set.install">📲 התקנה כאפליקציה: בכרום — תפריט ⋮ ואז "הוספה למסך הבית". באייפון — שיתוף ואז "הוסף למסך הבית". כקובץ שמור במכשיר האפליקציה עובדת גם בלי אינטרנט (רק הגופנים נטענים מהרשת).</div>
+  </div></details>
+  <details class="set-sec" id="set-secYear"><summary><span class="ic">🗓</span><span data-i18n="set.secYear">תחילת שנה</span><small data-i18n="set.secYearSub">מערכת שעות, קבוצות הוראה ושמות כיתות</small></summary><div class="in">
+    <div class="set-links">
+      <button class="more-item" id="set-openSched" data-close="setModal"><span class="ic">🗓</span><span data-i18n="more.sched">מערכת שעות</span><span class="go">→</span></button>
+      <button class="more-item" id="set-openGroups" data-close="setModal"><span class="ic">👫</span><span data-i18n="more.groups">קבוצות הוראה</span><span class="go">→</span></button>
+    </div>
+  <div class="bk-card" id="set-clsCard">
+    <b data-i18n="set.clsTitle">🏷 שמות הכיתות</b>
+    <div class="hint" style="margin-top:5px" data-i18n="set.clsHint">שינוי שם נוגע רק לשם. התלמידים, המדידות והשיעורים של הכיתה נשארים שלה — הם מזוהים לפי מזהה קבוע, לא לפי השם.</div>
+    <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
+      <div class="field grow"><label data-i18n="set.clsPick">כיתה</label><select id="set-clsSel"></select></div>
+      <div class="field" style="min-width:120px"><label data-i18n="set.clsCurLbl">שם נוכחי</label><div id="set-clsCur" style="font-weight:700;padding:6px 0">—</div></div>
+    </div>
+    <div class="hint" id="set-clsInfo"></div>
+    <div class="row" style="margin-top:8px;gap:8px;align-items:flex-end">
+      <div class="field grow"><label data-i18n="set.clsNewLbl">שם חדש</label><input type="text" id="set-clsNew" data-i18n-placeholder="set.clsNewPh" placeholder="למשל: ט׳3 מצטיינים" disabled></div>
+      <button class="btn sm acc" id="set-clsRename" data-i18n="set.clsSaveBtn" disabled>שמירה</button>
+    </div>
+  </div>
+  </div></details>
+  <details class="set-sec"><summary><span class="ic">🔒</span><span data-i18n="set.secBackup">גיבוי וסנכרון</span><small data-i18n="set.secBackupSub">קובץ גיבוי, גוגל דרייב וסנכרון שיאים</small></summary><div class="in">
   <div class="bk-card">
     <b data-i18n="bk.title">💾 גיבוי ושחזור</b>
     <div class="hint" style="margin-top:5px" data-i18n="bk.body">כל הנתונים — תלמידים, תוצאות, שיאים, ציונים, נורמות והגדרות — שמורים <b>במכשיר הזה בלבד</b>.
@@ -3346,20 +3448,20 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     <div class="hint" style="margin-top:4px">זו <b>תזכורת בלבד</b>, לא גיבוי אמיתי ברקע — כי הצפנה דורשת הקלדת סיסמה בכל פעם, ואי אפשר לבקש אותה בלי שאת/ה מול המסך. כשהגיע הזמן תופיע הודעה שמזכירה ללחוץ על "גבה עכשיו לדרייב".</div>
     <div class="hint" id="set-gdStat" style="margin-top:8px"></div>
   </div>
-  <div class="bk-card" id="set-clsCard">
-    <b data-i18n="set.clsTitle">🏷 שמות הכיתות</b>
-    <div class="hint" style="margin-top:5px" data-i18n="set.clsHint">שינוי שם נוגע רק לשם. התלמידים, המדידות והשיעורים של הכיתה נשארים שלה — הם מזוהים לפי מזהה קבוע, לא לפי השם.</div>
-    <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
-      <div class="field grow"><label data-i18n="set.clsPick">כיתה</label><select id="set-clsSel"></select></div>
-      <div class="field" style="min-width:120px"><label data-i18n="set.clsCurLbl">שם נוכחי</label><div id="set-clsCur" style="font-weight:700;padding:6px 0">—</div></div>
-    </div>
-    <div class="hint" id="set-clsInfo"></div>
-    <div class="row" style="margin-top:8px;gap:8px;align-items:flex-end">
-      <div class="field grow"><label data-i18n="set.clsNewLbl">שם חדש</label><input type="text" id="set-clsNew" data-i18n-placeholder="set.clsNewPh" placeholder="למשל: ט׳3 מצטיינים" disabled></div>
-      <button class="btn sm acc" id="set-clsRename" data-i18n="set.clsSaveBtn" disabled>שמירה</button>
-    </div>
-  </div>
-  <button class="btn acc big" id="set-save" style="margin-top:13px" data-i18n="set.save">שמור</button>
+  <div class="field" style="margin-top:13px"><label>קישור לטופס העלאת סרטונים (Google Forms)</label>
+    <input type="url" id="set-driveForm" placeholder="https://forms.gle/..." style="direction:ltr;text-align:left;font-size:12px"></div>
+  <div class="field" style="margin-top:9px"><label>קישור לתיקיית הסרטונים בדרייב</label>
+    <input type="url" id="set-driveFolder" placeholder="https://drive.google.com/drive/folders/..." style="direction:ltr;text-align:left;font-size:12px"></div>
+  <div class="hint" style="margin-top:7px">כשממלאים את הטופס — תלמידים במצב אורח מקבלים כפתור העלאה ישיר, ואתה מקבל קיצור לתיקייה מלוח השיאים.</div>
+
+  <div class="field" style="margin-top:17px"><label>סנכרון שיאים בין כמה מורים (מתקדם, רשות)</label>
+    <input type="url" id="set-syncUrl" placeholder="https://script.google.com/macros/s/.../exec" style="direction:ltr;text-align:left;font-size:12px"></div>
+  <div class="field" style="margin-top:9px"><label>קוד סנכרון (אותו קוד לכל המורים בבית הספר)</label>
+    <input type="text" id="set-syncCode" placeholder="קוד סודי משותף"></div>
+  <div class="hint" style="margin-top:7px">כשזה מוגדר, טבלת השיאים (שם, ענף, תוצאה, סטטוס — <b>בלי סרטונים</b>) נשלחת ל-Google Sheet משותף שאתה מקים, כדי שכל המורים יראו את אותה טבלה. בלי זה — הכול נשאר במכשיר בלבד, כמו היום. הקמה חד-פעמית: ראו README, סעיף «סנכרון שיאים בין כמה מורים».</div>
+  </div></details>
+  <details class="set-sec"><summary><span class="ic">🧰</span><span data-i18n="set.secAdv">מתקדם</span><small data-i18n="set.secAdvSub">התקנה, ניקוי נתונים, עדכון ואודות</small></summary><div class="in">
+  <div class="hint" style="margin-top:13px" data-i18n="set.install">📲 התקנה כאפליקציה: בכרום — תפריט ⋮ ואז "הוספה למסך הבית". באייפון — שיתוף ואז "הוסף למסך הבית". כקובץ שמור במכשיר האפליקציה עובדת גם בלי אינטרנט (רק הגופנים נטענים מהרשת).</div>
   <div class="row" style="margin-top:11px;gap:8px">
     <button class="btn sm ghost grow" id="set-about" data-i18n="set.about">📘 אודות, גרסה וקרדיטים</button>
     <button class="btn sm ghost grow" id="set-purge" data-i18n="set.purge">🧹 נקה נתונים ישנים</button>
@@ -3373,6 +3475,10 @@ body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
     <button class="btn sm ghost grow" id="set-forceUpdate">♻️ משוך גרסה עדכנית מהרשת</button>
   </div>
   <div class="hint" style="margin-top:6px;text-align:center">מוחק רק את מטמון הקבצים ומוריד אותם מחדש. תלמידים, מדידות, שיאים ומערכת שעות לא נוגעים.</div>
+  </div></details>
+  <div class="set-savebar">
+  <button class="btn acc big" id="set-save" style="margin-top:13px" data-i18n="set.save">שמור</button>
+  </div>
 </div></div>
 
 <!-- splits modal (laps) -->
@@ -11619,6 +11725,81 @@ const DICT={
 he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שבמרקאפ עצמו */
 
 en:{
+  /* ux-redesign */
+  "nav.today":"Today",
+  "nav.prep":"Prep",
+  "nav.live":"Lesson",
+  "nav.classes":"Classes",
+  "ui.lang":"Interface language",
+  "ui.min":"min",
+  "area.plans":"Plans",
+  "area.games":"Games",
+  "area.fit":"Exercises & timers",
+  "area.know":"Knowledge",
+  "area.nut":"Nutrition",
+  "area.stu":"Students and grades",
+  "area.ft":"Fitness tests",
+  "area.tools":"Class tools",
+  "home.quick":"Measuring tools — no lesson needed",
+  "home.qFt":"Fitness tests",
+  "home.qBeep":"Beep test",
+  "home.qPhoto":"Photo finish",
+  "home.qTimer":"Timer",
+  "home.more":"Weekly challenge, numbers and a field tip",
+  "set.guide":"Guide to the screen you came from",
+  "set.secGeneral":"General",
+  "set.secGeneralSub":"Language, school, look and sounds",
+  "set.secYear":"Start of the year",
+  "set.secYearSub":"Timetable, teaching groups and class names",
+  "set.secBackup":"Backup and sync",
+  "set.secBackupSub":"Backup file, Google Drive and records sync",
+  "set.secAdv":"Advanced",
+  "set.secAdvSub":"Install, data clean-up, update and about",
+  "live.blocked":"A lesson is already open with",
+  "live.cantStart":"Couldn't open the lesson",
+  "live.started":"Lesson started",
+  "live.sugNow":"now in timetable",
+  "live.sugNext":"next in timetable",
+  "live.which":"Which class?",
+  "live.whichHint":"Tap a class to open a lesson. Attendance, measurements and teams will be saved to that class.",
+  "live.planWill":"The plan on screen will open with it:",
+  "live.students":"students",
+  "live.noClasses":"No classes yet. Pick a grade and number below — the class will be registered and saved.",
+  "live.other":"Another class — grade and number",
+  "live.startCls":"Start lesson",
+  "live.noClassTools":"Tools without a class",
+  "live.tMeas":"Measure",
+  "live.tMeasSub":"31 fitness tests",
+  "live.tBeep":"Beep test",
+  "live.tBeepSub":"Start and record drop-outs",
+  "live.tPhoto":"Photo finish",
+  "live.tPhotoSub":"Camera and lanes",
+  "live.tTimer":"Timer",
+  "live.tTimerSub":"Intervals · stations",
+  "live.tTeams":"Teams",
+  "live.tTeamsSub":"Balanced, from those present",
+  "live.tPick":"Random pick",
+  "live.tPickSub":"No repeats in a round",
+  "live.tGames":"Games",
+  "live.tGamesSub":"Rules and explanation",
+  "live.tAtt":"Attendance",
+  "live.step":"Step",
+  "live.next":"Next:",
+  "live.last":"Last step",
+  "live.planBtn":"Full plan",
+  "live.nextBtn":"Next step",
+  "live.noPlan":"No plan for this lesson.",
+  "live.choosePlan":"Choose or build a plan",
+  "live.present":"present",
+  "live.absent":"absent",
+  "live.notMarked":"Not marked yet",
+  "live.noRoster":"No class list",
+  "live.measDone":"measurements this lesson",
+  "live.allIn":"Everyone's here",
+  "live.leave":"Leave — lesson keeps running",
+  "live.end":"End lesson",
+  "live.markedIn":"marked present. Mark the exceptions in Attendance",
+  "live.continues":"The lesson keeps running. ▶ in the bar brings you back",
   /* --- מסך כניסה --- */
   "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 About PE Ultimate",
   /* --- ביפ טסט --- */
@@ -11923,6 +12104,81 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "nav.today":"اليوم",
+  "nav.prep":"التحضير",
+  "nav.live":"الدرس",
+  "nav.classes":"الصفوف",
+  "ui.lang":"لغة الواجهة",
+  "ui.min":"د",
+  "area.plans":"الخطط",
+  "area.games":"ألعاب",
+  "area.fit":"تمارين ومؤقّتات",
+  "area.know":"المعرفة",
+  "area.nut":"التغذية",
+  "area.stu":"الطلاب والعلامات",
+  "area.ft":"اختبارات اللياقة",
+  "area.tools":"أدوات الصف",
+  "home.quick":"أدوات القياس — حتى من دون درس",
+  "home.qFt":"اختبارات اللياقة",
+  "home.qBeep":"اختبار الصافرة",
+  "home.qPhoto":"صورة النهاية",
+  "home.qTimer":"مؤقّت",
+  "home.more":"تحدّي الأسبوع، أرقام ونصيحة ميدانية",
+  "set.guide":"دليل الشاشة التي جئت منها",
+  "set.secGeneral":"عام",
+  "set.secGeneralSub":"اللغة، المدرسة، المظهر والأصوات",
+  "set.secYear":"بداية السنة",
+  "set.secYearSub":"جدول الحصص، مجموعات التدريس وأسماء الصفوف",
+  "set.secBackup":"النسخ الاحتياطي والمزامنة",
+  "set.secBackupSub":"ملف النسخ الاحتياطي، Google Drive ومزامنة الأرقام",
+  "set.secAdv":"متقدّم",
+  "set.secAdvSub":"التثبيت، تنظيف البيانات، التحديث وحول",
+  "live.blocked":"هناك درس مفتوح بالفعل مع الصف",
+  "live.cantStart":"تعذّر فتح الدرس",
+  "live.started":"بدأ الدرس",
+  "live.sugNow":"الآن في الجدول",
+  "live.sugNext":"التالي في الجدول",
+  "live.which":"لأيّ صف؟",
+  "live.whichHint":"اضغط على صف لفتح درس. تُحفظ الحضور والقياسات والفرق لهذا الصف.",
+  "live.planWill":"ستُفتح معه الخطة المعروضة:",
+  "live.students":"طلاب",
+  "live.noClasses":"لا توجد صفوف بعد. اختر الطبقة والرقم في الأسفل — سيُسجَّل الصف ويُحفظ.",
+  "live.other":"صف آخر — الطبقة والرقم",
+  "live.startCls":"ابدأ الدرس",
+  "live.noClassTools":"أدوات من دون صف",
+  "live.tMeas":"قياس",
+  "live.tMeasSub":"31 اختبار لياقة",
+  "live.tBeep":"اختبار الصافرة",
+  "live.tBeepSub":"الانطلاق وتسجيل الانسحاب",
+  "live.tPhoto":"صورة النهاية",
+  "live.tPhotoSub":"الكاميرا والمسارات",
+  "live.tTimer":"مؤقّت",
+  "live.tTimerSub":"فترات · محطات",
+  "live.tTeams":"الفرق",
+  "live.tTeamsSub":"متوازنة، من الحاضرين",
+  "live.tPick":"سحب عشوائي",
+  "live.tPickSub":"من دون تكرار في الجولة",
+  "live.tGames":"ألعاب",
+  "live.tGamesSub":"القواعد والشرح",
+  "live.tAtt":"الحضور",
+  "live.step":"المرحلة",
+  "live.next":"التالي:",
+  "live.last":"المرحلة الأخيرة",
+  "live.planBtn":"الخطة الكاملة",
+  "live.nextBtn":"إلى المرحلة التالية",
+  "live.noPlan":"لا توجد خطة لهذا الدرس.",
+  "live.choosePlan":"اختر خطة أو ابنِها",
+  "live.present":"حاضرون",
+  "live.absent":"غائبون",
+  "live.notMarked":"لم يُسجَّل بعد",
+  "live.noRoster":"لا توجد قائمة للصف",
+  "live.measDone":"قياسات في هذا الدرس",
+  "live.allIn":"الجميع حاضرون",
+  "live.leave":"خروج — الدرس مستمر",
+  "live.end":"إنهاء الدرس",
+  "live.markedIn":"سُجّلوا حاضرين. سجّل الاستثناءات في الحضور",
+  "live.continues":"الدرس مستمر. ▶ في الشريط يعيدك إليه",
   "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 حول PE Ultimate",
   "bt.setup":"إعداد الاختبار", "bt.dist":"طول المسار", "bt.speed":"سرعة المرحلة 1 (كم/س)",
   "bt.age":"عمر الصف", "bt.sex":"الجنس (للمعايير)",
@@ -12241,6 +12497,81 @@ ar:{
 },
 
 ru:{
+  /* ux-redesign */
+  "nav.today":"Сегодня",
+  "nav.prep":"Подготовка",
+  "nav.live":"Урок",
+  "nav.classes":"Классы",
+  "ui.lang":"Язык интерфейса",
+  "ui.min":"мин",
+  "area.plans":"Планы",
+  "area.games":"Игры",
+  "area.fit":"Упражнения и таймеры",
+  "area.know":"Знания",
+  "area.nut":"Питание",
+  "area.stu":"Ученики и оценки",
+  "area.ft":"Тесты физподготовки",
+  "area.tools":"Инструменты класса",
+  "home.quick":"Инструменты измерений — и без урока",
+  "home.qFt":"Тесты",
+  "home.qBeep":"Бип-тест",
+  "home.qPhoto":"Фотофиниш",
+  "home.qTimer":"Таймер",
+  "home.more":"Вызов недели, цифры и полевой совет",
+  "set.guide":"Гид по экрану, с которого вы пришли",
+  "set.secGeneral":"Общие",
+  "set.secGeneralSub":"Язык, школа, вид и звуки",
+  "set.secYear":"Начало года",
+  "set.secYearSub":"Расписание, учебные группы и названия классов",
+  "set.secBackup":"Резервная копия и синхронизация",
+  "set.secBackupSub":"Файл копии, Google Drive и синхронизация рекордов",
+  "set.secAdv":"Дополнительно",
+  "set.secAdvSub":"Установка, очистка данных, обновление и о приложении",
+  "live.blocked":"Уже открыт урок в классе",
+  "live.cantStart":"Не удалось открыть урок",
+  "live.started":"Урок начался",
+  "live.sugNow":"сейчас по расписанию",
+  "live.sugNext":"следующий по расписанию",
+  "live.which":"Какой класс?",
+  "live.whichHint":"Нажмите на класс, чтобы открыть урок. Посещаемость, замеры и команды сохранятся для этого класса.",
+  "live.planWill":"Вместе с ним откроется план на экране:",
+  "live.students":"учеников",
+  "live.noClasses":"Классов пока нет. Выберите параллель и номер ниже — класс будет зарегистрирован и сохранён.",
+  "live.other":"Другой класс — параллель и номер",
+  "live.startCls":"Начать урок",
+  "live.noClassTools":"Инструменты без класса",
+  "live.tMeas":"Замер",
+  "live.tMeasSub":"31 тест физподготовки",
+  "live.tBeep":"Бип-тест",
+  "live.tBeepSub":"Старт и отметка выбывших",
+  "live.tPhoto":"Фотофиниш",
+  "live.tPhotoSub":"Камера и дорожки",
+  "live.tTimer":"Таймер",
+  "live.tTimerSub":"Интервалы · станции",
+  "live.tTeams":"Команды",
+  "live.tTeamsSub":"Сбалансированные, из присутствующих",
+  "live.tPick":"Жребий",
+  "live.tPickSub":"Без повторов в круге",
+  "live.tGames":"Игры",
+  "live.tGamesSub":"Правила и объяснение",
+  "live.tAtt":"Посещаемость",
+  "live.step":"Этап",
+  "live.next":"Далее:",
+  "live.last":"Последний этап",
+  "live.planBtn":"Весь план",
+  "live.nextBtn":"Следующий этап",
+  "live.noPlan":"Для этого урока нет плана.",
+  "live.choosePlan":"Выбрать или составить план",
+  "live.present":"присутствуют",
+  "live.absent":"отсутствуют",
+  "live.notMarked":"Ещё не отмечена",
+  "live.noRoster":"Нет списка класса",
+  "live.measDone":"замеров на уроке",
+  "live.allIn":"Все на месте",
+  "live.leave":"Выйти — урок продолжается",
+  "live.end":"Завершить урок",
+  "live.markedIn":"отмечены присутствующими. Исключения отмечайте в посещаемости",
+  "live.continues":"Урок продолжается. ▶ на панели вернёт к нему",
   "brand.word":"PE", "brand.full":"PE Ultimate", "about.title":"📘 О PE Ultimate",
   "bt.setup":"Настройка теста", "bt.dist":"Длина отрезка", "bt.speed":"Скорость 1-й ступени (км/ч)",
   "bt.std":"↺ Стандарт (8.0)", "bt.proto":"Стандартный протокол",
@@ -12553,6 +12884,81 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "nav.today":"Hoy",
+  "nav.prep":"Preparar",
+  "nav.live":"Sesión",
+  "nav.classes":"Grupos",
+  "ui.lang":"Idioma de la interfaz",
+  "ui.min":"min",
+  "area.plans":"Planes",
+  "area.games":"Juegos",
+  "area.fit":"Ejercicios y temporizadores",
+  "area.know":"Conocimiento",
+  "area.nut":"Nutrición",
+  "area.stu":"Alumnado y calificaciones",
+  "area.ft":"Pruebas de condición física",
+  "area.tools":"Herramientas de clase",
+  "home.quick":"Herramientas de medición, también sin sesión",
+  "home.qFt":"Pruebas",
+  "home.qBeep":"Test de la bip",
+  "home.qPhoto":"Foto-finish",
+  "home.qTimer":"Temporizador",
+  "home.more":"Reto de la semana, cifras y consejo de campo",
+  "set.guide":"Guía de la pantalla de la que vienes",
+  "set.secGeneral":"General",
+  "set.secGeneralSub":"Idioma, centro, aspecto y sonidos",
+  "set.secYear":"Inicio de curso",
+  "set.secYearSub":"Horario, grupos y nombres de los grupos",
+  "set.secBackup":"Copia de seguridad y sincronización",
+  "set.secBackupSub":"Archivo de copia, Google Drive y sincronización de récords",
+  "set.secAdv":"Avanzado",
+  "set.secAdvSub":"Instalación, limpieza de datos, actualización y acerca de",
+  "live.blocked":"Ya hay una sesión abierta con",
+  "live.cantStart":"No se pudo abrir la sesión",
+  "live.started":"La sesión ha empezado",
+  "live.sugNow":"ahora en el horario",
+  "live.sugNext":"siguiente en el horario",
+  "live.which":"¿Qué grupo?",
+  "live.whichHint":"Toca un grupo para abrir la sesión. La asistencia, las mediciones y los equipos se guardarán para ese grupo.",
+  "live.planWill":"Se abrirá con el plan que tienes en pantalla:",
+  "live.students":"alumnos",
+  "live.noClasses":"Aún no hay grupos. Elige curso y número abajo: el grupo quedará registrado y guardado.",
+  "live.other":"Otro grupo: curso y número",
+  "live.startCls":"Empezar sesión",
+  "live.noClassTools":"Herramientas sin grupo",
+  "live.tMeas":"Medir",
+  "live.tMeasSub":"31 pruebas de condición física",
+  "live.tBeep":"Test de la bip",
+  "live.tBeepSub":"Salida y registro de abandonos",
+  "live.tPhoto":"Foto-finish",
+  "live.tPhotoSub":"Cámara y calles",
+  "live.tTimer":"Temporizador",
+  "live.tTimerSub":"Intervalos · estaciones",
+  "live.tTeams":"Equipos",
+  "live.tTeamsSub":"Equilibrados, entre los presentes",
+  "live.tPick":"Sorteo",
+  "live.tPickSub":"Sin repetir en la ronda",
+  "live.tGames":"Juegos",
+  "live.tGamesSub":"Reglas y explicación",
+  "live.tAtt":"Asistencia",
+  "live.step":"Fase",
+  "live.next":"Siguiente:",
+  "live.last":"Última fase",
+  "live.planBtn":"Plan completo",
+  "live.nextBtn":"Siguiente fase",
+  "live.noPlan":"Esta sesión no tiene plan.",
+  "live.choosePlan":"Elegir o crear un plan",
+  "live.present":"presentes",
+  "live.absent":"ausentes",
+  "live.notMarked":"Aún sin marcar",
+  "live.noRoster":"Sin lista del grupo",
+  "live.measDone":"mediciones en la sesión",
+  "live.allIn":"Están todos",
+  "live.leave":"Salir: la sesión sigue",
+  "live.end":"Terminar sesión",
+  "live.markedIn":"marcados como presentes. Marca las excepciones en Asistencia",
+  "live.continues":"La sesión sigue. ▶ en la barra te devuelve a ella",
   "brand.word":"PE",
   "brand.full":"PE Ultimate",
   "about.title":"📘 Acerca de PE Ultimate",
@@ -13402,10 +13808,15 @@ function say(txt,lang){
 
 /* ---------- wake lock ---------- */
 let wakeLock=null;
+/* שיעור פתוח מחזיק את המסך דלוק לכל אורכו. עד עכשיו כל מודול שחרר
+   את אותה נעילה בנפרד — פתיחת מבחן כושר כיבתה את הנעילה של טיימר
+   שעוד רץ. כשיש החזקה של שיעור, בקשת שחרור של מודול לא מכבה. */
+let wakeHold=false;
+function holdAwake(on){ wakeHold=!!on; keepAwake(!!on); }
 async function keepAwake(on){
   try{
-    if(on&&SET.wake&&"wakeLock"in navigator){ wakeLock=await navigator.wakeLock.request("screen"); }
-    else if(!on&&wakeLock){ wakeLock.release(); wakeLock=null; }
+    if(on&&SET.wake&&"wakeLock"in navigator){ if(!wakeLock||wakeLock.released)wakeLock=await navigator.wakeLock.request("screen"); }
+    else if(!on&&wakeLock&&!wakeHold){ wakeLock.release(); wakeLock=null; }
   }catch(e){}
 }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&wakeLock)keepAwake(true); });
@@ -13483,66 +13894,138 @@ function applyRole(){
   /* «משחקים» עבר לתוך אשכול «שיעור» עבור המורה — לתלמיד (שלא נכנס ל-שיעור בכלל)
      הוא חייב להישאר כפתור ישיר בסרגל. «עוד» מוביל רק למודולים שאסורים לתלמיד ממילא. */
   const ng=$("#navGames"); if(ng)ng.style.display=stu?"":"none";
-  const nm=$("#navMore"); if(nm)nm.style.display=stu?"none":"";
+  /* ההגדרות מובילות למסכים שאסורים לתלמיד ממילא — הן יורדות איתם */
   const st=$("#btnSettings"); if(st)st.style.display=stu?"none":"";
-  /* התפריט הראשי מוביל למסכים שאסורים לתלמיד ממילא — הוא יורד איתם */
-  const bm=$("#btnMenu"); if(bm)bm.style.display=stu?"none":"";
   const rb=$("#roleBadge");
   if(rb){ rb.style.display=stu?"":"none"; }
   if(typeof REC!=="undefined"&&REC.applyRole)REC.applyRole();
   if(stu&&!STUDENT_MODS[document.body.dataset.mod||""])go("rec");
 }
 
-/* ---------- router ---------- */
-const MODS={home:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1};
-/* מודולים שנגישים דרך כפתור «עוד» ולא ישירות בסרגל — כדי שהכפתור יודגש כשנמצאים באחד מהם */
-const MORE_MODS=["stu","know","tools","nut","rec"];
+/* ---------- router ----------
+   חמישה אזורים לפי קצב העבודה של המורה, במקום רשימה שטוחה של מסכים:
+     היום   — מה עכשיו ומה הבא
+     הכנה   — מערכים, משחקים, תרגילים, ידע ותזונה (בנחת, מראש)
+     שיעור  — מצב שיעור: כל כלי השטח גלויים, והכיתה כבר ידועה
+     כיתות  — תלמידים, ציונים, מבחני כושר וכלי כיתה (ניהול ומעקב)
+     שיאים  — לוח בית הספר
+   המודולים עצמם לא השתנו; האזור רק קובע איזה כפתור בסרגל דולק
+   ואילו לשוניות מופיעות מתחת לכותרת. */
+const MODS={home:1,live:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1};
+const AREA_OF={home:"today",live:"live",beep:"live",photo:"live",
+  lesson:"prep",games:"prep",fit:"prep",know:"prep",nut:"prep",
+  stu:"classes",ft:"classes",tools:"classes",rec:"rec"};
+const AREA_TABS={
+  prep:[["lesson","📋","area.plans","מערכים"],["games","🎮","area.games","משחקים"],
+        ["fit","🏋️","area.fit","תרגילים וטיימרים"],["know","📚","area.know","ידע"],["nut","🥗","area.nut","תזונה"]],
+  classes:[["stu","👥","area.stu","תלמידים וציונים"],["ft","🏅","area.ft","מבחני כושר"],["tools","🧰","area.tools","כלי כיתה"]]
+};
+const areaOf=mod=>AREA_OF[mod]||"today";
+function paintAreaTabs(mod){
+  const box=$("#areaTabs"); if(!box)return;
+  const tabs=isStudent()?null:AREA_TABS[areaOf(mod)];
+  if(!tabs){ box.hidden=true; box.innerHTML=""; return; }
+  box.innerHTML=tabs.map(([m,ic,k,he])=>'<button data-go="'+m+'"'+(m===mod?' class="on" aria-current="page"':"")+'>'+
+    '<span class="ic">'+ic+'</span><span>'+esc(t(k,he))+'</span></button>').join("");
+  box.hidden=false;
+  box.querySelectorAll("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go); }));
+  const on=box.querySelector(".on"); if(on&&on.scrollIntoView)try{ on.scrollIntoView({block:"nearest",inline:"nearest"}); }catch(e){}
+}
 const inited={};
-function go(mod){
+/* ============================================================
+   היסטוריה אמיתית
+   ------------------------------------------------------------
+   עד עכשיו הכתובת עודכנה ב-replaceState בלבד, ולכן כפתור «חזרה» של
+   הטלפון יצא מהאפליקציה כולה באמצע שיעור. כל מעבר מסך נרשם עכשיו
+   כצעד בהיסטוריה (עם עומק), ו«חזרה» — של הטלפון או שבכותרת — חוזר
+   צעד אחד. חלון פתוח נסגר קודם, לפני שעוזבים את המסך שמתחתיו.
+   ============================================================ */
+let navDepth=0;
+function go(mod,opts){
+  opts=opts||{};
   if(!MODS[mod])mod="home";
   if(isStudent()&&!STUDENT_MODS[mod])mod="rec";
+  const prev=document.body.dataset.mod;
   /* חלון שנפתח בתוך מודול אינו שייך למודול הבא. בלי זה, הדרכת
      הפתיחה של הפוטו־פיניש נשארה פרושה מעל כל האפליקציה אחרי מעבר
      למודול אחר, וחסמה כל הקשה. */
-  if(document.body.dataset.mod!==mod)
+  if(prev!==mod)
     $$(".modal.on").forEach(m=>m.classList.remove("on"));
   document.body.dataset.mod=mod;
+  document.body.dataset.area=areaOf(mod);
   $$(".view").forEach(v=>v.classList.toggle("on",v.id==="view-"+mod));
-  $$(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===mod));
-  const nm=$("#navMore"); if(nm)nm.classList.toggle("on",MORE_MODS.includes(mod));
+  const area=areaOf(mod);
+  $$(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.area===area||(!b.dataset.area&&b.dataset.go===mod)));
   /* «התלמידים שלי» ומסך הכיתה קוראים את stu.list — הגשר רץ לפניהם,
      אחרת מסך שלם מציג אפס בזמן שהרשימות מלאות. */
-  if(mod==="stu"||mod==="home")syncStudents();
-  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init}[mod]; if(f)f(); }
+  if(mod==="stu"||mod==="home"||mod==="tools")syncStudents();
+  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init}[mod]; if(f)f(); }
   if(mod==="home"){ homeStats();
     /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
        המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
        לנראה — במקום מסך שמראה מצב ישן. */
     paintHome(); }
+  if(mod==="live"&&window.LIVE)window.LIVE.paint();
+  paintAreaTabs(mod);
+  try{ paintNavLive(); }catch(e){}
   updateBack(); wireTips();
   if(window.I18N)window.I18N.applyDom();
   /* המסך האחרון נשמר כדי שרענון או חזרה לאפליקציה יחזירו אותך לאן
      שהיית — לא לדף הבית באמצע שיעור. */
   if(!isStudent())LS.set("hx.lastMod",mod);
-  if(location.hash!=="#"+mod){ try{history.replaceState(null,"","#"+mod)}catch(e){} }
+  if(!opts.pop){
+    try{
+      if(prev&&prev!==mod&&!opts.replace){ navDepth++; history.pushState({mod,depth:navDepth},"","#"+mod); }
+      else if(location.hash!=="#"+mod||!history.state)history.replaceState({mod,depth:navDepth},"","#"+mod);
+    }catch(e){}
+  }
+  window.scrollTo&&prev!==mod&&window.scrollTo(0,0);
 }
-function wireNav(){ $$("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go); }));
-  const nm=$("#navMore"); if(nm)nm.addEventListener("click",()=>{ ac(); modal("navDrawer"); });
-  const bm=$("#btnMenu"); if(bm)bm.addEventListener("click",()=>{ ac(); modal("navDrawer"); });
-  wireDrawer(); }
-/* המגירה מחזיקה גם פעולות שאינן מודול — מערכת שעות וקבוצות הוראה.
-   הסגירה שלה עצמה נעשית דרך data-close שעל כל שורה, כמו בכל חלון
-   אחר: חלון שנפתח מעל מגירה פתוחה משאיר שתי שכבות כהות זו על זו,
-   ואת הסגירה של שתיהן על המורה.
-   «מדריך» ו«הגדרות» אינם משוכפלים כאן — אלה אותם שני הכפתורים
-   עצמם, שעברו מהסרגל העליון אל תוך המגירה. הסרגל היה צר מכדי
-   להחזיק גם אותם וגם את ☰ בלי לחתוך את שם האפליקציה. */
-function wireDrawer(){
+function wireNav(){ $$("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go);
+    /* קיצור ישיר ללשונית בתוך מסך — «טיימר» בבית פותח את הטיימר ולא את ספריית התרגילים */
+    if(el.dataset.fitTab){ const b=document.querySelector('#view-fit [data-ft="'+el.dataset.fitTab+'"]'); if(b)b.click(); } }));
+  wireLangPop();
   const hook=(id,fn)=>{ const b=$("#"+id); if(b)b.addEventListener("click",()=>{ ac(); fn(); }); };
-  hook("dw-sched",()=>openSched());
-  hook("dw-groups",()=>openGroups());
+  hook("set-openSched",()=>openSched());
+  hook("set-openGroups",()=>openGroups());
 }
-window.addEventListener("hashchange",()=>go(location.hash.slice(1)||"home"));
+window.addEventListener("popstate",e=>{
+  /* חלון פתוח? «חזרה» סוגרת אותו ונשארת במסך — כמו בכל אפליקציה */
+  const open=$$(".modal.on");
+  if(open.length){
+    open.forEach(m=>m.classList.remove("on"));
+    try{ navDepth++; history.pushState({mod:document.body.dataset.mod,depth:navDepth},"","#"+document.body.dataset.mod); }catch(err){}
+    return;
+  }
+  const st=e.state||{};
+  navDepth=st.depth||0;
+  go(st.mod||location.hash.slice(1)||"home",{pop:true});
+});
+window.addEventListener("hashchange",()=>{
+  const h=location.hash.slice(1)||"home";
+  if(h!==document.body.dataset.mod)go(h,{pop:true});
+});
+/* מחליף שפה מהיר בכותרת — חמש שפות במרחק הקשה, בלי לפתוח הגדרות */
+function wireLangPop(){
+  const btn=$("#btnLang"), pop=$("#langPop"); if(!btn||!pop||!window.I18N)return;
+  const paintBtn=()=>{ const i=window.I18N.info(); btn.textContent={he:"עב",en:"EN",ar:"ع",ru:"RU",es:"ES"}[i.code]||i.code; };
+  const close=()=>{ pop.hidden=true; btn.setAttribute("aria-expanded","false"); };
+  btn.addEventListener("click",e=>{
+    e.stopPropagation(); ac();
+    if(!pop.hidden){ close(); return; }
+    const cur=window.I18N.lang();
+    pop.innerHTML=window.I18N.langs().map(l=>'<button data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+'>'+
+      '<span class="fl">'+l.flag+'</span><span>'+esc(l.native)+'</span></button>').join("");
+    pop.querySelectorAll("[data-l]").forEach(b=>b.addEventListener("click",()=>{
+      window.I18N.set(b.dataset.l); close(); paintBtn(); applyTheme(); toast(window.I18N.info().native);
+    }));
+    pop.hidden=false; btn.setAttribute("aria-expanded","true");
+  });
+  document.addEventListener("click",e=>{ if(!pop.hidden&&!pop.contains(e.target))close(); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape")close(); });
+  document.addEventListener("i18n:change",paintBtn);
+  paintBtn();
+}
 
 /* ---------- home ---------- */
 const TIPS=[
@@ -13583,7 +14066,20 @@ function homeStats(){
    מחדש, כדי ש«מתחיל בעוד» ו«מתקיים עכשיו» לא יישארו על הדקה שבה
    נכנסת. אין כאן שעון שני, רק הקשבה לזה שכבר קיים. */
 let lastMin=-1;
-setInterval(()=>{ const d=new Date(); const tc=$("#topClock");
+/* הכפתור האמצעי בסרגל: «▶ שיעור» כשאין שיעור, ושם הכיתה והזמן
+   שעבר כשיש — כדי שמכל מסך יהיה ברור שהשיעור עדיין פתוח, ואיך חוזרים */
+function paintNavLive(){
+  const b=$("#navLive"); if(!b)return;
+  const a=SESSION.active();
+  b.classList.toggle("act",!!a);
+  const ic=$("#navLiveIc"), tx=$("#navLiveT");
+  if(!a){ if(ic)ic.textContent="▶"; if(tx)tx.textContent=t("nav.live","שיעור"); holdAwake(false); return; }
+  const min=Math.max(0,Math.floor((Date.now()-(a.startedAt||Date.now()))/60000));
+  if(ic)ic.textContent=sesName(a);
+  if(tx)tx.textContent=min+" "+t("ui.min","דק׳");
+  if(!wakeHold)holdAwake(true);
+}
+setInterval(()=>{ const d=new Date(); const tc=$("#topClock"); try{ paintNavLive(); }catch(e){}
   if(tc)tc.textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
   const m=d.getHours()*60+d.getMinutes();
   if(m!==lastMin){ lastMin=m;
@@ -13666,10 +14162,10 @@ function toggleSun(){
   saveSet(); applyTheme();
   toast(SET.theme==="sun"?"☀ מצב שמש — ניגודיות גבוהה":"חזרה לערכה הרגילה");
 }
-/* היכן «חזרה» מוביל מכל מודול. הבית הוא היעד של רוב המסכים, אבל
-   מודולים שנפתחים מתוך «עוד» חוזרים לתפריט שממנו נכנסו, כי חזרה
-   לבית משם מרגישה כמו איבוד מקום. */
-const BACK_TO={games:"lesson",fit:"lesson"};
+/* «חזרה» שבכותרת עושה בדיוק מה שעושה כפתור החזרה של הטלפון: צעד
+   אחד אחורה בהיסטוריה. כשאין לאן לחזור (נכנסו ישר מקישור או
+   מרענון) — לראש האזור, ומשם לבית. */
+const AREA_ROOT={today:"home",prep:"lesson",classes:"stu",rec:"rec",live:"live"};
 function updateBack(){
   const b=$("#btnBack"); if(!b)return;
   const mod=document.body.dataset.mod||"home";
@@ -13679,8 +14175,9 @@ function goBack(){
   const mod=document.body.dataset.mod||"home";
   /* אם המודול עצמו נמצא במסך פנימי — נותנים לו לטפל בחזרה קודם */
   for(const fn of BACK_HOOKS){ try{ if(fn(mod))return; }catch(e){} }
-  if(MORE_MODS.includes(mod)){ go("home"); modal("navDrawer",true); return; }
-  go(BACK_TO[mod]||"home");
+  if(navDepth>0&&history.state&&history.state.depth>0){ history.back(); return; }
+  const root=AREA_ROOT[areaOf(mod)]||"home";
+  go(root===mod?"home":root);
 }
 /* מודול שיש בו מסך פנימי רושם כאן פונקציה. היא מקבלת את המודול
    הפעיל, ומחזירה true אם היא טיפלה בחזרה בעצמה. */
@@ -13807,7 +14304,7 @@ const SESSION={
     /* סיום שיעור משנה גם את דף הבית — המשבצת מסומנת וכרטיס
        «השיעור האחרון» נפתח. בלי זה מורה שסיים שיעור בעודו בדף
        הבית היה רואה מצב ישן עד שייצא ויחזור. */
-    if(r.ok){ paintSessionBar(); paintHome(); }
+    if(r.ok){ paintSessionBar(); paintHome(); paintNavLive(); }
     return r;
   },
   resume:()=>DATA.resumeSession(sesAll()),
@@ -14026,6 +14523,8 @@ function startFromSlot(slot){
   toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+
     (slot.clsSnapshot||"")+" התחיל");
   paintHome();
+  /* התחלת שיעור מביאה ישר למצב שיעור: הכיתה כבר ידועה, והכלים שם */
+  go("live");
 }
 /* שם הכיתה של משבצת — מהרישום, כדי ששינוי שם יופיע גם כאן */
 function slotName(sl){
@@ -14129,8 +14628,7 @@ function paintToday(){
     const sl=SCHED.list().find(x=>x.id===b.dataset.slot);
     if(sl)startFromSlot(sl);
   }));
-  $$("#hx-todayList [data-resume]").forEach(b=>b.addEventListener("click",()=>
-    openClassScreen(b.dataset.resume)));
+  $$("#hx-todayList [data-resume]").forEach(b=>b.addEventListener("click",()=>go("live")));
   const en=$("#hx-endNow"); if(en)en.addEventListener("click",openEndLesson);
   wireDayFoot();
 }
@@ -14593,8 +15091,8 @@ function wireEndLesson(){
     $$("#end-rate button").forEach(x=>x.classList.toggle("on",
       endRate!=null&&+x.dataset.r===endRate));
   }));
-  const go=$("#end-go"); if(!go)return;
-  go.addEventListener("click",()=>{
+  const endGo=$("#end-go"); if(!endGo)return;
+  endGo.addEventListener("click",()=>{
     const a=SESSION.active();
     if(!a){ modal("endModal",false); return; }
     const cid=a.cid;
@@ -14602,6 +15100,7 @@ function wireEndLesson(){
     modal("endModal",false);
     if(!r.ok){ toast("סיום השיעור נכשל"); return; }
     toast("✓ השיעור הסתיים");
+    if(document.body.dataset.mod==="live")go("home");
     /* מיד אחרי הסיום זה הרגע שבו ההמלצה שווה משהו — המורה עדיין
        זוכר את השיעור, והכיתה הבאה עוד לא נכנסה. */
     setTimeout(()=>openClassScreen(cid),350);
@@ -18178,11 +18677,11 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
-  session:SESSION,paintSessionBar,openSesHist,
+  session:SESSION,paintSessionBar,openSesHist,paintNavLive,sesName,areaOf,goBack,regStore:REGSTORE,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
@@ -18230,6 +18729,7 @@ window.HMBoot=function(){
   document.addEventListener("i18n:change",()=>{
     try{ homeStats(); }catch(e){}
     try{ if($("#fieldTip"))paintFieldTip(); }catch(e){}
+    try{ paintNavLive(); }catch(e){}
     try{ if(window.HMBootNew&&$("#hx-date"))
       $("#hx-date").textContent=new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"}); }catch(e){}
     const mod=document.body.dataset.mod;
@@ -20255,7 +20755,39 @@ window.TOOLS=(function(){
     });
     fillClassSelects(); renderAtt(); renderRub(); renderPicked();
   }
-  return {init};
+  /* ============================================================
+     ממשק למצב שיעור
+     ------------------------------------------------------------
+     האריחים של מצב שיעור פותחים לשונית מסוימת כאן, מציגים כמה
+     תלמידים כבר סומנו, ומסמנים «כולם נוכחים» בהקשה אחת — אותה
+     פעולה בדיוק של «✓ סמן את כולם», על כיתת השיעור ותאריכו.
+     ============================================================ */
+  function openTab(t){
+    const b=H().$('#tl-tabs [data-tt="'+t+'"]'); if(b)b.click();
+  }
+  /* {total, marked, cnt} לכיתת השיעור הפעיל, או null כשאין שיעור או כיתה */
+  function attStatus(){
+    const save={c:attCls,d:attDate};
+    try{
+      if(!applyLessonCtx())return null;
+      const pool=attPool(), rec=ATT()[attKey(attDate,attCls)]||{};
+      const cnt={p:0,h:0,e:0,a:0}; let marked=0;
+      pool.forEach(s=>{ const v=rec[s.id]; if(v){ cnt[v]=(cnt[v]||0)+1; marked++; } });
+      return {total:pool.length,marked,cnt};
+    }finally{ attCls=save.c; attDate=save.d; }
+  }
+  function markAllPresent(){
+    const save={c:attCls,d:attDate};
+    try{
+      if(!applyLessonCtx())return 0;
+      const l=attPool(), a=ATT(), key=attKey(attDate,attCls); a[key]=a[key]||{};
+      let n=0; l.forEach(s=>{ if(!a[key][s.id]){ a[key][s.id]="p"; n++; } });
+      H().LS.set("tools.att",a);
+      if(inited)renderAtt();
+      return n;
+    }finally{ attCls=save.c; attDate=save.d; }
+  }
+  return {init,openTab,attStatus,markAllPresent};
 })();
 })();
 
@@ -20840,6 +21372,9 @@ window.LESSON=(function(){
       H().paintSessionBar();
       H().toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+c+" התחיל");
       renderPlan();
+      /* המערך עובר איתו למצב שיעור — שם רואים את השלבים ואת הכלים */
+      if(window.LIVE)window.LIVE.attachPlan(plan);
+      H().go("live");
     };
   }
 
@@ -21213,7 +21748,8 @@ window.LESSON=(function(){
     if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
   }
 
-  return {init, usePlan, topics:()=>TOPICS, std:()=>STD};
+  /* המערך שעל המסך עכשיו — מצב שיעור מציג את שלביו */
+  return {init, usePlan, current:()=>plan, topics:()=>TOPICS, std:()=>STD};
 })();
 })();
 
@@ -26080,6 +26616,261 @@ window.HMBootNew=function(){
   /* students count on home band */
   const sc=$("#qsStu"); if(sc)sc.textContent=window.STU.count();
 };
+})();
+
+;
+"use strict";
+/* ============================================================
+   PE Ultimate — מצב שיעור
+   ------------------------------------------------------------
+   המסך שהמורה מחזיק ביד אחת במגרש. שני מצבים:
+
+   • אין שיעור פתוח — «לאיזו כיתה?». הקשה אחת על כיתה פותחת שיעור.
+     הכיתה שבמערכת השעות עכשיו (או הבאה) מוצעת ראשונה, ואחריה
+     הכיתות שלימדו לאחרונה.
+
+   • יש שיעור — הכיתה והזמן שעבר, השלב במערך (אם יש מערך), ואריחים
+     גדולים לכל כלי שטח. אף כלי לא שואל שוב על הכיתה: הנוכחות,
+     המבחנים, הביפ והפיניש כבר קוראים את השיעור הפעיל.
+
+   כאן כפתור גלוי חוסך חיפוש, ולכן כל הכלים פרושים ולא מקופלים
+   לתפריט. בהכנה ובהגדרות — שם יש זמן — מותר לקבץ.
+
+   המערך נשמר עם השיעור (live.plan), כדי שרענון באמצע השיעור לא
+   ימחק את השלבים. שום מבנה נתונים קיים לא השתנה.
+   ============================================================ */
+(function(){
+const H=()=>window.HM, D=()=>window.HMDATA;
+const K_PLAN="live.plan";
+const GRADES=["ז","ח","ט","י","יא","יב"];
+const NUMS=[1,2,3,4,5,6,7,8,9,10];
+let inited=false, tick=null, other={g:null,n:null};
+
+const t=(k,d)=>H().t(k,d);
+const esc=s=>H().esc(s);
+const iso=()=>new Date().toISOString().slice(0,10);
+const store=()=>H().regStore;
+const active=()=>{ try{ return H().session.active(); }catch(e){ return null; } };
+const mmss=sec=>{ sec=Math.max(0,Math.floor(sec)); const m=Math.floor(sec/60);
+  return String(m).padStart(2,"0")+":"+String(sec%60).padStart(2,"0"); };
+
+/* ---------- המערך של השיעור ---------- */
+function planState(){ const v=H().LS.get(K_PLAN,null); return v&&typeof v==="object"?v:null; }
+/* שלבים בלבד — שם, דקות ותיאור. זה מה שמצב שיעור צריך, ולא כל המערך */
+function slim(p){
+  if(!p||!Array.isArray(p.phases)||!p.phases.length)return null;
+  return {title:p.title||"",phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:String(x.d||"")}))};
+}
+function attachPlan(p){
+  const a=active(), sp=slim(p); if(!a||!sp)return false;
+  H().LS.set(K_PLAN,{sid:a.id,plan:sp,i:0,t0:Date.now()});
+  return true;
+}
+/* המערך של השיעור הפעיל. מערך שעל המסך במערכי שיעור מצטרף לבד,
+   פעם אחת, לשיעור שנפתח בלי מערך. */
+function curPlan(){
+  const a=active(); if(!a)return null;
+  let st=planState();
+  if(st&&st.sid===a.id&&st.plan)return st;
+  const p=window.LESSON&&window.LESSON.current&&window.LESSON.current();
+  if(p&&attachPlan(p))return planState();
+  return null;
+}
+
+/* ---------- הכיתות לבורר ---------- */
+function studentsCount(cid){
+  try{ return D().studentsIn(store(),cid,H().LS.get("stu.list",[])).length; }catch(e){ return 0; }
+}
+function classChoices(){
+  const reg=D().classes(store());
+  const sug={}, order=[];
+  /* מה שבמערכת השעות — קודם «עכשיו», אחריו «הבא» */
+  try{
+    const d=D().splitDay(H().sched.today(),(()=>{ const x=new Date(); return x.getHours()*60+x.getMinutes(); })());
+    [["now",d.now],["next",d.next]].forEach(([k,r])=>{
+      if(r&&r.startable&&r.slot&&r.slot.cid&&!sug[r.slot.cid]){ sug[r.slot.cid]=k; order.push(r.slot.cid); }
+    });
+  }catch(e){}
+  /* אחר כך הכיתות שלימדו לאחרונה */
+  try{ (H().session.list()||[]).forEach(s=>{ if(s.cid&&reg[s.cid]&&order.indexOf(s.cid)<0)order.push(s.cid); }); }catch(e){}
+  Object.keys(reg).sort((a,b)=>String(reg[a].name||a).localeCompare(String(reg[b].name||b),"he"))
+    .forEach(cid=>{ if(order.indexOf(cid)<0)order.push(cid); });
+  return order.filter(cid=>reg[cid]||sug[cid]).map(cid=>({cid,name:(reg[cid]&&reg[cid].name)||cid,
+    group:!!(reg[cid]&&D().isGroupRec(reg[cid])),sug:sug[cid]||"",n:studentsCount(cid)}));
+}
+
+function start(cid,label){
+  const S=H().session;
+  const name=label||((D().classOf(store(),cid)||{}).name)||cid;
+  const p=window.LESSON&&window.LESSON.current&&window.LESSON.current();
+  const r=S.start({cid,clsSnapshot:name,date:iso(),planTitle:(p&&p.title)||""});
+  if(r.outcome==="blocked"){ H().toast(t("live.blocked","כבר פתוח שיעור בכיתה")+" "+H().sesName(r.active)); return; }
+  if(!r.ok){ H().toast(t("live.cantStart","לא ניתן לפתוח שיעור")); return; }
+  if(p)attachPlan(p);
+  H().paintSessionBar(); H().paintNavLive(); H().paintHome();
+  H().toast("▶ "+t("live.started","השיעור התחיל")+" · "+name);
+  paint();
+}
+
+/* ---------- ציור ---------- */
+function tile(k,ic,label,sub,badge,extra){
+  return '<button class="lv-tile" data-tool="'+k+'"'+(extra||"")+'><span class="ic">'+ic+'</span>'+
+    (badge?'<span class="bd">'+badge+'</span>':"")+
+    '<b>'+esc(label)+'</b><small>'+esc(sub||"")+'</small></button>';
+}
+function paintPick(root){
+  const list=classChoices();
+  const p=window.LESSON&&window.LESSON.current&&window.LESSON.current();
+  const sugLbl={now:t("live.sugNow","עכשיו במערכת"),next:t("live.sugNext","הבא במערכת")};
+  root.innerHTML=
+    '<div class="lv-head pick"><div class="kick">▶ '+esc(t("nav.live","שיעור"))+'</div>'+
+      '<h2>'+esc(t("live.which","לאיזו כיתה?"))+'</h2>'+
+      '<p class="hint">'+esc(t("live.whichHint","הקשה על כיתה פותחת שיעור. נוכחות, מדידות וקבוצות יישמרו לכיתה הזאת."))+'</p>'+
+      (p?'<p class="hint lv-plannote">📋 '+esc(t("live.planWill","המערך שעל המסך ייפתח איתו:"))+' <b>'+esc(p.title||"")+'</b></p>':"")+
+    '</div>'+
+    (list.length
+      ? '<div class="lv-chips">'+list.map(c=>'<button class="lv-chip'+(c.sug?" sug":"")+'" data-cls="'+esc(c.cid)+'">'+
+          '<b>'+(c.group?"👥 ":"")+esc(c.name)+'</b>'+
+          '<small>'+(c.sug?'<span class="now">'+esc(sugLbl[c.sug])+'</span> · ':"")+c.n+" "+esc(t("live.students","תלמידים"))+'</small></button>').join("")+'</div>'
+      : '<div class="empty-state"><div class="big">👥</div>'+esc(t("live.noClasses","עוד אין כיתות. בחרו שכבה ומספר כאן למטה — הכיתה תירשם ותישמר."))+'</div>')+
+    '<details class="lv-other"'+(list.length?"":" open")+'><summary>'+esc(t("live.other","כיתה אחרת — שכבה ומספר"))+'</summary><div class="in">'+
+      '<div class="seg wrap" id="lv-og">'+GRADES.map(g=>'<button data-g="'+g+'"'+(other.g===g?' class="on"':"")+'>'+esc(D().clsName(g,"").replace(/\s+$/,""))+'</button>').join("")+'</div>'+
+      '<div class="seg wrap" id="lv-on" style="margin-top:8px">'+NUMS.map(n=>'<button data-n="'+n+'"'+(other.n===n?' class="on"':"")+'>'+n+'</button>').join("")+'</div>'+
+      '<button class="btn acc big" id="lv-oGo" style="margin-top:10px"'+(other.g&&other.n?"":" disabled")+'>▶ '+
+        esc(t("live.startCls","התחל שיעור"))+(other.g&&other.n?" · "+esc(D().clsName(other.g,other.n)):"")+'</button>'+
+    '</div></details>'+
+    '<div class="hx-sec">'+esc(t("live.noClassTools","כלים בלי כיתה"))+'</div>'+
+    '<div class="lv-tiles">'+
+      tile("meas","🏅",t("live.tMeas","מדידה"),t("live.tMeasSub","31 מבחני כושר"))+
+      tile("beep","🎵",t("live.tBeep","ביפ טסט"),t("live.tBeepSub","זינוק ורישום נשירה"))+
+      tile("photo","📷",t("live.tPhoto","פיניש"),t("live.tPhotoSub","מצלמה ומסלולים"))+
+      tile("timer","⏲",t("live.tTimer","טיימר"),t("live.tTimerSub","אינטרוולים · תחנות"))+
+    '</div>';
+}
+function phaseNow(st){
+  const ph=st.plan.phases, i=Math.min(st.i||0,ph.length-1);
+  const left=ph[i].min*60-(Date.now()-(st.t0||Date.now()))/1000;
+  return {i,ph:ph[i],next:ph[i+1]||null,left};
+}
+function paintLive(root,a){
+  const st=curPlan();
+  const name=H().sesName(a);
+  const n=studentsCount(a.cid);
+  const att=window.TOOLS&&window.TOOLS.attStatus?window.TOOLS.attStatus():null;
+  const meas=(()=>{ try{ return H().session.measurements(a.id).length; }catch(e){ return 0; } })();
+  let phase="";
+  if(st){
+    const x=phaseNow(st);
+    phase='<div class="lv-phase" id="lv-phase">'+
+      '<div class="row"><span class="pill">'+esc(t("live.step","שלב"))+' '+(x.i+1)+'/'+st.plan.phases.length+'</span>'+
+        '<span class="grow"></span><span class="nx" id="lv-next">'+(x.next?esc(t("live.next","הבא:"))+" "+esc(x.next.n)+" · "+x.next.min+" "+esc(t("ui.min","דק׳")):esc(t("live.last","שלב אחרון")))+'</span></div>'+
+      '<div class="row"><b class="nm" id="lv-phName">'+esc(x.ph.n)+'</b><span class="grow"></span><span class="left mono" id="lv-left">'+mmss(x.left)+'</span></div>'+
+      '<div class="lv-bar"><i id="lv-bar" style="width:'+Math.min(100,Math.max(0,100-x.left/(x.ph.min*60||1)*100))+'%"></i></div>'+
+      (x.ph.d?'<div class="lv-desc">'+esc(x.ph.d)+'</div>':"")+
+      '<div class="row lv-phbtns"><button class="btn" id="lv-plan">📋 '+esc(t("live.planBtn","המערך המלא"))+'</button>'+
+        (x.next?'<button class="btn acc" id="lv-nextBtn">'+esc(t("live.nextBtn","לשלב הבא"))+' ◀</button>':"")+'</div>'+
+    '</div>';
+  }else{
+    phase='<div class="lv-phase empty"><span>'+esc(t("live.noPlan","אין מערך לשיעור הזה."))+'</span>'+
+      '<button class="btn ghost" id="lv-pickPlan">📋 '+esc(t("live.choosePlan","בחר או בנה מערך"))+'</button></div>';
+  }
+  const attSub=att&&att.total?(att.marked?att.cnt.p+" "+t("live.present","נוכחים")+(att.cnt.a?" · "+att.cnt.a+" "+t("live.absent","חסרים"):""):t("live.notMarked","עוד לא סומנה")):t("live.noRoster","אין רשימה לכיתה");
+  const attBadge=att&&att.total?(att.marked>=att.total?'<span class="pill ok">✓</span>':'<span class="pill warn">!</span>'):"";
+  root.innerHTML=
+    '<div class="lv-head"><div class="grow"><div class="cls">'+(D().isGroupId&&D().isGroupId(a.cid)?"👥 ":"")+esc(name)+'</div>'+
+      '<div class="sub">'+n+" "+esc(t("live.students","תלמידים"))+(a.planTitle?" · "+esc(a.planTitle):"")+'</div></div>'+
+      '<div class="clk mono" id="lv-clk">'+mmss((Date.now()-(a.startedAt||Date.now()))/1000)+'</div></div>'+
+    phase+
+    (att&&att.total&&!att.marked?'<button class="btn acc big lv-allin" id="lv-allIn">✓ '+esc(t("live.allIn","כולם נוכחים"))+' ('+att.total+')</button>':"")+
+    '<div class="lv-tiles">'+
+      tile("att","✅",t("live.tAtt","נוכחות"),attSub,attBadge)+
+      tile("meas","🏅",t("live.tMeas","מדידה"),meas?meas+" "+t("live.measDone","מדידות בשיעור"):t("live.tMeasSub","31 מבחני כושר"))+
+      tile("beep","🎵",t("live.tBeep","ביפ טסט"),t("live.tBeepSub","זינוק ורישום נשירה"))+
+      tile("photo","📷",t("live.tPhoto","פיניש"),t("live.tPhotoSub","מצלמה ומסלולים"))+
+      tile("timer","⏲",t("live.tTimer","טיימר"),t("live.tTimerSub","אינטרוולים · תחנות"))+
+      tile("teams","👥",t("live.tTeams","קבוצות"),t("live.tTeamsSub","מאוזנות, מהנוכחים"))+
+      tile("pick","🎯",t("live.tPick","הגרלה"),t("live.tPickSub","בלי חזרות בסבב"))+
+      tile("games","🎮",t("live.tGames","משחקים"),t("live.tGamesSub","חוקים והסבר"))+
+    '</div>'+
+    '<div class="lv-foot"><button class="btn ghost" id="lv-leave">'+esc(t("live.leave","יציאה — השיעור ממשיך"))+'</button>'+
+      '<button class="btn stop big" id="lv-end">⏹ '+esc(t("live.end","סיים שיעור"))+'</button></div>';
+}
+function paint(){
+  const root=document.getElementById("lv-root"); if(!root)return;
+  const a=active();
+  document.getElementById("view-live").classList.toggle("has-lesson",!!a);
+  if(a)paintLive(root,a); else paintPick(root);
+  if(window.I18N&&window.I18N.applyDom)try{ window.I18N.applyDom(root); }catch(e){}
+}
+
+/* ---------- כלים ---------- */
+/* כל אריח פותח את המודול הקיים, על הלשונית הנכונה. «חזרה» — של
+   הכותרת או של הטלפון — מחזירה לכאן, כי המעבר נרשם בהיסטוריה. */
+function openTool(k){
+  const go=H().go;
+  if(k==="att"){ go("tools"); window.TOOLS&&window.TOOLS.openTab("att"); return; }
+  if(k==="teams"){ go("tools"); window.TOOLS&&window.TOOLS.openTab("teams"); return; }
+  if(k==="pick"){ go("tools"); window.TOOLS&&window.TOOLS.openTab("pick"); return; }
+  if(k==="meas"){ go("ft"); return; }
+  if(k==="beep"){ go("beep"); return; }
+  if(k==="photo"){ go("photo"); return; }
+  if(k==="games"){ go("games"); return; }
+  if(k==="timer"){ go("fit"); const b=document.querySelector('#view-fit [data-ft="timer"]'); if(b)b.click(); return; }
+}
+function nextPhase(){
+  const st=planState(); if(!st)return;
+  const nx=(st.i||0)+1; if(nx>=st.plan.phases.length)return;
+  st.i=nx; st.t0=Date.now(); H().LS.set(K_PLAN,st);
+  try{ H().horn(); H().say(st.plan.phases[nx].n); }catch(e){}
+  paint();
+}
+function onClick(e){
+  const el=e.target.closest("button"); if(!el||!document.getElementById("lv-root").contains(el))return;
+  H().ac();
+  if(el.dataset.cls){ start(el.dataset.cls); return; }
+  if(el.dataset.tool){ openTool(el.dataset.tool); return; }
+  if(el.dataset.g){ other.g=el.dataset.g; paint(); const d=document.querySelector(".lv-other"); if(d)d.open=true; return; }
+  if(el.dataset.n){ other.n=+el.dataset.n; paint(); const d=document.querySelector(".lv-other"); if(d)d.open=true; return; }
+  switch(el.id){
+    case "lv-oGo":{
+      if(!other.g||!other.n)return;
+      const lbl=D().clsName(other.g,other.n);
+      const c=D().registerClass(store(),lbl);
+      if(c)start(c.id,c.name);
+      return;
+    }
+    case "lv-allIn":{
+      const n=window.TOOLS&&window.TOOLS.markAllPresent?window.TOOLS.markAllPresent():0;
+      H().toast("✓ "+n+" "+t("live.markedIn","סומנו נוכחים. את החריגים מסמנים בנוכחות"));
+      paint(); return;
+    }
+    case "lv-nextBtn": nextPhase(); return;
+    case "lv-plan": case "lv-pickPlan": H().go("lesson"); return;
+    case "lv-leave": H().go("home"); H().toast(t("live.continues","השיעור ממשיך. ▶ בסרגל מחזיר אליו")); return;
+    case "lv-end": H().openEndLesson(); return;
+  }
+}
+/* שעון השיעור והשלב — עדכון טקסט בלבד, בלי לצייר מחדש את המסך */
+function onTick(){
+  if(document.body.dataset.mod!=="live")return;
+  const a=active(); if(!a)return;
+  const c=document.getElementById("lv-clk"); if(c)c.textContent=mmss((Date.now()-(a.startedAt||Date.now()))/1000);
+  const st=planState();
+  if(st&&st.sid===a.id&&document.getElementById("lv-left")){
+    const x=phaseNow(st);
+    document.getElementById("lv-left").textContent=mmss(x.left);
+    const b=document.getElementById("lv-bar"); if(b)b.style.width=Math.min(100,Math.max(0,100-x.left/(x.ph.min*60||1)*100))+"%";
+    const ph=document.getElementById("lv-phase"); if(ph)ph.classList.toggle("over",x.left<=0);
+  }
+}
+function init(){
+  if(inited)return; inited=true;
+  const root=document.getElementById("lv-root");
+  if(root)root.addEventListener("click",onClick);
+  tick=setInterval(onTick,1000);
+  document.addEventListener("i18n:change",()=>{ if(document.body.dataset.mod==="live")paint(); });
+}
+window.LIVE={init,paint,attachPlan,plan:curPlan,_test:{classChoices}};
 })();
 
 </script>

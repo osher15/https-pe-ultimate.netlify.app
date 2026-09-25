@@ -78,13 +78,12 @@ module.exports={title:"הסרגל העליון — פריסה",tests:[
     }
   }),
 
-  /* «מדריך» ו«הגדרות» ירדו מהסרגל אל תוך המגירה ☰ — הסרגל לא יכול
-     היה להחזיק ארבעה כפתורים בלי לחתוך את שם האפליקציה ל«המ…».
-     נשארו שניים, ועליהם הבדיקה שומרת. */
+  /* שלושה כפתורים בכותרת: שפה, מצב שמש והגדרות (המגירה ☰ בוטלה).
+     הבדיקה שומרת שכולם נשארים בגודל שאפשר להקיש עליו בכל רוחב. */
   check("כפתורי הסרגל נשארים גלויים ובגודל שאפשר להקיש עליו",seed,async page=>{
     for(const w of WIDTHS){
       await at(page,w,"ft");
-      const btns=await page.evaluate(()=>["btnMenu","btnSun"].map(id=>{
+      const btns=await page.evaluate(()=>["btnLang","btnSun","btnSettings"].map(id=>{
         const r=document.getElementById(id).getBoundingClientRect();
         return {id,w:+r.width.toFixed(1),h:+r.height.toFixed(1)};
       }));
@@ -105,12 +104,15 @@ module.exports={title:"הסרגל העליון — פריסה",tests:[
     }
   }),
 
-  check("השעון נסוג רק במסך צר עם «חזרה» — במסך הבית הוא נשאר",seed,async page=>{
+  /* שלושה כפתורי פעולה בכותרת לא משאירים מקום לשעון בטלפון. השעון
+     הוא הרכיב היחיד שאינו פעולה, והטלפון ממילא מציג שעה — ולכן הוא
+     זה שנסוג במסך צר. במסך רחב הוא חוזר. */
+  check("השעון נסוג בטלפון ונשאר במסך רחב",seed,async page=>{
     const shown=()=>page.evaluate(()=>getComputedStyle(document.querySelector(".sboard .clock")).display!=="none");
     await at(page,390,"home");
-    eq(await shown(),true,"במסך הבית יש מקום, ולכן אין סיבה לוותר על השעון");
-    await at(page,430,"ft");
-    eq(await shown(),true,"ב-430 הכיווץ מספיק, והשעון נשאר גם עם «חזרה»");
+    eq(await shown(),false,"בטלפון הכותרת שייכת לפעולות");
+    await at(page,900,"ft");
+    eq(await shown(),true,"במסך רחב יש מקום לשעון");
   }),
 
   check("שם האפליקציה מתקצר ואינו נחתך באמצע מילה על רכיב אחר",seed,async page=>{

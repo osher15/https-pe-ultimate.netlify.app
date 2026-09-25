@@ -113,10 +113,15 @@ function say(txt,lang){
 
 /* ---------- wake lock ---------- */
 let wakeLock=null;
+/* שיעור פתוח מחזיק את המסך דלוק לכל אורכו. עד עכשיו כל מודול שחרר
+   את אותה נעילה בנפרד — פתיחת מבחן כושר כיבתה את הנעילה של טיימר
+   שעוד רץ. כשיש החזקה של שיעור, בקשת שחרור של מודול לא מכבה. */
+let wakeHold=false;
+function holdAwake(on){ wakeHold=!!on; keepAwake(!!on); }
 async function keepAwake(on){
   try{
-    if(on&&SET.wake&&"wakeLock"in navigator){ wakeLock=await navigator.wakeLock.request("screen"); }
-    else if(!on&&wakeLock){ wakeLock.release(); wakeLock=null; }
+    if(on&&SET.wake&&"wakeLock"in navigator){ if(!wakeLock||wakeLock.released)wakeLock=await navigator.wakeLock.request("screen"); }
+    else if(!on&&wakeLock&&!wakeHold){ wakeLock.release(); wakeLock=null; }
   }catch(e){}
 }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&wakeLock)keepAwake(true); });
@@ -194,66 +199,138 @@ function applyRole(){
   /* «משחקים» עבר לתוך אשכול «שיעור» עבור המורה — לתלמיד (שלא נכנס ל-שיעור בכלל)
      הוא חייב להישאר כפתור ישיר בסרגל. «עוד» מוביל רק למודולים שאסורים לתלמיד ממילא. */
   const ng=$("#navGames"); if(ng)ng.style.display=stu?"":"none";
-  const nm=$("#navMore"); if(nm)nm.style.display=stu?"none":"";
+  /* ההגדרות מובילות למסכים שאסורים לתלמיד ממילא — הן יורדות איתם */
   const st=$("#btnSettings"); if(st)st.style.display=stu?"none":"";
-  /* התפריט הראשי מוביל למסכים שאסורים לתלמיד ממילא — הוא יורד איתם */
-  const bm=$("#btnMenu"); if(bm)bm.style.display=stu?"none":"";
   const rb=$("#roleBadge");
   if(rb){ rb.style.display=stu?"":"none"; }
   if(typeof REC!=="undefined"&&REC.applyRole)REC.applyRole();
   if(stu&&!STUDENT_MODS[document.body.dataset.mod||""])go("rec");
 }
 
-/* ---------- router ---------- */
-const MODS={home:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1};
-/* מודולים שנגישים דרך כפתור «עוד» ולא ישירות בסרגל — כדי שהכפתור יודגש כשנמצאים באחד מהם */
-const MORE_MODS=["stu","know","tools","nut","rec"];
+/* ---------- router ----------
+   חמישה אזורים לפי קצב העבודה של המורה, במקום רשימה שטוחה של מסכים:
+     היום   — מה עכשיו ומה הבא
+     הכנה   — מערכים, משחקים, תרגילים, ידע ותזונה (בנחת, מראש)
+     שיעור  — מצב שיעור: כל כלי השטח גלויים, והכיתה כבר ידועה
+     כיתות  — תלמידים, ציונים, מבחני כושר וכלי כיתה (ניהול ומעקב)
+     שיאים  — לוח בית הספר
+   המודולים עצמם לא השתנו; האזור רק קובע איזה כפתור בסרגל דולק
+   ואילו לשוניות מופיעות מתחת לכותרת. */
+const MODS={home:1,live:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1};
+const AREA_OF={home:"today",live:"live",beep:"live",photo:"live",
+  lesson:"prep",games:"prep",fit:"prep",know:"prep",nut:"prep",
+  stu:"classes",ft:"classes",tools:"classes",rec:"rec"};
+const AREA_TABS={
+  prep:[["lesson","📋","area.plans","מערכים"],["games","🎮","area.games","משחקים"],
+        ["fit","🏋️","area.fit","תרגילים וטיימרים"],["know","📚","area.know","ידע"],["nut","🥗","area.nut","תזונה"]],
+  classes:[["stu","👥","area.stu","תלמידים וציונים"],["ft","🏅","area.ft","מבחני כושר"],["tools","🧰","area.tools","כלי כיתה"]]
+};
+const areaOf=mod=>AREA_OF[mod]||"today";
+function paintAreaTabs(mod){
+  const box=$("#areaTabs"); if(!box)return;
+  const tabs=isStudent()?null:AREA_TABS[areaOf(mod)];
+  if(!tabs){ box.hidden=true; box.innerHTML=""; return; }
+  box.innerHTML=tabs.map(([m,ic,k,he])=>'<button data-go="'+m+'"'+(m===mod?' class="on" aria-current="page"':"")+'>'+
+    '<span class="ic">'+ic+'</span><span>'+esc(t(k,he))+'</span></button>').join("");
+  box.hidden=false;
+  box.querySelectorAll("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go); }));
+  const on=box.querySelector(".on"); if(on&&on.scrollIntoView)try{ on.scrollIntoView({block:"nearest",inline:"nearest"}); }catch(e){}
+}
 const inited={};
-function go(mod){
+/* ============================================================
+   היסטוריה אמיתית
+   ------------------------------------------------------------
+   עד עכשיו הכתובת עודכנה ב-replaceState בלבד, ולכן כפתור «חזרה» של
+   הטלפון יצא מהאפליקציה כולה באמצע שיעור. כל מעבר מסך נרשם עכשיו
+   כצעד בהיסטוריה (עם עומק), ו«חזרה» — של הטלפון או שבכותרת — חוזר
+   צעד אחד. חלון פתוח נסגר קודם, לפני שעוזבים את המסך שמתחתיו.
+   ============================================================ */
+let navDepth=0;
+function go(mod,opts){
+  opts=opts||{};
   if(!MODS[mod])mod="home";
   if(isStudent()&&!STUDENT_MODS[mod])mod="rec";
+  const prev=document.body.dataset.mod;
   /* חלון שנפתח בתוך מודול אינו שייך למודול הבא. בלי זה, הדרכת
      הפתיחה של הפוטו־פיניש נשארה פרושה מעל כל האפליקציה אחרי מעבר
      למודול אחר, וחסמה כל הקשה. */
-  if(document.body.dataset.mod!==mod)
+  if(prev!==mod)
     $$(".modal.on").forEach(m=>m.classList.remove("on"));
   document.body.dataset.mod=mod;
+  document.body.dataset.area=areaOf(mod);
   $$(".view").forEach(v=>v.classList.toggle("on",v.id==="view-"+mod));
-  $$(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===mod));
-  const nm=$("#navMore"); if(nm)nm.classList.toggle("on",MORE_MODS.includes(mod));
+  const area=areaOf(mod);
+  $$(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.area===area||(!b.dataset.area&&b.dataset.go===mod)));
   /* «התלמידים שלי» ומסך הכיתה קוראים את stu.list — הגשר רץ לפניהם,
      אחרת מסך שלם מציג אפס בזמן שהרשימות מלאות. */
-  if(mod==="stu"||mod==="home")syncStudents();
-  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init}[mod]; if(f)f(); }
+  if(mod==="stu"||mod==="home"||mod==="tools")syncStudents();
+  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init}[mod]; if(f)f(); }
   if(mod==="home"){ homeStats();
     /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
        המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
        לנראה — במקום מסך שמראה מצב ישן. */
     paintHome(); }
+  if(mod==="live"&&window.LIVE)window.LIVE.paint();
+  paintAreaTabs(mod);
+  try{ paintNavLive(); }catch(e){}
   updateBack(); wireTips();
   if(window.I18N)window.I18N.applyDom();
   /* המסך האחרון נשמר כדי שרענון או חזרה לאפליקציה יחזירו אותך לאן
      שהיית — לא לדף הבית באמצע שיעור. */
   if(!isStudent())LS.set("hx.lastMod",mod);
-  if(location.hash!=="#"+mod){ try{history.replaceState(null,"","#"+mod)}catch(e){} }
+  if(!opts.pop){
+    try{
+      if(prev&&prev!==mod&&!opts.replace){ navDepth++; history.pushState({mod,depth:navDepth},"","#"+mod); }
+      else if(location.hash!=="#"+mod||!history.state)history.replaceState({mod,depth:navDepth},"","#"+mod);
+    }catch(e){}
+  }
+  window.scrollTo&&prev!==mod&&window.scrollTo(0,0);
 }
-function wireNav(){ $$("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go); }));
-  const nm=$("#navMore"); if(nm)nm.addEventListener("click",()=>{ ac(); modal("navDrawer"); });
-  const bm=$("#btnMenu"); if(bm)bm.addEventListener("click",()=>{ ac(); modal("navDrawer"); });
-  wireDrawer(); }
-/* המגירה מחזיקה גם פעולות שאינן מודול — מערכת שעות וקבוצות הוראה.
-   הסגירה שלה עצמה נעשית דרך data-close שעל כל שורה, כמו בכל חלון
-   אחר: חלון שנפתח מעל מגירה פתוחה משאיר שתי שכבות כהות זו על זו,
-   ואת הסגירה של שתיהן על המורה.
-   «מדריך» ו«הגדרות» אינם משוכפלים כאן — אלה אותם שני הכפתורים
-   עצמם, שעברו מהסרגל העליון אל תוך המגירה. הסרגל היה צר מכדי
-   להחזיק גם אותם וגם את ☰ בלי לחתוך את שם האפליקציה. */
-function wireDrawer(){
+function wireNav(){ $$("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go);
+    /* קיצור ישיר ללשונית בתוך מסך — «טיימר» בבית פותח את הטיימר ולא את ספריית התרגילים */
+    if(el.dataset.fitTab){ const b=document.querySelector('#view-fit [data-ft="'+el.dataset.fitTab+'"]'); if(b)b.click(); } }));
+  wireLangPop();
   const hook=(id,fn)=>{ const b=$("#"+id); if(b)b.addEventListener("click",()=>{ ac(); fn(); }); };
-  hook("dw-sched",()=>openSched());
-  hook("dw-groups",()=>openGroups());
+  hook("set-openSched",()=>openSched());
+  hook("set-openGroups",()=>openGroups());
 }
-window.addEventListener("hashchange",()=>go(location.hash.slice(1)||"home"));
+window.addEventListener("popstate",e=>{
+  /* חלון פתוח? «חזרה» סוגרת אותו ונשארת במסך — כמו בכל אפליקציה */
+  const open=$$(".modal.on");
+  if(open.length){
+    open.forEach(m=>m.classList.remove("on"));
+    try{ navDepth++; history.pushState({mod:document.body.dataset.mod,depth:navDepth},"","#"+document.body.dataset.mod); }catch(err){}
+    return;
+  }
+  const st=e.state||{};
+  navDepth=st.depth||0;
+  go(st.mod||location.hash.slice(1)||"home",{pop:true});
+});
+window.addEventListener("hashchange",()=>{
+  const h=location.hash.slice(1)||"home";
+  if(h!==document.body.dataset.mod)go(h,{pop:true});
+});
+/* מחליף שפה מהיר בכותרת — חמש שפות במרחק הקשה, בלי לפתוח הגדרות */
+function wireLangPop(){
+  const btn=$("#btnLang"), pop=$("#langPop"); if(!btn||!pop||!window.I18N)return;
+  const paintBtn=()=>{ const i=window.I18N.info(); btn.textContent={he:"עב",en:"EN",ar:"ع",ru:"RU",es:"ES"}[i.code]||i.code; };
+  const close=()=>{ pop.hidden=true; btn.setAttribute("aria-expanded","false"); };
+  btn.addEventListener("click",e=>{
+    e.stopPropagation(); ac();
+    if(!pop.hidden){ close(); return; }
+    const cur=window.I18N.lang();
+    pop.innerHTML=window.I18N.langs().map(l=>'<button data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+'>'+
+      '<span class="fl">'+l.flag+'</span><span>'+esc(l.native)+'</span></button>').join("");
+    pop.querySelectorAll("[data-l]").forEach(b=>b.addEventListener("click",()=>{
+      window.I18N.set(b.dataset.l); close(); paintBtn(); applyTheme(); toast(window.I18N.info().native);
+    }));
+    pop.hidden=false; btn.setAttribute("aria-expanded","true");
+  });
+  document.addEventListener("click",e=>{ if(!pop.hidden&&!pop.contains(e.target))close(); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape")close(); });
+  document.addEventListener("i18n:change",paintBtn);
+  paintBtn();
+}
 
 /* ---------- home ---------- */
 const TIPS=[
@@ -294,7 +371,20 @@ function homeStats(){
    מחדש, כדי ש«מתחיל בעוד» ו«מתקיים עכשיו» לא יישארו על הדקה שבה
    נכנסת. אין כאן שעון שני, רק הקשבה לזה שכבר קיים. */
 let lastMin=-1;
-setInterval(()=>{ const d=new Date(); const tc=$("#topClock");
+/* הכפתור האמצעי בסרגל: «▶ שיעור» כשאין שיעור, ושם הכיתה והזמן
+   שעבר כשיש — כדי שמכל מסך יהיה ברור שהשיעור עדיין פתוח, ואיך חוזרים */
+function paintNavLive(){
+  const b=$("#navLive"); if(!b)return;
+  const a=SESSION.active();
+  b.classList.toggle("act",!!a);
+  const ic=$("#navLiveIc"), tx=$("#navLiveT");
+  if(!a){ if(ic)ic.textContent="▶"; if(tx)tx.textContent=t("nav.live","שיעור"); holdAwake(false); return; }
+  const min=Math.max(0,Math.floor((Date.now()-(a.startedAt||Date.now()))/60000));
+  if(ic)ic.textContent=sesName(a);
+  if(tx)tx.textContent=min+" "+t("ui.min","דק׳");
+  if(!wakeHold)holdAwake(true);
+}
+setInterval(()=>{ const d=new Date(); const tc=$("#topClock"); try{ paintNavLive(); }catch(e){}
   if(tc)tc.textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
   const m=d.getHours()*60+d.getMinutes();
   if(m!==lastMin){ lastMin=m;
@@ -377,10 +467,10 @@ function toggleSun(){
   saveSet(); applyTheme();
   toast(SET.theme==="sun"?"☀ מצב שמש — ניגודיות גבוהה":"חזרה לערכה הרגילה");
 }
-/* היכן «חזרה» מוביל מכל מודול. הבית הוא היעד של רוב המסכים, אבל
-   מודולים שנפתחים מתוך «עוד» חוזרים לתפריט שממנו נכנסו, כי חזרה
-   לבית משם מרגישה כמו איבוד מקום. */
-const BACK_TO={games:"lesson",fit:"lesson"};
+/* «חזרה» שבכותרת עושה בדיוק מה שעושה כפתור החזרה של הטלפון: צעד
+   אחד אחורה בהיסטוריה. כשאין לאן לחזור (נכנסו ישר מקישור או
+   מרענון) — לראש האזור, ומשם לבית. */
+const AREA_ROOT={today:"home",prep:"lesson",classes:"stu",rec:"rec",live:"live"};
 function updateBack(){
   const b=$("#btnBack"); if(!b)return;
   const mod=document.body.dataset.mod||"home";
@@ -390,8 +480,9 @@ function goBack(){
   const mod=document.body.dataset.mod||"home";
   /* אם המודול עצמו נמצא במסך פנימי — נותנים לו לטפל בחזרה קודם */
   for(const fn of BACK_HOOKS){ try{ if(fn(mod))return; }catch(e){} }
-  if(MORE_MODS.includes(mod)){ go("home"); modal("navDrawer",true); return; }
-  go(BACK_TO[mod]||"home");
+  if(navDepth>0&&history.state&&history.state.depth>0){ history.back(); return; }
+  const root=AREA_ROOT[areaOf(mod)]||"home";
+  go(root===mod?"home":root);
 }
 /* מודול שיש בו מסך פנימי רושם כאן פונקציה. היא מקבלת את המודול
    הפעיל, ומחזירה true אם היא טיפלה בחזרה בעצמה. */
@@ -518,7 +609,7 @@ const SESSION={
     /* סיום שיעור משנה גם את דף הבית — המשבצת מסומנת וכרטיס
        «השיעור האחרון» נפתח. בלי זה מורה שסיים שיעור בעודו בדף
        הבית היה רואה מצב ישן עד שייצא ויחזור. */
-    if(r.ok){ paintSessionBar(); paintHome(); }
+    if(r.ok){ paintSessionBar(); paintHome(); paintNavLive(); }
     return r;
   },
   resume:()=>DATA.resumeSession(sesAll()),
@@ -737,6 +828,8 @@ function startFromSlot(slot){
   toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+
     (slot.clsSnapshot||"")+" התחיל");
   paintHome();
+  /* התחלת שיעור מביאה ישר למצב שיעור: הכיתה כבר ידועה, והכלים שם */
+  go("live");
 }
 /* שם הכיתה של משבצת — מהרישום, כדי ששינוי שם יופיע גם כאן */
 function slotName(sl){
@@ -840,8 +933,7 @@ function paintToday(){
     const sl=SCHED.list().find(x=>x.id===b.dataset.slot);
     if(sl)startFromSlot(sl);
   }));
-  $$("#hx-todayList [data-resume]").forEach(b=>b.addEventListener("click",()=>
-    openClassScreen(b.dataset.resume)));
+  $$("#hx-todayList [data-resume]").forEach(b=>b.addEventListener("click",()=>go("live")));
   const en=$("#hx-endNow"); if(en)en.addEventListener("click",openEndLesson);
   wireDayFoot();
 }
@@ -1304,8 +1396,8 @@ function wireEndLesson(){
     $$("#end-rate button").forEach(x=>x.classList.toggle("on",
       endRate!=null&&+x.dataset.r===endRate));
   }));
-  const go=$("#end-go"); if(!go)return;
-  go.addEventListener("click",()=>{
+  const endGo=$("#end-go"); if(!endGo)return;
+  endGo.addEventListener("click",()=>{
     const a=SESSION.active();
     if(!a){ modal("endModal",false); return; }
     const cid=a.cid;
@@ -1313,6 +1405,7 @@ function wireEndLesson(){
     modal("endModal",false);
     if(!r.ok){ toast("סיום השיעור נכשל"); return; }
     toast("✓ השיעור הסתיים");
+    if(document.body.dataset.mod==="live")go("home");
     /* מיד אחרי הסיום זה הרגע שבו ההמלצה שווה משהו — המורה עדיין
        זוכר את השיעור, והכיתה הבאה עוד לא נכנסה. */
     setTimeout(()=>openClassScreen(cid),350);
@@ -4889,11 +4982,11 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
-  session:SESSION,paintSessionBar,openSesHist,
+  session:SESSION,paintSessionBar,openSesHist,paintNavLive,sesName,areaOf,goBack,regStore:REGSTORE,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
@@ -4941,6 +5034,7 @@ window.HMBoot=function(){
   document.addEventListener("i18n:change",()=>{
     try{ homeStats(); }catch(e){}
     try{ if($("#fieldTip"))paintFieldTip(); }catch(e){}
+    try{ paintNavLive(); }catch(e){}
     try{ if(window.HMBootNew&&$("#hx-date"))
       $("#hx-date").textContent=new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"}); }catch(e){}
     const mod=document.body.dataset.mod;

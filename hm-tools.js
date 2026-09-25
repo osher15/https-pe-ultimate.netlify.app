@@ -392,6 +392,38 @@ window.TOOLS=(function(){
     });
     fillClassSelects(); renderAtt(); renderRub(); renderPicked();
   }
-  return {init};
+  /* ============================================================
+     ממשק למצב שיעור
+     ------------------------------------------------------------
+     האריחים של מצב שיעור פותחים לשונית מסוימת כאן, מציגים כמה
+     תלמידים כבר סומנו, ומסמנים «כולם נוכחים» בהקשה אחת — אותה
+     פעולה בדיוק של «✓ סמן את כולם», על כיתת השיעור ותאריכו.
+     ============================================================ */
+  function openTab(t){
+    const b=H().$('#tl-tabs [data-tt="'+t+'"]'); if(b)b.click();
+  }
+  /* {total, marked, cnt} לכיתת השיעור הפעיל, או null כשאין שיעור או כיתה */
+  function attStatus(){
+    const save={c:attCls,d:attDate};
+    try{
+      if(!applyLessonCtx())return null;
+      const pool=attPool(), rec=ATT()[attKey(attDate,attCls)]||{};
+      const cnt={p:0,h:0,e:0,a:0}; let marked=0;
+      pool.forEach(s=>{ const v=rec[s.id]; if(v){ cnt[v]=(cnt[v]||0)+1; marked++; } });
+      return {total:pool.length,marked,cnt};
+    }finally{ attCls=save.c; attDate=save.d; }
+  }
+  function markAllPresent(){
+    const save={c:attCls,d:attDate};
+    try{
+      if(!applyLessonCtx())return 0;
+      const l=attPool(), a=ATT(), key=attKey(attDate,attCls); a[key]=a[key]||{};
+      let n=0; l.forEach(s=>{ if(!a[key][s.id]){ a[key][s.id]="p"; n++; } });
+      H().LS.set("tools.att",a);
+      if(inited)renderAtt();
+      return n;
+    }finally{ attCls=save.c; attDate=save.d; }
+  }
+  return {init,openTab,attStatus,markAllPresent};
 })();
 })();

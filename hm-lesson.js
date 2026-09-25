@@ -498,6 +498,9 @@ window.LESSON=(function(){
       H().paintSessionBar();
       H().toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+c+" התחיל");
       renderPlan();
+      /* המערך עובר איתו למצב שיעור — שם רואים את השלבים ואת הכלים */
+      if(window.LIVE)window.LIVE.attachPlan(plan);
+      H().go("live");
     };
   }
 
@@ -871,6 +874,7 @@ window.LESSON=(function(){
     if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
   }
 
-  return {init, usePlan, topics:()=>TOPICS, std:()=>STD};
+  /* המערך שעל המסך עכשיו — מצב שיעור מציג את שלביו */
+  return {init, usePlan, current:()=>plan, topics:()=>TOPICS, std:()=>STD};
 })();
 })();
