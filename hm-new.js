@@ -747,7 +747,30 @@ window.STU=(function(){
     $("#pa-applyBtn").addEventListener("click",paApplyToGrades);
     render();
   }
-  return {init,importFromBeep,count:()=>load().length};
+  /* ============================================================
+     ממשק למרכז הכיתה
+     ------------------------------------------------------------
+     show — פותח את המסך על כיתה ולשונית (רשימה / ציונים / עמיתים),
+     כך שמורה שבא ממרכז הכיתה לא בוחר שוב כיתה בבורר.
+     summary — מה שמרכז הכיתה מציג בכרטיסים: כמה תלמידים, כמה עם
+     ציון סופי בתקופה, וכמה הערכות עמיתים נוגעות בכיתה.
+     ============================================================ */
+  function show(cid,tab){
+    clsF=cid||""; grClsF=cid||"";
+    H().go("stu");
+    const b=H().$('#view-stu .pf-tabs [data-st="'+(tab||"list")+'"]'); if(b)b.click();
+    render(); if(tab==="grades")renderGrades();
+  }
+  function summary(cid){
+    const periods=loadPeriods(), period=grPeriod||periods[0];
+    const w=loadWeights(), cols=examColsFor(period);
+    const l=load().filter(s=>cidOf(s)===cid);
+    const graded=l.filter(s=>computeFinal(s,period,w,cols).total!=null).length;
+    const ids=new Set(l.map(s=>s.id));
+    const peer=(loadAssess()||[]).filter(a=>(a.students||[]).some(id=>ids.has(id))).length;
+    return {total:l.length,period,graded,peer};
+  }
+  return {init,importFromBeep,count:()=>load().length,show,summary};
 })();
 
 /* LESSON — עבר לקובץ נפרד: hm-lesson.js (מחולל מערכים מורחב) */

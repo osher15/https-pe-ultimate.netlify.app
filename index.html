@@ -33,6 +33,7 @@
 <script src="hm-tests.js?v=cc479b42"></script>
 <script src="hm-new.js?v=144f7820"></script>
 <script src="hm-live.js?v=20fbd685"></script>
+<script src="hm-hub.js"></script>
 </helmet>
 <div class="app" dir="rtl">
 <!-- ============================================================
@@ -144,6 +145,8 @@
      מצב שיעור — המסך שביד במגרש. נצבע כולו מ-hm-live.js.
      ============================================================ -->
 <section class="view" id="view-live"><div id="lv-root"></div></section>
+<!-- מרכז הכיתה — כל מה שקשור לכיתה אחת. נצבע מ-hm-hub.js. -->
+<section class="view" id="view-cls"><div id="hub-root"></div></section>
 <section class="view" id="view-beep">
   <div class="card" id="bt-statsCard">
     <div class="row" style="justify-content:space-between">
@@ -1414,7 +1417,7 @@
   <button data-go="home" data-area="today"><span class="ic">🏠</span><span data-i18n="nav.today">היום</span></button>
   <button data-go="lesson" data-area="prep"><span class="ic">📝</span><span data-i18n="nav.prep">הכנה</span></button>
   <button data-go="live" data-area="live" id="navLive" class="nav-live"><span class="ic" id="navLiveIc">▶</span><span id="navLiveT">שיעור</span></button>
-  <button data-go="stu" data-area="classes"><span class="ic">👥</span><span data-i18n="nav.classes">כיתות</span></button>
+  <button data-go="cls" data-area="classes"><span class="ic">👥</span><span data-i18n="nav.classes">כיתות</span></button>
   <button data-go="rec" id="navRec" data-area="rec"><span class="ic">🏆</span><span data-i18n="nav.records">שיאים</span></button>
   <button data-go="games" id="navGames" data-area="prep" style="display:none"><span class="ic">🎮</span><span data-i18n="nav.games">משחקים</span></button>
 </div>
@@ -1835,10 +1838,6 @@
     <button class="btn ghost" data-close="endModal">ביטול</button>
   </div>
   <div class="hint" style="margin-top:9px">המשוב נשמר על השיעור עצמו — הוא מה שיבנה את ההמלצה לשיעור הבא בכיתה הזאת.</div>
-</div></div>
-<div class="modal" id="clsModal"><div class="box" style="max-width:600px">
-  <h3>🏷 <span id="cls-title">כיתה</span><button class="x" data-close="clsModal">✕</button></h3>
-  <div id="cls-body"></div>
 </div></div>
 <div class="modal" id="dayModal"><div class="box" style="max-width:520px">
   <h3>📅 <span id="day-title">היום</span><button class="x" data-close="dayModal">✕</button></h3>

@@ -39,7 +39,8 @@ const SHELL = [
   "./hm-build.js",
   "./hm-tests.js",
   "./hm-new.js",
-  "./hm-live.js"
+  "./hm-live.js",
+  "./hm-hub.js"
 ];
 
 self.addEventListener("install", e => {

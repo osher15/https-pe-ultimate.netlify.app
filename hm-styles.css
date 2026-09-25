@@ -1731,3 +1731,30 @@ body[data-area="live"] #lsBar{display:none!important}
 .end-att.ok{border-color:rgba(52,211,153,.45);color:#34d399}
 .end-att.warn{border-color:rgba(255,210,63,.45)}
 .end-att .btn{min-height:44px}
+
+/* ============================================================
+   מרכז הכיתה
+   ============================================================ */
+body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
+.hub-top{display:flex;align-items:flex-end;gap:12px;margin:2px 0 12px}
+.hub-top .kick{color:var(--acc);font-weight:800;font-size:13px;letter-spacing:.3px}
+.hub-top h2{margin:2px 0 0;font-family:'Heebo';font-weight:800;font-size:26px}
+.hub-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:12px}
+.hub-chips::-webkit-scrollbar{display:none}
+.hub-chips .chip{flex:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:999px;
+  padding:9px 15px;font-family:'Heebo';font-weight:700;font-size:14.5px;min-height:44px;cursor:pointer}
+.hub-chips .chip.on{background:var(--acc);border-color:var(--acc);color:#07140e}
+.hub-chips .livedot{color:var(--live);font-size:11px;vertical-align:2px}
+.hub-chips .chip.on .livedot{color:#07140e}
+.hub-ov{margin-bottom:12px}
+.hub-cards{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:640px){.hub-cards{grid-template-columns:1fr 1fr}}
+.hub-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 14px;display:flex;flex-direction:column;gap:8px}
+.hub-card .hd{display:flex;align-items:center;gap:9px}
+.hub-card .hd .ic{font-size:20px}
+.hub-card .hd b{font-size:16px}
+.hub-card .bd{display:flex;flex-direction:column;gap:3px;color:var(--muted);font-size:14px}
+.hub-card .bd .n{color:var(--ink);font-weight:800;font-family:'Share Tech Mono';font-size:17px}
+.hub-card .bd .dim{color:var(--faint);font-size:12.5px}
+.hub-card .ft{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
+.hub-card .ft .btn{min-height:44px}

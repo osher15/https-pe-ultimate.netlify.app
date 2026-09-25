@@ -27,7 +27,7 @@ module.exports={title:"ניווט — נגישות המסכים",tests:[
       const got={};
       const take=()=>document.querySelectorAll("[data-go]").forEach(e=>{ got[e.dataset.go]=true; });
       take();
-      for(const m of ["lesson","stu"]){ window.HM.go(m); await new Promise(r=>setTimeout(r,200)); take(); }
+      for(const m of ["lesson","cls"]){ window.HM.go(m); await new Promise(r=>setTimeout(r,200)); take(); }
       return Object.keys(got).sort();
     });
     MODS.forEach(m=>ok(reach.indexOf(m)>=0,
@@ -42,7 +42,7 @@ module.exports={title:"ניווט — נגישות המסכים",tests:[
   }),
 
   check("«כלי כיתה» נפתח מלשונית «כיתות»",seed,async page=>{
-    await page.click('.nav [data-go="stu"]'); await page.waitForTimeout(300);
+    await page.click('.nav [data-go="cls"]'); await page.waitForTimeout(300);
     await page.click('#areaTabs [data-go="tools"]'); await page.waitForTimeout(400);
     eq(await page.evaluate(()=>document.body.dataset.mod),"tools");
   })

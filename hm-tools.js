@@ -340,9 +340,11 @@ window.TOOLS=(function(){
     attDate=a.date||attDate;
     return !!hit;
   }
+  let skipCtx=false;   /* פתיחה ממרכז הכיתה: הכיתה שנבחרה שם גוברת על השיעור */
   function init(){
     const {$, $$}=H();
-    applyLessonCtx();
+    if(!skipCtx)applyLessonCtx();
+    skipCtx=false;
     if(inited){ fillClassSelects(); const d=H().$("#tl-attDate"); if(d)d.value=attDate;
       renderAtt(); renderRub(); renderPicked(); return; }
     inited=true;
@@ -424,6 +426,30 @@ window.TOOLS=(function(){
       return n;
     }finally{ attCls=save.c; attDate=save.d; }
   }
-  return {init,openTab,attStatus,markAllPresent};
+  /* פתיחה על כיתה ולשונית ממרכז הכיתה. הנוכחות ממופתחת לפי שם הכיתה,
+     ולכן בוחרים את התווית של אותה כיתה מתוך רשימת התלמידים. */
+  function show(cid,t){
+    teamCls=pickCls=rubCls=cid||"";
+    const lbl=cid?classesOf(students()).find(c=>cidOfLabel(c)===cid):"";
+    attCls=lbl||"";
+    skipCtx=true;
+    H().go("tools");
+    skipCtx=false;
+    if(inited){ fillClassSelects(); renderAtt(); renderRub(); renderPicked(); }
+    openTab(t||"att");
+  }
+  /* סיכום הנוכחות של כיתה: בכמה שיעורים סומנה, ואחוז ההשתתפות
+     (מלאה = 1, חלקית = חצי) — אותה נוסחה של דוח הנוכחות. */
+  function attSummaryFor(cid){
+    const all=ATT(); let days=0,p=0,h=0,marks=0;
+    Object.keys(all).forEach(k=>{
+      const c=k.slice(k.indexOf("|")+1);
+      if(!c||c==="all"||cidOfLabel(c)!==cid)return;
+      const rec=all[k]||{}, v=Object.values(rec); if(!v.length)return;
+      days++; v.forEach(x=>{ marks++; if(x==="p")p++; else if(x==="h")h++; });
+    });
+    return {days,pct:marks?Math.round((p+h*0.5)/marks*100):null};
+  }
+  return {init,openTab,attStatus,markAllPresent,show,attSummaryFor};
 })();
 })();

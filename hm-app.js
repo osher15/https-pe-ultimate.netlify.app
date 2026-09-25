@@ -216,14 +216,14 @@ function applyRole(){
      שיאים  — לוח בית הספר
    המודולים עצמם לא השתנו; האזור רק קובע איזה כפתור בסרגל דולק
    ואילו לשוניות מופיעות מתחת לכותרת. */
-const MODS={home:1,live:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1};
+const MODS={home:1,live:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1,cls:1};
 const AREA_OF={home:"today",live:"live",beep:"live",photo:"live",
   lesson:"prep",games:"prep",fit:"prep",know:"prep",nut:"prep",
-  stu:"classes",ft:"classes",tools:"classes",rec:"rec"};
+  cls:"classes",stu:"classes",ft:"classes",tools:"classes",rec:"rec"};
 const AREA_TABS={
   prep:[["lesson","📋","area.plans","מערכים"],["games","🎮","area.games","משחקים"],
         ["fit","🏋️","area.fit","תרגילים וטיימרים"],["know","📚","area.know","ידע"],["nut","🥗","area.nut","תזונה"]],
-  classes:[["stu","👥","area.stu","תלמידים וציונים"],["ft","🏅","area.ft","מבחני כושר"],["tools","🧰","area.tools","כלי כיתה"]]
+  classes:[["cls","🏫","area.cls","מרכז הכיתה"],["stu","👥","area.stu","תלמידים וציונים"],["ft","🏅","area.ft","מבחני כושר"],["tools","🧰","area.tools","כלי כיתה"]]
 };
 const areaOf=mod=>AREA_OF[mod]||"today";
 function paintAreaTabs(mod){
@@ -263,14 +263,18 @@ function go(mod,opts){
   $$(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.area===area||(!b.dataset.area&&b.dataset.go===mod)));
   /* «התלמידים שלי» ומסך הכיתה קוראים את stu.list — הגשר רץ לפניהם,
      אחרת מסך שלם מציג אפס בזמן שהרשימות מלאות. */
-  if(mod==="stu"||mod==="home"||mod==="tools")syncStudents();
-  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init}[mod]; if(f)f(); }
+  if(mod==="stu"||mod==="home"||mod==="tools"||mod==="cls")syncStudents();
+  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init,cls:window.HUB&&window.HUB.init}[mod]; if(f)f(); }
+  /* מבחני כושר וכלי כיתה נכנסים מחדש בכל ביקור: שיעור שנפתח מאז
+     הביקור הקודם קובע את הכיתה, ולא רק בביקור הראשון ביום. */
+  else if(prev!==mod){ const re={ft:window.FT&&window.FT.init,tools:window.TOOLS&&window.TOOLS.init}[mod]; if(re)try{ re(); }catch(e){} }
   if(mod==="home"){ homeStats();
     /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
        המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
        לנראה — במקום מסך שמראה מצב ישן. */
     paintHome(); }
   if(mod==="live"&&window.LIVE)window.LIVE.paint();
+  if(mod==="cls"&&window.HUB)window.HUB.paint();
   paintAreaTabs(mod);
   try{ paintNavLive(); }catch(e){}
   updateBack(); wireTips();
@@ -475,7 +479,7 @@ function toggleSun(){
 /* «חזרה» שבכותרת עושה בדיוק מה שעושה כפתור החזרה של הטלפון: צעד
    אחד אחורה בהיסטוריה. כשאין לאן לחזור (נכנסו ישר מקישור או
    מרענון) — לראש האזור, ומשם לבית. */
-const AREA_ROOT={today:"home",prep:"lesson",classes:"stu",rec:"rec",live:"live"};
+const AREA_ROOT={today:"home",prep:"lesson",classes:"cls",rec:"rec",live:"live"};
 function updateBack(){
   const b=$("#btnBack"); if(!b)return;
   const mod=document.body.dataset.mod||"home";
@@ -1428,9 +1432,9 @@ function wireEndLesson(){
     modal("endModal",false);
     if(!r.ok){ toast("סיום השיעור נכשל"); return; }
     toast("✓ השיעור הסתיים");
-    if(document.body.dataset.mod==="live")go("home");
     /* מיד אחרי הסיום זה הרגע שבו ההמלצה שווה משהו — המורה עדיין
-       זוכר את השיעור, והכיתה הבאה עוד לא נכנסה. */
+       זוכר את השיעור, והכיתה הבאה עוד לא נכנסה. לכן מסיימים במרכז
+       הכיתה, שם ההמלצה לשיעור הבא. */
     setTimeout(()=>openClassScreen(cid),350);
   });
 }
@@ -1450,8 +1454,17 @@ function clsDisp(cid){
   const p=DATA.cidParts(cid);
   return p?DATA.clsName(p.grade,p.num):(cid||"");
 }
+/* מסך הכיתה עבר מחלון למרכז הכיתה (אזור «כיתות»). הפונקציה נשארת
+   בשמה, כי אליה פונים מדף הבית, מהיום המלא ומסוף שיעור. */
 function openClassScreen(cid){
   if(!cid)return;
+  LS.set("hub.cls",cid);
+  go("cls");
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+/* הסקירה של כיתה — מספרים, המשך מומלץ ושיעורים אחרונים. מרכז הכיתה
+   (hm-hub.js) מצייר אותה בראש המסך, ומוסיף מתחתיה את הכרטיסים. */
+function classOverviewHtml(cid){
   syncStudents();   /* «X תלמידים» כאן קורא את stu.list — הגשר לפניו */
   const ses=SESSION.list({cid});
   const done=ses.filter(x=>x.status===DATA.SESSION_DONE);
@@ -1465,7 +1478,6 @@ function openClassScreen(cid){
   const rec=DATA.nextLesson(ses,{cid,rows});
   const act=SESSION.active();
 
-  $("#cls-title").textContent=(grp?"קבוצה ":"כיתה ")+clsDisp(cid);
   const stat=(n,l)=>'<div class="qs"><div class="n">'+esc(String(n))+'</div><div class="l">'+esc(l)+'</div></div>';
   const last=done[0];
   let html=grp
@@ -1523,16 +1535,18 @@ function openClassScreen(cid){
     (grp?'<div class="hint" style="margin-top:9px">מדידה בקבוצה נעשית בינתיים דרך הכיתה עצמה — '+
       esc(DATA.groupSummary(REGSTORE,cid))+'.</div>':"");
 
-  $("#cls-body").innerHTML=html;
+  return html;
+}
+function wireClassOverview(cid){
   const st=$("#cls-start");
   if(st)st.addEventListener("click",()=>{
     startFromSlot({cid,clsSnapshot:clsDisp(cid),topic:""});
-    modal("clsModal",false);
   });
   const ft=$("#cls-ft");
-  if(ft)ft.addEventListener("click",()=>{ modal("clsModal",false); go("ft"); });
-  modal("clsModal",true);
+  if(ft)ft.addEventListener("click",()=>{ if(window.FT&&window.FT.show)window.FT.show(cid,"tests"); else go("ft"); });
 }
+const classTitle=cid=>{ let g=null; try{ g=DATA.groupOf(REGSTORE,cid); }catch(e){}
+  return (g?t("hub.group","קבוצה")+" ":t("hub.class","כיתה")+" ")+clsDisp(cid); };
 
 /* תוויות המשוב על שיעור. חיות כאן ולא בשכבת הנתונים: הדירוג הוא
    מספר, והמילה שמתארת אותו היא החלטת ממשק. */
@@ -5019,7 +5033,7 @@ window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,con
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
-  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,sesName,areaOf,goBack,regStore:REGSTORE,
+  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,classOverviewHtml,wireClassOverview,classTitle,startFromSlot,sesName,areaOf,goBack,regStore:REGSTORE,
   upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה

@@ -33,7 +33,7 @@ module.exports={title:"מעטפת: חמישה אזורים, חזרה אמיתי�
   check("בסרגל חמישה כפתורים: היום · הכנה · שיעור · כיתות · שיאים",base,async page=>{
     const r=await page.evaluate(()=>[...document.querySelectorAll(".nav button")]
       .filter(b=>getComputedStyle(b).display!=="none").map(b=>b.dataset.go));
-    eq(r,["home","lesson","live","stu","rec"]);
+    eq(r,["home","lesson","live","cls","rec"]);
   }),
 
   check("אין יותר מגירה ואין ☰ — וההגדרות בכותרת",base,async page=>{
@@ -51,11 +51,11 @@ module.exports={title:"מעטפת: חמישה אזורים, חזרה אמיתי�
       [...document.querySelectorAll("[data-go],[data-tool]")].map(e=>e.dataset.go||("tool:"+e.dataset.tool))))
       .forEach(x=>got.add(x)); };
     await collect();
-    for(const m of ["lesson","stu"]){ await go(page,m); await collect(); }
+    for(const m of ["lesson","cls"]){ await go(page,m); await collect(); }
     await startLive(page); await collect();
     const reach=new Set([...got].map(x=>({"tool:att":"tools","tool:teams":"tools","tool:pick":"tools",
       "tool:meas":"ft","tool:beep":"beep","tool:photo":"photo","tool:timer":"fit","tool:games":"games"}[x]||x)));
-    ["home","lesson","live","stu","rec","ft","beep","photo","fit","games","know","nut","tools"].forEach(m=>
+    ["home","lesson","live","cls","stu","rec","ft","beep","photo","fit","games","know","nut","tools"].forEach(m=>
       ok(reach.has(m),"אין דרך להגיע ל-«"+m+"»: "+[...reach].join(",")));
   }),
 
@@ -68,7 +68,7 @@ module.exports={title:"מעטפת: חמישה אזורים, חזרה אמיתי�
     await go(page,"ft");
     r=await page.evaluate(()=>({tabs:[...document.querySelectorAll("#areaTabs [data-go]")].map(b=>b.dataset.go),
       nav:(document.querySelector(".nav button.on")||{}).dataset.go}));
-    eq(r.tabs,["stu","ft","tools"]); eq(r.nav,"stu","כפתור «כיתות» דולק");
+    eq(r.tabs,["cls","stu","ft","tools"]); eq(r.nav,"cls","כפתור «כיתות» דולק");
     await go(page,"home");
     ok(await page.evaluate(()=>document.getElementById("areaTabs").hidden),"בבית אין לשוניות");
   }),

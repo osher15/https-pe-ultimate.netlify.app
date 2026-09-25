@@ -2558,7 +2558,27 @@ window.FT=(function(){
     normVersion
   };
 
-  return {init, pick, ingest, tests:()=>TESTS, results:()=>allRes(), roster,
+  /* פתיחה על כיתה ולשונית — ממרכז הכיתה («מדד הכושר», «מה חסר»).
+     קבוצה נפתחת על הכיתה הראשונה שבה, כמו בבורר המשותף. */
+  function show(cid,tab){
+    const exp=DATA.expandCid(clsStore,cid);
+    const base=(DATA.isGroupId(cid)&&exp[0])||cid;
+    const p=DATA.cidParts(base);
+    if(p&&p.grade){ stopClock(true); stopCd(); st.grade=p.grade; st.num=+p.num||st.num; st.test=null; persist(); }
+    st.tab=tab||"tests";
+    /* הבחירה ממרכז הכיתה גוברת: השיעור הפתוח כבר «הוחל» ולא ידרוס אותה */
+    const act=H().session&&H().session.active(); if(act)st.lessonId=act.id;
+    H().go("ft");
+    if(inited)renderTab();
+  }
+  /* כמה מדידות ובכמה מבחנים — לכרטיס «כושר» במרכז הכיתה */
+  function summary(cid){
+    const rs=allRes().filter(r=>{ try{ return DATA.rowInScope(r,clsStore,cid); }catch(e){ return false; } });
+    const tests=new Set(rs.map(r=>r.test));
+    const last=rs.reduce((m,r)=>r.d&&r.d>m?r.d:m,"");
+    return {n:rs.length,tests:tests.size,last};
+  }
+  return {init, pick, ingest, show, summary, tests:()=>TESTS, results:()=>allRes(), roster,
     classOf:clsName, progress:PROGRESS};
 })();
 })();
