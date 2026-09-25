@@ -11,16 +11,16 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="c1531b8f">
+<meta name="hm-build" content="b99bb9c5">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=5cdc7d28">
+<link rel="stylesheet" href="hm-styles.css?v=0ba04210">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-data.js?v=be8da8d9"></script>
 <script src="hm-terms.js?v=ce1b7f7f"></script>
 <script src="hm-texts.js?v=4311c742"></script>
-<script src="hm-i18n.js?v=c7129eec"></script>
-<script src="hm-app.js?v=129c63c6"></script>
+<script src="hm-i18n.js?v=5bf9381a"></script>
+<script src="hm-app.js?v=31f6ba87"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
 <script src="hm-know.js?v=52230b9a"></script>
@@ -31,7 +31,7 @@
 <script src="hm-lesson.js?v=a63f8d57"></script>
 <script src="hm-build.js?v=4a132915"></script>
 <script src="hm-tests.js?v=48fce1cb"></script>
-<script src="hm-new.js?v=1668ad77"></script>
+<script src="hm-new.js?v=0575afd9"></script>
 <script src="hm-live.js?v=e0730387"></script>
 <script src="hm-hub.js?v=c46b61c6"></script>
 </helmet>
@@ -227,8 +227,7 @@
       <h2 style="margin:0"><span class="dot"></span> <span data-i18n="bt.board">לוח תוצאות</span></h2>
       <div class="row">
         <div class="seg"><button id="bt-sortOrder" class="on" data-i18n="bt.byOrder">לפי סדר</button><button id="bt-sortDist" data-i18n="bt.byDist">לפי מרחק</button></div>
-        <button class="btn sm acc" id="bt-toTrack" data-i18n="bt.toTrack">⇧ שמור למעקב</button>
-        <button class="btn sm acc" id="bt-toFt" data-i18n="bt.toFt">🏅 שלח למבחני כושר</button>
+        <button class="btn sm acc" id="bt-toFt" data-i18n="bt.saveCls">🏅 שמור לכיתה</button>
         <button class="btn sm" id="bt-csvBtn">⬇ CSV</button>
         <button class="btn sm ghost" id="bt-clearBtn">🗑</button>
       </div>
@@ -245,39 +244,40 @@
 </section>
 
 <section class="view" id="view-photo">
+  <!-- מרוץ = מה שעושים ליד הקו (שעון, זינוק, מסלולים). הצבה = מה שעושים
+       פעם אחת לפני כן, בשלבים — במקום שלושה מקומות שהסבירו את אותו דבר. -->
   <div class="pf-tabs">
-    <button data-pt="live" class="on" data-i18n="pf.tLive">🎯 מסלול חי</button>
+    <button data-pt="live" class="on" data-i18n="pf.tRace">🏁 מרוץ</button>
+    <button data-pt="setup" data-i18n="pf.tSetup">📐 הצבה</button>
     <button data-pt="strip" data-i18n="pf.tStrip">🎞 תמונת סיום</button>
     <button data-pt="results" data-i18n="pf.tRes">🏁 תוצאות</button>
     <button data-pt="laps" data-i18n="pf.tLaps">🔄 הקפות</button>
-    <button data-pt="history" data-i18n="pf.tArc">🗄 ארכיון</button>
-    <button data-pt="meta" data-i18n="pf.tMeta">📋 פרטי מירוץ</button>
   </div>
 
-  <!-- ----- live ----- -->
-  <div id="pf-sub-live">
-    <div class="pf-stage" id="pf-stage">
-      <video id="pf-video" autoplay playsinline muted></video>
-      <canvas id="pf-sim"></canvas>
-      <div class="pf-line" id="pf-lineEl" style="left:50%"></div>
-      <div class="pf-cd" id="pf-cd"><div class="word" id="pf-cdWord"></div></div>
-      <div class="pf-camctl">
-        <button id="pf-zoomIn" title="זום">＋</button>
-        <button id="pf-zoomOut" title="זום">－</button>
-        <button id="pf-flip" title="היפוך">⇋</button>
-        <button id="pf-fs" title="מסך מלא (F)">⛶</button>
-      </div>
-      <div class="pf-status" id="pf-status">מצב סימולציה</div>
-      <div class="pf-flash" id="pf-flash"></div>
-      <div class="pf-banner" id="pf-banner"></div>
-      <div class="pf-fsctl">
-        <div class="tm" id="pf-fsClock">00:00.00</div>
-        <button class="go" id="pf-fsGun" title="זינוק / עצור (רווח)">🔫 זינוק</button>
-        <button id="pf-fsReset" title="איפוס מקצה">↺</button>
-        <button id="pf-fsExit" title="יציאה ממסך מלא">⤡</button>
-      </div>
+  <div class="pf-stage" id="pf-stage">
+    <video id="pf-video" autoplay playsinline muted></video>
+    <canvas id="pf-sim"></canvas>
+    <div class="pf-line" id="pf-lineEl" style="left:50%"></div>
+    <div class="pf-cd" id="pf-cd"><div class="word" id="pf-cdWord"></div></div>
+    <div class="pf-camctl">
+      <button id="pf-zoomIn" title="זום">＋</button>
+      <button id="pf-zoomOut" title="זום">－</button>
+      <button id="pf-flip" title="היפוך">⇋</button>
+      <button id="pf-fs" title="מסך מלא (F)">⛶</button>
     </div>
+    <div class="pf-status" id="pf-status">מצב סימולציה</div>
+    <div class="pf-flash" id="pf-flash"></div>
+    <div class="pf-banner" id="pf-banner"></div>
+    <div class="pf-fsctl">
+      <div class="tm" id="pf-fsClock">00:00.00</div>
+      <button class="go" id="pf-fsGun" title="זינוק / עצור (רווח)">🔫 זינוק</button>
+      <button id="pf-fsReset" title="איפוס מקצה">↺</button>
+      <button id="pf-fsExit" title="יציאה ממסך מלא">⤡</button>
+    </div>
+  </div>
 
+  <!-- ----- race ----- -->
+  <div id="pf-sub-live">
     <div class="card" style="margin-top:13px">
       <div class="row" style="justify-content:space-between;align-items:center">
         <div class="bigclock" id="pf-clock" style="margin:0;text-align:right">00:00.00</div>
@@ -290,34 +290,42 @@
         <button class="btn acc grow" id="pf-gun">🔫 זינוק</button>
         <button class="btn ghost" id="pf-resetBtn">↺ איפוס מקצה</button>
       </div>
-      <div class="row" style="margin-top:10px">
-        <div class="field grow"><label data-i18n="pf.line">מיקום קו הסיום</label><input type="range" id="pf-lineRange" min="5" max="95" value="50"></div>
-        <div class="field grow"><label>רגישות זיהוי · <b id="pf-sensVal">45</b></label><input type="range" id="pf-sens" min="0" max="100" value="45" data-tip="כמה שינוי בתמונה נחשב «רץ עבר». נמוך מדי — צל, ענף או תלמיד ברקע נספרים כחצייה. גבוה מדי — רץ בחולצה בהירה על רקע בהיר לא נתפס. התחל ב-45, ואם יש חציות מדומות העלה בהדרגה."></div>
-        <div class="field grow"><label>עובי החריץ · <b id="pf-slitVal">2px</b></label><input type="range" id="pf-slit" min="1" max="6" value="2"></div>
-        <div class="field" style="width:104px"><label data-i18n="pf.minT">זמן מינ׳ (שנ׳)</label><input type="number" id="pf-minT" value="3" min="0" step="0.5"></div>
-      </div>
-      <!-- מצב ידני: כשתנאי השטח לא מאפשרים זיהוי — שמש נעה, ילדים
-           שעוברים מאחורי הקו, ענף ברוח — המנוע שותק והמורה מקיש.
-           תיבת הסימון שלידו מושבתת כשהוא דלוק, כדי שלא יהיו שני
-           פקדים שסותרים זה את זה על אותו מסך. -->
       <div class="row" style="margin-top:9px">
         <button class="btn sm" id="pf-manual" aria-pressed="false">✋ מצב ידני — עצירה ידנית בלבד</button>
-        <label class="check" id="pf-autoLbl"><input type="checkbox" id="pf-autoDetect" checked> זיהוי תנועה אוטומטי בקו הסיום</label>
-        <label class="check"><input type="checkbox" id="pf-micStart"> זינוק קולי — אקדח/מחיאת כף (מיקרופון)</label>
       </div>
       <div class="hint pf-manual-note" id="pf-manualNote" hidden>✋ <b>מצב ידני פעיל</b> — המנוע אינו מסמן חציות. הקש על שם המסלול ברגע החצייה, או על מקשים ‎1–9‎. הרצועה ותמונת הסיום ממשיכות לעבוד כרגיל.</div>
-      <div class="row" style="margin-top:9px">
-        <div class="field" style="width:190px"><label>מרחק מיקרופון מהמזניק (מ׳)</label>
-          <input type="text" inputmode="decimal" id="pf-gunDist" value="0" dir="ltr" style="text-align:right" data-tip="המרחק בין האקדח למצלמה, במטרים. הקול נוסע 343 מ׳ בשנייה, ולכן אם המצלמה עומדת 34 מ׳ מהזינוק היא שומעת את הירייה עשירית שנייה אחרי שהיא קרתה — והזמנים יוצאים קצרים מדי בדיוק בעשירית הזאת. הזנת המרחק מקזזת את זה."></div>
-        <span class="pill" id="pf-gunLag" style="margin-top:18px">בלי קיזוז</span>
-        <div class="hint" style="flex:1;min-width:200px;margin-top:14px">הקול נע ‎343‎ מ/ש. אם הטלפון עומד ‎20‎ מ׳ מהאקדח, השמע מגיע באיחור של ‎58‎ מ״ש — והשעון היה מתחיל מאוחר. הזנת המרחק מקזזת את זה אוטומטית.</div>
-      </div>
-      <div class="hint" style="margin-top:8px">המנוע דוגם עמודת פיקסלים אחת בקו הסיום בכל פריים ובונה תצלום שבו <b>הציר האופקי הוא הזמן</b> — בדיוק כמו מצלמות הסיום באולימפיאדה. בזמן מירוץ: הקש על שם מסלול ברגע החצייה, או תן למנוע לסמן אוטומטית — ותכוונן במסך «תמונת סיום».</div>
     </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <h2 style="margin:0"><span class="dot"></span> מסלולים ומתחרים</h2>
+        <div class="row"><button class="btn sm acc" id="pf-loadCls" data-i18n="pf.loadCls">👥 טען כיתה</button>
+        <button class="btn sm" id="pf-pasteNames" data-i18n="pf.paste">📋 הדבק רשימה</button>
+        <button class="btn sm ghost" id="pf-editNames" data-i18n="pf.editNames">✎ ערוך שמות</button>
+        <button class="btn sm ghost" id="pf-numbers" data-i18n="pf.numbers">🔢 מספרי חזה</button></div>
+      </div>
+      <div class="field" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
+      <div class="pf-runchips" id="pf-chips" style="margin-top:10px"></div>
+      <div class="hint" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
+    </div>
+    <div class="card">
+      <h2><span class="dot"></span> רצועת סריקה (Slit-Scan) · ציר אופקי = זמן</h2>
+      <canvas id="pf-stripLive" class="pf-livestrip" height="64"></canvas>
+      <div class="pf-livenow" id="pf-liveNow">0.000</div>
+    </div>
+  </div>
 
-    <!-- ----- מיקום המצלמה ודיוק ----- -->
-    <div class="card" id="pf-placeCard">
-      <h2><span class="dot"></span> 📐 איפה להעמיד את המצלמה</h2>
+  <!-- ----- setup wizard ----- -->
+  <div id="pf-sub-setup" style="display:none">
+   <div class="card pfw">
+    <div class="pfw-steps" id="pfw-steps">
+      <button data-ps="0" class="on">1 · <span data-i18n="pfw.s0">מיקום</span></button>
+      <button data-ps="1">2 · <span data-i18n="pfw.s1">קו הסיום</span></button>
+      <button data-ps="2">3 · <span data-i18n="pfw.s2">זינוק</span></button>
+      <button data-ps="3">4 · <span data-i18n="pfw.s3">זיהוי</span></button>
+      <button data-ps="4">5 · <span data-i18n="pfw.s4">פרטי המירוץ</span></button>
+    </div>
+    <div class="pfg pfw-intro" id="pfw-intro"></div>
+    <div class="pfw-step" data-step="0">
       <div class="hint">פס הזיהוי הוא ‎3.1%‎ מרוחב התמונה — אחוז קבוע, אבל <b>מספר משתנה של סנטימטרים</b> לפי המרחק.
         ככל שאתה רחוק יותר, הפס מכסה יותר שטח בשטח, והרץ נמצא ״בתוך הקו״ יותר זמן. הזן את המרחק וקבל את השגיאה בפועל.</div>
       <div class="row" style="margin-top:11px">
@@ -361,26 +369,53 @@
             מדויק יותר מהטריגר האוטומטי, ופותר גם את חלון ה‑450 מ״ש. זו דרך העבודה המומלצת לגמר צמוד.</li>
         </ol>
       </details>
+    </div>
+    <div class="pfw-step" data-step="1" hidden>
+      <div class="row">
+        <div class="field grow"><label data-i18n="pf.line">מיקום קו הסיום</label><input type="range" id="pf-lineRange" min="5" max="95" value="50"></div>
+      </div>
+      <div class="hint" data-i18n="pfw.lineHint">יישרו את הקו האדום בתמונה שלמעלה. ⇋ הופך את התמונה, ＋/－ מגדילים — וזום גם משפר את הדיוק.</div>
+    </div>
+    <div class="pfw-step" data-step="2" hidden>
+      <div class="row">
+        <label class="check"><input type="checkbox" id="pf-micStart"> זינוק קולי — אקדח/מחיאת כף (מיקרופון)</label>
+      </div>
+      <div class="row" style="margin-top:9px">
+        <div class="field" style="width:190px"><label>מרחק מיקרופון מהמזניק (מ׳)</label>
+          <input type="text" inputmode="decimal" id="pf-gunDist" value="0" dir="ltr" style="text-align:right" data-tip="המרחק בין האקדח למצלמה, במטרים. הקול נוסע 343 מ׳ בשנייה, ולכן אם המצלמה עומדת 34 מ׳ מהזינוק היא שומעת את הירייה עשירית שנייה אחרי שהיא קרתה — והזמנים יוצאים קצרים מדי בדיוק בעשירית הזאת. הזנת המרחק מקזזת את זה."></div>
+        <span class="pill" id="pf-gunLag" style="margin-top:18px">בלי קיזוז</span>
+        <div class="hint" style="flex:1;min-width:200px;margin-top:14px">הקול נע ‎343‎ מ/ש. אם הטלפון עומד ‎20‎ מ׳ מהאקדח, השמע מגיע באיחור של ‎58‎ מ״ש — והשעון היה מתחיל מאוחר. הזנת המרחק מקזזת את זה אוטומטית.</div>
+      </div>
+    </div>
+    <div class="pfw-step" data-step="3" hidden>
+      <div class="row">
+        <label class="check" id="pf-autoLbl"><input type="checkbox" id="pf-autoDetect" checked> זיהוי תנועה אוטומטי בקו הסיום</label>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div class="field grow"><label>רגישות זיהוי · <b id="pf-sensVal">45</b></label><input type="range" id="pf-sens" min="0" max="100" value="45" data-tip="כמה שינוי בתמונה נחשב «רץ עבר». נמוך מדי — צל, ענף או תלמיד ברקע נספרים כחצייה. גבוה מדי — רץ בחולצה בהירה על רקע בהיר לא נתפס. התחל ב-45, ואם יש חציות מדומות העלה בהדרגה."></div>
+        <div class="field grow"><label>עובי החריץ · <b id="pf-slitVal">2px</b></label><input type="range" id="pf-slit" min="1" max="6" value="2"></div>
+        <div class="field" style="width:104px"><label data-i18n="pf.minT">זמן מינ׳ (שנ׳)</label><input type="number" id="pf-minT" value="3" min="0" step="0.5"></div>
+      </div>
+      <div class="hint" style="margin-top:8px">המנוע דוגם עמודת פיקסלים אחת בקו הסיום בכל פריים ובונה תצלום שבו <b>הציר האופקי הוא הזמן</b> — בדיוק כמו מצלמות הסיום באולימפיאדה. בזמן מירוץ: הקש על שם מסלול ברגע החצייה, או תן למנוע לסמן אוטומטית — ותכוונן במסך «תמונת סיום».</div>
       <button class="btn acc big" id="pf-sanityBtn" style="margin-top:11px" data-i18n="pf.sanity">✅ בדיקת שפיות של דקה — לפני כל מקצה</button>
     </div>
-
-    <div class="card">
-      <h2><span class="dot"></span> רצועת סריקה (Slit-Scan) · ציר אופקי = זמן</h2>
-      <canvas id="pf-stripLive" class="pf-livestrip" height="64"></canvas>
-      <div class="pf-livenow" id="pf-liveNow">0.000</div>
-    </div>
-
-    <div class="card">
-      <div class="row" style="justify-content:space-between">
-        <h2 style="margin:0"><span class="dot"></span> מסלולים ומתחרים</h2>
-        <div class="row"><button class="btn sm acc" id="pf-loadCls" data-i18n="pf.loadCls">👥 טען כיתה</button>
-        <button class="btn sm" id="pf-pasteNames" data-i18n="pf.paste">📋 הדבק רשימה</button>
-        <button class="btn sm ghost" id="pf-editNames" data-i18n="pf.editNames">✎ ערוך שמות</button></div>
+    <div class="pfw-step" data-step="4" hidden>
+      <div class="field"><label>שם התחרות / האירוע</label><input type="text" id="pf-setTitle" placeholder="אליפות בית הספר — ריצת 60 מ׳"></div>
+      <div class="row" style="margin-top:10px">
+        <div class="field" style="width:150px"><label>שלב</label>
+          <select id="pf-setRound"><option value="גמר">גמר</option><option value="חצי גמר">חצי גמר</option><option value="מוקדמות">מוקדמות</option><option value="מקצה">מקצה</option><option value="אימון">אימון</option></select></div>
+        <div class="field" style="width:130px"><label>מרחק (מטר)</label><input type="number" id="pf-setDist" value="60" min="0"></div>
+        <div class="field" style="width:160px"><label>תאריך</label><input type="date" id="pf-setDate"></div>
+        <div class="field" style="width:120px"><label>רוח (מ/ש)</label><input type="number" id="pf-setWind" step="0.1" placeholder="+1.2"></div>
       </div>
-      <div class="field" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
-      <div class="pf-runchips" id="pf-chips" style="margin-top:10px"></div>
-      <div class="hint" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
+      <div class="hint" style="margin-top:10px">הפרטים מוצגים בלוח התוצאות, בתעודות ובדוח הפרשן. רוח מעל ‎+2.0‎ מ/ש נחשבת «לא חוקית» בתקנון האתלטיקה — והמערכת תסמן זאת.</div>
+      <button class="btn acc" id="pf-setSave" style="margin-top:12px">שמור פרטים</button>
     </div>
+    <div class="row pfw-nav">
+      <button class="btn ghost" id="pfw-prev" data-i18n="pfg.prev">→ הקודם</button>
+      <button class="btn acc grow" id="pfw-next">הבא ←</button>
+    </div>
+   </div>
   </div>
 
   <!-- ----- strip (photo-finish analysis) ----- -->
@@ -394,7 +429,7 @@
         </div>
       </div>
       <div class="pf-stripview" id="pf-stripWrap"><canvas id="pf-stripFull"></canvas></div>
-      <div class="empty-state" id="pf-stripEmpty"><div class="big">🎞</div>עדיין לא הוקלטה רצועת סיום.<br>הרץ מירוץ במסך «מסלול חי» כדי לבנות את תמונת הסיום.</div>
+      <div class="empty-state" id="pf-stripEmpty"><div class="big">🎞</div>עדיין לא הוקלטה רצועת סיום.<br>הרץ מירוץ במסך «מרוץ» כדי לבנות את תמונת הסיום.</div>
       <div class="pf-readout">
         <span class="ro" id="pf-readout">— : —</span>
         <select id="pf-laneSel" style="background:#04110a;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:9px 12px;font-family:'Rubik'"></select>
@@ -405,7 +440,6 @@
     </div>
   </div>
 
-  <!-- ----- results ----- -->
   <div id="pf-sub-results" style="display:none">
     <div class="card">
       <h2><span class="dot"></span> <span data-i18n="pf.board">לוח תוצאות רשמי</span></h2>
@@ -417,22 +451,33 @@
       <div class="empty-state" id="pf-empty"><div class="big">📸</div>אין תוצאות עדיין.<br>
         <button class="btn sm acc" id="pf-emptyStart" style="margin-top:11px">🔫 התחל מקצה חדש</button>
         <div class="hint" style="margin-top:9px">או ייבא קובץ CSV של מקצה קודם.</div></div>
-      <div class="row" style="margin-top:12px">
-        <button class="btn acc" id="pf-btnAI" data-i18n="pf.ai">🎙️ דוח פרשן</button>
-        <button class="btn sm acc" id="pf-toFt">🏅 שלח למבחני כושר</button>
-        <button class="btn sm" id="pf-btnSave" data-i18n="pf.arcSave">💾 שמור לארכיון</button>
-        <button class="btn sm" id="pf-csv" data-i18n="pf.csv">⬇ ייצוא CSV</button>
-        <button class="btn sm" id="pf-sheet" data-i18n="pf.sheet">🖼 תמונה + טבלה</button>
-        <button class="btn sm ghost" id="pf-print" data-i18n="pf.cert">🖨 תעודת זכייה</button>
-        <button class="btn sm ghost" id="pf-mail" data-i18n="pf.mail">✉ שלח תוצאות</button>
+      <!-- יעד אחד לתוצאות: מבחני הכושר של הכיתה (ומשם כרטיס התלמיד
+           והמדד). כל השאר — שיתוף וייצוא — בתפריט אחד. -->
+      <div class="row pf-resAct" style="margin-top:12px">
+        <button class="btn acc" id="pf-toFt" data-i18n="pf.saveCls">🏅 שמור לכיתה</button>
+        <details class="pf-share" id="pf-share"><summary class="btn" data-i18n="pf.share">📤 שתף / ייצא</summary><div class="menu">
+          <button class="btn" id="pf-btnAI" data-i18n="pf.ai">🎙️ דוח פרשן</button>
+          <button class="btn" id="pf-btnSave" data-i18n="pf.arcSave">💾 שמור לארכיון</button>
+          <button class="btn" id="pf-csv" data-i18n="pf.csv">⬇ ייצוא CSV</button>
+          <button class="btn" id="pf-sheet" data-i18n="pf.sheet">🖼 תמונה + טבלה</button>
+          <button class="btn" id="pf-print" data-i18n="pf.cert">🖨 תעודת זכייה</button>
+          <button class="btn" id="pf-mail" data-i18n="pf.mail">✉ שלח תוצאות</button>
+        </div></details>
         <button class="btn sm ghost" id="pf-addRow" data-i18n="pf.addRow">＋ שורה</button>
-        <button class="btn sm ghost" id="pf-numbers" data-i18n="pf.numbers">🔢 מספרי חזה</button>
       </div>
       <div class="aiBox" id="pf-aiBox">
         <div class="ai-head"><span class="av">🎙️</span><b>פרשן המירוץ</b><span class="tag">מנוע מקומי · עובד בלי אינטרנט</span></div>
         <div class="ai-body" id="pf-aiBody"></div>
       </div>
     </div>
+    <details class="fold" id="pf-arcFold"><summary data-i18n="pf.arcFold">🗄 ארכיון מירוצים</summary><div class="bd">
+      <div class="row">
+          <label class="btn sm" style="cursor:pointer">📥 ייבוא CSV<input type="file" id="pf-csvFile" accept=".csv" style="display:none"></label>
+          <button class="btn sm ghost" id="pf-loadSample">טען נתוני דוגמה</button>
+      </div>
+      <div id="pf-historyList"></div>
+      <div class="empty-state" id="pf-histEmpty"><div class="big">🗄</div>הארכיון ריק.<br>שמור מירוץ מלוח התוצאות כדי שיופיע כאן.</div>
+    </div></details>
   </div>
 
   <!-- ----- laps ----- -->
@@ -470,47 +515,6 @@
     </div>
   </div>
 
-  <!-- ----- history ----- -->
-  <div id="pf-sub-history" style="display:none">
-    <div class="card">
-      <div class="row" style="justify-content:space-between">
-        <h2 style="margin:0"><span class="dot"></span> ארכיון מירוצים</h2>
-        <div class="row">
-          <label class="btn sm" style="cursor:pointer">📥 ייבוא CSV<input type="file" id="pf-csvFile" accept=".csv" style="display:none"></label>
-          <button class="btn sm ghost" id="pf-loadSample">טען נתוני דוגמה</button>
-        </div>
-      </div>
-      <div id="pf-historyList"></div>
-      <div class="empty-state" id="pf-histEmpty"><div class="big">🗄</div>הארכיון ריק.<br>שמור מירוץ מלוח התוצאות כדי שיופיע כאן.</div>
-    </div>
-  </div>
-
-  <!-- ----- meta ----- -->
-  <div id="pf-sub-meta" style="display:none">
-    <div class="card">
-      <h2><span class="dot"></span> פרטי התחרות</h2>
-      <div class="field"><label>שם התחרות / האירוע</label><input type="text" id="pf-setTitle" placeholder="אליפות בית הספר — ריצת 60 מ׳"></div>
-      <div class="row" style="margin-top:10px">
-        <div class="field" style="width:150px"><label>שלב</label>
-          <select id="pf-setRound"><option value="גמר">גמר</option><option value="חצי גמר">חצי גמר</option><option value="מוקדמות">מוקדמות</option><option value="מקצה">מקצה</option><option value="אימון">אימון</option></select></div>
-        <div class="field" style="width:130px"><label>מרחק (מטר)</label><input type="number" id="pf-setDist" value="60" min="0"></div>
-        <div class="field" style="width:160px"><label>תאריך</label><input type="date" id="pf-setDate"></div>
-        <div class="field" style="width:120px"><label>רוח (מ/ש)</label><input type="number" id="pf-setWind" step="0.1" placeholder="+1.2"></div>
-      </div>
-      <div class="hint" style="margin-top:10px">הפרטים מוצגים בלוח התוצאות, בתעודות ובדוח הפרשן. רוח מעל ‎+2.0‎ מ/ש נחשבת «לא חוקית» בתקנון האתלטיקה — והמערכת תסמן זאת.</div>
-      <button class="btn acc" id="pf-setSave" style="margin-top:12px">שמור פרטים</button>
-    </div>
-    <div class="card pf-guide">
-      <h2><span class="dot"></span> איך מציבים את המצלמה</h2>
-      <ol>
-        <li>טלפון על חצובה, <b>בניצב מדויק (90°) לקו הסיום</b>, בגובה החזה, 3–6 מ׳ מהקו.</li>
-        <li>ודא שהקו האדום במסך יושב בדיוק על קו הסיום בשטח. רקע נקי, שמש מאחורי המצלמה.</li>
-        <li>זמן מינימום (3 שנ׳) מונע זיהוי של המזניק — העלה אותו במקצים ארוכים.</li>
-        <li>הוסף רצים <b>לפי סדר המסלולים מהמהיר לאיטי</b> — הזיהוי האוטומטי מקצה לפי הסדר.</li>
-        <li>תמיד יש גיבוי: הקשה על מסלול / מקשי 1–9, וכוונון מדויק ב«תמונת סיום».</li>
-      </ol>
-    </div>
-  </div>
 </section>
 
 <section class="view" id="view-rec">
@@ -1493,9 +1497,10 @@
   <details class="info-sec" data-info="photo"><summary data-i18n="info.photo.s">📷 פוטו־פיניש</summary>
     <p class="info-w" data-i18n="info.photo.w">מודד זמני ריצה מהמצלמה של הטלפון, ומראה בתמונה מי עבר ראשון.</p>
     <ul class="info-l" data-i18n="info.photo.l">
-      <li><b>🎯 מסלול חי</b> מכוונים את המצלמה לקו הסיום ומתחילים מקצה.</li>
-      <li><b>🎞 תמונת סיום · 🏁 תוצאות</b> רגע החצייה והזמנים המדויקים לכל מסלול.</li>
-      <li><b>🔄 הקפות · 🗄 ארכיון</b> מקצים ארוכים, ומקצים קודמים לחזרה אליהם.</li>
+      <li><b>🏁 מרוץ</b> שעון, זינוק ומסלולים — רק מה שצריך ליד הקו.</li>
+      <li><b>📐 הצבה</b> פעם אחת לפני: מיקום המצלמה, קו הסיום, מרחק האקדח ורגישות הזיהוי.</li>
+      <li><b>🎞 תמונת סיום · 🏁 תוצאות</b> רגע החצייה והזמן המדויק לכל מסלול; «שמור לכיתה» מכניס את הזמנים למבחני הכושר.</li>
+      <li><b>🔄 הקפות</b> מקצים ארוכים. מקצים קודמים — בארכיון שמתחת ללוח התוצאות.</li>
     </ul>
   </details>
 
@@ -1594,18 +1599,6 @@
     <button class="btn stop grow" id="pg-go" disabled>🗑 מחק את מה שלמעלה</button>
     <button class="btn ghost" data-close="purgeModal">ביטול</button>
   </div>
-</div></div>
-
-<!-- ----- פוטו־פיניש: הדרכת פתיחה ----- -->
-<div class="modal" id="pfGuideModal"><div class="box" style="max-width:520px">
-  <h3><span data-i18n="pfg.title">📷 פוטו־פיניש — ‎4‎ שלבים</span><button class="x" data-close="pfGuideModal">✕</button></h3>
-  <div class="pfg" id="pfg-body"></div>
-  <div class="pfg-dots" id="pfg-dots"></div>
-  <div class="row" style="margin-top:13px">
-    <button class="btn ghost" id="pfg-prev" data-i18n="pfg.prev">→ הקודם</button>
-    <button class="btn acc grow" id="pfg-next">הבא ←</button>
-  </div>
-  <label class="check" style="margin-top:11px"><input type="checkbox" id="pfg-skip"> <span data-i18n="pfg.skip">אל תציג שוב</span></label>
 </div></div>
 
 <!-- ----- פוטו־פיניש: בדיקת שפיות ----- -->

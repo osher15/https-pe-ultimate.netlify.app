@@ -2689,7 +2689,11 @@ const BT=(function(){
           sex:classSex==="girls"?"girls":"boys"}));
         if(!rows.length){toast("אין תוצאה עם מרחק");return;}
         const res=window.FT.ingest(cls,"beep",rows,"ביפ טסט",cid?{cid}:null);
-        toast(res.added?("✓ נשלחו "+res.added+" תוצאות ל"+cls+(res.dup?" · "+res.dup+" כבר היו":"")) 
+        /* יעד אחד: אותה לחיצה רושמת גם בכרטיס התלמיד (גרף הביפ, VO₂max,
+           אזור), שעד עכשיו דרש כפתור נפרד «שמור למעקב» */
+        try{ if(window.STU&&window.STU.importFromBeep)
+          window.STU.importFromBeep({quiet:true,cls,cid:cid||null}); }catch(e){}
+        toast(res.added?("✓ נשלחו "+res.added+" תוצאות ל"+cls+(res.dup?" · "+res.dup+" כבר היו":""))
                        :(res.dup?"כל התוצאות כבר נשלחו":"לא נשלח דבר"));
       };
       /* אם נטענה כיתה למקצה — היא היעד המובן מאליו. אם לא, אבל יש
@@ -3439,6 +3443,7 @@ const PF=(function(){
   }
   function renderBoard(){
     renderMeta();
+    paintSaveBtn();
     const list=finished(), medals=["🥇","🥈","🥉"];
     $("#pf-empty").style.display=list.length?"none":"block";
     $("#pf-tbody").innerHTML=list.map((l,i)=>`
@@ -3644,12 +3649,51 @@ const PF=(function(){
   }
 
   /* ---------- tabs & init ---------- */
+  /* חמש לשוניות: מרוץ · הצבה · תמונת סיום · תוצאות · הקפות. «ארכיון»
+     ו«פרטי מירוץ» היו לשוניות משלהן — הארכיון יושב עכשיו מקופל מתחת
+     ללוח התוצאות, והפרטים הם השלב האחרון בהצבה. התמונה עצמה משותפת
+     למרוץ ולהצבה: את הקו מיישרים מול מה שהמצלמה רואה. */
   function switchTab(t){
+    if(t==="history"||t==="meta"){ const k=t; t=k==="history"?"results":"setup";
+      if(k==="history")setTimeout(()=>{ const f=$("#pf-arcFold"); if(f)f.open=true; },0);
+      if(k==="meta")pfwI=4; }
     $$(".pf-tabs [data-pt]").forEach(x=>x.classList.toggle("on",x.dataset.pt===t));
-    ["live","strip","results","laps","history","meta"].forEach(k=>$("#pf-sub-"+k).style.display=k===t?"":"none");
+    ["live","setup","strip","results","laps"].forEach(k=>$("#pf-sub-"+k).style.display=k===t?"":"none");
+    $("#pf-stage").style.display=(t==="live"||t==="setup")?"":"none";
     if(t==="strip"){ renderFullStrip(); refreshLaneSel(); }
-    if(t==="history")renderHistory();
-    if(t==="live"&&mode==="sim"&&!race.on)drawSimIdle();
+    if(t==="results"){ renderHistory(); paintSaveBtn(); }
+    if(t==="setup")pfwPaint();
+    if((t==="live"||t==="setup")&&mode==="sim"&&!race.on)drawSimIdle();
+  }
+  /* «שמור לכיתה» אומר לאן: כששיעור פתוח — לכיתה שלו, בלי לשאול */
+  function paintSaveBtn(){
+    const b=$("#pf-toFt"); if(!b)return;
+    const act=SESSION.active();
+    b.textContent=act&&act.clsSnapshot?t("pf.saveTo","🏅 שמור ל־{0}").replace("{0}",act.clsSnapshot):t("pf.saveCls","🏅 שמור לכיתה");
+  }
+  /* ---------- הצבה — אשף אחד ----------
+     ההסבר על הצבת המצלמה היה בשלושה מקומות: חלון הדרכה בכניסה הראשונה,
+     כרטיס «איפה להעמיד» במסך החי, וכרטיס «איך מציבים» בפרטי המירוץ.
+     כאן הוא נעשה פעם אחת, בחמישה שלבים, וכל שלב מחזיק את הפקדים שלו. */
+  const PFG=[
+    ["🔭","העמד את הטלפון — ולא ביד","המצלמה צריכה לראות את <b>קו הסיום מהצד</b>, בגובה החזה בערך. חצובה, גדר, ספסל או תיק — כל דבר יציב. תזוזה של סנטימטר מזיזה את הקו, וכל הזמנים זזים איתו."],
+    ["📏","יישר את הקו האדום על קו הסיום","הזז את «מיקום קו הסיום» עד שהקו האדום במסך יושב <b>בדיוק</b> על קו הסיום במגרש. זה הפרמטר היחיד שטעות בו פוסלת את כל המקצה."],
+    ["🔫","אם יש אקדח — הזן את המרחק ממנו","הקול נוסע ‎343‎ מ׳ בשנייה. מצלמה שעומדת ‎34‎ מ׳ מהזינוק שומעת את הירייה עשירית שנייה מאוחר מדי, וכל הזמנים יוצאים קצרים בדיוק בעשירית הזאת. הזנת המרחק מקזזת את זה."],
+    ["🎯","לגמר צמוד — לחץ על הרץ בתמונה","אחרי המקצה, ב«🎞 תמונת סיום», לחיצה על גוף הרץ נותנת זמן באינטרפולציה בין העמודות. <b>מדויק יותר מהטריגר האוטומטי</b> — זו דרך העבודה לגמר."]
+  ];
+  let pfwI=0;
+  function pfwPaint(){
+    const n=5;
+    $$("#pfw-steps [data-ps]").forEach(b=>b.classList.toggle("on",+b.dataset.ps===pfwI));
+    $$("#pf-sub-setup .pfw-step").forEach(d=>{ d.hidden=+d.dataset.step!==pfwI; });
+    const intro=$("#pfw-intro");
+    if(pfwI<PFG.length){ const [em,h,p]=PFG[pfwI];
+      intro.innerHTML='<div class="step"><div class="art">'+em+'</div><h4>'+t("pfg."+pfwI+".h",h)+'</h4><p>'+t("pfg."+pfwI+".p",p)+'</p></div>'; }
+    else intro.innerHTML='<div class="step"><div class="art">📋</div><h4>'+esc(t("pfw.s4","פרטי המירוץ"))+'</h4><p>'+
+      esc(t("pfw.metaP","המרחק קובע לאיזה מבחן נכנסים הזמנים כששומרים לכיתה (60 מ׳ → ריצת 60 מ׳). השם, השלב והרוח מופיעים בלוח, בתעודות ובדוח."))+'</p></div>';
+    $("#pfw-prev").disabled=pfwI===0;
+    $("#pfw-next").textContent=pfwI===n-1?t("pfw.done","✓ מוכן — למרוץ"):t("pfg.next","הבא ←");
+    if(pfwI===0)precCalc();
   }
   /* ---------- מחשבון מיקום המצלמה ----------
      פס הזיהוי הוא BANDW מתוך PW פיקסלים — כלומר אחוז קבוע משדה הראייה.
@@ -3856,35 +3900,19 @@ const PF=(function(){
         note:"‎"+list.length+"‎ זמנים ייכנסו למבחן «"+META.dist+" מטר» של הכיתה.",
         onPick:(names,cls)=>send(cls)});
     });
-    /* ---------- הדרכת פתיחה ----------
-       פוטו־פיניש הוא המודול שהכי קל לתפעל לא נכון, והתוצאה של תפעול
-       לא נכון היא מספרים שנראים אמינים לגמרי. ארבעה מסכים בפעם
-       הראשונה חוסכים מקצה שלם שנמדד לא נכון. */
-    const PFG=[
-      ["🔭","העמד את הטלפון — ולא ביד","המצלמה צריכה לראות את <b>קו הסיום מהצד</b>, בגובה החזה בערך. חצובה, גדר, ספסל או תיק — כל דבר יציב. תזוזה של סנטימטר מזיזה את הקו, וכל הזמנים זזים איתו."],
-      ["📏","יישר את הקו האדום על קו הסיום","הזז את «מיקום קו הסיום» עד שהקו האדום במסך יושב <b>בדיוק</b> על קו הסיום במגרש. זה הפרמטר היחיד שטעות בו פוסלת את כל המקצה."],
-      ["🔫","אם יש אקדח — הזן את המרחק ממנו","הקול נוסע ‎343‎ מ׳ בשנייה. מצלמה שעומדת ‎34‎ מ׳ מהזינוק שומעת את הירייה עשירית שנייה מאוחר מדי, וכל הזמנים יוצאים קצרים בדיוק בעשירית הזאת. הזנת המרחק מקזזת את זה."],
-      ["🎯","לגמר צמוד — לחץ על הרץ בתמונה","אחרי המקצה, ב«🎞 תמונת סיום», לחיצה על גוף הרץ נותנת זמן באינטרפולציה בין העמודות. <b>מדויק יותר מהטריגר האוטומטי</b> — זו דרך העבודה לגמר."]
-    ];
-    let pfgI=0;
-    function pfgPaint(){
-      const [em,h,p]=PFG[pfgI];
-      $("#pfg-body").innerHTML='<div class="step"><div class="art">'+em+'</div><h4>'+t("pfg."+pfgI+".h",h)+'</h4><p>'+t("pfg."+pfgI+".p",p)+'</p></div>';
-      $("#pfg-dots").innerHTML=PFG.map((_,i)=>'<i class="'+(i===pfgI?"on":"")+'"></i>').join("");
-      $("#pfg-prev").disabled=pfgI===0;
-      $("#pfg-next").textContent=pfgI===PFG.length-1?t("pfg.go","יאללה, בוא נמדוד"):t("pfg.next","הבא ←");
-    }
-    /* ההדרכה פתוחה בזמן החלפת שפה — מציירים את אותו שלב בשפה החדשה */
-    document.addEventListener("i18n:change",()=>{ if($("#pfGuideModal").classList.contains("on"))pfgPaint(); });
-    function pfgClose(){
-      if($("#pfg-skip").checked)LS.set("pf.guideSeen",true);
-      modal("pfGuideModal",false);
-    }
-    $("#pfg-prev").addEventListener("click",()=>{ if(pfgI>0){pfgI--;pfgPaint();} });
-    $("#pfg-next").addEventListener("click",()=>{
-      if(pfgI<PFG.length-1){pfgI++;pfgPaint();} else pfgClose(); });
+    /* ---------- הצבה ----------
+       בכניסה הראשונה נפתחת ההצבה במקום חלון הדרכה: אותם ארבעה הסברים,
+       אבל כל אחד ליד הפקד שהוא מדבר עליו. «מוכן» מסמן שההצבה נעשתה. */
+    $$("#pfw-steps [data-ps]").forEach(b=>b.addEventListener("click",()=>{ ac(); pfwI=+b.dataset.ps; pfwPaint(); }));
+    $("#pfw-prev").addEventListener("click",()=>{ if(pfwI>0){pfwI--;pfwPaint();} });
+    $("#pfw-next").addEventListener("click",()=>{
+      ac();
+      if(pfwI<4){ pfwI++; pfwPaint(); return; }
+      saveMeta(); LS.set("pf.guideSeen",true); pfwI=0; switchTab("live");
+    });
+    document.addEventListener("i18n:change",()=>{ if($("#pf-sub-setup").style.display!=="none")pfwPaint(); paintSaveBtn(); });
     $("#pf-sanityBtn").addEventListener("click",()=>modal("pfSanityModal",true));
-    if(!LS.get("pf.guideSeen",false)){ pfgI=0; pfgPaint(); $("#pfg-skip").checked=true; modal("pfGuideModal",true); }
+    if(!LS.get("pf.guideSeen",false))switchTab("setup");
 
     /* ---------- מספרי חזה ----------
        לא כל מקצה רץ לפי רשימת שמות. כשיש מספרי חזה, המספר הוא הזהות
@@ -3911,6 +3939,8 @@ const PF=(function(){
     /* ---------- ייצוא תמונה + טבלה ----------
        עד עכשיו התמונה ירדה בנפרד מהטבלה, ומי שקיבל אותן לא ידע איזה
        זמן שייך לאיזו רצועה. כאן הן נשמרות כתמונה אחת. */
+    /* תפריט השיתוף נסגר אחרי בחירה — הוא תפריט, לא לוח */
+    $$("#pf-share .menu button").forEach(b=>b.addEventListener("click",()=>{ $("#pf-share").open=false; }));
     $("#pf-sheet").addEventListener("click",exportSheet);
     $("#pf-btnSave").addEventListener("click",arcSave);
     $("#pf-csv").addEventListener("click",csvSprint);

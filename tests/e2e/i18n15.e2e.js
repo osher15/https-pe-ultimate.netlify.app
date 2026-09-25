@@ -82,18 +82,20 @@ module.exports={title:"שלב 15 — תזונה, פוטו־פיניש ומדרי
     ok((await txt(page,"#fieldTip")).indexOf("מצב הדגמה")>=0,"ובחזרה לעברית");
   }),
 
-  check("הדרכת הפוטו־פיניש: מוצגת בשפת הממשק, ומתורגמת גם כשהיא פתוחה",fresh,async page=>{
+  /* ההדרכה הייתה חלון בכניסה הראשונה; עכשיו היא אשף «הצבה» — אותם
+     הסברים, כל אחד ליד הפקד שלו. נפתח לבד בכניסה הראשונה. */
+  check("הצבת הפוטו־פיניש: נפתחת בכניסה הראשונה בשפת הממשק, ומתורגמת גם כשהיא פתוחה",fresh,async page=>{
     await switchLang(page,"ru");
     await go(page,"photo",900);
-    ok(await page.evaluate(()=>document.getElementById("pfGuideModal").classList.contains("on")),"ההדרכה נפתחה");
-    let t=await txt(page,"#pfGuideModal");
+    ok(await page.evaluate(()=>getComputedStyle(document.getElementById("pf-sub-setup")).display!=="none"),"ההצבה נפתחה");
+    let t=await txt(page,"#pf-sub-setup .pfw-intro");
     ok(!HEB.test(t),"ru: "+t.slice(0,120));
-    ok(t.indexOf("Далее")>=0,"כפתור «הבא» ברוסית");
-    await page.evaluate(()=>{ for(let i=0;i<3;i++)document.getElementById("pfg-next").click(); });
+    ok((await txt(page,"#pfw-next")).indexOf("Далее")>=0,"כפתור «הבא» ברוסית");
+    await page.evaluate(()=>{ for(let i=0;i<4;i++)document.getElementById("pfw-next").click(); });
     await switchLang(page,"es");
-    t=await txt(page,"#pfGuideModal");
+    t=await txt(page,"#pf-sub-setup .pfw-intro");
     ok(!HEB.test(t),"es: "+t.slice(0,120));
-    ok(t.indexOf("¡Vamos a medir!")>=0,"בשלב האחרון — כפתור הסיום בספרדית");
+    ok((await txt(page,"#pfw-next")).indexOf("Listo")>=0,"בשלב האחרון — כפתור הסיום בספרדית");
   }),
 
   check("בדיקת שפיות ומספרי חזה: מתורגמים בכל שפה",seed,async page=>{

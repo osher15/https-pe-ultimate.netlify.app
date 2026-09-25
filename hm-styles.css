@@ -1783,3 +1783,27 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
 .pe-row input[type=number]{width:74px}
 .pe-row .btn{min-height:40px;min-width:44px}
 .lv-chip small.asg{color:var(--ink);font-weight:600}
+
+/* ---------- פוטו־פיניש: מרוץ מול הצבה (שלב 5) ---------- */
+#pf-gun{min-height:calc(56px + var(--touch));font-size:18px}
+.pf-lanechip{min-height:calc(52px + var(--touch))}
+.pfw .pfg{min-height:0}
+.pfw .pfg .art{height:64px;font-size:34px}
+.pfw-steps{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}
+.pfw-steps::-webkit-scrollbar{display:none}
+.pfw-steps button{flex:0 0 auto;border:1px solid var(--line);background:var(--inset);color:var(--muted);border-radius:99px;
+  padding:calc(7px + var(--touch)) 13px;font:600 13px 'Heebo';white-space:nowrap;cursor:pointer}
+.pfw-steps button.on{background:var(--acc);color:var(--onAcc);border-color:transparent}
+.pfw-step{margin-top:12px}
+.pfw-step[hidden]{display:none}
+.pfw-nav{margin-top:14px;position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px);background:var(--panel);padding-top:8px}
+.pfw-nav .btn{min-height:calc(50px + var(--touch))}
+.pf-resAct{align-items:flex-start;flex-wrap:wrap;position:relative}
+.pf-resAct #pf-toFt{min-height:calc(50px + var(--touch));font-size:15.5px}
+.pf-share{position:static}
+.pf-share>summary{list-style:none;min-height:calc(50px + var(--touch));display:inline-flex;align-items:center}
+.pf-share>summary::-webkit-details-marker{display:none}
+.pf-share .menu{position:absolute;z-index:40;inset-inline:0;top:calc(100% + 6px);max-width:420px;display:flex;flex-direction:column;gap:4px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+.pf-share .menu .btn{justify-content:flex-start;width:100%;min-height:calc(46px + var(--touch))}
+#pf-arcFold{margin-top:12px}

@@ -142,7 +142,7 @@ window.STU=(function(){
       <div class="card" style="padding:10px;margin:10px 0">${chart(s)}</div>
       ${s.tests.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>תאריך</th><th>מבחן</th><th>מרחק</th><th>שלב</th><th>VO₂max</th><th>אזור</th><th></th></tr></thead><tbody>
         ${s.tests.map((t,i)=>`<tr><td class="mono">${t.d}</td><td>${esc(t.type)}</td><td class="mono">${t.dist} מ׳</td><td class="mono">${t.level||"—"}</td><td class="mono">${t.vo2?t.vo2.toFixed(1):"—"}</td><td><span class="catpill" style="background:${zoneColor(t.zone)}">${esc(t.zone||"")}</span></td><td><button class="x tdel" data-i="${i}">✕</button></td></tr>`).join("")}
-      </tbody></table></div>`:'<div class="empty-state">אין עדיין מבחנים. אחרי ביפ טסט לחץ «שמור למעקב» בלוח התוצאות.</div>'}
+      </tbody></table></div>`:'<div class="empty-state">אין עדיין מבחנים. אחרי ביפ טסט לחץ «שמור לכיתה» בלוח התוצאות.</div>'}
       <div class="row" style="margin-top:13px;justify-content:space-between">
         <button class="btn sm acc" id="stu-fSave">💾 שמור פרטים</button>
         <div class="row">
@@ -187,23 +187,28 @@ window.STU=(function(){
       if(confirm("למחוק את הרישום?")){s.tests.splice(+b2.dataset.i,1);save(list);render();profile(id);}
     }));
   }
-  function importFromBeep(){
+  /* opts.quiet — נקרא מ«שמור לכיתה» בביפ עצמו: בלי הודעה ובלי מעבר
+     מסך, רק הרישום בכרטיס התלמיד. opts.cls/cid — הכיתה שאליה נשמר,
+     כך שתלמיד חדש לא נוצר «בלי כיתה» כשהכיתה ידועה. */
+  function importFromBeep(opts){
+    const o=(opts&&typeof opts==="object"&&!opts.type)?opts:{};
     const {LS,toast,go}=H();
-    const res=LS.get("bt.results",[]); if(!res.length){toast("אין רישומים בלוח הביפ");return;}
+    const res=LS.get("bt.results",[]); if(!res.length){ if(!o.quiet)toast("אין רישומים בלוח הביפ"); return 0; }
     const age=LS.get("bt.age",14),sex=LS.get("bt.sex","boys");
     const list=load(); let n=0;
     res.forEach(r=>{
       if(!(r.dist>0))return;
       const nm=r.name.trim(); if(!nm||/^תלמיד \d+$/.test(nm))return;
-      let s=list.find(x=>x.name===nm);
+      let s=(o.cid&&list.find(x=>x.name===nm&&x.cid===o.cid))||list.find(x=>x.name===nm);
       /* לוח הביפ לא מכיר כיתה. תלמיד בלי כיתה הוא מצב חוקי: cid:null. */
-      if(!s){ s={id:window.HMDATA.uid("s"),name:nm,cls:"",cid:null,sex,age,h:null,w:null,tests:[]}; list.push(s); }
+      if(!s){ s={id:window.HMDATA.uid("s"),name:nm,cls:o.cls||"",cid:o.cid||null,sex,age,h:null,w:null,tests:[]}; list.push(s); }
       if(s.tests.some(t=>t.d===today()&&t.type==="ביפ"&&t.dist===r.dist))return;
       const v=vo2f(r.speed,s.age||age);
       s.tests.push({d:today(),type:"ביפ",dist:r.dist,level:r.level+"·"+r.sh,speed:r.speed,vo2:v>0?v:null,zone:v>0?zoneOf(v,s.age||age,s.sex||sex).g:""});
       s.tests.sort((a,b)=>a.d.localeCompare(b.d)); n++;
     });
     save(list);
+    if(o.quiet)return n;
     if(n){toast("✓ נשמרו "+n+" תוצאות למעקב (שמות אמיתיים בלבד)");go("stu");render();}
     else toast("אין תוצאות חדשות עם שם אמיתי — שנה שמות בלוח קודם");
   }
@@ -1051,7 +1056,6 @@ window.HMBootNew=function(){
   /* date on hero */
   $("#hx-date").textContent=new Date().toLocaleDateString(H_LOC(),{weekday:"long",day:"numeric",month:"long"});
   /* save-beep-to-tracking button */
-  const bt=$("#bt-toTrack"); if(bt)bt.addEventListener("click",window.STU.importFromBeep);
   const fb=$("#stu-fromBeep"); if(fb)fb.addEventListener("click",window.STU.importFromBeep);
   /* הגשר מרשימות הכיתה — רץ לבד בכל כניסה למסך, והכפתור הוא הדרך
      לבקש אותו במפורש ולראות מה קרה. */
