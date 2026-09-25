@@ -241,5 +241,18 @@ module.exports={title:"ניקוי: שאלות בתוך האפליקציה, בי�
     await undoBtn(page);
     const a=(await LSget(page,"stu.list")).find(s=>s.id==="a");
     ok(a&&a.grades["רבעון 1"].exams.x===90,"חזר עם הציונים");
+  }),
+
+  /* שמות שתוקנו: רשימת הענפים נשמרת במכשיר, ולכן היא מתעדכנת בטעינה —
+     אבל רק ענף שעדיין נושא את השם הישן. */
+  check("ענפי השיאים: «הקפצות כדורגל» ו«מבחן זריזות 4×10» גם במכשיר עם רשימה ישנה",
+    Object.assign({},base,{"rec.sports":[
+      {id:"juggle",em:"⚽",name:"הטחות כדורגל",unit:"נגיעות בדקה",yt:"ישן"},
+      {id:"shuttle",em:"↔️",name:"ריצת מעבורת 4×10",unit:"שניות"},
+      {id:"sprint",em:"⚡",name:"הספרינט שלי",unit:"שניות"}]}),async page=>{
+    await go(page,"rec",900);
+    const l=await LSget(page,"rec.sports");
+    eq(l.map(x=>x.name),["הקפצות כדורגל","מבחן זריזות 4×10","הספרינט שלי"],"שם שהמורה בחר נשאר");
+    ok(l[0].yt!=="ישן","וגם החיפוש ביוטיוב עודכן");
   })
 ]};

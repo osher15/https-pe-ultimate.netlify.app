@@ -4331,6 +4331,17 @@ const REC=(function(){
       });
       LS.set("rec.sports",list);
     }
+    /* שמות ענפים שתוקנו: «הטחות כדורגל» ← «הקפצות כדורגל», «ריצת מעבורת
+       4×10» ← «מבחן זריזות 4×10». הרשימה נשמרת במכשיר, ולכן מעדכנים כאן —
+       רק ענף שעדיין נושא את השם הישן (מורה ששינה אותו בעצמו — נשאר). */
+    const RENAMED={juggle:"הטחות כדורגל",shuttle:"ריצת מעבורת 4×10"};
+    let renamed=false;
+    list.forEach(sp=>{
+      if(!sp||RENAMED[sp.id]!==sp.name)return;
+      const d=defaults().find(x=>x.id===sp.id); if(!d)return;
+      sp.name=d.name; if(d.yt)sp.yt=d.yt; renamed=true;
+    });
+    if(renamed)LS.set("rec.sports",list);
     SPORTS=list;
     refs=Object.assign({},DEF_REFS,LS.get("rec.refs",{}));
     SPORTS.forEach(sp=>{ if(!refs[sp.id])refs[sp.id]={israel:0,world:0}; });
