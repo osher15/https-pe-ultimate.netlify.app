@@ -142,7 +142,7 @@ window.STU=(function(){
       <div class="card" style="padding:10px;margin:10px 0">${chart(s)}</div>
       ${s.tests.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>תאריך</th><th>מבחן</th><th>מרחק</th><th>שלב</th><th>VO₂max</th><th>אזור</th><th></th></tr></thead><tbody>
         ${s.tests.map((t,i)=>`<tr><td class="mono">${t.d}</td><td>${esc(t.type)}</td><td class="mono">${t.dist} מ׳</td><td class="mono">${t.level||"—"}</td><td class="mono">${t.vo2?t.vo2.toFixed(1):"—"}</td><td><span class="catpill" style="background:${zoneColor(t.zone)}">${esc(t.zone||"")}</span></td><td><button class="x tdel" data-i="${i}">✕</button></td></tr>`).join("")}
-      </tbody></table></div>`:'<div class="empty-state">אין עדיין מבחנים. אחרי ביפ טסט לחץ «שמור למעקב» בלוח התוצאות.</div>'}
+      </tbody></table></div>`:'<div class="empty-state">אין עדיין מבחנים. אחרי ביפ טסט לחץ «שמור לכיתה» בלוח התוצאות.</div>'}
       <div class="row" style="margin-top:13px;justify-content:space-between">
         <button class="btn sm acc" id="stu-fSave">💾 שמור פרטים</button>
         <div class="row">
@@ -170,12 +170,9 @@ window.STU=(function(){
        והמדידות שלו נשארות מקושרות למזהה ויחזרו אם יוסיפו אותו שוב. */
     $("#stu-fDel").addEventListener("click",()=>{
       const kept=(()=>{ try{ return LS.get("ft.results",[]).filter(r=>r&&r.sid===id).length; }catch(e){ return 0; } })();
-      const msg="להסיר את "+s.name+" מהרשימה?\n\n"+
-        (s.tests&&s.tests.length?("• "+s.tests.length+" מבחני ריצה שבכרטיס יימחקו.\n"):"")+
-        (kept?("• "+kept+" מדידות במבחני הכושר יישארו שמורות ויחזרו אם תוסיף אותו שוב.\n"):"");
-      if(!confirm(msg))return;
+      const back=H().snap(["stu.list"]);
       save(list.filter(x=>x.id!==id)); modal("stu-modal",false); render();
-      toast(kept?("הוסר מהרשימה · "+kept+" מדידות נשמרו"):"הוסר מהרשימה");
+      H().undo(kept?("הוסר מהרשימה · "+kept+" מדידות נשמרו"):"הוסר מהרשימה",()=>{ back(); render(); });
     });
     $("#stu-fCsv").addEventListener("click",()=>{
       const rows=[["תאריך","מבחן","מרחק (מ)","שלב","VO2max","אזור"]];
@@ -184,26 +181,33 @@ window.STU=(function(){
     });
     $$("#stu-mBody .tdel").forEach(b2=>b2.addEventListener("click",e=>{
       e.stopPropagation();
-      if(confirm("למחוק את הרישום?")){s.tests.splice(+b2.dataset.i,1);save(list);render();profile(id);}
+      const back=H().snap(["stu.list"]);
+      s.tests.splice(+b2.dataset.i,1);save(list);render();profile(id);
+      H().undo("הרישום נמחק",()=>{ back(); render(); profile(id); });
     }));
   }
-  function importFromBeep(){
+  /* opts.quiet — נקרא מ«שמור לכיתה» בביפ עצמו: בלי הודעה ובלי מעבר
+     מסך, רק הרישום בכרטיס התלמיד. opts.cls/cid — הכיתה שאליה נשמר,
+     כך שתלמיד חדש לא נוצר «בלי כיתה» כשהכיתה ידועה. */
+  function importFromBeep(opts){
+    const o=(opts&&typeof opts==="object"&&!opts.type)?opts:{};
     const {LS,toast,go}=H();
-    const res=LS.get("bt.results",[]); if(!res.length){toast("אין רישומים בלוח הביפ");return;}
+    const res=LS.get("bt.results",[]); if(!res.length){ if(!o.quiet)toast("אין רישומים בלוח הביפ"); return 0; }
     const age=LS.get("bt.age",14),sex=LS.get("bt.sex","boys");
     const list=load(); let n=0;
     res.forEach(r=>{
       if(!(r.dist>0))return;
       const nm=r.name.trim(); if(!nm||/^תלמיד \d+$/.test(nm))return;
-      let s=list.find(x=>x.name===nm);
+      let s=(o.cid&&list.find(x=>x.name===nm&&x.cid===o.cid))||list.find(x=>x.name===nm);
       /* לוח הביפ לא מכיר כיתה. תלמיד בלי כיתה הוא מצב חוקי: cid:null. */
-      if(!s){ s={id:window.HMDATA.uid("s"),name:nm,cls:"",cid:null,sex,age,h:null,w:null,tests:[]}; list.push(s); }
+      if(!s){ s={id:window.HMDATA.uid("s"),name:nm,cls:o.cls||"",cid:o.cid||null,sex,age,h:null,w:null,tests:[]}; list.push(s); }
       if(s.tests.some(t=>t.d===today()&&t.type==="ביפ"&&t.dist===r.dist))return;
       const v=vo2f(r.speed,s.age||age);
       s.tests.push({d:today(),type:"ביפ",dist:r.dist,level:r.level+"·"+r.sh,speed:r.speed,vo2:v>0?v:null,zone:v>0?zoneOf(v,s.age||age,s.sex||sex).g:""});
       s.tests.sort((a,b)=>a.d.localeCompare(b.d)); n++;
     });
     save(list);
+    if(o.quiet)return n;
     if(n){toast("✓ נשמרו "+n+" תוצאות למעקב (שמות אמיתיים בלבד)");go("stu");render();}
     else toast("אין תוצאות חדשות עם שם אמיתי — שנה שמות בלוח קודם");
   }
@@ -330,7 +334,7 @@ window.STU=(function(){
     $("#gr-classSel").innerHTML='<option value="">כל הכיתות</option>'+classes.map(c=>`<option value="${esc(c.cid)}" ${c.cid===grClsF?"selected":""}>${esc(c.name)}</option>`).join("");
     const periods=loadPeriods();
     if(!periods.includes(grPeriod))grPeriod=periods[0];
-    $("#gr-period").innerHTML=periods.map(p=>`<option ${p===grPeriod?"selected":""}>${esc(p)}</option>`).join("");
+    $("#gr-period").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===grPeriod?"selected":""}>${esc(p)}</option>`).join("");
     renderWeightsHint();
     const weights=loadWeights();
     const examCols=examColsFor(grPeriod);
@@ -399,33 +403,36 @@ window.STU=(function(){
     }));
     $$("#gr-table [data-examdel]").forEach(b=>b.addEventListener("click",()=>{
       const i=+b.dataset.examdel, name=examCols[i];
-      if(!confirm(`להסיר את עמודת «${name}»? ציוני התלמידים בעמודה הזו יימחקו.`))return;
+      const back=H().snap(["grades.examCols","stu.list"]);
       const cols=loadExamCols(); cols[grPeriod]=(cols[grPeriod]||[]).filter(c=>c!==name); saveExamCols(cols);
       list.forEach(s=>{ if(s.grades&&s.grades[grPeriod]&&s.grades[grPeriod].exams)delete s.grades[grPeriod].exams[name]; });
       save(list); renderGrades();
+      H().undo(`העמודה «${name}» הוסרה`,()=>{ back(); renderGrades(); });
     }));
   }
-  function addExamCol(){
+  async function addExamCol(){
+    const cols0=loadExamCols(), arr0=cols0[grPeriod]||[];
+    const name=await H().ask({fields:[{label:"שם עמודת המבחן:",value:"מבחן "+(arr0.length+1)}],ok:"＋ הוסף"});
     const cols=loadExamCols(); const arr=cols[grPeriod]=cols[grPeriod]||[];
-    const name=prompt("שם עמודת המבחן:","מבחן "+(arr.length+1));
     if(!name)return; const n=name.trim(); if(!n)return;
     if(arr.includes(n)){H().toast("כבר קיימת עמודה בשם הזה");return;}
     arr.push(n); saveExamCols(cols); renderGrades();
   }
-  function addPeriod(){
+  async function addPeriod(){
     const periods=loadPeriods();
-    const name=prompt("שם תקופת ההערכה החדשה:","רבעון "+(periods.length+1));
+    const name=await H().ask({fields:[{label:"שם תקופת ההערכה החדשה:",value:"רבעון "+(periods.length+1)}],ok:"＋ הוסף"});
     if(!name)return; const n=name.trim(); if(!n||periods.includes(n))return;
     periods.push(n); savePeriods(periods); grPeriod=n; renderGrades();
   }
   function delPeriod(){
     const periods=loadPeriods();
     if(periods.length<=1){H().toast("חייבת להישאר לפחות תקופה אחת");return;}
-    if(!confirm(`למחוק את «${grPeriod}»? כל הציונים שהוזנו בתקופה הזו יימחקו.`))return;
+    const back=H().snap(["grades.periods","grades.examCols","stu.list"]), was=grPeriod;
     const idx=periods.indexOf(grPeriod); periods.splice(idx,1); savePeriods(periods);
     const cols=loadExamCols(); delete cols[grPeriod]; saveExamCols(cols);
     const list=load(); list.forEach(s=>{ if(s.grades)delete s.grades[grPeriod]; }); save(list);
     grPeriod=periods[0]; renderGrades();
+    H().undo(`התקופה «${was}» נמחקה, עם הציונים שבה`,()=>{ back(); grPeriod=was; renderGrades(); },8000);
   }
   function exportGradesCsv(){
     const list=load().filter(s=>!grClsF||cidOf(s)===grClsF).sort((a,b)=>a.name.localeCompare(b.name,"he"));
@@ -535,7 +542,7 @@ window.STU=(function(){
   function renderPaForm(){
     const {$,esc}=H();
     const periods=loadPeriods();
-    $("#pa-period").innerHTML=periods.map(p=>`<option ${p===paDraft.period?"selected":""}>${esc(p)}</option>`).join("");
+    $("#pa-period").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===paDraft.period?"selected":""}>${esc(p)}</option>`).join("");
     $("#pa-task").value=paDraft.task;
     $("#pa-notes").value=paDraft.notes;
     renderPaStuUI(); renderPaPhoto(); renderPCritList();
@@ -568,7 +575,7 @@ window.STU=(function(){
     const {$,$$,esc}=H();
     const periods=loadPeriods();
     if(!periods.includes(paPeriodF))paPeriodF=periods.includes(grPeriod)?grPeriod:periods[0];
-    $("#pa-periodF").innerHTML=periods.map(p=>`<option ${p===paPeriodF?"selected":""}>${esc(p)}</option>`).join("");
+    $("#pa-periodF").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===paPeriodF?"selected":""}>${esc(p)}</option>`).join("");
     const crit=loadPCrit();
     const all=loadAssess().filter(a=>a.period===paPeriodF).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
     const stuList=load();
@@ -600,9 +607,10 @@ window.STU=(function(){
       $("#pa-task").scrollIntoView({behavior:"smooth",block:"start"});
     }));
     $$("#pa-list [data-padel]").forEach(b=>b.addEventListener("click",()=>{
-      if(!confirm("למחוק את ההערכה הזו?"))return;
-      saveAssess(loadAssess().filter(x=>x.id!==b.dataset.padel));
+      const was=loadAssess();
+      saveAssess(was.filter(x=>x.id!==b.dataset.padel));
       renderPaList();
+      H().undo("ההערכה נמחקה",()=>{ saveAssess(was); renderPaList(); });
     }));
   }
   function paApplyToGrades(){
@@ -747,7 +755,32 @@ window.STU=(function(){
     $("#pa-applyBtn").addEventListener("click",paApplyToGrades);
     render();
   }
-  return {init,importFromBeep,count:()=>load().length};
+  /* ============================================================
+     ממשק למרכז הכיתה
+     ------------------------------------------------------------
+     show — פותח את המסך על כיתה ולשונית (רשימה / ציונים / עמיתים),
+     כך שמורה שבא ממרכז הכיתה לא בוחר שוב כיתה בבורר.
+     summary — מה שמרכז הכיתה מציג בכרטיסים: כמה תלמידים, כמה עם
+     ציון סופי בתקופה, וכמה הערכות עמיתים נוגעות בכיתה.
+     ============================================================ */
+  function show(cid,tab){
+    clsF=cid||""; grClsF=cid||"";
+    H().go("stu");
+    const b=H().$('#view-stu .pf-tabs [data-st="'+(tab||"list")+'"]'); if(b)b.click();
+    render(); if(tab==="grades")renderGrades();
+  }
+  function summary(cid){
+    const periods=loadPeriods(), period=grPeriod||periods[0];
+    const w=loadWeights(), cols=examColsFor(period);
+    const l=load().filter(s=>cidOf(s)===cid);
+    const graded=l.filter(s=>computeFinal(s,period,w,cols).total!=null).length;
+    const ids=new Set(l.map(s=>s.id));
+    const peer=(loadAssess()||[]).filter(a=>(a.students||[]).some(id=>ids.has(id))).length;
+    return {total:l.length,period,graded,peer};
+  }
+  /* התקופה שנבחרה בלשונית הציונים — מדד הכושר נכתב אליה, ולא תמיד לראשונה */
+  return {init,importFromBeep,count:()=>load().length,show,summary,
+    period:()=>{ const p=loadPeriods(); return p.includes(grPeriod)?grPeriod:p[0]; }};
 })();
 
 /* LESSON — עבר לקובץ נפרד: hm-lesson.js (מחולל מערכים מורחב) */
@@ -773,27 +806,41 @@ window.NUT=(function(){
     {c:"myth",t:"שוברים מיתוס",tx:"דיאטות קיצוניות בגיל ההתבגרות פוגעות בגדילה ובביצועים. תלמיד שמדבר על צום/דיאטה חריפה — שווה שיחה שקטה והפניה ליועצת."}
   ];
   const CATS=[["all","הכל"],["before","לפני פעילות"],["after","אחרי פעילות"],["water","שתייה"],["food","צלחת ספורטאי"],["myth","שוברים מיתוס"]];
-  function daily(){ const d=new Date(); return TIPS[(d.getFullYear()*372+d.getMonth()*31+d.getDate())%TIPS.length]; }
+  /* העברית כאן היא ברירת המחדל; בשפות אחרות הטיפ נשלף מהמילון לפי
+     המיקום שלו ברשימה (nut.tip.N) והתווית לפי הקטגוריה (nut.c.X). */
+  const loc=i=>{ const t=TIPS[i], tr=H().t;
+    return {c:t.c,t:tr("nut.c."+t.c,t.t),tx:tr("nut.tip."+i,t.tx)}; };
+  const dayIdx=()=>{ const d=new Date(); return (d.getFullYear()*372+d.getMonth()*31+d.getDate())%TIPS.length; };
+  function daily(){ return loc(dayIdx()); }
+  let shown=null;   /* הטיפ שמוצג כרגע למעלה — כדי שהחלפת שפה תתרגם אותו ולא תגריל אחר */
+  function paintDaily(){
+    const {$, esc}=H(); const d=loc(shown);
+    $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(d.t)+" · </b>"+esc(d.tx);
+  }
+  function paintCats(){
+    const {$, $$, t}=H();
+    $("#nut-cats").innerHTML=CATS.map(([id,nm])=>`<button data-nc="${id}" class="${id===cat?"on":""}">${t("nut.c."+id,nm)}</button>`).join("");
+    $$("#nut-cats [data-nc]").forEach(b=>b.addEventListener("click",()=>{
+      cat=b.dataset.nc; $$("#nut-cats [data-nc]").forEach(x=>x.classList.toggle("on",x===b)); render();
+    }));
+  }
   function render(){
-    const {$, $$, esc}=H();
-    $("#nut-list").innerHTML=TIPS.filter(t=>cat==="all"||t.c===cat).map(t=>
+    const {$, esc}=H();
+    $("#nut-list").innerHTML=TIPS.map((_,i)=>loc(i)).filter(t=>cat==="all"||t.c===cat).map(t=>
       `<div class="nut-tip"><span class="catpill" style="background:var(--acc);color:#14152a">${esc(t.t)}</span><div>${esc(t.tx)}</div></div>`).join("");
   }
   function init(){
     if(inited)return; inited=true;
-    const {$, $$, esc, say}=H();
-    const d=daily();
-    $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(d.t)+" · </b>"+esc(d.tx);
+    const {$, say, voiceLoc}=H();
+    shown=dayIdx(); paintDaily();
     $("#nut-shuffle").addEventListener("click",()=>{
-      const t=TIPS[Math.floor(Math.random()*TIPS.length)];
-      $("#nut-dailyTxt").innerHTML="<b style='color:var(--acc)'>"+esc(t.t)+" · </b>"+esc(t.tx);
+      shown=Math.floor(Math.random()*TIPS.length); paintDaily();
     });
-    $("#nut-say").addEventListener("click",()=>{ say($("#nut-dailyTxt").textContent); });
-    $("#nut-cats").innerHTML=CATS.map(([id,nm])=>`<button data-nc="${id}" class="${id===cat?"on":""}">${nm}</button>`).join("");
-    $$("#nut-cats [data-nc]").forEach(b=>b.addEventListener("click",()=>{
-      cat=b.dataset.nc; $$("#nut-cats [data-nc]").forEach(x=>x.classList.toggle("on",x===b)); render();
-    }));
+    /* ההקראה בשפת הממשק — טיפ בערבית שמוקרא בקול עברי לא נגיש לאף אחד */
+    $("#nut-say").addEventListener("click",()=>{ say($("#nut-dailyTxt").textContent,voiceLoc()); });
+    paintCats();
     render();
+    document.addEventListener("i18n:change",()=>{ paintDaily(); paintCats(); render(); });
   }
   return {init,daily};
 })();
@@ -910,13 +957,12 @@ window.HMBootNew=function(){
     return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
   }
   function seedDemo(){
-    const cls="ט׳3", key="ט3", cid=window.HMDATA.classId(cls);
+    const cls="ט׳3", cid=window.HMDATA.classId(cls);
     /* כיתת ההדגמה נרשמת כמו כל כיתה אחרת — כדי שההדגמה תדגים את
        המודל האמיתי: מזהה על התלמיד, על המדידה וברישום. */
     try{ window.HMDATA.registerClass({get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},cls); }catch(e){}
     const kids=[["דן אבירם","boys"],["איתי כהן","boys"],["רון לוי","boys"],["עומר בר","boys"],
                 ["יהב שני","boys"],["ניר גל","boys"],["אלון מור","boys"],["גיא פרץ","boys"]];
-    LS.set("ft.roster",{[key]:kids.map((k,i)=>({id:"demo"+i,name:k[0],sex:k[1]}))});
     LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1]})));
     LS.set("ft.last",{grade:"ט",num:3,sort:"todo"});
     const day=n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
@@ -950,7 +996,7 @@ window.HMBootNew=function(){
   if(demoBtn)demoBtn.addEventListener("click",()=>{
     if(hasRealData()&&!demoOn()){
       toast("יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם");
-      alert("במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.");
+      H0.ask({msg:"במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.",alert:true,ok:"הבנתי"});
       return;
     }
     if(!demoOn())seedDemo();
@@ -961,23 +1007,23 @@ window.HMBootNew=function(){
     toast("🎬 מצב הדגמה — כיתה ט׳3 לדוגמה");
   });
   const dc=$("#demoClear");
-  if(dc)dc.addEventListener("click",()=>{
-    if(!confirm("למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים."))return;
+  if(dc)dc.addEventListener("click",async()=>{
+    if(!(await H0.ask({msg:"למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים.",danger:true,ok:"🗑 מחק"})))return;
     clearDemo(); toast("נתוני ההדגמה נמחקו"); setTimeout(()=>location.reload(),600);
   });
   paintDemoBar();
 
   /* מעבר למצב תלמיד מתוך האפליקציה (מוסרים את המכשיר לכיתה) */
   const handBtn=$("#rec-handBtn");
-  if(handBtn)handBtn.addEventListener("click",()=>{
-    if(!confirm("להעביר את המכשיר למצב תלמיד?\n\nהתלמידים יוכלו לצפות בשיאים ולשלוח שיא חדש בלבד.\nיציאה חזרה דורשת את קוד המורה."))return;
+  if(handBtn)handBtn.addEventListener("click",async()=>{
+    if(!(await H0.ask({msg:"להעביר את המכשיר למצב תלמיד?\n\nהתלמידים יוכלו לצפות בשיאים ולשלוח שיא חדש בלבד.\nיציאה חזרה דורשת את קוד המורה.",ok:"🔒 מצב תלמיד"})))return;
     H0.setRole("student"); H0.go("rec"); toast("🔒 מצב תלמיד פעיל");
   });
 
   /* יציאה ממצב תלמיד — דורשת קוד */
   const exitBtn=$("#roleExit");
-  if(exitBtn)exitBtn.addEventListener("click",()=>{
-    const p=prompt("קוד מורה ליציאה ממצב תלמיד:");
+  if(exitBtn)exitBtn.addEventListener("click",async()=>{
+    const p=await H0.ask({fields:[{label:"קוד מורה ליציאה ממצב תלמיד:",type:"password"}],ok:"🔓 יציאה"});
     if(p===null)return;
     if(codeSet()&&p===LS.get("rec.pass",null)){ H0.setRole("teacher"); H0.go("home"); toast("חזרת למצב מורה 👋"); }
     else toast("קוד שגוי");
@@ -994,36 +1040,30 @@ window.HMBootNew=function(){
     $("#hx-chPct").textContent=c.cur+" / "+c.target+" · "+p+"%";
     $("#hx-chBar").style.width=p+"%";
   }
-  $("#hx-chPlus").addEventListener("click",()=>{
-    const c=chGet(),n=parseFloat(prompt("כמה להוסיף לספירה?","10"));
+  $("#hx-chPlus").addEventListener("click",async()=>{
+    const v=await H0.ask({fields:[{label:"כמה להוסיף לספירה?",type:"number",value:"10"}],ok:"＋ הוסף"});
+    if(v===null)return;
+    const c=chGet(),n=parseFloat(v);
     if(isNaN(n))return; c.cur=Math.max(0,c.cur+n); LS.set("hx.ch",c); chRender();
     if(c.cur>=c.target){H().confetti(60);H().horn();toast("🏆 האתגר הושלם!");}
   });
-  $("#hx-chEdit").addEventListener("click",()=>{
+  $("#hx-chEdit").addEventListener("click",async()=>{
     const c=chGet();
-    const t=prompt("שם האתגר:",c.t); if(t===null)return;
-    const tg=parseFloat(prompt("יעד מספרי:",c.target)); if(isNaN(tg))return;
+    const v=await H0.ask({fields:[{k:"t",label:"שם האתגר:",value:c.t},{k:"tg",label:"יעד מספרי:",type:"number",value:c.target}],ok:"✓ אתגר חדש"});
+    if(v===null)return;
+    const t=v.t, tg=parseFloat(v.tg); if(isNaN(tg))return;
     LS.set("hx.ch",{t:t.trim()||c.t,target:tg,cur:0}); chRender(); toast("אתגר חדש יצא לדרך!");
   });
   chRender();
   /* nutrition line on home */
-  const d=window.NUT.daily();
-  $("#hx-nutTip").innerHTML="🥗 <b style='color:var(--acc)'>"+esc(d.t)+":</b> "+esc(d.tx);
+  const nutLine=()=>{ const d=window.NUT.daily();
+    $("#hx-nutTip").innerHTML="🥗 <b style='color:var(--acc)'>"+esc(d.t)+":</b> "+esc(d.tx); };
+  nutLine();
+  document.addEventListener("i18n:change",nutLine);
   /* date on hero */
   $("#hx-date").textContent=new Date().toLocaleDateString(H_LOC(),{weekday:"long",day:"numeric",month:"long"});
   /* save-beep-to-tracking button */
-  const bt=$("#bt-toTrack"); if(bt)bt.addEventListener("click",window.STU.importFromBeep);
   const fb=$("#stu-fromBeep"); if(fb)fb.addEventListener("click",window.STU.importFromBeep);
-  /* הגשר מרשימות הכיתה — רץ לבד בכל כניסה למסך, והכפתור הוא הדרך
-     לבקש אותו במפורש ולראות מה קרה. */
-  const fr=$("#stu-fromRoster");
-  if(fr)fr.addEventListener("click",()=>{
-    const r=H().syncStudents?H().syncStudents():{added:0,filled:0,classes:0};
-    H().toast(r.added?("✓ נוספו "+r.added+" תלמידים מ-"+r.classes+" כיתות")
-      :(r.filled?"✓ הושלמו פרטים לתלמידים שכבר היו כאן"
-        :"אין רשימות כיתה להביא מהן — העלה רשימה במבחני הכושר"));
-    if(window.STU&&window.STU.init)try{window.STU.init()}catch(e){}
-  });
   /* students count on home band */
   const sc=$("#qsStu"); if(sc)sc.textContent=window.STU.count();
 };

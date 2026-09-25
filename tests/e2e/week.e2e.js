@@ -187,7 +187,9 @@ module.exports={title:"טבלת מערכת השעות",tests:[
     ok(!/c:/.test(txt),"ולא מזהים פנימיים");
   }),
 
-  check("הדוגמה מגיעה גם לדף הבית",base,async page=>{
+  /* המערכת לדוגמה היא ראשון–חמישי. שעון קבוע על יום חמישי בבוקר —
+     אחרת הבדיקה נכשלת בכל שישי ושבת, בלי קשר לקוד. */
+  check("הדוגמה מגיעה גם לדף הבית",Object.assign({},base,{__now:"2026-09-24T07:30:00"}),async page=>{
     await openGrid(page);
     await page.evaluate(()=>{
       document.getElementById("sw-sample").click();

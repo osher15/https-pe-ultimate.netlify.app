@@ -116,14 +116,14 @@ module.exports={title:"סיום שיעור ומסך הכיתה",tests:[
       document.getElementById("end-go").click();
     });
     await page.waitForTimeout(800);
-    eq(await page.evaluate(()=>document.getElementById("clsModal").classList.contains("on")),true);
+    eq(await page.evaluate(()=>document.getElementById("view-cls").classList.contains("on")),true);
     ok(/ז׳2/.test(await page.evaluate(()=>document.getElementById("cls-title").textContent)));
   }),
 
   check("מסך הכיתה נפתח גם מדף הבית",withHist(1),async page=>{
     await page.evaluate(()=>document.querySelector("#hx-lastBody [data-cls]").click());
     await page.waitForTimeout(400);
-    eq(await page.evaluate(()=>document.getElementById("clsModal").classList.contains("on")),true);
+    eq(await page.evaluate(()=>document.getElementById("view-cls").classList.contains("on")),true);
   }),
 
   check("מסך הכיתה מראה מה קרה, לא רק שקרה",withHist(-1),async page=>{
@@ -173,8 +173,8 @@ module.exports={title:"סיום שיעור ומסך הכיתה",tests:[
     await page.waitForTimeout(400);
     const a=await page.evaluate(()=>window.HM.session.active());
     ok(a&&a.cid==="c:ז:2","השיעור נפתח על הכיתה של המסך");
-    eq(await page.evaluate(()=>document.getElementById("clsModal").classList.contains("on")),false,
-      "והחלון נסגר — לא נשארים בו כשמתחילים ללמד");
+    eq(await page.evaluate(()=>document.getElementById("view-cls").classList.contains("on")),false,
+      "ועוברים למצב שיעור — לא נשארים במרכז הכיתה כשמתחילים ללמד");
   }),
 
   check("כששיעור כבר פתוח, המסך אומר זאת במקום להציע לפתוח עוד אחד",base,async page=>{

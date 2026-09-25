@@ -102,7 +102,9 @@ module.exports={title:"רשימות הכיתה כמקור לתלמידים",test
     eq(list.find(s=>s.id==="a").sex,"boys","ומה שכן נקבע עובר כפי שהוא");
   }),
 
-  check("הכפתור במסך הריק מביא אותם ואומר כמה",
+  /* רשימה אחת (סכמה 5): אין יותר כפתור «קח מרשימות הכיתה». רשימה
+     ישנה שמופיעה אחרי העלייה (גיבוי ישן ששוחזר) מתקפלת מיד. */
+  check("רשימת כיתה ישנה שהופיעה אחרי העלייה מתקפלת מיד ל«התלמידים שלי»",
     Object.assign({},seed,{"ft.roster":{}}),async page=>{
     await openStu(page);
     const before=await page.evaluate(()=>({
@@ -110,17 +112,12 @@ module.exports={title:"רשימות הכיתה כמקור לתלמידים",test
       btn:!!document.getElementById("stu-fromRoster")
     }));
     eq(before.empty,"block","בלי רשימות המסך באמת ריק");
-    ok(before.btn,"ויש בו כפתור שמסביר מאיפה תלמידים מגיעים");
-    /* עכשיו מגיעות הרשימות — כמו מורה שהעלה אותן במבחני הכושר */
-    await page.evaluate(r=>{ window.HM.LS.set("ft.roster",r);
-      document.getElementById("stu-fromRoster").click(); },ROSTER);
-    await page.waitForTimeout(600);
+    eq(before.btn,false,"אין כפתור גשר — זו אותה רשימה");
+    await page.evaluate(r=>{ window.HM.LS.set("ft.roster",r); window.HM.syncStudents(); },ROSTER);
+    await page.waitForTimeout(300);
     const after=await page.evaluate(()=>({
-      n:window.HM.LS.get("stu.list",[]).length,
-      toast:(document.querySelector("#toast .t")||{}).textContent||""
-    }));
-    eq(after.n,5);
-    ok(/5/.test(after.toast),"ואומר מה קרה: "+after.toast);
+      n:window.HM.LS.get("stu.list",[]).length, old:window.HM.LS.get("ft.roster",null)}));
+    eq(after.n,5); eq(after.old,null,"והרשימה הישנה לא נשארת לצד");
   }),
 
   check("מדידה של תלמיד נשארת של הכיתה שלו",seed,async page=>{

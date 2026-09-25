@@ -264,20 +264,26 @@ window.TOOLS=(function(){
       H().LS.set("tools.scores",s); renderRub();
     }));
   }
-  function newRubric(presetIdx){
+  /* גיליון אחד: תבנית, שם וקריטריונים — במקום שלושה prompt() ברצף.
+     בחירת תבנית ממלאת את השם והקריטריונים, ואפשר לערוך לפני השמירה. */
+  async function newRubric(){
     const {toast}=H();
-    const p=PRESETS[presetIdx];
-    const name=prompt("שם המחוון:",p?p.name:"מחוון חדש");
-    if(!name)return;
-    let crit=p?p.crit.slice():[];
-    if(!p){
-      const txt=prompt("קריטריונים, אחד בכל שורה:","מיומנות\nמאמץ\nשיתוף פעולה\nבטיחות");
-      if(!txt)return;
-      crit=txt.split("\n").map(x=>x.trim()).filter(Boolean);
-    }
+    const EMPTY_CRIT="מיומנות\nמאמץ\nשיתוף פעולה\nבטיחות";
+    const p0=PRESETS[0];
+    const v=await H().ask({title:"📐 מחוון חדש",fields:[
+      {k:"tpl",label:"תבנית",type:"select",value:"0",
+        options:PRESETS.map((p,i)=>[String(i),p.name]).concat([["-1","מחוון ריק"]]),
+        onchange:(val,ins)=>{ const p=PRESETS[+val];
+          ins[1].value=p?p.name:"מחוון חדש"; ins[2].value=p?p.crit.join("\n"):EMPTY_CRIT; }},
+      {k:"name",label:"שם המחוון:",value:p0?p0.name:"מחוון חדש"},
+      {k:"crit",label:"קריטריונים, אחד בכל שורה:",type:"textarea",rows:5,value:p0?p0.crit.join("\n"):EMPTY_CRIT}
+    ],ok:"＋ צור מחוון"});
+    if(v===null)return;
+    const name=(v.name||"").trim()||"מחוון חדש";
+    const crit=String(v.crit||"").split("\n").map(x=>x.trim()).filter(Boolean);
     if(!crit.length){toast("צריך לפחות קריטריון אחד");return;}
     const list=RUB(), id="rb"+Date.now().toString(36);
-    list.push({id,name:name.trim(),crit});
+    list.push({id,name,crit});
     H().LS.set("tools.rubrics",list); curRub=id; renderRub(); toast("המחוון נוצר");
   }
   function rubCsv(){
@@ -305,7 +311,7 @@ window.TOOLS=(function(){
     const opts=v=>'<option value="">כל הכיתות</option>'+co.map(c=>`<option value="${esc(c.cid)}" ${c.cid===v?"selected":""}>${esc(c.name)}</option>`).join("");
     $("#tl-teamCls").innerHTML=opts(teamCls);
     $("#tl-pickCls").innerHTML=opts(pickCls);
-    $("#tl-attCls").innerHTML='<option value="">כל הכיתות</option>'+cs.map(c=>`<option ${c===attCls?"selected":""}>${esc(c)}</option>`).join("");
+    $("#tl-attCls").innerHTML='<option value="">כל הכיתות</option>'+cs.map(c=>`<option value="${esc(c)}" ${c===attCls?"selected":""}>${esc(c)}</option>`).join("");
     $("#tl-rubCls").innerHTML=opts(rubCls);
   }
   /* ============================================================
@@ -340,9 +346,11 @@ window.TOOLS=(function(){
     attDate=a.date||attDate;
     return !!hit;
   }
+  let skipCtx=false;   /* פתיחה ממרכז הכיתה: הכיתה שנבחרה שם גוברת על השיעור */
   function init(){
     const {$, $$}=H();
-    applyLessonCtx();
+    if(!skipCtx)applyLessonCtx();
+    skipCtx=false;
     if(inited){ fillClassSelects(); const d=H().$("#tl-attDate"); if(d)d.value=attDate;
       renderAtt(); renderRub(); renderPicked(); return; }
     inited=true;
@@ -377,21 +385,73 @@ window.TOOLS=(function(){
     $("#tl-rubSel").addEventListener("change",e=>{curRub=e.target.value;renderRub();});
     $("#tl-rubCls").addEventListener("change",e=>{rubCls=e.target.value;renderRub();});
     $("#tl-rubCsv").addEventListener("click",rubCsv);
-    $("#tl-rubNew").addEventListener("click",()=>{
-      const opts=PRESETS.map((p,i)=>`${i+1}. ${p.name}`).join("\n");
-      const c=prompt("בחר תבנית (מספר), או 0 למחוון ריק:\n\n"+opts,"1");
-      if(c===null)return;
-      newRubric(+c>0?+c-1:null);
-    });
+    $("#tl-rubNew").addEventListener("click",()=>newRubric());
     $("#tl-rubDel").addEventListener("click",()=>{
       if(!curRub)return;
-      if(!confirm("למחוק את המחוון והציונים שלו?"))return;
+      const back=H().snap(["tools.rubrics","tools.scores"]), was=curRub;
       H().LS.set("tools.rubrics",RUB().filter(r=>r.id!==curRub));
       const s=SC(); Object.keys(s).forEach(k=>{ if(k.startsWith(curRub+"|"))delete s[k]; });
-      H().LS.set("tools.scores",s); curRub=null; renderRub(); H().toast("נמחק");
+      H().LS.set("tools.scores",s); curRub=null; renderRub();
+      H().undo("המחוון נמחק, עם הציונים שלו",()=>{ back(); curRub=was; renderRub(); });
     });
     fillClassSelects(); renderAtt(); renderRub(); renderPicked();
   }
-  return {init};
+  /* ============================================================
+     ממשק למצב שיעור
+     ------------------------------------------------------------
+     האריחים של מצב שיעור פותחים לשונית מסוימת כאן, מציגים כמה
+     תלמידים כבר סומנו, ומסמנים «כולם נוכחים» בהקשה אחת — אותה
+     פעולה בדיוק של «✓ סמן את כולם», על כיתת השיעור ותאריכו.
+     ============================================================ */
+  function openTab(t){
+    const b=H().$('#tl-tabs [data-tt="'+t+'"]'); if(b)b.click();
+  }
+  /* {total, marked, cnt} לכיתת השיעור הפעיל, או null כשאין שיעור או כיתה */
+  function attStatus(){
+    const save={c:attCls,d:attDate};
+    try{
+      if(!applyLessonCtx())return null;
+      const pool=attPool(), rec=ATT()[attKey(attDate,attCls)]||{};
+      const cnt={p:0,h:0,e:0,a:0}; let marked=0;
+      pool.forEach(s=>{ const v=rec[s.id]; if(v){ cnt[v]=(cnt[v]||0)+1; marked++; } });
+      return {total:pool.length,marked,cnt};
+    }finally{ attCls=save.c; attDate=save.d; }
+  }
+  function markAllPresent(){
+    const save={c:attCls,d:attDate};
+    try{
+      if(!applyLessonCtx())return 0;
+      const l=attPool(), a=ATT(), key=attKey(attDate,attCls); a[key]=a[key]||{};
+      let n=0; l.forEach(s=>{ if(!a[key][s.id]){ a[key][s.id]="p"; n++; } });
+      H().LS.set("tools.att",a);
+      if(inited)renderAtt();
+      return n;
+    }finally{ attCls=save.c; attDate=save.d; }
+  }
+  /* פתיחה על כיתה ולשונית ממרכז הכיתה. הנוכחות ממופתחת לפי שם הכיתה,
+     ולכן בוחרים את התווית של אותה כיתה מתוך רשימת התלמידים. */
+  function show(cid,t){
+    teamCls=pickCls=rubCls=cid||"";
+    const lbl=cid?classesOf(students()).find(c=>cidOfLabel(c)===cid):"";
+    attCls=lbl||"";
+    skipCtx=true;
+    H().go("tools");
+    skipCtx=false;
+    if(inited){ fillClassSelects(); renderAtt(); renderRub(); renderPicked(); }
+    openTab(t||"att");
+  }
+  /* סיכום הנוכחות של כיתה: בכמה שיעורים סומנה, ואחוז ההשתתפות
+     (מלאה = 1, חלקית = חצי) — אותה נוסחה של דוח הנוכחות. */
+  function attSummaryFor(cid){
+    const all=ATT(); let days=0,p=0,h=0,marks=0;
+    Object.keys(all).forEach(k=>{
+      const c=k.slice(k.indexOf("|")+1);
+      if(!c||c==="all"||cidOfLabel(c)!==cid)return;
+      const rec=all[k]||{}, v=Object.values(rec); if(!v.length)return;
+      days++; v.forEach(x=>{ marks++; if(x==="p")p++; else if(x==="h")h++; });
+    });
+    return {days,pct:marks?Math.round((p+h*0.5)/marks*100):null};
+  }
+  return {init,openTab,attStatus,markAllPresent,show,attSummaryFor};
 })();
 })();

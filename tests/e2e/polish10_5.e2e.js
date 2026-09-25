@@ -47,7 +47,9 @@ module.exports={title:"שלב 10.5 — ליטוש ממוקד",tests:[
 
   check("גיבוי: הבחירה מוצפן/רגיל מוצגת לפני כפתור הגיבוי, לא אחריו",empty,async page=>{
     const order=await page.evaluate(()=>{
-      const card=document.getElementById("set-clsCard").previousElementSibling; // bk-card
+      /* כרטיס הגיבוי עצמו — עבר למקטע «גיבוי וסנכרון», ולכן מוצאים אותו
+         מתוך הכפתור ולא לפי מיקום יחסי לכרטיס אחר */
+      const card=document.getElementById("set-bkExport").closest(".bk-card");
       const all=[...card.querySelectorAll("*")];
       return {encIdx:all.findIndex(x=>x.id==="set-bkEnc"),expIdx:all.findIndex(x=>x.id==="set-bkExport")};
     });
@@ -116,12 +118,18 @@ module.exports={title:"שלב 10.5 — ליטוש ממוקד",tests:[
     eq(await page.evaluate(()=>document.getElementById("toastT").textContent),"Settings saved");
   }),
 
-  check("מבחני כושר לא נגעו: הלשוניות נשארות עברית בעקביות בכל שפה — אין תרגום חלקי",withStudent,async page=>{
+  /* עד שלב 15 הלשוניות נשארו עברית בכוונה. מאז שהכותרות המקצועיות
+     מתורגמות דרך מילון המונחים, העקביות נבדקת בכיוון ההפוך: כולן
+     מתורגמות, אף אחת לא נשארת חצי־עברית. */
+  check("מבחני כושר: כל הלשוניות מתורגמות בעקביות — אין תרגום חלקי",withStudent,async page=>{
     await switchLang(page,"en");
     await go(page,"ft");
     const tabs=await page.evaluate(()=>[...document.querySelectorAll("#ft-tabs button")].map(b=>b.textContent));
-    ok(tabs.every(t=>/[֐-׿]/.test(t)),"כל הלשוניות עדיין בעברית — התקבל: "+tabs.join(" | "));
-    ok(tabs.some(t=>t.indexOf("מה חסר לכיתה")>=0),"כולל הלשונית החדשה משלב 10 — אותה עקביות בדיוק");
+    ok(tabs.every(t=>!/[֐-׿]/.test(t)),"אף לשונית לא נשארה בעברית — התקבל: "+tabs.join(" | "));
+    ok(tabs.some(t=>t.indexOf("What the class is missing")>=0),"כולל הלשונית משלב 10 — אותה עקביות בדיוק");
+    await switchLang(page,"he");
+    const he=await page.evaluate(()=>[...document.querySelectorAll("#ft-tabs button")].map(b=>b.textContent));
+    ok(he.some(t=>t.indexOf("מה חסר לכיתה")>=0),"וחזרה לעברית מחזירה את המקור");
   })
 
 ]};

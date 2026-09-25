@@ -188,21 +188,20 @@ window.FT=(function(){
   /* ---------- אחסון ---------- */
   const allRes =()=>LS().get("ft.results",[]);
   const setRes =r=>LS().set("ft.results",r);
-  const rosters=()=>LS().get("ft.roster",{});
-  const setRosters=r=>LS().set("ft.roster",r);
-
-  /* רשימת הכיתה: מה שהמודול מכיר, ואם ריק — מייבא מ«התלמידים שלי» */
+  /* רשימת הכיתה היא «התלמידים שלי» (סכמה 5, ראו DATA.classRoster):
+     מבט על stu.list לפי זהות הכיתה. roster() מחזיר עותקים, ו-setRoster()
+     מחיל את ההבדל — הוספה, שם, מין והסרה — על הרשימה האחת. */
   function roster(c){
-    const all=rosters(), k=clsKey(c);
-    if(Array.isArray(all[k]))return all[k];
-    return [];
+    return DATA.classRoster(clsStore,LS().get("stu.list",[]),cidOf(c));
   }
   function setRoster(c,list){
-    const all=rosters(); all[clsKey(c)]=list; setRosters(all);
     /* כיתה נכנסת לרישום ברגע שיש לה רשימה — זאת הנקודה היחידה שבה
        כיתה «נוצרת» בפועל. registerClass לא כותב אם היא כבר רשומה,
        ולכן זה לא מייקר שמירה חוזרת. */
     registerCls(c);
+    const r=DATA.applyRoster(clsStore,LS().get("stu.list",[]),cidOf(c),disp(c),list);
+    if(r.added||r.removed||r.changed)LS().set("stu.list",r.list);
+    return r;
   }
   /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. */
   const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
@@ -220,14 +219,6 @@ window.FT=(function(){
   /* מייבא מ«התלמידים שלי» את תלמידי הכיתה — לפי זהות הכיתה (cid), ולא
      לפי שם; והמיזוג לרשימה לפי מזהה תלמיד, כך ששני «דן כהן» עם שני
      sid נשארים שניים (ראו DATA.mergeRoster). */
-  function importFromStu(c){
-    const stu=LS().get("stu.list",[]);
-    const cid=cidOf(c);
-    const hits=stu.filter(s=>s&&cid&&DATA.cidOfStudent(s,clsStore)===cid);
-    if(!hits.length)return 0;
-    const m=DATA.mergeRoster(roster(c),hits);
-    setRoster(c,m.list); return m.added;
-  }
 
   /* ============================================================
      זהות תלמיד
@@ -306,6 +297,30 @@ window.FT=(function(){
     const t=attempts(c,testId,who).filter(r=>r.d===today());
     return t.length?t[t.length-1]:null;
   }
+  /* מבחן כושר ↔ ענף שיאים באותה יחידה ובאותו כיוון */
+  const REC_OF={r60:"sprint",shut4x10:"shuttle",push60:"push",situp:"sit",sq60:"squat",
+    jr60:"rope",burp:"burpee",ljump:"ljump",vjump:"hjump"};
+  const recTm={}, recSeen={};
+  /* «להגיש כשיא?» — בהשהיה, כי מונה חזרות נשמר בכל הקשה: מציעים פעם
+     אחת כשהספירה נעצרה, ושוב רק אם התוצאה השתפרה מאז ההצעה. */
+  function recOffer(c,testId,stud){
+    const spId=REC_OF[testId];
+    if(!spId||!window.REC||!window.REC.beats||(H().isStudent&&H().isStudent()))return;
+    const k=testId+"|"+(DATA.studentKey(stud)||stud.name)+"|"+today();
+    clearTimeout(recTm[k]);
+    recTm[k]=setTimeout(async()=>{
+      const T=testById(testId);
+      const b=bestOf(T,attempts(c,testId,stud).filter(r=>r.d===today()));
+      if(!b)return;
+      if(recSeen[k]!=null&&!better(T,b.val,recSeen[k]))return;
+      let hit=null; try{ hit=await window.REC.beats(spId,b.val); }catch(e){}
+      if(!hit)return;
+      recSeen[k]=b.val;
+      H().actToast("🏆 "+stud.name+" · "+fmtVal(T,b.val)+" "+(window.I18N?window.I18N.tr(T.unit):T.unit)+" — "+H().t("ft.recBeat","מעל שיא בית הספר"),
+        H().t("ft.recSubmit","להגיש כשיא?"),
+        ()=>window.REC.submitFromFt({sport:spId,name:stud.name,cls:disp(c),value:b.val}),10000);
+    },1500);
+  }
   function saveVal(c,testId,stud,val,fresh){
     const T=testById(testId); if(!T||!(val>0))return;
     const rs=allRes();
@@ -329,6 +344,7 @@ window.FT=(function(){
       val:+(+val).toFixed(2),unit:T.unit};
     if(i>=0)rs[i]=rec; else rs.push(rec);
     setRes(rs);
+    recOffer(c,testId,stud);
   }
   function delAttempt(id){ setRes(allRes().filter(r=>r.id!==id)); }
   function clearVal(c,testId,who){
@@ -526,37 +542,43 @@ window.FT=(function(){
       </div>
       <div class="hint" style="margin-top:8px">${esc(T.hint)}</div>`;
 
-    /* --- הכלי: שעון או ספירה לאחור --- */
-    $("#ft-tool").innerHTML=
+    /* --- הכלי: שעון או ספירה לאחור ---
+       השעון וכפתור ההפעלה יושבים בסרגל דביק בתחתית, באזור האגודל.
+       קודם הם היו מעל הרשימה ונגללו מהמסך — עם שלושים תלמידים המורה
+       קלט זמנים בלי לראות את השעון ובלי גישה לעצירה. ההסבר ובורר
+       ההקפות נשארים למעלה: קוראים אותם פעם אחת, לא בכל קליטה. */
+    const cdLbl=T.dur?(T.dur>=60?Math.floor(T.dur/60)+":"+String(T.dur%60).padStart(2,"0"):"0:"+String(T.dur).padStart(2,"0")):"";
+    $("#ft-toolInfo").innerHTML=
       T.kind==="clock"
-      ? `<div class="ft-clock" id="ft-clockBox">
-           <div class="tm" id="ft-clockTm">0:00.00</div>
-           <div class="row" style="gap:9px;justify-content:center;margin-top:10px">
-             <button class="btn acc big" id="ft-clkGo" style="width:auto;flex:1">▶ הפעל</button>
-             <button class="btn stop" id="ft-clkStop" disabled>⏹ עצור</button>
-             <button class="btn ghost" id="ft-clkReset">↺</button>
-           </div>
-           ${T.dir==="low"?`<div class="row" style="justify-content:center;align-items:center;gap:9px;margin-top:11px">
+      ? `<div class="ft-toolinfo">
+           ${T.dir==="low"?`<div class="row" style="align-items:center;gap:9px">
              <span class="hint">מספר הקפות לכל רץ</span>
              <div class="ft-lapsel" id="ft-lapSel">${[1,2,3,4,5].map(n=>
                `<button data-lp="${n}" class="${lapsFor(T.id)===n?"on":""}">${n}</button>`).join("")}</div>
            </div>`:""}
-           <div class="hint" style="margin-top:8px;text-align:center">
+           <div class="hint">
              ${T.dir==="low"
                ? (lapsFor(T.id)>1
                   ? "הקש על שם התלמיד בכל מעבר. ההקפה האחרונה היא הסיום."
                   : "הקש על שם התלמיד ברגע שהוא חוצה את הקו")
                : "הקש על שם התלמיד ברגע שהוא מפסיק"} — הזמן נרשם אוטומטית.</div>
-         </div>
-         <div id="ft-splits"></div>`
+         </div>`
       : T.dur
-      ? `<div class="ft-clock" id="ft-cdBox">
-           <div class="tm" id="ft-cdTm">${T.dur>=60?Math.floor(T.dur/60)+":"+String(T.dur%60).padStart(2,"0"):"0:"+String(T.dur).padStart(2,"0")}</div>
-           <div class="row" style="gap:9px;justify-content:center;margin-top:10px">
-             <button class="btn acc big" id="ft-cdGo" style="width:auto;flex:1">▶ הפעל ${T.dur>=60?Math.round(T.dur/60)+" דקות":T.dur+" שניות"}</button>
-             <button class="btn stop" id="ft-cdStop" disabled>⏹</button>
-           </div>
-           <div class="hint" style="margin-top:8px;text-align:center">צפירה בסיום. ספור עם הכפתורים בשורה של כל תלמיד.</div>
+      ? `<div class="ft-toolinfo"><div class="hint">צפירה בסיום. ספור עם הכפתורים בשורה של כל תלמיד.</div></div>`
+      : "";
+    $("#ft-tool").innerHTML=
+      T.kind==="clock"
+      ? `<div class="ft-clock ft-dock" id="ft-clockBox">
+           <div class="tm" id="ft-clockTm">0:00.00</div>
+           <button class="btn acc" id="ft-clkGo">▶ הפעל</button>
+           <button class="btn stop" id="ft-clkStop" disabled>⏹</button>
+           <button class="btn ghost" id="ft-clkReset" aria-label="איפוס">↺</button>
+         </div>`
+      : T.dur
+      ? `<div class="ft-clock ft-dock" id="ft-cdBox">
+           <div class="tm" id="ft-cdTm">${cdLbl}</div>
+           <button class="btn acc" id="ft-cdGo">▶ ${T.dur>=60?Math.round(T.dur/60)+" דקות":T.dur+" שניות"}</button>
+           <button class="btn stop" id="ft-cdStop" disabled>⏹</button>
          </div>`
       : "";
 
@@ -857,8 +879,9 @@ window.FT=(function(){
           <div class="d">${fmtVal(T,first.val)} ← ${fmtVal(T,last.val)}</div></div>`;})():""}`;
     H().modal("ft-histModal");
     $$("#ft-histBody [data-rm]").forEach(b=>b.addEventListener("click",()=>{
-      if(!confirm("למחוק את הניסיון הזה?"))return;
+      const was=allRes();
       delAttempt(b.dataset.rm); openHist(key); renderRun();
+      H().undo("הניסיון נמחק",()=>{ setRes(was); openHist(key); renderRun(); });
     }));
   }
 
@@ -981,8 +1004,16 @@ window.FT=(function(){
 
     on("#ft-clkGo","click",startClock);
     on("#ft-clkStop","click",()=>stopClock(false));
-    on("#ft-clkReset","click",()=>{ if(clk.paused===0||confirm("לאפס את השעון? התוצאות שנרשמו נשמרות."))
-      {lapRun={};resetClock();renderSplits();} });
+    /* איפוס מיידי; «בטל» מחזיר את השעון (מושהה) ואת ההקפות של המקצה */
+    on("#ft-clkReset","click",()=>{
+      const el=elapsed(), laps=lapRun;
+      lapRun={}; resetClock(); renderSplits();
+      if(el>0)H().undo("השעון אופס · התוצאות שנרשמו נשמרו",()=>{ if(clk.on)return;
+        clk.paused=el; lapRun=laps;
+        const m=Math.floor(el/60), sec=el-m*60, tm=H().$("#ft-clockTm");
+        if(tm)tm.textContent=m+":"+(sec<10?"0":"")+sec.toFixed(2);
+        renderSplits(); });
+    });
     $$("#ft-lapSel button").forEach(b=>b.addEventListener("click",()=>{
       setLapsFor(T.id,+b.dataset.lp); lapRun={}; renderRun(); }));
     on("#ft-cdGo","click",()=>startCd(T.dur));
@@ -990,7 +1021,9 @@ window.FT=(function(){
 
     /* קליטת זמן — הפעולה המרכזית בזמן מקצה */
     $$("#ft-list [data-cap]").forEach(b=>b.addEventListener("click",()=>{
-      if(!clk.on&&clk.paused===0){H().toast("הפעל קודם את השעון");return;}
+      /* שעון עצור אינו קולט: קליטה אחרי «עצור» רשמה בשקט את הזמן הקפוא,
+         ובמבחני החזקה זו הייתה «התוצאה הטובה» החדשה של התלמיד. */
+      if(!clk.on){H().toast(clk.paused?"השעון עצור — ▶ ממשיך אותו":"הפעל קודם את השעון");return;}
       const k=b.dataset.cap, s=studByKey(c,k), nm=s.name;
       const need=T.dir==="low"?lapsFor(T.id):1;
       const t=elapsed();
@@ -1064,9 +1097,15 @@ window.FT=(function(){
       });
     });
     /* הזנת מדידה */
+    /* Enter עובר לתלמיד הבא — כמו במונה. בכיתה של שלושים זה ההבדל בין
+       הזנה שוטפת לבין חיפוש השדה הבא בכל פעם. */
     $$("#ft-list [data-val]").forEach(inp=>inp.addEventListener("keydown",e=>{
       if(e.key!=="Enter")return;
-      e.preventDefault(); inp.blur();
+      e.preventDefault();
+      const all=[...document.querySelectorAll("#ft-list [data-cnt],#ft-list [data-val]")];
+      const nx=all[all.indexOf(inp)+1];
+      inp.dispatchEvent(new Event("change",{bubbles:true}));
+      if(nx){ nx.focus(); try{ nx.select(); }catch(e2){} } else inp.blur();
     }));
     $$("#ft-list [data-val]").forEach(inp=>inp.addEventListener("change",()=>{
       const k=inp.dataset.val, v=+inp.value;
@@ -1074,15 +1113,19 @@ window.FT=(function(){
       const fresh=!!pendingNew[k];
       if(v>0){ saveVal(c,T.id,s,v,fresh); delete pendingNew[k]; }
       else { const cur=openAttempt(c,T.id,s); if(cur)delAttempt(cur.id); }
-      renderRun();
+      /* השורה מתעדכנת במקומה: מיון מחדש באמצע ההזנה הזיז את השורה
+         מתחת לאצבע ברגע שהוקלדה. המיון קורה כשבוחרים אותו במפורש. */
+      refreshRow(k);
     }));
     $$("#ft-list [data-del]").forEach(b=>b.addEventListener("click",()=>{
       const k=b.dataset.del, s=studByKey(c,k);
-      if(!confirm("למחוק את כל הניסיונות של "+s.name+" היום? ניסיונות מתאריכים קודמים נשמרים."))return;
+      const was=allRes(), wasLap=lapRun[k];
       delete lapRun[k];
       clearVal(c,T.id,s); refreshRow(k); renderSplits();
       const inp=document.querySelector('#ft-list [data-val="'+CSS.escape(k)+'"]');
       if(inp)inp.value="";
+      H().undo("הניסיונות של היום נמחקו · ניסיונות מתאריכים קודמים נשמרים",()=>{
+        setRes(was); if(wasLap)lapRun[k]=wasLap; renderRun(); });
     }));
   }
   function bump(key,d){
@@ -1099,8 +1142,8 @@ window.FT=(function(){
   /* ============================================================
      6. ניהול רשימת הכיתה
      ============================================================ */
-  function addOne(){
-    const nm=prompt("שם התלמיד:","");
+  async function addOne(){
+    const nm=await H().ask({fields:[{label:"שם התלמיד:",value:""}],ok:"＋ הוסף"});
     if(!nm||!nm.trim())return;
     const c=cls(), list=roster(c);
     if(list.some(x=>x.name===nm.trim())){H().toast("השם כבר ברשימה");return;}
@@ -1113,12 +1156,6 @@ window.FT=(function(){
     renderRosterList();
     H().modal("ft-rosModal");
     $("#ft-rosFile").onclick=()=>{ H().modal("ft-rosModal",false); openImport(); };
-    $("#ft-rosImport").onclick=()=>{
-      const n=importFromStu(c);
-      if(n)H().toast("יובאו "+n+" תלמידים מ«התלמידים שלי»");
-      else H().toast("לא נמצאו תלמידים עם הכיתה «"+disp(c)+"» ב«התלמידים שלי»");
-      renderRosterList();
-    };
     $("#ft-rosPaste").onclick=()=>{
       const txt=$("#ft-rosBulk").value;
       const lines=txt.split(/\r?\n/).map(l=>l.split(",")[0].trim()).filter(Boolean);
@@ -1140,13 +1177,15 @@ window.FT=(function(){
          <button data-sx="girls" data-n="${esc(k)}" class="${s.sex==="girls"?"on":""}">בת</button>
        </div>
        <button class="btn sm stop" data-rd="${esc(k)}">✕</button></div>`;}).join("")
-      : '<div class="hint">הרשימה ריקה. ייבא מ«התלמידים שלי», או הדבק שמות למטה.</div>';
+      : '<div class="hint">הרשימה ריקה. הדבק שמות למטה, או ייבא קובץ מהמערכת הבית ספרית.</div>';
     $("#ft-rosCount").textContent=list.length?list.length+" תלמידים":"";
     $$("#ft-rosList [data-rd]").forEach(b=>b.addEventListener("click",()=>{
-      /* המחיקה מסירה את התלמיד מהרשימה בלבד. המדידות שלו נשארות
-         בקובץ עם המזהה שלהן — מורה שמסיר תלמיד בטעות ומחזיר אותו
-         מקבל בחזרה את כל ההיסטוריה. */
+      /* רשימה אחת: הסרה מהכיתה היא הסרה מ«התלמידים שלי». המדידות
+         נשארות בקובץ עם המזהה שלהן, ו«↩ בטל» מחזיר את התלמיד כמו
+         שהיה — עם הציונים, הנוכחות וכל ההיסטוריה. */
+      const back=H().snap(["stu.list"]);
       setRoster(c,roster(c).filter(x=>refKey(x)!==b.dataset.rd)); renderRosterList();
+      H().undo("הוסר מהרשימה",()=>{ back(); renderRosterList(); renderTab(); });
     }));
     /* המין דרוש לניקוד — נורמות כושר נפרדות לבנים ולבנות */
     $$("#ft-rosList [data-sx]").forEach(b=>b.addEventListener("click",()=>{
@@ -1410,42 +1449,29 @@ window.FT=(function(){
   function impApply(){
     const built=impBuild().filter(x=>x.ok);
     if(!built.length){H().toast("אין שורות לייבוא");return;}
-    const alsoStu=H().$("#ft-impStu").checked;
-    const all=rosters(); let added=0,updated=0;
-    /* מזהה אחד לכל תלמיד שנוצר בייבוא הזה.
-       עד עכשיו אותו ילד נכנס פעמיים — פעם לרשימת הכיתה עם מזהה
-       «f…» ופעם ל«התלמידים שלי» עם מזהה «s…» — וכך נוצרו שתי
-       זהויות לאדם אחד כבר ברגע הייבוא. */
+    let added=0,updated=0;
+    /* מזהה אחד לכל תלמיד שנוצר בייבוא הזה — שם + כיתה, כך ששורה כפולה
+       בקובץ לא יוצרת שני תלמידים. */
     const newId={};
     const idFor=x=>{
       const k=clsKey(x.cls)+"|"+x.name;
       return (newId[k]=newId[k]||DATA.uid("f"));
     };
-    built.forEach(x=>{
-      const k=clsKey(x.cls);
-      const list=Array.isArray(all[k])?all[k]:(all[k]=[]);
-      const ex=list.find(y=>y.name===x.name);
-      if(ex){ if(x.sex&&ex.sex!==x.sex){ex.sex=x.sex;updated++;} newId[k+"|"+x.name]=ex.id; }
-      else { list.push({id:idFor(x),name:x.name,sex:x.sex||null}); added++; }
-      registerCls(x.cls);
-    });
-    setRosters(all);
-    let stuAdded=0;
-    if(alsoStu){
-      const stu=LS().get("stu.list",[]);
-      built.forEach(x=>{
-        /* התאמה לפי שם + זהות כיתה. «דן כהן» מט׳3 ו«דן כהן» מי׳1 הם
-           שני תלמידים; תלמיד באותו שם בלי כיתה מאמץ את הכיתה. */
-        const xc=cidOf(x.cls);
-        let s=DATA.findStudent(stu,x.name,xc,clsStore);
-        if(!s){ stu.push({id:idFor(x),name:x.name,cls:x.cls,cid:xc,
-          sex:x.sex||"boys",age:14,h:null,w:null,tests:[]}); stuAdded++; }
-        else { if(!s.cls){s.cls=x.cls; s.cid=xc; if(s.cidAmbig)delete s.cidAmbig;} if(x.sex)s.sex=x.sex; }
+    /* כיתה אחרי כיתה, דרך אותה רשימה אחת */
+    const byCls={};
+    built.forEach(x=>{ (byCls[x.cls]=byCls[x.cls]||[]).push(x); });
+    Object.keys(byCls).forEach(c0=>{
+      registerCls(c0);
+      const list=roster(c0);
+      byCls[c0].forEach(x=>{
+        const ex=list.find(y=>y.name===x.name);
+        if(ex){ if(x.sex&&ex.sex!==x.sex){ex.sex=x.sex;updated++;} }
+        else { list.push({id:idFor(x),name:x.name,sex:x.sex||null}); added++; }
       });
-      LS().set("stu.list",stu);
-    }
+      setRoster(c0,list);
+    });
     H().modal("ft-impModal",false);
-    H().toast(`✓ ${added} תלמידים חדשים · ${updated} עודכן מין`+(alsoStu?` · ${stuAdded} נוספו ל«התלמידים שלי»`:""));
+    H().toast(`✓ ${added} תלמידים חדשים · ${updated} עודכן מין`);
     renderTab();
   }
 
@@ -1831,12 +1857,17 @@ window.FT=(function(){
 
   /* כתיבת המדד לעמודת «מדד כושר» בלשונית הציונים */
   const IDX_COL="מדד כושר";
-  function sendToGrades(rows){
+  async function sendToGrades(rows){
     const scored=rows.filter(r=>r.idx!=null);
     if(!scored.length){H().toast("אין עדיין מדד לאף תלמיד בכיתה הזו");return;}
-    const periods=LS().get("grades.periods",["רבעון 1"]);
-    const period=periods[0];
-    if(!confirm(`לכתוב את המדד של ${scored.length} תלמידים לעמודת «${IDX_COL}» בתקופה «${period}»?`))return;
+    const p0=LS().get("grades.periods",null);
+    const periods=(Array.isArray(p0)&&p0.length)?p0:["רבעון 1"];
+    /* עד עכשיו המדד נכתב תמיד לתקופה הראשונה, גם כשהמורה עבד בציונים
+       על רבעון 3. ברירת המחדל היא התקופה שנבחרה שם, ואפשר לבחור אחרת. */
+    const cur=(window.STU&&window.STU.period&&window.STU.period())||periods[0];
+    const period=await H().ask({msg:`לכתוב את המדד של ${scored.length} תלמידים לעמודת «${IDX_COL}»?`,
+      fields:[{label:"תקופה",type:"select",options:periods.map(p=>[p,p]),value:periods.includes(cur)?cur:periods[0]}],ok:"✓ כתוב לציונים"});
+    if(period===null)return;
     const cols=LS().get("grades.examCols",{});
     const arr=cols[period]=cols[period]||[];
     if(!arr.includes(IDX_COL)){arr.push(IDX_COL);LS().set("grades.examCols",cols);}
@@ -1994,7 +2025,11 @@ window.FT=(function(){
         H().modal("ft-normsModal",false); H().toast("✓ טבלת הנורמה נשמרה"); renderIndex();
       }catch(e){ H().toast("שורה לא תקינה: "+e.message); }
     };
-    $("#ft-nClear").onclick=()=>{ if(confirm("למחוק את כל טבלת הנורמה?")){setNorms(NORM_EMPTY);H().modal("ft-normsModal",false);renderIndex();} };
+    $("#ft-nClear").onclick=()=>{
+      const back=H().snap(["ft.norms","ft.normArchive"]);
+      setNorms(NORM_EMPTY); H().modal("ft-normsModal",false); renderIndex();
+      H().undo("טבלת הנורמה נמחקה",()=>{ back(); renderIndex(); });
+    };
     /* --- עורך הבסיס --- */
     let baseSex="boys";
     const paintBase=()=>{
@@ -2018,12 +2053,13 @@ window.FT=(function(){
        של המין הנבחר לטבלה שבקוד — הבנות נשארות ריקות בכוונה. */
     $("#ft-bReset").onclick=()=>{
       const lbl=baseSex==="boys"?"בנים":"בנות";
-      if(!confirm("להחזיר את הבסיס של "+lbl+" לברירת המחדל? שינויים שהזנת בו יימחקו."))return;
+      const back=H().snap(["ft.schoolBase","ft.schoolPct"]);
       const all=baseAll();
       if(baseSex==="boys"){ all.boys={}; Object.keys(SCHOOL_BASE).forEach(t=>all.boys[t]=SCHOOL_BASE[t].pts.map(x=>x.slice())); }
       else all.girls={};
       baseSet(all); setStepPct(SCHOOL_PCT_DEF); $("#ft-bPct").value=SCHOOL_PCT_DEF;
-      paintBase(); renderIndex(); H().toast("✓ הבסיס של "+lbl+" הוחזר לברירת המחדל");
+      paintBase(); renderIndex();
+      H().undo("✓ הבסיס של "+lbl+" הוחזר לברירת המחדל",()=>{ back(); $("#ft-bPct").value=stepPct(); paintBase(); renderIndex(); });
     };
     $("#ft-nPreset").onclick=()=>{
       setStepPct(Math.max(0,+$("#ft-bPct").value||SCHOOL_PCT_DEF));
@@ -2263,12 +2299,12 @@ window.FT=(function(){
       /* תלמיד בלי מזהה יציב אינו יעד חוקי — שיוך אליו רק היה מחליף
          דו-משמעות אחת באחרת. */
       if(!sid){ H().toast("לתלמיד הזה אין עדיין מזהה יציב"); return; }
-      if(!confirm("לשייך "+g.ids.length+" מדידות ל"+stud.name+"?"))return;
+      const was=allRes();
       const res=DATA.resolveAmbiguous(allRes(),g.ids,sid);
       if(!res.ok){ H().toast("לא בוצע שיוך"); return; }
       setRes(res.rows);
       H().modal("ft-ambModal",false);
-      H().toast("✓ "+res.changed+" מדידות שויכו ל"+stud.name);
+      H().undo("✓ "+res.changed+" מדידות שויכו ל"+stud.name,()=>{ setRes(was); });
       renderAmb(); renderPicker();
     }));
     H().modal("ft-ambModal",true);
@@ -2320,13 +2356,42 @@ window.FT=(function(){
     else renderPicker();
   }
 
+  /* ============================================================
+     הכיתה של השיעור הפעיל
+     ------------------------------------------------------------
+     מורה שפתח שיעור ב-ט׳3 ולחץ «מדידה» לא אמור לבחור שוב כיתה. בכל
+     כניסה בודקים אם נפתח שיעור חדש מאז הפעם הקודמת, ואם כן — עוברים
+     לכיתה שלו. שיעור שכבר הוחל לא דורס בחירה שהמורה עשה אחריו.
+     ============================================================ */
+  function applyLessonCls(){
+    const a=(H().session&&H().session.active())||null;
+    if(!a||st.lessonId===a.id)return false;
+    st.lessonId=a.id;
+    const exp=DATA.expandCid(clsStore,a.cid);
+    const base=(DATA.isGroupId(a.cid)&&exp[0])||a.cid;
+    const p=DATA.cidParts(base)||DATA.parseCls(a.clsSnapshot);
+    if(!p||!p.grade)return false;
+    const changed=st.grade!==p.grade||st.num!==(+p.num||st.num);
+    st.grade=p.grade; st.num=+p.num||st.num;
+    if(changed){ stopClock(true); stopCd(); st.test=null; }
+    persist();
+    return true;
+  }
   function init(){
+    applyLessonCls();
     if(inited){ renderTab(); return; }
     inited=true;
     const last=LS().get("ft.last",{});
-    if(last.grade)st.grade=last.grade;
-    if(last.num)st.num=last.num;
+    if(!st.lessonId){
+      if(last.grade)st.grade=last.grade;
+      if(last.num)st.num=last.num;
+    }
     if(last.sort)st.sort=last.sort;
+    /* «חזרה» ממסך מבחן פתוח חוזרת לבחירת המבחן, לא יוצאת מהמודול */
+    if(H().onBack)H().onBack(mod=>{
+      if(mod!=="ft"||!st.test||st.tab!=="tests")return false;
+      backToPicker(); return true;
+    });
     H().$$("#ft-tabs button").forEach(b=>b.addEventListener("click",()=>{ st.tab=b.dataset.ft; renderTab(); }));
     renderTab();
   }
@@ -2381,7 +2446,6 @@ window.FT=(function(){
       $$("#cp-nums button").forEach(b=>b.classList.toggle("on",+b.dataset.n===num));
       const c=clsName(g,num);
       let list=roster(c);
-      if(!list.length){ importFromStu(c); list=roster(c); }
       sel=new Set(list.map(x=>x.name));
       if(o.max&&list.length>o.max) sel=new Set(list.slice(0,o.max).map(x=>x.name));
       host("cp-list").innerHTML=list.length
@@ -2513,7 +2577,27 @@ window.FT=(function(){
     normVersion
   };
 
-  return {init, pick, ingest, tests:()=>TESTS, results:()=>allRes(), roster,
+  /* פתיחה על כיתה ולשונית — ממרכז הכיתה («מדד הכושר», «מה חסר»).
+     קבוצה נפתחת על הכיתה הראשונה שבה, כמו בבורר המשותף. */
+  function show(cid,tab){
+    const exp=DATA.expandCid(clsStore,cid);
+    const base=(DATA.isGroupId(cid)&&exp[0])||cid;
+    const p=DATA.cidParts(base);
+    if(p&&p.grade){ stopClock(true); stopCd(); st.grade=p.grade; st.num=+p.num||st.num; st.test=null; persist(); }
+    st.tab=tab||"tests";
+    /* הבחירה ממרכז הכיתה גוברת: השיעור הפתוח כבר «הוחל» ולא ידרוס אותה */
+    const act=H().session&&H().session.active(); if(act)st.lessonId=act.id;
+    H().go("ft");
+    if(inited)renderTab();
+  }
+  /* כמה מדידות ובכמה מבחנים — לכרטיס «כושר» במרכז הכיתה */
+  function summary(cid){
+    const rs=allRes().filter(r=>{ try{ return DATA.rowInScope(r,clsStore,cid); }catch(e){ return false; } });
+    const tests=new Set(rs.map(r=>r.test));
+    const last=rs.reduce((m,r)=>r.d&&r.d>m?r.d:m,"");
+    return {n:rs.length,tests:tests.size,last};
+  }
+  return {init, pick, ingest, show, summary, tests:()=>TESTS, results:()=>allRes(), roster,
     classOf:clsName, progress:PROGRESS};
 })();
 })();

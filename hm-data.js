@@ -352,6 +352,53 @@ function syncStudentsFromRosters(store,stu,rosters){
 }
 
 /* ============================================================
+   2ד. רשימה אחת — «התלמידים שלי» (סכמה 5)
+   ------------------------------------------------------------
+   שני המאגרים שלמעלה אוחדו. stu.list הוא המקור היחיד, ורשימת הכיתה
+   במבחני הכושר היא מבט עליו: כל התלמידים שזהות הכיתה שלהם (cid)
+   היא הכיתה הזאת, לפי הסדר שבו נוספו. תלמיד שנוסף בכל מסך מופיע בכל
+   המסכים, והסרה מהרשימה היא הסרה מ«התלמידים שלי».
+
+   classRoster מחזיר עותקים ({id,name,sex}) — הקורא רשאי לשנות אותם
+   ולהחזיר דרך applyRoster, שמחיל את ההבדל על stu.list: עדכון שם ומין,
+   הוספה, והסרה של מי שהיה בכיתה ואינו ברשימה. שאר השדות של התלמיד
+   (גיל, ציונים, מבחנים) לא נוגעים.
+   ============================================================ */
+function classRoster(store,stu,cid){
+  if(!isCid(cid))return [];
+  return asList(stu).filter(function(s){ return s&&typeof s==="object"&&cidOfStudent(s,store)===cid; })
+    .map(function(s){ return {id:s.id||null,name:String(s.name==null?"":s.name),sex:s.sex||null}; });
+}
+function applyRoster(store,stu,cid,label,list){
+  var out=asList(stu).slice(), byId={}, want={}, added=0, removed=0, changed=0;
+  if(!isCid(cid))return {list:out,added:0,removed:0,changed:0};
+  out.forEach(function(s){ if(s&&s.id)byId[s.id]=s; });
+  asList(list).forEach(function(e){
+    if(!e||typeof e!=="object")return;
+    var nm=String(e.name==null?"":e.name).trim(); if(!nm)return;
+    var s=(e.id&&byId[e.id])||null;
+    /* רשומה בלי מזהה — אותו שם באותה כיתה שעוד לא נתפס */
+    if(!s&&!e.id)s=out.filter(function(x){ return x&&x.id&&!want[x.id]&&cidOfStudent(x,store)===cid&&
+      String(x.name||"").trim()===nm; })[0]||null;
+    if(s){
+      if(s.name!==nm){ s.name=nm; changed++; }
+      if(Object.prototype.hasOwnProperty.call(e,"sex")&&(e.sex||null)!==(s.sex||null)){ s.sex=e.sex||null; changed++; }
+      if(cidOfStudent(s,store)!==cid){ s.cid=cid; s.cls=label||s.cls; if(s.cidAmbig)delete s.cidAmbig; changed++; }
+      if(s.id)want[s.id]=1;
+      return;
+    }
+    var rec={id:e.id||uid("s"),name:nm,cls:label||"",cid:cid,sex:e.sex||null,age:14,h:null,w:null,tests:[]};
+    out.push(rec); byId[rec.id]=rec; want[rec.id]=1; added++;
+  });
+  var kept=out.filter(function(s){
+    if(!s||typeof s!=="object"||!s.id||want[s.id])return true;
+    if(cidOfStudent(s,store)!==cid)return true;
+    removed++; return false;
+  });
+  return {list:kept,added:added,removed:removed,changed:changed};
+}
+
+/* ============================================================
    מזהה רשומה
    ------------------------------------------------------------
    Date.now() לבדו אינו ייחודי: שתי רשומות שנוצרות באותה מילישנייה
@@ -444,7 +491,7 @@ function attemptsOf(results,clsName,testId,stud,opts){
    • לא הרסני — רק הוספת שדות. אף רשומה לא נמחקת ואף שדה קיים
      לא נדרס. מה שלא ניתן לזהות בוודאות מסומן, לא מנוחש.
    ============================================================ */
-var SCHEMA_VERSION=4;
+var SCHEMA_VERSION=5;
 var SCHEMA_KEY="schema.version";
 
 /* --- 1 → 2: זהות תלמיד ---------------------------------- */
@@ -614,10 +661,91 @@ function mig_studentClassClosure(store,rep){
   if(touched)store.set("stu.list",stu);
 }
 
+/* --- 4 → 5: רשימה אחת ----------------------------------------
+   ft.roster מתקפל לתוך stu.list (ראו 2ד), ונשמר כארכיון בשם
+   ft.roster.v4 — אף קוד לא קורא אותו, אבל הוא נשאר במכשיר ובגיבויים,
+   כך ששום נתון לא אובד.
+
+   שתי החלטות שהאיחוד מחייב:
+   • מזהה: תלמיד שנמצא בשתי הרשימות עם שני מזהים שונים שומר את המזהה
+     של «התלמידים שלי» — עליו יושבים נוכחות, מחוונים, קבוצות וציונים.
+     המדידות שנרשמו במזהה של רשימת הכיתה (ft.results.sid) עוברות אליו.
+   • מין: מה שסומן ברשימת הכיתה גובר. שם הוא נקבע במפורש ולפיו נוקדו
+     המבחנים; ב«התלמידים שלי» «בן» הוא ברירת מחדל שקטה.
+
+   רשימה שאי אפשר לשייך לכיתה בוודאות (שתי כיתות באותו שם) לא נכנסת,
+   ונשמרת ב-ft.rosterUnplaced. לא מנחשים.
+
+   רצה גם מעל גרסה 5 כשהמפתח ft.roster קיים (when) — גיבוי ישן
+   ששוחזר, או מסלול ישן שכתב אותו — ומתקפלת שוב באותו אופן. */
+function rosterClassMap(store){
+  var reg=store?classes(store):{}, byKey={}, dup={};
+  Object.keys(reg).forEach(function(id){
+    var c=reg[id]; if(!c||!c.key||isGroupRec(c))return;
+    if(byKey[c.key])dup[c.key]=1; else byKey[c.key]=c;
+  });
+  return {byKey:byKey,dup:dup};
+}
+function mig_singleRoster(store,rep){
+  var rosters=store.get("ft.roster",null);
+  if(!rosters||typeof rosters!=="object"||Array.isArray(rosters))return;
+  var list=asList(store.get("stu.list",[])).slice(), byId={}, claimed={};
+  list.forEach(function(s){ if(s&&s.id)byId[s.id]=s; });
+  var map=rosterClassMap(store), remap={}, unplaced={}, nUnplaced=0, sexSet=0, added=0;
+  var put=function(key,e){ (unplaced[key]=unplaced[key]||[]).push(e); nUnplaced++; };
+  Object.keys(rosters).forEach(function(key){
+    var arr=asList(rosters[key]).filter(function(e){ return e&&typeof e==="object"&&String(e.name==null?"":e.name).trim(); });
+    if(!arr.length)return;
+    var dup=map.dup[key]||map.dup[clsKey(key)];
+    var c=dup?null:(map.byKey[key]||map.byKey[clsKey(key)]||null);
+    var cid=dup?null:(c?c.id:classId(key)), label=c?c.name:key;
+    if(!cid){ arr.forEach(function(e){ put(key,e); }); return; }
+    var hit=new Array(arr.length);
+    /* א. לפי מזהה — הזהות שכבר משותפת לשתי הרשימות */
+    arr.forEach(function(e,i){ var s=e.id&&byId[e.id]; if(s&&!claimed[s.id]){ hit[i]=s; claimed[s.id]=1; } });
+    /* ב. לפי שם באותה כיתה (או תלמיד בלי כיתה) — רק מי שעוד לא נתפס.
+       שני «דן כהן» ברשימה הם שני תלמידים, גם אם ב«התלמידים שלי» יש אחד. */
+    arr.forEach(function(e,i){
+      if(hit[i])return;
+      var nm=String(e.name).trim(), same=null, orphan=null;
+      list.forEach(function(x){
+        if(!x||!x.id||claimed[x.id]||String(x.name||"").trim()!==nm)return;
+        var xc=cidOfStudent(x,store);
+        if(xc===cid){ if(!same)same=x; } else if(!xc&&!orphan)orphan=x;
+      });
+      var s=same||orphan;
+      if(s){ hit[i]=s; claimed[s.id]=1; return; }
+      var rec={id:(e.id&&!byId[e.id])?e.id:uid("s"),name:nm,cls:label,cid:cid,sex:e.sex||null,age:14,h:null,w:null,tests:[]};
+      list.push(rec); byId[rec.id]=rec; claimed[rec.id]=1; hit[i]=rec; added++;
+    });
+    arr.forEach(function(e,i){
+      var s=hit[i]; if(!s)return;
+      if(e.id&&e.id!==s.id)remap[e.id]=s.id;
+      if(!s.cls&&!isCid(s.cid)){ s.cls=label; s.cid=cid; if(s.cidAmbig)delete s.cidAmbig; }
+      if(e.sex&&s.sex!==e.sex){ s.sex=e.sex; sexSet++; }
+    });
+  });
+  var res=store.get("ft.results",null), rk=0;
+  if(Array.isArray(res)&&Object.keys(remap).length){
+    res.forEach(function(x){ if(x&&x.sid&&remap[x.sid]){ x.sid=remap[x.sid]; rk++; } });
+    if(rk)store.set("ft.results",res);
+  }
+  store.set("stu.list",list);
+  store.set("ft.roster.v4",rosters);
+  if(nUnplaced)store.set("ft.rosterUnplaced",unplaced);
+  if(typeof store.del==="function")store.del("ft.roster"); else store.set("ft.roster",null);
+  rep.rosterAdded=(rep.rosterAdded||0)+added;
+  rep.rosterSex=(rep.rosterSex||0)+sexSet;
+  rep.resRekeyed=(rep.resRekeyed||0)+rk;
+  rep.rosterUnplaced=(rep.rosterUnplaced||0)+nUnplaced;
+}
+
 var MIGRATIONS=[
   {to:2,name:"student-identity",run:mig_studentIdentity},
   {to:3,name:"class-identity",  run:mig_classIdentity},
-  {to:4,name:"student-class-closure",run:mig_studentClassClosure}
+  {to:4,name:"student-class-closure",run:mig_studentClassClosure},
+  {to:5,name:"single-roster",run:mig_singleRoster,
+   when:function(store){ var v=store.get("ft.roster",null); return !!v&&typeof v==="object"&&!Array.isArray(v); }}
 ];
 
 /* מזהה את גרסת הנתונים שעל המכשיר. התקנה חדשה לגמרי מסומנת מיד
@@ -645,7 +773,7 @@ function migrate(store){
       return rep;
     }
     MIGRATIONS.forEach(function(m){
-      if(m.to<=from)return;
+      if(m.to<=from&&!(m.when&&m.when(store)))return;
       m.run(store,rep);
       rep.applied.push(m.name);
     });
@@ -2155,7 +2283,7 @@ return {
   groupId:groupId, makeGroup:makeGroup, updateGroup:updateGroup, removeGroup:removeGroup,
   groupOf:groupOf, listGroups:listGroups, realClasses:realClasses,
   expandCid:expandCid, rowInScope:rowInScope, studentsIn:studentsIn, groupSummary:groupSummary,
-  syncStudentsFromRosters:syncStudentsFromRosters,
+  syncStudentsFromRosters:syncStudentsFromRosters,classRoster:classRoster,applyRoster:applyRoster,
   mergeRoster:mergeRoster, findStudent:findStudent,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,

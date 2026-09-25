@@ -15,6 +15,9 @@ const D=require("../../hm-data.js");
 
 const seed={"pf.guideSeen":true,"schema.version":D.SCHEMA_VERSION};
 const openPf=async page=>{ await page.evaluate(()=>window.HM.go("photo")); await page.waitForTimeout(700); };
+/* מרחק האקדח יושב בשלב «זינוק» של ההצבה (שלב 5 בעיצוב מחדש) */
+const openGun=async page=>{ await openPf(page);
+  await page.click('.pf-tabs [data-pt="setup"]'); await page.click('#pfw-steps [data-ps="2"]'); await page.waitForTimeout(200); };
 const T=(page,fn,arg)=>page.evaluate(({f,a})=>{
   return Function("T","a","return ("+f+")(T,a)")(window.PF._test,a);
 },{f:fn.toString(),a:arg===undefined?null:arg});
@@ -196,7 +199,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
   /* ההסבר בלחיצה ארוכה מתאים לכפתור, אבל על שדה קלט הוא נפתח בדיוק
      כשמקישים וממתינים למקלדת — ואז נראה שהשדה לא מגיב. */
   check("לחיצה ארוכה על שדה קלט אינה חוטפת אותו",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const box=await page.locator("#pf-gunDist").boundingBox();
     await page.mouse.move(box.x+box.width/2,box.y+box.height/2);
     await page.mouse.down(); await page.waitForTimeout(750); await page.mouse.up();
@@ -208,7 +211,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
   }),
 
   check("ה-«?» עדיין פותח את ההסבר לשדה",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     await page.evaluate(()=>{
       const i=document.getElementById("pf-gunDist");
       i.nextElementSibling.click();          /* אייקון ה-? שנוסף אחרי השדה */
@@ -221,7 +224,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
   /* הבדיקה למטה השתמשה ב-fill, שמחליף את כל התוכן — ולכן לא ראתה
      שהקלדה אמיתית לתוך שדה שמכיל 0 מייצרת «05». כאן מקישים מקש. */
   check("הקלדה לתוך השדה מתחילה נקייה, ולא נדבקת לאפס שהיה בו",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const el=page.locator("#pf-gunDist");
     eq(await el.inputValue(),"0","מתחילים מאפס");
     await el.click(); await page.waitForTimeout(200);
@@ -233,7 +236,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
   }),
 
   check("מיקוד על ערך קיים בוחר אותו, כדי שהקלדה תחליף ולא תיצמד",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const el=page.locator("#pf-gunDist");
     await el.fill("34");
     await page.evaluate(()=>document.getElementById("pf-gunDist").blur());
@@ -248,7 +251,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
      טיפול שנשען עליו עלול לדרוס ספרה שהמורה באמת הקליד. השדה הוא
      טקסט עם מקלדת מספרית, ולכן המצב הזה לא קיים. */
   check("השדה מחזיר תמיד את מה שכתוב בו, בלי נורמליזציה של הדפדפן",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const r=await page.evaluate(()=>{
       const e=document.getElementById("pf-gunDist");
       return {type:e.type,inputmode:e.getAttribute("inputmode")};
@@ -261,7 +264,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
      הדו-כיווניות ממקמת תווים וסמן במקומות לא צפויים — משתנה בין
      דפדפן למקלדת. כיוון מפורש מוציא את המשתנה הזה מהמשוואה. */
   check("שדה מספרי מוגדר LTR מפורשות, גם בתוך מסך RTL",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const r=await page.evaluate(()=>{
       const e=document.getElementById("pf-gunDist");
       return {dir:e.getAttribute("dir"),computed:getComputedStyle(e).direction,
@@ -275,7 +278,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
   /* אם הרינדור בשדה נכשל במכשיר מסוים, המורה עדיין צריך לראות מה
      נקלט — בלי להאמין לשדה שאולי משקר לו. */
   check("הפס מציג את המרחק שנקלט, לא רק את התוצאה",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const el=page.locator("#pf-gunDist");
     await el.click(); await page.waitForTimeout(200);
     await page.keyboard.type("20"); await page.waitForTimeout(300);
@@ -285,7 +288,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
   }),
 
   check("פסיק מתקבל כנקודה עשרונית, כפי שמקלידים בעברית",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const el=page.locator("#pf-gunDist");
     await el.click(); await page.waitForTimeout(200);
     await page.keyboard.press("Comma"); await page.keyboard.press("7");
@@ -295,7 +298,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
   }),
 
   check("תווים שאינם מספר פשוט לא נכנסים",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const el=page.locator("#pf-gunDist");
     await el.click(); await page.waitForTimeout(200);
     await page.keyboard.type("1a2b3"); await page.waitForTimeout(300);
@@ -304,7 +307,7 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
   }),
 
   check("מרחק האקדח ניתן לשינוי, והקיזוז מתעדכן תוך כדי הקלדה",seed,async page=>{
-    await openPf(page);
+    await openGun(page);
     const pill=()=>page.textContent("#pf-gunLag");
     eq((await pill()).trim(),"בלי קיזוז","מתחילים בלי קיזוז");
     await page.locator("#pf-gunDist").fill("34");

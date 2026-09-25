@@ -1083,8 +1083,11 @@ window.LBUILD=(function(){
     /* שלב 5 */
     on("#bw-note","input",e=>{st.note=e.target.value;saveSt();});
     on("#bw-build","click",build);
-    on("#bw-reset","click",()=>{if(confirm("להתחיל מחדש? כל הבחירות יימחקו."))
-      {st=Object.assign({},DEF);render();}});
+    on("#bw-reset","click",()=>{
+      const was=JSON.parse(JSON.stringify(st));
+      st=Object.assign({},DEF); saveSt(); render();
+      H().undo("הבונה התחיל מחדש",()=>{ st=was; saveSt(); render(); });
+    });
     on("#bw-tplSave","click",saveTpl);
     if(st.step===5)renderTpl();
   }
@@ -1107,9 +1110,9 @@ window.LBUILD=(function(){
   /* ============================================================
      תבניות שמורות
      ============================================================ */
-  function saveTpl(){
-    const nm=prompt("שם לתבנית (למשל: ״כוח ט׳ באולם״)","");
-    if(!nm)return;
+  async function saveTpl(){
+    const v=await H().ask({fields:[{label:"שם לתבנית",ph:"למשל: ״כוח ט׳ באולם״"}],ok:"⭐ שמור תבנית"});
+    const nm=v&&v.trim(); if(!nm)return;
     const t=H().LS.get("lb.tpl",[]);
     t.unshift({id:Date.now(),name:nm,st:JSON.parse(JSON.stringify(st))});
     H().LS.set("lb.tpl",t.slice(0,30));

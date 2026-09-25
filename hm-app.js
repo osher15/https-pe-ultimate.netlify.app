@@ -101,24 +101,34 @@ function beep(freq=880,dur=0.12,vol=0.5,type="square"){
 }
 function horn(){ if(!SET.sound)return; beep(520,0.45,0.6,"sawtooth"); setTimeout(()=>beep(392,0.5,0.6,"sawtooth"),60); }
 function tripleBeep(){ beep(660,0.1); setTimeout(()=>beep(660,0.1),150); setTimeout(()=>beep(990,0.22),300); }
-function say(txt){
+/* lang — קוד שפה לקול (voiceLoc()). הכריזות בביפ ובטיימרים נכתבו עברית;
+   בשפה אחרת הן עוברות קודם דרך המילון ונקראות בקול של אותה שפה. כריזה
+   שלא נמצא לה תרגום נשארת עברית בקול עברי — ולא עברית בקול זר. */
+function say(txt,lang){
   if(!SET.voice||!("speechSynthesis"in window))return;
-  try{ const u=new SpeechSynthesisUtterance(txt); u.lang="he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
+  if(!lang&&window.I18N&&window.I18N.lang()!=="he"){
+    const tt=window.I18N.tr(txt); if(tt!==txt){ txt=tt; lang=voiceLoc(); } }
+  try{ const u=new SpeechSynthesisUtterance(txt); u.lang=lang||"he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
 }
 
 /* ---------- wake lock ---------- */
 let wakeLock=null;
+/* שיעור פתוח מחזיק את המסך דלוק לכל אורכו. עד עכשיו כל מודול שחרר
+   את אותה נעילה בנפרד — פתיחת מבחן כושר כיבתה את הנעילה של טיימר
+   שעוד רץ. כשיש החזקה של שיעור, בקשת שחרור של מודול לא מכבה. */
+let wakeHold=false;
+function holdAwake(on){ wakeHold=!!on; keepAwake(!!on); }
 async function keepAwake(on){
   try{
-    if(on&&SET.wake&&"wakeLock"in navigator){ wakeLock=await navigator.wakeLock.request("screen"); }
-    else if(!on&&wakeLock){ wakeLock.release(); wakeLock=null; }
+    if(on&&SET.wake&&"wakeLock"in navigator){ if(!wakeLock||wakeLock.released)wakeLock=await navigator.wakeLock.request("screen"); }
+    else if(!on&&wakeLock&&!wakeHold){ wakeLock.release(); wakeLock=null; }
   }catch(e){}
 }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&wakeLock)keepAwake(true); });
 
 /* ---------- toast / confetti / csv / time ---------- */
 let toastTm=null;
-function toast(msg){ const t=$("#toastT"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTm); toastTm=setTimeout(()=>t.classList.remove("show"),2600); }
+function toast(msg){ const t=$("#toastT"); clearTimeout(actTm); t.classList.remove("act"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTm); toastTm=setTimeout(()=>t.classList.remove("show"),2600); }
 function confetti(n=90){
   const colors=["#19d27a","#19c3ff","#ffce3a","#ff7a3d","#b07cff","#ff4d5e"];
   for(let i=0;i<n;i++){ const d=document.createElement("div"); d.className="cfp";
@@ -135,10 +145,146 @@ function dlCSV(name,rows){
 function fmtMS(t){ const m=Math.floor(t/60), s=Math.floor(t%60); return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0"); }
 function fmtMSc(t){ const m=Math.floor(t/60), s=Math.floor(t%60), c=Math.floor((t%1)*100); return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")+"."+String(c).padStart(2,"0"); }
 function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-function modal(id,on){ $("#"+id).classList.toggle("on",on!==false); }
+/* כל החלונות חולקים z-index אחד, ולכן הסדר ב-DOM קבע מי מעל מי — חלון
+   הקבוצות, שנפתח מתוך מערכת השעות, נפתח מאחוריה. חלון שנפתח עכשיו
+   עולה תמיד מעל מה שכבר פתוח. */
+let modalZ=0;
+function modal(id,on){
+  const m=$("#"+id); if(!m)return;
+  const open=on!==false;
+  if(open&&!m.classList.contains("on"))m.style.zIndex=220+(++modalZ);
+  m.classList.toggle("on",open);
+  if(!open){ m.style.zIndex=""; if(!$$(".modal.on").length)modalZ=0; }
+}
+/* ============================================================
+   שאלה בתוך האפליקציה — במקום confirm()/prompt()
+   ------------------------------------------------------------
+   חלון הדפדפן חוסם את כל הדף, נראה אחרת בכל טלפון, ובשטח קל ללחוץ
+   בו «אישור» בטעות. כאן זה גיליון של האפליקציה עצמה: שדות אמיתיים
+   (טקסט, מספר, רשימה, בחירה), Enter לאישור, וחזרה של הטלפון כביטול.
+   פעולה הרסנית שאי אפשר להחזיר מבקשת להקליד מילה (word).
+   o: {title, msg, fields:[{k,label,value,type,options:[[v,l]],ph,rows}],
+       ok, danger, word}. מחזיר Promise: בלי שדות — true/false; שדה
+   אחד — הערך או null; כמה שדות — אובייקט לפי k או null.
+   ============================================================ */
+let askDone=null;
+/* קיצורי מקלדת של השטח (רווח = זינוק, 1–9 = מסלול) לא פועלים כשמקלידים
+   בשדה, וגם לא כשחלון פתוח מעל המסך — רווח בשם שמודבק ברשימה היה
+   יורה את אקדח הזינוק. */
+function typingIn(e){
+  const el=e.target, tg=el&&el.tagName;
+  return tg==="INPUT"||tg==="SELECT"||tg==="TEXTAREA"||!!(el&&el.isContentEditable)||!!document.querySelector(".modal.on");
+}
+function ask(o){
+  o=o||{};
+  if(askDone)askDone(null);
+  let m=$("#askModal");
+  if(!m){
+    m=document.createElement("div"); m.className="modal"; m.id="askModal";
+    m.innerHTML='<div class="box ask-box" style="max-width:460px"><h3><span id="ask-t"></span>'+
+      '<button class="x" id="ask-x" type="button" aria-label="close">✕</button></h3>'+
+      '<div id="ask-m" class="ask-msg" dir="auto"></div><div id="ask-f" class="ask-fields"></div>'+
+      '<div class="row ask-btns"><button class="btn acc" id="ask-ok" type="button"></button>'+
+      '<button class="btn ghost" id="ask-no" type="button"></button></div></div>';
+    document.body.appendChild(m);
+    m.addEventListener("click",e=>{ if(e.target===m&&askDone)askDone(null); });
+  }
+  const T=x=>(window.I18N?window.I18N.tr(x):x);
+  const fields=o.fields||[];
+  $("#ask-t").textContent=T(o.title||"");
+  $("#ask-t").parentNode.style.display=o.title?"":"none";
+  $("#ask-m").textContent=T(o.msg||""); $("#ask-m").style.display=o.msg?"":"none";
+  const wrap=$("#ask-f"); wrap.innerHTML="";
+  const inputs=fields.map((f,i)=>{
+    const d=document.createElement("div"); d.className="field";
+    if(f.label){ const l=document.createElement("label"); l.textContent=T(f.label); l.htmlFor="ask-i"+i; d.appendChild(l); }
+    let el;
+    if(f.type==="select"){
+      el=document.createElement("select");
+      (f.options||[]).forEach(op=>{ const x=document.createElement("option");
+        x.value=Array.isArray(op)?op[0]:op; x.textContent=Array.isArray(op)?op[1]:op; el.appendChild(x); });
+    }else if(f.type==="textarea"){
+      el=document.createElement("textarea"); el.rows=f.rows||5;
+    }else{
+      el=document.createElement("input"); el.type=f.type||"text";
+      if(f.type==="number"){ el.inputMode="decimal"; el.step=f.step||"any"; }
+    }
+    el.id="ask-i"+i; if(f.ph)el.placeholder=T(f.ph);
+    if(f.value!=null)el.value=f.value;
+    if(f.readonly)el.readOnly=true;
+    d.appendChild(el); wrap.appendChild(d); return el;
+  });
+  /* שדה שממלא אחרים (תבנית → שם וקריטריונים) */
+  fields.forEach((f,i)=>{ if(f.onchange)inputs[i].addEventListener("change",()=>f.onchange(inputs[i].value,inputs)); });
+  let wordEl=null;
+  if(o.word){
+    const d=document.createElement("div"); d.className="field";
+    const l=document.createElement("label");
+    l.textContent=t("ask.type","הקלד «{0}» לאישור").replace("{0}",T(o.word)); d.appendChild(l);
+    wordEl=document.createElement("input"); wordEl.type="text"; wordEl.id="ask-word"; wordEl.autocomplete="off";
+    d.appendChild(wordEl); wrap.appendChild(d);
+  }
+  const okB=$("#ask-ok"), noB=$("#ask-no");
+  okB.textContent=T(o.ok||t("ask.ok","אישור")); okB.className="btn "+(o.danger?"stop":"acc");
+  noB.textContent=t("ask.cancel","ביטול");
+  noB.style.display=o.alert?"none":"";
+  const wordOk=()=>!wordEl||[o.word,T(o.word)].includes(wordEl.value.trim());
+  okB.disabled=!wordOk();
+  if(wordEl)wordEl.oninput=()=>{ okB.disabled=!wordOk(); };
+  return new Promise(res=>{
+    let done=false;
+    const finish=v=>{ if(done)return; done=true; askDone=null; m.__onBack=null; document.removeEventListener("keydown",key,true); modal("askModal",false); res(v); };
+    const value=()=>{
+      if(!fields.length)return true;
+      const vals={}; fields.forEach((f,i)=>vals[f.k||i]=inputs[i].value);
+      return fields.length===1&&!o.obj?inputs[0].value:vals;
+    };
+    const submit=()=>{ if(!wordOk())return; finish(value()); };
+    const key=e=>{
+      if(e.key==="Escape"){ e.preventDefault(); finish(fields.length?null:false); }
+      else if(e.key==="Enter"&&!(e.target&&e.target.tagName==="TEXTAREA"&&!e.ctrlKey&&!e.metaKey)){
+        if(e.target&&e.target.tagName==="BUTTON")return;
+        e.preventDefault(); submit(); }
+    };
+    askDone=v=>finish(v==null?(fields.length?null:false):v);
+    m.__onBack=()=>askDone(null);
+    okB.onclick=submit; noB.onclick=()=>askDone(null); $("#ask-x").onclick=()=>askDone(null);
+    document.addEventListener("keydown",key,true);
+    modal("askModal",true);
+    const first=inputs.find(x=>!x.readOnly)||wordEl;
+    setTimeout(()=>{ try{ (first||okB).focus(); if(first&&first.select&&first.type!=="number")first.select(); }catch(e){} },30);
+  });
+}
+/* הודעה עם כפתור פעולה — «↩ בטל» אחרי מחיקה, «⏹ עצור» כשכולם סיימו.
+   הפעולה עצמה כבר בוצעה; הכפתור מחזיר אותה לכמה שניות. במקום לשאול
+   «בטוח?» לפני כל מחיקה, מוחקים מיד ונותנים דרך חזרה. */
+/* צילום של מפתחות אחסון לפני פעולה, ופונקציה שמחזירה אותם — הבסיס של
+   «↩ בטל»: מוחקים מיד, והצילום מחזיר בדיוק את מה שהיה. */
+function snap(keys){
+  const saved=keys.map(k=>[k,JSON.stringify(LS.get(k,null))]);
+  return ()=>saved.forEach(([k,v])=>LS.set(k,JSON.parse(v)));
+}
+let actTm=null;
+function actToast(msg,label,fn,ms){
+  const box=$("#toastT");
+  clearTimeout(toastTm); clearTimeout(actTm);
+  box.textContent="";
+  const sp=document.createElement("span"); sp.textContent=msg;
+  const b=document.createElement("button"); b.type="button"; b.className="toast-act"; b.id="toastAct"; b.textContent=label;
+  let used=false;
+  b.addEventListener("click",()=>{ if(used)return; used=true; ac(); box.classList.remove("show","act");
+    try{ fn(); }catch(e){ console.error(e); } });
+  box.appendChild(sp); box.appendChild(b);
+  box.classList.add("show","act");
+  actTm=setTimeout(()=>{ box.classList.remove("show","act"); },ms||6000);
+}
+function undo(msg,fn,ms){
+  actToast(msg,t("undo.btn","↩ בטל"),()=>{ fn(); toast(t("undo.done","↩ בוטל")); },ms);
+}
 function wireModals(){
   $$("[data-close]").forEach(b=>b.addEventListener("click",()=>modal(b.dataset.close,false)));
-  $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m)m.classList.remove("on"); }));
+  $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target!==m)return;
+    if(m.__onBack)m.__onBack(); else modal(m.id,false); }));
 }
 
 /* ---------- roles: מורה מול תלמיד ----------
@@ -189,66 +335,149 @@ function applyRole(){
   /* «משחקים» עבר לתוך אשכול «שיעור» עבור המורה — לתלמיד (שלא נכנס ל-שיעור בכלל)
      הוא חייב להישאר כפתור ישיר בסרגל. «עוד» מוביל רק למודולים שאסורים לתלמיד ממילא. */
   const ng=$("#navGames"); if(ng)ng.style.display=stu?"":"none";
-  const nm=$("#navMore"); if(nm)nm.style.display=stu?"none":"";
+  /* ההגדרות מובילות למסכים שאסורים לתלמיד ממילא — הן יורדות איתם */
   const st=$("#btnSettings"); if(st)st.style.display=stu?"none":"";
-  /* התפריט הראשי מוביל למסכים שאסורים לתלמיד ממילא — הוא יורד איתם */
-  const bm=$("#btnMenu"); if(bm)bm.style.display=stu?"none":"";
   const rb=$("#roleBadge");
   if(rb){ rb.style.display=stu?"":"none"; }
   if(typeof REC!=="undefined"&&REC.applyRole)REC.applyRole();
   if(stu&&!STUDENT_MODS[document.body.dataset.mod||""])go("rec");
 }
 
-/* ---------- router ---------- */
-const MODS={home:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1};
-/* מודולים שנגישים דרך כפתור «עוד» ולא ישירות בסרגל — כדי שהכפתור יודגש כשנמצאים באחד מהם */
-const MORE_MODS=["stu","know","tools","nut","rec"];
+/* ---------- router ----------
+   חמישה אזורים לפי קצב העבודה של המורה, במקום רשימה שטוחה של מסכים:
+     היום   — מה עכשיו ומה הבא
+     הכנה   — מערכים, משחקים, תרגילים, ידע ותזונה (בנחת, מראש)
+     שיעור  — מצב שיעור: כל כלי השטח גלויים, והכיתה כבר ידועה
+     כיתות  — תלמידים, ציונים, מבחני כושר וכלי כיתה (ניהול ומעקב)
+     שיאים  — לוח בית הספר
+   המודולים עצמם לא השתנו; האזור רק קובע איזה כפתור בסרגל דולק
+   ואילו לשוניות מופיעות מתחת לכותרת. */
+const MODS={home:1,live:1,beep:1,photo:1,rec:1,fit:1,stu:1,lesson:1,nut:1,games:1,know:1,tools:1,ft:1,cls:1};
+const AREA_OF={home:"today",live:"live",beep:"live",photo:"live",
+  lesson:"prep",games:"prep",fit:"prep",know:"prep",nut:"prep",
+  cls:"classes",stu:"classes",ft:"classes",tools:"classes",rec:"rec"};
+const AREA_TABS={
+  prep:[["lesson","📋","area.plans","מערכים"],["games","🎮","area.games","משחקים"],
+        ["fit","🏋️","area.fit","תרגילים וטיימרים"],["know","📚","area.know","ידע"],["nut","🥗","area.nut","תזונה"]],
+  classes:[["cls","🏫","area.cls","מרכז הכיתה"],["stu","👥","area.stu","תלמידים וציונים"],["ft","🏅","area.ft","מבחני כושר"],["tools","🧰","area.tools","כלי כיתה"]]
+};
+const areaOf=mod=>AREA_OF[mod]||"today";
+function paintAreaTabs(mod){
+  const box=$("#areaTabs"); if(!box)return;
+  const tabs=isStudent()?null:AREA_TABS[areaOf(mod)];
+  if(!tabs){ box.hidden=true; box.innerHTML=""; return; }
+  box.innerHTML=tabs.map(([m,ic,k,he])=>'<button data-go="'+m+'"'+(m===mod?' class="on" aria-current="page"':"")+'>'+
+    '<span class="ic">'+ic+'</span><span>'+esc(t(k,he))+'</span></button>').join("");
+  box.hidden=false;
+  box.querySelectorAll("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go); }));
+  const on=box.querySelector(".on"); if(on&&on.scrollIntoView)try{ on.scrollIntoView({block:"nearest",inline:"nearest"}); }catch(e){}
+}
 const inited={};
-function go(mod){
+/* ============================================================
+   היסטוריה אמיתית
+   ------------------------------------------------------------
+   עד עכשיו הכתובת עודכנה ב-replaceState בלבד, ולכן כפתור «חזרה» של
+   הטלפון יצא מהאפליקציה כולה באמצע שיעור. כל מעבר מסך נרשם עכשיו
+   כצעד בהיסטוריה (עם עומק), ו«חזרה» — של הטלפון או שבכותרת — חוזר
+   צעד אחד. חלון פתוח נסגר קודם, לפני שעוזבים את המסך שמתחתיו.
+   ============================================================ */
+let navDepth=0;
+function go(mod,opts){
+  opts=opts||{};
   if(!MODS[mod])mod="home";
   if(isStudent()&&!STUDENT_MODS[mod])mod="rec";
+  const prev=document.body.dataset.mod;
   /* חלון שנפתח בתוך מודול אינו שייך למודול הבא. בלי זה, הדרכת
      הפתיחה של הפוטו־פיניש נשארה פרושה מעל כל האפליקציה אחרי מעבר
      למודול אחר, וחסמה כל הקשה. */
-  if(document.body.dataset.mod!==mod)
+  if(prev!==mod)
     $$(".modal.on").forEach(m=>m.classList.remove("on"));
   document.body.dataset.mod=mod;
+  document.body.dataset.area=areaOf(mod);
   $$(".view").forEach(v=>v.classList.toggle("on",v.id==="view-"+mod));
-  $$(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===mod));
-  const nm=$("#navMore"); if(nm)nm.classList.toggle("on",MORE_MODS.includes(mod));
+  const area=areaOf(mod);
+  $$(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.area===area||(!b.dataset.area&&b.dataset.go===mod)));
   /* «התלמידים שלי» ומסך הכיתה קוראים את stu.list — הגשר רץ לפניהם,
      אחרת מסך שלם מציג אפס בזמן שהרשימות מלאות. */
-  if(mod==="stu"||mod==="home")syncStudents();
-  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init}[mod]; if(f)f(); }
+  if(mod==="stu"||mod==="home"||mod==="tools"||mod==="cls")syncStudents();
+  if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init,cls:window.HUB&&window.HUB.init}[mod]; if(f)f(); }
+  /* מבחני כושר וכלי כיתה נכנסים מחדש בכל ביקור: שיעור שנפתח מאז
+     הביקור הקודם קובע את הכיתה, ולא רק בביקור הראשון ביום. */
+  else if(prev!==mod){ const re={ft:window.FT&&window.FT.init,tools:window.TOOLS&&window.TOOLS.init}[mod]; if(re)try{ re(); }catch(e){} }
   if(mod==="home"){ homeStats();
     /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
        המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
        לנראה — במקום מסך שמראה מצב ישן. */
     paintHome(); }
+  if(mod==="live"&&window.LIVE)window.LIVE.paint();
+  if(mod==="cls"&&window.HUB)window.HUB.paint();
+  paintAreaTabs(mod);
+  try{ paintNavLive(); }catch(e){}
   updateBack(); wireTips();
   if(window.I18N)window.I18N.applyDom();
   /* המסך האחרון נשמר כדי שרענון או חזרה לאפליקציה יחזירו אותך לאן
      שהיית — לא לדף הבית באמצע שיעור. */
   if(!isStudent())LS.set("hx.lastMod",mod);
-  if(location.hash!=="#"+mod){ try{history.replaceState(null,"","#"+mod)}catch(e){} }
+  if(!opts.pop){
+    try{
+      if(prev&&prev!==mod&&!opts.replace){ navDepth++; history.pushState({mod,depth:navDepth},"","#"+mod); }
+      else if(location.hash!=="#"+mod||!history.state)history.replaceState({mod,depth:navDepth},"","#"+mod);
+    }catch(e){}
+  }
+  window.scrollTo&&prev!==mod&&window.scrollTo(0,0);
 }
-function wireNav(){ $$("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go); }));
-  const nm=$("#navMore"); if(nm)nm.addEventListener("click",()=>{ ac(); modal("navDrawer"); });
-  const bm=$("#btnMenu"); if(bm)bm.addEventListener("click",()=>{ ac(); modal("navDrawer"); });
-  wireDrawer(); }
-/* המגירה מחזיקה גם פעולות שאינן מודול — מערכת שעות וקבוצות הוראה.
-   הסגירה שלה עצמה נעשית דרך data-close שעל כל שורה, כמו בכל חלון
-   אחר: חלון שנפתח מעל מגירה פתוחה משאיר שתי שכבות כהות זו על זו,
-   ואת הסגירה של שתיהן על המורה.
-   «מדריך» ו«הגדרות» אינם משוכפלים כאן — אלה אותם שני הכפתורים
-   עצמם, שעברו מהסרגל העליון אל תוך המגירה. הסרגל היה צר מכדי
-   להחזיק גם אותם וגם את ☰ בלי לחתוך את שם האפליקציה. */
-function wireDrawer(){
+function wireNav(){ $$("[data-go]").forEach(el=>el.addEventListener("click",()=>{ ac(); go(el.dataset.go);
+    /* קיצור ישיר ללשונית בתוך מסך — «טיימר» בבית פותח את הטיימר ולא את ספריית התרגילים */
+    if(el.dataset.fitTab){ const b=document.querySelector('#view-fit [data-ft="'+el.dataset.fitTab+'"]'); if(b)b.click(); } }));
+  wireLangPop();
   const hook=(id,fn)=>{ const b=$("#"+id); if(b)b.addEventListener("click",()=>{ ac(); fn(); }); };
-  hook("dw-sched",()=>openSched());
-  hook("dw-groups",()=>openGroups());
+  hook("set-openSched",()=>openSched());
+  hook("set-openGroups",()=>openGroups());
 }
-window.addEventListener("hashchange",()=>go(location.hash.slice(1)||"home"));
+window.addEventListener("popstate",e=>{
+  /* חלון פתוח? «חזרה» סוגרת אותו ונשארת במסך — כמו בכל אפליקציה */
+  const open=$$(".modal.on");
+  if(open.length){
+    /* רק העליון נסגר — חלון שנפתח מתוך חלון אחר חוזר אל זה שמתחתיו */
+    const top=open.reduce((a,m)=>(+m.style.zIndex||0)>=(+a.style.zIndex||0)?m:a,open[0]);
+    if(top.__onBack)top.__onBack(); else modal(top.id,false);
+    try{ navDepth++; history.pushState({mod:document.body.dataset.mod,depth:navDepth},"","#"+document.body.dataset.mod); }catch(err){}
+    return;
+  }
+  /* מסך פנימי (מבחן פתוח, שלב באשף) חוזר צעד בתוך המודול קודם */
+  const cur=document.body.dataset.mod;
+  for(const fn of BACK_HOOKS){ try{ if(fn(cur)){
+    try{ navDepth++; history.pushState({mod:cur,depth:navDepth},"","#"+cur); }catch(err){}
+    return; } }catch(err){} }
+  const st=e.state||{};
+  navDepth=st.depth||0;
+  go(st.mod||location.hash.slice(1)||"home",{pop:true});
+});
+window.addEventListener("hashchange",()=>{
+  const h=location.hash.slice(1)||"home";
+  if(h!==document.body.dataset.mod)go(h,{pop:true});
+});
+/* מחליף שפה מהיר בכותרת — חמש שפות במרחק הקשה, בלי לפתוח הגדרות */
+function wireLangPop(){
+  const btn=$("#btnLang"), pop=$("#langPop"); if(!btn||!pop||!window.I18N)return;
+  const paintBtn=()=>{ const i=window.I18N.info(); btn.textContent={he:"עב",en:"EN",ar:"ع",ru:"RU",es:"ES"}[i.code]||i.code; };
+  const close=()=>{ pop.hidden=true; btn.setAttribute("aria-expanded","false"); };
+  btn.addEventListener("click",e=>{
+    e.stopPropagation(); ac();
+    if(!pop.hidden){ close(); return; }
+    const cur=window.I18N.lang();
+    pop.innerHTML=window.I18N.langs().map(l=>'<button data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+'>'+
+      '<span class="fl">'+l.flag+'</span><span>'+esc(l.native)+'</span></button>').join("");
+    pop.querySelectorAll("[data-l]").forEach(b=>b.addEventListener("click",()=>{
+      window.I18N.set(b.dataset.l); close(); paintBtn(); applyTheme(); toast(window.I18N.info().native);
+    }));
+    pop.hidden=false; btn.setAttribute("aria-expanded","true");
+  });
+  document.addEventListener("click",e=>{ if(!pop.hidden&&!pop.contains(e.target))close(); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape")close(); });
+  document.addEventListener("i18n:change",paintBtn);
+  paintBtn();
+}
 
 /* ---------- home ---------- */
 const TIPS=[
@@ -270,8 +499,13 @@ function hasAnyData(){
   return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
 }
 const ONBOARD_TIP="חדשים כאן? לחצו 🎬 «מצב הדגמה» במסך הכניסה — כיתה לדוגמה עם תוצאות אמיתיות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים.";
+let tipIdx=-1;   /* ‎-1‎ = טיפ ההתחלה. נשמר כדי שהחלפת שפה תתרגם את אותו טיפ */
+function paintFieldTip(){
+  $("#fieldTip").textContent=tipIdx<0?t("home.onboard",ONBOARD_TIP):t("home.tip."+tipIdx,TIPS[tipIdx]);
+}
 function homeInit(){
-  $("#fieldTip").textContent=hasAnyData()?TIPS[Math.floor(Math.random()*TIPS.length)]:ONBOARD_TIP;
+  tipIdx=hasAnyData()?Math.floor(Math.random()*TIPS.length):-1;
+  paintFieldTip();
 }
 function homeStats(){
   $("#qsRuns").textContent=LS.get("pf.totalRaces",0);
@@ -284,7 +518,20 @@ function homeStats(){
    מחדש, כדי ש«מתחיל בעוד» ו«מתקיים עכשיו» לא יישארו על הדקה שבה
    נכנסת. אין כאן שעון שני, רק הקשבה לזה שכבר קיים. */
 let lastMin=-1;
-setInterval(()=>{ const d=new Date(); const tc=$("#topClock");
+/* הכפתור האמצעי בסרגל: «▶ שיעור» כשאין שיעור, ושם הכיתה והזמן
+   שעבר כשיש — כדי שמכל מסך יהיה ברור שהשיעור עדיין פתוח, ואיך חוזרים */
+function paintNavLive(){
+  const b=$("#navLive"); if(!b)return;
+  const a=SESSION.active();
+  b.classList.toggle("act",!!a);
+  const ic=$("#navLiveIc"), tx=$("#navLiveT");
+  if(!a){ if(ic)ic.textContent="▶"; if(tx)tx.textContent=t("nav.live","שיעור"); holdAwake(false); return; }
+  const min=Math.max(0,Math.floor((Date.now()-(a.startedAt||Date.now()))/60000));
+  if(ic)ic.textContent=sesName(a);
+  if(tx)tx.textContent=min+" "+t("ui.min","דק׳");
+  if(!wakeHold)holdAwake(true);
+}
+setInterval(()=>{ const d=new Date(); const tc=$("#topClock"); try{ paintNavLive(); }catch(e){}
   if(tc)tc.textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
   const m=d.getHours()*60+d.getMinutes();
   if(m!==lastMin){ lastMin=m;
@@ -313,7 +560,12 @@ function t(key,def){ return window.I18N?window.I18N.t(key,def):(def!=null?def:ke
    ולכן דף הבית בערבית הציג כותרת ערבית מעל תאריך עברי. */
 function loc(){
   const l=window.I18N?window.I18N.lang():"he";
-  return {he:"he-IL",en:"en-GB",ar:"ar",ru:"ru-RU"}[l]||"he-IL";
+  return {he:"he-IL",en:"en-GB",ar:"ar",ru:"ru-RU",es:"es-ES"}[l]||"he-IL";
+}
+/* לקול צריך אזור מלא — "ar" לבד לא בוחר קול בחלק מהמכשירים. */
+function voiceLoc(){
+  const l=window.I18N?window.I18N.lang():"he";
+  return {he:"he-IL",en:"en-GB",ar:"ar-SA",ru:"ru-RU",es:"es-ES"}[l]||"he-IL";
 }
 
 function wireLang(){
@@ -362,10 +614,10 @@ function toggleSun(){
   saveSet(); applyTheme();
   toast(SET.theme==="sun"?"☀ מצב שמש — ניגודיות גבוהה":"חזרה לערכה הרגילה");
 }
-/* היכן «חזרה» מוביל מכל מודול. הבית הוא היעד של רוב המסכים, אבל
-   מודולים שנפתחים מתוך «עוד» חוזרים לתפריט שממנו נכנסו, כי חזרה
-   לבית משם מרגישה כמו איבוד מקום. */
-const BACK_TO={games:"lesson",fit:"lesson"};
+/* «חזרה» שבכותרת עושה בדיוק מה שעושה כפתור החזרה של הטלפון: צעד
+   אחד אחורה בהיסטוריה. כשאין לאן לחזור (נכנסו ישר מקישור או
+   מרענון) — לראש האזור, ומשם לבית. */
+const AREA_ROOT={today:"home",prep:"lesson",classes:"cls",rec:"rec",live:"live"};
 function updateBack(){
   const b=$("#btnBack"); if(!b)return;
   const mod=document.body.dataset.mod||"home";
@@ -375,8 +627,9 @@ function goBack(){
   const mod=document.body.dataset.mod||"home";
   /* אם המודול עצמו נמצא במסך פנימי — נותנים לו לטפל בחזרה קודם */
   for(const fn of BACK_HOOKS){ try{ if(fn(mod))return; }catch(e){} }
-  if(MORE_MODS.includes(mod)){ go("home"); modal("navDrawer",true); return; }
-  go(BACK_TO[mod]||"home");
+  if(navDepth>0&&history.state&&history.state.depth>0){ history.back(); return; }
+  const root=AREA_ROOT[areaOf(mod)]||"home";
+  go(root===mod?"home":root);
 }
 /* מודול שיש בו מסך פנימי רושם כאן פונקציה. היא מקבלת את המודול
    הפעיל, ומחזירה true אם היא טיפלה בחזרה בעצמה. */
@@ -417,6 +670,8 @@ function wireTipPop(){
 }
 
 /* ---------- settings ---------- */
+/* פתיחת ההגדרות מבחוץ (לוח המורה בשיאים → «גיבוי וסנכרון») */
+let SETTINGS_OPEN=()=>{};
 function wireSettings(){
 $$("#set-theme .thm").forEach(b=>b.addEventListener("click",()=>{
   SET.theme=b.dataset.t; saveSet(); applyTheme(); }));
@@ -449,11 +704,17 @@ function openInfo(){
   });
 }
 $("#btnInfo").addEventListener("click",()=>{ ac(); openInfo(); });
-$("#btnSettings").addEventListener("click",()=>{ const bi=$("#set-build"); if(bi)bi.textContent="גרסה "+buildId();
+/* sec — מקטע לפתוח ישירות («backup» מלוח המורה של השיאים) */
+function openSettings(sec){ const bi=$("#set-build"); if(bi)bi.textContent="גרסה "+buildId();
   $("#set-school").value=SET.school; $("#set-sound").checked=SET.sound; $("#set-voice").checked=SET.voice; $("#set-wake").checked=SET.wake; $("#set-touch").checked=!!SET.touch; applyTheme();
   $("#set-driveForm").value=SET.driveForm||""; $("#set-driveFolder").value=SET.driveFolder||"";
   $("#set-syncUrl").value=SET.syncUrl||""; $("#set-syncCode").value=SET.syncCode||"";
-  bkStat(); paintClassRename(); modal("setModal"); });
+  bkStat(); paintClassRename(); modal("setModal");
+  const el=sec&&$("#set-sec"+sec[0].toUpperCase()+sec.slice(1));
+  if(el){ el.open=true; setTimeout(()=>{ try{ el.scrollIntoView({block:"start",behavior:"smooth"}); }catch(e){} },60); }
+}
+$("#btnSettings").addEventListener("click",()=>openSettings());
+SETTINGS_OPEN=openSettings;
 (function(){ const b=$("#set-forceUpdate");
   if(b)b.addEventListener("click",()=>{ forceUpdate(); }); })();
 $("#set-save").addEventListener("click",()=>{ SET.school=$("#set-school").value.trim(); SET.sound=$("#set-sound").checked; SET.voice=$("#set-voice").checked; SET.wake=$("#set-wake").checked;
@@ -503,7 +764,7 @@ const SESSION={
     /* סיום שיעור משנה גם את דף הבית — המשבצת מסומנת וכרטיס
        «השיעור האחרון» נפתח. בלי זה מורה שסיים שיעור בעודו בדף
        הבית היה רואה מצב ישן עד שייצא ויחזור. */
-    if(r.ok){ paintSessionBar(); paintHome(); }
+    if(r.ok){ paintSessionBar(); paintHome(); paintNavLive(); }
     return r;
   },
   resume:()=>DATA.resumeSession(sesAll()),
@@ -603,7 +864,7 @@ function paintClassRenameCur(){
   if(info){ const x=c?clsRenameList().find(y=>y.cid===sel.value):null;
     info.textContent=x?(x.students+" תלמידים · "+x.results+" מדידות"+(x.origin&&x.origin!==x.name?" · נוצרה כ-"+x.origin:"")):""; }
 }
-function renameClassFromUi(){
+async function renameClassFromUi(){
   const sel=$("#set-clsSel"), inp=$("#set-clsNew"); if(!sel||!inp)return;
   const cid=sel.value, nm=inp.value.trim();
   const c=cid?DATA.classOf(REGSTORE,cid):null;
@@ -612,9 +873,9 @@ function renameClassFromUi(){
   if(nm===c.name){ toast("זה כבר השם של הכיתה"); return; }
   const reg=DATA.classes(REGSTORE);
   const twin=Object.keys(reg).find(k=>k!==cid&&reg[k]&&DATA.clsKey(reg[k].name)===DATA.clsKey(nm));
-  if(twin&&!confirm("כיתה אחרת כבר נקראת «"+reg[twin].name+"».\n\nשתי הכיתות יישארו נפרדות, אבל בבוררים ובדוחות יהיה קשה להבחין ביניהן.\nלהמשיך בכל זאת?"))return;
+  if(twin&&!(await ask({msg:"כיתה אחרת כבר נקראת «"+reg[twin].name+"».\n\nשתי הכיתות יישארו נפרדות, אבל בבוררים ובדוחות יהיה קשה להבחין ביניהן.\nלהמשיך בכל זאת?"})))return;
   const pc=DATA.parseCls(nm);
-  if(!twin&&pc&&DATA.classId(nm)!==cid&&!confirm("השם «"+nm+"» נראה כמו כיתה אחרת ("+DATA.clsName(pc.grade,pc.num)+").\n\nהזהות של הכיתה לא תשתנה — רק השם. להמשיך?"))return;
+  if(!twin&&pc&&DATA.classId(nm)!==cid&&!(await ask({msg:"השם «"+nm+"» נראה כמו כיתה אחרת ("+DATA.clsName(pc.grade,pc.num)+").\n\nהזהות של הכיתה לא תשתנה — רק השם. להמשיך?"})))return;
   const r=DATA.renameClass(REGSTORE,cid,nm);
   if(!r.ok){ toast(r.error==="empty-name"?"השם ריק":"שינוי השם נכשל"); return; }
   toast("✓ הכיתה נקראת עכשיו «"+nm+"»");
@@ -699,6 +960,81 @@ const SCHED={
 };
 
 /* ============================================================
+   שיוך מערך לשיעור
+   ------------------------------------------------------------
+   מערך שהוכן בנחת, מראש, משויך לשיעור מסוים — כיתה ותאריך — ומאז
+   הוא מופיע ב«היום» ונפתח לבד כשהשיעור מתחיל. בלי השיוך המערך חי
+   רק בזיכרון של מסך «מערכים», ונעלם ברענון.
+
+   ls.assign: { "cid|YYYY-MM-DD": {title, plan, ts} }
+   עותק של המערך ולא הפניה: מערך בספרייה יכול להשתנות או להימחק,
+   והשיעור צריך את מה שהוכן לו.
+   ============================================================ */
+const ASSIGN_KEY="ls.assign";
+const addDaysISO=(iso,n)=>{ const d=new Date(iso+"T12:00:00"); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+const ASSIGN={
+  all(){ const v=LS.get(ASSIGN_KEY,{}); return (v&&typeof v==="object"&&!Array.isArray(v))?v:{}; },
+  get(cid,iso){ return (cid&&this.all()[cid+"|"+(iso||isoToday())])||null; },
+  set(cid,iso,plan){
+    const a=this.all(), old=addDaysISO(isoToday(),-14);
+    /* שיוכים של לפני שבועיים לא משרתים אף אחד — הם רק ממלאים את האחסון */
+    Object.keys(a).forEach(k=>{ if((k.split("|")[1]||"")<old)delete a[k]; });
+    a[cid+"|"+iso]={title:(plan&&plan.title)||"",plan:JSON.parse(JSON.stringify(plan||{})),ts:Date.now()};
+    return LS.set(ASSIGN_KEY,a);
+  },
+  remove(cid,iso){ const a=this.all(); delete a[cid+"|"+iso]; LS.set(ASSIGN_KEY,a); },
+  /* המופעים הקרובים של כיתה במערכת השעות: מהיום ועד days ימים קדימה.
+     משבצת של היום שכבר נגמרה, או שיעור שכבר התקיים, לא מוצעים. */
+  upcoming(cid,days){
+    const out=[], t0=isoToday(), nm=minNow();
+    for(let i=0;i<(days||14);i++){
+      const iso=addDaysISO(t0,i);
+      DATA.schedToday(schedAll(),iso,sesAll(),i?-1:nm).forEach(r=>{
+        if(!r.startable||r.slot.cid!==cid||r.status==="done")return;
+        if(i===0){ const w=DATA.slotWindow(r.slot); if(w&&nm>=w.to)return; }
+        out.push({iso,slot:r.slot,day:i});
+      });
+    }
+    return out;
+  },
+  /* «להכנה»: שיעורים של היום (שעוד לא התחילו) ושל מחר, שאין להם מערך */
+  toPrep(){
+    const out=[], t0=isoToday(), nm=minNow();
+    for(let i=0;i<2;i++){
+      const iso=addDaysISO(t0,i);
+      DATA.schedToday(schedAll(),iso,sesAll(),i?-1:nm).forEach(r=>{
+        if(!r.startable||!r.slot.cid||r.status!=="planned")return;
+        if(i===0){ const w=DATA.slotWindow(r.slot); if(w&&nm>=w.from)return; }
+        if(!ASSIGN.get(r.slot.cid,iso))out.push({iso,slot:r.slot,day:i});
+      });
+    }
+    return out;
+  }
+};
+/* «הכן מערך» מ«היום»: מסך המערכים נפתח על הכיתה, והשיוך מוצע מראש
+   לשיעור שממנו באו. */
+function prepFor(cid,iso,time){
+  LS.set("ls.target",{cid,iso,time:time||"",name:clsDisp(cid)});
+  go("lesson");
+  if(window.LESSON&&window.LESSON.applyTarget)window.LESSON.applyTarget();
+}
+const dayWord=d=>d===0?t("prep.today","היום"):t("prep.tomorrow","מחר");
+function paintPrep(){
+  const box=$("#hx-prep"); if(!box)return;
+  let rows=[]; try{ rows=ASSIGN.toPrep(); }catch(e){}
+  if(!rows.length){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  box.innerHTML='<div class="top"><b>'+esc(t("prep.title","להכנה"))+'</b><span class="hint">'+
+    esc(t("prep.sub","שיעורים קרובים שעוד אין להם מערך"))+'</span></div>'+
+    rows.slice(0,4).map(r=>'<div class="hx-up"><span class="tm" dir="ltr">'+esc(r.slot.time||"")+'</span>'+
+      '<b>'+esc(slotName(r.slot))+'</b><span class="tp">'+esc(dayWord(r.day))+'</span>'+
+      '<button class="btn sm" data-prep="'+esc(r.slot.cid)+'|'+esc(r.iso)+'|'+esc(r.slot.time||"")+'">📝 '+
+        esc(t("prep.btn","הכן מערך"))+'</button></div>').join("");
+  box.querySelectorAll("[data-prep]").forEach(b=>b.addEventListener("click",()=>{
+    ac(); const [cid,iso,tm]=b.dataset.prep.split("|"); prepFor(cid,iso,tm); }));
+}
+
+/* ============================================================
    «השיעורים שלי היום»
    ------------------------------------------------------------
    השאלה שדף הבית לא ידע לענות עליה עד עכשיו. שורה לכל שיעור,
@@ -711,8 +1047,9 @@ function startFromSlot(slot){
      לפי צילום שם ישן של כיתה ששונתה היה יוצר כיתה שנייה. */
   try{ if(!DATA.classOf(REGSTORE,slot.cid))
     DATA.registerClass(REGSTORE,slot.clsSnapshot||""); }catch(e){}
+  const as=ASSIGN.get(slot.cid,isoToday());
   const r=SESSION.start({cid:slot.cid,clsSnapshot:slot.clsSnapshot||"",
-    date:isoToday(),planTitle:slot.topic||""});
+    date:isoToday(),planId:(as&&as.plan&&as.plan.id)||null,planTitle:(as&&as.title)||slot.topic||""});
   if(r.outcome==="blocked"){
     toast("כבר פתוח שיעור בכיתה "+sesName(r.active)+" — סיים אותו קודם");
     return;
@@ -721,7 +1058,11 @@ function startFromSlot(slot){
   paintSessionBar();
   toast(r.outcome==="resumed"?"השיעור כבר פתוח":"▶ השיעור בכיתה "+
     (slot.clsSnapshot||"")+" התחיל");
+  /* המערך ששויך לשיעור הזה עולה איתו למצב שיעור */
+  if(as&&as.plan&&window.LIVE)window.LIVE.attachPlan(as.plan);
   paintHome();
+  /* התחלת שיעור מביאה ישר למצב שיעור: הכיתה כבר ידועה, והכלים שם */
+  go("live");
 }
 /* שם הכיתה של משבצת — מהרישום, כדי ששינוי שם יופיע גם כאן */
 function slotName(sl){
@@ -730,7 +1071,7 @@ function slotName(sl){
 }
 /* שני הבלוקים של דף הבית נצבעים יחד — הם שני קצוות של אותה זרימה */
 function paintHome(){
-  try{ paintToday(); paintLastLesson(); }catch(e){}
+  try{ paintToday(); paintLastLesson(); paintPrep(); }catch(e){}
 }
 /* ============================================================
    «היום שלי» — עכשיו, הבא, ובהמשך
@@ -748,6 +1089,13 @@ function slotRange(sl){
   const w=DATA.slotWindow(sl);
   return w?(DATA.fmtTime(w.from)+"–"+DATA.fmtTime(w.to)):(sl.time||"");
 }
+/* הנושא של משבצת: המערך ששויך לה היום, ואם אין — הנושא שבמערכת */
+function slotTopic(sl,cls,block){
+  const as=ASSIGN.get(sl.cid,isoToday());
+  const txt=as&&as.title?"📋 "+as.title:(sl.topic||"");
+  if(!txt)return "";
+  return block?'<div class="'+cls+'">'+esc(txt)+'</div>':'<span class="'+cls+'">'+esc(txt)+'</span>';
+}
 /* שורה קומפקטית — לשיעור שאינו במוקד. כפתור משני ולא כפתור ראשי:
    דף שכולו כפתורים ראשיים הוא דף בלי היררכיה. */
 function upRow(r,label){
@@ -756,7 +1104,7 @@ function upRow(r,label){
     (label?'<span class="lbl">'+esc(label)+'</span>':"")+
     '<span class="tm" dir="ltr">'+esc(sl.time)+'</span>'+
     '<b>'+esc(slotName(sl))+'</b>'+
-    (sl.topic?'<span class="tp">'+esc(sl.topic)+'</span>':"")+
+    slotTopic(sl,"tp")+
     '<button class="btn sm ghost" data-slot="'+esc(sl.id)+'">▶ התחל</button></div>';
 }
 function focusCard(r,mode){
@@ -778,7 +1126,7 @@ function focusCard(r,mode){
     '<div class="cls">'+esc(r.startable?slotName(sl):(sl.label||DATA.kindLabel(DATA.kindOf(sl))))+'</div>'+
     '<div class="when">'+esc(slotRange(sl))+'</div>'+
     (until?'<div class="until">מתחיל בעוד '+esc(until)+'</div>':"")+
-    (sl.topic?'<div class="topic">'+esc(sl.topic)+'</div>':"")+
+    slotTopic(sl,"topic",true)+
     (act1?'<div class="row" style="margin-top:11px">'+act1+'</div>':"")+
     '</div>';
 }
@@ -825,8 +1173,7 @@ function paintToday(){
     const sl=SCHED.list().find(x=>x.id===b.dataset.slot);
     if(sl)startFromSlot(sl);
   }));
-  $$("#hx-todayList [data-resume]").forEach(b=>b.addEventListener("click",()=>
-    openClassScreen(b.dataset.resume)));
+  $$("#hx-todayList [data-resume]").forEach(b=>b.addEventListener("click",()=>go("live")));
   const en=$("#hx-endNow"); if(en)en.addEventListener("click",openEndLesson);
   wireDayFoot();
 }
@@ -921,21 +1268,20 @@ function paintLastLesson(){
 let grpEdit=null;   /* מזהה הקבוצה שנערכת, או null ליצירה */
 
 /* ============================================================
-   הגשר: רשימות הכיתה → «התלמידים שלי»
+   רשימה אחת — מה שנשאר מהגשר
    ------------------------------------------------------------
-   מורה שהדביק רשימה לכל כיתה בנפרד ראה «התלמידים שלי» ריק וקבוצות
-   הוראה שמדווחות «0 תלמידים». הנתונים היו שם כל הזמן, במאגר השני.
-
-   הגשר רץ בעלייה ולפני כל מסך שקורא את הרשימה, וכותב רק כשבאמת
-   נוסף מישהו — כך שמורה שכבר מסונכרן לא משלם על זה כתיבה בכל
-   ניווט. ההחלטה מי נוסף ומה לא נדרס יושבת ב-hm-data, ונבדקת שם.
+   מאז סכמה 5 רשימות הכיתה הן «התלמידים שלי» (DATA.classRoster), ואין
+   מה לגשר. אם בכל זאת הופיע ft.roster — גיבוי ישן ששוחזר, או מכשיר
+   שעוד לא עבר את ההסבה — מקפלים אותו מיד באותה הסבה (4→5), לפני
+   שמסך כלשהו קורא את הרשימה. בכל מקרה אחר זו קריאה אחת בלי כתיבה.
    ============================================================ */
 function syncStudents(){
   try{
-    const r=DATA.syncStudentsFromRosters(REGSTORE,LS.get("stu.list",[]),LS.get("ft.roster",{}));
-    if(r.added||r.filled)LS.set("stu.list",r.list);
-    return r;
-  }catch(e){ return {list:[],added:0,filled:0,classes:0}; }
+    const v=LS.get("ft.roster",null);
+    if(!v||typeof v!=="object"||Array.isArray(v))return {added:0,filled:0,classes:0};
+    const rep=runMigration();
+    return {added:(rep&&rep.rosterAdded)||0,filled:(rep&&rep.rosterSex)||0,classes:0};
+  }catch(e){ return {added:0,filled:0,classes:0}; }
 }
 function grpStudents(){ syncStudents(); const v=LS.get("stu.list",[]); return Array.isArray(v)?v:[]; }
 function grpName(cid){
@@ -962,13 +1308,10 @@ function renderGrpList(){
   $$("#grp-list [data-gdel]").forEach(b=>b.addEventListener("click",()=>{
     const g=DATA.groupOf(REGSTORE,b.dataset.gdel); if(!g)return;
     /* קבוצה שמופיעה במערכת השעות — המשבצות שלה יישארו בלי הקשר */
-    const used=SCHED.list().filter(x=>x.cid===g.id).length;
-    if(!confirm("למחוק את הקבוצה «"+g.name+"»?\n\n"+
-      (used?"• "+used+" משבצות במערכת השעות מצביעות עליה ויישארו בלי קבוצה.\n":"")+
-      "• התלמידים, המדידות והשיעורים שהתקיימו לא ייפגעו."))return;
+    const back=snap(["ft.classes"]);
     DATA.removeGroup(REGSTORE,g.id);
     grpReset(); renderGrpList(); paintHome();
-    toast("הקבוצה נמחקה");
+    undo("הקבוצה נמחקה",()=>{ back(); renderGrpList(); paintHome(); });
   }));
 }
 function renderGrpPickers(sel){
@@ -1189,7 +1532,7 @@ function addFromEditor(){
    קיימת היא שואלת קודם, כי שבוע שמישהו הזין ידנית לא נמחק בשקט. */
 function loadSampleWeek(){
   const cur=SCHED.list().length;
-  if(cur&&!confirm("במערכת יש כבר "+cur+" משבצות.\nלטעון את המערכת לדוגמה במקומה?"))return;
+  const back=snap([SCHED_KEY,"ft.classes"]);
   let list=cur?[]:SCHED.all();
   if(cur)schedSave([]);
   let added=0;
@@ -1199,15 +1542,17 @@ function loadSampleWeek(){
     if(r.ok&&r.outcome==="added")added++;
   });
   closeCell(); renderGrid(); paintHome();
-  toast("✓ נטענו "+added+" משבצות — ערוך אותן לפי המערכת שלך");
+  const msg="✓ נטענו "+added+" משבצות — ערוך אותן לפי המערכת שלך";
+  /* מעל מערכת קיימת — היא מוחלפת מיד, ו«בטל» מחזיר אותה כמו שהייתה */
+  if(cur)undo(msg,()=>{ back(); renderGrid(); paintHome(); },8000); else toast(msg);
 }
 function clearWeek(){
   const n=SCHED.list().length;
   if(!n){ toast("המערכת כבר ריקה"); return; }
-  if(!confirm("למחוק את כל "+n+" המשבצות במערכת השעות?\nהתלמידים, המדידות והשיעורים לא ייפגעו."))return;
+  const back=snap([SCHED_KEY]);
   schedSave([]);
   closeCell(); renderGrid(); paintHome();
-  toast("המערכת נוקתה");
+  undo("המערכת נוקתה",()=>{ back(); renderGrid(); paintHome(); },8000);
 }
 
 function openSched(){
@@ -1278,7 +1623,25 @@ function openEndLesson(){
     "לא נלקחו מדידות בשיעור. ")+"השיעור יישאר בהיסטוריה.";
   $("#end-note").value="";
   $$("#end-rate button").forEach(b=>b.classList.remove("on"));
+  paintEndAtt();
   modal("endModal",true);
+}
+/* הנוכחות של השיעור, בשורה אחת בחלון הסיום. לא סומנה — כפתור אחד
+   שמסמן את כל מי שלא סומן כנוכח, כמו «✓ סמן את כולם» בנוכחות. */
+function paintEndAtt(){
+  const box=$("#end-att"); if(!box)return;
+  const st=window.TOOLS&&window.TOOLS.attStatus?window.TOOLS.attStatus():null;
+  if(!st||!st.total){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  if(st.marked>=st.total){
+    box.className="end-att ok";
+    box.innerHTML="✓ "+esc(t("end.attDone","נוכחות סומנה"))+" · "+st.cnt.p+"/"+st.total;
+    return;
+  }
+  box.className="end-att warn";
+  box.innerHTML='<span>⚠ '+esc(t("end.attPart","נוכחות: סומנו"))+" "+st.marked+"/"+st.total+'</span>'+
+    '<button class="btn sm acc" id="end-attAll">✓ '+esc(t("end.attRest","כל השאר נוכחים"))+'</button>';
+  $("#end-attAll").addEventListener("click",()=>{ ac(); window.TOOLS.markAllPresent(); paintEndAtt(); });
 }
 function wireEndLesson(){
   $$("#end-rate button").forEach(b=>b.addEventListener("click",()=>{
@@ -1289,17 +1652,31 @@ function wireEndLesson(){
     $$("#end-rate button").forEach(x=>x.classList.toggle("on",
       endRate!=null&&+x.dataset.r===endRate));
   }));
-  const go=$("#end-go"); if(!go)return;
-  go.addEventListener("click",()=>{
+  const endGo=$("#end-go"); if(!endGo)return;
+  endGo.addEventListener("click",()=>{
     const a=SESSION.active();
     if(!a){ modal("endModal",false); return; }
     const cid=a.cid;
-    const r=SESSION.complete(a.id,{rating:endRate,note:$("#end-note").value});
+    const note=$("#end-note").value;
+    /* דירוג אחד לשיעור. הוא נשמר על השיעור (ההמלצה לשיעור הבא), ואם
+       השיעור רץ על מערך מהמחולל — גם למשוב של המחולל, שבוחר לפיו
+       גרסאות. קודם היו שני דירוגים נפרדים שאף אחד מהם לא ראה את השני. */
+    try{
+      const lp=window.LIVE&&window.LIVE.plan&&window.LIVE.plan();
+      const pl=lp&&lp.plan;
+      if(endRate!=null&&pl&&pl.topic&&pl.grade){
+        const fb=LS.get("ls.feedback",[]);
+        fb.unshift({ts:Date.now(),topic:pl.topic,grade:pl.grade,subs:pl.subs||[],variants:pl.variants||[],rating:endRate,note:note.trim()});
+        LS.set("ls.feedback",fb.slice(0,400));
+      }
+    }catch(e){}
+    const r=SESSION.complete(a.id,{rating:endRate,note});
     modal("endModal",false);
     if(!r.ok){ toast("סיום השיעור נכשל"); return; }
     toast("✓ השיעור הסתיים");
     /* מיד אחרי הסיום זה הרגע שבו ההמלצה שווה משהו — המורה עדיין
-       זוכר את השיעור, והכיתה הבאה עוד לא נכנסה. */
+       זוכר את השיעור, והכיתה הבאה עוד לא נכנסה. לכן מסיימים במרכז
+       הכיתה, שם ההמלצה לשיעור הבא. */
     setTimeout(()=>openClassScreen(cid),350);
   });
 }
@@ -1319,8 +1696,17 @@ function clsDisp(cid){
   const p=DATA.cidParts(cid);
   return p?DATA.clsName(p.grade,p.num):(cid||"");
 }
+/* מסך הכיתה עבר מחלון למרכז הכיתה (אזור «כיתות»). הפונקציה נשארת
+   בשמה, כי אליה פונים מדף הבית, מהיום המלא ומסוף שיעור. */
 function openClassScreen(cid){
   if(!cid)return;
+  LS.set("hub.cls",cid);
+  go("cls");
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+/* הסקירה של כיתה — מספרים, המשך מומלץ ושיעורים אחרונים. מרכז הכיתה
+   (hm-hub.js) מצייר אותה בראש המסך, ומוסיף מתחתיה את הכרטיסים. */
+function classOverviewHtml(cid){
   syncStudents();   /* «X תלמידים» כאן קורא את stu.list — הגשר לפניו */
   const ses=SESSION.list({cid});
   const done=ses.filter(x=>x.status===DATA.SESSION_DONE);
@@ -1334,7 +1720,6 @@ function openClassScreen(cid){
   const rec=DATA.nextLesson(ses,{cid,rows});
   const act=SESSION.active();
 
-  $("#cls-title").textContent=(grp?"קבוצה ":"כיתה ")+clsDisp(cid);
   const stat=(n,l)=>'<div class="qs"><div class="n">'+esc(String(n))+'</div><div class="l">'+esc(l)+'</div></div>';
   const last=done[0];
   let html=grp
@@ -1392,16 +1777,18 @@ function openClassScreen(cid){
     (grp?'<div class="hint" style="margin-top:9px">מדידה בקבוצה נעשית בינתיים דרך הכיתה עצמה — '+
       esc(DATA.groupSummary(REGSTORE,cid))+'.</div>':"");
 
-  $("#cls-body").innerHTML=html;
+  return html;
+}
+function wireClassOverview(cid){
   const st=$("#cls-start");
   if(st)st.addEventListener("click",()=>{
     startFromSlot({cid,clsSnapshot:clsDisp(cid),topic:""});
-    modal("clsModal",false);
   });
   const ft=$("#cls-ft");
-  if(ft)ft.addEventListener("click",()=>{ modal("clsModal",false); go("ft"); });
-  modal("clsModal",true);
+  if(ft)ft.addEventListener("click",()=>{ if(window.FT&&window.FT.show)window.FT.show(cid,"tests"); else go("ft"); });
 }
+const classTitle=cid=>{ let g=null; try{ g=DATA.groupOf(REGSTORE,cid); }catch(e){}
+  return (g?t("hub.group","קבוצה")+" ":t("hub.class","כיתה")+" ")+clsDisp(cid); };
 
 /* תוויות המשוב על שיעור. חיות כאן ולא בשכבת הנתונים: הדירוג הוא
    מספר, והמילה שמתארת אותו היא החלטת ממשק. */
@@ -1421,7 +1808,7 @@ const RATING_LABEL={"1":"👍 עבד מצוין","0":"😐 בינוני","-1":"�
    של המצב הנוכחי לפני הדריסה.
    ============================================================ */
 const BK_PREFIX=BRAND.ns;
-const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה","ft.norms":"טבלת נורמה",
+const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
   "rec.pass":"קוד המורה","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
@@ -1651,6 +2038,15 @@ function wireBackup(){
     r.onload=()=>{
       let snap;
       try{ snap=JSON.parse(r.result); }catch(err){ toast("הקובץ אינו קובץ גיבוי תקין"); return; }
+      /* קובץ שיאים ישן מלוח המורה — ממזגים לשיאים, בלי לגעת בשאר */
+      if(REC.isLegacyFile&&REC.isLegacyFile(snap)){
+        (async()=>{
+          if(!(await ask({msg:t("bk.legacyQ","זה קובץ שיאים ישן ({0} רשומות, בלי סרטונים). למזג אותו לשיאים שבמכשיר? שום נתון אחר לא ישתנה.").replace("{0}",snap.records.length),ok:"📥 מזג"})))return;
+          try{ const n=await REC.importLegacy(snap); toast(t("bk.legacyDone","✓ מוזגו {0} שיאים").replace("{0}",n)); }
+          catch(err){ toast("קובץ לא תקין"); }
+        })();
+        return;
+      }
       /* ולידציה לפני שנוגעים במשהו. קובץ שנחתך באמצע ההורדה, קובץ
          מגרסה חדשה יותר וקובץ של אפליקציה אחרת נראים דומים מספיק
          כדי שהקוד הישן היה מנסה לשחזר מהם — ולמחוק את מה שיש. */
@@ -1862,13 +2258,13 @@ function wirePurge(){
     paint();
   }));
   $("#pg-backup").addEventListener("click",()=>{ if(bkExport())LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); });
-  $("#pg-go").addEventListener("click",()=>{
+  $("#pg-go").addEventListener("click",async()=>{
     const iso=$("#pg-date").value; if(!iso)return;
     const c=count(iso);
     /* אישור כפול: הראשון מסביר, השני דורש לכתוב את המילה — מחיקה של
        היסטוריית מדידות של תלמידים אמיתיים לא צריכה להיות הקשה אחת. */
-    if(!confirm("למחוק "+c.res+" מדידות ו-"+c.arc+" מירוצים שלפני "+iso+"?\n\nהפעולה אינה הפיכה."))return;
-    if(prompt('הקלד "מחק" לאישור סופי:')!=="מחק"){ toast("בוטל"); return; }
+    if(!(await ask({msg:"למחוק "+c.res+" מדידות ו-"+c.arc+" מירוצים שלפני "+iso+"?\n\nהפעולה אינה הפיכה.",
+      word:"מחק",danger:true,ok:"🗑 מחק"})))return;
     LS.set("ft.results",dated().filter(r=>!(r&&r.d&&r.d<iso)));
     LS.set("pf.archive",(LS.get("pf.archive",[])||[]).filter(a=>!(a&&a.date&&a.date<iso)));
     modal("purgeModal",false);
@@ -1930,7 +2326,7 @@ function bkPreview(snap){
   if(notes.length)w.textContent=notes.join("  ");
   $("#bk-safety").onclick=()=>{ if(bkExport())LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); };
   $("#bk-go").onclick=async()=>{
-    if(!confirm("לשחזר? כל הנתונים שבמכשיר יוחלפו בנתונים שבקובץ."))return;
+    if(!(await ask({msg:t("bk.confirm","לשחזר? כל הנתונים שבמכשיר יוחלפו בנתונים שבקובץ."),danger:true,ok:"♻ שחזר"})))return;
     $("#bk-go").disabled=true;
     toast("משחזר…");
     let r;
@@ -2131,7 +2527,9 @@ function upOffer(version){
    ============================================================ */
 const BT=(function(){
   const STAGE_SEC=60, MAX_SPEED=18.0;
-  let distance=LS.get("bt.dist",20), startSpeed=LS.get("bt.start",5.0);
+  /* ברירת המחדל היא הפרוטוקול התקני (8.0 קמ״ש). 5.0 הציג אזהרה
+     «לא תקני» לכל מורה חדש עד שמצא את כפתור «תקני». */
+  let distance=LS.get("bt.dist",20), startSpeed=LS.get("bt.start",8.0);
   let classAge=LS.get("bt.age",13), classSex=LS.get("bt.sex","boys");
   let beeps=[];
   const speedKmh=L=>startSpeed+0.5*(L-1);
@@ -2155,6 +2553,11 @@ const BT=(function(){
     $("#bt-warnBox").classList.toggle("show",!isStandard());
     const p=$("#bt-protoPill"); p.textContent=isStandard()?"פרוטוקול תקני":"פרוטוקול מותאם";
     p.classList.toggle("acc",isStandard());
+    /* שורת הסיכום של ההגדרות המקופלות — מה מוגדר, בלי לפתוח */
+    const sum=$("#bt-setSum");
+    if(sum)sum.textContent=distance+" "+t("u.m","מ׳")+" · "+startSpeed.toFixed(1)+" "+t("u.kmh","קמ״ש")+" · "+
+      (isStandard()?t("bt.sumStd","תקני"):t("bt.sumCustom","⚠ מותאם"));
+    const fold=$("#bt-setupFold"); if(fold&&!isStandard())fold.open=true;
   }
 
   /* ----- VO2 & FITNESSGRAM ----- */
@@ -2413,7 +2816,12 @@ const BT=(function(){
     $("#bt-voice").addEventListener("change",e=>{SET.voice=e.target.checked;saveSet()});
     $("#bt-sound").addEventListener("change",e=>{SET.sound=e.target.checked;saveSet()});
     $("#bt-startBtn").addEventListener("click",()=>running?pause():start());
-    $("#bt-resetBtn").addEventListener("click",()=>{ if(getElapsed()===0||confirm("לאפס את שעון המבחן? (הלוח נשמר)"))reset(); });
+    /* איפוס מיידי, ו«בטל» מחזיר את השעון לאותה נקודה — מושהה */
+    $("#bt-resetBtn").addEventListener("click",()=>{
+      const el=getElapsed(); reset(); if(el<=0)return;
+      undo("השעון אופס (הלוח נשמר)",()=>{ if(running||elapsedOffset>0)return;
+        elapsedOffset=el; setSegEnabled(false); $("#bt-startBtn").innerHTML="▶ המשך"; $("#bt-regBtn").disabled=false; render(); });
+    });
     $("#bt-regBtn").addEventListener("click",()=>registerDrop());
     $("#bt-loadCls").addEventListener("click",()=>{
       if(!window.FT||!window.FT.pick){toast("בורר הכיתה לא זמין");return;}
@@ -2424,8 +2832,9 @@ const BT=(function(){
     });
     $("#bt-clrCls").addEventListener("click",()=>{
       if(!heat.names.length)return;
-      if(!confirm("לנקות את רשימת המקצה? הרישומים בלוח נשמרים."))return;
+      const was=heat;
       heat={cls:"",names:[]}; heatSave(); renderHeat();
+      undo("רשימת המקצה נוקתה · הרישומים בלוח נשמרים",()=>{ heat=was; heatSave(); renderHeat(); });
     });
     $("#bt-undoBtn").addEventListener("click",()=>{ if(results.length){results.pop();nextNum=Math.max(1,nextNum-1);persist();renderResults();renderHeat();renderLanes();toast("הרישום האחרון בוטל");} });
     /* התוצאה של הביפ נשמרת כמרחק במבחן «ביפ טסט» של מודול המבחנים,
@@ -2439,7 +2848,11 @@ const BT=(function(){
           sex:classSex==="girls"?"girls":"boys"}));
         if(!rows.length){toast("אין תוצאה עם מרחק");return;}
         const res=window.FT.ingest(cls,"beep",rows,"ביפ טסט",cid?{cid}:null);
-        toast(res.added?("✓ נשלחו "+res.added+" תוצאות ל"+cls+(res.dup?" · "+res.dup+" כבר היו":"")) 
+        /* יעד אחד: אותה לחיצה רושמת גם בכרטיס התלמיד (גרף הביפ, VO₂max,
+           אזור), שעד עכשיו דרש כפתור נפרד «שמור למעקב» */
+        try{ if(window.STU&&window.STU.importFromBeep)
+          window.STU.importFromBeep({quiet:true,cls,cid:cid||null}); }catch(e){}
+        toast(res.added?("✓ נשלחו "+res.added+" תוצאות ל"+cls+(res.dup?" · "+res.dup+" כבר היו":""))
                        :(res.dup?"כל התוצאות כבר נשלחו":"לא נשלח דבר"));
       };
       /* אם נטענה כיתה למקצה — היא היעד המובן מאליו. אם לא, אבל יש
@@ -2479,14 +2892,14 @@ const BT=(function(){
       const i=e.target.value; if(i==="")return;
       const p2=profs()[+i]; if(p2)profApply(p2);
     });
-    $("#bt-profSave").addEventListener("click",()=>{
+    $("#bt-profSave").addEventListener("click",async()=>{
       const def=(classSex==="girls"?"בנות":"בנים")+" · "+distance+" מ׳ · גיל "+classAge;
-      const nm=prompt("שם הפרופיל:",def); if(nm===null)return;
+      const nm=await ask({fields:[{label:"שם הפרופיל:",value:def}],ok:"💾 שמור"}); if(nm===null)return;
       const name=nm.trim()||def;
       const list=profs();
       const rec={name,dist:distance,speed:startSpeed,age:classAge,sex:classSex};
       const at=list.findIndex(p2=>p2.name===name);
-      if(at>=0){ if(!confirm("כבר יש פרופיל בשם הזה — לדרוס אותו?"))return; list[at]=rec; }
+      if(at>=0){ if(!(await ask({msg:"כבר יש פרופיל בשם הזה — לדרוס אותו?"})))return; list[at]=rec; }
       else list.push(rec);
       setProfs(list); profPaint();
       $("#bt-profSel").value=String(at>=0?at:list.length-1);
@@ -2496,9 +2909,9 @@ const BT=(function(){
       const i=$("#bt-profSel").value;
       if(i===""){ toast("בחר פרופיל למחיקה"); return; }
       const list=profs(), p2=list[+i]; if(!p2)return;
-      if(!confirm("למחוק את הפרופיל «"+p2.name+"»?"))return;
+      const was=profs();
       list.splice(+i,1); setProfs(list); profPaint(); $("#bt-profSel").value="";
-      toast("הפרופיל נמחק");
+      undo("הפרופיל נמחק",()=>{ setProfs(was); profPaint(); });
     });
     profPaint();
 
@@ -2523,11 +2936,16 @@ const BT=(function(){
       const clsPart=(heat.cls||"").replace(/[\\/:*?"<>|]/g,"").trim();
       dlCSV("ביפ-טסט"+(clsPart?"-"+clsPart:"")+"-"+new Date().toISOString().slice(0,10)+".csv",rows);
     });
-    $("#bt-clearBtn").addEventListener("click",()=>{ if(results.length&&confirm("למחוק את כל הרישומים?")){results=[];nextNum=1;persist();renderResults();renderHeat();renderLanes();$("#bt-regBtn").disabled=!(running||elapsedOffset>0);} });
+    const btPaint=()=>{ persist();renderResults();renderHeat();renderLanes();$("#bt-regBtn").disabled=!(running||elapsedOffset>0); };
+    $("#bt-clearBtn").addEventListener("click",()=>{ if(!results.length)return;
+      const was=results.slice(), wasN=nextNum;
+      results=[];nextNum=1;btPaint();
+      undo("כל הרישומים נמחקו",()=>{ results=was; nextNum=wasN; btPaint(); });
+    });
     document.addEventListener("keydown",e=>{
       if(!$("#view-beep").classList.contains("on"))return;
       if(e.target.classList&&e.target.classList.contains("nm"))return;
-      if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
+      if(typingIn(e))return;
       if(e.code==="Space"){e.preventDefault();running?pause():start();}
       else if(e.code==="Enter"){e.preventDefault();if(!$("#bt-regBtn").disabled)registerDrop();}
     });
@@ -3061,6 +3479,23 @@ const PF=(function(){
   function resetRace(){ stopRace(); prepRace(); $("#pf-clock").textContent="00:00.00";
     const fc=$("#pf-fsClock"); if(fc)fc.textContent="00:00.00"; if(mode==="sim")drawSimIdle(); }
 
+  /* איפוס מקצה מיידי. אם כבר נרשמו זמנים — «בטל» מחזיר אותם, יחד עם
+     תמונת הסיום, בדיוק כמו שהיו (השעון נשאר עצור). */
+  function resetUndo(){
+    const had=lanes.some(l=>l.time!=null);
+    if(!had){ resetRace(); return; }
+    const keep={times:lanes.map(l=>({time:l.time,src:l.src,snap:l.snap})),marks:marks.slice(),cols:cols.slice(),stripX,fullCursor};
+    const img=document.createElement("canvas"); img.width=bctx.canvas.width; img.height=bctx.canvas.height;
+    try{ img.getContext("2d").drawImage(bctx.canvas,0,0); }catch(e){}
+    resetRace();
+    undo(t("pf.resetDone","המקצה אופס"),()=>{
+      if(race.on)return;
+      keep.times.forEach((x,i)=>{ if(lanes[i]){ lanes[i].time=x.time; lanes[i].src=x.src; lanes[i].snap=x.snap; } });
+      marks=keep.marks; cols=keep.cols; stripX=keep.stripX; fullCursor=keep.fullCursor;
+      try{ bctx.drawImage(img,0,0); }catch(e){}
+      renderChips(); renderBoard(); try{ renderLiveStrip(); renderFullStrip(); }catch(e){} refreshLaneSel();
+    },8000);
+  }
   function nextUnfinished(){ return lanes.findIndex(l=>l.time==null); }
   function fire(idx,src,tExact){
     if(!race.on)return;
@@ -3080,7 +3515,8 @@ const PF=(function(){
     const place=lanes.filter(l=>l.time!=null).length;
     flashBanner(place,lanes[i]);
     renderChips(); renderBoard();
-    if(nextUnfinished()<0){ say("כולם סיימו"); setTimeout(()=>{ if(race.on&&confirm("כולם סיימו 🏁 לעצור את השעון?"))stopRace(); },350); }
+    /* לא חוסמים את המסך בשאלה באמצע מירוץ — הודעה עם כפתור עצירה */
+    if(nextUnfinished()<0){ say("כולם סיימו"); setTimeout(()=>{ if(race.on)actToast(window.HM.t("pf.allDone","כולם סיימו 🏁"),window.HM.t("pf.stopClk","⏹ עצור שעון"),()=>{ if(race.on)stopRace(); },9000); },350); }
   }
   function flashBanner(place,l){
     const f=$("#pf-flash"); f.classList.remove("go"); void f.offsetWidth; f.classList.add("go");
@@ -3189,6 +3625,7 @@ const PF=(function(){
   }
   function renderBoard(){
     renderMeta();
+    paintSaveBtn();
     const list=finished(), medals=["🥇","🥈","🥉"];
     $("#pf-empty").style.display=list.length?"none":"block";
     $("#pf-tbody").innerHTML=list.map((l,i)=>`
@@ -3273,8 +3710,9 @@ const PF=(function(){
       go("photo"); switchTab("results"); toast("המירוץ נטען ללוח התוצאות");
     }));
     $$("#pf-historyList [data-del]").forEach(b=>b.addEventListener("click",()=>{
-      if(!confirm("למחוק מהארכיון?"))return;
-      LS.set("pf.archive",arcList().filter(x=>x.id!=b.dataset.del)); renderHistory();
+      const was=arcList();
+      LS.set("pf.archive",was.filter(x=>x.id!=b.dataset.del)); renderHistory();
+      undo(t("pf.arcDel","נמחק מהארכיון"),()=>{ LS.set("pf.archive",was); renderHistory(); });
     }));
   }
   function importCSV(file){
@@ -3335,7 +3773,10 @@ const PF=(function(){
   const lTime=()=>L.on?(performance.now()-L.t0)/1000:0;
   function lGun(){
     ac();
-    if(L.on){ if(confirm("לעצור את שעון ההקפות?")){L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);$("#pf-lGun").textContent="🔫 זינוק";} return; }
+    /* עצירה מיידית; «בטל» ממשיך את אותו שעון (t0 לא זז), כאילו לא נעצר */
+    if(L.on){ L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);$("#pf-lGun").textContent="🔫 זינוק";
+      undo(t("pf.lStopped","שעון ההקפות נעצר"),()=>{ if(L.on)return; L.on=true; keepAwake(true); $("#pf-lGun").innerHTML="⏹ עצור"; lLoop(); lRender(); });
+      return; }
     if(!L.runners.length){toast("הוסף רצים קודם");return;}
     L.runners.forEach(r=>{r.laps=[];r.fin=null});
     L.on=true; L.t0=performance.now(); keepAwake(true); horn();
@@ -3365,7 +3806,12 @@ const PF=(function(){
     }).join("")||'<div class="hint">אין רצים.</div>';
     $$("#pf-lGrid .pf-lapbtn").forEach(b=>{
       let lp=null;
-      b.addEventListener("pointerdown",()=>{ lp=setTimeout(()=>{ if(confirm("להסיר את "+L.runners[b.dataset.i].name+"?")){L.runners.splice(b.dataset.i,1);LS.set("pf.lroster",L.runners.map(r=>r.name));lRender();} lp=null; },650); });
+      b.addEventListener("pointerdown",()=>{ lp=setTimeout(()=>{ lp=null;
+        const i=+b.dataset.i, r=L.runners[i]; if(!r)return;
+        const save=()=>{ LS.set("pf.lroster",L.runners.map(x=>x.name)); lRender(); };
+        L.runners.splice(i,1); save();
+        undo(t("pf.lRemoved","הוסר:")+" "+r.name,()=>{ L.runners.splice(Math.min(i,L.runners.length),0,r); save(); });
+      },650); });
       b.addEventListener("pointerup",()=>{ if(lp){clearTimeout(lp);lp=null;lTap(+b.dataset.i);} });
       b.addEventListener("pointerleave",()=>{clearTimeout(lp);lp=null});
     });
@@ -3394,12 +3840,51 @@ const PF=(function(){
   }
 
   /* ---------- tabs & init ---------- */
+  /* חמש לשוניות: מרוץ · הצבה · תמונת סיום · תוצאות · הקפות. «ארכיון»
+     ו«פרטי מירוץ» היו לשוניות משלהן — הארכיון יושב עכשיו מקופל מתחת
+     ללוח התוצאות, והפרטים הם השלב האחרון בהצבה. התמונה עצמה משותפת
+     למרוץ ולהצבה: את הקו מיישרים מול מה שהמצלמה רואה. */
   function switchTab(t){
+    if(t==="history"||t==="meta"){ const k=t; t=k==="history"?"results":"setup";
+      if(k==="history")setTimeout(()=>{ const f=$("#pf-arcFold"); if(f)f.open=true; },0);
+      if(k==="meta")pfwI=4; }
     $$(".pf-tabs [data-pt]").forEach(x=>x.classList.toggle("on",x.dataset.pt===t));
-    ["live","strip","results","laps","history","meta"].forEach(k=>$("#pf-sub-"+k).style.display=k===t?"":"none");
+    ["live","setup","strip","results","laps"].forEach(k=>$("#pf-sub-"+k).style.display=k===t?"":"none");
+    $("#pf-stage").style.display=(t==="live"||t==="setup")?"":"none";
     if(t==="strip"){ renderFullStrip(); refreshLaneSel(); }
-    if(t==="history")renderHistory();
-    if(t==="live"&&mode==="sim"&&!race.on)drawSimIdle();
+    if(t==="results"){ renderHistory(); paintSaveBtn(); }
+    if(t==="setup")pfwPaint();
+    if((t==="live"||t==="setup")&&mode==="sim"&&!race.on)drawSimIdle();
+  }
+  /* «שמור לכיתה» אומר לאן: כששיעור פתוח — לכיתה שלו, בלי לשאול */
+  function paintSaveBtn(){
+    const b=$("#pf-toFt"); if(!b)return;
+    const act=SESSION.active();
+    b.textContent=act&&act.clsSnapshot?t("pf.saveTo","🏅 שמור ל־{0}").replace("{0}",act.clsSnapshot):t("pf.saveCls","🏅 שמור לכיתה");
+  }
+  /* ---------- הצבה — אשף אחד ----------
+     ההסבר על הצבת המצלמה היה בשלושה מקומות: חלון הדרכה בכניסה הראשונה,
+     כרטיס «איפה להעמיד» במסך החי, וכרטיס «איך מציבים» בפרטי המירוץ.
+     כאן הוא נעשה פעם אחת, בחמישה שלבים, וכל שלב מחזיק את הפקדים שלו. */
+  const PFG=[
+    ["🔭","העמד את הטלפון — ולא ביד","המצלמה צריכה לראות את <b>קו הסיום מהצד</b>, בגובה החזה בערך. חצובה, גדר, ספסל או תיק — כל דבר יציב. תזוזה של סנטימטר מזיזה את הקו, וכל הזמנים זזים איתו."],
+    ["📏","יישר את הקו האדום על קו הסיום","הזז את «מיקום קו הסיום» עד שהקו האדום במסך יושב <b>בדיוק</b> על קו הסיום במגרש. זה הפרמטר היחיד שטעות בו פוסלת את כל המקצה."],
+    ["🔫","אם יש אקדח — הזן את המרחק ממנו","הקול נוסע ‎343‎ מ׳ בשנייה. מצלמה שעומדת ‎34‎ מ׳ מהזינוק שומעת את הירייה עשירית שנייה מאוחר מדי, וכל הזמנים יוצאים קצרים בדיוק בעשירית הזאת. הזנת המרחק מקזזת את זה."],
+    ["🎯","לגמר צמוד — לחץ על הרץ בתמונה","אחרי המקצה, ב«🎞 תמונת סיום», לחיצה על גוף הרץ נותנת זמן באינטרפולציה בין העמודות. <b>מדויק יותר מהטריגר האוטומטי</b> — זו דרך העבודה לגמר."]
+  ];
+  let pfwI=0;
+  function pfwPaint(){
+    const n=5;
+    $$("#pfw-steps [data-ps]").forEach(b=>b.classList.toggle("on",+b.dataset.ps===pfwI));
+    $$("#pf-sub-setup .pfw-step").forEach(d=>{ d.hidden=+d.dataset.step!==pfwI; });
+    const intro=$("#pfw-intro");
+    if(pfwI<PFG.length){ const [em,h,p]=PFG[pfwI];
+      intro.innerHTML='<div class="step"><div class="art">'+em+'</div><h4>'+t("pfg."+pfwI+".h",h)+'</h4><p>'+t("pfg."+pfwI+".p",p)+'</p></div>'; }
+    else intro.innerHTML='<div class="step"><div class="art">📋</div><h4>'+esc(t("pfw.s4","פרטי המירוץ"))+'</h4><p>'+
+      esc(t("pfw.metaP","המרחק קובע לאיזה מבחן נכנסים הזמנים כששומרים לכיתה (60 מ׳ → ריצת 60 מ׳). השם, השלב והרוח מופיעים בלוח, בתעודות ובדוח."))+'</p></div>';
+    $("#pfw-prev").disabled=pfwI===0;
+    $("#pfw-next").textContent=pfwI===n-1?t("pfw.done","✓ מוכן — למרוץ"):t("pfg.next","הבא ←");
+    if(pfwI===0)precCalc();
   }
   /* ---------- מחשבון מיקום המצלמה ----------
      פס הזיהוי הוא BANDW מתוך PW פיקסלים — כלומר אחוז קבוע משדה הראייה.
@@ -3438,9 +3923,9 @@ const PF=(function(){
     $$(".pf-tabs [data-pt]").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.pt)));
     $$("#pf-modes button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.m)));
     $("#pf-gun").addEventListener("click",gun);
-    $("#pf-resetBtn").addEventListener("click",()=>{ if(confirm("לאפס את המקצה?"))resetRace(); });
+    $("#pf-resetBtn").addEventListener("click",resetUndo);
     $("#pf-fsGun").addEventListener("click",gun);
-    $("#pf-fsReset").addEventListener("click",()=>{ if(confirm("לאפס את המקצה?"))resetRace(); });
+    $("#pf-fsReset").addEventListener("click",resetUndo);
     $("#pf-lineRange").value=lineRatio*100;
     $("#pf-lineEl").style.left=(lineRatio*100)+"%";
     $("#pf-lineRange").addEventListener("input",e=>{ lineRatio=e.target.value/100; LS.set("pf.line",lineRatio); $("#pf-lineEl").style.left=e.target.value+"%"; bg=null; });
@@ -3529,11 +4014,18 @@ const PF=(function(){
         }});
     });
     /* הדבקת רשימת שמות */
+    /* שדה בתוך הכרטיס, ולא prompt() — רשימה ארוכה מודבקת ונבדקת במקום */
+    const pasteBox=$("#pf-pasteBox");
     $("#pf-pasteNames").addEventListener("click",()=>{
-      const txt=prompt("הדבק רשימת שמות — שם בכל שורה (או מופרד בפסיקים):");
-      if(!txt)return;
+      pasteBox.hidden=!pasteBox.hidden;
+      if(!pasteBox.hidden)setTimeout(()=>$("#pf-pasteTxt").focus(),30);
+    });
+    $("#pf-pasteNo").addEventListener("click",()=>{ pasteBox.hidden=true; });
+    $("#pf-pasteGo").addEventListener("click",()=>{
+      const txt=$("#pf-pasteTxt").value;
       const list=txt.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);
-      if(!list.length)return;
+      if(!list.length){ toast(t("pf.pasteEmpty","הדבק לפחות שם אחד")); return; }
+      pasteBox.hidden=true; $("#pf-pasteTxt").value="";
       laneN=Math.max(2,Math.min(9,list.length));
       LS.set("pf.laneN",laneN);
       $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
@@ -3606,33 +4098,19 @@ const PF=(function(){
         note:"‎"+list.length+"‎ זמנים ייכנסו למבחן «"+META.dist+" מטר» של הכיתה.",
         onPick:(names,cls)=>send(cls)});
     });
-    /* ---------- הדרכת פתיחה ----------
-       פוטו־פיניש הוא המודול שהכי קל לתפעל לא נכון, והתוצאה של תפעול
-       לא נכון היא מספרים שנראים אמינים לגמרי. ארבעה מסכים בפעם
-       הראשונה חוסכים מקצה שלם שנמדד לא נכון. */
-    const PFG=[
-      ["🔭","העמד את הטלפון — ולא ביד","המצלמה צריכה לראות את <b>קו הסיום מהצד</b>, בגובה החזה בערך. חצובה, גדר, ספסל או תיק — כל דבר יציב. תזוזה של סנטימטר מזיזה את הקו, וכל הזמנים זזים איתו."],
-      ["📏","יישר את הקו האדום על קו הסיום","הזז את «מיקום קו הסיום» עד שהקו האדום במסך יושב <b>בדיוק</b> על קו הסיום במגרש. זה הפרמטר היחיד שטעות בו פוסלת את כל המקצה."],
-      ["🔫","אם יש אקדח — הזן את המרחק ממנו","הקול נוסע ‎343‎ מ׳ בשנייה. מצלמה שעומדת ‎34‎ מ׳ מהזינוק שומעת את הירייה עשירית שנייה מאוחר מדי, וכל הזמנים יוצאים קצרים בדיוק בעשירית הזאת. הזנת המרחק מקזזת את זה."],
-      ["🎯","לגמר צמוד — לחץ על הרץ בתמונה","אחרי המקצה, ב«🎞 תמונת סיום», לחיצה על גוף הרץ נותנת זמן באינטרפולציה בין העמודות. <b>מדויק יותר מהטריגר האוטומטי</b> — זו דרך העבודה לגמר."]
-    ];
-    let pfgI=0;
-    function pfgPaint(){
-      const [em,h,p]=PFG[pfgI];
-      $("#pfg-body").innerHTML='<div class="step"><div class="art">'+em+'</div><h4>'+h+'</h4><p>'+p+'</p></div>';
-      $("#pfg-dots").innerHTML=PFG.map((_,i)=>'<i class="'+(i===pfgI?"on":"")+'"></i>').join("");
-      $("#pfg-prev").disabled=pfgI===0;
-      $("#pfg-next").textContent=pfgI===PFG.length-1?"יאללה, בוא נמדוד":"הבא ←";
-    }
-    function pfgClose(){
-      if($("#pfg-skip").checked)LS.set("pf.guideSeen",true);
-      modal("pfGuideModal",false);
-    }
-    $("#pfg-prev").addEventListener("click",()=>{ if(pfgI>0){pfgI--;pfgPaint();} });
-    $("#pfg-next").addEventListener("click",()=>{
-      if(pfgI<PFG.length-1){pfgI++;pfgPaint();} else pfgClose(); });
+    /* ---------- הצבה ----------
+       בכניסה הראשונה נפתחת ההצבה במקום חלון הדרכה: אותם ארבעה הסברים,
+       אבל כל אחד ליד הפקד שהוא מדבר עליו. «מוכן» מסמן שההצבה נעשתה. */
+    $$("#pfw-steps [data-ps]").forEach(b=>b.addEventListener("click",()=>{ ac(); pfwI=+b.dataset.ps; pfwPaint(); }));
+    $("#pfw-prev").addEventListener("click",()=>{ if(pfwI>0){pfwI--;pfwPaint();} });
+    $("#pfw-next").addEventListener("click",()=>{
+      ac();
+      if(pfwI<4){ pfwI++; pfwPaint(); return; }
+      saveMeta(); LS.set("pf.guideSeen",true); pfwI=0; switchTab("live");
+    });
+    document.addEventListener("i18n:change",()=>{ if($("#pf-sub-setup").style.display!=="none")pfwPaint(); paintSaveBtn(); });
     $("#pf-sanityBtn").addEventListener("click",()=>modal("pfSanityModal",true));
-    if(!LS.get("pf.guideSeen",false)){ pfgI=0; pfgPaint(); $("#pfg-skip").checked=true; modal("pfGuideModal",true); }
+    if(!LS.get("pf.guideSeen",false))switchTab("setup");
 
     /* ---------- מספרי חזה ----------
        לא כל מקצה רץ לפי רשימת שמות. כשיש מספרי חזה, המספר הוא הזהות
@@ -3659,17 +4137,31 @@ const PF=(function(){
     /* ---------- ייצוא תמונה + טבלה ----------
        עד עכשיו התמונה ירדה בנפרד מהטבלה, ומי שקיבל אותן לא ידע איזה
        זמן שייך לאיזו רצועה. כאן הן נשמרות כתמונה אחת. */
+    /* תפריט השיתוף נסגר אחרי בחירה — הוא תפריט, לא לוח */
+    $$("#pf-share .menu button").forEach(b=>b.addEventListener("click",()=>{ $("#pf-share").open=false; }));
     $("#pf-sheet").addEventListener("click",exportSheet);
     $("#pf-btnSave").addEventListener("click",arcSave);
     $("#pf-csv").addEventListener("click",csvSprint);
     $("#pf-print").addEventListener("click",printCert);
     $("#pf-mail").addEventListener("click",mailResults);
-    $("#pf-addRow").addEventListener("click",()=>{
-      const i=nextUnfinished(); if(i<0){toast("כל המסלולים מאוישים — הגדל מספר מסלולים");return;}
-      const t=parseFloat(prompt("זמן בשניות למסלול "+lanes[i].lane+":","10.00"));
-      if(isNaN(t))return;
-      lanes[i].time=t; lanes[i].src="ידני"; renderChips(); renderBoard();
-    });
+    /* «＋ שורה» — שדה זמן בתוך הכרטיס, Enter מוסיף ומדלג למסלול הבא */
+    const rowBox=$("#pf-rowBox");
+    const rowOpen=()=>{
+      const i=nextUnfinished(); if(i<0){ rowBox.hidden=true; toast("כל המסלולים מאוישים — הגדל מספר מסלולים"); return false; }
+      $("#pf-rowLbl").textContent=t("pf.rowLbl","זמן בשניות למסלול")+" "+lanes[i].lane+" · "+lanes[i].name;
+      rowBox.hidden=false; setTimeout(()=>{ const x=$("#pf-rowT"); x.focus(); x.select(); },30); return true;
+    };
+    const rowAdd=()=>{
+      const i=nextUnfinished(); if(i<0){ rowBox.hidden=true; return; }
+      const v=parseFloat(String($("#pf-rowT").value).replace(",","."));
+      if(!isFinite(v)||v<0){ toast(t("pf.rowBad","הזן זמן בשניות, למשל 10.25")); return; }
+      lanes[i].time=v; lanes[i].src="ידני"; renderChips(); renderBoard();
+      rowOpen();
+    };
+    $("#pf-addRow").addEventListener("click",()=>{ if(!rowBox.hidden){ rowBox.hidden=true; return; } rowOpen(); });
+    $("#pf-rowGo").addEventListener("click",rowAdd);
+    $("#pf-rowNo").addEventListener("click",()=>{ rowBox.hidden=true; });
+    $("#pf-rowT").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); rowAdd(); } if(e.key==="Escape")rowBox.hidden=true; });
     /* archive */
     $("#pf-csvFile").addEventListener("change",e=>{ if(e.target.files[0])importCSV(e.target.files[0]); e.target.value=""; });
     $("#pf-loadSample").addEventListener("click",loadSample);
@@ -3685,7 +4177,17 @@ const PF=(function(){
     $("#pf-lDist").addEventListener("change",()=>{saveLSettings();lRender();});
     $("#pf-lMin").addEventListener("change",saveLSettings);
     $("#pf-lGun").addEventListener("click",lGun);
-    $("#pf-lReset").addEventListener("click",()=>{ if(confirm("לאפס הקפות?")){L.on=false;cancelAnimationFrame(L.raf);L.runners.forEach(r=>{r.laps=[];r.fin=null});$("#pf-lClock").textContent="00:00.0";$("#pf-lGun").textContent="🔫 זינוק";lRender();} });
+    $("#pf-lReset").addEventListener("click",()=>{
+      const had=L.runners.some(r=>r.laps.length||r.fin!=null);
+      const keep=L.runners.map(r=>({laps:r.laps.slice(),fin:r.fin})), wasOn=L.on, t0=L.t0;
+      L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);L.runners.forEach(r=>{r.laps=[];r.fin=null});$("#pf-lClock").textContent="00:00.0";$("#pf-lGun").textContent="🔫 זינוק";lRender();
+      if(had||wasOn)undo(t("pf.lResetDone","ההקפות אופסו"),()=>{
+        if(L.on)return;
+        L.runners.forEach((r,i)=>{ if(keep[i]){ r.laps=keep[i].laps; r.fin=keep[i].fin; } });
+        if(wasOn){ L.on=true; L.t0=t0; keepAwake(true); $("#pf-lGun").innerHTML="⏹ עצור"; lLoop(); }
+        lRender();
+      });
+    });
     $("#pf-lAdd").addEventListener("click",()=>{
       const n=$("#pf-lNewName").value.trim(); if(!n)return;
       L.runners.push({name:n,color:COLORS[L.runners.length%COLORS.length],laps:[],fin:null});
@@ -3710,7 +4212,7 @@ const PF=(function(){
     /* keys */
     document.addEventListener("keydown",e=>{
       if(!$("#view-photo").classList.contains("on"))return;
-      if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
+      if(typingIn(e))return;
       if(e.key>="1"&&e.key<="9"){ const i=+e.key-1; if(i<lanes.length&&race.on)fire(i,"ידני"); }
       else if(e.key==="f"||e.key==="F")fsToggle();
       else if(e.code==="Space"){e.preventDefault();gun();}
@@ -4065,7 +4567,42 @@ const REC=(function(){
     toast("📤 נשלח! השיא ימתין לאישור המורה."); beep(880,0.15);
   }
 
+  /* ---------- «להגיש כשיא?» ממבחני הכושר ----------
+     תוצאה במבחן כושר שעוברת את שיא בית הספר באותו ענף מוצעת כשיא.
+     ההגשה נכנסת לתור האישור כמו כל שיא אחר — בלי סרטון, והמורה מחליט. */
+  async function beats(spId,v){
+    if(!SPORTS.length)loadSports();
+    if(!db)await openDB();
+    if(!CACHE.length)CACHE=await dbAll();
+    const sp=SPORTS.find(x=>x.id===spId); if(!sp||!(v>0))return null;
+    const b=best(spId); if(!b)return null;
+    const pend=CACHE.some(r=>r.sport===spId&&r.status==="pending"&&r.value===v);
+    if(pend)return null;
+    return (sp.lower?v<b.value:v>b.value)?{sp,best:b}:null;
+  }
+  async function submitFromFt(o){
+    if(!db)await openDB();
+    await dbPut({id:DATA.uid("r"),sport:o.sport,name:o.name,cls:o.cls||"",value:o.value,video:null,
+      status:"pending",src:"ft",ts:Date.now()});
+    await refresh();
+    toast(t("recA.ftSent","🏆 הוגש לאישור בלוח המורה של השיאים")); beep(880,0.15);
+  }
+
   /* ---------- admin ---------- */
+  function admTab(k){
+    $$("#rec-admTabs [data-at]").forEach(b=>b.classList.toggle("on",b.dataset.at===k));
+    $$("#rec-adminModal .rec-admPane").forEach(p=>p.hidden=p.dataset.ap!==k);
+  }
+  /* קובץ שיאים בפורמט הישן ({refs, records}) — מהגיבוי הנפרד שהיה פעם
+     בלוח המורה. השחזור היחיד עכשיו הוא בהגדרות, והוא מזהה את הקובץ
+     הזה וממזג אותו (בלי למחוק שיאים שכבר במכשיר). */
+  function isLegacyFile(j){ return !!(j&&typeof j==="object"&&Array.isArray(j.records)&&!j.data&&!j.enc); }
+  async function importLegacy(j){
+    if(!db)await openDB();
+    if(j.refs){ refs=Object.assign({},DEF_REFS,j.refs); LS.set("rec.refs",refs); }
+    let n=0; for(const r of (j.records||[])){ if(r&&r.id){ await dbPut({...r,video:null}); n++; } }
+    await refresh(); return n;
+  }
   function renderAdmin(){
     const pend=CACHE.filter(r=>r.status==="pending").sort((a,b)=>a.ts-b.ts);
     $("#rec-pendList").innerHTML=pend.length?pend.map(e=>{
@@ -4084,9 +4621,13 @@ const REC=(function(){
       const isNew=!wasBest||(sp.lower?e.value<wasBest.value:e.value>wasBest.value);
       if(isNew){ confetti(); horn(); toast("🏆 שיא בית ספר חדש! "+e.name); } else toast("אושר ✓");
     }));
-    $$("#rec-pendList [data-no]").forEach(b=>b.addEventListener("click",async()=>{
-      if(confirm("לדחות ולמחוק את הבקשה?")){ await dbDel(b.dataset.no); await refresh(); renderAdmin(); }
-    }));
+    /* דחייה ומחיקה מיידיות — «בטל» מחזיר את הרשומה כמו שהייתה, עם הסרטון */
+    const delUndo=async(id,msg)=>{
+      const e=CACHE.find(x=>x.id===id); if(!e)return;
+      await dbDel(id); await refresh(); renderAdmin();
+      undo(msg,async()=>{ await dbPut(e); await refresh(); renderAdmin(); });
+    };
+    $$("#rec-pendList [data-no]").forEach(b=>b.addEventListener("click",()=>delUndo(b.dataset.no,t("recA.rejected","הבקשה נדחתה ונמחקה"))));
     $$("#rec-pendList [data-v]").forEach(b=>b.addEventListener("click",()=>playVideo(b.dataset.v)));
     $$("#rec-pendList [data-ht]").forEach(b=>b.addEventListener("click",()=>openHowto(b.dataset.ht)));
     /* --- כל השיאים המאושרים: עריכה ומחיקה --- */
@@ -4105,10 +4646,13 @@ const REC=(function(){
       :'<div class="hint">אין עדיין שיאים מאושרים.</div>';
     $$("#rec-allList [data-v]").forEach(b=>b.addEventListener("click",()=>playVideo(b.dataset.v)));
     $$("#rec-allList [data-ed]").forEach(b=>b.addEventListener("click",()=>editRec(b.dataset.ed)));
-    $$("#rec-allList [data-rm]").forEach(b=>b.addEventListener("click",async()=>{
-      const e=CACHE.find(x=>x.id===b.dataset.rm);
-      if(e&&confirm(`למחוק את השיא של ${e.name}?`)){ await dbDel(e.id); await refresh(); renderAdmin(); toast("נמחק"); }
+    $$("#rec-allList [data-rm]").forEach(b=>b.addEventListener("click",()=>{
+      const e=CACHE.find(x=>x.id===b.dataset.rm); if(!e)return;
+      delUndo(e.id,t("recA.deleted","השיא נמחק:")+" "+e.name);
     }));
+    const pn=$("#rec-admPendN"); if(pn){ pn.hidden=!pend.length; pn.textContent=pend.length; }
+    const bs=$("#rec-bkStat"); if(bs){ const last=LS.get("bk.last",null);
+      bs.textContent=CACHE.length+" "+t("recA.bkN","רשומות במכשיר")+" · "+(last?t("recA.bkLast","גובה לאחרונה")+" "+last:t("recA.bkNever","עדיין לא גובה מעולם")); }
 
     /* --- ערכי ייחוס --- */
     $("#rec-refList").innerHTML=SPORTS.map(sp=>`
@@ -4217,12 +4761,15 @@ const REC=(function(){
     }));
     $$("#rec-spList [data-spdel]").forEach(b=>b.addEventListener("click",async()=>{
       const id=b.dataset.spdel, sp=sportById(id);
-      const n=CACHE.filter(r=>r.sport===id).length;
-      if(!confirm(n?`בענף «${sp.name}» יש ${n} שיאים — הם יימחקו גם. להמשיך?`
-                   :`למחוק את הענף «${sp.name}»?`))return;
-      for(const r of CACHE.filter(r=>r.sport===id))await dbDel(r.id);
+      const gone=CACHE.filter(r=>r.sport===id), wasSports=SPORTS.slice(), wasRefs=JSON.parse(JSON.stringify(refs));
+      for(const r of gone)await dbDel(r.id);
       SPORTS=SPORTS.filter(x=>x.id!==id); saveSports();
-      await refresh(); renderSportEditor(); renderAdmin(); toast("הענף נמחק");
+      await refresh(); renderSportEditor(); renderAdmin();
+      undo((gone.length?t("recA.spDelN","הענף נמחק עם {0} שיאים").replace("{0}",gone.length):t("recA.spDel","הענף נמחק"))+" · "+sp.name,async()=>{
+        SPORTS=wasSports; refs=wasRefs; saveSports();
+        for(const r of gone)await dbPut(r);
+        await refresh(); renderGrid(); renderSportEditor(); renderAdmin();
+      },8000);
     }));
   }
   const linesToArr=v=>String(v||"").split("\n").map(x=>x.trim()).filter(Boolean);
@@ -4268,10 +4815,12 @@ const REC=(function(){
     modal("rec-sportEdit",false); toast(id?"הענף עודכן ✓":"הענף נוסף ✓");
   }
   function resetSports(){
-    if(prompt('לשחזר את רשימת הענפים לברירת המחדל?\nענפים שהוספת יימחקו (השיאים יישמרו).\nהקלד "שחזר" לאישור:')!=="שחזר")return;
+    const wasSports=SPORTS.slice(), wasRefs=JSON.parse(JSON.stringify(refs));
     SPORTS=defaults(); refs=Object.assign({},DEF_REFS);
     saveSports(); reviveOrphans(); renderGrid(); renderSportEditor(); renderAdmin();
-    toast("שוחזרה רשימת ברירת המחדל");
+    undo(t("recA.spReset","שוחזרה רשימת ברירת המחדל · השיאים נשמרו"),()=>{
+      SPORTS=wasSports; refs=wasRefs; saveSports(); reviveOrphans(); renderGrid(); renderSportEditor(); renderAdmin();
+    },8000);
   }
 
   /* ---------- קישור ו-QR לתלמידים ----------
@@ -4419,35 +4968,25 @@ const REC=(function(){
         if(v.length<4){toast("בחר קוד באורך 4 ספרות לפחות");return;}
         setPass(v); toast("🔑 קוד המורה נקבע");
       } else if(v!==pass){ toast("קוד שגוי"); return; }
-      $("#rec-admLock").style.display="none"; $("#rec-admBody").style.display=""; renderAdmin();
+      $("#rec-admLock").style.display="none"; $("#rec-admBody").style.display=""; admTab("appr"); renderAdmin();
       if(SET.syncUrl&&SET.syncCode)syncNow();
     });
     const syncBtn=$("#rec-syncNow"); if(syncBtn)syncBtn.addEventListener("click",syncNow);
-    $("#rec-passChg").addEventListener("click",()=>{
-      const p=prompt("קוד מורה חדש (4 ספרות לפחות):");
+    $("#rec-passChg").addEventListener("click",async()=>{
+      const p=await ask({fields:[{label:"קוד מורה חדש (4 ספרות לפחות):",type:"password"}],ok:"🔑 שמור"});
       if(p===null)return;
       if(p.trim().length<4){toast("הקוד קצר מדי — לפחות 4 ספרות");return;}
       setPass(p.trim()); toast("🔑 הקוד עודכן — הוא נשמר במכשיר הזה בלבד");
     });
-    $("#rec-export").addEventListener("click",async()=>{
-      const data=CACHE.map(r=>({...r,video:undefined,hadVideo:!!r.video}));
-      const a=document.createElement("a");
-      a.href=URL.createObjectURL(new Blob([JSON.stringify({refs,records:data},null,1)],{type:"application/json"}));
-      a.download="school-records.json"; a.click(); toast("גובו השיאים (ללא סרטונים)");
-    });
-    $("#rec-import").addEventListener("change",async e=>{
-      const f=e.target.files[0]; if(!f)return;
-      try{ const j=JSON.parse(await f.text());
-        if(j.refs){refs=Object.assign({},DEF_REFS,j.refs);LS.set("rec.refs",refs);}
-        for(const r of (j.records||[]))await dbPut({...r,video:null});
-        await refresh(); toast("שוחזר ✓");
-      }catch(err){toast("קובץ לא תקין");}
-      e.target.value="";
-    });
+    /* לשוניות לוח המורה */
+    $$("#rec-admTabs [data-at]").forEach(b=>b.addEventListener("click",()=>admTab(b.dataset.at)));
+    /* גיבוי אחד — הכפתור מוביל לגיבוי המלא בהגדרות */
+    $("#rec-bkOpen").addEventListener("click",()=>{ modal("rec-adminModal",false); SETTINGS_OPEN("backup"); });
     $("#rec-wipe").addEventListener("click",async()=>{
-      if(prompt('להקליד "מחק" לאישור מחיקת כל השיאים:')==="מחק"){
-        for(const r of CACHE)await dbDel(r.id); await refresh(); renderAdmin(); toast("נמחק הכל");
-      }
+      if(!CACHE.length){ toast(t("recA.empty","אין שיאים למחיקה")); return; }
+      if(!(await ask({msg:t("recA.wipeQ","למחוק את כל {0} השיאים והסרטונים מהמכשיר?").replace("{0}",CACHE.length),
+        word:"מחק",danger:true,ok:"🗑 מחק הכל"})))return;
+      for(const r of CACHE)await dbDel(r.id); await refresh(); renderAdmin(); toast("נמחק הכל");
     });
     $("#rec-kioskBtn").addEventListener("click",kioskStart);
     $("#rec-kiosk").addEventListener("click",kioskStop);
@@ -4465,7 +5004,7 @@ const REC=(function(){
       const txt=SPORTS.filter(sp=>!sp.legacy).map(sp=>sp.name).join("\n");
       try{ await navigator.clipboard.writeText(txt);
         toast("הועתקו "+SPORTS.length+" ענפים — הדבק ברשימה הנפתחת בטופס"); }
-      catch(e){ prompt("העתק את הרשימה והדבק בטופס:",txt); }
+      catch(e){ ask({fields:[{label:"העתק את הרשימה והדבק בטופס:",type:"textarea",value:txt,readonly:true,rows:8}],alert:true,ok:"✓"}); }
     });
     /* קישור ו-QR לתלמידים */
     $("#rec-shareBtn").addEventListener("click",openShare);
@@ -4545,7 +5084,7 @@ const REC=(function(){
     return {added,failed};
   }
   return {init,countApproved,applyRole:applyRoleRec,hasPass,setPass,syncNow,
-    exportAll,importAll,
+    exportAll,importAll,isLegacyFile,importLegacy,beats,submitFromFt,
     _test:{SPORTS:()=>SPORTS,showVal:(id,v)=>showVal(sportById(id),v),pct:(id,v,w)=>pct(sportById(id),v,w)}};
 })();
 
@@ -4845,8 +5384,11 @@ const FIT=(function(){
 
   /* ---------- init ---------- */
   function init(){
-    $$(".pf-tabs [data-ft]").forEach(b=>b.addEventListener("click",()=>{
-      $$(".pf-tabs [data-ft]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+    /* הבורר מוגבל למסך הכושר. «.pf-tabs [data-ft]» לבד תפס גם את לשוניות
+       מבחני הכושר (שגם הן data-ft), ואחרי ביקור אחד כאן לחיצה על לשונית
+       שם הפעילה גם את הקוד הזה. */
+    $$("#view-fit .pf-tabs [data-ft]").forEach(b=>b.addEventListener("click",()=>{
+      $$("#view-fit .pf-tabs [data-ft]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
       ["timer","circuit","lib","dice","gym"].forEach(t=>$("#fit-sub-"+t).style.display=t===b.dataset.ft?"":"none");
     }));
     $("#fit-presets").innerHTML=PRESETS.map((p,i)=>`<div class="fit-pre" data-i="${i}"><b>${p.name}</b><span>${p.sub}</span></div>`).join("");
@@ -4872,12 +5414,12 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,ask,undo,actToast,snap,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
-  session:SESSION,paintSessionBar,openSesHist,
-  upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
+  session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,assign:ASSIGN,prepFor,classOverviewHtml,wireClassOverview,classTitle,startFromSlot,sesName,areaOf,goBack,regStore:REGSTORE,
+  upOffer,pageBuild,forceUpdate,openSettings:sec=>SETTINGS_OPEN(sec),clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
      שכישלון שקט בו עולה למורה שנה של מדידות, ולכן הוא חייב להיות
@@ -4923,6 +5465,8 @@ window.HMBoot=function(){
      מ-applyDom, ולכן החלפת שפה מציירת אותם מחדש. */
   document.addEventListener("i18n:change",()=>{
     try{ homeStats(); }catch(e){}
+    try{ if($("#fieldTip"))paintFieldTip(); }catch(e){}
+    try{ paintNavLive(); }catch(e){}
     try{ if(window.HMBootNew&&$("#hx-date"))
       $("#hx-date").textContent=new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"}); }catch(e){}
     const mod=document.body.dataset.mod;

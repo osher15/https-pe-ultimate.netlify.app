@@ -57,9 +57,10 @@ module.exports={title:"זהות תלמיד",tests:[
   check("שינוי שם תלמיד שומר על עשר המדידות",legacy(10),async page=>{
     /* התרחיש שהפיל את המערכת הישנה: המורה מתקן שגיאת כתיב. */
     await page.evaluate(()=>{
-      const all=window.HM.LS.get("ft.roster",{});
-      all["ט3"][0].name="דן אבירם-לוי";
-      window.HM.LS.set("ft.roster",all);
+      /* רשימה אחת: שינוי שם ברשימת הכיתה הוא שינוי שם ב«התלמידים שלי» */
+      const id=window.FT.roster("ט׳3")[0].id, l=window.HM.LS.get("stu.list",[]);
+      l.find(s=>s.id===id).name="דן אבירם-לוי";
+      window.HM.LS.set("stu.list",l);
     });
     await openTest(page,"ljump");
     const row=await page.evaluate(()=>{
@@ -132,7 +133,8 @@ module.exports={title:"זהות תלמיד",tests:[
 
   /* גרסת הסכמה נלקחת מהקוד ולא ננעצת כאן: מכשיר «מעודכן» הוא
      מכשיר בגרסה הנוכחית, מה שהיא לא תהיה. */
-  check("הסבה שכבר רצה לא רצה שוב",Object.assign(legacy(3),{"schema.version":D.SCHEMA_VERSION}),async page=>{
+  /* בגרסה 5 אין ft.roster — רשימת הכיתה היא «התלמידים שלי» */
+  check("הסבה שכבר רצה לא רצה שוב",(()=>{ const s=Object.assign(legacy(3),{"schema.version":D.SCHEMA_VERSION}); delete s["ft.roster"]; return s; })(),async page=>{
     const rep=await page.evaluate(()=>window.HM.migration());
     eq(rep.noop,true,"אין מה להסב במכשיר שכבר בגרסה הנוכחית");
     eq(rep.applied.length,0,"לא הוחלה אף מיגרציה");

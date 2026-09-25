@@ -201,7 +201,7 @@ module.exports={title:"שלב 8 — סגירת הזהות",tests:[
 
   /* ---------- 8C: באגי זהות ---------- */
 
-  check("importFromStu: שני «דן כהן» באותה כיתה עם שני sid — שניהם נכנסים לרשימה",seed({
+  check("רשימה אחת: שני «דן כהן» באותה כיתה עם שני sid — שניהם ברשימה",seed({
     "ft.roster":{},
     "stu.list":[{id:"a1",name:"דן כהן",cls:"ט׳3",cid:"c:ט:3",sex:"boys",age:14,tests:[]},
                 {id:"a2",name:"דן כהן",cls:"ט׳3",cid:"c:ט:3",sex:"boys",age:14,tests:[]},
@@ -216,7 +216,7 @@ module.exports={title:"שלב 8 — סגירת הזהות",tests:[
     eq(await page.evaluate(()=>document.querySelectorAll("#cp-list input").length),3);
   }),
 
-  check("importFromStu: רשומה שהודבקה ידנית באותו שם אינה משוכפלת",seed({
+  check("רשימה אחת: רשומה שהודבקה ידנית באותו שם אינה משוכפלת",seed({
     "ft.roster":{"ט3":[{id:"f1",name:"דן כהן",sex:null}]},
     "stu.list":[{id:"a1",name:"דן כהן",cls:"ט׳3",cid:"c:ט:3",sex:"boys",age:14,tests:[]}]
   }),async page=>{
@@ -225,9 +225,8 @@ module.exports={title:"שלב 8 — סגירת הזהות",tests:[
     await page.waitForTimeout(600);
     await page.evaluate(()=>document.getElementById("ft-rosterBtn").click());
     await page.waitForTimeout(300);
-    await page.evaluate(()=>document.getElementById("ft-rosImport").click());
-    await page.waitForTimeout(300);
-    eq(await page.evaluate(()=>window.FT.roster("ט׳3").map(x=>x.id)),["f1"],"אותו אדם, פעם אחת");
+    /* ההסבה לרשימה אחת זיהתה שזה אותו אדם — נשאר המזהה של «התלמידים שלי» */
+    eq(await page.evaluate(()=>window.FT.roster("ט׳3").map(x=>x.id)),["a1"],"אותו אדם, פעם אחת");
   }),
 
   check("ייבוא CSV: אותו שם בכיתה אחרת הוא תלמיד חדש; באותה כיתה — הקיים; שם אחר — חדש",seed({
@@ -247,7 +246,7 @@ module.exports={title:"שלב 8 — סגירת הזהות",tests:[
       t.dispatchEvent(new Event("input"));
     });
     await page.waitForTimeout(300);
-    await page.evaluate(()=>{ document.getElementById("ft-impStu").checked=true; document.getElementById("ft-impGo").click(); });
+    await page.evaluate(()=>{ document.getElementById("ft-impGo").click(); });
     await page.waitForTimeout(500);
     const list=await stu(page);
     const dans=list.filter(x=>x.name==="דן כהן");

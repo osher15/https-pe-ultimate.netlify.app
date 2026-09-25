@@ -36,7 +36,7 @@ function legacyDevice(){
 }
 const count=s=>({
   classes:Object.keys(s.get("ft.classes")||{}).length,
-  roster:Object.values(s.get("ft.roster")||{}).reduce((a,l)=>a+(Array.isArray(l)?l.length:0),0),
+  roster:Object.values(s.get("ft.roster")||s.get("ft.roster.v4")||{}).reduce((a,l)=>a+(Array.isArray(l)?l.length:0),0),
   stu:(s.get("stu.list")||[]).length,
   res:(s.get("ft.results")||[]).length,
   bt:(s.get("bt.results")||[]).length
@@ -50,10 +50,12 @@ test("מכשיר ישן: אפס אובדן בכל הספירות",()=>{
 
   assert.equal(rep.ok,true,rep.error||"");
   assert.equal(rep.from,1,"זוהה כגרסה 1");
-  assert.deepEqual(rep.applied,["student-identity","class-identity","student-class-closure"]);
+  assert.deepEqual(rep.applied,["student-identity","class-identity","student-class-closure","single-roster"]);
 
   assert.equal(after.roster,before.roster,"תלמידי רשימות הכיתה");
-  assert.equal(after.stu,   before.stu,   "«התלמידים שלי»");
+  /* רשימה אחת: מי שהיה רק ברשימת כיתה נוסף ל«התלמידים שלי», ואף אחד לא נשאר בחוץ */
+  assert.equal(after.stu,   before.stu+rep.rosterAdded, "«התלמידים שלי» — כולם, פעם אחת");
+  assert.equal(rep.rosterUnplaced,0,"כל תלמידי הרשימות שויכו");
   assert.equal(after.res,   before.res,   "מדידות");
   assert.equal(after.bt,    before.bt,    "תוצאות ביפ טסט");
   assert.equal(before.classes,0,"לפני: אין רישום כיתות בכלל");
@@ -63,7 +65,7 @@ test("מכשיר ישן: אפס אובדן בכל הספירות",()=>{
 test("מכשיר ישן: כל תלמיד קיבל מזהה ייחודי",()=>{
   const s=memStore(legacyDevice());
   D.migrate(s);
-  const all=[].concat(...Object.values(s.get("ft.roster")));
+  const all=[].concat(...Object.values(s.get("ft.roster.v4")));
   assert.ok(all.every(x=>x.id),"לכולם יש מזהה");
   assert.equal(new Set(all.map(x=>x.id)).size,all.length,
     "וכולם שונים — כולל שני «דן כהן» באותה כיתה ו«דן אבירם» בשתי כיתות");
@@ -120,7 +122,7 @@ test("מכשיר ישן: הרצה חוזרת אינה משנה בית",()=>{
 test("מכשיר ישן: שינוי שם תלמיד שומר על ההיסטוריה",()=>{
   const s=memStore(legacyDevice());
   D.migrate(s);
-  const roster=s.get("ft.roster");
+  const roster=s.get("ft.roster.v4");
   const dan=roster["ט3"][0];
   const before=D.attemptsOf(s.get("ft.results"),"ט3","push",dan).length;
   assert.equal(before,2);
@@ -152,14 +154,14 @@ test("מכשיר ישן: אחרי הכרעה ידנית המדידה מחובר�
   assert.equal(groups.length,2,"«דן כהן» ו«תלמיד שעזב»");
 
   const dupe=groups.find(g=>g.name==="דן כהן");
-  const target=s.get("ft.roster")["ט3"].filter(x=>x.name==="דן כהן")[1];
+  const target=s.get("ft.roster.v4")["ט3"].filter(x=>x.name==="דן כהן")[1];
   const r=D.resolveAmbiguous(s.get("ft.results"),dupe.ids,target.id);
   s.set("ft.results",r.rows);
 
   assert.equal(r.changed,1);
   assert.equal(D.attemptsOf(s.get("ft.results"),"ט3","push",target).length,1,
     "המדידה מופיעה אצל התלמיד שנבחר");
-  const other=s.get("ft.roster")["ט3"].filter(x=>x.name==="דן כהן")[0];
+  const other=s.get("ft.roster.v4")["ט3"].filter(x=>x.name==="דן כהן")[0];
   assert.equal(D.attemptsOf(s.get("ft.results"),"ט3","push",other).length,0,
     "ולא אצל השני");
   assert.equal(s.get("ft.results").length,6,"ואף מדידה לא נוספה ולא נמחקה");
@@ -169,13 +171,14 @@ test("מכשיר שכבר בגרסה 2 מקבל רק את מיגרציית הכ�
   const seed=legacyDevice(); seed["schema.version"]=2;
   const s=memStore(seed);
   const rep=D.migrate(s);
-  assert.deepEqual(rep.applied,["class-identity","student-class-closure"]);
+  assert.deepEqual(rep.applied,["class-identity","student-class-closure","single-roster"]);
   assert.equal(rep.linked,0,"זהות התלמידים לא נגעה");
   assert.ok(rep.classes>0,"והכיתות כן נרשמו");
 });
 
 test("מכשיר בגרסה הנוכחית אינו עובר כלום",()=>{
-  const seed=legacyDevice(); seed["schema.version"]=D.SCHEMA_VERSION;
+  /* בגרסה 5 אין ft.roster — רשימת הכיתה היא «התלמידים שלי» */
+  const seed=legacyDevice(); seed["schema.version"]=D.SCHEMA_VERSION; delete seed["ft.roster"];
   const s=memStore(seed);
   const before=JSON.stringify(s.keys().map(k=>[k,s.get(k)]));
   const rep=D.migrate(s);

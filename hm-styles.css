@@ -5,7 +5,7 @@
   --acc:#a78bfa; --accDim:rgba(167,139,250,.20);
   --cy:#38bdf8; --lime:#a3e635; --orange:#fb923c; --gold:#fbbf24; --violet:#a78bfa; --pink:#f472b6; --green:#34d399;
   --warn:#ffd23f; --stop:#ff4d5e;
-  --inset:var(--inset);            /* רקע שדות קלט ופנימיות */
+  --inset:#0b0d19;                /* רקע שדות קלט ופנימיות — הפניה לעצמו (var(--inset)) הייתה ערך לא חוקי, והרקע יצא שקוף */
   --onAcc:var(--onAcc);           /* טקסט על גבי צבע ההדגשה */
   --bar:6,16,12;             /* בסיס הסרגל העליון והתחתון (RGB) */
   --shadow:0 8px 26px rgba(0,0,0,.32);
@@ -83,20 +83,6 @@ body[data-mod="nut"]{--acc:#4ade80;--accDim:rgba(74,222,128,.18)}
 .more-item:hover{border-color:var(--acc)}
 .more-item .ic{font-size:19px;flex:none}
 .more-item .go{margin-inline-start:auto;color:var(--acc);font-size:16px;transform:scaleX(-1)}
-/* ---------- המגירה הראשית (☰) ----------
-   מגירה ולא חלון: היא נצמדת לצד שממנו נפתחה (בעברית — ימין, דרך
-   place-items:start על הציר הלוגי), תופסת את כל הגובה, והכותרת
-   שלה נשארת דביקה כדי שה-✕ לא ייעלם ברשימה ארוכה. */
-.menubtn{font-size:18px;flex:none}
-.modal.drawer{padding:0;place-items:stretch start}
-.modal.drawer .box{width:min(340px,86vw);height:100%;max-height:none;border-radius:0;
-  border-block:none;border-inline-start:none;padding:14px;
-  padding-bottom:calc(18px + env(safe-area-inset-bottom));animation:dwin .18s ease}
-.modal.drawer .box h3{position:sticky;top:-14px;z-index:1;margin:-14px -14px 12px;padding:14px;
-  padding-top:calc(14px + env(safe-area-inset-top));border-bottom:1px solid var(--line);
-  background:var(--panel);font-size:16px}
-@keyframes dwin{from{opacity:.3;transform:scale(.985)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){.modal.drawer .box{animation:none}}
 /* ---------- views ---------- */
 .view{display:none;animation:vin .22s ease}
 .view.on{display:block}
@@ -177,10 +163,20 @@ body[data-mod="nut"]{--acc:#4ade80;--accDim:rgba(74,222,128,.18)}
 .bigclock{font-family:'Share Tech Mono';font-size:clamp(52px,15vw,108px);text-align:center;line-height:1;color:var(--ink);
   text-shadow:0 0 26px var(--accDim);letter-spacing:1px;margin:6px 0;font-variant-numeric:tabular-nums}
 /* ---------- toast / modal / confetti ---------- */
-#toast{position:fixed;bottom:calc(var(--nav-h) + 18px);inset-inline:0;display:flex;justify-content:center;z-index:200;pointer-events:none}
+#toast{position:fixed;bottom:calc(var(--nav-h) + 18px);inset-inline:0;display:flex;justify-content:center;z-index:350;pointer-events:none}
 #toast .t{background:var(--inset);border:1px solid var(--acc);color:var(--ink);font-size:14px;font-weight:600;border-radius:12px;
   padding:11px 18px;max-width:88vw;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(12px);transition:.25s}
 #toast .t.show{opacity:1;transform:none}
+/* הודעה עם כפתור («↩ בטל») — הכפתור גדול מספיק לאגודל, וההודעה לחיצה */
+#toast .t.act{display:flex;align-items:center;gap:12px;padding-block:8px;padding-inline:16px 8px}
+#toast .t.act.show{pointer-events:auto}
+#toast .toast-act{appearance:none;border:none;border-radius:10px;background:var(--acc);color:var(--onAcc);font:inherit;font-weight:800;
+  padding:9px 14px;min-height:40px;cursor:pointer;white-space:nowrap}
+.ask-msg{white-space:pre-line;line-height:1.55;margin:0 0 12px;color:var(--ink)}
+.ask-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.ask-fields:empty{display:none}
+.ask-btns{gap:8px;justify-content:flex-start}
+.ask-btns .btn{min-width:96px;min-height:44px}
 .modal{position:fixed;inset:0;z-index:220;background:rgba(2,7,5,.78);backdrop-filter:blur(5px);display:none;place-items:center;padding:16px}
 .modal.on{display:grid}
 .modal .box{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;
@@ -1336,7 +1332,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .ft-chips{display:flex;flex-wrap:wrap;gap:8px}
 .ft-chips .hc{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel2);
   border-radius:13px;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer;user-select:none;
-  transition:.14s;min-height:var(--touch,42px)}
+  transition:.14s;min-height:calc(42px + var(--touch))}
 .ft-chips .hc:active{transform:scale(.95)}
 .ft-chips .hc.done{opacity:.55;border-color:var(--acc);cursor:default}
 .ft-chips .hc .dist{font-family:'Share Tech Mono';font-size:12.5px;color:var(--acc)}
@@ -1354,7 +1350,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 /* ===== כפתור חזרה עקבי ===== */
 .backbtn{display:flex;align-items:center;gap:6px;background:var(--inset);border:1px solid var(--line);
   color:var(--ink);border-radius:11px;padding:8px 12px;font-family:'Heebo';font-size:13.5px;font-weight:600;
-  cursor:pointer;min-height:var(--touch,40px);flex:none;transition:.12s}
+  cursor:pointer;min-height:calc(40px + var(--touch));flex:none;transition:.12s}
 .backbtn[hidden]{display:none!important}
 .backbtn:active{transform:scale(.94)}
 .backbtn:hover{border-color:var(--acc);color:var(--acc)}
@@ -1456,7 +1452,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .bt-lanes:empty{display:none}
 .bt-lanes button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:12px;
   padding:13px 6px;font-family:'Share Tech Mono';font-size:20px;cursor:pointer;transition:.12s;
-  min-height:var(--touch,52px)}
+  min-height:calc(52px + var(--touch))}
 .bt-lanes button:active{transform:scale(.93)}
 .bt-lanes button.done{opacity:.5;border-color:var(--acc);cursor:default}
 .bt-lanes button small{display:block;font-family:'Heebo';font-size:10px;color:var(--acc);margin-top:2px}
@@ -1468,7 +1464,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 @keyframes qtp{50%{opacity:.55}}
 .qt-presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
 .qt-presets button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:10px;
-  padding:9px 13px;font-family:'Heebo';font-size:13px;cursor:pointer;min-height:var(--touch,38px)}
+  padding:9px 13px;font-family:'Heebo';font-size:13px;cursor:pointer;min-height:calc(38px + var(--touch))}
 .qt-presets button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--panel2))}
 .qt-presets button:active{transform:scale(.95)}
 
@@ -1477,7 +1473,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .stu-chips:empty{display:none}
 .stu-chips button{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:11px;
   padding:8px 13px;font-family:'Heebo';font-size:13px;font-weight:600;cursor:pointer;transition:.12s;
-  min-height:var(--touch,36px);display:flex;align-items:center;gap:7px}
+  min-height:calc(36px + var(--touch));display:flex;align-items:center;gap:7px}
 .stu-chips button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 15%,var(--panel2))}
 .stu-chips button:active{transform:scale(.95)}
 .stu-chips button i{font-style:normal;font-family:'Share Tech Mono';font-size:11.5px;color:var(--muted)}
@@ -1487,7 +1483,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 .lang-pick{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .lang-pick button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel2);
   color:var(--ink);border-radius:12px;padding:10px 14px;font-family:'Heebo';font-size:14px;cursor:pointer;
-  transition:.12s;min-height:var(--touch,42px)}
+  transition:.12s;min-height:calc(42px + var(--touch))}
 .lang-pick button.on{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--panel2))}
 .lang-pick button:active{transform:scale(.96)}
 .lang-pick button .fl{font-size:17px;line-height:1}
@@ -1569,3 +1565,266 @@ body[data-dir="ltr"] #stWarn *{unicode-bidi:plaintext}
 #lsBar b{color:var(--acc)}
 body[data-dir="ltr"] #lsBar *{unicode-bidi:plaintext}
 #ft-startLesson{margin-top:9px}
+
+
+/* ============================================================
+   מעטפת: חמישה אזורים (היום · הכנה · שיעור · כיתות · שיאים)
+   ------------------------------------------------------------
+   העיקרון: מינימום מאמץ ותפעול. בשיעור הכול גלוי וגדול; בהכנה
+   ובהגדרות מותר לקבץ, כי שם יש זמן.
+   ============================================================ */
+:root{--live:#a3e635;--liveDim:rgba(163,230,53,.16)}
+/* חמישה כפתורים נכנסים בכל רוחב — אין צורך בגלילה אופקית */
+.nav,.nav{justify-content:space-around;overflow:visible}
+.nav button{flex:1;min-width:0;max-width:140px}
+@media(max-width:640px){
+  .nav{justify-content:space-around;overflow:visible}
+  .nav button{flex:1;min-width:0;max-width:none;font-size:11px}
+}
+/* הכפתור האמצעי: «▶ שיעור». כשיש שיעור פתוח — שם הכיתה בעיגול
+   ודקות מתחתיו, כדי שמכל מסך יהיה ברור שהשיעור עוד רץ ואיך חוזרים */
+.nav .nav-live .ic{width:54px;height:54px;border-radius:50%;margin-top:-24px;display:grid;place-items:center;
+  background:var(--live);color:#10200a;font-size:22px;font-weight:800;filter:none;
+  border:4px solid rgb(var(--bar));box-shadow:0 6px 20px rgba(163,230,53,.33)}
+.nav .nav-live.act .ic{font-size:12.5px;line-height:1.05;padding:0 3px;text-align:center;overflow:hidden;
+  font-family:'Heebo';word-break:break-word;animation:livePulse 2.4s ease-in-out infinite}
+.nav .nav-live.act{color:var(--ink)}
+.nav .nav-live.on::before{display:none}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(163,230,53,.45)}50%{box-shadow:0 0 0 7px rgba(163,230,53,0)}}
+@media(prefers-reduced-motion:reduce){.nav .nav-live.act .ic{animation:none}}
+
+/* ---------- כותרת: שפה מהירה ---------- */
+.langbtn{font-family:'Heebo';font-size:13px;font-weight:800}
+.lang-pop{position:fixed;z-index:160;top:calc(60px + env(safe-area-inset-top));inset-inline-end:12px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;min-width:180px}
+.lang-pop[hidden]{display:none}
+.lang-pop button{display:flex;gap:10px;align-items:center;background:none;border:none;color:var(--ink);
+  font-family:'Heebo';font-size:15px;font-weight:600;padding:10px 12px;border-radius:10px;min-height:44px;text-align:start;cursor:pointer}
+.lang-pop button.on{background:var(--accDim);color:var(--acc)}
+.lang-pop .fl{font-size:18px}
+
+/* ---------- לשוניות האזור ---------- */
+.area-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 14px;
+  background:rgba(var(--bar),.92);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.area-tabs[hidden]{display:none}
+.area-tabs::-webkit-scrollbar{display:none}
+.area-tabs button{flex:none;display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:transparent;
+  color:var(--muted);border-radius:999px;padding:7px 13px;font-family:'Heebo';font-size:13.5px;font-weight:700;min-height:40px;cursor:pointer}
+.area-tabs button.on{background:var(--panel2);color:var(--ink);border-color:var(--acc)}
+.area-tabs .ic{font-size:15px}
+
+/* ---------- היום ---------- */
+.hx-quick{margin-top:14px}
+.qtools{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qtools button{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:10px 4px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;font-family:'Heebo';font-size:12.5px;font-weight:700;
+  color:var(--ink);min-height:72px;cursor:pointer}
+.qtools button:hover{border-color:var(--acc)}
+.qtools .ic{font-size:22px;line-height:1}
+.hx-more,.lv-other{margin-top:14px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.hx-more summary,.lv-other summary{list-style:none;cursor:pointer;padding:13px 14px;font-weight:700;display:flex;align-items:center;gap:8px;min-height:48px}
+.hx-more summary::-webkit-details-marker,.lv-other summary::-webkit-details-marker{display:none}
+.hx-more summary::after,.lv-other summary::after{content:"＋";margin-inline-start:auto;color:var(--faint)}
+.hx-more[open] summary::after,.lv-other[open] summary::after{content:"－"}
+.hx-more .in,.lv-other .in{padding:0 12px 12px}
+.hx-more .scoreband{margin-top:0}
+
+/* ---------- הגדרות: עמוד עם מקטעים ---------- */
+.modal.page .box{width:min(680px,100%)}
+@media(max-width:640px){
+  .modal.page{padding:0}
+  .modal.page .box{height:100%;max-height:none;border-radius:0;border:none;
+    padding-top:calc(14px + env(safe-area-inset-top))}
+}
+.set-guide{display:flex;align-items:center;gap:12px;width:100%;text-align:start;background:var(--accDim);
+  border:1px solid transparent;border-radius:12px;padding:11px 13px;cursor:pointer;color:var(--ink);
+  font-family:'Heebo';font-size:14px;font-weight:600;min-height:48px}
+.set-guide .ic{font-size:19px}
+.set-guide .go{margin-inline-start:auto;color:var(--acc);transform:scaleX(-1)}
+.set-sec{border:1px solid var(--line);border-radius:14px;background:var(--panel2);margin-top:10px}
+.set-sec summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;
+  column-gap:11px;align-items:center;font-weight:700;font-size:15px;min-height:52px}
+.set-sec summary::-webkit-details-marker{display:none}
+.set-sec summary .ic{grid-row:1/span 2;font-size:21px}
+.set-sec summary small{grid-column:2;color:var(--muted);font-weight:500;font-size:12px}
+.set-sec summary::after{content:"＋";grid-row:1/span 2;grid-column:3;color:var(--faint)}
+.set-sec[open] summary::after{content:"－"}
+.set-sec .in{padding:2px 14px 14px}
+.set-sec .bk-card{margin-top:10px}
+.set-links{display:flex;flex-direction:column;gap:0;margin-bottom:6px}
+.set-savebar{position:sticky;bottom:-18px;margin:14px -18px -18px;padding:12px 18px calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(0deg,var(--bg2) 72%,transparent);z-index:2}
+.set-savebar .btn{margin-top:0!important}
+
+/* ---------- מצב שיעור ---------- */
+body[data-area="live"]{--acc:var(--live);--accDim:var(--liveDim)}
+.lv-head{display:flex;align-items:center;gap:12px;padding:4px 2px 12px}
+.lv-head .cls{font-family:'Heebo';font-weight:800;font-size:30px;line-height:1.05}
+.lv-head .sub{color:var(--muted);font-size:13.5px;margin-top:3px}
+.lv-head .clk{font-size:30px;color:var(--acc);font-variant-numeric:tabular-nums}
+.lv-head.pick{display:block}
+.lv-head.pick .kick{color:var(--acc);font-weight:800;font-size:13px;letter-spacing:.3px}
+.lv-head.pick h2{margin:2px 0 4px;font-family:'Heebo';font-weight:800;font-size:26px}
+.lv-plannote b{color:var(--ink)}
+.lv-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}
+.lv-chip{min-height:78px;border-radius:16px;border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;padding:10px 14px;
+  text-align:start;cursor:pointer;font-family:'Heebo'}
+.lv-chip b{font-size:21px;line-height:1.1}
+.lv-chip small{color:var(--muted);font-size:12.5px}
+.lv-chip.sug{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc);background:linear-gradient(135deg,var(--accDim),var(--panel) 70%)}
+.lv-chip .now{color:var(--acc);font-weight:700}
+.lv-other .seg.wrap button{min-height:46px;min-width:46px}
+.lv-phase{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:13px 14px;
+  display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.lv-phase .nm{font-family:'Heebo';font-weight:800;font-size:22px}
+.lv-phase .left{font-size:32px;color:var(--acc);font-variant-numeric:tabular-nums}
+.lv-phase.over .left{color:var(--warn)}
+.lv-phase .nx{color:var(--muted);font-size:13px}
+.lv-phase.empty{flex-direction:row;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);flex-wrap:wrap}
+.lv-bar{height:7px;background:var(--panel2);border-radius:99px;overflow:hidden}
+.lv-bar i{display:block;height:100%;background:var(--acc);transition:width .9s linear}
+.lv-desc{color:var(--muted);font-size:14.5px;line-height:1.55}
+.lv-phbtns{gap:10px}
+.lv-phbtns .btn{flex:1;min-height:52px;justify-content:center}
+.lv-allin{margin-bottom:12px;min-height:60px}
+.lv-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:720px){.lv-tiles{grid-template-columns:repeat(4,1fr)}}
+.lv-tile{position:relative;min-height:102px;border-radius:18px;border:1px solid var(--line);background:var(--panel);
+  color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:2px;
+  padding:12px 14px;text-align:start;cursor:pointer;font-family:'Heebo'}
+.lv-tile:hover{border-color:var(--acc)}
+.lv-tile .ic{font-size:30px;line-height:1;margin-bottom:auto}
+.lv-tile b{font-size:18px}
+.lv-tile small{color:var(--muted);font-size:12.5px;line-height:1.35}
+.lv-tile .bd{position:absolute;top:10px;inset-inline-end:10px}
+.lv-tile:active,.lv-chip:active{transform:scale(.98)}
+.pill.ok{border-color:rgba(52,211,153,.5);color:#34d399}
+.pill.warn{border-color:rgba(255,210,63,.5);color:var(--warn)}
+.lv-foot{display:flex;gap:10px;margin-top:16px;align-items:stretch}
+.lv-foot .btn{min-height:60px;justify-content:center}
+.lv-foot .btn.stop{flex:1;font-size:18px;width:auto}
+/* בשיעור עצמו הפס «שיעור פעיל» מיותר — המסך כולו הוא השיעור */
+body[data-area="live"] #lsBar{display:none!important}
+.lv-phase.empty .btn,.lv-other .btn{min-height:48px}
+/* שלושה כפתורי פעולה בכותרת: בטלפון השעון מפנה להם מקום */
+@media(max-width:560px){ .sboard .clock{display:none} }
+
+/* ============================================================
+   שלב 2 — כלי שטח ביד אחת
+   ============================================================ */
+/* השעון של מבחן הכושר: סרגל דביק מעל הסרגל התחתון, באזור האגודל */
+#ft-tool:empty,#ft-toolInfo:empty{display:none}
+#ft-tool{position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px);z-index:30;margin-top:12px}
+#ft-tool .ft-dock{display:flex;align-items:center;gap:9px;padding:9px 11px;margin:0;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 22%,var(--panel)),var(--panel));
+  box-shadow:0 -10px 30px rgba(0,0,0,.45)}
+#ft-tool .ft-dock .tm{flex:1;min-width:0;text-align:start;font-size:clamp(32px,10.5vw,54px)}
+#ft-tool .ft-dock .btn{min-height:58px;min-width:58px;justify-content:center;font-size:17px;padding:10px 14px}
+#ft-tool #ft-clkGo,#ft-tool #ft-cdGo{min-width:110px}
+.ft-toolinfo{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:12px;
+  display:flex;flex-direction:column;gap:8px}
+/* «קלוט» — ההקשה הדחופה ביותר באפליקציה. 32px היה קטן מדי ליד רצה */
+.ft-row [data-cap]{min-height:56px;min-width:98px;font-size:16px;justify-content:center}
+.ft-row .ft-num{min-height:48px;font-size:18px}
+.ft-lapsel button{min-width:44px;min-height:44px}
+/* נוכחות: ארבעה סימונים לכל תלמיד — בגודל של אצבע ולא של עכבר */
+.tl-marks button{min-height:48px;min-width:52px;font-size:13.5px}
+/* ביפ טסט: ההגדרות מקופלות, השמות באותו כרטיס עם כפתור הנשירה */
+.bt-heat{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.bt-heat .ft-chips .hc{min-height:calc(48px + var(--touch));font-size:15px}
+.bt-setup summary{display:flex;align-items:center;gap:10px}
+.bt-setsum{margin-inline-start:auto;color:var(--muted);font-weight:500;font-size:13px}
+.end-att{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px;
+  padding:10px 12px;border-radius:12px;border:1px solid var(--line);font-weight:600;font-size:14px}
+.end-att.ok{border-color:rgba(52,211,153,.45);color:#34d399}
+.end-att.warn{border-color:rgba(255,210,63,.45)}
+.end-att .btn{min-height:44px}
+
+/* ============================================================
+   מרכז הכיתה
+   ============================================================ */
+body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
+.hub-top{display:flex;align-items:flex-end;gap:12px;margin:2px 0 12px}
+.hub-top .kick{color:var(--acc);font-weight:800;font-size:13px;letter-spacing:.3px}
+.hub-top h2{margin:2px 0 0;font-family:'Heebo';font-weight:800;font-size:26px}
+.hub-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:12px}
+.hub-chips::-webkit-scrollbar{display:none}
+.hub-chips .chip{flex:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:999px;
+  padding:9px 15px;font-family:'Heebo';font-weight:700;font-size:14.5px;min-height:44px;cursor:pointer}
+.hub-chips .chip.on{background:var(--acc);border-color:var(--acc);color:#07140e}
+.hub-chips .livedot{color:var(--live);font-size:11px;vertical-align:2px}
+.hub-chips .chip.on .livedot{color:#07140e}
+.hub-ov{margin-bottom:12px}
+.hub-cards{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:640px){.hub-cards{grid-template-columns:1fr 1fr}}
+.hub-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 14px;display:flex;flex-direction:column;gap:8px}
+.hub-card .hd{display:flex;align-items:center;gap:9px}
+.hub-card .hd .ic{font-size:20px}
+.hub-card .hd b{font-size:16px}
+.hub-card .bd{display:flex;flex-direction:column;gap:3px;color:var(--muted);font-size:14px}
+.hub-card .bd .n{color:var(--ink);font-weight:800;font-family:'Share Tech Mono';font-size:17px}
+.hub-card .bd .dim{color:var(--faint);font-size:12.5px}
+.hub-card .ft{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
+.hub-card .ft .btn{min-height:44px}
+
+/* ============================================================
+   הכנה: «להכנה» בבית, שיוך לשיעור ועריכת המהלך
+   ============================================================ */
+.hx-prep{margin-top:14px;background:var(--panel);border:1px solid color-mix(in srgb,#f472b6 45%,var(--line));
+  border-radius:var(--r);padding:12px 14px}
+.hx-prep[hidden]{display:none}
+.hx-prep .top{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px}
+.hx-prep .hx-up .btn{min-height:44px}
+.ls-assign{margin:10px 0 4px;padding:12px;border-radius:14px;border:1px solid var(--acc);background:var(--accDim);
+  display:flex;flex-direction:column;gap:9px}
+.ls-assign[hidden]{display:none}
+.ls-asg-cls{display:flex;gap:7px;flex-wrap:wrap}
+.ls-asg-cls .chip{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:999px;
+  padding:7px 13px;font-family:'Heebo';font-weight:700;min-height:42px;cursor:pointer}
+.ls-asg-cls .chip.on{background:var(--acc);border-color:var(--acc);color:#1a0612}
+.ls-asg-occ{display:flex;flex-direction:column;gap:7px}
+.ls-asg-occ .btn{justify-content:space-between;min-height:48px}
+.pe-list{display:flex;flex-direction:column;gap:9px}
+.pe-row{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+.pe-row input,.pe-row textarea{width:100%;background:var(--inset);border:1px solid var(--line);border-radius:10px;color:var(--ink);
+  padding:8px 10px;font-family:'Heebo';font-size:14.5px}
+.pe-row input[type=number]{width:74px}
+.pe-row .btn{min-height:40px;min-width:44px}
+.lv-chip small.asg{color:var(--ink);font-weight:600}
+
+/* ---------- פוטו־פיניש: מרוץ מול הצבה (שלב 5) ---------- */
+#pf-gun{min-height:calc(56px + var(--touch));font-size:18px}
+.pf-lanechip{min-height:calc(52px + var(--touch))}
+.pfw .pfg{min-height:0}
+.pfw .pfg .art{height:64px;font-size:34px}
+.pfw-steps{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}
+.pfw-steps::-webkit-scrollbar{display:none}
+.pfw-steps button{flex:0 0 auto;border:1px solid var(--line);background:var(--inset);color:var(--muted);border-radius:99px;
+  padding:calc(7px + var(--touch)) 13px;font:600 13px 'Heebo';white-space:nowrap;cursor:pointer}
+.pfw-steps button.on{background:var(--acc);color:var(--onAcc);border-color:transparent}
+.pfw-step{margin-top:12px}
+.pfw-step[hidden]{display:none}
+.pfw-nav{margin-top:14px;position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px);background:var(--panel);padding-top:8px}
+.pfw-nav .btn{min-height:calc(50px + var(--touch))}
+.pf-resAct{align-items:flex-start;flex-wrap:wrap;position:relative}
+.pf-resAct #pf-toFt{min-height:calc(50px + var(--touch));font-size:15.5px}
+.pf-share{position:static}
+.pf-share>summary{list-style:none;min-height:calc(50px + var(--touch));display:inline-flex;align-items:center}
+.pf-share>summary::-webkit-details-marker{display:none}
+.pf-share .menu{position:absolute;z-index:40;inset-inline:0;top:calc(100% + 6px);max-width:420px;display:flex;flex-direction:column;gap:4px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+.pf-share .menu .btn{justify-content:flex-start;width:100%;min-height:calc(46px + var(--touch))}
+#pf-arcFold{margin-top:12px}
+
+/* שדות בתוך המסך במקום prompt() — הדבקת רשימה ו«＋ שורה» בפוטו־פיניש */
+.pf-inline{margin-top:10px;padding:10px;border:1px dashed var(--line);border-radius:12px;background:var(--inset);display:flex;flex-direction:column;gap:8px}
+.pf-inline.row{flex-direction:row;align-items:center;flex-wrap:wrap}
+.pf-inline[hidden]{display:none}
+.pf-inline textarea{width:100%}
+/* לוח המורה בשיאים — ארבע הלשוניות נכנסות ברוחב טלפון, ומונה הממתינים
+   מוסתר באמת כשאין ממתינים (.pill גובר על hidden) */
+#rec-admTabs{flex-wrap:wrap;overflow:visible}
+#rec-admTabs .pill[hidden]{display:none}
+#rec-admTabs .pill{margin-inline-start:4px;padding:1px 7px;font-size:11px}

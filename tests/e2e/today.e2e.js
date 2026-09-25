@@ -64,22 +64,21 @@ module.exports={title:"היום שלי",tests:[
     ok(r.cta,"ויש פעולה אחת להתחיל ממנה");
   }),
 
-  check("שלושה דברים למעלה — והשאר לא נמחק, רק ירד",base,async page=>{
+  check("«היום» למעלה, כלי מדידה אחריו — והשאר לא נמחק, רק התקפל",base,async page=>{
     const r=await page.evaluate(()=>({
-      tiles:[...document.querySelectorAll(".hx-mods .hx-mod[data-go]")].map(e=>e.dataset.go),
-      ch:!!document.querySelector(".hx-ch"),
-      tip:!!document.getElementById("fieldTip"),
-      band:!!document.querySelector(".scoreband"),
-      order:[...document.querySelectorAll("#view-home > div")].map(e=>e.id||e.className.split(" ")[0])
+      tools:[...document.querySelectorAll("#hx-quick [data-go]")].map(e=>e.dataset.go),
+      ch:!!document.querySelector("#hx-more .hx-ch"),
+      tip:!!document.querySelector("#hx-more #fieldTip"),
+      band:!!document.querySelector("#hx-more .scoreband"),
+      order:[...document.querySelectorAll("#view-home > div, #view-home > details")].map(e=>e.id||e.className.split(" ")[0])
     }));
-    eq(r.tiles.length,2,"שני אריחים בלבד: "+r.tiles.join(",")+" — כל השאר במגירה ☰");
-    ok(r.ch,"האתגר השבועי לא הוסר");
+    eq(r.tools,["ft","beep","photo","fit"],"כלי מדידה בלי שיעור");
+    ok(r.ch,"האתגר השבועי לא הוסר — הוא במקופל");
     ok(r.tip,"וטיפ השטח גם לא");
     ok(r.band,"וגם רצועת המונים לא");
-    const iT=r.order.indexOf("hx-today"), iM=r.order.indexOf("hx-mods"),
-          iB=r.order.indexOf("scoreband");
-    ok(iT>=0&&iM>iT,"«היום שלי» מעל האריחים — "+r.order.join(","));
-    ok(iB>iM,"והמונים מתחתיהם — הם רקע, לא פעולה: "+r.order.join(","));
+    const iT=r.order.indexOf("hx-today"), iQ=r.order.indexOf("hx-quick"), iM=r.order.indexOf("hx-more");
+    ok(iT>=0&&iQ>iT,"«היום שלי» מעל הכלים — "+r.order.join(","));
+    ok(iM>iQ,"והמקופל בסוף: "+r.order.join(","));
   }),
 
   check("שיעורי היום מוצגים, ושל מחר לא",seeded(),async page=>{
