@@ -4,14 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
-<script src="./support.js"></script>
+<!-- support.js (הרצת רכיבי Claude Design) לא נטען כאן: הוא מוריד React מ-unpkg
+     ומצייר מחדש את כל הדף מהתבנית. זה מריץ את סקריפטי האפליקציה פעם שנייה
+     (hm-app.js נופל על let כפול) ומחליף את ה-DOM שהכפתורים מחוברים אליו —
+     וכך כל הממשק «קופא». האפליקציה עולה ישירות, בדיוק כמו Hamegrash.html. -->
+<style>x-dc{display:block}helmet{display:none}</style>
 </head>
 <body>
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0b1220"/><circle cx="50" cy="50" r="26" fill="none" stroke="#38bdf8" stroke-width="4"/><text x="50" y="59" font-family="Inter,Helvetica,sans-serif" font-size="22" font-weight="600" fill="#38bdf8" text-anchor="middle">מג</text></svg></template>
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="7deff516">
+<meta name="hm-build" content="07fdb60e">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hm-styles.css?v=95e8e08f">
@@ -19,7 +23,7 @@
 <script src="hm-data.js?v=e7c30428"></script>
 <script src="hm-terms.js?v=0cec9314"></script>
 <script src="hm-texts.js?v=76abfc3a"></script>
-<script src="hm-i18n.js?v=d9c58812"></script>
+<script src="hm-i18n.js?v=9c06e617"></script>
 <script src="hm-app.js?v=6b0dcce3"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=7d6e9224"></script>
@@ -1965,24 +1969,22 @@ class Component extends DCLogic {
 }
 </script>
 <script>
-/* גיבוי הפעלה — ריצת הרכיב (support.js) טוענת ספרייה מהרשת.
-   בלי אינטרנט היא לא מספיקה לאתחל, ולכן אחרי 1.2 שניות אנחנו מפעילים
-   את האפליקציה ישירות. כך היא עובדת גם אופליין לגמרי. */
+/* הפעלה ישירה — מיד כשהדף נטען. אין תלות בספרייה מהרשת, ולכן
+   האפליקציה עובדת באותו אופן ברשת איטית, מהירה או בלי אינטרנט. */
 (function(){
   var tries=0;
   function boot(){
     if(window.__hmBooted)return;
     if(window.HMBoot&&window.HMBootNew&&document.getElementById("view-home")&&document.getElementById("view-nut")){
       window.__hmBooted=true;
-      var dc=document.querySelector("x-dc");
-      if(dc)dc.style.setProperty("display","block","important"); /* support.js מסתיר עם !important */
       var ld=document.getElementById("__bundler_loading"); if(ld)ld.remove();
-      try{window.HMBoot();window.HMBootNew();}catch(e){console.error("fallback boot",e);}
+      try{window.HMBoot();window.HMBootNew();}catch(e){console.error("boot",e);}
       return;
     }
-    if(tries++<60)setTimeout(boot,200);
+    if(tries++<100)setTimeout(boot,50);
   }
-  setTimeout(boot,1200);
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);
+  else boot();
 })();
 </script>
 </body>

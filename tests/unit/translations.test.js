@@ -92,3 +92,29 @@ test("אין ← בתרגום לשפה משמאל לימין",()=>{
   for(const [k,v] of Object.entries(T)) [0,2,3].forEach(i=>
     assert.ok(!/←/.test(v[i]||""),LANGS[i]+": "+k.slice(0,40)));
 });
+
+/* ============ מפתחות המילון מול הקוד ============ */
+
+/* הקוד בלי המילון עצמו — אחרת כל מפתח «מופיע בקוד» */
+const I18SRC=fs.readFileSync(R+"hm-i18n.js","utf8");
+const CODE=fs.readdirSync(R).filter(f=>/\.(js|html)$/.test(f)&&!/^(Hamegrash\.html|hm-texts\.js|hm-terms\.js|hm-i18n\.js|sw\.js)$/.test(f))
+  .map(f=>fs.readFileSync(R+f,"utf8")).join("\n")+I18SRC.slice(I18SRC.indexOf("\n};",I18SRC.indexOf("\nes:{")));
+function dictOf(l){
+  const src=fs.readFileSync(R+"hm-i18n.js","utf8");
+  const a=src.indexOf("\n"+l+":{"), nx=LANGS.map(x=>src.indexOf("\n"+x+":{")).filter(i=>i>a).sort((x,y)=>x-y)[0];
+  const seg=src.slice(a,nx||src.indexOf("\n};",a));
+  return new Set([...seg.matchAll(/"([a-zA-Z0-9_.]+)":"/g)].map(m=>m[1]));
+}
+/* מפתחות שנבנים בזמן ריצה: t("home.tip."+i), t("pfg."+i+".h"), t("nut.c."+id), tr("nut.tip."+i) */
+const DYN=[/^home\.tip\.\d+$/,/^nut\.tip\.\d+$/,/^pfg\.\d+\.[hp]$/,/^nut\.c\./];
+
+test("כל מפתח שהקוד מבקש קיים בכל ארבע השפות",()=>{
+  const refs=new Set([...CODE.matchAll(/(?:\bt\(|data-i18n(?:-[a-z]+)?=)\s*["']([a-z][a-zA-Z0-9_]*\.[a-zA-Z0-9_.]*[a-zA-Z0-9_])["']/g)].map(m=>m[1]));
+  for(const l of LANGS){ const d=dictOf(l); for(const k of refs) assert.ok(d.has(k),l+": חסר "+k); }
+});
+
+test("אין מפתחות מתים במילון — כל מפתח מופיע בקוד (או שייך למשפחה דינמית)",()=>{
+  const dead=[...dictOf("en")].filter(k=>!DYN.some(r=>r.test(k))&&
+    !CODE.includes('"'+k+'"')&&!CODE.includes("'"+k+"'")&&!CODE.includes("`"+k+"`"));
+  assert.deepEqual(dead,[],"מפתחות שאף קוד לא מבקש");
+});
