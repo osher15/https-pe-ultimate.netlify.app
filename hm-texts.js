@@ -4650,3 +4650,34 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "הערה: וריאציה מורחבת של אפשרות 3–4 מופיעה ביחידת ההוראה בנושא פארטלק (שיעור 2) — כרטיסיות שאלה לפי צבע, תחנות עם ידע מוקדם.":["Note: an extended variation of options 3–4 appears in the fartlek teaching unit (Lesson 2) — colour-coded question cards, stations staffed by people who know the answers in advance.", "ملاحظة: يرد تنويع موسّع للخيارين 3–4 في الوحدة التعليمية حول الفارتلك (الدرس 2) — بطاقات أسئلة بحسب اللون، ومحطات يعرف القائمون عليها الإجابات مسبقًا.", "Примечание: расширенный вариант заданий 3–4 приведён в учебном блоке по фартлеку (урок 2) — карточки с вопросами по цветам, станции, где заранее знают ответы.", "Nota: una variante ampliada de las opciones 3–4 aparece en la unidad didáctica de fartlek (sesión 2): tarjetas de preguntas por colores y estaciones cuyo personal conoce las respuestas de antemano."],
 "הטקסט ארוך מדי ל-QR (עד {0} בייטים)":["Text too long for a QR code (max {0} bytes)", "النص طويل جدًّا لرمز QR (حتى {0} بايت)", "Текст слишком длинный для QR-кода (до {0} байт)", "Texto demasiado largo para el código QR (máx. {0} bytes)"]
 });
+
+/* ux-redesign · phase 6 — שאלות בתוך האפליקציה ו«↩ בטל» */
+Object.assign(window.I18N_TERMS,{
+"השעון אופס (הלוח נשמר)":["Clock reset (the board is kept)", "أُعيد ضبط الساعة (اللوحة محفوظة)", "Часы сброшены (таблица сохранена)", "Reloj reiniciado (el tablero se conserva)"],
+"רשימת המקצה נוקתה · הרישומים בלוח נשמרים":["Heat list cleared · entries on the board are kept", "مُسحت قائمة التصفية · التسجيلات في اللوحة محفوظة", "Список забега очищен · записи в таблице сохранены", "Lista de la serie borrada · los registros del tablero se conservan"],
+"כל הרישומים נמחקו":["All entries deleted", "حُذفت كل التسجيلات", "Все записи удалены", "Todos los registros eliminados"],
+"הרישום נמחק":["Entry deleted", "حُذف التسجيل", "Запись удалена", "Registro eliminado"],
+"העמודה «{0}» הוסרה":["Column «{0}» removed", "أُزيل العمود «{0}»", "Столбец «{0}» удалён", "Columna «{0}» eliminada"],
+"התקופה «{0}» נמחקה, עם הציונים שבה":["Period «{0}» deleted, with its grades", "حُذفت الفترة «{0}» مع علاماتها", "Период «{0}» удалён вместе с оценками", "Periodo «{0}» eliminado, con sus notas"],
+"ההערכה נמחקה":["Assessment deleted", "حُذف التقييم", "Оценивание удалено", "Evaluación eliminada"],
+"הניסיון נמחק":["Attempt deleted", "حُذفت المحاولة", "Попытка удалена", "Intento eliminado"],
+"השעון אופס · התוצאות שנרשמו נשמרו":["Clock reset · recorded results are kept", "أُعيد ضبط الساعة · النتائج المسجلة محفوظة", "Часы сброшены · записанные результаты сохранены", "Reloj reiniciado · los resultados registrados se conservan"],
+"הניסיונות של היום נמחקו · ניסיונות מתאריכים קודמים נשמרים":["Today's attempts deleted · attempts from earlier dates are kept", "حُذفت محاولات اليوم · محاولات التواريخ السابقة محفوظة", "Сегодняшние попытки удалены · попытки прошлых дат сохранены", "Intentos de hoy eliminados · los de fechas anteriores se conservan"],
+"טבלת הנורמה נמחקה":["Norm table deleted", "حُذف جدول المعايير", "Таблица норм удалена", "Tabla de baremos eliminada"],
+"המחוון נמחק, עם הציונים שלו":["Rubric deleted, with its scores", "حُذف سلّم التقييم مع درجاته", "Рубрика удалена вместе с баллами", "Rúbrica eliminada, con sus puntuaciones"],
+"הבונה התחיל מחדש":["The builder started over", "بدأ المُنشئ من جديد", "Конструктор начат заново", "El constructor empezó de nuevo"],
+"✓ {0} מדידות שויכו ל{1}":["✓ {0} measurements assigned to {1}", "✓ نُسبت {0} قياسات إلى {1}", "✓ Измерений привязано к {1}: {0}", "✓ {0} mediciones asignadas a {1}"],
+"מזג":["Merge", "دمج", "Объединить", "Combinar"],
+"מחק הכל":["Delete all", "احذف الكل", "Удалить всё", "Eliminar todo"],
+"יציאה":["Exit", "خروج", "Выйти", "Salir"],
+"אתגר חדש":["New challenge", "تحدٍّ جديد", "Новый вызов", "Nuevo reto"],
+"כתוב לציונים":["Write to grades", "اكتب إلى العلامات", "Записать в оценки", "Escribir en las notas"],
+"צור מחוון":["Create rubric", "أنشئ سلّم تقييم", "Создать рубрику", "Crear rúbrica"],
+"שמור תבנית":["Save template", "احفظ القالب", "Сохранить шаблон", "Guardar plantilla"],
+"הבנתי":["Got it", "فهمت", "Понятно", "Entendido"],
+"תבנית":["Template", "قالب", "Шаблон", "Plantilla"],
+"מחוון ריק":["Empty rubric", "سلّم تقييم فارغ", "Пустая рубрика", "Rúbrica vacía"],
+"שם לתבנית":["Template name", "اسم القالب", "Название шаблона", "Nombre de la plantilla"],
+"למשל: ״כוח ט׳ באולם״":["e.g. \"Strength, grade 9, gym\"", "مثلًا: «قوة، الصف التاسع، في القاعة»", "например: «Сила, 9 класс, зал»", "p. ej.: «Fuerza, 3.º ESO, gimnasio»"],
+"לכתוב את המדד של {0} תלמידים לעמודת «{1}»?":["Write the index of {0} students to the «{1}» column?", "كتابة المؤشر لـ {0} طلاب في العمود «{1}»؟", "Записать индекс {0} учеников в столбец «{1}»?", "¿Escribir el índice de {0} alumnos en la columna «{1}»?"],
+});

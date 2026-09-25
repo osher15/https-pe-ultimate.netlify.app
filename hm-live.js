@@ -39,7 +39,7 @@ function planState(){ const v=H().LS.get(K_PLAN,null); return v&&typeof v==="obj
 function slim(p){
   if(!p||!Array.isArray(p.phases)||!p.phases.length)return null;
   /* הנושא והגרסאות נשמרים כדי שהדירוג בסיום ילמד את מחולל המערכים */
-  return {title:p.title||"",topic:p.topic||null,grade:p.grade||null,
+  return {id:p.id||null,title:p.title||"",topic:p.topic||null,grade:p.grade||null,
     variants:p.mainVariants||[],subs:p.mainSubs||[],
     phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:Array.isArray(x.d)?x.d.join(" · "):String(x.d||"")}))};
 }
@@ -88,7 +88,7 @@ function start(cid,label){
   /* המערך ששויך לשיעור הזה קודם; אחרת המערך שעל המסך במערכים */
   const as=H().assign&&H().assign.get(cid,iso());
   const p=(as&&as.plan&&as.plan.phases)?as.plan:(window.LESSON&&window.LESSON.current&&window.LESSON.current());
-  const r=S.start({cid,clsSnapshot:name,date:iso(),planTitle:(p&&p.title)||""});
+  const r=S.start({cid,clsSnapshot:name,date:iso(),planId:(p&&p.id)||null,planTitle:(p&&p.title)||""});
   if(r.outcome==="blocked"){ H().toast(t("live.blocked","כבר פתוח שיעור בכיתה")+" "+H().sesName(r.active)); return; }
   if(!r.ok){ H().toast(t("live.cantStart","לא ניתן לפתוח שיעור")); return; }
   if(p)attachPlan(p);

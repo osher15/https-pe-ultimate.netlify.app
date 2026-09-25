@@ -264,20 +264,26 @@ window.TOOLS=(function(){
       H().LS.set("tools.scores",s); renderRub();
     }));
   }
-  function newRubric(presetIdx){
+  /* גיליון אחד: תבנית, שם וקריטריונים — במקום שלושה prompt() ברצף.
+     בחירת תבנית ממלאת את השם והקריטריונים, ואפשר לערוך לפני השמירה. */
+  async function newRubric(){
     const {toast}=H();
-    const p=PRESETS[presetIdx];
-    const name=prompt("שם המחוון:",p?p.name:"מחוון חדש");
-    if(!name)return;
-    let crit=p?p.crit.slice():[];
-    if(!p){
-      const txt=prompt("קריטריונים, אחד בכל שורה:","מיומנות\nמאמץ\nשיתוף פעולה\nבטיחות");
-      if(!txt)return;
-      crit=txt.split("\n").map(x=>x.trim()).filter(Boolean);
-    }
+    const EMPTY_CRIT="מיומנות\nמאמץ\nשיתוף פעולה\nבטיחות";
+    const p0=PRESETS[0];
+    const v=await H().ask({title:"📐 מחוון חדש",fields:[
+      {k:"tpl",label:"תבנית",type:"select",value:"0",
+        options:PRESETS.map((p,i)=>[String(i),p.name]).concat([["-1","מחוון ריק"]]),
+        onchange:(val,ins)=>{ const p=PRESETS[+val];
+          ins[1].value=p?p.name:"מחוון חדש"; ins[2].value=p?p.crit.join("\n"):EMPTY_CRIT; }},
+      {k:"name",label:"שם המחוון:",value:p0?p0.name:"מחוון חדש"},
+      {k:"crit",label:"קריטריונים, אחד בכל שורה:",type:"textarea",rows:5,value:p0?p0.crit.join("\n"):EMPTY_CRIT}
+    ],ok:"＋ צור מחוון"});
+    if(v===null)return;
+    const name=(v.name||"").trim()||"מחוון חדש";
+    const crit=String(v.crit||"").split("\n").map(x=>x.trim()).filter(Boolean);
     if(!crit.length){toast("צריך לפחות קריטריון אחד");return;}
     const list=RUB(), id="rb"+Date.now().toString(36);
-    list.push({id,name:name.trim(),crit});
+    list.push({id,name,crit});
     H().LS.set("tools.rubrics",list); curRub=id; renderRub(); toast("המחוון נוצר");
   }
   function rubCsv(){
@@ -379,18 +385,14 @@ window.TOOLS=(function(){
     $("#tl-rubSel").addEventListener("change",e=>{curRub=e.target.value;renderRub();});
     $("#tl-rubCls").addEventListener("change",e=>{rubCls=e.target.value;renderRub();});
     $("#tl-rubCsv").addEventListener("click",rubCsv);
-    $("#tl-rubNew").addEventListener("click",()=>{
-      const opts=PRESETS.map((p,i)=>`${i+1}. ${p.name}`).join("\n");
-      const c=prompt("בחר תבנית (מספר), או 0 למחוון ריק:\n\n"+opts,"1");
-      if(c===null)return;
-      newRubric(+c>0?+c-1:null);
-    });
+    $("#tl-rubNew").addEventListener("click",()=>newRubric());
     $("#tl-rubDel").addEventListener("click",()=>{
       if(!curRub)return;
-      if(!confirm("למחוק את המחוון והציונים שלו?"))return;
+      const back=H().snap(["tools.rubrics","tools.scores"]), was=curRub;
       H().LS.set("tools.rubrics",RUB().filter(r=>r.id!==curRub));
       const s=SC(); Object.keys(s).forEach(k=>{ if(k.startsWith(curRub+"|"))delete s[k]; });
-      H().LS.set("tools.scores",s); curRub=null; renderRub(); H().toast("נמחק");
+      H().LS.set("tools.scores",s); curRub=null; renderRub();
+      H().undo("המחוון נמחק, עם הציונים שלו",()=>{ back(); curRub=was; renderRub(); });
     });
     fillClassSelects(); renderAtt(); renderRub(); renderPicked();
   }

@@ -128,7 +128,7 @@ document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==
 
 /* ---------- toast / confetti / csv / time ---------- */
 let toastTm=null;
-function toast(msg){ const t=$("#toastT"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTm); toastTm=setTimeout(()=>t.classList.remove("show"),2600); }
+function toast(msg){ const t=$("#toastT"); clearTimeout(actTm); t.classList.remove("act"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTm); toastTm=setTimeout(()=>t.classList.remove("show"),2600); }
 function confetti(n=90){
   const colors=["#19d27a","#19c3ff","#ffce3a","#ff7a3d","#b07cff","#ff4d5e"];
   for(let i=0;i<n;i++){ const d=document.createElement("div"); d.className="cfp";
@@ -145,10 +145,146 @@ function dlCSV(name,rows){
 function fmtMS(t){ const m=Math.floor(t/60), s=Math.floor(t%60); return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0"); }
 function fmtMSc(t){ const m=Math.floor(t/60), s=Math.floor(t%60), c=Math.floor((t%1)*100); return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")+"."+String(c).padStart(2,"0"); }
 function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-function modal(id,on){ $("#"+id).classList.toggle("on",on!==false); }
+/* כל החלונות חולקים z-index אחד, ולכן הסדר ב-DOM קבע מי מעל מי — חלון
+   הקבוצות, שנפתח מתוך מערכת השעות, נפתח מאחוריה. חלון שנפתח עכשיו
+   עולה תמיד מעל מה שכבר פתוח. */
+let modalZ=0;
+function modal(id,on){
+  const m=$("#"+id); if(!m)return;
+  const open=on!==false;
+  if(open&&!m.classList.contains("on"))m.style.zIndex=220+(++modalZ);
+  m.classList.toggle("on",open);
+  if(!open){ m.style.zIndex=""; if(!$$(".modal.on").length)modalZ=0; }
+}
+/* ============================================================
+   שאלה בתוך האפליקציה — במקום confirm()/prompt()
+   ------------------------------------------------------------
+   חלון הדפדפן חוסם את כל הדף, נראה אחרת בכל טלפון, ובשטח קל ללחוץ
+   בו «אישור» בטעות. כאן זה גיליון של האפליקציה עצמה: שדות אמיתיים
+   (טקסט, מספר, רשימה, בחירה), Enter לאישור, וחזרה של הטלפון כביטול.
+   פעולה הרסנית שאי אפשר להחזיר מבקשת להקליד מילה (word).
+   o: {title, msg, fields:[{k,label,value,type,options:[[v,l]],ph,rows}],
+       ok, danger, word}. מחזיר Promise: בלי שדות — true/false; שדה
+   אחד — הערך או null; כמה שדות — אובייקט לפי k או null.
+   ============================================================ */
+let askDone=null;
+/* קיצורי מקלדת של השטח (רווח = זינוק, 1–9 = מסלול) לא פועלים כשמקלידים
+   בשדה, וגם לא כשחלון פתוח מעל המסך — רווח בשם שמודבק ברשימה היה
+   יורה את אקדח הזינוק. */
+function typingIn(e){
+  const el=e.target, tg=el&&el.tagName;
+  return tg==="INPUT"||tg==="SELECT"||tg==="TEXTAREA"||!!(el&&el.isContentEditable)||!!document.querySelector(".modal.on");
+}
+function ask(o){
+  o=o||{};
+  if(askDone)askDone(null);
+  let m=$("#askModal");
+  if(!m){
+    m=document.createElement("div"); m.className="modal"; m.id="askModal";
+    m.innerHTML='<div class="box ask-box" style="max-width:460px"><h3><span id="ask-t"></span>'+
+      '<button class="x" id="ask-x" type="button" aria-label="close">✕</button></h3>'+
+      '<div id="ask-m" class="ask-msg" dir="auto"></div><div id="ask-f" class="ask-fields"></div>'+
+      '<div class="row ask-btns"><button class="btn acc" id="ask-ok" type="button"></button>'+
+      '<button class="btn ghost" id="ask-no" type="button"></button></div></div>';
+    document.body.appendChild(m);
+    m.addEventListener("click",e=>{ if(e.target===m&&askDone)askDone(null); });
+  }
+  const T=x=>(window.I18N?window.I18N.tr(x):x);
+  const fields=o.fields||[];
+  $("#ask-t").textContent=T(o.title||"");
+  $("#ask-t").parentNode.style.display=o.title?"":"none";
+  $("#ask-m").textContent=T(o.msg||""); $("#ask-m").style.display=o.msg?"":"none";
+  const wrap=$("#ask-f"); wrap.innerHTML="";
+  const inputs=fields.map((f,i)=>{
+    const d=document.createElement("div"); d.className="field";
+    if(f.label){ const l=document.createElement("label"); l.textContent=T(f.label); l.htmlFor="ask-i"+i; d.appendChild(l); }
+    let el;
+    if(f.type==="select"){
+      el=document.createElement("select");
+      (f.options||[]).forEach(op=>{ const x=document.createElement("option");
+        x.value=Array.isArray(op)?op[0]:op; x.textContent=Array.isArray(op)?op[1]:op; el.appendChild(x); });
+    }else if(f.type==="textarea"){
+      el=document.createElement("textarea"); el.rows=f.rows||5;
+    }else{
+      el=document.createElement("input"); el.type=f.type||"text";
+      if(f.type==="number"){ el.inputMode="decimal"; el.step=f.step||"any"; }
+    }
+    el.id="ask-i"+i; if(f.ph)el.placeholder=T(f.ph);
+    if(f.value!=null)el.value=f.value;
+    if(f.readonly)el.readOnly=true;
+    d.appendChild(el); wrap.appendChild(d); return el;
+  });
+  /* שדה שממלא אחרים (תבנית → שם וקריטריונים) */
+  fields.forEach((f,i)=>{ if(f.onchange)inputs[i].addEventListener("change",()=>f.onchange(inputs[i].value,inputs)); });
+  let wordEl=null;
+  if(o.word){
+    const d=document.createElement("div"); d.className="field";
+    const l=document.createElement("label");
+    l.textContent=t("ask.type","הקלד «{0}» לאישור").replace("{0}",T(o.word)); d.appendChild(l);
+    wordEl=document.createElement("input"); wordEl.type="text"; wordEl.id="ask-word"; wordEl.autocomplete="off";
+    d.appendChild(wordEl); wrap.appendChild(d);
+  }
+  const okB=$("#ask-ok"), noB=$("#ask-no");
+  okB.textContent=T(o.ok||t("ask.ok","אישור")); okB.className="btn "+(o.danger?"stop":"acc");
+  noB.textContent=t("ask.cancel","ביטול");
+  noB.style.display=o.alert?"none":"";
+  const wordOk=()=>!wordEl||[o.word,T(o.word)].includes(wordEl.value.trim());
+  okB.disabled=!wordOk();
+  if(wordEl)wordEl.oninput=()=>{ okB.disabled=!wordOk(); };
+  return new Promise(res=>{
+    let done=false;
+    const finish=v=>{ if(done)return; done=true; askDone=null; m.__onBack=null; document.removeEventListener("keydown",key,true); modal("askModal",false); res(v); };
+    const value=()=>{
+      if(!fields.length)return true;
+      const vals={}; fields.forEach((f,i)=>vals[f.k||i]=inputs[i].value);
+      return fields.length===1&&!o.obj?inputs[0].value:vals;
+    };
+    const submit=()=>{ if(!wordOk())return; finish(value()); };
+    const key=e=>{
+      if(e.key==="Escape"){ e.preventDefault(); finish(fields.length?null:false); }
+      else if(e.key==="Enter"&&!(e.target&&e.target.tagName==="TEXTAREA"&&!e.ctrlKey&&!e.metaKey)){
+        if(e.target&&e.target.tagName==="BUTTON")return;
+        e.preventDefault(); submit(); }
+    };
+    askDone=v=>finish(v==null?(fields.length?null:false):v);
+    m.__onBack=()=>askDone(null);
+    okB.onclick=submit; noB.onclick=()=>askDone(null); $("#ask-x").onclick=()=>askDone(null);
+    document.addEventListener("keydown",key,true);
+    modal("askModal",true);
+    const first=inputs.find(x=>!x.readOnly)||wordEl;
+    setTimeout(()=>{ try{ (first||okB).focus(); if(first&&first.select&&first.type!=="number")first.select(); }catch(e){} },30);
+  });
+}
+/* הודעה עם כפתור פעולה — «↩ בטל» אחרי מחיקה, «⏹ עצור» כשכולם סיימו.
+   הפעולה עצמה כבר בוצעה; הכפתור מחזיר אותה לכמה שניות. במקום לשאול
+   «בטוח?» לפני כל מחיקה, מוחקים מיד ונותנים דרך חזרה. */
+/* צילום של מפתחות אחסון לפני פעולה, ופונקציה שמחזירה אותם — הבסיס של
+   «↩ בטל»: מוחקים מיד, והצילום מחזיר בדיוק את מה שהיה. */
+function snap(keys){
+  const saved=keys.map(k=>[k,JSON.stringify(LS.get(k,null))]);
+  return ()=>saved.forEach(([k,v])=>LS.set(k,JSON.parse(v)));
+}
+let actTm=null;
+function actToast(msg,label,fn,ms){
+  const box=$("#toastT");
+  clearTimeout(toastTm); clearTimeout(actTm);
+  box.textContent="";
+  const sp=document.createElement("span"); sp.textContent=msg;
+  const b=document.createElement("button"); b.type="button"; b.className="toast-act"; b.id="toastAct"; b.textContent=label;
+  let used=false;
+  b.addEventListener("click",()=>{ if(used)return; used=true; ac(); box.classList.remove("show","act");
+    try{ fn(); }catch(e){ console.error(e); } });
+  box.appendChild(sp); box.appendChild(b);
+  box.classList.add("show","act");
+  actTm=setTimeout(()=>{ box.classList.remove("show","act"); },ms||6000);
+}
+function undo(msg,fn,ms){
+  actToast(msg,t("undo.btn","↩ בטל"),()=>{ fn(); toast(t("undo.done","↩ בוטל")); },ms);
+}
 function wireModals(){
   $$("[data-close]").forEach(b=>b.addEventListener("click",()=>modal(b.dataset.close,false)));
-  $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m)m.classList.remove("on"); }));
+  $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target!==m)return;
+    if(m.__onBack)m.__onBack(); else modal(m.id,false); }));
 }
 
 /* ---------- roles: מורה מול תלמיד ----------
@@ -302,7 +438,9 @@ window.addEventListener("popstate",e=>{
   /* חלון פתוח? «חזרה» סוגרת אותו ונשארת במסך — כמו בכל אפליקציה */
   const open=$$(".modal.on");
   if(open.length){
-    open.forEach(m=>m.classList.remove("on"));
+    /* רק העליון נסגר — חלון שנפתח מתוך חלון אחר חוזר אל זה שמתחתיו */
+    const top=open.reduce((a,m)=>(+m.style.zIndex||0)>=(+a.style.zIndex||0)?m:a,open[0]);
+    if(top.__onBack)top.__onBack(); else modal(top.id,false);
     try{ navDepth++; history.pushState({mod:document.body.dataset.mod,depth:navDepth},"","#"+document.body.dataset.mod); }catch(err){}
     return;
   }
@@ -532,6 +670,8 @@ function wireTipPop(){
 }
 
 /* ---------- settings ---------- */
+/* פתיחת ההגדרות מבחוץ (לוח המורה בשיאים → «גיבוי וסנכרון») */
+let SETTINGS_OPEN=()=>{};
 function wireSettings(){
 $$("#set-theme .thm").forEach(b=>b.addEventListener("click",()=>{
   SET.theme=b.dataset.t; saveSet(); applyTheme(); }));
@@ -564,11 +704,17 @@ function openInfo(){
   });
 }
 $("#btnInfo").addEventListener("click",()=>{ ac(); openInfo(); });
-$("#btnSettings").addEventListener("click",()=>{ const bi=$("#set-build"); if(bi)bi.textContent="גרסה "+buildId();
+/* sec — מקטע לפתוח ישירות («backup» מלוח המורה של השיאים) */
+function openSettings(sec){ const bi=$("#set-build"); if(bi)bi.textContent="גרסה "+buildId();
   $("#set-school").value=SET.school; $("#set-sound").checked=SET.sound; $("#set-voice").checked=SET.voice; $("#set-wake").checked=SET.wake; $("#set-touch").checked=!!SET.touch; applyTheme();
   $("#set-driveForm").value=SET.driveForm||""; $("#set-driveFolder").value=SET.driveFolder||"";
   $("#set-syncUrl").value=SET.syncUrl||""; $("#set-syncCode").value=SET.syncCode||"";
-  bkStat(); paintClassRename(); modal("setModal"); });
+  bkStat(); paintClassRename(); modal("setModal");
+  const el=sec&&$("#set-sec"+sec[0].toUpperCase()+sec.slice(1));
+  if(el){ el.open=true; setTimeout(()=>{ try{ el.scrollIntoView({block:"start",behavior:"smooth"}); }catch(e){} },60); }
+}
+$("#btnSettings").addEventListener("click",()=>openSettings());
+SETTINGS_OPEN=openSettings;
 (function(){ const b=$("#set-forceUpdate");
   if(b)b.addEventListener("click",()=>{ forceUpdate(); }); })();
 $("#set-save").addEventListener("click",()=>{ SET.school=$("#set-school").value.trim(); SET.sound=$("#set-sound").checked; SET.voice=$("#set-voice").checked; SET.wake=$("#set-wake").checked;
@@ -718,7 +864,7 @@ function paintClassRenameCur(){
   if(info){ const x=c?clsRenameList().find(y=>y.cid===sel.value):null;
     info.textContent=x?(x.students+" תלמידים · "+x.results+" מדידות"+(x.origin&&x.origin!==x.name?" · נוצרה כ-"+x.origin:"")):""; }
 }
-function renameClassFromUi(){
+async function renameClassFromUi(){
   const sel=$("#set-clsSel"), inp=$("#set-clsNew"); if(!sel||!inp)return;
   const cid=sel.value, nm=inp.value.trim();
   const c=cid?DATA.classOf(REGSTORE,cid):null;
@@ -727,9 +873,9 @@ function renameClassFromUi(){
   if(nm===c.name){ toast("זה כבר השם של הכיתה"); return; }
   const reg=DATA.classes(REGSTORE);
   const twin=Object.keys(reg).find(k=>k!==cid&&reg[k]&&DATA.clsKey(reg[k].name)===DATA.clsKey(nm));
-  if(twin&&!confirm("כיתה אחרת כבר נקראת «"+reg[twin].name+"».\n\nשתי הכיתות יישארו נפרדות, אבל בבוררים ובדוחות יהיה קשה להבחין ביניהן.\nלהמשיך בכל זאת?"))return;
+  if(twin&&!(await ask({msg:"כיתה אחרת כבר נקראת «"+reg[twin].name+"».\n\nשתי הכיתות יישארו נפרדות, אבל בבוררים ובדוחות יהיה קשה להבחין ביניהן.\nלהמשיך בכל זאת?"})))return;
   const pc=DATA.parseCls(nm);
-  if(!twin&&pc&&DATA.classId(nm)!==cid&&!confirm("השם «"+nm+"» נראה כמו כיתה אחרת ("+DATA.clsName(pc.grade,pc.num)+").\n\nהזהות של הכיתה לא תשתנה — רק השם. להמשיך?"))return;
+  if(!twin&&pc&&DATA.classId(nm)!==cid&&!(await ask({msg:"השם «"+nm+"» נראה כמו כיתה אחרת ("+DATA.clsName(pc.grade,pc.num)+").\n\nהזהות של הכיתה לא תשתנה — רק השם. להמשיך?"})))return;
   const r=DATA.renameClass(REGSTORE,cid,nm);
   if(!r.ok){ toast(r.error==="empty-name"?"השם ריק":"שינוי השם נכשל"); return; }
   toast("✓ הכיתה נקראת עכשיו «"+nm+"»");
@@ -903,7 +1049,7 @@ function startFromSlot(slot){
     DATA.registerClass(REGSTORE,slot.clsSnapshot||""); }catch(e){}
   const as=ASSIGN.get(slot.cid,isoToday());
   const r=SESSION.start({cid:slot.cid,clsSnapshot:slot.clsSnapshot||"",
-    date:isoToday(),planTitle:(as&&as.title)||slot.topic||""});
+    date:isoToday(),planId:(as&&as.plan&&as.plan.id)||null,planTitle:(as&&as.title)||slot.topic||""});
   if(r.outcome==="blocked"){
     toast("כבר פתוח שיעור בכיתה "+sesName(r.active)+" — סיים אותו קודם");
     return;
@@ -1163,13 +1309,10 @@ function renderGrpList(){
   $$("#grp-list [data-gdel]").forEach(b=>b.addEventListener("click",()=>{
     const g=DATA.groupOf(REGSTORE,b.dataset.gdel); if(!g)return;
     /* קבוצה שמופיעה במערכת השעות — המשבצות שלה יישארו בלי הקשר */
-    const used=SCHED.list().filter(x=>x.cid===g.id).length;
-    if(!confirm("למחוק את הקבוצה «"+g.name+"»?\n\n"+
-      (used?"• "+used+" משבצות במערכת השעות מצביעות עליה ויישארו בלי קבוצה.\n":"")+
-      "• התלמידים, המדידות והשיעורים שהתקיימו לא ייפגעו."))return;
+    const back=snap(["ft.classes"]);
     DATA.removeGroup(REGSTORE,g.id);
     grpReset(); renderGrpList(); paintHome();
-    toast("הקבוצה נמחקה");
+    undo("הקבוצה נמחקה",()=>{ back(); renderGrpList(); paintHome(); });
   }));
 }
 function renderGrpPickers(sel){
@@ -1390,7 +1533,7 @@ function addFromEditor(){
    קיימת היא שואלת קודם, כי שבוע שמישהו הזין ידנית לא נמחק בשקט. */
 function loadSampleWeek(){
   const cur=SCHED.list().length;
-  if(cur&&!confirm("במערכת יש כבר "+cur+" משבצות.\nלטעון את המערכת לדוגמה במקומה?"))return;
+  const back=snap([SCHED_KEY,"ft.classes"]);
   let list=cur?[]:SCHED.all();
   if(cur)schedSave([]);
   let added=0;
@@ -1400,15 +1543,17 @@ function loadSampleWeek(){
     if(r.ok&&r.outcome==="added")added++;
   });
   closeCell(); renderGrid(); paintHome();
-  toast("✓ נטענו "+added+" משבצות — ערוך אותן לפי המערכת שלך");
+  const msg="✓ נטענו "+added+" משבצות — ערוך אותן לפי המערכת שלך";
+  /* מעל מערכת קיימת — היא מוחלפת מיד, ו«בטל» מחזיר אותה כמו שהייתה */
+  if(cur)undo(msg,()=>{ back(); renderGrid(); paintHome(); },8000); else toast(msg);
 }
 function clearWeek(){
   const n=SCHED.list().length;
   if(!n){ toast("המערכת כבר ריקה"); return; }
-  if(!confirm("למחוק את כל "+n+" המשבצות במערכת השעות?\nהתלמידים, המדידות והשיעורים לא ייפגעו."))return;
+  const back=snap([SCHED_KEY]);
   schedSave([]);
   closeCell(); renderGrid(); paintHome();
-  toast("המערכת נוקתה");
+  undo("המערכת נוקתה",()=>{ back(); renderGrid(); paintHome(); },8000);
 }
 
 function openSched(){
@@ -1894,6 +2039,15 @@ function wireBackup(){
     r.onload=()=>{
       let snap;
       try{ snap=JSON.parse(r.result); }catch(err){ toast("הקובץ אינו קובץ גיבוי תקין"); return; }
+      /* קובץ שיאים ישן מלוח המורה — ממזגים לשיאים, בלי לגעת בשאר */
+      if(REC.isLegacyFile&&REC.isLegacyFile(snap)){
+        (async()=>{
+          if(!(await ask({msg:t("bk.legacyQ","זה קובץ שיאים ישן ({0} רשומות, בלי סרטונים). למזג אותו לשיאים שבמכשיר? שום נתון אחר לא ישתנה.").replace("{0}",snap.records.length),ok:"📥 מזג"})))return;
+          try{ const n=await REC.importLegacy(snap); toast(t("bk.legacyDone","✓ מוזגו {0} שיאים").replace("{0}",n)); }
+          catch(err){ toast("קובץ לא תקין"); }
+        })();
+        return;
+      }
       /* ולידציה לפני שנוגעים במשהו. קובץ שנחתך באמצע ההורדה, קובץ
          מגרסה חדשה יותר וקובץ של אפליקציה אחרת נראים דומים מספיק
          כדי שהקוד הישן היה מנסה לשחזר מהם — ולמחוק את מה שיש. */
@@ -2105,13 +2259,13 @@ function wirePurge(){
     paint();
   }));
   $("#pg-backup").addEventListener("click",()=>{ if(bkExport())LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); });
-  $("#pg-go").addEventListener("click",()=>{
+  $("#pg-go").addEventListener("click",async()=>{
     const iso=$("#pg-date").value; if(!iso)return;
     const c=count(iso);
     /* אישור כפול: הראשון מסביר, השני דורש לכתוב את המילה — מחיקה של
        היסטוריית מדידות של תלמידים אמיתיים לא צריכה להיות הקשה אחת. */
-    if(!confirm("למחוק "+c.res+" מדידות ו-"+c.arc+" מירוצים שלפני "+iso+"?\n\nהפעולה אינה הפיכה."))return;
-    if(prompt('הקלד "מחק" לאישור סופי:')!=="מחק"){ toast("בוטל"); return; }
+    if(!(await ask({msg:"למחוק "+c.res+" מדידות ו-"+c.arc+" מירוצים שלפני "+iso+"?\n\nהפעולה אינה הפיכה.",
+      word:"מחק",danger:true,ok:"🗑 מחק"})))return;
     LS.set("ft.results",dated().filter(r=>!(r&&r.d&&r.d<iso)));
     LS.set("pf.archive",(LS.get("pf.archive",[])||[]).filter(a=>!(a&&a.date&&a.date<iso)));
     modal("purgeModal",false);
@@ -2173,7 +2327,7 @@ function bkPreview(snap){
   if(notes.length)w.textContent=notes.join("  ");
   $("#bk-safety").onclick=()=>{ if(bkExport())LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); };
   $("#bk-go").onclick=async()=>{
-    if(!confirm("לשחזר? כל הנתונים שבמכשיר יוחלפו בנתונים שבקובץ."))return;
+    if(!(await ask({msg:t("bk.confirm","לשחזר? כל הנתונים שבמכשיר יוחלפו בנתונים שבקובץ."),danger:true,ok:"♻ שחזר"})))return;
     $("#bk-go").disabled=true;
     toast("משחזר…");
     let r;
@@ -2663,7 +2817,12 @@ const BT=(function(){
     $("#bt-voice").addEventListener("change",e=>{SET.voice=e.target.checked;saveSet()});
     $("#bt-sound").addEventListener("change",e=>{SET.sound=e.target.checked;saveSet()});
     $("#bt-startBtn").addEventListener("click",()=>running?pause():start());
-    $("#bt-resetBtn").addEventListener("click",()=>{ if(getElapsed()===0||confirm("לאפס את שעון המבחן? (הלוח נשמר)"))reset(); });
+    /* איפוס מיידי, ו«בטל» מחזיר את השעון לאותה נקודה — מושהה */
+    $("#bt-resetBtn").addEventListener("click",()=>{
+      const el=getElapsed(); reset(); if(el<=0)return;
+      undo("השעון אופס (הלוח נשמר)",()=>{ if(running||elapsedOffset>0)return;
+        elapsedOffset=el; setSegEnabled(false); $("#bt-startBtn").innerHTML="▶ המשך"; $("#bt-regBtn").disabled=false; render(); });
+    });
     $("#bt-regBtn").addEventListener("click",()=>registerDrop());
     $("#bt-loadCls").addEventListener("click",()=>{
       if(!window.FT||!window.FT.pick){toast("בורר הכיתה לא זמין");return;}
@@ -2674,8 +2833,9 @@ const BT=(function(){
     });
     $("#bt-clrCls").addEventListener("click",()=>{
       if(!heat.names.length)return;
-      if(!confirm("לנקות את רשימת המקצה? הרישומים בלוח נשמרים."))return;
+      const was=heat;
       heat={cls:"",names:[]}; heatSave(); renderHeat();
+      undo("רשימת המקצה נוקתה · הרישומים בלוח נשמרים",()=>{ heat=was; heatSave(); renderHeat(); });
     });
     $("#bt-undoBtn").addEventListener("click",()=>{ if(results.length){results.pop();nextNum=Math.max(1,nextNum-1);persist();renderResults();renderHeat();renderLanes();toast("הרישום האחרון בוטל");} });
     /* התוצאה של הביפ נשמרת כמרחק במבחן «ביפ טסט» של מודול המבחנים,
@@ -2733,14 +2893,14 @@ const BT=(function(){
       const i=e.target.value; if(i==="")return;
       const p2=profs()[+i]; if(p2)profApply(p2);
     });
-    $("#bt-profSave").addEventListener("click",()=>{
+    $("#bt-profSave").addEventListener("click",async()=>{
       const def=(classSex==="girls"?"בנות":"בנים")+" · "+distance+" מ׳ · גיל "+classAge;
-      const nm=prompt("שם הפרופיל:",def); if(nm===null)return;
+      const nm=await ask({fields:[{label:"שם הפרופיל:",value:def}],ok:"💾 שמור"}); if(nm===null)return;
       const name=nm.trim()||def;
       const list=profs();
       const rec={name,dist:distance,speed:startSpeed,age:classAge,sex:classSex};
       const at=list.findIndex(p2=>p2.name===name);
-      if(at>=0){ if(!confirm("כבר יש פרופיל בשם הזה — לדרוס אותו?"))return; list[at]=rec; }
+      if(at>=0){ if(!(await ask({msg:"כבר יש פרופיל בשם הזה — לדרוס אותו?"})))return; list[at]=rec; }
       else list.push(rec);
       setProfs(list); profPaint();
       $("#bt-profSel").value=String(at>=0?at:list.length-1);
@@ -2750,9 +2910,9 @@ const BT=(function(){
       const i=$("#bt-profSel").value;
       if(i===""){ toast("בחר פרופיל למחיקה"); return; }
       const list=profs(), p2=list[+i]; if(!p2)return;
-      if(!confirm("למחוק את הפרופיל «"+p2.name+"»?"))return;
+      const was=profs();
       list.splice(+i,1); setProfs(list); profPaint(); $("#bt-profSel").value="";
-      toast("הפרופיל נמחק");
+      undo("הפרופיל נמחק",()=>{ setProfs(was); profPaint(); });
     });
     profPaint();
 
@@ -2777,11 +2937,16 @@ const BT=(function(){
       const clsPart=(heat.cls||"").replace(/[\\/:*?"<>|]/g,"").trim();
       dlCSV("ביפ-טסט"+(clsPart?"-"+clsPart:"")+"-"+new Date().toISOString().slice(0,10)+".csv",rows);
     });
-    $("#bt-clearBtn").addEventListener("click",()=>{ if(results.length&&confirm("למחוק את כל הרישומים?")){results=[];nextNum=1;persist();renderResults();renderHeat();renderLanes();$("#bt-regBtn").disabled=!(running||elapsedOffset>0);} });
+    const btPaint=()=>{ persist();renderResults();renderHeat();renderLanes();$("#bt-regBtn").disabled=!(running||elapsedOffset>0); };
+    $("#bt-clearBtn").addEventListener("click",()=>{ if(!results.length)return;
+      const was=results.slice(), wasN=nextNum;
+      results=[];nextNum=1;btPaint();
+      undo("כל הרישומים נמחקו",()=>{ results=was; nextNum=wasN; btPaint(); });
+    });
     document.addEventListener("keydown",e=>{
       if(!$("#view-beep").classList.contains("on"))return;
       if(e.target.classList&&e.target.classList.contains("nm"))return;
-      if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
+      if(typingIn(e))return;
       if(e.code==="Space"){e.preventDefault();running?pause():start();}
       else if(e.code==="Enter"){e.preventDefault();if(!$("#bt-regBtn").disabled)registerDrop();}
     });
@@ -3315,6 +3480,23 @@ const PF=(function(){
   function resetRace(){ stopRace(); prepRace(); $("#pf-clock").textContent="00:00.00";
     const fc=$("#pf-fsClock"); if(fc)fc.textContent="00:00.00"; if(mode==="sim")drawSimIdle(); }
 
+  /* איפוס מקצה מיידי. אם כבר נרשמו זמנים — «בטל» מחזיר אותם, יחד עם
+     תמונת הסיום, בדיוק כמו שהיו (השעון נשאר עצור). */
+  function resetUndo(){
+    const had=lanes.some(l=>l.time!=null);
+    if(!had){ resetRace(); return; }
+    const keep={times:lanes.map(l=>({time:l.time,src:l.src,snap:l.snap})),marks:marks.slice(),cols:cols.slice(),stripX,fullCursor};
+    const img=document.createElement("canvas"); img.width=bctx.canvas.width; img.height=bctx.canvas.height;
+    try{ img.getContext("2d").drawImage(bctx.canvas,0,0); }catch(e){}
+    resetRace();
+    undo(t("pf.resetDone","המקצה אופס"),()=>{
+      if(race.on)return;
+      keep.times.forEach((x,i)=>{ if(lanes[i]){ lanes[i].time=x.time; lanes[i].src=x.src; lanes[i].snap=x.snap; } });
+      marks=keep.marks; cols=keep.cols; stripX=keep.stripX; fullCursor=keep.fullCursor;
+      try{ bctx.drawImage(img,0,0); }catch(e){}
+      renderChips(); renderBoard(); try{ renderLiveStrip(); renderFullStrip(); }catch(e){} refreshLaneSel();
+    },8000);
+  }
   function nextUnfinished(){ return lanes.findIndex(l=>l.time==null); }
   function fire(idx,src,tExact){
     if(!race.on)return;
@@ -3334,7 +3516,8 @@ const PF=(function(){
     const place=lanes.filter(l=>l.time!=null).length;
     flashBanner(place,lanes[i]);
     renderChips(); renderBoard();
-    if(nextUnfinished()<0){ say("כולם סיימו"); setTimeout(()=>{ if(race.on&&confirm("כולם סיימו 🏁 לעצור את השעון?"))stopRace(); },350); }
+    /* לא חוסמים את המסך בשאלה באמצע מירוץ — הודעה עם כפתור עצירה */
+    if(nextUnfinished()<0){ say("כולם סיימו"); setTimeout(()=>{ if(race.on)actToast(window.HM.t("pf.allDone","כולם סיימו 🏁"),window.HM.t("pf.stopClk","⏹ עצור שעון"),()=>{ if(race.on)stopRace(); },9000); },350); }
   }
   function flashBanner(place,l){
     const f=$("#pf-flash"); f.classList.remove("go"); void f.offsetWidth; f.classList.add("go");
@@ -3528,8 +3711,9 @@ const PF=(function(){
       go("photo"); switchTab("results"); toast("המירוץ נטען ללוח התוצאות");
     }));
     $$("#pf-historyList [data-del]").forEach(b=>b.addEventListener("click",()=>{
-      if(!confirm("למחוק מהארכיון?"))return;
-      LS.set("pf.archive",arcList().filter(x=>x.id!=b.dataset.del)); renderHistory();
+      const was=arcList();
+      LS.set("pf.archive",was.filter(x=>x.id!=b.dataset.del)); renderHistory();
+      undo(t("pf.arcDel","נמחק מהארכיון"),()=>{ LS.set("pf.archive",was); renderHistory(); });
     }));
   }
   function importCSV(file){
@@ -3590,7 +3774,10 @@ const PF=(function(){
   const lTime=()=>L.on?(performance.now()-L.t0)/1000:0;
   function lGun(){
     ac();
-    if(L.on){ if(confirm("לעצור את שעון ההקפות?")){L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);$("#pf-lGun").textContent="🔫 זינוק";} return; }
+    /* עצירה מיידית; «בטל» ממשיך את אותו שעון (t0 לא זז), כאילו לא נעצר */
+    if(L.on){ L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);$("#pf-lGun").textContent="🔫 זינוק";
+      undo(t("pf.lStopped","שעון ההקפות נעצר"),()=>{ if(L.on)return; L.on=true; keepAwake(true); $("#pf-lGun").innerHTML="⏹ עצור"; lLoop(); lRender(); });
+      return; }
     if(!L.runners.length){toast("הוסף רצים קודם");return;}
     L.runners.forEach(r=>{r.laps=[];r.fin=null});
     L.on=true; L.t0=performance.now(); keepAwake(true); horn();
@@ -3620,7 +3807,12 @@ const PF=(function(){
     }).join("")||'<div class="hint">אין רצים.</div>';
     $$("#pf-lGrid .pf-lapbtn").forEach(b=>{
       let lp=null;
-      b.addEventListener("pointerdown",()=>{ lp=setTimeout(()=>{ if(confirm("להסיר את "+L.runners[b.dataset.i].name+"?")){L.runners.splice(b.dataset.i,1);LS.set("pf.lroster",L.runners.map(r=>r.name));lRender();} lp=null; },650); });
+      b.addEventListener("pointerdown",()=>{ lp=setTimeout(()=>{ lp=null;
+        const i=+b.dataset.i, r=L.runners[i]; if(!r)return;
+        const save=()=>{ LS.set("pf.lroster",L.runners.map(x=>x.name)); lRender(); };
+        L.runners.splice(i,1); save();
+        undo(t("pf.lRemoved","הוסר:")+" "+r.name,()=>{ L.runners.splice(Math.min(i,L.runners.length),0,r); save(); });
+      },650); });
       b.addEventListener("pointerup",()=>{ if(lp){clearTimeout(lp);lp=null;lTap(+b.dataset.i);} });
       b.addEventListener("pointerleave",()=>{clearTimeout(lp);lp=null});
     });
@@ -3732,9 +3924,9 @@ const PF=(function(){
     $$(".pf-tabs [data-pt]").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.pt)));
     $$("#pf-modes button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.m)));
     $("#pf-gun").addEventListener("click",gun);
-    $("#pf-resetBtn").addEventListener("click",()=>{ if(confirm("לאפס את המקצה?"))resetRace(); });
+    $("#pf-resetBtn").addEventListener("click",resetUndo);
     $("#pf-fsGun").addEventListener("click",gun);
-    $("#pf-fsReset").addEventListener("click",()=>{ if(confirm("לאפס את המקצה?"))resetRace(); });
+    $("#pf-fsReset").addEventListener("click",resetUndo);
     $("#pf-lineRange").value=lineRatio*100;
     $("#pf-lineEl").style.left=(lineRatio*100)+"%";
     $("#pf-lineRange").addEventListener("input",e=>{ lineRatio=e.target.value/100; LS.set("pf.line",lineRatio); $("#pf-lineEl").style.left=e.target.value+"%"; bg=null; });
@@ -3823,11 +4015,18 @@ const PF=(function(){
         }});
     });
     /* הדבקת רשימת שמות */
+    /* שדה בתוך הכרטיס, ולא prompt() — רשימה ארוכה מודבקת ונבדקת במקום */
+    const pasteBox=$("#pf-pasteBox");
     $("#pf-pasteNames").addEventListener("click",()=>{
-      const txt=prompt("הדבק רשימת שמות — שם בכל שורה (או מופרד בפסיקים):");
-      if(!txt)return;
+      pasteBox.hidden=!pasteBox.hidden;
+      if(!pasteBox.hidden)setTimeout(()=>$("#pf-pasteTxt").focus(),30);
+    });
+    $("#pf-pasteNo").addEventListener("click",()=>{ pasteBox.hidden=true; });
+    $("#pf-pasteGo").addEventListener("click",()=>{
+      const txt=$("#pf-pasteTxt").value;
       const list=txt.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);
-      if(!list.length)return;
+      if(!list.length){ toast(t("pf.pasteEmpty","הדבק לפחות שם אחד")); return; }
+      pasteBox.hidden=true; $("#pf-pasteTxt").value="";
       laneN=Math.max(2,Math.min(9,list.length));
       LS.set("pf.laneN",laneN);
       $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
@@ -3946,12 +4145,24 @@ const PF=(function(){
     $("#pf-csv").addEventListener("click",csvSprint);
     $("#pf-print").addEventListener("click",printCert);
     $("#pf-mail").addEventListener("click",mailResults);
-    $("#pf-addRow").addEventListener("click",()=>{
-      const i=nextUnfinished(); if(i<0){toast("כל המסלולים מאוישים — הגדל מספר מסלולים");return;}
-      const t=parseFloat(prompt("זמן בשניות למסלול "+lanes[i].lane+":","10.00"));
-      if(isNaN(t))return;
-      lanes[i].time=t; lanes[i].src="ידני"; renderChips(); renderBoard();
-    });
+    /* «＋ שורה» — שדה זמן בתוך הכרטיס, Enter מוסיף ומדלג למסלול הבא */
+    const rowBox=$("#pf-rowBox");
+    const rowOpen=()=>{
+      const i=nextUnfinished(); if(i<0){ rowBox.hidden=true; toast("כל המסלולים מאוישים — הגדל מספר מסלולים"); return false; }
+      $("#pf-rowLbl").textContent=t("pf.rowLbl","זמן בשניות למסלול")+" "+lanes[i].lane+" · "+lanes[i].name;
+      rowBox.hidden=false; setTimeout(()=>{ const x=$("#pf-rowT"); x.focus(); x.select(); },30); return true;
+    };
+    const rowAdd=()=>{
+      const i=nextUnfinished(); if(i<0){ rowBox.hidden=true; return; }
+      const v=parseFloat(String($("#pf-rowT").value).replace(",","."));
+      if(!isFinite(v)||v<0){ toast(t("pf.rowBad","הזן זמן בשניות, למשל 10.25")); return; }
+      lanes[i].time=v; lanes[i].src="ידני"; renderChips(); renderBoard();
+      rowOpen();
+    };
+    $("#pf-addRow").addEventListener("click",()=>{ if(!rowBox.hidden){ rowBox.hidden=true; return; } rowOpen(); });
+    $("#pf-rowGo").addEventListener("click",rowAdd);
+    $("#pf-rowNo").addEventListener("click",()=>{ rowBox.hidden=true; });
+    $("#pf-rowT").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); rowAdd(); } if(e.key==="Escape")rowBox.hidden=true; });
     /* archive */
     $("#pf-csvFile").addEventListener("change",e=>{ if(e.target.files[0])importCSV(e.target.files[0]); e.target.value=""; });
     $("#pf-loadSample").addEventListener("click",loadSample);
@@ -3967,7 +4178,17 @@ const PF=(function(){
     $("#pf-lDist").addEventListener("change",()=>{saveLSettings();lRender();});
     $("#pf-lMin").addEventListener("change",saveLSettings);
     $("#pf-lGun").addEventListener("click",lGun);
-    $("#pf-lReset").addEventListener("click",()=>{ if(confirm("לאפס הקפות?")){L.on=false;cancelAnimationFrame(L.raf);L.runners.forEach(r=>{r.laps=[];r.fin=null});$("#pf-lClock").textContent="00:00.0";$("#pf-lGun").textContent="🔫 זינוק";lRender();} });
+    $("#pf-lReset").addEventListener("click",()=>{
+      const had=L.runners.some(r=>r.laps.length||r.fin!=null);
+      const keep=L.runners.map(r=>({laps:r.laps.slice(),fin:r.fin})), wasOn=L.on, t0=L.t0;
+      L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);L.runners.forEach(r=>{r.laps=[];r.fin=null});$("#pf-lClock").textContent="00:00.0";$("#pf-lGun").textContent="🔫 זינוק";lRender();
+      if(had||wasOn)undo(t("pf.lResetDone","ההקפות אופסו"),()=>{
+        if(L.on)return;
+        L.runners.forEach((r,i)=>{ if(keep[i]){ r.laps=keep[i].laps; r.fin=keep[i].fin; } });
+        if(wasOn){ L.on=true; L.t0=t0; keepAwake(true); $("#pf-lGun").innerHTML="⏹ עצור"; lLoop(); }
+        lRender();
+      });
+    });
     $("#pf-lAdd").addEventListener("click",()=>{
       const n=$("#pf-lNewName").value.trim(); if(!n)return;
       L.runners.push({name:n,color:COLORS[L.runners.length%COLORS.length],laps:[],fin:null});
@@ -3992,7 +4213,7 @@ const PF=(function(){
     /* keys */
     document.addEventListener("keydown",e=>{
       if(!$("#view-photo").classList.contains("on"))return;
-      if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
+      if(typingIn(e))return;
       if(e.key>="1"&&e.key<="9"){ const i=+e.key-1; if(i<lanes.length&&race.on)fire(i,"ידני"); }
       else if(e.key==="f"||e.key==="F")fsToggle();
       else if(e.code==="Space"){e.preventDefault();gun();}
@@ -4347,7 +4568,42 @@ const REC=(function(){
     toast("📤 נשלח! השיא ימתין לאישור המורה."); beep(880,0.15);
   }
 
+  /* ---------- «להגיש כשיא?» ממבחני הכושר ----------
+     תוצאה במבחן כושר שעוברת את שיא בית הספר באותו ענף מוצעת כשיא.
+     ההגשה נכנסת לתור האישור כמו כל שיא אחר — בלי סרטון, והמורה מחליט. */
+  async function beats(spId,v){
+    if(!SPORTS.length)loadSports();
+    if(!db)await openDB();
+    if(!CACHE.length)CACHE=await dbAll();
+    const sp=SPORTS.find(x=>x.id===spId); if(!sp||!(v>0))return null;
+    const b=best(spId); if(!b)return null;
+    const pend=CACHE.some(r=>r.sport===spId&&r.status==="pending"&&r.value===v);
+    if(pend)return null;
+    return (sp.lower?v<b.value:v>b.value)?{sp,best:b}:null;
+  }
+  async function submitFromFt(o){
+    if(!db)await openDB();
+    await dbPut({id:DATA.uid("r"),sport:o.sport,name:o.name,cls:o.cls||"",value:o.value,video:null,
+      status:"pending",src:"ft",ts:Date.now()});
+    await refresh();
+    toast(t("recA.ftSent","🏆 הוגש לאישור בלוח המורה של השיאים")); beep(880,0.15);
+  }
+
   /* ---------- admin ---------- */
+  function admTab(k){
+    $$("#rec-admTabs [data-at]").forEach(b=>b.classList.toggle("on",b.dataset.at===k));
+    $$("#rec-adminModal .rec-admPane").forEach(p=>p.hidden=p.dataset.ap!==k);
+  }
+  /* קובץ שיאים בפורמט הישן ({refs, records}) — מהגיבוי הנפרד שהיה פעם
+     בלוח המורה. השחזור היחיד עכשיו הוא בהגדרות, והוא מזהה את הקובץ
+     הזה וממזג אותו (בלי למחוק שיאים שכבר במכשיר). */
+  function isLegacyFile(j){ return !!(j&&typeof j==="object"&&Array.isArray(j.records)&&!j.data&&!j.enc); }
+  async function importLegacy(j){
+    if(!db)await openDB();
+    if(j.refs){ refs=Object.assign({},DEF_REFS,j.refs); LS.set("rec.refs",refs); }
+    let n=0; for(const r of (j.records||[])){ if(r&&r.id){ await dbPut({...r,video:null}); n++; } }
+    await refresh(); return n;
+  }
   function renderAdmin(){
     const pend=CACHE.filter(r=>r.status==="pending").sort((a,b)=>a.ts-b.ts);
     $("#rec-pendList").innerHTML=pend.length?pend.map(e=>{
@@ -4366,9 +4622,13 @@ const REC=(function(){
       const isNew=!wasBest||(sp.lower?e.value<wasBest.value:e.value>wasBest.value);
       if(isNew){ confetti(); horn(); toast("🏆 שיא בית ספר חדש! "+e.name); } else toast("אושר ✓");
     }));
-    $$("#rec-pendList [data-no]").forEach(b=>b.addEventListener("click",async()=>{
-      if(confirm("לדחות ולמחוק את הבקשה?")){ await dbDel(b.dataset.no); await refresh(); renderAdmin(); }
-    }));
+    /* דחייה ומחיקה מיידיות — «בטל» מחזיר את הרשומה כמו שהייתה, עם הסרטון */
+    const delUndo=async(id,msg)=>{
+      const e=CACHE.find(x=>x.id===id); if(!e)return;
+      await dbDel(id); await refresh(); renderAdmin();
+      undo(msg,async()=>{ await dbPut(e); await refresh(); renderAdmin(); });
+    };
+    $$("#rec-pendList [data-no]").forEach(b=>b.addEventListener("click",()=>delUndo(b.dataset.no,t("recA.rejected","הבקשה נדחתה ונמחקה"))));
     $$("#rec-pendList [data-v]").forEach(b=>b.addEventListener("click",()=>playVideo(b.dataset.v)));
     $$("#rec-pendList [data-ht]").forEach(b=>b.addEventListener("click",()=>openHowto(b.dataset.ht)));
     /* --- כל השיאים המאושרים: עריכה ומחיקה --- */
@@ -4387,10 +4647,13 @@ const REC=(function(){
       :'<div class="hint">אין עדיין שיאים מאושרים.</div>';
     $$("#rec-allList [data-v]").forEach(b=>b.addEventListener("click",()=>playVideo(b.dataset.v)));
     $$("#rec-allList [data-ed]").forEach(b=>b.addEventListener("click",()=>editRec(b.dataset.ed)));
-    $$("#rec-allList [data-rm]").forEach(b=>b.addEventListener("click",async()=>{
-      const e=CACHE.find(x=>x.id===b.dataset.rm);
-      if(e&&confirm(`למחוק את השיא של ${e.name}?`)){ await dbDel(e.id); await refresh(); renderAdmin(); toast("נמחק"); }
+    $$("#rec-allList [data-rm]").forEach(b=>b.addEventListener("click",()=>{
+      const e=CACHE.find(x=>x.id===b.dataset.rm); if(!e)return;
+      delUndo(e.id,t("recA.deleted","השיא נמחק:")+" "+e.name);
     }));
+    const pn=$("#rec-admPendN"); if(pn){ pn.hidden=!pend.length; pn.textContent=pend.length; }
+    const bs=$("#rec-bkStat"); if(bs){ const last=LS.get("bk.last",null);
+      bs.textContent=CACHE.length+" "+t("recA.bkN","רשומות במכשיר")+" · "+(last?t("recA.bkLast","גובה לאחרונה")+" "+last:t("recA.bkNever","עדיין לא גובה מעולם")); }
 
     /* --- ערכי ייחוס --- */
     $("#rec-refList").innerHTML=SPORTS.map(sp=>`
@@ -4499,12 +4762,15 @@ const REC=(function(){
     }));
     $$("#rec-spList [data-spdel]").forEach(b=>b.addEventListener("click",async()=>{
       const id=b.dataset.spdel, sp=sportById(id);
-      const n=CACHE.filter(r=>r.sport===id).length;
-      if(!confirm(n?`בענף «${sp.name}» יש ${n} שיאים — הם יימחקו גם. להמשיך?`
-                   :`למחוק את הענף «${sp.name}»?`))return;
-      for(const r of CACHE.filter(r=>r.sport===id))await dbDel(r.id);
+      const gone=CACHE.filter(r=>r.sport===id), wasSports=SPORTS.slice(), wasRefs=JSON.parse(JSON.stringify(refs));
+      for(const r of gone)await dbDel(r.id);
       SPORTS=SPORTS.filter(x=>x.id!==id); saveSports();
-      await refresh(); renderSportEditor(); renderAdmin(); toast("הענף נמחק");
+      await refresh(); renderSportEditor(); renderAdmin();
+      undo((gone.length?t("recA.spDelN","הענף נמחק עם {0} שיאים").replace("{0}",gone.length):t("recA.spDel","הענף נמחק"))+" · "+sp.name,async()=>{
+        SPORTS=wasSports; refs=wasRefs; saveSports();
+        for(const r of gone)await dbPut(r);
+        await refresh(); renderGrid(); renderSportEditor(); renderAdmin();
+      },8000);
     }));
   }
   const linesToArr=v=>String(v||"").split("\n").map(x=>x.trim()).filter(Boolean);
@@ -4550,10 +4816,12 @@ const REC=(function(){
     modal("rec-sportEdit",false); toast(id?"הענף עודכן ✓":"הענף נוסף ✓");
   }
   function resetSports(){
-    if(prompt('לשחזר את רשימת הענפים לברירת המחדל?\nענפים שהוספת יימחקו (השיאים יישמרו).\nהקלד "שחזר" לאישור:')!=="שחזר")return;
+    const wasSports=SPORTS.slice(), wasRefs=JSON.parse(JSON.stringify(refs));
     SPORTS=defaults(); refs=Object.assign({},DEF_REFS);
     saveSports(); reviveOrphans(); renderGrid(); renderSportEditor(); renderAdmin();
-    toast("שוחזרה רשימת ברירת המחדל");
+    undo(t("recA.spReset","שוחזרה רשימת ברירת המחדל · השיאים נשמרו"),()=>{
+      SPORTS=wasSports; refs=wasRefs; saveSports(); reviveOrphans(); renderGrid(); renderSportEditor(); renderAdmin();
+    },8000);
   }
 
   /* ---------- קישור ו-QR לתלמידים ----------
@@ -4701,35 +4969,25 @@ const REC=(function(){
         if(v.length<4){toast("בחר קוד באורך 4 ספרות לפחות");return;}
         setPass(v); toast("🔑 קוד המורה נקבע");
       } else if(v!==pass){ toast("קוד שגוי"); return; }
-      $("#rec-admLock").style.display="none"; $("#rec-admBody").style.display=""; renderAdmin();
+      $("#rec-admLock").style.display="none"; $("#rec-admBody").style.display=""; admTab("appr"); renderAdmin();
       if(SET.syncUrl&&SET.syncCode)syncNow();
     });
     const syncBtn=$("#rec-syncNow"); if(syncBtn)syncBtn.addEventListener("click",syncNow);
-    $("#rec-passChg").addEventListener("click",()=>{
-      const p=prompt("קוד מורה חדש (4 ספרות לפחות):");
+    $("#rec-passChg").addEventListener("click",async()=>{
+      const p=await ask({fields:[{label:"קוד מורה חדש (4 ספרות לפחות):",type:"password"}],ok:"🔑 שמור"});
       if(p===null)return;
       if(p.trim().length<4){toast("הקוד קצר מדי — לפחות 4 ספרות");return;}
       setPass(p.trim()); toast("🔑 הקוד עודכן — הוא נשמר במכשיר הזה בלבד");
     });
-    $("#rec-export").addEventListener("click",async()=>{
-      const data=CACHE.map(r=>({...r,video:undefined,hadVideo:!!r.video}));
-      const a=document.createElement("a");
-      a.href=URL.createObjectURL(new Blob([JSON.stringify({refs,records:data},null,1)],{type:"application/json"}));
-      a.download="school-records.json"; a.click(); toast("גובו השיאים (ללא סרטונים)");
-    });
-    $("#rec-import").addEventListener("change",async e=>{
-      const f=e.target.files[0]; if(!f)return;
-      try{ const j=JSON.parse(await f.text());
-        if(j.refs){refs=Object.assign({},DEF_REFS,j.refs);LS.set("rec.refs",refs);}
-        for(const r of (j.records||[]))await dbPut({...r,video:null});
-        await refresh(); toast("שוחזר ✓");
-      }catch(err){toast("קובץ לא תקין");}
-      e.target.value="";
-    });
+    /* לשוניות לוח המורה */
+    $$("#rec-admTabs [data-at]").forEach(b=>b.addEventListener("click",()=>admTab(b.dataset.at)));
+    /* גיבוי אחד — הכפתור מוביל לגיבוי המלא בהגדרות */
+    $("#rec-bkOpen").addEventListener("click",()=>{ modal("rec-adminModal",false); SETTINGS_OPEN("backup"); });
     $("#rec-wipe").addEventListener("click",async()=>{
-      if(prompt('להקליד "מחק" לאישור מחיקת כל השיאים:')==="מחק"){
-        for(const r of CACHE)await dbDel(r.id); await refresh(); renderAdmin(); toast("נמחק הכל");
-      }
+      if(!CACHE.length){ toast(t("recA.empty","אין שיאים למחיקה")); return; }
+      if(!(await ask({msg:t("recA.wipeQ","למחוק את כל {0} השיאים והסרטונים מהמכשיר?").replace("{0}",CACHE.length),
+        word:"מחק",danger:true,ok:"🗑 מחק הכל"})))return;
+      for(const r of CACHE)await dbDel(r.id); await refresh(); renderAdmin(); toast("נמחק הכל");
     });
     $("#rec-kioskBtn").addEventListener("click",kioskStart);
     $("#rec-kiosk").addEventListener("click",kioskStop);
@@ -4747,7 +5005,7 @@ const REC=(function(){
       const txt=SPORTS.filter(sp=>!sp.legacy).map(sp=>sp.name).join("\n");
       try{ await navigator.clipboard.writeText(txt);
         toast("הועתקו "+SPORTS.length+" ענפים — הדבק ברשימה הנפתחת בטופס"); }
-      catch(e){ prompt("העתק את הרשימה והדבק בטופס:",txt); }
+      catch(e){ ask({fields:[{label:"העתק את הרשימה והדבק בטופס:",type:"textarea",value:txt,readonly:true,rows:8}],alert:true,ok:"✓"}); }
     });
     /* קישור ו-QR לתלמידים */
     $("#rec-shareBtn").addEventListener("click",openShare);
@@ -4827,7 +5085,7 @@ const REC=(function(){
     return {added,failed};
   }
   return {init,countApproved,applyRole:applyRoleRec,hasPass,setPass,syncNow,
-    exportAll,importAll,
+    exportAll,importAll,isLegacyFile,importLegacy,beats,submitFromFt,
     _test:{SPORTS:()=>SPORTS,showVal:(id,v)=>showVal(sportById(id),v),pct:(id,v,w)=>pct(sportById(id),v,w)}};
 })();
 
@@ -5157,12 +5415,12 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,ask,undo,actToast,snap,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
   session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,assign:ASSIGN,prepFor,classOverviewHtml,wireClassOverview,classTitle,startFromSlot,sesName,areaOf,goBack,regStore:REGSTORE,
-  upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
+  upOffer,pageBuild,forceUpdate,openSettings:sec=>SETTINGS_OPEN(sec),clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
      שכישלון שקט בו עולה למורה שנה של מדידות, ולכן הוא חייב להיות

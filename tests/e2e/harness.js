@@ -81,7 +81,10 @@ async function openApp(browser,seed,APP){
     if(/Failed to load resource|ERR_(CONNECTION|FILE|NAME|INTERNET|ABORTED)/i.test(t))return;
     errs.push("CONSOLE "+t);
   });
-  page.on("dialog",d=>d.accept());
+  /* חלון דפדפן (confirm/prompt/alert) הוא כישלון: מאז שלב 6 כל שאלה
+     היא גיליון בתוך האפליקציה, וכל מחיקה — מיידית עם «↩ בטל». חלון
+     print נשאר מותר (הוא לא מגיע כאירוע dialog). */
+  page.on("dialog",d=>{ if(d.type()!=="beforeunload")errs.push("DIALOG "+d.type()+": "+d.message().slice(0,80)); d.accept().catch(()=>{}); });
   /* ============================================================
      ניתוק מהרשת
      ------------------------------------------------------------

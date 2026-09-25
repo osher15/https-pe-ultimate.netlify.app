@@ -37,7 +37,8 @@ const suites=[
   require("./field17.e2e.js"),
   require("./hub18.e2e.js"),
   require("./prep19.e2e.js"),
-  require("./field20.e2e.js")
+  require("./field20.e2e.js"),
+  require("./clean21.e2e.js")
 ];
 run(suites).then(fail=>process.exit(fail?1:0))
   .catch(e=>{ console.error(e); process.exit(1); });

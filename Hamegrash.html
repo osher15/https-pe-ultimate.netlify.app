@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="c0948434">
+<meta name="hm-build" content="25736dbe">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
   --acc:#a78bfa; --accDim:rgba(167,139,250,.20);
   --cy:#38bdf8; --lime:#a3e635; --orange:#fb923c; --gold:#fbbf24; --violet:#a78bfa; --pink:#f472b6; --green:#34d399;
   --warn:#ffd23f; --stop:#ff4d5e;
-  --inset:var(--inset);            /* רקע שדות קלט ופנימיות */
+  --inset:#0b0d19;                /* רקע שדות קלט ופנימיות — הפניה לעצמו (var(--inset)) הייתה ערך לא חוקי, והרקע יצא שקוף */
   --onAcc:var(--onAcc);           /* טקסט על גבי צבע ההדגשה */
   --bar:6,16,12;             /* בסיס הסרגל העליון והתחתון (RGB) */
   --shadow:0 8px 26px rgba(0,0,0,.32);
@@ -175,10 +175,20 @@ body[data-mod="nut"]{--acc:#4ade80;--accDim:rgba(74,222,128,.18)}
 .bigclock{font-family:'Share Tech Mono';font-size:clamp(52px,15vw,108px);text-align:center;line-height:1;color:var(--ink);
   text-shadow:0 0 26px var(--accDim);letter-spacing:1px;margin:6px 0;font-variant-numeric:tabular-nums}
 /* ---------- toast / modal / confetti ---------- */
-#toast{position:fixed;bottom:calc(var(--nav-h) + 18px);inset-inline:0;display:flex;justify-content:center;z-index:200;pointer-events:none}
+#toast{position:fixed;bottom:calc(var(--nav-h) + 18px);inset-inline:0;display:flex;justify-content:center;z-index:350;pointer-events:none}
 #toast .t{background:var(--inset);border:1px solid var(--acc);color:var(--ink);font-size:14px;font-weight:600;border-radius:12px;
   padding:11px 18px;max-width:88vw;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(12px);transition:.25s}
 #toast .t.show{opacity:1;transform:none}
+/* הודעה עם כפתור («↩ בטל») — הכפתור גדול מספיק לאגודל, וההודעה לחיצה */
+#toast .t.act{display:flex;align-items:center;gap:12px;padding-block:8px;padding-inline:16px 8px}
+#toast .t.act.show{pointer-events:auto}
+#toast .toast-act{appearance:none;border:none;border-radius:10px;background:var(--acc);color:var(--onAcc);font:inherit;font-weight:800;
+  padding:9px 14px;min-height:40px;cursor:pointer;white-space:nowrap}
+.ask-msg{white-space:pre-line;line-height:1.55;margin:0 0 12px;color:var(--ink)}
+.ask-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.ask-fields:empty{display:none}
+.ask-btns{gap:8px;justify-content:flex-start}
+.ask-btns .btn{min-width:96px;min-height:44px}
 .modal{position:fixed;inset:0;z-index:220;background:rgba(2,7,5,.78);backdrop-filter:blur(5px);display:none;place-items:center;padding:16px}
 .modal.on{display:grid}
 .modal .box{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;
@@ -1820,6 +1830,17 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
 .pf-share .menu .btn{justify-content:flex-start;width:100%;min-height:calc(46px + var(--touch))}
 #pf-arcFold{margin-top:12px}
 
+/* שדות בתוך המסך במקום prompt() — הדבקת רשימה ו«＋ שורה» בפוטו־פיניש */
+.pf-inline{margin-top:10px;padding:10px;border:1px dashed var(--line);border-radius:12px;background:var(--inset);display:flex;flex-direction:column;gap:8px}
+.pf-inline.row{flex-direction:row;align-items:center;flex-wrap:wrap}
+.pf-inline[hidden]{display:none}
+.pf-inline textarea{width:100%}
+/* לוח המורה בשיאים — ארבע הלשוניות נכנסות ברוחב טלפון, ומונה הממתינים
+   מוסתר באמת כשאין ממתינים (.pill גובר על hidden) */
+#rec-admTabs{flex-wrap:wrap;overflow:visible}
+#rec-admTabs .pill[hidden]{display:none}
+#rec-admTabs .pill{margin-inline-start:4px;padding:1px 7px;font-size:11px}
+
 </style>
 </head>
 <body>
@@ -2091,6 +2112,12 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
         <button class="btn sm ghost" id="pf-editNames" data-i18n="pf.editNames">✎ ערוך שמות</button>
         <button class="btn sm ghost" id="pf-numbers" data-i18n="pf.numbers">🔢 מספרי חזה</button></div>
       </div>
+      <div class="pf-inline" id="pf-pasteBox" hidden>
+        <div class="field"><label for="pf-pasteTxt" data-i18n="pf.pasteLbl">שם בכל שורה, או מופרד בפסיקים</label>
+          <textarea id="pf-pasteTxt" rows="5" dir="auto"></textarea></div>
+        <div class="row"><button class="btn sm acc" id="pf-pasteGo" data-i18n="pf.pasteGo">✓ טען למסלולים</button>
+          <button class="btn sm ghost" id="pf-pasteNo" data-i18n="ask.cancel">ביטול</button></div>
+      </div>
       <div class="field" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
       <div class="pf-runchips" id="pf-chips" style="margin-top:10px"></div>
       <div class="hint" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
@@ -2253,6 +2280,12 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
         </div></details>
         <button class="btn sm ghost" id="pf-addRow" data-i18n="pf.addRow">＋ שורה</button>
       </div>
+      <div class="pf-inline row" id="pf-rowBox" hidden>
+        <label for="pf-rowT" id="pf-rowLbl"></label>
+        <input type="number" id="pf-rowT" inputmode="decimal" step="0.01" min="0" value="10.00" style="width:110px">
+        <button class="btn sm acc" id="pf-rowGo" data-i18n="pf.rowGo">✓ הוסף</button>
+        <button class="btn sm ghost" id="pf-rowNo" data-i18n="ask.cancel">ביטול</button>
+      </div>
       <div class="aiBox" id="pf-aiBox">
         <div class="ai-head"><span class="av">🎙️</span><b>פרשן המירוץ</b><span class="tag">מנוע מקומי · עובד בלי אינטרנט</span></div>
         <div class="ai-body" id="pf-aiBody"></div>
@@ -2361,39 +2394,57 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
       <button class="btn acc big" id="rec-admEnter" style="margin-top:11px">כניסה</button>
     </div>
     <div id="rec-admBody" style="display:none">
-      <div class="row" style="justify-content:space-between;align-items:center">
-        <h2 style="font-size:15px;margin:0"><span class="dot"></span> ממתינים לאישור</h2>
-        <button class="btn sm ghost" id="rec-syncNow" title="מושך עדכונים ממורים אחרים, אם הוגדר סנכרון בהגדרות">🔄 סנכרן עכשיו</button>
+      <!-- לשוניות במקום חלון ארוך אחד: כל פעולה של המורה במקום משלה -->
+      <div class="pf-tabs" id="rec-admTabs">
+        <button data-at="appr" class="on"><span data-i18n="recA.tAppr">✅ אישורים</span> <b class="pill" id="rec-admPendN" hidden></b></button>
+        <button data-at="add" data-i18n="recA.tAdd">➕ הוספה</button>
+        <button data-at="sports" data-i18n="recA.tSports">🏷 ענפים</button>
+        <button data-at="bk" data-i18n="recA.tBk">💾 גיבוי</button>
       </div>
-      <div id="rec-pendList"></div>
-
-      <h2 style="font-size:15px;margin-top:18px"><span class="dot"></span> הוספה ידנית</h2>
-      <div class="hint">מדדת בשטח ואין סרטון? הוסף את התוצאה ישירות — היא נכנסת ללוח כשיא מאושר בלי לעבור אישור.</div>
-      <div class="row" style="margin-top:9px">
-        <button class="btn acc" id="rec-mnAdd">➕ הוסף שיא ידנית</button>
-        <label class="btn" style="cursor:pointer">📥 קלוט שיא מקובץ<input type="file" id="rec-fileImp" accept=".hmrec,application/octet-stream" multiple style="display:none"></label>
+      <div class="rec-admPane" data-ap="appr">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <h2 style="font-size:15px;margin:0"><span class="dot"></span> ממתינים לאישור</h2>
+          <button class="btn sm ghost" id="rec-syncNow" title="מושך עדכונים ממורים אחרים, אם הוגדר סנכרון בהגדרות">🔄 סנכרן עכשיו</button>
+        </div>
+        <div id="rec-pendList"></div>
+        <h2 style="font-size:15px;margin-top:18px"><span class="dot"></span> כל השיאים המאושרים</h2>
+        <div class="tblwrap" id="rec-allList"></div>
       </div>
-      <div class="hint" style="margin-top:6px">קובץ <code>.hmrec</code> מגיע מתלמיד שפתח את הקישור במכשיר שלו — הוא נכנס לתור האישור עם הסרטון.</div>
-
-      <h2 style="font-size:15px;margin-top:18px"><span class="dot"></span> כל השיאים המאושרים</h2>
-      <div class="tblwrap" id="rec-allList"></div>
-
-      <h2 style="font-size:15px;margin-top:18px"><span class="dot"></span> עורך הענפים</h2>
-      <div class="hint">כאן אתה שולט בהכול: שם, סמל, יחידת מדידה, כיוון, מגבלת זמן, אורך סרטון מותר וכל טקסט הכללים. אפשר להוסיף אתגרים חדשים בעצמך בלי לבקש מאף אחד.</div>
-      <div class="row" style="margin:10px 0">
-        <button class="btn sm acc" id="rec-spNew">➕ ענף / אתגר חדש</button>
-        <button class="btn sm" id="rec-spCopy">📋 העתק שמות לטופס גוגל</button>
-        <button class="btn sm ghost" id="rec-spReset">↺ שחזר ברירת מחדל</button>
+      <div class="rec-admPane" data-ap="add" hidden>
+        <h2 style="font-size:15px;margin:0"><span class="dot"></span> הוספה ידנית</h2>
+        <div class="hint">מדדת בשטח ואין סרטון? הוסף את התוצאה ישירות — היא נכנסת ללוח כשיא מאושר בלי לעבור אישור.</div>
+        <div class="row" style="margin-top:9px">
+          <button class="btn acc" id="rec-mnAdd">➕ הוסף שיא ידנית</button>
+          <label class="btn" style="cursor:pointer">📥 קלוט שיא מקובץ<input type="file" id="rec-fileImp" accept=".hmrec,application/octet-stream" multiple style="display:none"></label>
+        </div>
+        <div class="hint" style="margin-top:6px">קובץ <code>.hmrec</code> מגיע מתלמיד שפתח את הקישור במכשיר שלו — הוא נכנס לתור האישור עם הסרטון.</div>
       </div>
-      <div id="rec-spList"></div>
-
-      <h2 style="font-size:15px;margin-top:18px"><span class="dot"></span> שיאי ייחוס (ישראל / עולם)</h2>
-      <div id="rec-refList"></div>
-      <div class="row" style="margin-top:14px">
-        <button class="btn sm" id="rec-export">⬇ גיבוי JSON</button>
-        <label class="btn sm" style="cursor:pointer">📥 שחזור<input type="file" id="rec-import" accept=".json" style="display:none"></label>
-        <button class="btn sm ghost" id="rec-passChg">🔑 שינוי סיסמה</button>
-        <button class="btn sm stop" id="rec-wipe">🗑 מחיקת הכל</button>
+      <div class="rec-admPane" data-ap="sports" hidden>
+        <h2 style="font-size:15px;margin:0"><span class="dot"></span> עורך הענפים</h2>
+        <div class="hint">כאן אתה שולט בהכול: שם, סמל, יחידת מדידה, כיוון, מגבלת זמן, אורך סרטון מותר וכל טקסט הכללים. אפשר להוסיף אתגרים חדשים בעצמך בלי לבקש מאף אחד.</div>
+        <div class="row" style="margin:10px 0">
+          <button class="btn sm acc" id="rec-spNew">➕ ענף / אתגר חדש</button>
+          <button class="btn sm" id="rec-spCopy">📋 העתק שמות לטופס גוגל</button>
+          <button class="btn sm ghost" id="rec-spReset">↺ שחזר ברירת מחדל</button>
+        </div>
+        <div id="rec-spList"></div>
+        <h2 style="font-size:15px;margin-top:18px"><span class="dot"></span> שיאי ייחוס (ישראל / עולם)</h2>
+        <div id="rec-refList"></div>
+      </div>
+      <div class="rec-admPane" data-ap="bk" hidden>
+        <!-- גיבוי אחד: השיאים, הסרטונים והענפים נכנסים לגיבוי המלא של
+             המכשיר בהגדרות. הגיבוי הנפרד כאן היה בלי סרטונים ובפורמט
+             משלו — ומורה שגיבה רק אותו חשב שהוא מכוסה. -->
+        <div class="bk-card">
+          <b data-i18n="recA.bkTitle">💾 השיאים בגיבוי של המכשיר</b>
+          <div class="hint" style="margin-top:5px" data-i18n="recA.bkBody">השיאים, הסרטונים, הענפים ושיאי הייחוס נשמרים יחד עם כל שאר הנתונים — בקובץ גיבוי אחד שב«הגדרות ← גיבוי וסנכרון». משם גם משחזרים, כולל קובץ שיאים ישן (school-records.json).</div>
+          <div class="hint" id="rec-bkStat" style="margin-top:6px"></div>
+          <button class="btn acc" id="rec-bkOpen" style="margin-top:10px" data-i18n="recA.bkOpen">🔒 פתח את «גיבוי וסנכרון»</button>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn sm ghost" id="rec-passChg">🔑 שינוי סיסמה</button>
+          <button class="btn sm stop" id="rec-wipe">🗑 מחיקת הכל</button>
+        </div>
       </div>
     </div>
   </div></div>
@@ -3496,7 +3547,7 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
     </div>
   </div>
   </div></details>
-  <details class="set-sec"><summary><span class="ic">🔒</span><span data-i18n="set.secBackup">גיבוי וסנכרון</span><small data-i18n="set.secBackupSub">קובץ גיבוי, גוגל דרייב וסנכרון שיאים</small></summary><div class="in">
+  <details class="set-sec" id="set-secBackup"><summary><span class="ic">🔒</span><span data-i18n="set.secBackup">גיבוי וסנכרון</span><small data-i18n="set.secBackupSub">קובץ גיבוי, גוגל דרייב וסנכרון שיאים</small></summary><div class="in">
   <div class="bk-card">
     <b data-i18n="bk.title">💾 גיבוי ושחזור</b>
     <div class="hint" style="margin-top:5px" data-i18n="bk.body">כל הנתונים — תלמידים, תוצאות, שיאים, ציונים, נורמות והגדרות — שמורים <b>במכשיר הזה בלבד</b>.
@@ -11768,6 +11819,37 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "הטקסט ארוך מדי ל-QR (עד {0} בייטים)":["Text too long for a QR code (max {0} bytes)", "النص طويل جدًّا لرمز QR (حتى {0} بايت)", "Текст слишком длинный для QR-кода (до {0} байт)", "Texto demasiado largo para el código QR (máx. {0} bytes)"]
 });
 
+/* ux-redesign · phase 6 — שאלות בתוך האפליקציה ו«↩ בטל» */
+Object.assign(window.I18N_TERMS,{
+"השעון אופס (הלוח נשמר)":["Clock reset (the board is kept)", "أُعيد ضبط الساعة (اللوحة محفوظة)", "Часы сброшены (таблица сохранена)", "Reloj reiniciado (el tablero se conserva)"],
+"רשימת המקצה נוקתה · הרישומים בלוח נשמרים":["Heat list cleared · entries on the board are kept", "مُسحت قائمة التصفية · التسجيلات في اللوحة محفوظة", "Список забега очищен · записи в таблице сохранены", "Lista de la serie borrada · los registros del tablero se conservan"],
+"כל הרישומים נמחקו":["All entries deleted", "حُذفت كل التسجيلات", "Все записи удалены", "Todos los registros eliminados"],
+"הרישום נמחק":["Entry deleted", "حُذف التسجيل", "Запись удалена", "Registro eliminado"],
+"העמודה «{0}» הוסרה":["Column «{0}» removed", "أُزيل العمود «{0}»", "Столбец «{0}» удалён", "Columna «{0}» eliminada"],
+"התקופה «{0}» נמחקה, עם הציונים שבה":["Period «{0}» deleted, with its grades", "حُذفت الفترة «{0}» مع علاماتها", "Период «{0}» удалён вместе с оценками", "Periodo «{0}» eliminado, con sus notas"],
+"ההערכה נמחקה":["Assessment deleted", "حُذف التقييم", "Оценивание удалено", "Evaluación eliminada"],
+"הניסיון נמחק":["Attempt deleted", "حُذفت المحاولة", "Попытка удалена", "Intento eliminado"],
+"השעון אופס · התוצאות שנרשמו נשמרו":["Clock reset · recorded results are kept", "أُعيد ضبط الساعة · النتائج المسجلة محفوظة", "Часы сброшены · записанные результаты сохранены", "Reloj reiniciado · los resultados registrados se conservan"],
+"הניסיונות של היום נמחקו · ניסיונות מתאריכים קודמים נשמרים":["Today's attempts deleted · attempts from earlier dates are kept", "حُذفت محاولات اليوم · محاولات التواريخ السابقة محفوظة", "Сегодняшние попытки удалены · попытки прошлых дат сохранены", "Intentos de hoy eliminados · los de fechas anteriores se conservan"],
+"טבלת הנורמה נמחקה":["Norm table deleted", "حُذف جدول المعايير", "Таблица норм удалена", "Tabla de baremos eliminada"],
+"המחוון נמחק, עם הציונים שלו":["Rubric deleted, with its scores", "حُذف سلّم التقييم مع درجاته", "Рубрика удалена вместе с баллами", "Rúbrica eliminada, con sus puntuaciones"],
+"הבונה התחיל מחדש":["The builder started over", "بدأ المُنشئ من جديد", "Конструктор начат заново", "El constructor empezó de nuevo"],
+"✓ {0} מדידות שויכו ל{1}":["✓ {0} measurements assigned to {1}", "✓ نُسبت {0} قياسات إلى {1}", "✓ Измерений привязано к {1}: {0}", "✓ {0} mediciones asignadas a {1}"],
+"מזג":["Merge", "دمج", "Объединить", "Combinar"],
+"מחק הכל":["Delete all", "احذف الكل", "Удалить всё", "Eliminar todo"],
+"יציאה":["Exit", "خروج", "Выйти", "Salir"],
+"אתגר חדש":["New challenge", "تحدٍّ جديد", "Новый вызов", "Nuevo reto"],
+"כתוב לציונים":["Write to grades", "اكتب إلى العلامات", "Записать в оценки", "Escribir en las notas"],
+"צור מחוון":["Create rubric", "أنشئ سلّم تقييم", "Создать рубрику", "Crear rúbrica"],
+"שמור תבנית":["Save template", "احفظ القالب", "Сохранить шаблон", "Guardar plantilla"],
+"הבנתי":["Got it", "فهمت", "Понятно", "Entendido"],
+"תבנית":["Template", "قالب", "Шаблон", "Plantilla"],
+"מחוון ריק":["Empty rubric", "سلّم تقييم فارغ", "Пустая рубрика", "Rúbrica vacía"],
+"שם לתבנית":["Template name", "اسم القالب", "Название шаблона", "Nombre de la plantilla"],
+"למשל: ״כוח ט׳ באולם״":["e.g. \"Strength, grade 9, gym\"", "مثلًا: «قوة، الصف التاسع، في القاعة»", "например: «Сила, 9 класс, зал»", "p. ej.: «Fuerza, 3.º ESO, gimnasio»"],
+"לכתוב את המדד של {0} תלמידים לעמודת «{1}»?":["Write the index of {0} students to the «{1}» column?", "كتابة المؤشر لـ {0} طلاب في العمود «{1}»؟", "Записать индекс {0} учеников в столбец «{1}»?", "¿Escribir el índice de {0} alumnos en la columna «{1}»?"],
+});
+
 ;
 "use strict";
 /* ============================================================
@@ -11808,6 +11890,47 @@ const DICT={
 he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שבמרקאפ עצמו */
 
 en:{
+  /* ux-redesign */
+  "ask.ok":"OK",
+  "ask.cancel":"Cancel",
+  "ask.type":"Type «{0}» to confirm",
+  "undo.btn":"↩ Undo",
+  "undo.done":"↩ Undone",
+  "bk.legacyQ":"This is an old records file ({0} entries, no videos). Merge it into the records on this device? No other data will change.",
+  "bk.legacyDone":"✓ {0} records merged",
+  "ft.recBeat":"beats the school record",
+  "ft.recSubmit":"Submit as a record?",
+  "pf.allDone":"Everyone finished 🏁",
+  "pf.stopClk":"⏹ Stop clock",
+  "pf.arcDel":"Deleted from the archive",
+  "pf.lStopped":"Lap clock stopped",
+  "pf.lRemoved":"Removed:",
+  "pf.lResetDone":"Laps reset",
+  "pf.resetDone":"Heat reset",
+  "pf.pasteEmpty":"Paste at least one name",
+  "pf.pasteLbl":"One name per line, or separated by commas",
+  "pf.pasteGo":"✓ Load into lanes",
+  "pf.rowLbl":"Time in seconds for lane",
+  "pf.rowGo":"✓ Add",
+  "pf.rowBad":"Enter a time in seconds, e.g. 10.25",
+  "recA.tAppr":"✅ Approvals",
+  "recA.tAdd":"➕ Add",
+  "recA.tSports":"🏷 Events",
+  "recA.tBk":"💾 Backup",
+  "recA.bkTitle":"💾 Records in the device backup",
+  "recA.bkBody":"Records, videos, events and reference records are saved together with all other data — in one backup file under «Settings → Backup and sync». You also restore from there, including an old records file (school-records.json).",
+  "recA.bkOpen":"🔒 Open «Backup and sync»",
+  "recA.bkN":"entries on this device",
+  "recA.bkLast":"last backed up",
+  "recA.bkNever":"never backed up yet",
+  "recA.rejected":"Request rejected and deleted",
+  "recA.deleted":"Record deleted:",
+  "recA.spDel":"Event deleted",
+  "recA.spDelN":"Event deleted with {0} records",
+  "recA.spReset":"Default list restored · records kept",
+  "recA.empty":"No records to delete",
+  "recA.wipeQ":"Delete all {0} records and videos from this device?",
+  "recA.ftSent":"🏆 Submitted for approval on the records teacher board",
   /* ux-redesign */
   "pf.tRace":"🏁 Race",
   "pf.tSetup":"📐 Setup",
@@ -12270,6 +12393,47 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "ask.ok":"موافق",
+  "ask.cancel":"إلغاء",
+  "ask.type":"اكتب «{0}» للتأكيد",
+  "undo.btn":"↩ تراجع",
+  "undo.done":"↩ تم التراجع",
+  "bk.legacyQ":"هذا ملف أرقام قياسية قديم ({0} سجلات، بلا فيديو). هل تريد دمجه مع الأرقام القياسية على هذا الجهاز؟ لن تتغير أي بيانات أخرى.",
+  "bk.legacyDone":"✓ تم دمج {0} أرقام قياسية",
+  "ft.recBeat":"يتجاوز الرقم القياسي للمدرسة",
+  "ft.recSubmit":"تقديمه كرقم قياسي؟",
+  "pf.allDone":"أنهى الجميع 🏁",
+  "pf.stopClk":"⏹ أوقف الساعة",
+  "pf.arcDel":"حُذف من الأرشيف",
+  "pf.lStopped":"توقفت ساعة اللفات",
+  "pf.lRemoved":"أُزيل:",
+  "pf.lResetDone":"أُعيد ضبط اللفات",
+  "pf.resetDone":"أُعيد ضبط التصفية",
+  "pf.pasteEmpty":"الصق اسمًا واحدًا على الأقل",
+  "pf.pasteLbl":"اسم في كل سطر، أو مفصولة بفواصل",
+  "pf.pasteGo":"✓ حمّل إلى المسارات",
+  "pf.rowLbl":"الزمن بالثواني للمسار",
+  "pf.rowGo":"✓ أضف",
+  "pf.rowBad":"أدخل زمنًا بالثواني، مثلًا 10.25",
+  "recA.tAppr":"✅ الموافقات",
+  "recA.tAdd":"➕ إضافة",
+  "recA.tSports":"🏷 الفعاليات",
+  "recA.tBk":"💾 النسخ الاحتياطي",
+  "recA.bkTitle":"💾 الأرقام القياسية في النسخة الاحتياطية للجهاز",
+  "recA.bkBody":"تُحفظ الأرقام القياسية والفيديوهات والفعاليات والأرقام المرجعية مع باقي البيانات — في ملف نسخ احتياطي واحد في «الإعدادات ← النسخ الاحتياطي والمزامنة». ومن هناك تتم الاستعادة أيضًا، بما في ذلك ملف أرقام قياسية قديم (school-records.json).",
+  "recA.bkOpen":"🔒 افتح «النسخ الاحتياطي والمزامنة»",
+  "recA.bkN":"سجلات على الجهاز",
+  "recA.bkLast":"آخر نسخ احتياطي",
+  "recA.bkNever":"لم يُنسخ احتياطيًا بعد",
+  "recA.rejected":"رُفض الطلب وحُذف",
+  "recA.deleted":"حُذف الرقم القياسي:",
+  "recA.spDel":"حُذفت الفعالية",
+  "recA.spDelN":"حُذفت الفعالية مع {0} أرقام قياسية",
+  "recA.spReset":"استُعيدت القائمة الافتراضية · حُفظت الأرقام القياسية",
+  "recA.empty":"لا توجد أرقام قياسية للحذف",
+  "recA.wipeQ":"حذف كل الأرقام القياسية ({0}) والفيديوهات من الجهاز؟",
+  "recA.ftSent":"🏆 قُدّم للموافقة في لوحة المعلّم للأرقام القياسية",
   /* ux-redesign */
   "pf.tRace":"🏁 السباق",
   "pf.tSetup":"📐 التجهيز",
@@ -12747,6 +12911,47 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "ask.ok":"OK",
+  "ask.cancel":"Отмена",
+  "ask.type":"Введите «{0}» для подтверждения",
+  "undo.btn":"↩ Отменить",
+  "undo.done":"↩ Отменено",
+  "bk.legacyQ":"Это старый файл рекордов ({0} записей, без видео). Объединить его с рекордами на этом устройстве? Другие данные не изменятся.",
+  "bk.legacyDone":"✓ Объединено рекордов: {0}",
+  "ft.recBeat":"выше рекорда школы",
+  "ft.recSubmit":"Подать как рекорд?",
+  "pf.allDone":"Все финишировали 🏁",
+  "pf.stopClk":"⏹ Остановить часы",
+  "pf.arcDel":"Удалено из архива",
+  "pf.lStopped":"Часы кругов остановлены",
+  "pf.lRemoved":"Удалён:",
+  "pf.lResetDone":"Круги сброшены",
+  "pf.resetDone":"Забег сброшен",
+  "pf.pasteEmpty":"Вставьте хотя бы одно имя",
+  "pf.pasteLbl":"По одному имени в строке или через запятую",
+  "pf.pasteGo":"✓ Загрузить на дорожки",
+  "pf.rowLbl":"Время в секундах, дорожка",
+  "pf.rowGo":"✓ Добавить",
+  "pf.rowBad":"Введите время в секундах, например 10.25",
+  "recA.tAppr":"✅ Одобрение",
+  "recA.tAdd":"➕ Добавить",
+  "recA.tSports":"🏷 Дисциплины",
+  "recA.tBk":"💾 Резервная копия",
+  "recA.bkTitle":"💾 Рекорды в резервной копии устройства",
+  "recA.bkBody":"Рекорды, видео, дисциплины и справочные рекорды сохраняются вместе со всеми остальными данными — в одном файле резервной копии в «Настройки → Резервная копия и синхронизация». Оттуда же выполняется восстановление, в том числе старого файла рекордов (school-records.json).",
+  "recA.bkOpen":"🔒 Открыть «Резервная копия и синхронизация»",
+  "recA.bkN":"записей на устройстве",
+  "recA.bkLast":"последняя копия",
+  "recA.bkNever":"ещё ни разу не копировалось",
+  "recA.rejected":"Заявка отклонена и удалена",
+  "recA.deleted":"Рекорд удалён:",
+  "recA.spDel":"Дисциплина удалена",
+  "recA.spDelN":"Дисциплина удалена вместе с рекордами: {0}",
+  "recA.spReset":"Список по умолчанию восстановлен · рекорды сохранены",
+  "recA.empty":"Нет рекордов для удаления",
+  "recA.wipeQ":"Удалить все рекорды ({0}) и видео с устройства?",
+  "recA.ftSent":"🏆 Отправлено на одобрение в панель учителя рекордов",
+  /* ux-redesign */
   "pf.tRace":"🏁 Забег",
   "pf.tSetup":"📐 Установка",
   "pfw.s0":"Позиция",
@@ -13216,6 +13421,47 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "ask.ok":"Aceptar",
+  "ask.cancel":"Cancelar",
+  "ask.type":"Escribe «{0}» para confirmar",
+  "undo.btn":"↩ Deshacer",
+  "undo.done":"↩ Deshecho",
+  "bk.legacyQ":"Es un archivo de récords antiguo ({0} registros, sin vídeos). ¿Combinarlo con los récords de este dispositivo? No cambiará ningún otro dato.",
+  "bk.legacyDone":"✓ {0} récords combinados",
+  "ft.recBeat":"supera el récord del colegio",
+  "ft.recSubmit":"¿Presentar como récord?",
+  "pf.allDone":"Todos han llegado 🏁",
+  "pf.stopClk":"⏹ Parar reloj",
+  "pf.arcDel":"Eliminado del archivo",
+  "pf.lStopped":"Reloj de vueltas detenido",
+  "pf.lRemoved":"Eliminado:",
+  "pf.lResetDone":"Vueltas reiniciadas",
+  "pf.resetDone":"Serie reiniciada",
+  "pf.pasteEmpty":"Pega al menos un nombre",
+  "pf.pasteLbl":"Un nombre por línea, o separados por comas",
+  "pf.pasteGo":"✓ Cargar en las calles",
+  "pf.rowLbl":"Tiempo en segundos, calle",
+  "pf.rowGo":"✓ Añadir",
+  "pf.rowBad":"Introduce un tiempo en segundos, p. ej. 10.25",
+  "recA.tAppr":"✅ Aprobaciones",
+  "recA.tAdd":"➕ Añadir",
+  "recA.tSports":"🏷 Pruebas",
+  "recA.tBk":"💾 Copia de seguridad",
+  "recA.bkTitle":"💾 Los récords en la copia del dispositivo",
+  "recA.bkBody":"Los récords, vídeos, pruebas y récords de referencia se guardan junto con el resto de los datos, en un único archivo de copia en «Ajustes → Copia y sincronización». Desde ahí también se restaura, incluido un archivo de récords antiguo (school-records.json).",
+  "recA.bkOpen":"🔒 Abrir «Copia y sincronización»",
+  "recA.bkN":"registros en el dispositivo",
+  "recA.bkLast":"última copia",
+  "recA.bkNever":"todavía sin copia",
+  "recA.rejected":"Solicitud rechazada y eliminada",
+  "recA.deleted":"Récord eliminado:",
+  "recA.spDel":"Prueba eliminada",
+  "recA.spDelN":"Prueba eliminada con {0} récords",
+  "recA.spReset":"Lista predeterminada restaurada · récords conservados",
+  "recA.empty":"No hay récords que eliminar",
+  "recA.wipeQ":"¿Eliminar los {0} récords y vídeos de este dispositivo?",
+  "recA.ftSent":"🏆 Enviado para aprobación en el panel del profesor de récords",
   /* ux-redesign */
   "pf.tRace":"🏁 Carrera",
   "pf.tSetup":"📐 Colocación",
@@ -14238,7 +14484,7 @@ document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==
 
 /* ---------- toast / confetti / csv / time ---------- */
 let toastTm=null;
-function toast(msg){ const t=$("#toastT"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTm); toastTm=setTimeout(()=>t.classList.remove("show"),2600); }
+function toast(msg){ const t=$("#toastT"); clearTimeout(actTm); t.classList.remove("act"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTm); toastTm=setTimeout(()=>t.classList.remove("show"),2600); }
 function confetti(n=90){
   const colors=["#19d27a","#19c3ff","#ffce3a","#ff7a3d","#b07cff","#ff4d5e"];
   for(let i=0;i<n;i++){ const d=document.createElement("div"); d.className="cfp";
@@ -14255,10 +14501,146 @@ function dlCSV(name,rows){
 function fmtMS(t){ const m=Math.floor(t/60), s=Math.floor(t%60); return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0"); }
 function fmtMSc(t){ const m=Math.floor(t/60), s=Math.floor(t%60), c=Math.floor((t%1)*100); return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")+"."+String(c).padStart(2,"0"); }
 function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-function modal(id,on){ $("#"+id).classList.toggle("on",on!==false); }
+/* כל החלונות חולקים z-index אחד, ולכן הסדר ב-DOM קבע מי מעל מי — חלון
+   הקבוצות, שנפתח מתוך מערכת השעות, נפתח מאחוריה. חלון שנפתח עכשיו
+   עולה תמיד מעל מה שכבר פתוח. */
+let modalZ=0;
+function modal(id,on){
+  const m=$("#"+id); if(!m)return;
+  const open=on!==false;
+  if(open&&!m.classList.contains("on"))m.style.zIndex=220+(++modalZ);
+  m.classList.toggle("on",open);
+  if(!open){ m.style.zIndex=""; if(!$$(".modal.on").length)modalZ=0; }
+}
+/* ============================================================
+   שאלה בתוך האפליקציה — במקום confirm()/prompt()
+   ------------------------------------------------------------
+   חלון הדפדפן חוסם את כל הדף, נראה אחרת בכל טלפון, ובשטח קל ללחוץ
+   בו «אישור» בטעות. כאן זה גיליון של האפליקציה עצמה: שדות אמיתיים
+   (טקסט, מספר, רשימה, בחירה), Enter לאישור, וחזרה של הטלפון כביטול.
+   פעולה הרסנית שאי אפשר להחזיר מבקשת להקליד מילה (word).
+   o: {title, msg, fields:[{k,label,value,type,options:[[v,l]],ph,rows}],
+       ok, danger, word}. מחזיר Promise: בלי שדות — true/false; שדה
+   אחד — הערך או null; כמה שדות — אובייקט לפי k או null.
+   ============================================================ */
+let askDone=null;
+/* קיצורי מקלדת של השטח (רווח = זינוק, 1–9 = מסלול) לא פועלים כשמקלידים
+   בשדה, וגם לא כשחלון פתוח מעל המסך — רווח בשם שמודבק ברשימה היה
+   יורה את אקדח הזינוק. */
+function typingIn(e){
+  const el=e.target, tg=el&&el.tagName;
+  return tg==="INPUT"||tg==="SELECT"||tg==="TEXTAREA"||!!(el&&el.isContentEditable)||!!document.querySelector(".modal.on");
+}
+function ask(o){
+  o=o||{};
+  if(askDone)askDone(null);
+  let m=$("#askModal");
+  if(!m){
+    m=document.createElement("div"); m.className="modal"; m.id="askModal";
+    m.innerHTML='<div class="box ask-box" style="max-width:460px"><h3><span id="ask-t"></span>'+
+      '<button class="x" id="ask-x" type="button" aria-label="close">✕</button></h3>'+
+      '<div id="ask-m" class="ask-msg" dir="auto"></div><div id="ask-f" class="ask-fields"></div>'+
+      '<div class="row ask-btns"><button class="btn acc" id="ask-ok" type="button"></button>'+
+      '<button class="btn ghost" id="ask-no" type="button"></button></div></div>';
+    document.body.appendChild(m);
+    m.addEventListener("click",e=>{ if(e.target===m&&askDone)askDone(null); });
+  }
+  const T=x=>(window.I18N?window.I18N.tr(x):x);
+  const fields=o.fields||[];
+  $("#ask-t").textContent=T(o.title||"");
+  $("#ask-t").parentNode.style.display=o.title?"":"none";
+  $("#ask-m").textContent=T(o.msg||""); $("#ask-m").style.display=o.msg?"":"none";
+  const wrap=$("#ask-f"); wrap.innerHTML="";
+  const inputs=fields.map((f,i)=>{
+    const d=document.createElement("div"); d.className="field";
+    if(f.label){ const l=document.createElement("label"); l.textContent=T(f.label); l.htmlFor="ask-i"+i; d.appendChild(l); }
+    let el;
+    if(f.type==="select"){
+      el=document.createElement("select");
+      (f.options||[]).forEach(op=>{ const x=document.createElement("option");
+        x.value=Array.isArray(op)?op[0]:op; x.textContent=Array.isArray(op)?op[1]:op; el.appendChild(x); });
+    }else if(f.type==="textarea"){
+      el=document.createElement("textarea"); el.rows=f.rows||5;
+    }else{
+      el=document.createElement("input"); el.type=f.type||"text";
+      if(f.type==="number"){ el.inputMode="decimal"; el.step=f.step||"any"; }
+    }
+    el.id="ask-i"+i; if(f.ph)el.placeholder=T(f.ph);
+    if(f.value!=null)el.value=f.value;
+    if(f.readonly)el.readOnly=true;
+    d.appendChild(el); wrap.appendChild(d); return el;
+  });
+  /* שדה שממלא אחרים (תבנית → שם וקריטריונים) */
+  fields.forEach((f,i)=>{ if(f.onchange)inputs[i].addEventListener("change",()=>f.onchange(inputs[i].value,inputs)); });
+  let wordEl=null;
+  if(o.word){
+    const d=document.createElement("div"); d.className="field";
+    const l=document.createElement("label");
+    l.textContent=t("ask.type","הקלד «{0}» לאישור").replace("{0}",T(o.word)); d.appendChild(l);
+    wordEl=document.createElement("input"); wordEl.type="text"; wordEl.id="ask-word"; wordEl.autocomplete="off";
+    d.appendChild(wordEl); wrap.appendChild(d);
+  }
+  const okB=$("#ask-ok"), noB=$("#ask-no");
+  okB.textContent=T(o.ok||t("ask.ok","אישור")); okB.className="btn "+(o.danger?"stop":"acc");
+  noB.textContent=t("ask.cancel","ביטול");
+  noB.style.display=o.alert?"none":"";
+  const wordOk=()=>!wordEl||[o.word,T(o.word)].includes(wordEl.value.trim());
+  okB.disabled=!wordOk();
+  if(wordEl)wordEl.oninput=()=>{ okB.disabled=!wordOk(); };
+  return new Promise(res=>{
+    let done=false;
+    const finish=v=>{ if(done)return; done=true; askDone=null; m.__onBack=null; document.removeEventListener("keydown",key,true); modal("askModal",false); res(v); };
+    const value=()=>{
+      if(!fields.length)return true;
+      const vals={}; fields.forEach((f,i)=>vals[f.k||i]=inputs[i].value);
+      return fields.length===1&&!o.obj?inputs[0].value:vals;
+    };
+    const submit=()=>{ if(!wordOk())return; finish(value()); };
+    const key=e=>{
+      if(e.key==="Escape"){ e.preventDefault(); finish(fields.length?null:false); }
+      else if(e.key==="Enter"&&!(e.target&&e.target.tagName==="TEXTAREA"&&!e.ctrlKey&&!e.metaKey)){
+        if(e.target&&e.target.tagName==="BUTTON")return;
+        e.preventDefault(); submit(); }
+    };
+    askDone=v=>finish(v==null?(fields.length?null:false):v);
+    m.__onBack=()=>askDone(null);
+    okB.onclick=submit; noB.onclick=()=>askDone(null); $("#ask-x").onclick=()=>askDone(null);
+    document.addEventListener("keydown",key,true);
+    modal("askModal",true);
+    const first=inputs.find(x=>!x.readOnly)||wordEl;
+    setTimeout(()=>{ try{ (first||okB).focus(); if(first&&first.select&&first.type!=="number")first.select(); }catch(e){} },30);
+  });
+}
+/* הודעה עם כפתור פעולה — «↩ בטל» אחרי מחיקה, «⏹ עצור» כשכולם סיימו.
+   הפעולה עצמה כבר בוצעה; הכפתור מחזיר אותה לכמה שניות. במקום לשאול
+   «בטוח?» לפני כל מחיקה, מוחקים מיד ונותנים דרך חזרה. */
+/* צילום של מפתחות אחסון לפני פעולה, ופונקציה שמחזירה אותם — הבסיס של
+   «↩ בטל»: מוחקים מיד, והצילום מחזיר בדיוק את מה שהיה. */
+function snap(keys){
+  const saved=keys.map(k=>[k,JSON.stringify(LS.get(k,null))]);
+  return ()=>saved.forEach(([k,v])=>LS.set(k,JSON.parse(v)));
+}
+let actTm=null;
+function actToast(msg,label,fn,ms){
+  const box=$("#toastT");
+  clearTimeout(toastTm); clearTimeout(actTm);
+  box.textContent="";
+  const sp=document.createElement("span"); sp.textContent=msg;
+  const b=document.createElement("button"); b.type="button"; b.className="toast-act"; b.id="toastAct"; b.textContent=label;
+  let used=false;
+  b.addEventListener("click",()=>{ if(used)return; used=true; ac(); box.classList.remove("show","act");
+    try{ fn(); }catch(e){ console.error(e); } });
+  box.appendChild(sp); box.appendChild(b);
+  box.classList.add("show","act");
+  actTm=setTimeout(()=>{ box.classList.remove("show","act"); },ms||6000);
+}
+function undo(msg,fn,ms){
+  actToast(msg,t("undo.btn","↩ בטל"),()=>{ fn(); toast(t("undo.done","↩ בוטל")); },ms);
+}
 function wireModals(){
   $$("[data-close]").forEach(b=>b.addEventListener("click",()=>modal(b.dataset.close,false)));
-  $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target===m)m.classList.remove("on"); }));
+  $$(".modal").forEach(m=>m.addEventListener("click",e=>{ if(e.target!==m)return;
+    if(m.__onBack)m.__onBack(); else modal(m.id,false); }));
 }
 
 /* ---------- roles: מורה מול תלמיד ----------
@@ -14412,7 +14794,9 @@ window.addEventListener("popstate",e=>{
   /* חלון פתוח? «חזרה» סוגרת אותו ונשארת במסך — כמו בכל אפליקציה */
   const open=$$(".modal.on");
   if(open.length){
-    open.forEach(m=>m.classList.remove("on"));
+    /* רק העליון נסגר — חלון שנפתח מתוך חלון אחר חוזר אל זה שמתחתיו */
+    const top=open.reduce((a,m)=>(+m.style.zIndex||0)>=(+a.style.zIndex||0)?m:a,open[0]);
+    if(top.__onBack)top.__onBack(); else modal(top.id,false);
     try{ navDepth++; history.pushState({mod:document.body.dataset.mod,depth:navDepth},"","#"+document.body.dataset.mod); }catch(err){}
     return;
   }
@@ -14642,6 +15026,8 @@ function wireTipPop(){
 }
 
 /* ---------- settings ---------- */
+/* פתיחת ההגדרות מבחוץ (לוח המורה בשיאים → «גיבוי וסנכרון») */
+let SETTINGS_OPEN=()=>{};
 function wireSettings(){
 $$("#set-theme .thm").forEach(b=>b.addEventListener("click",()=>{
   SET.theme=b.dataset.t; saveSet(); applyTheme(); }));
@@ -14674,11 +15060,17 @@ function openInfo(){
   });
 }
 $("#btnInfo").addEventListener("click",()=>{ ac(); openInfo(); });
-$("#btnSettings").addEventListener("click",()=>{ const bi=$("#set-build"); if(bi)bi.textContent="גרסה "+buildId();
+/* sec — מקטע לפתוח ישירות («backup» מלוח המורה של השיאים) */
+function openSettings(sec){ const bi=$("#set-build"); if(bi)bi.textContent="גרסה "+buildId();
   $("#set-school").value=SET.school; $("#set-sound").checked=SET.sound; $("#set-voice").checked=SET.voice; $("#set-wake").checked=SET.wake; $("#set-touch").checked=!!SET.touch; applyTheme();
   $("#set-driveForm").value=SET.driveForm||""; $("#set-driveFolder").value=SET.driveFolder||"";
   $("#set-syncUrl").value=SET.syncUrl||""; $("#set-syncCode").value=SET.syncCode||"";
-  bkStat(); paintClassRename(); modal("setModal"); });
+  bkStat(); paintClassRename(); modal("setModal");
+  const el=sec&&$("#set-sec"+sec[0].toUpperCase()+sec.slice(1));
+  if(el){ el.open=true; setTimeout(()=>{ try{ el.scrollIntoView({block:"start",behavior:"smooth"}); }catch(e){} },60); }
+}
+$("#btnSettings").addEventListener("click",()=>openSettings());
+SETTINGS_OPEN=openSettings;
 (function(){ const b=$("#set-forceUpdate");
   if(b)b.addEventListener("click",()=>{ forceUpdate(); }); })();
 $("#set-save").addEventListener("click",()=>{ SET.school=$("#set-school").value.trim(); SET.sound=$("#set-sound").checked; SET.voice=$("#set-voice").checked; SET.wake=$("#set-wake").checked;
@@ -14828,7 +15220,7 @@ function paintClassRenameCur(){
   if(info){ const x=c?clsRenameList().find(y=>y.cid===sel.value):null;
     info.textContent=x?(x.students+" תלמידים · "+x.results+" מדידות"+(x.origin&&x.origin!==x.name?" · נוצרה כ-"+x.origin:"")):""; }
 }
-function renameClassFromUi(){
+async function renameClassFromUi(){
   const sel=$("#set-clsSel"), inp=$("#set-clsNew"); if(!sel||!inp)return;
   const cid=sel.value, nm=inp.value.trim();
   const c=cid?DATA.classOf(REGSTORE,cid):null;
@@ -14837,9 +15229,9 @@ function renameClassFromUi(){
   if(nm===c.name){ toast("זה כבר השם של הכיתה"); return; }
   const reg=DATA.classes(REGSTORE);
   const twin=Object.keys(reg).find(k=>k!==cid&&reg[k]&&DATA.clsKey(reg[k].name)===DATA.clsKey(nm));
-  if(twin&&!confirm("כיתה אחרת כבר נקראת «"+reg[twin].name+"».\n\nשתי הכיתות יישארו נפרדות, אבל בבוררים ובדוחות יהיה קשה להבחין ביניהן.\nלהמשיך בכל זאת?"))return;
+  if(twin&&!(await ask({msg:"כיתה אחרת כבר נקראת «"+reg[twin].name+"».\n\nשתי הכיתות יישארו נפרדות, אבל בבוררים ובדוחות יהיה קשה להבחין ביניהן.\nלהמשיך בכל זאת?"})))return;
   const pc=DATA.parseCls(nm);
-  if(!twin&&pc&&DATA.classId(nm)!==cid&&!confirm("השם «"+nm+"» נראה כמו כיתה אחרת ("+DATA.clsName(pc.grade,pc.num)+").\n\nהזהות של הכיתה לא תשתנה — רק השם. להמשיך?"))return;
+  if(!twin&&pc&&DATA.classId(nm)!==cid&&!(await ask({msg:"השם «"+nm+"» נראה כמו כיתה אחרת ("+DATA.clsName(pc.grade,pc.num)+").\n\nהזהות של הכיתה לא תשתנה — רק השם. להמשיך?"})))return;
   const r=DATA.renameClass(REGSTORE,cid,nm);
   if(!r.ok){ toast(r.error==="empty-name"?"השם ריק":"שינוי השם נכשל"); return; }
   toast("✓ הכיתה נקראת עכשיו «"+nm+"»");
@@ -15013,7 +15405,7 @@ function startFromSlot(slot){
     DATA.registerClass(REGSTORE,slot.clsSnapshot||""); }catch(e){}
   const as=ASSIGN.get(slot.cid,isoToday());
   const r=SESSION.start({cid:slot.cid,clsSnapshot:slot.clsSnapshot||"",
-    date:isoToday(),planTitle:(as&&as.title)||slot.topic||""});
+    date:isoToday(),planId:(as&&as.plan&&as.plan.id)||null,planTitle:(as&&as.title)||slot.topic||""});
   if(r.outcome==="blocked"){
     toast("כבר פתוח שיעור בכיתה "+sesName(r.active)+" — סיים אותו קודם");
     return;
@@ -15273,13 +15665,10 @@ function renderGrpList(){
   $$("#grp-list [data-gdel]").forEach(b=>b.addEventListener("click",()=>{
     const g=DATA.groupOf(REGSTORE,b.dataset.gdel); if(!g)return;
     /* קבוצה שמופיעה במערכת השעות — המשבצות שלה יישארו בלי הקשר */
-    const used=SCHED.list().filter(x=>x.cid===g.id).length;
-    if(!confirm("למחוק את הקבוצה «"+g.name+"»?\n\n"+
-      (used?"• "+used+" משבצות במערכת השעות מצביעות עליה ויישארו בלי קבוצה.\n":"")+
-      "• התלמידים, המדידות והשיעורים שהתקיימו לא ייפגעו."))return;
+    const back=snap(["ft.classes"]);
     DATA.removeGroup(REGSTORE,g.id);
     grpReset(); renderGrpList(); paintHome();
-    toast("הקבוצה נמחקה");
+    undo("הקבוצה נמחקה",()=>{ back(); renderGrpList(); paintHome(); });
   }));
 }
 function renderGrpPickers(sel){
@@ -15500,7 +15889,7 @@ function addFromEditor(){
    קיימת היא שואלת קודם, כי שבוע שמישהו הזין ידנית לא נמחק בשקט. */
 function loadSampleWeek(){
   const cur=SCHED.list().length;
-  if(cur&&!confirm("במערכת יש כבר "+cur+" משבצות.\nלטעון את המערכת לדוגמה במקומה?"))return;
+  const back=snap([SCHED_KEY,"ft.classes"]);
   let list=cur?[]:SCHED.all();
   if(cur)schedSave([]);
   let added=0;
@@ -15510,15 +15899,17 @@ function loadSampleWeek(){
     if(r.ok&&r.outcome==="added")added++;
   });
   closeCell(); renderGrid(); paintHome();
-  toast("✓ נטענו "+added+" משבצות — ערוך אותן לפי המערכת שלך");
+  const msg="✓ נטענו "+added+" משבצות — ערוך אותן לפי המערכת שלך";
+  /* מעל מערכת קיימת — היא מוחלפת מיד, ו«בטל» מחזיר אותה כמו שהייתה */
+  if(cur)undo(msg,()=>{ back(); renderGrid(); paintHome(); },8000); else toast(msg);
 }
 function clearWeek(){
   const n=SCHED.list().length;
   if(!n){ toast("המערכת כבר ריקה"); return; }
-  if(!confirm("למחוק את כל "+n+" המשבצות במערכת השעות?\nהתלמידים, המדידות והשיעורים לא ייפגעו."))return;
+  const back=snap([SCHED_KEY]);
   schedSave([]);
   closeCell(); renderGrid(); paintHome();
-  toast("המערכת נוקתה");
+  undo("המערכת נוקתה",()=>{ back(); renderGrid(); paintHome(); },8000);
 }
 
 function openSched(){
@@ -16004,6 +16395,15 @@ function wireBackup(){
     r.onload=()=>{
       let snap;
       try{ snap=JSON.parse(r.result); }catch(err){ toast("הקובץ אינו קובץ גיבוי תקין"); return; }
+      /* קובץ שיאים ישן מלוח המורה — ממזגים לשיאים, בלי לגעת בשאר */
+      if(REC.isLegacyFile&&REC.isLegacyFile(snap)){
+        (async()=>{
+          if(!(await ask({msg:t("bk.legacyQ","זה קובץ שיאים ישן ({0} רשומות, בלי סרטונים). למזג אותו לשיאים שבמכשיר? שום נתון אחר לא ישתנה.").replace("{0}",snap.records.length),ok:"📥 מזג"})))return;
+          try{ const n=await REC.importLegacy(snap); toast(t("bk.legacyDone","✓ מוזגו {0} שיאים").replace("{0}",n)); }
+          catch(err){ toast("קובץ לא תקין"); }
+        })();
+        return;
+      }
       /* ולידציה לפני שנוגעים במשהו. קובץ שנחתך באמצע ההורדה, קובץ
          מגרסה חדשה יותר וקובץ של אפליקציה אחרת נראים דומים מספיק
          כדי שהקוד הישן היה מנסה לשחזר מהם — ולמחוק את מה שיש. */
@@ -16215,13 +16615,13 @@ function wirePurge(){
     paint();
   }));
   $("#pg-backup").addEventListener("click",()=>{ if(bkExport())LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); });
-  $("#pg-go").addEventListener("click",()=>{
+  $("#pg-go").addEventListener("click",async()=>{
     const iso=$("#pg-date").value; if(!iso)return;
     const c=count(iso);
     /* אישור כפול: הראשון מסביר, השני דורש לכתוב את המילה — מחיקה של
        היסטוריית מדידות של תלמידים אמיתיים לא צריכה להיות הקשה אחת. */
-    if(!confirm("למחוק "+c.res+" מדידות ו-"+c.arc+" מירוצים שלפני "+iso+"?\n\nהפעולה אינה הפיכה."))return;
-    if(prompt('הקלד "מחק" לאישור סופי:')!=="מחק"){ toast("בוטל"); return; }
+    if(!(await ask({msg:"למחוק "+c.res+" מדידות ו-"+c.arc+" מירוצים שלפני "+iso+"?\n\nהפעולה אינה הפיכה.",
+      word:"מחק",danger:true,ok:"🗑 מחק"})))return;
     LS.set("ft.results",dated().filter(r=>!(r&&r.d&&r.d<iso)));
     LS.set("pf.archive",(LS.get("pf.archive",[])||[]).filter(a=>!(a&&a.date&&a.date<iso)));
     modal("purgeModal",false);
@@ -16283,7 +16683,7 @@ function bkPreview(snap){
   if(notes.length)w.textContent=notes.join("  ");
   $("#bk-safety").onclick=()=>{ if(bkExport())LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); };
   $("#bk-go").onclick=async()=>{
-    if(!confirm("לשחזר? כל הנתונים שבמכשיר יוחלפו בנתונים שבקובץ."))return;
+    if(!(await ask({msg:t("bk.confirm","לשחזר? כל הנתונים שבמכשיר יוחלפו בנתונים שבקובץ."),danger:true,ok:"♻ שחזר"})))return;
     $("#bk-go").disabled=true;
     toast("משחזר…");
     let r;
@@ -16773,7 +17173,12 @@ const BT=(function(){
     $("#bt-voice").addEventListener("change",e=>{SET.voice=e.target.checked;saveSet()});
     $("#bt-sound").addEventListener("change",e=>{SET.sound=e.target.checked;saveSet()});
     $("#bt-startBtn").addEventListener("click",()=>running?pause():start());
-    $("#bt-resetBtn").addEventListener("click",()=>{ if(getElapsed()===0||confirm("לאפס את שעון המבחן? (הלוח נשמר)"))reset(); });
+    /* איפוס מיידי, ו«בטל» מחזיר את השעון לאותה נקודה — מושהה */
+    $("#bt-resetBtn").addEventListener("click",()=>{
+      const el=getElapsed(); reset(); if(el<=0)return;
+      undo("השעון אופס (הלוח נשמר)",()=>{ if(running||elapsedOffset>0)return;
+        elapsedOffset=el; setSegEnabled(false); $("#bt-startBtn").innerHTML="▶ המשך"; $("#bt-regBtn").disabled=false; render(); });
+    });
     $("#bt-regBtn").addEventListener("click",()=>registerDrop());
     $("#bt-loadCls").addEventListener("click",()=>{
       if(!window.FT||!window.FT.pick){toast("בורר הכיתה לא זמין");return;}
@@ -16784,8 +17189,9 @@ const BT=(function(){
     });
     $("#bt-clrCls").addEventListener("click",()=>{
       if(!heat.names.length)return;
-      if(!confirm("לנקות את רשימת המקצה? הרישומים בלוח נשמרים."))return;
+      const was=heat;
       heat={cls:"",names:[]}; heatSave(); renderHeat();
+      undo("רשימת המקצה נוקתה · הרישומים בלוח נשמרים",()=>{ heat=was; heatSave(); renderHeat(); });
     });
     $("#bt-undoBtn").addEventListener("click",()=>{ if(results.length){results.pop();nextNum=Math.max(1,nextNum-1);persist();renderResults();renderHeat();renderLanes();toast("הרישום האחרון בוטל");} });
     /* התוצאה של הביפ נשמרת כמרחק במבחן «ביפ טסט» של מודול המבחנים,
@@ -16843,14 +17249,14 @@ const BT=(function(){
       const i=e.target.value; if(i==="")return;
       const p2=profs()[+i]; if(p2)profApply(p2);
     });
-    $("#bt-profSave").addEventListener("click",()=>{
+    $("#bt-profSave").addEventListener("click",async()=>{
       const def=(classSex==="girls"?"בנות":"בנים")+" · "+distance+" מ׳ · גיל "+classAge;
-      const nm=prompt("שם הפרופיל:",def); if(nm===null)return;
+      const nm=await ask({fields:[{label:"שם הפרופיל:",value:def}],ok:"💾 שמור"}); if(nm===null)return;
       const name=nm.trim()||def;
       const list=profs();
       const rec={name,dist:distance,speed:startSpeed,age:classAge,sex:classSex};
       const at=list.findIndex(p2=>p2.name===name);
-      if(at>=0){ if(!confirm("כבר יש פרופיל בשם הזה — לדרוס אותו?"))return; list[at]=rec; }
+      if(at>=0){ if(!(await ask({msg:"כבר יש פרופיל בשם הזה — לדרוס אותו?"})))return; list[at]=rec; }
       else list.push(rec);
       setProfs(list); profPaint();
       $("#bt-profSel").value=String(at>=0?at:list.length-1);
@@ -16860,9 +17266,9 @@ const BT=(function(){
       const i=$("#bt-profSel").value;
       if(i===""){ toast("בחר פרופיל למחיקה"); return; }
       const list=profs(), p2=list[+i]; if(!p2)return;
-      if(!confirm("למחוק את הפרופיל «"+p2.name+"»?"))return;
+      const was=profs();
       list.splice(+i,1); setProfs(list); profPaint(); $("#bt-profSel").value="";
-      toast("הפרופיל נמחק");
+      undo("הפרופיל נמחק",()=>{ setProfs(was); profPaint(); });
     });
     profPaint();
 
@@ -16887,11 +17293,16 @@ const BT=(function(){
       const clsPart=(heat.cls||"").replace(/[\\/:*?"<>|]/g,"").trim();
       dlCSV("ביפ-טסט"+(clsPart?"-"+clsPart:"")+"-"+new Date().toISOString().slice(0,10)+".csv",rows);
     });
-    $("#bt-clearBtn").addEventListener("click",()=>{ if(results.length&&confirm("למחוק את כל הרישומים?")){results=[];nextNum=1;persist();renderResults();renderHeat();renderLanes();$("#bt-regBtn").disabled=!(running||elapsedOffset>0);} });
+    const btPaint=()=>{ persist();renderResults();renderHeat();renderLanes();$("#bt-regBtn").disabled=!(running||elapsedOffset>0); };
+    $("#bt-clearBtn").addEventListener("click",()=>{ if(!results.length)return;
+      const was=results.slice(), wasN=nextNum;
+      results=[];nextNum=1;btPaint();
+      undo("כל הרישומים נמחקו",()=>{ results=was; nextNum=wasN; btPaint(); });
+    });
     document.addEventListener("keydown",e=>{
       if(!$("#view-beep").classList.contains("on"))return;
       if(e.target.classList&&e.target.classList.contains("nm"))return;
-      if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
+      if(typingIn(e))return;
       if(e.code==="Space"){e.preventDefault();running?pause():start();}
       else if(e.code==="Enter"){e.preventDefault();if(!$("#bt-regBtn").disabled)registerDrop();}
     });
@@ -17425,6 +17836,23 @@ const PF=(function(){
   function resetRace(){ stopRace(); prepRace(); $("#pf-clock").textContent="00:00.00";
     const fc=$("#pf-fsClock"); if(fc)fc.textContent="00:00.00"; if(mode==="sim")drawSimIdle(); }
 
+  /* איפוס מקצה מיידי. אם כבר נרשמו זמנים — «בטל» מחזיר אותם, יחד עם
+     תמונת הסיום, בדיוק כמו שהיו (השעון נשאר עצור). */
+  function resetUndo(){
+    const had=lanes.some(l=>l.time!=null);
+    if(!had){ resetRace(); return; }
+    const keep={times:lanes.map(l=>({time:l.time,src:l.src,snap:l.snap})),marks:marks.slice(),cols:cols.slice(),stripX,fullCursor};
+    const img=document.createElement("canvas"); img.width=bctx.canvas.width; img.height=bctx.canvas.height;
+    try{ img.getContext("2d").drawImage(bctx.canvas,0,0); }catch(e){}
+    resetRace();
+    undo(t("pf.resetDone","המקצה אופס"),()=>{
+      if(race.on)return;
+      keep.times.forEach((x,i)=>{ if(lanes[i]){ lanes[i].time=x.time; lanes[i].src=x.src; lanes[i].snap=x.snap; } });
+      marks=keep.marks; cols=keep.cols; stripX=keep.stripX; fullCursor=keep.fullCursor;
+      try{ bctx.drawImage(img,0,0); }catch(e){}
+      renderChips(); renderBoard(); try{ renderLiveStrip(); renderFullStrip(); }catch(e){} refreshLaneSel();
+    },8000);
+  }
   function nextUnfinished(){ return lanes.findIndex(l=>l.time==null); }
   function fire(idx,src,tExact){
     if(!race.on)return;
@@ -17444,7 +17872,8 @@ const PF=(function(){
     const place=lanes.filter(l=>l.time!=null).length;
     flashBanner(place,lanes[i]);
     renderChips(); renderBoard();
-    if(nextUnfinished()<0){ say("כולם סיימו"); setTimeout(()=>{ if(race.on&&confirm("כולם סיימו 🏁 לעצור את השעון?"))stopRace(); },350); }
+    /* לא חוסמים את המסך בשאלה באמצע מירוץ — הודעה עם כפתור עצירה */
+    if(nextUnfinished()<0){ say("כולם סיימו"); setTimeout(()=>{ if(race.on)actToast(window.HM.t("pf.allDone","כולם סיימו 🏁"),window.HM.t("pf.stopClk","⏹ עצור שעון"),()=>{ if(race.on)stopRace(); },9000); },350); }
   }
   function flashBanner(place,l){
     const f=$("#pf-flash"); f.classList.remove("go"); void f.offsetWidth; f.classList.add("go");
@@ -17638,8 +18067,9 @@ const PF=(function(){
       go("photo"); switchTab("results"); toast("המירוץ נטען ללוח התוצאות");
     }));
     $$("#pf-historyList [data-del]").forEach(b=>b.addEventListener("click",()=>{
-      if(!confirm("למחוק מהארכיון?"))return;
-      LS.set("pf.archive",arcList().filter(x=>x.id!=b.dataset.del)); renderHistory();
+      const was=arcList();
+      LS.set("pf.archive",was.filter(x=>x.id!=b.dataset.del)); renderHistory();
+      undo(t("pf.arcDel","נמחק מהארכיון"),()=>{ LS.set("pf.archive",was); renderHistory(); });
     }));
   }
   function importCSV(file){
@@ -17700,7 +18130,10 @@ const PF=(function(){
   const lTime=()=>L.on?(performance.now()-L.t0)/1000:0;
   function lGun(){
     ac();
-    if(L.on){ if(confirm("לעצור את שעון ההקפות?")){L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);$("#pf-lGun").textContent="🔫 זינוק";} return; }
+    /* עצירה מיידית; «בטל» ממשיך את אותו שעון (t0 לא זז), כאילו לא נעצר */
+    if(L.on){ L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);$("#pf-lGun").textContent="🔫 זינוק";
+      undo(t("pf.lStopped","שעון ההקפות נעצר"),()=>{ if(L.on)return; L.on=true; keepAwake(true); $("#pf-lGun").innerHTML="⏹ עצור"; lLoop(); lRender(); });
+      return; }
     if(!L.runners.length){toast("הוסף רצים קודם");return;}
     L.runners.forEach(r=>{r.laps=[];r.fin=null});
     L.on=true; L.t0=performance.now(); keepAwake(true); horn();
@@ -17730,7 +18163,12 @@ const PF=(function(){
     }).join("")||'<div class="hint">אין רצים.</div>';
     $$("#pf-lGrid .pf-lapbtn").forEach(b=>{
       let lp=null;
-      b.addEventListener("pointerdown",()=>{ lp=setTimeout(()=>{ if(confirm("להסיר את "+L.runners[b.dataset.i].name+"?")){L.runners.splice(b.dataset.i,1);LS.set("pf.lroster",L.runners.map(r=>r.name));lRender();} lp=null; },650); });
+      b.addEventListener("pointerdown",()=>{ lp=setTimeout(()=>{ lp=null;
+        const i=+b.dataset.i, r=L.runners[i]; if(!r)return;
+        const save=()=>{ LS.set("pf.lroster",L.runners.map(x=>x.name)); lRender(); };
+        L.runners.splice(i,1); save();
+        undo(t("pf.lRemoved","הוסר:")+" "+r.name,()=>{ L.runners.splice(Math.min(i,L.runners.length),0,r); save(); });
+      },650); });
       b.addEventListener("pointerup",()=>{ if(lp){clearTimeout(lp);lp=null;lTap(+b.dataset.i);} });
       b.addEventListener("pointerleave",()=>{clearTimeout(lp);lp=null});
     });
@@ -17842,9 +18280,9 @@ const PF=(function(){
     $$(".pf-tabs [data-pt]").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.pt)));
     $$("#pf-modes button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.m)));
     $("#pf-gun").addEventListener("click",gun);
-    $("#pf-resetBtn").addEventListener("click",()=>{ if(confirm("לאפס את המקצה?"))resetRace(); });
+    $("#pf-resetBtn").addEventListener("click",resetUndo);
     $("#pf-fsGun").addEventListener("click",gun);
-    $("#pf-fsReset").addEventListener("click",()=>{ if(confirm("לאפס את המקצה?"))resetRace(); });
+    $("#pf-fsReset").addEventListener("click",resetUndo);
     $("#pf-lineRange").value=lineRatio*100;
     $("#pf-lineEl").style.left=(lineRatio*100)+"%";
     $("#pf-lineRange").addEventListener("input",e=>{ lineRatio=e.target.value/100; LS.set("pf.line",lineRatio); $("#pf-lineEl").style.left=e.target.value+"%"; bg=null; });
@@ -17933,11 +18371,18 @@ const PF=(function(){
         }});
     });
     /* הדבקת רשימת שמות */
+    /* שדה בתוך הכרטיס, ולא prompt() — רשימה ארוכה מודבקת ונבדקת במקום */
+    const pasteBox=$("#pf-pasteBox");
     $("#pf-pasteNames").addEventListener("click",()=>{
-      const txt=prompt("הדבק רשימת שמות — שם בכל שורה (או מופרד בפסיקים):");
-      if(!txt)return;
+      pasteBox.hidden=!pasteBox.hidden;
+      if(!pasteBox.hidden)setTimeout(()=>$("#pf-pasteTxt").focus(),30);
+    });
+    $("#pf-pasteNo").addEventListener("click",()=>{ pasteBox.hidden=true; });
+    $("#pf-pasteGo").addEventListener("click",()=>{
+      const txt=$("#pf-pasteTxt").value;
       const list=txt.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);
-      if(!list.length)return;
+      if(!list.length){ toast(t("pf.pasteEmpty","הדבק לפחות שם אחד")); return; }
+      pasteBox.hidden=true; $("#pf-pasteTxt").value="";
       laneN=Math.max(2,Math.min(9,list.length));
       LS.set("pf.laneN",laneN);
       $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
@@ -18056,12 +18501,24 @@ const PF=(function(){
     $("#pf-csv").addEventListener("click",csvSprint);
     $("#pf-print").addEventListener("click",printCert);
     $("#pf-mail").addEventListener("click",mailResults);
-    $("#pf-addRow").addEventListener("click",()=>{
-      const i=nextUnfinished(); if(i<0){toast("כל המסלולים מאוישים — הגדל מספר מסלולים");return;}
-      const t=parseFloat(prompt("זמן בשניות למסלול "+lanes[i].lane+":","10.00"));
-      if(isNaN(t))return;
-      lanes[i].time=t; lanes[i].src="ידני"; renderChips(); renderBoard();
-    });
+    /* «＋ שורה» — שדה זמן בתוך הכרטיס, Enter מוסיף ומדלג למסלול הבא */
+    const rowBox=$("#pf-rowBox");
+    const rowOpen=()=>{
+      const i=nextUnfinished(); if(i<0){ rowBox.hidden=true; toast("כל המסלולים מאוישים — הגדל מספר מסלולים"); return false; }
+      $("#pf-rowLbl").textContent=t("pf.rowLbl","זמן בשניות למסלול")+" "+lanes[i].lane+" · "+lanes[i].name;
+      rowBox.hidden=false; setTimeout(()=>{ const x=$("#pf-rowT"); x.focus(); x.select(); },30); return true;
+    };
+    const rowAdd=()=>{
+      const i=nextUnfinished(); if(i<0){ rowBox.hidden=true; return; }
+      const v=parseFloat(String($("#pf-rowT").value).replace(",","."));
+      if(!isFinite(v)||v<0){ toast(t("pf.rowBad","הזן זמן בשניות, למשל 10.25")); return; }
+      lanes[i].time=v; lanes[i].src="ידני"; renderChips(); renderBoard();
+      rowOpen();
+    };
+    $("#pf-addRow").addEventListener("click",()=>{ if(!rowBox.hidden){ rowBox.hidden=true; return; } rowOpen(); });
+    $("#pf-rowGo").addEventListener("click",rowAdd);
+    $("#pf-rowNo").addEventListener("click",()=>{ rowBox.hidden=true; });
+    $("#pf-rowT").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); rowAdd(); } if(e.key==="Escape")rowBox.hidden=true; });
     /* archive */
     $("#pf-csvFile").addEventListener("change",e=>{ if(e.target.files[0])importCSV(e.target.files[0]); e.target.value=""; });
     $("#pf-loadSample").addEventListener("click",loadSample);
@@ -18077,7 +18534,17 @@ const PF=(function(){
     $("#pf-lDist").addEventListener("change",()=>{saveLSettings();lRender();});
     $("#pf-lMin").addEventListener("change",saveLSettings);
     $("#pf-lGun").addEventListener("click",lGun);
-    $("#pf-lReset").addEventListener("click",()=>{ if(confirm("לאפס הקפות?")){L.on=false;cancelAnimationFrame(L.raf);L.runners.forEach(r=>{r.laps=[];r.fin=null});$("#pf-lClock").textContent="00:00.0";$("#pf-lGun").textContent="🔫 זינוק";lRender();} });
+    $("#pf-lReset").addEventListener("click",()=>{
+      const had=L.runners.some(r=>r.laps.length||r.fin!=null);
+      const keep=L.runners.map(r=>({laps:r.laps.slice(),fin:r.fin})), wasOn=L.on, t0=L.t0;
+      L.on=false;cancelAnimationFrame(L.raf);keepAwake(false);L.runners.forEach(r=>{r.laps=[];r.fin=null});$("#pf-lClock").textContent="00:00.0";$("#pf-lGun").textContent="🔫 זינוק";lRender();
+      if(had||wasOn)undo(t("pf.lResetDone","ההקפות אופסו"),()=>{
+        if(L.on)return;
+        L.runners.forEach((r,i)=>{ if(keep[i]){ r.laps=keep[i].laps; r.fin=keep[i].fin; } });
+        if(wasOn){ L.on=true; L.t0=t0; keepAwake(true); $("#pf-lGun").innerHTML="⏹ עצור"; lLoop(); }
+        lRender();
+      });
+    });
     $("#pf-lAdd").addEventListener("click",()=>{
       const n=$("#pf-lNewName").value.trim(); if(!n)return;
       L.runners.push({name:n,color:COLORS[L.runners.length%COLORS.length],laps:[],fin:null});
@@ -18102,7 +18569,7 @@ const PF=(function(){
     /* keys */
     document.addEventListener("keydown",e=>{
       if(!$("#view-photo").classList.contains("on"))return;
-      if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
+      if(typingIn(e))return;
       if(e.key>="1"&&e.key<="9"){ const i=+e.key-1; if(i<lanes.length&&race.on)fire(i,"ידני"); }
       else if(e.key==="f"||e.key==="F")fsToggle();
       else if(e.code==="Space"){e.preventDefault();gun();}
@@ -18457,7 +18924,42 @@ const REC=(function(){
     toast("📤 נשלח! השיא ימתין לאישור המורה."); beep(880,0.15);
   }
 
+  /* ---------- «להגיש כשיא?» ממבחני הכושר ----------
+     תוצאה במבחן כושר שעוברת את שיא בית הספר באותו ענף מוצעת כשיא.
+     ההגשה נכנסת לתור האישור כמו כל שיא אחר — בלי סרטון, והמורה מחליט. */
+  async function beats(spId,v){
+    if(!SPORTS.length)loadSports();
+    if(!db)await openDB();
+    if(!CACHE.length)CACHE=await dbAll();
+    const sp=SPORTS.find(x=>x.id===spId); if(!sp||!(v>0))return null;
+    const b=best(spId); if(!b)return null;
+    const pend=CACHE.some(r=>r.sport===spId&&r.status==="pending"&&r.value===v);
+    if(pend)return null;
+    return (sp.lower?v<b.value:v>b.value)?{sp,best:b}:null;
+  }
+  async function submitFromFt(o){
+    if(!db)await openDB();
+    await dbPut({id:DATA.uid("r"),sport:o.sport,name:o.name,cls:o.cls||"",value:o.value,video:null,
+      status:"pending",src:"ft",ts:Date.now()});
+    await refresh();
+    toast(t("recA.ftSent","🏆 הוגש לאישור בלוח המורה של השיאים")); beep(880,0.15);
+  }
+
   /* ---------- admin ---------- */
+  function admTab(k){
+    $$("#rec-admTabs [data-at]").forEach(b=>b.classList.toggle("on",b.dataset.at===k));
+    $$("#rec-adminModal .rec-admPane").forEach(p=>p.hidden=p.dataset.ap!==k);
+  }
+  /* קובץ שיאים בפורמט הישן ({refs, records}) — מהגיבוי הנפרד שהיה פעם
+     בלוח המורה. השחזור היחיד עכשיו הוא בהגדרות, והוא מזהה את הקובץ
+     הזה וממזג אותו (בלי למחוק שיאים שכבר במכשיר). */
+  function isLegacyFile(j){ return !!(j&&typeof j==="object"&&Array.isArray(j.records)&&!j.data&&!j.enc); }
+  async function importLegacy(j){
+    if(!db)await openDB();
+    if(j.refs){ refs=Object.assign({},DEF_REFS,j.refs); LS.set("rec.refs",refs); }
+    let n=0; for(const r of (j.records||[])){ if(r&&r.id){ await dbPut({...r,video:null}); n++; } }
+    await refresh(); return n;
+  }
   function renderAdmin(){
     const pend=CACHE.filter(r=>r.status==="pending").sort((a,b)=>a.ts-b.ts);
     $("#rec-pendList").innerHTML=pend.length?pend.map(e=>{
@@ -18476,9 +18978,13 @@ const REC=(function(){
       const isNew=!wasBest||(sp.lower?e.value<wasBest.value:e.value>wasBest.value);
       if(isNew){ confetti(); horn(); toast("🏆 שיא בית ספר חדש! "+e.name); } else toast("אושר ✓");
     }));
-    $$("#rec-pendList [data-no]").forEach(b=>b.addEventListener("click",async()=>{
-      if(confirm("לדחות ולמחוק את הבקשה?")){ await dbDel(b.dataset.no); await refresh(); renderAdmin(); }
-    }));
+    /* דחייה ומחיקה מיידיות — «בטל» מחזיר את הרשומה כמו שהייתה, עם הסרטון */
+    const delUndo=async(id,msg)=>{
+      const e=CACHE.find(x=>x.id===id); if(!e)return;
+      await dbDel(id); await refresh(); renderAdmin();
+      undo(msg,async()=>{ await dbPut(e); await refresh(); renderAdmin(); });
+    };
+    $$("#rec-pendList [data-no]").forEach(b=>b.addEventListener("click",()=>delUndo(b.dataset.no,t("recA.rejected","הבקשה נדחתה ונמחקה"))));
     $$("#rec-pendList [data-v]").forEach(b=>b.addEventListener("click",()=>playVideo(b.dataset.v)));
     $$("#rec-pendList [data-ht]").forEach(b=>b.addEventListener("click",()=>openHowto(b.dataset.ht)));
     /* --- כל השיאים המאושרים: עריכה ומחיקה --- */
@@ -18497,10 +19003,13 @@ const REC=(function(){
       :'<div class="hint">אין עדיין שיאים מאושרים.</div>';
     $$("#rec-allList [data-v]").forEach(b=>b.addEventListener("click",()=>playVideo(b.dataset.v)));
     $$("#rec-allList [data-ed]").forEach(b=>b.addEventListener("click",()=>editRec(b.dataset.ed)));
-    $$("#rec-allList [data-rm]").forEach(b=>b.addEventListener("click",async()=>{
-      const e=CACHE.find(x=>x.id===b.dataset.rm);
-      if(e&&confirm(`למחוק את השיא של ${e.name}?`)){ await dbDel(e.id); await refresh(); renderAdmin(); toast("נמחק"); }
+    $$("#rec-allList [data-rm]").forEach(b=>b.addEventListener("click",()=>{
+      const e=CACHE.find(x=>x.id===b.dataset.rm); if(!e)return;
+      delUndo(e.id,t("recA.deleted","השיא נמחק:")+" "+e.name);
     }));
+    const pn=$("#rec-admPendN"); if(pn){ pn.hidden=!pend.length; pn.textContent=pend.length; }
+    const bs=$("#rec-bkStat"); if(bs){ const last=LS.get("bk.last",null);
+      bs.textContent=CACHE.length+" "+t("recA.bkN","רשומות במכשיר")+" · "+(last?t("recA.bkLast","גובה לאחרונה")+" "+last:t("recA.bkNever","עדיין לא גובה מעולם")); }
 
     /* --- ערכי ייחוס --- */
     $("#rec-refList").innerHTML=SPORTS.map(sp=>`
@@ -18609,12 +19118,15 @@ const REC=(function(){
     }));
     $$("#rec-spList [data-spdel]").forEach(b=>b.addEventListener("click",async()=>{
       const id=b.dataset.spdel, sp=sportById(id);
-      const n=CACHE.filter(r=>r.sport===id).length;
-      if(!confirm(n?`בענף «${sp.name}» יש ${n} שיאים — הם יימחקו גם. להמשיך?`
-                   :`למחוק את הענף «${sp.name}»?`))return;
-      for(const r of CACHE.filter(r=>r.sport===id))await dbDel(r.id);
+      const gone=CACHE.filter(r=>r.sport===id), wasSports=SPORTS.slice(), wasRefs=JSON.parse(JSON.stringify(refs));
+      for(const r of gone)await dbDel(r.id);
       SPORTS=SPORTS.filter(x=>x.id!==id); saveSports();
-      await refresh(); renderSportEditor(); renderAdmin(); toast("הענף נמחק");
+      await refresh(); renderSportEditor(); renderAdmin();
+      undo((gone.length?t("recA.spDelN","הענף נמחק עם {0} שיאים").replace("{0}",gone.length):t("recA.spDel","הענף נמחק"))+" · "+sp.name,async()=>{
+        SPORTS=wasSports; refs=wasRefs; saveSports();
+        for(const r of gone)await dbPut(r);
+        await refresh(); renderGrid(); renderSportEditor(); renderAdmin();
+      },8000);
     }));
   }
   const linesToArr=v=>String(v||"").split("\n").map(x=>x.trim()).filter(Boolean);
@@ -18660,10 +19172,12 @@ const REC=(function(){
     modal("rec-sportEdit",false); toast(id?"הענף עודכן ✓":"הענף נוסף ✓");
   }
   function resetSports(){
-    if(prompt('לשחזר את רשימת הענפים לברירת המחדל?\nענפים שהוספת יימחקו (השיאים יישמרו).\nהקלד "שחזר" לאישור:')!=="שחזר")return;
+    const wasSports=SPORTS.slice(), wasRefs=JSON.parse(JSON.stringify(refs));
     SPORTS=defaults(); refs=Object.assign({},DEF_REFS);
     saveSports(); reviveOrphans(); renderGrid(); renderSportEditor(); renderAdmin();
-    toast("שוחזרה רשימת ברירת המחדל");
+    undo(t("recA.spReset","שוחזרה רשימת ברירת המחדל · השיאים נשמרו"),()=>{
+      SPORTS=wasSports; refs=wasRefs; saveSports(); reviveOrphans(); renderGrid(); renderSportEditor(); renderAdmin();
+    },8000);
   }
 
   /* ---------- קישור ו-QR לתלמידים ----------
@@ -18811,35 +19325,25 @@ const REC=(function(){
         if(v.length<4){toast("בחר קוד באורך 4 ספרות לפחות");return;}
         setPass(v); toast("🔑 קוד המורה נקבע");
       } else if(v!==pass){ toast("קוד שגוי"); return; }
-      $("#rec-admLock").style.display="none"; $("#rec-admBody").style.display=""; renderAdmin();
+      $("#rec-admLock").style.display="none"; $("#rec-admBody").style.display=""; admTab("appr"); renderAdmin();
       if(SET.syncUrl&&SET.syncCode)syncNow();
     });
     const syncBtn=$("#rec-syncNow"); if(syncBtn)syncBtn.addEventListener("click",syncNow);
-    $("#rec-passChg").addEventListener("click",()=>{
-      const p=prompt("קוד מורה חדש (4 ספרות לפחות):");
+    $("#rec-passChg").addEventListener("click",async()=>{
+      const p=await ask({fields:[{label:"קוד מורה חדש (4 ספרות לפחות):",type:"password"}],ok:"🔑 שמור"});
       if(p===null)return;
       if(p.trim().length<4){toast("הקוד קצר מדי — לפחות 4 ספרות");return;}
       setPass(p.trim()); toast("🔑 הקוד עודכן — הוא נשמר במכשיר הזה בלבד");
     });
-    $("#rec-export").addEventListener("click",async()=>{
-      const data=CACHE.map(r=>({...r,video:undefined,hadVideo:!!r.video}));
-      const a=document.createElement("a");
-      a.href=URL.createObjectURL(new Blob([JSON.stringify({refs,records:data},null,1)],{type:"application/json"}));
-      a.download="school-records.json"; a.click(); toast("גובו השיאים (ללא סרטונים)");
-    });
-    $("#rec-import").addEventListener("change",async e=>{
-      const f=e.target.files[0]; if(!f)return;
-      try{ const j=JSON.parse(await f.text());
-        if(j.refs){refs=Object.assign({},DEF_REFS,j.refs);LS.set("rec.refs",refs);}
-        for(const r of (j.records||[]))await dbPut({...r,video:null});
-        await refresh(); toast("שוחזר ✓");
-      }catch(err){toast("קובץ לא תקין");}
-      e.target.value="";
-    });
+    /* לשוניות לוח המורה */
+    $$("#rec-admTabs [data-at]").forEach(b=>b.addEventListener("click",()=>admTab(b.dataset.at)));
+    /* גיבוי אחד — הכפתור מוביל לגיבוי המלא בהגדרות */
+    $("#rec-bkOpen").addEventListener("click",()=>{ modal("rec-adminModal",false); SETTINGS_OPEN("backup"); });
     $("#rec-wipe").addEventListener("click",async()=>{
-      if(prompt('להקליד "מחק" לאישור מחיקת כל השיאים:')==="מחק"){
-        for(const r of CACHE)await dbDel(r.id); await refresh(); renderAdmin(); toast("נמחק הכל");
-      }
+      if(!CACHE.length){ toast(t("recA.empty","אין שיאים למחיקה")); return; }
+      if(!(await ask({msg:t("recA.wipeQ","למחוק את כל {0} השיאים והסרטונים מהמכשיר?").replace("{0}",CACHE.length),
+        word:"מחק",danger:true,ok:"🗑 מחק הכל"})))return;
+      for(const r of CACHE)await dbDel(r.id); await refresh(); renderAdmin(); toast("נמחק הכל");
     });
     $("#rec-kioskBtn").addEventListener("click",kioskStart);
     $("#rec-kiosk").addEventListener("click",kioskStop);
@@ -18857,7 +19361,7 @@ const REC=(function(){
       const txt=SPORTS.filter(sp=>!sp.legacy).map(sp=>sp.name).join("\n");
       try{ await navigator.clipboard.writeText(txt);
         toast("הועתקו "+SPORTS.length+" ענפים — הדבק ברשימה הנפתחת בטופס"); }
-      catch(e){ prompt("העתק את הרשימה והדבק בטופס:",txt); }
+      catch(e){ ask({fields:[{label:"העתק את הרשימה והדבק בטופס:",type:"textarea",value:txt,readonly:true,rows:8}],alert:true,ok:"✓"}); }
     });
     /* קישור ו-QR לתלמידים */
     $("#rec-shareBtn").addEventListener("click",openShare);
@@ -18937,7 +19441,7 @@ const REC=(function(){
     return {added,failed};
   }
   return {init,countApproved,applyRole:applyRoleRec,hasPass,setPass,syncNow,
-    exportAll,importAll,
+    exportAll,importAll,isLegacyFile,importLegacy,beats,submitFromFt,
     _test:{SPORTS:()=>SPORTS,showVal:(id,v)=>showVal(sportById(id),v),pct:(id,v,w)=>pct(sportById(id),v,w)}};
 })();
 
@@ -19267,12 +19771,12 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,ask,undo,actToast,snap,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
   session:SESSION,paintSessionBar,openSesHist,paintNavLive,onBack,assign:ASSIGN,prepFor,classOverviewHtml,wireClassOverview,classTitle,startFromSlot,sesName,areaOf,goBack,regStore:REGSTORE,
-  upOffer,pageBuild,forceUpdate,clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
+  upOffer,pageBuild,forceUpdate,openSettings:sec=>SETTINGS_OPEN(sec),clearShell,syncStudents,sched:SCHED,paintToday,paintHome,openSched,openClassScreen,openEndLesson,openDay,
   schedSample:loadSampleWeek,schedCell:openCell,openGroups,
   /* חשוף לבדיקות בלבד: מסלול הגיבוי הוא הדבר היחיד באפליקציה
      שכישלון שקט בו עולה למורה שנה של מדידות, ולכן הוא חייב להיות
@@ -21224,20 +21728,26 @@ window.TOOLS=(function(){
       H().LS.set("tools.scores",s); renderRub();
     }));
   }
-  function newRubric(presetIdx){
+  /* גיליון אחד: תבנית, שם וקריטריונים — במקום שלושה prompt() ברצף.
+     בחירת תבנית ממלאת את השם והקריטריונים, ואפשר לערוך לפני השמירה. */
+  async function newRubric(){
     const {toast}=H();
-    const p=PRESETS[presetIdx];
-    const name=prompt("שם המחוון:",p?p.name:"מחוון חדש");
-    if(!name)return;
-    let crit=p?p.crit.slice():[];
-    if(!p){
-      const txt=prompt("קריטריונים, אחד בכל שורה:","מיומנות\nמאמץ\nשיתוף פעולה\nבטיחות");
-      if(!txt)return;
-      crit=txt.split("\n").map(x=>x.trim()).filter(Boolean);
-    }
+    const EMPTY_CRIT="מיומנות\nמאמץ\nשיתוף פעולה\nבטיחות";
+    const p0=PRESETS[0];
+    const v=await H().ask({title:"📐 מחוון חדש",fields:[
+      {k:"tpl",label:"תבנית",type:"select",value:"0",
+        options:PRESETS.map((p,i)=>[String(i),p.name]).concat([["-1","מחוון ריק"]]),
+        onchange:(val,ins)=>{ const p=PRESETS[+val];
+          ins[1].value=p?p.name:"מחוון חדש"; ins[2].value=p?p.crit.join("\n"):EMPTY_CRIT; }},
+      {k:"name",label:"שם המחוון:",value:p0?p0.name:"מחוון חדש"},
+      {k:"crit",label:"קריטריונים, אחד בכל שורה:",type:"textarea",rows:5,value:p0?p0.crit.join("\n"):EMPTY_CRIT}
+    ],ok:"＋ צור מחוון"});
+    if(v===null)return;
+    const name=(v.name||"").trim()||"מחוון חדש";
+    const crit=String(v.crit||"").split("\n").map(x=>x.trim()).filter(Boolean);
     if(!crit.length){toast("צריך לפחות קריטריון אחד");return;}
     const list=RUB(), id="rb"+Date.now().toString(36);
-    list.push({id,name:name.trim(),crit});
+    list.push({id,name,crit});
     H().LS.set("tools.rubrics",list); curRub=id; renderRub(); toast("המחוון נוצר");
   }
   function rubCsv(){
@@ -21339,18 +21849,14 @@ window.TOOLS=(function(){
     $("#tl-rubSel").addEventListener("change",e=>{curRub=e.target.value;renderRub();});
     $("#tl-rubCls").addEventListener("change",e=>{rubCls=e.target.value;renderRub();});
     $("#tl-rubCsv").addEventListener("click",rubCsv);
-    $("#tl-rubNew").addEventListener("click",()=>{
-      const opts=PRESETS.map((p,i)=>`${i+1}. ${p.name}`).join("\n");
-      const c=prompt("בחר תבנית (מספר), או 0 למחוון ריק:\n\n"+opts,"1");
-      if(c===null)return;
-      newRubric(+c>0?+c-1:null);
-    });
+    $("#tl-rubNew").addEventListener("click",()=>newRubric());
     $("#tl-rubDel").addEventListener("click",()=>{
       if(!curRub)return;
-      if(!confirm("למחוק את המחוון והציונים שלו?"))return;
+      const back=H().snap(["tools.rubrics","tools.scores"]), was=curRub;
       H().LS.set("tools.rubrics",RUB().filter(r=>r.id!==curRub));
       const s=SC(); Object.keys(s).forEach(k=>{ if(k.startsWith(curRub+"|"))delete s[k]; });
-      H().LS.set("tools.scores",s); curRub=null; renderRub(); H().toast("נמחק");
+      H().LS.set("tools.scores",s); curRub=null; renderRub();
+      H().undo("המחוון נמחק, עם הציונים שלו",()=>{ back(); curRub=was; renderRub(); });
     });
     fillClassSelects(); renderAtt(); renderRub(); renderPicked();
   }
@@ -21921,7 +22427,7 @@ window.LESSON=(function(){
     const eq=[...new Set([...(T.eq||[]),...o.eq])];
     if(game&&game.equip)eq.push(game.equip);
 
-    plan={grade,topic:T.id,title:T.name,em:T.em,group:T.g,cls:o.cls,size:o.size,place:o.place,
+    plan={id:newPlanId(),grade,topic:T.id,title:T.name,em:T.em,group:T.g,cls:o.cls,size:o.size,place:o.place,
       date:today(),goals:T.goals,eq,std:T.std,phases,
       assess:T.assess,diff:T.diff,safe:T.safe,cur:T.cur,hw:T.hw,note:T.note||"",
       measure:o.withMeasure,
@@ -21931,6 +22437,11 @@ window.LESSON=(function(){
     renderPlan();
     H().toast(H().t("ls.ready","⚡ המערך מוכן — אפשר לערוך, לשייך לשיעור או לשמור"));
   }
+
+  /* מזהה יציב למערך — עד עכשיו לא היה לו אחד, ו-planId בשיעור נשמר
+     תמיד null. מערך ישן מהספרייה מקבל את המזהה של הרשומה שלו. */
+  function newPlanId(){ return "pl"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+  function withId(p,fallback){ if(p&&!p.id)p.id=fallback!=null?"pl"+fallback:newPlanId(); return p; }
 
   const placeName=p=>({field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"}[p]||p);
 
@@ -21991,7 +22502,7 @@ window.LESSON=(function(){
     b.textContent="▶ התחל שיעור · "+c;
     b.onclick=()=>{
       const r=S.start({cid,clsSnapshot:c,date:today(),
-        planId:(plan&&plan.id)||null,planTitle:(plan&&plan.title)||""});
+        planId:(withId(plan)&&plan.id)||null,planTitle:(plan&&plan.title)||""});
       if(r.outcome==="blocked"){
         H().toast("כבר פתוח שיעור בכיתה "+(r.active.clsSnapshot||"")); return;
       }
@@ -22190,6 +22701,7 @@ window.LESSON=(function(){
   function saveLib(){
     if(!plan)return;
     const lib=H().LS.get("ls.lib",[]);
+    withId(plan);
     lib.unshift({id:Date.now(),plan:JSON.parse(JSON.stringify(plan))});
     H().LS.set("ls.lib",lib.slice(0,60)); renderLib(); H().toast("💾 נשמר לספריית המערכים");
   }
@@ -22225,7 +22737,7 @@ window.LESSON=(function(){
     }).join("");
     $$("#ls-libList [data-load]").forEach(b=>b.addEventListener("click",()=>{
       const e=H().LS.get("ls.lib",[]).find(x=>x.id==b.dataset.load);
-      if(e){plan=e.plan;renderPlan();H().toast("המערך נטען");window.scrollTo({top:0,behavior:"smooth"});}
+      if(e){plan=withId(e.plan,e.id);renderPlan();H().toast("המערך נטען");window.scrollTo({top:0,behavior:"smooth"});}
     }));
     /* שכפול: מערך שעבד בכיתה אחת הוא נקודת פתיחה מצוינת לכיתה הבאה,
        אבל עריכה ישירה שלו מוחקת את המקור. השכפול יוצר עותק חדש עם
@@ -22235,6 +22747,7 @@ window.LESSON=(function(){
       const e=lib.find(x=>String(x.id)===String(b.dataset.dup));
       if(!e||!e.plan)return;
       const copy=JSON.parse(JSON.stringify(e.plan));
+      copy.id=newPlanId();
       copy.date=new Date().toISOString().slice(0,10);
       copy.title=/\(עותק/.test(copy.title||"")?copy.title:(copy.title||"מערך")+" (עותק)";
       lib.unshift({id:Date.now(),plan:copy});
@@ -22501,7 +23014,7 @@ window.LESSON=(function(){
   }
   /* טעינת מערך שנבנה בבונה הידני — אותו כרטיס, אותה הפעלה, אותה הדפסה */
   function usePlan(p){
-    plan=p; editPh=false;
+    plan=withId(p); editPh=false;
     if(H().LS.get("ls.target",null))asgOpen=true;
     renderPlan();
     const card=H().$("#ls-planCard");
@@ -23600,8 +24113,11 @@ window.LBUILD=(function(){
     /* שלב 5 */
     on("#bw-note","input",e=>{st.note=e.target.value;saveSt();});
     on("#bw-build","click",build);
-    on("#bw-reset","click",()=>{if(confirm("להתחיל מחדש? כל הבחירות יימחקו."))
-      {st=Object.assign({},DEF);render();}});
+    on("#bw-reset","click",()=>{
+      const was=JSON.parse(JSON.stringify(st));
+      st=Object.assign({},DEF); saveSt(); render();
+      H().undo("הבונה התחיל מחדש",()=>{ st=was; saveSt(); render(); });
+    });
     on("#bw-tplSave","click",saveTpl);
     if(st.step===5)renderTpl();
   }
@@ -23624,9 +24140,9 @@ window.LBUILD=(function(){
   /* ============================================================
      תבניות שמורות
      ============================================================ */
-  function saveTpl(){
-    const nm=prompt("שם לתבנית (למשל: ״כוח ט׳ באולם״)","");
-    if(!nm)return;
+  async function saveTpl(){
+    const v=await H().ask({fields:[{label:"שם לתבנית",ph:"למשל: ״כוח ט׳ באולם״"}],ok:"⭐ שמור תבנית"});
+    const nm=v&&v.trim(); if(!nm)return;
     const t=H().LS.get("lb.tpl",[]);
     t.unshift({id:Date.now(),name:nm,st:JSON.parse(JSON.stringify(st))});
     H().LS.set("lb.tpl",t.slice(0,30));
@@ -24119,6 +24635,30 @@ window.FT=(function(){
     const t=attempts(c,testId,who).filter(r=>r.d===today());
     return t.length?t[t.length-1]:null;
   }
+  /* מבחן כושר ↔ ענף שיאים באותה יחידה ובאותו כיוון */
+  const REC_OF={r60:"sprint",shut4x10:"shuttle",push60:"push",situp:"sit",sq60:"squat",
+    jr60:"rope",burp:"burpee",ljump:"ljump",vjump:"hjump"};
+  const recTm={}, recSeen={};
+  /* «להגיש כשיא?» — בהשהיה, כי מונה חזרות נשמר בכל הקשה: מציעים פעם
+     אחת כשהספירה נעצרה, ושוב רק אם התוצאה השתפרה מאז ההצעה. */
+  function recOffer(c,testId,stud){
+    const spId=REC_OF[testId];
+    if(!spId||!window.REC||!window.REC.beats||(H().isStudent&&H().isStudent()))return;
+    const k=testId+"|"+(DATA.studentKey(stud)||stud.name)+"|"+today();
+    clearTimeout(recTm[k]);
+    recTm[k]=setTimeout(async()=>{
+      const T=testById(testId);
+      const b=bestOf(T,attempts(c,testId,stud).filter(r=>r.d===today()));
+      if(!b)return;
+      if(recSeen[k]!=null&&!better(T,b.val,recSeen[k]))return;
+      let hit=null; try{ hit=await window.REC.beats(spId,b.val); }catch(e){}
+      if(!hit)return;
+      recSeen[k]=b.val;
+      H().actToast("🏆 "+stud.name+" · "+fmtVal(T,b.val)+" "+(window.I18N?window.I18N.tr(T.unit):T.unit)+" — "+H().t("ft.recBeat","מעל שיא בית הספר"),
+        H().t("ft.recSubmit","להגיש כשיא?"),
+        ()=>window.REC.submitFromFt({sport:spId,name:stud.name,cls:disp(c),value:b.val}),10000);
+    },1500);
+  }
   function saveVal(c,testId,stud,val,fresh){
     const T=testById(testId); if(!T||!(val>0))return;
     const rs=allRes();
@@ -24142,6 +24682,7 @@ window.FT=(function(){
       val:+(+val).toFixed(2),unit:T.unit};
     if(i>=0)rs[i]=rec; else rs.push(rec);
     setRes(rs);
+    recOffer(c,testId,stud);
   }
   function delAttempt(id){ setRes(allRes().filter(r=>r.id!==id)); }
   function clearVal(c,testId,who){
@@ -24676,8 +25217,9 @@ window.FT=(function(){
           <div class="d">${fmtVal(T,first.val)} ← ${fmtVal(T,last.val)}</div></div>`;})():""}`;
     H().modal("ft-histModal");
     $$("#ft-histBody [data-rm]").forEach(b=>b.addEventListener("click",()=>{
-      if(!confirm("למחוק את הניסיון הזה?"))return;
+      const was=allRes();
       delAttempt(b.dataset.rm); openHist(key); renderRun();
+      H().undo("הניסיון נמחק",()=>{ setRes(was); openHist(key); renderRun(); });
     }));
   }
 
@@ -24800,8 +25342,16 @@ window.FT=(function(){
 
     on("#ft-clkGo","click",startClock);
     on("#ft-clkStop","click",()=>stopClock(false));
-    on("#ft-clkReset","click",()=>{ if(clk.paused===0||confirm("לאפס את השעון? התוצאות שנרשמו נשמרות."))
-      {lapRun={};resetClock();renderSplits();} });
+    /* איפוס מיידי; «בטל» מחזיר את השעון (מושהה) ואת ההקפות של המקצה */
+    on("#ft-clkReset","click",()=>{
+      const el=elapsed(), laps=lapRun;
+      lapRun={}; resetClock(); renderSplits();
+      if(el>0)H().undo("השעון אופס · התוצאות שנרשמו נשמרו",()=>{ if(clk.on)return;
+        clk.paused=el; lapRun=laps;
+        const m=Math.floor(el/60), sec=el-m*60, tm=H().$("#ft-clockTm");
+        if(tm)tm.textContent=m+":"+(sec<10?"0":"")+sec.toFixed(2);
+        renderSplits(); });
+    });
     $$("#ft-lapSel button").forEach(b=>b.addEventListener("click",()=>{
       setLapsFor(T.id,+b.dataset.lp); lapRun={}; renderRun(); }));
     on("#ft-cdGo","click",()=>startCd(T.dur));
@@ -24907,11 +25457,13 @@ window.FT=(function(){
     }));
     $$("#ft-list [data-del]").forEach(b=>b.addEventListener("click",()=>{
       const k=b.dataset.del, s=studByKey(c,k);
-      if(!confirm("למחוק את כל הניסיונות של "+s.name+" היום? ניסיונות מתאריכים קודמים נשמרים."))return;
+      const was=allRes(), wasLap=lapRun[k];
       delete lapRun[k];
       clearVal(c,T.id,s); refreshRow(k); renderSplits();
       const inp=document.querySelector('#ft-list [data-val="'+CSS.escape(k)+'"]');
       if(inp)inp.value="";
+      H().undo("הניסיונות של היום נמחקו · ניסיונות מתאריכים קודמים נשמרים",()=>{
+        setRes(was); if(wasLap)lapRun[k]=wasLap; renderRun(); });
     }));
   }
   function bump(key,d){
@@ -24928,8 +25480,8 @@ window.FT=(function(){
   /* ============================================================
      6. ניהול רשימת הכיתה
      ============================================================ */
-  function addOne(){
-    const nm=prompt("שם התלמיד:","");
+  async function addOne(){
+    const nm=await H().ask({fields:[{label:"שם התלמיד:",value:""}],ok:"＋ הוסף"});
     if(!nm||!nm.trim())return;
     const c=cls(), list=roster(c);
     if(list.some(x=>x.name===nm.trim())){H().toast("השם כבר ברשימה");return;}
@@ -25660,12 +26212,17 @@ window.FT=(function(){
 
   /* כתיבת המדד לעמודת «מדד כושר» בלשונית הציונים */
   const IDX_COL="מדד כושר";
-  function sendToGrades(rows){
+  async function sendToGrades(rows){
     const scored=rows.filter(r=>r.idx!=null);
     if(!scored.length){H().toast("אין עדיין מדד לאף תלמיד בכיתה הזו");return;}
-    const periods=LS().get("grades.periods",["רבעון 1"]);
-    const period=periods[0];
-    if(!confirm(`לכתוב את המדד של ${scored.length} תלמידים לעמודת «${IDX_COL}» בתקופה «${period}»?`))return;
+    const p0=LS().get("grades.periods",null);
+    const periods=(Array.isArray(p0)&&p0.length)?p0:["רבעון 1"];
+    /* עד עכשיו המדד נכתב תמיד לתקופה הראשונה, גם כשהמורה עבד בציונים
+       על רבעון 3. ברירת המחדל היא התקופה שנבחרה שם, ואפשר לבחור אחרת. */
+    const cur=(window.STU&&window.STU.period&&window.STU.period())||periods[0];
+    const period=await H().ask({msg:`לכתוב את המדד של ${scored.length} תלמידים לעמודת «${IDX_COL}»?`,
+      fields:[{label:"תקופה",type:"select",options:periods.map(p=>[p,p]),value:periods.includes(cur)?cur:periods[0]}],ok:"✓ כתוב לציונים"});
+    if(period===null)return;
     const cols=LS().get("grades.examCols",{});
     const arr=cols[period]=cols[period]||[];
     if(!arr.includes(IDX_COL)){arr.push(IDX_COL);LS().set("grades.examCols",cols);}
@@ -25823,7 +26380,11 @@ window.FT=(function(){
         H().modal("ft-normsModal",false); H().toast("✓ טבלת הנורמה נשמרה"); renderIndex();
       }catch(e){ H().toast("שורה לא תקינה: "+e.message); }
     };
-    $("#ft-nClear").onclick=()=>{ if(confirm("למחוק את כל טבלת הנורמה?")){setNorms(NORM_EMPTY);H().modal("ft-normsModal",false);renderIndex();} };
+    $("#ft-nClear").onclick=()=>{
+      const back=H().snap(["ft.norms","ft.normArchive"]);
+      setNorms(NORM_EMPTY); H().modal("ft-normsModal",false); renderIndex();
+      H().undo("טבלת הנורמה נמחקה",()=>{ back(); renderIndex(); });
+    };
     /* --- עורך הבסיס --- */
     let baseSex="boys";
     const paintBase=()=>{
@@ -25847,12 +26408,13 @@ window.FT=(function(){
        של המין הנבחר לטבלה שבקוד — הבנות נשארות ריקות בכוונה. */
     $("#ft-bReset").onclick=()=>{
       const lbl=baseSex==="boys"?"בנים":"בנות";
-      if(!confirm("להחזיר את הבסיס של "+lbl+" לברירת המחדל? שינויים שהזנת בו יימחקו."))return;
+      const back=H().snap(["ft.schoolBase","ft.schoolPct"]);
       const all=baseAll();
       if(baseSex==="boys"){ all.boys={}; Object.keys(SCHOOL_BASE).forEach(t=>all.boys[t]=SCHOOL_BASE[t].pts.map(x=>x.slice())); }
       else all.girls={};
       baseSet(all); setStepPct(SCHOOL_PCT_DEF); $("#ft-bPct").value=SCHOOL_PCT_DEF;
-      paintBase(); renderIndex(); H().toast("✓ הבסיס של "+lbl+" הוחזר לברירת המחדל");
+      paintBase(); renderIndex();
+      H().undo("✓ הבסיס של "+lbl+" הוחזר לברירת המחדל",()=>{ back(); $("#ft-bPct").value=stepPct(); paintBase(); renderIndex(); });
     };
     $("#ft-nPreset").onclick=()=>{
       setStepPct(Math.max(0,+$("#ft-bPct").value||SCHOOL_PCT_DEF));
@@ -26092,12 +26654,12 @@ window.FT=(function(){
       /* תלמיד בלי מזהה יציב אינו יעד חוקי — שיוך אליו רק היה מחליף
          דו-משמעות אחת באחרת. */
       if(!sid){ H().toast("לתלמיד הזה אין עדיין מזהה יציב"); return; }
-      if(!confirm("לשייך "+g.ids.length+" מדידות ל"+stud.name+"?"))return;
+      const was=allRes();
       const res=DATA.resolveAmbiguous(allRes(),g.ids,sid);
       if(!res.ok){ H().toast("לא בוצע שיוך"); return; }
       setRes(res.rows);
       H().modal("ft-ambModal",false);
-      H().toast("✓ "+res.changed+" מדידות שויכו ל"+stud.name);
+      H().undo("✓ "+res.changed+" מדידות שויכו ל"+stud.name,()=>{ setRes(was); });
       renderAmb(); renderPicker();
     }));
     H().modal("ft-ambModal",true);
@@ -26569,12 +27131,9 @@ window.STU=(function(){
        והמדידות שלו נשארות מקושרות למזהה ויחזרו אם יוסיפו אותו שוב. */
     $("#stu-fDel").addEventListener("click",()=>{
       const kept=(()=>{ try{ return LS.get("ft.results",[]).filter(r=>r&&r.sid===id).length; }catch(e){ return 0; } })();
-      const msg="להסיר את "+s.name+" מהרשימה?\n\n"+
-        (s.tests&&s.tests.length?("• "+s.tests.length+" מבחני ריצה שבכרטיס יימחקו.\n"):"")+
-        (kept?("• "+kept+" מדידות במבחני הכושר יישארו שמורות ויחזרו אם תוסיף אותו שוב.\n"):"");
-      if(!confirm(msg))return;
+      const back=H().snap(["stu.list"]);
       save(list.filter(x=>x.id!==id)); modal("stu-modal",false); render();
-      toast(kept?("הוסר מהרשימה · "+kept+" מדידות נשמרו"):"הוסר מהרשימה");
+      H().undo(kept?("הוסר מהרשימה · "+kept+" מדידות נשמרו"):"הוסר מהרשימה",()=>{ back(); render(); });
     });
     $("#stu-fCsv").addEventListener("click",()=>{
       const rows=[["תאריך","מבחן","מרחק (מ)","שלב","VO2max","אזור"]];
@@ -26583,7 +27142,9 @@ window.STU=(function(){
     });
     $$("#stu-mBody .tdel").forEach(b2=>b2.addEventListener("click",e=>{
       e.stopPropagation();
-      if(confirm("למחוק את הרישום?")){s.tests.splice(+b2.dataset.i,1);save(list);render();profile(id);}
+      const back=H().snap(["stu.list"]);
+      s.tests.splice(+b2.dataset.i,1);save(list);render();profile(id);
+      H().undo("הרישום נמחק",()=>{ back(); render(); profile(id); });
     }));
   }
   /* opts.quiet — נקרא מ«שמור לכיתה» בביפ עצמו: בלי הודעה ובלי מעבר
@@ -26803,33 +27364,36 @@ window.STU=(function(){
     }));
     $$("#gr-table [data-examdel]").forEach(b=>b.addEventListener("click",()=>{
       const i=+b.dataset.examdel, name=examCols[i];
-      if(!confirm(`להסיר את עמודת «${name}»? ציוני התלמידים בעמודה הזו יימחקו.`))return;
+      const back=H().snap(["grades.examCols","stu.list"]);
       const cols=loadExamCols(); cols[grPeriod]=(cols[grPeriod]||[]).filter(c=>c!==name); saveExamCols(cols);
       list.forEach(s=>{ if(s.grades&&s.grades[grPeriod]&&s.grades[grPeriod].exams)delete s.grades[grPeriod].exams[name]; });
       save(list); renderGrades();
+      H().undo(`העמודה «${name}» הוסרה`,()=>{ back(); renderGrades(); });
     }));
   }
-  function addExamCol(){
+  async function addExamCol(){
+    const cols0=loadExamCols(), arr0=cols0[grPeriod]||[];
+    const name=await H().ask({fields:[{label:"שם עמודת המבחן:",value:"מבחן "+(arr0.length+1)}],ok:"＋ הוסף"});
     const cols=loadExamCols(); const arr=cols[grPeriod]=cols[grPeriod]||[];
-    const name=prompt("שם עמודת המבחן:","מבחן "+(arr.length+1));
     if(!name)return; const n=name.trim(); if(!n)return;
     if(arr.includes(n)){H().toast("כבר קיימת עמודה בשם הזה");return;}
     arr.push(n); saveExamCols(cols); renderGrades();
   }
-  function addPeriod(){
+  async function addPeriod(){
     const periods=loadPeriods();
-    const name=prompt("שם תקופת ההערכה החדשה:","רבעון "+(periods.length+1));
+    const name=await H().ask({fields:[{label:"שם תקופת ההערכה החדשה:",value:"רבעון "+(periods.length+1)}],ok:"＋ הוסף"});
     if(!name)return; const n=name.trim(); if(!n||periods.includes(n))return;
     periods.push(n); savePeriods(periods); grPeriod=n; renderGrades();
   }
   function delPeriod(){
     const periods=loadPeriods();
     if(periods.length<=1){H().toast("חייבת להישאר לפחות תקופה אחת");return;}
-    if(!confirm(`למחוק את «${grPeriod}»? כל הציונים שהוזנו בתקופה הזו יימחקו.`))return;
+    const back=H().snap(["grades.periods","grades.examCols","stu.list"]), was=grPeriod;
     const idx=periods.indexOf(grPeriod); periods.splice(idx,1); savePeriods(periods);
     const cols=loadExamCols(); delete cols[grPeriod]; saveExamCols(cols);
     const list=load(); list.forEach(s=>{ if(s.grades)delete s.grades[grPeriod]; }); save(list);
     grPeriod=periods[0]; renderGrades();
+    H().undo(`התקופה «${was}» נמחקה, עם הציונים שבה`,()=>{ back(); grPeriod=was; renderGrades(); },8000);
   }
   function exportGradesCsv(){
     const list=load().filter(s=>!grClsF||cidOf(s)===grClsF).sort((a,b)=>a.name.localeCompare(b.name,"he"));
@@ -27004,9 +27568,10 @@ window.STU=(function(){
       $("#pa-task").scrollIntoView({behavior:"smooth",block:"start"});
     }));
     $$("#pa-list [data-padel]").forEach(b=>b.addEventListener("click",()=>{
-      if(!confirm("למחוק את ההערכה הזו?"))return;
-      saveAssess(loadAssess().filter(x=>x.id!==b.dataset.padel));
+      const was=loadAssess();
+      saveAssess(was.filter(x=>x.id!==b.dataset.padel));
       renderPaList();
+      H().undo("ההערכה נמחקה",()=>{ saveAssess(was); renderPaList(); });
     }));
   }
   function paApplyToGrades(){
@@ -27174,7 +27739,9 @@ window.STU=(function(){
     const peer=(loadAssess()||[]).filter(a=>(a.students||[]).some(id=>ids.has(id))).length;
     return {total:l.length,period,graded,peer};
   }
-  return {init,importFromBeep,count:()=>load().length,show,summary};
+  /* התקופה שנבחרה בלשונית הציונים — מדד הכושר נכתב אליה, ולא תמיד לראשונה */
+  return {init,importFromBeep,count:()=>load().length,show,summary,
+    period:()=>{ const p=loadPeriods(); return p.includes(grPeriod)?grPeriod:p[0]; }};
 })();
 
 /* LESSON — עבר לקובץ נפרד: hm-lesson.js (מחולל מערכים מורחב) */
@@ -27391,7 +27958,7 @@ window.HMBootNew=function(){
   if(demoBtn)demoBtn.addEventListener("click",()=>{
     if(hasRealData()&&!demoOn()){
       toast("יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם");
-      alert("במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.");
+      H0.ask({msg:"במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.",alert:true,ok:"הבנתי"});
       return;
     }
     if(!demoOn())seedDemo();
@@ -27402,23 +27969,23 @@ window.HMBootNew=function(){
     toast("🎬 מצב הדגמה — כיתה ט׳3 לדוגמה");
   });
   const dc=$("#demoClear");
-  if(dc)dc.addEventListener("click",()=>{
-    if(!confirm("למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים."))return;
+  if(dc)dc.addEventListener("click",async()=>{
+    if(!(await H0.ask({msg:"למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים.",danger:true,ok:"🗑 מחק"})))return;
     clearDemo(); toast("נתוני ההדגמה נמחקו"); setTimeout(()=>location.reload(),600);
   });
   paintDemoBar();
 
   /* מעבר למצב תלמיד מתוך האפליקציה (מוסרים את המכשיר לכיתה) */
   const handBtn=$("#rec-handBtn");
-  if(handBtn)handBtn.addEventListener("click",()=>{
-    if(!confirm("להעביר את המכשיר למצב תלמיד?\n\nהתלמידים יוכלו לצפות בשיאים ולשלוח שיא חדש בלבד.\nיציאה חזרה דורשת את קוד המורה."))return;
+  if(handBtn)handBtn.addEventListener("click",async()=>{
+    if(!(await H0.ask({msg:"להעביר את המכשיר למצב תלמיד?\n\nהתלמידים יוכלו לצפות בשיאים ולשלוח שיא חדש בלבד.\nיציאה חזרה דורשת את קוד המורה.",ok:"🔒 מצב תלמיד"})))return;
     H0.setRole("student"); H0.go("rec"); toast("🔒 מצב תלמיד פעיל");
   });
 
   /* יציאה ממצב תלמיד — דורשת קוד */
   const exitBtn=$("#roleExit");
-  if(exitBtn)exitBtn.addEventListener("click",()=>{
-    const p=prompt("קוד מורה ליציאה ממצב תלמיד:");
+  if(exitBtn)exitBtn.addEventListener("click",async()=>{
+    const p=await H0.ask({fields:[{label:"קוד מורה ליציאה ממצב תלמיד:",type:"password"}],ok:"🔓 יציאה"});
     if(p===null)return;
     if(codeSet()&&p===LS.get("rec.pass",null)){ H0.setRole("teacher"); H0.go("home"); toast("חזרת למצב מורה 👋"); }
     else toast("קוד שגוי");
@@ -27435,15 +28002,18 @@ window.HMBootNew=function(){
     $("#hx-chPct").textContent=c.cur+" / "+c.target+" · "+p+"%";
     $("#hx-chBar").style.width=p+"%";
   }
-  $("#hx-chPlus").addEventListener("click",()=>{
-    const c=chGet(),n=parseFloat(prompt("כמה להוסיף לספירה?","10"));
+  $("#hx-chPlus").addEventListener("click",async()=>{
+    const v=await H0.ask({fields:[{label:"כמה להוסיף לספירה?",type:"number",value:"10"}],ok:"＋ הוסף"});
+    if(v===null)return;
+    const c=chGet(),n=parseFloat(v);
     if(isNaN(n))return; c.cur=Math.max(0,c.cur+n); LS.set("hx.ch",c); chRender();
     if(c.cur>=c.target){H().confetti(60);H().horn();toast("🏆 האתגר הושלם!");}
   });
-  $("#hx-chEdit").addEventListener("click",()=>{
+  $("#hx-chEdit").addEventListener("click",async()=>{
     const c=chGet();
-    const t=prompt("שם האתגר:",c.t); if(t===null)return;
-    const tg=parseFloat(prompt("יעד מספרי:",c.target)); if(isNaN(tg))return;
+    const v=await H0.ask({fields:[{k:"t",label:"שם האתגר:",value:c.t},{k:"tg",label:"יעד מספרי:",type:"number",value:c.target}],ok:"✓ אתגר חדש"});
+    if(v===null)return;
+    const t=v.t, tg=parseFloat(v.tg); if(isNaN(tg))return;
     LS.set("hx.ch",{t:t.trim()||c.t,target:tg,cur:0}); chRender(); toast("אתגר חדש יצא לדרך!");
   });
   chRender();
@@ -27513,7 +28083,7 @@ function planState(){ const v=H().LS.get(K_PLAN,null); return v&&typeof v==="obj
 function slim(p){
   if(!p||!Array.isArray(p.phases)||!p.phases.length)return null;
   /* הנושא והגרסאות נשמרים כדי שהדירוג בסיום ילמד את מחולל המערכים */
-  return {title:p.title||"",topic:p.topic||null,grade:p.grade||null,
+  return {id:p.id||null,title:p.title||"",topic:p.topic||null,grade:p.grade||null,
     variants:p.mainVariants||[],subs:p.mainSubs||[],
     phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:Array.isArray(x.d)?x.d.join(" · "):String(x.d||"")}))};
 }
@@ -27562,7 +28132,7 @@ function start(cid,label){
   /* המערך ששויך לשיעור הזה קודם; אחרת המערך שעל המסך במערכים */
   const as=H().assign&&H().assign.get(cid,iso());
   const p=(as&&as.plan&&as.plan.phases)?as.plan:(window.LESSON&&window.LESSON.current&&window.LESSON.current());
-  const r=S.start({cid,clsSnapshot:name,date:iso(),planTitle:(p&&p.title)||""});
+  const r=S.start({cid,clsSnapshot:name,date:iso(),planId:(p&&p.id)||null,planTitle:(p&&p.title)||""});
   if(r.outcome==="blocked"){ H().toast(t("live.blocked","כבר פתוח שיעור בכיתה")+" "+H().sesName(r.active)); return; }
   if(!r.ok){ H().toast(t("live.cantStart","לא ניתן לפתוח שיעור")); return; }
   if(p)attachPlan(p);

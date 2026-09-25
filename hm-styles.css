@@ -5,7 +5,7 @@
   --acc:#a78bfa; --accDim:rgba(167,139,250,.20);
   --cy:#38bdf8; --lime:#a3e635; --orange:#fb923c; --gold:#fbbf24; --violet:#a78bfa; --pink:#f472b6; --green:#34d399;
   --warn:#ffd23f; --stop:#ff4d5e;
-  --inset:var(--inset);            /* רקע שדות קלט ופנימיות */
+  --inset:#0b0d19;                /* רקע שדות קלט ופנימיות — הפניה לעצמו (var(--inset)) הייתה ערך לא חוקי, והרקע יצא שקוף */
   --onAcc:var(--onAcc);           /* טקסט על גבי צבע ההדגשה */
   --bar:6,16,12;             /* בסיס הסרגל העליון והתחתון (RGB) */
   --shadow:0 8px 26px rgba(0,0,0,.32);
@@ -163,10 +163,20 @@ body[data-mod="nut"]{--acc:#4ade80;--accDim:rgba(74,222,128,.18)}
 .bigclock{font-family:'Share Tech Mono';font-size:clamp(52px,15vw,108px);text-align:center;line-height:1;color:var(--ink);
   text-shadow:0 0 26px var(--accDim);letter-spacing:1px;margin:6px 0;font-variant-numeric:tabular-nums}
 /* ---------- toast / modal / confetti ---------- */
-#toast{position:fixed;bottom:calc(var(--nav-h) + 18px);inset-inline:0;display:flex;justify-content:center;z-index:200;pointer-events:none}
+#toast{position:fixed;bottom:calc(var(--nav-h) + 18px);inset-inline:0;display:flex;justify-content:center;z-index:350;pointer-events:none}
 #toast .t{background:var(--inset);border:1px solid var(--acc);color:var(--ink);font-size:14px;font-weight:600;border-radius:12px;
   padding:11px 18px;max-width:88vw;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(12px);transition:.25s}
 #toast .t.show{opacity:1;transform:none}
+/* הודעה עם כפתור («↩ בטל») — הכפתור גדול מספיק לאגודל, וההודעה לחיצה */
+#toast .t.act{display:flex;align-items:center;gap:12px;padding-block:8px;padding-inline:16px 8px}
+#toast .t.act.show{pointer-events:auto}
+#toast .toast-act{appearance:none;border:none;border-radius:10px;background:var(--acc);color:var(--onAcc);font:inherit;font-weight:800;
+  padding:9px 14px;min-height:40px;cursor:pointer;white-space:nowrap}
+.ask-msg{white-space:pre-line;line-height:1.55;margin:0 0 12px;color:var(--ink)}
+.ask-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.ask-fields:empty{display:none}
+.ask-btns{gap:8px;justify-content:flex-start}
+.ask-btns .btn{min-width:96px;min-height:44px}
 .modal{position:fixed;inset:0;z-index:220;background:rgba(2,7,5,.78);backdrop-filter:blur(5px);display:none;place-items:center;padding:16px}
 .modal.on{display:grid}
 .modal .box{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;
@@ -1807,3 +1817,14 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
   background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 12px 32px rgba(0,0,0,.35)}
 .pf-share .menu .btn{justify-content:flex-start;width:100%;min-height:calc(46px + var(--touch))}
 #pf-arcFold{margin-top:12px}
+
+/* שדות בתוך המסך במקום prompt() — הדבקת רשימה ו«＋ שורה» בפוטו־פיניש */
+.pf-inline{margin-top:10px;padding:10px;border:1px dashed var(--line);border-radius:12px;background:var(--inset);display:flex;flex-direction:column;gap:8px}
+.pf-inline.row{flex-direction:row;align-items:center;flex-wrap:wrap}
+.pf-inline[hidden]{display:none}
+.pf-inline textarea{width:100%}
+/* לוח המורה בשיאים — ארבע הלשוניות נכנסות ברוחב טלפון, ומונה הממתינים
+   מוסתר באמת כשאין ממתינים (.pill גובר על hidden) */
+#rec-admTabs{flex-wrap:wrap;overflow:visible}
+#rec-admTabs .pill[hidden]{display:none}
+#rec-admTabs .pill{margin-inline-start:4px;padding:1px 7px;font-size:11px}

@@ -170,12 +170,9 @@ window.STU=(function(){
        והמדידות שלו נשארות מקושרות למזהה ויחזרו אם יוסיפו אותו שוב. */
     $("#stu-fDel").addEventListener("click",()=>{
       const kept=(()=>{ try{ return LS.get("ft.results",[]).filter(r=>r&&r.sid===id).length; }catch(e){ return 0; } })();
-      const msg="להסיר את "+s.name+" מהרשימה?\n\n"+
-        (s.tests&&s.tests.length?("• "+s.tests.length+" מבחני ריצה שבכרטיס יימחקו.\n"):"")+
-        (kept?("• "+kept+" מדידות במבחני הכושר יישארו שמורות ויחזרו אם תוסיף אותו שוב.\n"):"");
-      if(!confirm(msg))return;
+      const back=H().snap(["stu.list"]);
       save(list.filter(x=>x.id!==id)); modal("stu-modal",false); render();
-      toast(kept?("הוסר מהרשימה · "+kept+" מדידות נשמרו"):"הוסר מהרשימה");
+      H().undo(kept?("הוסר מהרשימה · "+kept+" מדידות נשמרו"):"הוסר מהרשימה",()=>{ back(); render(); });
     });
     $("#stu-fCsv").addEventListener("click",()=>{
       const rows=[["תאריך","מבחן","מרחק (מ)","שלב","VO2max","אזור"]];
@@ -184,7 +181,9 @@ window.STU=(function(){
     });
     $$("#stu-mBody .tdel").forEach(b2=>b2.addEventListener("click",e=>{
       e.stopPropagation();
-      if(confirm("למחוק את הרישום?")){s.tests.splice(+b2.dataset.i,1);save(list);render();profile(id);}
+      const back=H().snap(["stu.list"]);
+      s.tests.splice(+b2.dataset.i,1);save(list);render();profile(id);
+      H().undo("הרישום נמחק",()=>{ back(); render(); profile(id); });
     }));
   }
   /* opts.quiet — נקרא מ«שמור לכיתה» בביפ עצמו: בלי הודעה ובלי מעבר
@@ -404,33 +403,36 @@ window.STU=(function(){
     }));
     $$("#gr-table [data-examdel]").forEach(b=>b.addEventListener("click",()=>{
       const i=+b.dataset.examdel, name=examCols[i];
-      if(!confirm(`להסיר את עמודת «${name}»? ציוני התלמידים בעמודה הזו יימחקו.`))return;
+      const back=H().snap(["grades.examCols","stu.list"]);
       const cols=loadExamCols(); cols[grPeriod]=(cols[grPeriod]||[]).filter(c=>c!==name); saveExamCols(cols);
       list.forEach(s=>{ if(s.grades&&s.grades[grPeriod]&&s.grades[grPeriod].exams)delete s.grades[grPeriod].exams[name]; });
       save(list); renderGrades();
+      H().undo(`העמודה «${name}» הוסרה`,()=>{ back(); renderGrades(); });
     }));
   }
-  function addExamCol(){
+  async function addExamCol(){
+    const cols0=loadExamCols(), arr0=cols0[grPeriod]||[];
+    const name=await H().ask({fields:[{label:"שם עמודת המבחן:",value:"מבחן "+(arr0.length+1)}],ok:"＋ הוסף"});
     const cols=loadExamCols(); const arr=cols[grPeriod]=cols[grPeriod]||[];
-    const name=prompt("שם עמודת המבחן:","מבחן "+(arr.length+1));
     if(!name)return; const n=name.trim(); if(!n)return;
     if(arr.includes(n)){H().toast("כבר קיימת עמודה בשם הזה");return;}
     arr.push(n); saveExamCols(cols); renderGrades();
   }
-  function addPeriod(){
+  async function addPeriod(){
     const periods=loadPeriods();
-    const name=prompt("שם תקופת ההערכה החדשה:","רבעון "+(periods.length+1));
+    const name=await H().ask({fields:[{label:"שם תקופת ההערכה החדשה:",value:"רבעון "+(periods.length+1)}],ok:"＋ הוסף"});
     if(!name)return; const n=name.trim(); if(!n||periods.includes(n))return;
     periods.push(n); savePeriods(periods); grPeriod=n; renderGrades();
   }
   function delPeriod(){
     const periods=loadPeriods();
     if(periods.length<=1){H().toast("חייבת להישאר לפחות תקופה אחת");return;}
-    if(!confirm(`למחוק את «${grPeriod}»? כל הציונים שהוזנו בתקופה הזו יימחקו.`))return;
+    const back=H().snap(["grades.periods","grades.examCols","stu.list"]), was=grPeriod;
     const idx=periods.indexOf(grPeriod); periods.splice(idx,1); savePeriods(periods);
     const cols=loadExamCols(); delete cols[grPeriod]; saveExamCols(cols);
     const list=load(); list.forEach(s=>{ if(s.grades)delete s.grades[grPeriod]; }); save(list);
     grPeriod=periods[0]; renderGrades();
+    H().undo(`התקופה «${was}» נמחקה, עם הציונים שבה`,()=>{ back(); grPeriod=was; renderGrades(); },8000);
   }
   function exportGradesCsv(){
     const list=load().filter(s=>!grClsF||cidOf(s)===grClsF).sort((a,b)=>a.name.localeCompare(b.name,"he"));
@@ -605,9 +607,10 @@ window.STU=(function(){
       $("#pa-task").scrollIntoView({behavior:"smooth",block:"start"});
     }));
     $$("#pa-list [data-padel]").forEach(b=>b.addEventListener("click",()=>{
-      if(!confirm("למחוק את ההערכה הזו?"))return;
-      saveAssess(loadAssess().filter(x=>x.id!==b.dataset.padel));
+      const was=loadAssess();
+      saveAssess(was.filter(x=>x.id!==b.dataset.padel));
       renderPaList();
+      H().undo("ההערכה נמחקה",()=>{ saveAssess(was); renderPaList(); });
     }));
   }
   function paApplyToGrades(){
@@ -775,7 +778,9 @@ window.STU=(function(){
     const peer=(loadAssess()||[]).filter(a=>(a.students||[]).some(id=>ids.has(id))).length;
     return {total:l.length,period,graded,peer};
   }
-  return {init,importFromBeep,count:()=>load().length,show,summary};
+  /* התקופה שנבחרה בלשונית הציונים — מדד הכושר נכתב אליה, ולא תמיד לראשונה */
+  return {init,importFromBeep,count:()=>load().length,show,summary,
+    period:()=>{ const p=loadPeriods(); return p.includes(grPeriod)?grPeriod:p[0]; }};
 })();
 
 /* LESSON — עבר לקובץ נפרד: hm-lesson.js (מחולל מערכים מורחב) */
@@ -992,7 +997,7 @@ window.HMBootNew=function(){
   if(demoBtn)demoBtn.addEventListener("click",()=>{
     if(hasRealData()&&!demoOn()){
       toast("יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם");
-      alert("במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.");
+      H0.ask({msg:"במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.",alert:true,ok:"הבנתי"});
       return;
     }
     if(!demoOn())seedDemo();
@@ -1003,23 +1008,23 @@ window.HMBootNew=function(){
     toast("🎬 מצב הדגמה — כיתה ט׳3 לדוגמה");
   });
   const dc=$("#demoClear");
-  if(dc)dc.addEventListener("click",()=>{
-    if(!confirm("למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים."))return;
+  if(dc)dc.addEventListener("click",async()=>{
+    if(!(await H0.ask({msg:"למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים.",danger:true,ok:"🗑 מחק"})))return;
     clearDemo(); toast("נתוני ההדגמה נמחקו"); setTimeout(()=>location.reload(),600);
   });
   paintDemoBar();
 
   /* מעבר למצב תלמיד מתוך האפליקציה (מוסרים את המכשיר לכיתה) */
   const handBtn=$("#rec-handBtn");
-  if(handBtn)handBtn.addEventListener("click",()=>{
-    if(!confirm("להעביר את המכשיר למצב תלמיד?\n\nהתלמידים יוכלו לצפות בשיאים ולשלוח שיא חדש בלבד.\nיציאה חזרה דורשת את קוד המורה."))return;
+  if(handBtn)handBtn.addEventListener("click",async()=>{
+    if(!(await H0.ask({msg:"להעביר את המכשיר למצב תלמיד?\n\nהתלמידים יוכלו לצפות בשיאים ולשלוח שיא חדש בלבד.\nיציאה חזרה דורשת את קוד המורה.",ok:"🔒 מצב תלמיד"})))return;
     H0.setRole("student"); H0.go("rec"); toast("🔒 מצב תלמיד פעיל");
   });
 
   /* יציאה ממצב תלמיד — דורשת קוד */
   const exitBtn=$("#roleExit");
-  if(exitBtn)exitBtn.addEventListener("click",()=>{
-    const p=prompt("קוד מורה ליציאה ממצב תלמיד:");
+  if(exitBtn)exitBtn.addEventListener("click",async()=>{
+    const p=await H0.ask({fields:[{label:"קוד מורה ליציאה ממצב תלמיד:",type:"password"}],ok:"🔓 יציאה"});
     if(p===null)return;
     if(codeSet()&&p===LS.get("rec.pass",null)){ H0.setRole("teacher"); H0.go("home"); toast("חזרת למצב מורה 👋"); }
     else toast("קוד שגוי");
@@ -1036,15 +1041,18 @@ window.HMBootNew=function(){
     $("#hx-chPct").textContent=c.cur+" / "+c.target+" · "+p+"%";
     $("#hx-chBar").style.width=p+"%";
   }
-  $("#hx-chPlus").addEventListener("click",()=>{
-    const c=chGet(),n=parseFloat(prompt("כמה להוסיף לספירה?","10"));
+  $("#hx-chPlus").addEventListener("click",async()=>{
+    const v=await H0.ask({fields:[{label:"כמה להוסיף לספירה?",type:"number",value:"10"}],ok:"＋ הוסף"});
+    if(v===null)return;
+    const c=chGet(),n=parseFloat(v);
     if(isNaN(n))return; c.cur=Math.max(0,c.cur+n); LS.set("hx.ch",c); chRender();
     if(c.cur>=c.target){H().confetti(60);H().horn();toast("🏆 האתגר הושלם!");}
   });
-  $("#hx-chEdit").addEventListener("click",()=>{
+  $("#hx-chEdit").addEventListener("click",async()=>{
     const c=chGet();
-    const t=prompt("שם האתגר:",c.t); if(t===null)return;
-    const tg=parseFloat(prompt("יעד מספרי:",c.target)); if(isNaN(tg))return;
+    const v=await H0.ask({fields:[{k:"t",label:"שם האתגר:",value:c.t},{k:"tg",label:"יעד מספרי:",type:"number",value:c.target}],ok:"✓ אתגר חדש"});
+    if(v===null)return;
+    const t=v.t, tg=parseFloat(v.tg); if(isNaN(tg))return;
     LS.set("hx.ch",{t:t.trim()||c.t,target:tg,cur:0}); chRender(); toast("אתגר חדש יצא לדרך!");
   });
   chRender();

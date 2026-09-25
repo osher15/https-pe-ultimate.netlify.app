@@ -424,7 +424,7 @@ window.LESSON=(function(){
     const eq=[...new Set([...(T.eq||[]),...o.eq])];
     if(game&&game.equip)eq.push(game.equip);
 
-    plan={grade,topic:T.id,title:T.name,em:T.em,group:T.g,cls:o.cls,size:o.size,place:o.place,
+    plan={id:newPlanId(),grade,topic:T.id,title:T.name,em:T.em,group:T.g,cls:o.cls,size:o.size,place:o.place,
       date:today(),goals:T.goals,eq,std:T.std,phases,
       assess:T.assess,diff:T.diff,safe:T.safe,cur:T.cur,hw:T.hw,note:T.note||"",
       measure:o.withMeasure,
@@ -434,6 +434,11 @@ window.LESSON=(function(){
     renderPlan();
     H().toast(H().t("ls.ready","⚡ המערך מוכן — אפשר לערוך, לשייך לשיעור או לשמור"));
   }
+
+  /* מזהה יציב למערך — עד עכשיו לא היה לו אחד, ו-planId בשיעור נשמר
+     תמיד null. מערך ישן מהספרייה מקבל את המזהה של הרשומה שלו. */
+  function newPlanId(){ return "pl"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+  function withId(p,fallback){ if(p&&!p.id)p.id=fallback!=null?"pl"+fallback:newPlanId(); return p; }
 
   const placeName=p=>({field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"}[p]||p);
 
@@ -494,7 +499,7 @@ window.LESSON=(function(){
     b.textContent="▶ התחל שיעור · "+c;
     b.onclick=()=>{
       const r=S.start({cid,clsSnapshot:c,date:today(),
-        planId:(plan&&plan.id)||null,planTitle:(plan&&plan.title)||""});
+        planId:(withId(plan)&&plan.id)||null,planTitle:(plan&&plan.title)||""});
       if(r.outcome==="blocked"){
         H().toast("כבר פתוח שיעור בכיתה "+(r.active.clsSnapshot||"")); return;
       }
@@ -693,6 +698,7 @@ window.LESSON=(function(){
   function saveLib(){
     if(!plan)return;
     const lib=H().LS.get("ls.lib",[]);
+    withId(plan);
     lib.unshift({id:Date.now(),plan:JSON.parse(JSON.stringify(plan))});
     H().LS.set("ls.lib",lib.slice(0,60)); renderLib(); H().toast("💾 נשמר לספריית המערכים");
   }
@@ -728,7 +734,7 @@ window.LESSON=(function(){
     }).join("");
     $$("#ls-libList [data-load]").forEach(b=>b.addEventListener("click",()=>{
       const e=H().LS.get("ls.lib",[]).find(x=>x.id==b.dataset.load);
-      if(e){plan=e.plan;renderPlan();H().toast("המערך נטען");window.scrollTo({top:0,behavior:"smooth"});}
+      if(e){plan=withId(e.plan,e.id);renderPlan();H().toast("המערך נטען");window.scrollTo({top:0,behavior:"smooth"});}
     }));
     /* שכפול: מערך שעבד בכיתה אחת הוא נקודת פתיחה מצוינת לכיתה הבאה,
        אבל עריכה ישירה שלו מוחקת את המקור. השכפול יוצר עותק חדש עם
@@ -738,6 +744,7 @@ window.LESSON=(function(){
       const e=lib.find(x=>String(x.id)===String(b.dataset.dup));
       if(!e||!e.plan)return;
       const copy=JSON.parse(JSON.stringify(e.plan));
+      copy.id=newPlanId();
       copy.date=new Date().toISOString().slice(0,10);
       copy.title=/\(עותק/.test(copy.title||"")?copy.title:(copy.title||"מערך")+" (עותק)";
       lib.unshift({id:Date.now(),plan:copy});
@@ -1004,7 +1011,7 @@ window.LESSON=(function(){
   }
   /* טעינת מערך שנבנה בבונה הידני — אותו כרטיס, אותה הפעלה, אותה הדפסה */
   function usePlan(p){
-    plan=p; editPh=false;
+    plan=withId(p); editPh=false;
     if(H().LS.get("ls.target",null))asgOpen=true;
     renderPlan();
     const card=H().$("#ls-planCard");
