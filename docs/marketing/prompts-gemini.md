@@ -32,6 +32,19 @@
   - רגע שכל מורה חווה, מצולם כאילו מישהו צילם בטלפון במקרה.
   - בלי גאגים ובלי מבט למצלמה. ההומור בא מזה שמזהים את עצמך.
 
+### A ל־Meta: מתוסכלת ומצחיקה (5 שנ׳), אותה דמות מהקטע הקודם
+בקטע האנכי הקודם המורה חייכה, ובפתיח היא צריכה להיות מתוסכלת. גם ההומור נעלם.
+מבקשים מ־Meta לשמור על אותה דמות ואותה חדות, ומדביקים את זה:
+```
+Keep the exact same teacher, same face, same navy striped tracksuit, same gym, same image sharpness and lighting as the previous video — only the action changes.
+Vertical 9:16, 5 seconds, candid documentary look with a light comedic tone, like a relatable moment from a TV comedy.
+She is FRUSTRATED and overwhelmed the whole time — she does NOT smile at any moment.
+0–1.5 s: she writes fast on her clipboard, the pen suddenly stops working; she shakes it hard, scribbles again, nothing — she frowns at the pen in disbelief.
+1.5–3.5 s: three sweaty students crowd in from both sides at once, all pointing at the clipboard and talking over each other, each asking about their own result; one leans right over her papers; she looks from one to the other, eyebrows raised, completely overwhelmed.
+3.5–5 s: a loose sheet slides off the clipboard to the floor; she freezes, closes her eyes, lets out a long exasperated breath, then gives a quick dry, deadpan glance straight at the camera — "this is my life".
+The papers show only faint unreadable pencil lines. No text, no letters, no numbers, no logos. No smiling, no slapstick, no slow motion, no cuts.
+```
+
 ### A ל־Grok: סוף שיעור אמיתי (6 שנ׳)
 ```
 Vertical 9:16, 6 seconds, candid handheld documentary footage, as if filmed on a phone by a colleague, realistic and unstaged.
