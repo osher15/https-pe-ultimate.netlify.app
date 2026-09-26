@@ -1,38 +1,130 @@
-# פרומפטים ל־Gemini Omni — 5 קטעים של 10 שניות
+# פרומפטים ל־Gemini Omni: 10 שניות לקטע, 2 קטעים ביום
 
-**למה Gemini מקבל רק את הקטעים האלה:** הם «קולנוע» בלי טקסט ובלי ממשק. מודל וידאו מצייר ממשק מזויף ומשובש, ולכן את האפליקציה עצמה מראים בהקלטות המסך האמיתיות.
+**למה Gemini מייצר רק את הקטעים האלה:** אלה צילומי «קולנוע» בלי טקסט ובלי ממשק. מודל וידאו מצייר ממשק מזויף ומשובש, ולכן את האפליקציה עצמה מראות הקלטות המסך האמיתיות.
 כל קטע משמש את כל חמש השפות, כי אין בו דיבור ואין בו טקסט.
 
-**סדר הרצה לפי המכסה (2 ביום):**
-- יום 1: (א) ו־(ה)
-- יום 2: (ב) ו־(ד)
-- יום 3: (ג)
+## איך מריצים (חשוב, כדי שלא יתבזבז קטע)
+1. **מעתיקים את כל הפרומפט באנגלית כמו שהוא,** מתוך הבלוק. לא מקצרים ולא מתרגמים: המודל מדייק יותר באנגלית.
+2. **אם יש בחירת יחס מסך, בוחרים 9:16.** אם אין, זה בסדר: כל הפרומפטים שומרים את הנושא במרכז, ואני חותך ל־9:16 מהמרכז.
+3. **אם אפשר לצרף תמונה, מצרפים ב־B פריים מתוך A,** כדי שזה ייראה כמו אותו מורה. הלבוש מתואר זהה בשני הפרומפטים.
+4. **הסאונד לא משנה.** אני משתיק אותו ושם את הקריינות שלנו.
+5. **שמירה:** `gemini_A.mp4`, `gemini_B.mp4` וכן הלאה. שולחים לי כקובץ בצ'אט, או כקישור לגוגל דרייב.
 
-**אחרי כל הרצה:** שמור את הקובץ בשם `gemini_A.mp4` … `gemini_E.mp4`. מכל קטע אני משתמש ב־3–5 שניות.
+| יום | קטעים | למה |
+|---|---|---|
+| 1 | **A + B** | משלימים את שני הסרטונים שכבר אושרו: מורים, 30 ו־60 שנ׳ |
+| 2 | **E + D** | גרסת המאמנים |
+| 3 | **C** (+ **F** אם תרצה) | גרסת המנהלים, וצילום אמיתי לפוטו־פיניש |
 
-**כללים משותפים (להדביק בסוף כל פרומפט):**
-> Vertical 9:16, 1080×1920, 10 seconds, photorealistic, natural light, shallow depth of field, handheld but stable camera, 24fps cinematic look. No on-screen text, no captions, no logos, no brand names, no readable phone screens (phone screens are softly out of focus or face away from camera). Natural hands with five fingers. Diverse students, age 12–16, modest school sportswear.
-
----
-
-### (א) הבעיה — מורה עם ניירת (פתיח לגרסת המורים)
-> A physical education teacher in a school gym, 30 teenage students running in the background. The teacher juggles a clipboard, loose paper sheets and a pen, trying to write times while a stopwatch beeps; a sheet slips and falls to the floor. Slight frustration, a quick sigh. Camera slowly pushes in from medium shot to close-up on the clipboard and the teacher's face. Warm afternoon light through high gym windows, dust in the light.
-
-### (ב) הרגיעה — מורה עם טלפון (אמצע או סוף, מורים ומנהלים)
-> The same school gym. The teacher now holds only a smartphone, taps it once with a satisfied small smile, then looks up and gives a thumbs-up to a student who just finished a sprint. Students high-five in the background. Camera orbits slowly around the teacher at chest height. Bright, optimistic light. The phone screen faces away from the camera.
-
-### (ג) מנהל או רכז (פתיח לגרסת המנהלים)
-> A school principal in a bright staff room, seen from over the shoulder, calmly scrolling on a tablet whose screen is out of focus with soft colourful charts. They nod, then turn to a PE teacher standing beside them and both smile. Through the window, students play basketball outside. Slow dolly-in. Clean, modern, professional mood.
-
-### (ד) מאמן מרוצה (אמצע או סוף, גרסת המאמנים)
-> A youth basketball coach on an indoor court after practice, players stretching in the background. The coach glances at a smartphone (screen facing away), smiles, walks to a player and gives a proud fist bump. Camera tracks sideways following the coach. Evening arena lighting, warm highlights on the wooden floor.
-
-### (ה) מאמן כושר ואימון (פתיח לגרסת המאמנים)
-> An outdoor athletics track at golden hour. A fitness coach with a stopwatch and a phone watches a group of teenage athletes sprint past; quick cut-in shots of feet hitting the track, a jump landing in a sand pit, athletes doing push-ups on the grass. Dynamic, energetic, slow-motion moments mixed with real speed. Low-angle tracking shots.
+**מה נכנס לפרסומת מכל קטע:**
+- **A:** 5–6 השניות הראשונות. לכן הבעיה (ניירת שנופלת) קורית כבר ב־0–6.
+- **B:** כ־3 שניות. הרגע החשוב (הקשה על הטלפון וחיוך) קורה ב־0–4.
+- **שאר הקטעים:** 3–5 שניות, ואני בוחר את החלון הטוב ביותר.
 
 ---
 
-**אם משהו יוצא לא טוב:**
-- **טקסט או לוגו מופיע:** להוסיף «absolutely no text anywhere».
-- **ידיים מעוותות:** לבקש צילום מזווית שבה הידיים פחות בפריים.
-- **מסך טלפון קריא:** «phone screen faces away from camera».
+## A: הבעיה, מורה טובע בניירת (פתיח לגרסת המורים)
+```
+Vertical 9:16 video, 10 seconds, photorealistic, natural documentary look, 24 fps.
+Setting: an indoor school gymnasium in the late afternoon, warm sunlight coming through high windows, light dust in the air, wooden floor with painted court lines.
+Main subject, always centered in the frame: a physical education teacher in their mid-30s wearing a plain navy tracksuit with no logos and a silver whistle on a black cord. They hold a clipboard stacked with loose white paper sheets, a pen in the other hand, and a stopwatch hangs from their neck.
+Background, softly out of focus: about fifteen teenage students (13–15 years old, mixed boys and girls, plain grey T-shirts and navy shorts, no logos, no numbers) running a shuttle sprint back and forth across the gym.
+Timing:
+0–3 s: the teacher looks down and writes quickly on the clipboard, glances up at the running students, then back down, visibly overwhelmed.
+3–6 s: two loose sheets slip off the clipboard and flutter to the floor; the teacher sighs and closes their eyes for a moment in frustration.
+6–10 s: the teacher crouches to pick up the sheets while the students keep running behind.
+Camera: eye level, 50 mm lens, shallow depth of field, slow steady push-in from a medium shot to a medium close-up. Stable camera, no shaking, no cuts.
+The paper sheets show only faint, unreadable grey pencil lines — no letters, no numbers.
+Nobody speaks, mouths stay closed. Ambient gym sound only, no music.
+Avoid: any readable text, letters or numbers anywhere, logos, brand names, scoreboards, jersey numbers, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
+```
+
+## B: הרגיעה, אותו מורה עם טלפון (רגע רגוע: מורים ומנהלים)
+```
+Vertical 9:16 video, 10 seconds, photorealistic, natural documentary look, 24 fps.
+Setting: the same indoor school gymnasium, now bright and cheerful, soft daylight, wooden floor with painted court lines.
+Main subject, always centered in the frame: the same physical education teacher in their mid-30s, plain navy tracksuit with no logos, silver whistle on a black cord, stopwatch around the neck. No clipboard and no papers — they hold only a smartphone in a plain black case.
+The phone screen always faces away from the camera; we only ever see the back of the phone.
+Timing:
+0–4 s: the teacher holds the phone at chest height, taps it once with the thumb, looks up and smiles with relief — calm and confident.
+4–7 s: a student finishes a sprint and jogs past; the teacher gives a friendly thumbs-up.
+7–10 s: in the background, two students high-five; the teacher lowers the phone and watches the class, relaxed.
+Background, softly out of focus: teenage students (13–15, mixed, plain grey T-shirts and navy shorts, no logos, no numbers) finishing sprints.
+Camera: chest height, 35 mm lens, shallow depth of field, very slow arc around the teacher from front-left to front. Stable, no cuts.
+Nobody speaks, mouths stay closed. Ambient gym sound only, no music.
+Avoid: a visible phone screen, any readable text, letters or numbers, logos, brand names, jersey numbers, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
+```
+
+## E: מאמן כושר ואתלטים (פתיח לגרסת המאמנים)
+```
+Vertical 9:16 video, 10 seconds, photorealistic, energetic sports-commercial look, 24 fps.
+Setting: an outdoor athletics track at golden hour, low warm sun behind the runners, red track with white lane lines, green field beside it.
+Main subject, centered: four teenage athletes (15–17 years old, mixed boys and girls, plain black and white running gear with no logos and no bib numbers) sprinting side by side in separate lanes toward the camera.
+At the side of the track, near the finish line, a fitness coach in their 40s (plain grey hoodie, no logos) holds a stopwatch up in one hand and a phone in the other, the phone screen facing away from the camera.
+Timing:
+0–4 s: the athletes explode forward and sprint toward the camera at full speed.
+4–7 s: they cross the finish line; the coach clicks the stopwatch at that exact moment.
+7–10 s: the athletes slow down, breathing hard, hands on hips; the coach nods, satisfied.
+Camera: low angle near the track surface, 35 mm lens, the camera tracks slowly backward as the runners approach. Real speed, not slow motion. Stable, no cuts.
+Nobody speaks, mouths stay closed. Ambient outdoor sound only, no music.
+Avoid: bib numbers, any readable text, letters or numbers, logos, brand names, scoreboards, a visible phone screen, extra or missing fingers, distorted limbs, faces or running motion, cartoon or 3D-render look, camera cuts.
+```
+
+## D: מאמן כדורסל מרוצה (רגע רגוע בגרסת המאמנים)
+```
+Vertical 9:16 video, 10 seconds, photorealistic, warm cinematic look, 24 fps.
+Setting: an indoor basketball court in the evening after practice, warm arena lights, polished wooden floor, basketballs resting near the bench.
+Main subject, always centered: a youth basketball coach in their 40s (plain dark polo shirt with no logos) standing near the sideline, holding a phone in a plain black case whose screen faces away from the camera.
+Timing:
+0–4 s: the coach looks at the phone, raises their eyebrows, then breaks into a proud smile.
+4–7 s: the coach walks two steps to a teenage player (about 16, plain white practice jersey with no numbers and no logos) and gives them a fist bump.
+7–10 s: the player grins and walks away toward teammates stretching in the background; the coach watches, pleased.
+Camera: chest height, 50 mm lens, shallow depth of field, slow sideways tracking shot following the coach. Stable, no cuts.
+Nobody speaks, mouths stay closed. Ambient court sound only, no music.
+Avoid: a visible phone screen, jersey numbers, any readable text, letters or numbers, logos, brand names, scoreboards, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
+```
+
+## C: מנהל ומורה עוברים על נתונים (פתיח לגרסת המנהלים)
+```
+Vertical 9:16 video, 10 seconds, photorealistic, clean corporate-documentary look, 24 fps.
+Setting: a bright, modern school staff room in the morning, large window in the background showing students playing basketball outside, softly out of focus.
+Main subjects, centered: a school principal in their 50s (plain light-blue shirt, no logos) sitting at a table holding a tablet in a plain grey case, and a physical education teacher in their mid-30s (plain navy tracksuit, no logos, silver whistle on a black cord) standing beside them.
+The tablet screen always faces away from the camera, or is so out of focus that nothing on it can be read.
+Timing:
+0–4 s: seen slightly over the principal's shoulder, the principal scrolls calmly on the tablet and nods slowly.
+4–7 s: the principal looks up at the teacher and smiles in approval.
+7–10 s: the teacher smiles back and gives a small confident nod; both look relaxed and pleased.
+Camera: seated eye level, 50 mm lens, shallow depth of field, slow dolly-in. Stable, no cuts.
+Nobody speaks, mouths stay closed. Ambient room sound only, no music.
+Avoid: a readable tablet screen, charts with text, any readable text, letters or numbers, logos, brand names, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
+```
+
+## F (רשות): צילום אמיתי לפוטו־פיניש
+אם יש קטע כזה, אני מזין אותו כ«מצלמה» לפוטו־פיניש האמיתי של האפליקציה. זו החלופה לסימולציה עם הנקודות הצבעוניות.
+המנוע יזהה את הרצים שחוצים את הקו, וכך בפרסומת רואים את המערכת האמיתית עובדת על צילום אמיתי.
+כאן, בשונה משאר הקטעים, המצלמה חייבת להיות **קבועה לגמרי**, והרצים צריכים לנוע **מימין לשמאל**.
+```
+Horizontal 16:9 video, 10 seconds, photorealistic, 30 fps.
+A completely static camera on a tripod, side view, placed exactly perpendicular to the finish line of a red school running track, about 8 meters from the lanes. The camera does not move, pan, zoom or shake at any moment.
+Four teenage runners (15–17, mixed, plain black and white running gear, no logos, no bib numbers) in four separate lanes sprint across the frame from the right edge to the left edge at slightly different speeds, and all four cross the middle of the frame between 3 and 7 seconds.
+Bright even daylight, no strong shadows, plain green grass in the background, nothing else moving in the background.
+Real speed, not slow motion. No cuts. Nobody speaks.
+Avoid: camera movement of any kind, people or objects moving in the background, bib numbers, any readable text, letters or numbers, logos, distorted limbs or running motion, cartoon or 3D-render look, slow motion.
+```
+
+---
+
+## אם משהו יוצא לא טוב, מה לשנות בניסיון הבא
+
+| מה קרה | מה מוסיפים או משנים בפרומפט |
+|---|---|
+| הופיע טקסט, לוגו או מספרים | להוסיף בהתחלה: `Absolutely no text, letters, numbers or logos anywhere in the frame.` |
+| ידיים או אצבעות מעוותות | להחליף את המצלמה ב־`medium-wide shot, hands small in frame` |
+| מסך הטלפון נראה | להוסיף: `The phone is always seen from behind; its screen is never visible.` |
+| אנשים מדברים או מזיזים שפתיים | להוסיף: `Everyone keeps their mouth closed the whole time.` |
+| יצא בהילוך איטי | להוסיף: `Real-time speed, no slow motion, no speed ramps.` |
+| יצאו חיתוכים או כמה שוטים | להוסיף: `One single continuous shot.` |
+| הנושא בצד הפריים | להוסיף: `The main subject stays exactly in the horizontal center of the frame.` |
+| ב־B זה לא נראה אותו מורה | לצרף פריים מ־A כתמונת רפרנס, או להשתמש ב־B כמו שהוא. זה פחות קריטי, כי B נמשך רק 3 שניות |
+
+**הקבצים נכנסים לבד:** `tools/marketing-assemble.js` מחפש `gemini/gemini_A.mp4` וכן הלאה. אם הקובץ קיים, הוא נכנס במקום כרטיס ממלא המקום. אם הפורמט לא אנכי, הקטע נחתך ל־9:16 מהמרכז.
