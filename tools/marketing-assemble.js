@@ -44,8 +44,14 @@ function probeDur(file){
   const m=out.match(/Duration: (\d+):(\d+):([\d.]+)/);
   return m? (+m[1])*3600+(+m[2])*60+(+m[3]) : 0;
 }
-function silences(file){
-  const out=String(spawnSync(FF,["-hide_banner","-i",file,"-af","silencedetect=n=-35dB:d=0.22","-f","null","-"]).stderr||"");
+/* קריינות שנקראת ברצף (למשל multilingual_v2) כמעט בלי הפסקות — אם אין מספיק
+   שתיקות לכל הגבולות, מחפשים שוב בסף רגיש יותר */
+function silences(file,need){
+  const found=silences1(file,"-35dB",0.22);
+  return found.length-2>=need? found : silences1(file,"-30dB",0.12);
+}
+function silences1(file,n,d){
+  const out=String(spawnSync(FF,["-hide_banner","-i",file,"-af",`silencedetect=n=${n}:d=${d}`,"-f","null","-"]).stderr||"");
   const st=[...out.matchAll(/silence_start: ([\d.]+)/g)].map(m=>+m[1]);
   const en=[...out.matchAll(/silence_end: ([\d.]+)/g)].map(m=>+m[1]);
   return st.map((s,i)=>({s, e:en[i]!=null?en[i]:s}));
@@ -69,18 +75,38 @@ function cueTimes(chunks, dur, sil){
   const hard=chunks.slice(0,B).map(c=>/[.?!:—…؟]$/.test(c));
   const mid=(x)=>(x.s+x.e)/2, sd=(x)=>x.e-x.s;
   const unused=(x)=>sd(x)>=0.4?2*sd(x):0.3*sd(x);
-  const dp=[...Array(B+1)].map(()=>Array(M+1).fill(Infinity)), how=[...Array(B+1)].map(()=>Array(M+1).fill(null));
-  dp[0][0]=0;
-  const relax=(i,j,v,h)=>{ if(v<dp[i][j]){ dp[i][j]=v; how[i][j]=h; } };
-  for(let i=0;i<=B;i++)for(let j=0;j<=M;j++){
-    const v=dp[i][j]; if(v===Infinity)continue;
-    if(j<M)relax(i,j+1,v+unused(inner[j]),"skip");
-    if(i<B)relax(i+1,j,v+(hard[i]?3:0.6),"free");
-    if(i<B&&j<M)relax(i+1,j+1,v+0.5*Math.abs(mid(inner[j])-guess[i]),"snap");
+  const free=(b)=>hard[b]?3:0.6;
+  /* עונש על קטע שאורכו לא מתאים לכמות הטקסט שבו (קריינות רציפה מלאה
+     בהפסקות זעירות, וקל ליפול על אחת מהן) */
+  const rate=net/sum, chars=(a,z)=>len.slice(a,z).reduce((x,y)=>x+y,0);
+  const durPen=(t0,t1,a,z)=>{ const act=Math.max(0.05,speech(t1)-speech(t0)), exp=rate*chars(a,z); return 2*Math.abs(Math.log(act/exp)); };
+  /* S[i][p]: נקבעו i גבולות, והאחרון נצמד לשתיקה p (p=-1 → תחילת הקריינות) */
+  const key=(i,p)=>i+":"+p, S=new Map(), from=new Map();
+  S.set(key(0,-1),0);
+  const endT=(p)=>p<0?lead:inner[p].e;
+  let best=Infinity, bestKey=null;
+  for(let i=0;i<=B;i++)for(let p=-1;p<M;p++){
+    const v=S.get(key(i,p)); if(v===undefined)continue;
+    /* סיום: כל הגבולות שנותרו חופשיים */
+    let fin=v+durPen(endT(p),tail,i,B+1);
+    for(let b=i;b<B;b++)fin+=free(b);
+    for(let q=p+1;q<M;q++)fin+=unused(inner[q]);
+    if(fin<best){ best=fin; bestKey=[i,p,"end"]; }
+    let freeAcc=0;
+    for(let k=i+1;k<=B;k++){
+      let skip=0;
+      for(let j=p+1;j<M;j++){
+        if(j>p+1)skip+=unused(inner[j-1]);
+        if(inner[j].s<=endT(p))continue;
+        const c=v+freeAcc+skip+0.3*Math.abs(mid(inner[j])-guess[k-1])+durPen(endT(p),inner[j].s,i,k);
+        const kk=key(k,j);
+        if(c<(S.get(kk)??Infinity)){ S.set(kk,c); from.set(kk,[i,p]); }
+      }
+      freeAcc+=free(k-1);
+    }
   }
   const bounds=Array(B).fill(null);
-  for(let i=B,j=M;i>0||j>0;){ const h=how[i][j];
-    if(h==="skip")j--; else if(h==="free"){ i--; } else { i--; j--; bounds[i]=inner[j]; } }
+  for(let [i,p]=bestKey; p>=0; ){ bounds[i-1]=inner[p]; [i,p]=from.get(key(i,p)); }
   /* גבולות חופשיים: חלוקה יחסית בתוך הטווח שבין העוגנים שמשני הצדדים */
   for(let i=0;i<B;i++){
     if(bounds[i])continue;
@@ -161,7 +187,7 @@ async function renderPng(page,html,file,opaque){
   const chunks=L.vo.split("|").map(s=>s.trim());
   const need=V.segs.reduce((a,s)=>a+s.n,0);
   if(chunks.length!==need)throw new Error(`${lang}: ${chunks.length} subtitle chunks, segments expect ${need}`);
-  const cues=cueTimes(chunks,dur,silences(voFile)).map(c=>({...c,start:c.start+VO_AT,end:c.end+VO_AT}));
+  const cues=cueTimes(chunks,dur,silences(voFile,chunks.length-1)).map(c=>({...c,start:c.start+VO_AT,end:c.end+VO_AT}));
   let ci=0;
   const segs=V.segs.map((s,i)=>{ const first=ci; ci+=s.n; return {...s, cues:cues.slice(first,ci), t0:i?cues[first].start-0.12:0}; });
   segs.forEach((s,i)=>{ s.t1=i<segs.length-1?segs[i+1].t0:TOTAL; s.d=s.t1-s.t0; });
