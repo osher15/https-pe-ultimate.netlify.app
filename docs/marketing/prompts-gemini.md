@@ -23,6 +23,40 @@
 
 ---
 
+## Grok או Gemini?
+- **Grok** יוצר קטעים של 6 שניות, בחינם. זה מספיק לפתיח (A) ולרגע הרגוע (B), כי מכל אחד מהם נכנסות 3–6 שניות.
+  - הקטע הראשון מ־Grok היה טוב מזה של Gemini, ועם הכתוביות הוא עובד יפה בפרסומת.
+- **Gemini** נשאר לקטעים שצריכים 10 שניות, או כשרוצים 1080p.
+- **הכיוון עכשיו: מציאותי, לא מבוים.**
+  - רגע שכל מורה חווה, מצולם כאילו מישהו צילם בטלפון במקרה.
+  - בלי גאגים ובלי מבט למצלמה. ההומור בא מזה שמזהים את עצמך.
+
+### A ל־Grok: סוף שיעור אמיתי (6 שנ׳)
+```
+Vertical 9:16, 6 seconds, candid handheld documentary footage, as if filmed on a phone by a colleague, realistic and unstaged.
+A real school gym at the end of a PE lesson: worn wooden floor, mixed fluorescent and window light, school bags and water bottles dumped on a bench.
+A PE teacher in her mid-30s, dark hair tied back, navy tracksuit, whistle and stopwatch around her neck, stands by the bench holding a clipboard with a thick stack of papers.
+0–3 s: five out-of-breath teenage students crowd around her at once, talking over each other and pointing at the clipboard, each asking what result they got; she flips through the pages searching for a name, crosses something out and rewrites it.
+3–6 s: the bell rings off-screen; the students keep asking; she glances at the wall clock and lets out a quiet, tired breath, still writing.
+Natural, unposed movement, nobody looks at the camera. The papers show only faint unreadable pencil lines.
+No text, no letters, no numbers, no logos anywhere. No slapstick, no slow motion, no cuts.
+```
+
+### B ל־Grok: תלמיד רואה שהשתפר (6 שנ׳)
+```
+Vertical 9:16, 6 seconds, candid handheld documentary footage, as if filmed on a phone, realistic and unstaged, bright daylight in a school gym.
+The same PE teacher in her mid-30s, dark hair tied back, navy tracksuit, whistle around her neck, holds a smartphone; next to her a 14-year-old student, sweaty and out of breath after a run, plain grey T-shirt.
+0–3 s: the teacher taps the phone once and turns the screen toward the student; we only see the back of the phone, never the screen.
+3–6 s: the student leans in, reads, and breaks into a shy, proud smile, trying not to show it too much; a friend behind him nudges his shoulder and grins; the teacher gives a small approving nod.
+Natural, unposed, nobody looks at the camera.
+No visible phone screen, no text, no letters, no numbers, no logos anywhere. No slow motion, no cuts.
+```
+
+**שמירה:** גם קטעי Grok נשמרים בשם `gemini_A.mp4` / `gemini_B.mp4`, כי הסקריפט מחפש את השמות האלה.
+הפרומפטים ל־Gemini שלמטה ממשיכים לעבוד. מי שמשתמש בהם יכול לקחת משם את כיוון ה«מציאותי»: להוסיף `candid handheld documentary, unstaged` ולהוריד את המבט למצלמה.
+
+---
+
 ## A: «עוד יום רגיל», הומור מזוהה (פתיח לגרסת המורים)
 הגרסה הקודמת יצאה נכונה אבל יבשה: המורה כותבת, ושום דבר לא קורה.
 כאן יש שלושה «אסונות קטנים» שכל מורה מכיר, ומבט יבש למצלמה בסוף. זה הרגע שנכנס לפרסומת (0–6 שנ׳).

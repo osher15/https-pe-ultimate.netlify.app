@@ -273,7 +273,8 @@ async function renderPng(page,html,file,opaque){
       const gem=s.src&&path.join(work,"gemini",s.src+".mp4");
       if(gem&&fs.existsSync(gem)){
         inputs.push("-i",gem);
-        chain.push(`[0:v]fps=${FPS},scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},tpad=stop_mode=clone:stop_duration=${TOTAL}[a1]`);
+        /* קטעי AI מגיעים לרוב קטנים (720p ומטה); חידוד עדין אחרי ההגדלה */
+        chain.push(`[0:v]fps=${FPS},scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},unsharp=5:5:0.6,tpad=stop_mode=clone:stop_duration=${TOTAL}[a1]`);
       } else {
         inputs.push("-loop","1","-i",P(`card${i}.png`));
         /* זום איטי, כדי שכרטיס סטטי לא ייראה קפוא */
