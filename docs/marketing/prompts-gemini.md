@@ -24,7 +24,8 @@
 ---
 
 ## Grok או Gemini?
-- **Grok** יוצר קטעים של 6 שניות, בחינם. זה מספיק לפתיח (A) ולרגע הרגוע (B), כי מכל אחד מהם נכנסות 3–6 שניות.
+- **Grok** יוצר קטעים של 6 שניות. הקטע הראשון היה בחינם, ומהשני כבר בתשלום. 6 שניות מספיקות לפתיח (A) ולרגע הרגוע (B), כי מכל אחד מהם נכנסות 3–6 שניות.
+- **GPT/Sora** (2–3 ביום במנוי): חלופה טובה ל־B כשהמכסה של Gemini נגמרה.
   - הקטע הראשון מ־Grok היה טוב מזה של Gemini, ועם הכתוביות הוא עובד יפה בפרסומת.
 - **Gemini** נשאר לקטעים שצריכים 10 שניות, או כשרוצים 1080p.
 - **הכיוון עכשיו: מציאותי, לא מבוים.**
@@ -35,7 +36,7 @@
 ```
 Vertical 9:16, 6 seconds, candid handheld documentary footage, as if filmed on a phone by a colleague, realistic and unstaged.
 A real school gym at the end of a PE lesson: worn wooden floor, mixed fluorescent and window light, school bags and water bottles dumped on a bench.
-A PE teacher in her mid-30s, dark hair tied back, navy tracksuit, whistle and stopwatch around her neck, stands by the bench holding a clipboard with a thick stack of papers.
+A PE teacher in her mid-40s, dark hair tied back loosely, navy zip-up tracksuit, silver stopwatch on a black cord, stands by the bench holding a clipboard with a thick stack of papers.
 0–3 s: five out-of-breath teenage students crowd around her at once, talking over each other and pointing at the clipboard, each asking what result they got; she flips through the pages searching for a name, crosses something out and rewrites it.
 3–6 s: the bell rings off-screen; the students keep asking; she glances at the wall clock and lets out a quiet, tired breath, still writing.
 Natural, unposed movement, nobody looks at the camera. The papers show only faint unreadable pencil lines.
@@ -45,7 +46,7 @@ No text, no letters, no numbers, no logos anywhere. No slapstick, no slow motion
 ### B ל־Grok: תלמיד רואה שהשתפר (6 שנ׳)
 ```
 Vertical 9:16, 6 seconds, candid handheld documentary footage, as if filmed on a phone, realistic and unstaged, bright daylight in a school gym.
-The same PE teacher in her mid-30s, dark hair tied back, navy tracksuit, whistle around her neck, holds a smartphone; next to her a 14-year-old student, sweaty and out of breath after a run, plain grey T-shirt.
+The same PE teacher in her mid-40s, dark hair tied back loosely, navy zip-up tracksuit, silver stopwatch on a black cord, holds a smartphone; next to her a 14-year-old student, sweaty and out of breath after a run, plain grey T-shirt.
 0–3 s: the teacher taps the phone once and turns the screen toward the student; we only see the back of the phone, never the screen.
 3–6 s: the student leans in, reads, and breaks into a shy, proud smile, trying not to show it too much; a friend behind him nudges his shoulder and grins; the teacher gives a small approving nod.
 Natural, unposed, nobody looks at the camera.
@@ -76,21 +77,21 @@ The paper sheets show only faint, unreadable grey pencil lines — no letters, n
 Avoid: any readable text, letters or numbers anywhere, logos, brand names, scoreboards, jersey numbers, exaggerated slapstick or falling down, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
 ```
 
-## B: הרגע המרגש, תלמיד רואה שהשתפר (רגע רגוע: מורים ומנהלים)
-המורה מראה לתלמיד את התוצאה שלו בטלפון, ופניו של התלמיד נדלקות. הרגע שנכנס לפרסומת הוא 0–4 שנ׳.
+## B: תלמיד רואה שהשתפר, מציאותי (רגע רגוע: מורים ומנהלים)
+**עובד ב־Gemini, ב־GPT/Sora וב־Grok.** אם הכלי מאפשר לצרף תמונה, מצרפים את `ref_teacher.png`: המורה מהפתיח, שנשלחה בצ'אט.
+רגע השיא, שנכנס לפרסומת, הוא ב־0–4 שנ׳. אם הכלי יוצר רק 5–6 שנ׳, זה מספיק.
 ```
-Portrait orientation, 9:16 vertical video, 10 seconds, photorealistic, warm uplifting sports-commercial look, 24 fps.
-Setting: the same indoor school gymnasium, now bright and cheerful, soft daylight, wooden floor with painted court lines.
-Main subjects, centered: the same physical education teacher in her mid-30s, dark hair tied back, plain navy tracksuit with no logos, silver whistle on a black cord, stopwatch around the neck, holding a smartphone in a plain black case. Next to her, a 14-year-old student, out of breath after a run, plain grey T-shirt and navy shorts, no logos, no numbers.
-The phone screen faces the student; from the camera we only ever see the back or the edge of the phone, never the screen.
+Portrait orientation, 9:16 vertical video, 10 seconds, candid handheld documentary footage, as if filmed on a phone by a colleague, realistic and unstaged, 24 fps.
+Setting: the same school gym, bright daylight through high windows, worn wooden floor, school bags on a bench.
+Main subjects, centered: a PE teacher in her mid-40s with dark hair tied back loosely, navy zip-up tracksuit, a silver stopwatch on a black cord around her neck, holding a smartphone in a plain black case. Next to her, a 14-year-old boy, sweaty and out of breath after a run, plain grey T-shirt and navy shorts, no logos.
+The phone screen faces the boy; from the camera we only ever see the back or the edge of the phone, never the screen.
 Timing:
-0–2 s: the student, hands on knees and breathing hard, looks up at the teacher with a hopeful "how did I do?" face; the teacher taps the phone once and turns it toward the student.
-2–4 s: the student's face lights up in surprise and pride; he makes a small fist pump; the teacher smiles warmly, proud of him.
-4–7 s: the teacher gives him a high-five; two classmates run over and pat him on the back, cheering.
-7–10 s: the teacher steps back, relaxed and happy, watching the class celebrate.
-Camera: chest height, 35 mm lens, shallow depth of field, slow arc from the side so both faces are visible. Stable camera, one single continuous shot.
-The teacher does not speak. Students may cheer and laugh.
-Avoid: a visible phone screen, any readable text, letters or numbers, logos, brand names, jersey numbers, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
+0–2 s: the boy, hands on his hips and breathing hard, looks at the teacher with a hopeful face; she taps the phone once and turns it toward him.
+2–4 s: he leans in, reads, and breaks into a shy, proud smile he tries to hide; she gives a small, warm approving nod.
+4–7 s: a friend behind him nudges his shoulder and grins; the boy laughs a little, embarrassed and happy.
+7–10 s: the teacher turns back to the class, relaxed, a slight smile on her face; students jog in the background.
+Natural, unposed movement, nobody looks at the camera. The teacher does not speak; students may chat quietly.
+Avoid: a visible phone screen, any readable text, letters or numbers, logos, brand names, jersey numbers, exaggerated celebration, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
 ```
 
 ## E: מאמן כושר ואתלטים (פתיח לגרסת המאמנים)

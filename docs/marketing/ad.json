@@ -88,6 +88,50 @@
      "בלי קליטה. הכול במכשיר.",
      "פחות ניירת. יותר שיעור."
     ]
+   },
+   "en": {
+    "vo": "Thirty students, pen and paper —|and typing it all up again tonight?|With PE Ultimate, it's all on your phone.|A lesson plan built in seconds —|that runs with you on the field.|Photo-finish times every runner from the camera.|Beep test and fitness tests, saved for every student.|It works without signal, and your data stays on your device.|Less paperwork — more PE.|PE Ultimate.",
+    "lines": [
+     "A lesson plan in seconds",
+     "Your lesson, live on the field",
+     "Photo-finish from your camera",
+     "Beep test + fitness tests",
+     "Works offline. Data stays with you.",
+     "Less paperwork. More PE."
+    ]
+   },
+   "ar": {
+    "vo": "ثلاثون طالبًا، ورقة وقلم —|ثم تعيد إدخال كل شيء في المساء؟|مع PE Ultimate كل شيء على هاتفك.|خطة درس جاهزة في ثوانٍ —|ترافقك في الملعب.|تصوير خط النهاية يقيس الأزمنة من الكاميرا.|اختبار البيب واختبارات اللياقة تُحفظ لكل طالب.|يعمل دون إنترنت، وبياناتك تبقى على جهازك.|أوراق أقل — حصة أكثر.|PE Ultimate.",
+    "lines": [
+     "خطة درس في ثوانٍ",
+     "الدرس يرافقك في الملعب",
+     "تصوير خط النهاية بالكاميرا",
+     "البيب واختبارات اللياقة",
+     "دون إنترنت. كل شيء على جهازك.",
+     "أوراق أقل. حصة أكثر."
+    ]
+   },
+   "ru": {
+    "vo": "Тридцать учеников, ручка и бумага —|и вечером опять всё переписывать?|С PE Ultimate всё в телефоне.|План урока за секунды —|и он идёт с вами на площадке.|Фотофиниш засекает время прямо с камеры.|Бип-тест и нормативы сохраняются для каждого ученика.|Работает без интернета, а данные остаются на вашем устройстве.|Меньше бумаг — больше урока.|PE Ultimate.",
+    "lines": [
+     "План урока за секунды",
+     "Урок идёт вместе с вами",
+     "Фотофиниш с камеры",
+     "Бип-тест и нормативы",
+     "Без интернета. Всё на устройстве.",
+     "Меньше бумаг. Больше урока."
+    ]
+   },
+   "es": {
+    "vo": "Treinta alumnos, papel y bolígrafo…|¿y esta noche a pasarlo todo otra vez?|Con PE Ultimate, todo en el móvil.|Una sesión planificada en segundos…|que te acompaña en la pista.|El foto-finish cronometra desde la cámara.|Course Navette y pruebas físicas, guardadas para cada alumno.|Funciona sin conexión, y tus datos se quedan en tu dispositivo.|Menos papeles, más Educación Física.|PE Ultimate.",
+    "lines": [
+     "Sesión lista en segundos",
+     "La clase va contigo a la pista",
+     "Foto-finish con la cámara",
+     "Course Navette y pruebas",
+     "Sin conexión. Todo en tu móvil.",
+     "Menos papeles. Más clase."
+    ]
    }
   },
   "teachers60": {
@@ -203,6 +247,66 @@
      "נוכחות וציונים",
      "בלי קליטה. הכול במכשיר.",
      "פחות ניירת. יותר שיעור."
+    ]
+   },
+   "en": {
+    "vo": "Thirty students, a fitness test, pen and paper —|and typing it all up again tonight.|Meet PE Ultimate: a complete field kit for PE teachers, on your phone.|Start with a lesson plan:|pick a topic, and in seconds you have a full plan —|that runs with you on the field, step by step, with a timer.|Need to time a run?|Photo-finish detects who crossed the line and times it from the camera.|A beep test with a live results board,|and thirty fitness tests, saved on each student's card —|so you can see who improved over the year.|Teaching two classes together?|Combine them once, and every result is saved to each student's own class.|Attendance in one tap, and grades built from attendance and real measurements.|And it all works without signal —|your data stays on your device, with no account and no server.|Less paperwork — more PE.|PE Ultimate — in five languages.",
+    "lines": [
+     "A complete field kit — on your phone",
+     "A lesson plan in seconds",
+     "Your lesson, live on the field",
+     "Photo-finish from your camera",
+     "Beep test + results board",
+     "A card for every student",
+     "Two classes — one entry",
+     "Attendance and grades",
+     "Works offline. Data stays with you.",
+     "Less paperwork. More PE."
+    ]
+   },
+   "ar": {
+    "vo": "ثلاثون طالبًا، اختبار لياقة، ورقة وقلم —|ثم تعيد إدخال كل شيء في المساء.|تعرّف على PE Ultimate: عدّة ميدانية كاملة لمعلّم التربية البدنية، على هاتفك.|ابدأ بخطة الدرس:|اختر موضوعًا، وخلال ثوانٍ تحصل على خطة كاملة —|ترافقك في الملعب، خطوة بخطوة، مع مؤقّت.|تحتاج إلى قياس زمن الجري؟|تصوير خط النهاية يكتشف من عبر الخط، ويقيس الزمن من الكاميرا.|اختبار البيب مع لوحة نتائج،|وثلاثون اختبار لياقة تُحفظ في بطاقة كل طالب —|فترى من تحسّن على مدار السنة.|لديك صفّان يتعلّمان معًا؟|ادمجهما مرة واحدة، وتُحفظ كل نتيجة في صف الطالب نفسه.|الحضور بلمسة، وعلامات تُبنى من الحضور والقياسات.|وكل ذلك يعمل دون إنترنت —|بياناتك تبقى على جهازك، بلا حساب وبلا خادم.|أوراق أقل — حصة أكثر.|PE Ultimate — بخمس لغات.",
+    "lines": [
+     "عدّة ميدانية كاملة — على هاتفك",
+     "خطة درس في ثوانٍ",
+     "الدرس يرافقك في الملعب",
+     "تصوير خط النهاية بالكاميرا",
+     "البيب + لوحة النتائج",
+     "بطاقة لكل طالب",
+     "صفّان — إدخال واحد",
+     "الحضور والعلامات",
+     "دون إنترنت. كل شيء على جهازك.",
+     "أوراق أقل. حصة أكثر."
+    ]
+   },
+   "ru": {
+    "vo": "Тридцать учеников, тест по физподготовке, ручка и бумага —|а вечером всё переписывать заново.|Знакомьтесь, PE Ultimate: полный набор учителя физкультуры в вашем телефоне.|Начните с плана урока:|выберите тему — и через секунды готов полный план,|который идёт с вами на площадке, шаг за шагом, с таймером.|Нужно засечь забег?|Фотофиниш видит, кто пересёк линию, и засекает время с камеры.|Бип-тест с таблицей результатов,|и тридцать нормативов в карточке каждого ученика —|видно, кто вырос за год.|Два класса занимаются вместе?|Объедините их один раз — и каждый результат сохранится в классе самого ученика.|Посещаемость одним касанием, а оценки — из посещаемости и измерений.|И всё работает без интернета —|данные остаются на вашем устройстве, без аккаунта и без сервера.|Меньше бумаг — больше урока.|PE Ultimate — на пяти языках.",
+    "lines": [
+     "Полный набор — в телефоне",
+     "План урока за секунды",
+     "Урок идёт вместе с вами",
+     "Фотофиниш с камеры",
+     "Бип-тест + таблица",
+     "Карточка каждого ученика",
+     "Два класса — один ввод",
+     "Посещаемость и оценки",
+     "Без интернета. Всё на устройстве.",
+     "Меньше бумаг. Больше урока."
+    ]
+   },
+   "es": {
+    "vo": "Treinta alumnos, una prueba física, papel y bolígrafo…|y esta noche a pasarlo todo otra vez.|Te presentamos PE Ultimate: un kit de campo completo para Educación Física, en tu móvil.|Empieza por la sesión:|eliges un tema y en segundos tienes una sesión completa…|que te acompaña en la pista, paso a paso, con temporizador.|¿Necesitas cronometrar una carrera?|El foto-finish detecta quién cruza la línea y mide el tiempo desde la cámara.|Course Navette con tabla de resultados,|y treinta pruebas físicas guardadas en la ficha de cada alumno…|así ves quién ha mejorado durante el curso.|¿Dos grupos que hacen clase juntos?|Únelos una vez, y cada resultado se guarda en el grupo de cada alumno.|Asistencia con un toque, y notas que salen de la asistencia y las mediciones.|Y todo funciona sin conexión…|tus datos se quedan en tu dispositivo, sin cuenta y sin servidor.|Menos papeles, más Educación Física.|PE Ultimate, en cinco idiomas.",
+    "lines": [
+     "Kit completo — en tu móvil",
+     "Sesión lista en segundos",
+     "La clase va contigo a la pista",
+     "Foto-finish con la cámara",
+     "Course Navette + tabla",
+     "Una ficha por alumno",
+     "Dos grupos — una sola entrada",
+     "Asistencia y notas",
+     "Sin conexión. Todo en tu móvil.",
+     "Menos papeles. Más clase."
     ]
    }
   }
