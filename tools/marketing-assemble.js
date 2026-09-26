@@ -243,7 +243,8 @@ async function renderPng(page,html,file,opaque){
       await renderPng(page,`<div class="bg"></div><div class="lanes"></div><div class="card">${big?`<div class="big">${big}</div>`:""}
         <div class="ph">כאן ייכנס קטע ${s.src}.mp4</div></div>`,P(`card${i}.png`),true);
     } else if(s.src && s.line!=null){
-      await renderPng(page,`<div class="card"><div class="big" style="text-shadow:0 6px 30px rgba(0,0,0,.7)">${hlText(L.lines[s.line],true)}</div></div>`,P(`hl${i}.png`));
+      /* מעל צילום אמיתי: הכותרת בראש הפריים, כדי לא לכסות פנים */
+      await renderPng(page,`<div class="card" style="justify-content:flex-start;padding-top:150px"><div class="big" style="text-shadow:0 6px 30px rgba(0,0,0,.7)">${hlText(L.lines[s.line],true)}</div></div>`,P(`hl${i}.png`));
     }
     if(s.k==="end")
       await renderPng(page,`<div class="bg"></div><div class="lanes"></div><div class="card">
