@@ -3118,7 +3118,7 @@ const PF=(function(){
     mode=m; LS.set("pf.mode",m);
     $$("#pf-modes button").forEach(b=>b.classList.toggle("on",b.dataset.m===m));
     $("#pf-video").style.display=m==="cam"?"":"none";
-    $("#pf-sim").style.display=m==="sim"?"":"none";
+    $("#pf-sim").style.display=m==="sim"?"block":"none";   /* ב-CSS ברירת המחדל היא none */
     if(m==="sim"){ camOff(); $("#pf-status").textContent="מצב סימולציה"; paintManual(); drawSimIdle(); }
     else{ camOn(); }
   }

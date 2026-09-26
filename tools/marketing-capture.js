@@ -66,6 +66,7 @@ function seed(lang,withGroup){
     return {id:i+1,name:s.name,level:lv,sh,dist:(lv*8+sh)*20-160,time:lv*60+sh*8,speed:8+lv*0.5}; });
   return {"ft.classes":cls,"stu.list":stu,"ft.results":res,"pf.guideSeen":true,"hx.leadDone":true,
     "schema.version":D.SCHEMA_VERSION,"lang":lang,
+    "pf.names":stu.slice(0,4).map(s=>s.name),"pf.laneN":4,
     "ft.last":withGroup?{grade:"ט",num:1,gid:GID}:{grade:"ט",num:1},
     "hub.cls":withGroup?GID:"c:ט:1",
     "bt.results":beepRes,"bt.heat":{cls:"ט׳1 + ט׳4",names:stu.map(s=>s.name)}};
@@ -213,6 +214,34 @@ const SCENES={
   /* 9. התקדמות הקבוצה (מאמנים ומנהלים) */
   prog:{group:true,prep:async p=>{ await p.evaluate(g=>window.FT.show(g,"prog"),GID); await wait(1200); },
     run:async p=>{ await wait(900); await glide(p,480,1800); await wait(1000); }},
+  /* 10. פוטו־פיניש — מצב הסימולציה המובנה: זינוק, הרצים חוצים את הקו,
+     הזמנים נרשמים לבד. Math.random קבוע כדי שכל שפה תקבל אותו מירוץ */
+  pf:{group:true,prep:async p=>{
+      await p.evaluate(()=>{ let s=20260926; Math.random=()=>((s=s*16807%2147483647)/2147483647); });
+      await p.evaluate(()=>window.HM.go("photo")); await wait(1200); },
+    run:async p=>{
+      await wait(500);
+      await tap(p,"#pf-gun",{pause:7600});
+      await p.evaluate(()=>document.getElementById("pf-chips").scrollIntoView({block:"center",behavior:"smooth"}));
+      await wait(1500);
+    }},
+  /* 11. מחולל מערכים — «בנה מערך בשניות» ואז «התחל שיעור» */
+  lesson:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("lesson")); await wait(1100); },
+    run:async p=>{
+      await wait(500);
+      await tap(p,"#ls-gen",{pause:1500});
+      await p.mouse.move(W/2,H*0.6);
+      await glide(p,700,2200); await wait(900);
+    }},
+  /* 12. שיעור חי — המערך רץ בטלפון במגרש */
+  live:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("lesson")); await wait(1000);
+      await p.evaluate(()=>document.getElementById("ls-gen").click()); await wait(1200); },
+    run:async p=>{
+      await wait(400);
+      await tap(p,"#ls-startLesson",{pause:2200});
+      await p.mouse.move(W/2,H*0.6);
+      await glide(p,400,1600); await wait(1000);
+    }},
   /* 6. מרכז הכיתה — תמונת מצב */
   hub:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("cls")); await wait(1100); },
     run:async p=>{ await wait(900); await glide(p,520,1800); await wait(1000); }}

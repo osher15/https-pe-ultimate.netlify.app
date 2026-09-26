@@ -33,7 +33,8 @@ function ffmpegBin(){
 const FF=ffmpegBin();
 const ff=(args)=>execFileSync(FF,["-hide_banner","-loglevel","error","-y",...args],{stdio:["ignore","pipe","pipe"]});
 
-const W=1080, H=1920, FPS=30, TOTAL=30;
+const W=1080, H=1920, FPS=30;
+let TOTAL=30;                 /* אורך הסרטון — מהגרסה ב-ad.json (ברירת מחדל 30) */
 /* מיקום הטלפון בתוך הפריים האנכי */
 const PH={w:800, h:1422, x:140, y:300, r:56};
 const RTL={he:1, ar:1};
@@ -172,6 +173,14 @@ async function renderPng(page,html,file,opaque){
   const ad=JSON.parse(fs.readFileSync(path.join(ROOT,"docs/marketing/ad.json"),"utf8"));
   const V=ad.versions[version], L=V&&V[lang];
   if(!L)throw new Error("no data for "+version+"/"+lang);
+  TOTAL=V.total||30;
+  /* --tts: מדפיס את הטקסט לקריינות (בלי '|', אחרי החלפות say) ויוצא */
+  if(process.argv.includes("--tts")){
+    let t=L.vo.split("|").map(x=>x.trim()).join(" ");
+    const rep={...(ad.say&&ad.say["*"]||{}),...(ad.say&&ad.say[lang]||{})};
+    Object.keys(rep).forEach(k=>{ t=t.split(k).join(rep[k]); });
+    console.log(t); return;
+  }
   const vo=path.join(work,"vo",`${lang}_${version}.mp3`);
   if(!fs.existsSync(vo))throw new Error("missing "+vo);
   const tmp=path.join(work,"tmp",`${version}_${lang}`); fs.mkdirSync(tmp,{recursive:true});
@@ -179,8 +188,8 @@ async function renderPng(page,html,file,opaque){
 
   /* 1. תזמון */
   let dur=probeDur(vo);
-  /* הקריינות צריכה להסתיים עד 29.2 שנ׳; ארוכה מזה — מאיצים מעט (עד 12%) */
-  const tempo=Math.min(1.12,Math.max(1,dur/29.2));
+  /* הקריינות צריכה להסתיים 0.8 שנ׳ לפני הסוף; ארוכה מזה — מאיצים מעט (עד 12%) */
+  const tempo=Math.min(1.12,Math.max(1,dur/(TOTAL-0.8)));
   let voFile=vo;
   if(tempo>1.001){ voFile=path.join(tmp,"vo.wav"); ff(["-i",vo,"-af",`atempo=${tempo.toFixed(4)}`,voFile]); dur=probeDur(voFile); }
   const VO_AT=0.25;                                   /* הקריינות נכנסת רבע שנייה אחרי תחילת הסרטון */

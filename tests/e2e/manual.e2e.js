@@ -161,6 +161,20 @@ module.exports={title:"פוטו־פיניש — מצב ידני",tests:[
     const live=await page.evaluate(()=>
       getComputedStyle(document.getElementById("pf-sub-live")).display!=="none");
     ok(live,"וההקשה מחזירה למסך המקצה ומתחילה אותו");
+  }),
+
+  /* ---------- הסימולציה נראית ---------- */
+
+  /* ב-CSS הקנבס מוסתר כברירת מחדל. איפוס הסגנון המקומי ל-"" החזיר
+     אותו ל-none, והסימולציה רצה על מסך שחור */
+  check("במצב סימולציה המסלולים והרצים נראים",seed,async page=>{
+    await openPf(page);
+    const r=await page.evaluate(()=>{
+      const c=document.getElementById("pf-sim");
+      return {disp:getComputedStyle(c).display,w:c.getBoundingClientRect().width};
+    });
+    ok(r.disp!=="none","הקנבס מוצג");
+    ok(r.w>100,"ויש לו רוחב");
   })
 
 ]};
