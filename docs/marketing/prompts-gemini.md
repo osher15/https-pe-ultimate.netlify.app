@@ -5,7 +5,7 @@
 
 ## איך מריצים (חשוב, כדי שלא יתבזבז קטע)
 1. **מעתיקים את כל הפרומפט באנגלית כמו שהוא,** מתוך הבלוק. לא מקצרים ולא מתרגמים: המודל מדייק יותר באנגלית.
-2. **אם יש בחירת יחס מסך, בוחרים 9:16.** אם אין, זה בסדר: כל הפרומפטים שומרים את הנושא במרכז, ואני חותך ל־9:16 מהמרכז.
+2. **ב־Gemini בוחרים יחס 9:16 ואיכות 1080p, אם יש אפשרות כזו.** הקטע הראשון חזר 1280×720 אופקי למרות הבקשה בטקסט. זה עובד, כי הנושא נשאר במרכז ואני חותך ל־9:16 מהמרכז, אבל התמונה יוצאת רכה יותר.
 3. **אם אפשר לצרף תמונה, מצרפים ב־B פריים מתוך A,** כדי שזה ייראה כמו אותו מורה. הלבוש מתואר זהה בשני הפרומפטים.
 4. **הסאונד לא משנה.** אני משתיק אותו ושם את הקריינות שלנו.
 5. **שמירה:** `gemini_A.mp4`, `gemini_B.mp4` וכן הלאה. שולחים לי כקובץ בצ'אט, או כקישור לגוגל דרייב.
@@ -23,79 +23,83 @@
 
 ---
 
-## A: הבעיה, מורה טובע בניירת (פתיח לגרסת המורים)
+## A: «עוד יום רגיל», הומור מזוהה (פתיח לגרסת המורים)
+הגרסה הקודמת יצאה נכונה אבל יבשה: המורה כותבת, ושום דבר לא קורה.
+כאן יש שלושה «אסונות קטנים» שכל מורה מכיר, ומבט יבש למצלמה בסוף. זה הרגע שנכנס לפרסומת (0–6 שנ׳).
 ```
-Vertical 9:16 video, 10 seconds, photorealistic, natural documentary look, 24 fps.
-Setting: an indoor school gymnasium in the late afternoon, warm sunlight coming through high windows, light dust in the air, wooden floor with painted court lines.
-Main subject, always centered in the frame: a physical education teacher in their mid-30s wearing a plain navy tracksuit with no logos and a silver whistle on a black cord. They hold a clipboard stacked with loose white paper sheets, a pen in the other hand, and a stopwatch hangs from their neck.
-Background, softly out of focus: about fifteen teenage students (13–15 years old, mixed boys and girls, plain grey T-shirts and navy shorts, no logos, no numbers) running a shuttle sprint back and forth across the gym.
+Portrait orientation, 9:16 vertical video, 10 seconds, photorealistic, warm documentary look with a light comedic tone, like a relatable moment from a TV comedy, 24 fps.
+Setting: an indoor school gymnasium in the late afternoon, warm sunlight through high windows, wooden floor with painted court lines, basketball hoops.
+Main subject, always centered in the frame: a physical education teacher in her mid-30s, dark hair tied back, plain navy tracksuit with no logos, silver whistle on a black cord and a stopwatch around her neck, holding a clipboard stacked high with loose white paper sheets and a pen.
+Background: about fifteen lively teenage students (13–15, mixed boys and girls, plain grey T-shirts and navy shorts, no logos, no numbers) running, laughing and chatting.
 Timing:
-0–3 s: the teacher looks down and writes quickly on the clipboard, glances up at the running students, then back down, visibly overwhelmed.
-3–6 s: two loose sheets slip off the clipboard and flutter to the floor; the teacher sighs and closes their eyes for a moment in frustration.
-6–10 s: the teacher crouches to pick up the sheets while the students keep running behind.
-Camera: eye level, 50 mm lens, shallow depth of field, slow steady push-in from a medium shot to a medium close-up. Stable camera, no shaking, no cuts.
+0–2 s: she writes fast on the clipboard — the pen suddenly stops working; she shakes it hard and scribbles again, nothing comes out; she stares at the pen in disbelief.
+2–4 s: two sweaty students jog up to her at the same time from both sides, both eagerly pointing at the clipboard, each clearly asking about their own result; she looks from one to the other, overwhelmed.
+4–6 s: a basketball rolls in and bumps her leg; the stack of papers slides off the clipboard and the sheets flutter to the floor all around her. She freezes and turns her head slowly to look straight into the camera with a dry, deadpan "this is my life" expression.
+6–10 s: she lets out a long breath, gives a small resigned shrug and a tired half-smile to the camera; the students behind her crack up laughing.
+Camera: eye level, 40 mm lens, shallow depth of field, slow push-in from a medium shot to a medium close-up that ends on her deadpan look. Stable camera, one single continuous shot.
+The teacher does not speak. Students may chat and laugh in the background.
 The paper sheets show only faint, unreadable grey pencil lines — no letters, no numbers.
-Nobody speaks, mouths stay closed. Ambient gym sound only, no music.
-Avoid: any readable text, letters or numbers anywhere, logos, brand names, scoreboards, jersey numbers, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
+Avoid: any readable text, letters or numbers anywhere, logos, brand names, scoreboards, jersey numbers, exaggerated slapstick or falling down, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
 ```
 
-## B: הרגיעה, אותו מורה עם טלפון (רגע רגוע: מורים ומנהלים)
+## B: הרגע המרגש, תלמיד רואה שהשתפר (רגע רגוע: מורים ומנהלים)
+המורה מראה לתלמיד את התוצאה שלו בטלפון, ופניו של התלמיד נדלקות. הרגע שנכנס לפרסומת הוא 0–4 שנ׳.
 ```
-Vertical 9:16 video, 10 seconds, photorealistic, natural documentary look, 24 fps.
+Portrait orientation, 9:16 vertical video, 10 seconds, photorealistic, warm uplifting sports-commercial look, 24 fps.
 Setting: the same indoor school gymnasium, now bright and cheerful, soft daylight, wooden floor with painted court lines.
-Main subject, always centered in the frame: the same physical education teacher in their mid-30s, plain navy tracksuit with no logos, silver whistle on a black cord, stopwatch around the neck. No clipboard and no papers — they hold only a smartphone in a plain black case.
-The phone screen always faces away from the camera; we only ever see the back of the phone.
+Main subjects, centered: the same physical education teacher in her mid-30s, dark hair tied back, plain navy tracksuit with no logos, silver whistle on a black cord, stopwatch around the neck, holding a smartphone in a plain black case. Next to her, a 14-year-old student, out of breath after a run, plain grey T-shirt and navy shorts, no logos, no numbers.
+The phone screen faces the student; from the camera we only ever see the back or the edge of the phone, never the screen.
 Timing:
-0–4 s: the teacher holds the phone at chest height, taps it once with the thumb, looks up and smiles with relief — calm and confident.
-4–7 s: a student finishes a sprint and jogs past; the teacher gives a friendly thumbs-up.
-7–10 s: in the background, two students high-five; the teacher lowers the phone and watches the class, relaxed.
-Background, softly out of focus: teenage students (13–15, mixed, plain grey T-shirts and navy shorts, no logos, no numbers) finishing sprints.
-Camera: chest height, 35 mm lens, shallow depth of field, very slow arc around the teacher from front-left to front. Stable, no cuts.
-Nobody speaks, mouths stay closed. Ambient gym sound only, no music.
+0–2 s: the student, hands on knees and breathing hard, looks up at the teacher with a hopeful "how did I do?" face; the teacher taps the phone once and turns it toward the student.
+2–4 s: the student's face lights up in surprise and pride; he makes a small fist pump; the teacher smiles warmly, proud of him.
+4–7 s: the teacher gives him a high-five; two classmates run over and pat him on the back, cheering.
+7–10 s: the teacher steps back, relaxed and happy, watching the class celebrate.
+Camera: chest height, 35 mm lens, shallow depth of field, slow arc from the side so both faces are visible. Stable camera, one single continuous shot.
+The teacher does not speak. Students may cheer and laugh.
 Avoid: a visible phone screen, any readable text, letters or numbers, logos, brand names, jersey numbers, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
 ```
 
 ## E: מאמן כושר ואתלטים (פתיח לגרסת המאמנים)
 ```
-Vertical 9:16 video, 10 seconds, photorealistic, energetic sports-commercial look, 24 fps.
+Portrait orientation, 9:16 vertical video, 10 seconds, photorealistic, energetic sports-commercial look, 24 fps.
 Setting: an outdoor athletics track at golden hour, low warm sun behind the runners, red track with white lane lines, green field beside it.
 Main subject, centered: four teenage athletes (15–17 years old, mixed boys and girls, plain black and white running gear with no logos and no bib numbers) sprinting side by side in separate lanes toward the camera.
 At the side of the track, near the finish line, a fitness coach in their 40s (plain grey hoodie, no logos) holds a stopwatch up in one hand and a phone in the other, the phone screen facing away from the camera.
 Timing:
 0–4 s: the athletes explode forward and sprint toward the camera at full speed.
-4–7 s: they cross the finish line; the coach clicks the stopwatch at that exact moment.
-7–10 s: the athletes slow down, breathing hard, hands on hips; the coach nods, satisfied.
+4–7 s: they cross the finish line; the coach clicks the stopwatch at that exact moment, looks at it, and pumps his fist with a big grin.
+7–10 s: one athlete, breathing hard, looks at the coach hopefully; the coach points at her and nods — a new personal best; she jumps and hugs a teammate.
 Camera: low angle near the track surface, 35 mm lens, the camera tracks slowly backward as the runners approach. Real speed, not slow motion. Stable, no cuts.
-Nobody speaks, mouths stay closed. Ambient outdoor sound only, no music.
+The coach does not speak. Athletes may cheer.
 Avoid: bib numbers, any readable text, letters or numbers, logos, brand names, scoreboards, a visible phone screen, extra or missing fingers, distorted limbs, faces or running motion, cartoon or 3D-render look, camera cuts.
 ```
 
 ## D: מאמן כדורסל מרוצה (רגע רגוע בגרסת המאמנים)
 ```
-Vertical 9:16 video, 10 seconds, photorealistic, warm cinematic look, 24 fps.
+Portrait orientation, 9:16 vertical video, 10 seconds, photorealistic, warm cinematic look, 24 fps.
 Setting: an indoor basketball court in the evening after practice, warm arena lights, polished wooden floor, basketballs resting near the bench.
 Main subject, always centered: a youth basketball coach in their 40s (plain dark polo shirt with no logos) standing near the sideline, holding a phone in a plain black case whose screen faces away from the camera.
 Timing:
-0–4 s: the coach looks at the phone, raises their eyebrows, then breaks into a proud smile.
-4–7 s: the coach walks two steps to a teenage player (about 16, plain white practice jersey with no numbers and no logos) and gives them a fist bump.
-7–10 s: the player grins and walks away toward teammates stretching in the background; the coach watches, pleased.
+0–4 s: a teenage player (about 16, plain white practice jersey with no numbers and no logos) walks up; the coach turns the phone toward the player (we see only the back of the phone); the player's eyebrows rise and a slow, proud smile spreads across his face.
+4–7 s: the coach and the player share a knowing smile and a firm fist bump.
+7–10 s: the player jogs back to his teammates, energized; the coach watches, pleased.
 Camera: chest height, 50 mm lens, shallow depth of field, slow sideways tracking shot following the coach. Stable, no cuts.
-Nobody speaks, mouths stay closed. Ambient court sound only, no music.
+The coach does not speak.
 Avoid: a visible phone screen, jersey numbers, any readable text, letters or numbers, logos, brand names, scoreboards, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
 ```
 
 ## C: מנהל ומורה עוברים על נתונים (פתיח לגרסת המנהלים)
 ```
-Vertical 9:16 video, 10 seconds, photorealistic, clean corporate-documentary look, 24 fps.
+Portrait orientation, 9:16 vertical video, 10 seconds, photorealistic, clean corporate-documentary look, 24 fps.
 Setting: a bright, modern school staff room in the morning, large window in the background showing students playing basketball outside, softly out of focus.
 Main subjects, centered: a school principal in their 50s (plain light-blue shirt, no logos) sitting at a table holding a tablet in a plain grey case, and a physical education teacher in their mid-30s (plain navy tracksuit, no logos, silver whistle on a black cord) standing beside them.
 The tablet screen always faces away from the camera, or is so out of focus that nothing on it can be read.
 Timing:
-0–4 s: seen slightly over the principal's shoulder, the principal scrolls calmly on the tablet and nods slowly.
-4–7 s: the principal looks up at the teacher and smiles in approval.
+0–4 s: seen slightly over the principal's shoulder, the principal scrolls on the tablet, pauses, raises an eyebrow in pleasant surprise and slowly smiles.
+4–7 s: the principal looks up at the teacher and gives an impressed nod, as if to say 'well done'.
 7–10 s: the teacher smiles back and gives a small confident nod; both look relaxed and pleased.
 Camera: seated eye level, 50 mm lens, shallow depth of field, slow dolly-in. Stable, no cuts.
-Nobody speaks, mouths stay closed. Ambient room sound only, no music.
+Nobody speaks, mouths stay closed.
 Avoid: a readable tablet screen, charts with text, any readable text, letters or numbers, logos, brand names, extra or missing fingers, distorted hands or faces, cartoon or 3D-render look, slow motion, camera cuts.
 ```
 
@@ -121,7 +125,8 @@ Avoid: camera movement of any kind, people or objects moving in the background, 
 | הופיע טקסט, לוגו או מספרים | להוסיף בהתחלה: `Absolutely no text, letters, numbers or logos anywhere in the frame.` |
 | ידיים או אצבעות מעוותות | להחליף את המצלמה ב־`medium-wide shot, hands small in frame` |
 | מסך הטלפון נראה | להוסיף: `The phone is always seen from behind; its screen is never visible.` |
-| אנשים מדברים או מזיזים שפתיים | להוסיף: `Everyone keeps their mouth closed the whole time.` |
+| המורה או המאמן מדברים | להוסיף: `The teacher keeps her mouth closed; only background students talk.` |
+| יצא יבש, בלי רגש | לחזק את רגע השיא: `Exaggerate the facial expression slightly, like a TV comedy / sports commercial.` |
 | יצא בהילוך איטי | להוסיף: `Real-time speed, no slow motion, no speed ramps.` |
 | יצאו חיתוכים או כמה שוטים | להוסיף: `One single continuous shot.` |
 | הנושא בצד הפריים | להוסיף: `The main subject stays exactly in the horizontal center of the frame.` |
