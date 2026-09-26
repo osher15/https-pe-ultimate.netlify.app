@@ -1,0 +1,44 @@
+{
+  "_": "נתוני ההרכבה ל-tools/marketing-assemble.js. vo: טקסט הקריינות, מחולק ל'|' לכתוביות. lines: השורות שעל המסך, לפי הסדר ב-script.md. segs: מה רואים; n = כמה קטעי כתובית מתחילים בקטע הזה; clip = [סצנה, שנייה בקליפ שממנה מתחילים]; line = אינדקס ב-lines; src = קטע Gemini.",
+  "end": {
+    "he": "5 שפות · עובד גם בלי רשת",
+    "en": "5 languages · works offline",
+    "ar": "5 لغات · يعمل دون إنترنت",
+    "ru": "5 языков · работает без интернета",
+    "es": "5 idiomas · funciona sin conexión"
+  },
+  "versions": {
+    "teachers": {
+      "segs": [
+        {"k": "hook", "src": "gemini_A", "n": 2},
+        {"k": "test", "clip": ["test", 0.3], "n": 1, "line": 0},
+        {"k": "beep", "clip": ["beep", 4.0], "n": 1, "line": 1},
+        {"k": "att", "clip": ["att", 1.3], "n": 1, "line": 3},
+        {"k": "join", "clip": ["join", 0.4], "n": 2, "line": 2},
+        {"k": "test2", "clip": ["test", 3.9], "n": 1, "line": 2},
+        {"k": "calm", "src": "gemini_B", "n": 1, "line": 4},
+        {"k": "end", "n": 1}
+      ],
+      "he": {
+        "vo": "30 תלמידים, מבחן כושר, דף ועט —|ושוב מקלידים הכול בערב.|עם PE Ultimate מודדים ישר בטלפון.|ביפ טסט עם לוח תוצאות,|מבחני כושר, ונוכחות בהקשה אחת.|יש לכם כיתות שלומדות יחד?|מחברים אותן פעם אחת, מזינים פעם אחת,|וכל תוצאה נשמרת בכיתה של התלמיד.|פחות ניירת — יותר שיעור.|PE Ultimate — בחמש שפות.",
+        "lines": ["מודדים ישר בטלפון", "ביפ טסט עם לוח תוצאות", "ט׳1 + ט׳4 — מזינים פעם אחת", "נוכחות בהקשה", "פחות ניירת. יותר שיעור."]
+      },
+      "en": {
+        "vo": "Thirty students, a fitness test, pen and paper —|and you type it all up again tonight.|With PE Ultimate you measure straight on your phone.|A beep test with a live results board,|fitness tests, and attendance in one tap.|Teaching two classes together?|Combine them once, enter results once,|and every score lands in each student's own class.|Less paperwork, more PE.|PE Ultimate — in five languages.",
+        "lines": ["Measure right on your phone", "Beep test + results board", "Two classes, one entry", "Attendance in one tap", "Less paperwork. More PE."]
+      },
+      "ar": {
+        "vo": "ثلاثون طالبًا، اختبار لياقة، ورقة وقلم —|ثم تعيد إدخال كل شيء في المساء.|مع PE Ultimate تقيس مباشرة على هاتفك:|اختبار البيب مع لوحة نتائج،|واختبارات اللياقة، والحضور بلمسة واحدة.|لديك صفّان يتعلّمان معًا؟|ادمجهما مرة واحدة، وأدخل النتائج مرة واحدة،|وتُحفظ كل نتيجة في صف الطالب نفسه.|أوراق أقل، وحصة أكثر.|PE Ultimate — بخمس لغات.",
+        "lines": ["قِس مباشرة على الهاتف", "اختبار البيب ولوحة النتائج", "صفّان، إدخال واحد", "الحضور بلمسة", "أوراق أقل. حصة أكثر."]
+      },
+      "ru": {
+        "vo": "Тридцать учеников, тест по физподготовке, ручка и бумага —|а вечером всё переписывать заново.|С PE Ultimate вы измеряете прямо в телефоне:|бип-тест с таблицей результатов,|нормативы и отметка посещаемости одним касанием.|Два класса занимаются вместе?|Объедините их один раз, вводите результаты один раз —|и каждый результат сохранится в классе самого ученика.|Меньше бумаг, больше урока.|PE Ultimate — на пяти языках.",
+        "lines": ["Измеряйте прямо в телефоне", "Бип-тест и таблица результатов", "Два класса — один ввод", "Посещаемость одним касанием", "Меньше бумаг. Больше урока."]
+      },
+      "es": {
+        "vo": "Treinta alumnos, una prueba física, papel y bolígrafo…|y esta noche a pasarlo todo otra vez.|Con PE Ultimate mides directamente en el móvil:|Course Navette con tabla de resultados,|pruebas físicas y asistencia con un toque.|¿Dos grupos que hacen clase juntos?|Únelos una vez, introduce los resultados una vez,|y cada nota se guarda en el grupo de cada alumno.|Menos papeles, más Educación Física.|PE Ultimate, en cinco idiomas.",
+        "lines": ["Mide directamente en el móvil", "Course Navette + tabla", "Dos grupos, una sola entrada", "Asistencia con un toque", "Menos papeles. Más clase."]
+      }
+    }
+  }
+}
