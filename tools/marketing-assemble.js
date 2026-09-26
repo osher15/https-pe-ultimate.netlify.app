@@ -197,8 +197,23 @@ async function renderPng(page,html,file,opaque){
   const need=V.segs.reduce((a,s)=>a+s.n,0);
   if(chunks.length!==need)throw new Error(`${lang}: ${chunks.length} subtitle chunks, segments expect ${need}`);
   const cues=cueTimes(chunks,dur,silences(voFile,chunks.length-1)).map(c=>({...c,start:c.start+VO_AT,end:c.end+VO_AT}));
-  let ci=0;
-  const segs=V.segs.map((s,i)=>{ const first=ci; ci+=s.n; return {...s, cues:cues.slice(first,ci), t0:i?cues[first].start-0.12:0}; });
+  /* קריינות קצרה מהסרטון: מפזרים את הזמן הפנוי כהפסקות קצרות בין הקטעים
+     (עד 0.8 שנ׳ כל אחת), כדי שכרטיס הסיום לא יימתח על שש שניות.
+     האודיו נחתך בדיוק בנקודות האלה (בתוך הפסקה) ומוזז קדימה */
+  const END_CARD=3.2;
+  let ci=0; const firsts=V.segs.map(s=>{ const f=ci; ci+=s.n; return f; });
+  const slack=(TOTAL-END_CARD)-(VO_AT+dur);
+  /* חותכים רק בגבול שיש בו הפסקה אמיתית — לא באמצע משפט */
+  const pauseAt=firsts.map((f,i)=>i>0&&cues[f].start-cues[f-1].end>0.15);
+  const nCuts=pauseAt.filter(Boolean).length;
+  const gap=slack>0.3&&nCuts?Math.min(0.8,slack/nCuts):0;
+  const cuts=[0], shift=[0];                                       /* זמני חיתוך בקריינות המקורית, והזזה לכל חתיכה */
+  let sh=0;
+  V.segs.forEach((s,i)=>{
+    if(pauseAt[i]&&gap){ sh+=gap; cuts.push(cues[firsts[i]].start-VO_AT-0.12); shift.push(sh); }
+    for(let k=firsts[i];k<firsts[i]+s.n;k++){ cues[k].start+=sh; cues[k].end+=sh; }
+  });
+  const segs=V.segs.map((s,i)=>({...s, cues:cues.slice(firsts[i],firsts[i]+s.n), t0:i?cues[firsts[i]].start-0.12:0}));
   segs.forEach((s,i)=>{ s.t1=i<segs.length-1?segs[i+1].t0:TOTAL; s.d=s.t1-s.t0; });
   fs.writeFileSync(path.join(work,"subs",`${version}_${lang}.srt`),
     cues.map((c,i)=>`${i+1}\n${srtTime(c.start)} --> ${srtTime(c.end)}\n${c.text}\n`).join("\n"));
@@ -276,14 +291,25 @@ async function renderPng(page,html,file,opaque){
     parts.push(out);
   }
 
+  /* הקריינות בחתיכות, כל חתיכה במקומה אחרי ההפסקות שנוספו */
+  function audioChain(){
+    const tail=`apad,afade=t=out:st=${TOTAL-0.6}:d=0.6,loudnorm=I=-16:TP=-1.5[a]`;
+    if(!gap)return `[1:a]adelay=${Math.round(VO_AT*1000)}:all=1,${tail}`;
+    const n=cuts.length, parts=[];
+    cuts.forEach((c,i)=>{ const e=i<n-1?`:end=${cuts[i+1].toFixed(3)}`:"";
+      parts.push(`[s${i}]atrim=start=${c.toFixed(3)}${e},asetpts=PTS-STARTPTS,adelay=${Math.round((VO_AT+c+shift[i])*1000)}:all=1[p${i}]`); });
+    return `[1:a]asplit=${n}${cuts.map((_,i)=>`[s${i}]`).join("")};`+parts.join(";")+";"+
+      cuts.map((_,i)=>`[p${i}]`).join("")+`amix=inputs=${n}:normalize=0:duration=longest,${tail}`;
+  }
+
   /* 4. חיבור + קריינות */
   const list=P("parts.txt");
   fs.writeFileSync(list,parts.map(p=>`file '${p}'`).join("\n"));
   const final=path.join(work,"final",`${version}_${lang}_9x16.mp4`);
   ff(["-f","concat","-safe","0","-i",list,"-i",voFile,
-      "-filter_complex",`[1:a]adelay=${Math.round(VO_AT*1000)}:all=1,apad,afade=t=out:st=${TOTAL-0.6}:d=0.6,loudnorm=I=-16:TP=-1.5[a]`,
+      "-filter_complex",audioChain(),
       "-map","0:v","-map","[a]","-t",String(TOTAL),"-c:v","copy","-c:a","aac","-b:a","192k","-ar","48000","-movflags","+faststart",final]);
-  console.log(JSON.stringify({final, tempo:+tempo.toFixed(3), vo:+dur.toFixed(2),
+  console.log(JSON.stringify({final, tempo:+tempo.toFixed(3), vo:+dur.toFixed(2), gap:+gap.toFixed(2),
     segs:segs.map(s=>({k:s.k, t0:+s.t0.toFixed(2), d:+s.d.toFixed(2)})),
     cues:cues.map(c=>[+c.start.toFixed(2),+c.end.toFixed(2),c.text])},null,1));
 })().catch(e=>{ console.error(e&&e.stderr?String(e.stderr):e); process.exit(1); });
