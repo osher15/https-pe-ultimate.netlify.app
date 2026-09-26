@@ -47,6 +47,11 @@ function probeDur(file){
 }
 /* קריינות שנקראת ברצף (למשל multilingual_v2) כמעט בלי הפסקות — אם אין מספיק
    שתיקות לכל הגבולות, מחפשים שוב בסף רגיש יותר */
+function probeVideo(file){
+  const out=String(spawnSync(FF,["-hide_banner","-i",file]).stderr||"");
+  const m=out.match(/Video:.*?, (\d{2,5})x(\d{2,5})/);
+  return {w:m?+m[1]:W, h:m?+m[2]:H, dur:probeDur(file)};
+}
 function silences(file,need){
   const found=silences1(file,"-35dB",0.22);
   return found.length-2>=need? found : silences1(file,"-30dB",0.12);
@@ -274,8 +279,22 @@ async function renderPng(page,html,file,opaque){
       const gem=s.src&&path.join(work,"gemini",s.src+".mp4");
       if(gem&&fs.existsSync(gem)){
         inputs.push("-i",gem);
-        /* קטעי AI מגיעים לרוב קטנים (720p ומטה); חידוד עדין אחרי ההגדלה */
-        chain.push(`[0:v]fps=${FPS},scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},unsharp=5:5:0.6,tpad=stop_mode=clone:stop_duration=${TOTAL}[a1]`);
+        const src=probeVideo(gem);
+        /* קטע קצר מהחלון שלו: מאטים מעט (עד ×1.3) במקום להקפיא את הפריים האחרון */
+        const slow=src.dur&&src.dur<s.d?Math.min(1.3,s.d/src.dur):1;
+        const pts=slow>1.001?`setpts=${slow.toFixed(3)}*PTS,`:"";
+        if(src.w/src.h>0.9){
+          /* קטע רחב (4:3, 16:9, ריבועי): חיתוך אנכי היה מוריד אנשים מהפריים.
+             מציגים את כל הפריים ברוחב מלא, מעל עותק מוגדל ומטושטש שלו */
+          const fh=Math.round(W*src.h/src.w/2)*2;
+          chain.push(`[0:v]${pts}fps=${FPS},split[s1][s2]`,
+            `[s1]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},boxblur=30:2,eq=brightness=-0.12[bgb]`,
+            `[s2]scale=${W}:${fh},unsharp=5:5:0.5[fg]`,
+            `[bgb][fg]overlay=0:(H-h)/2,tpad=stop_mode=clone:stop_duration=${TOTAL}[a1]`);
+        } else {
+          /* קטעי AI מגיעים לרוב קטנים (720p ומטה); חידוד עדין אחרי ההגדלה */
+          chain.push(`[0:v]${pts}fps=${FPS},scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},unsharp=5:5:0.6,tpad=stop_mode=clone:stop_duration=${TOTAL}[a1]`);
+        }
       } else {
         inputs.push("-loop","1","-i",P(`card${i}.png`));
         /* זום איטי, כדי שכרטיס סטטי לא ייראה קפוא */
