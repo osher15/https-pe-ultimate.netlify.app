@@ -871,7 +871,7 @@ window.FT=(function(){
         ${missing.map(t=>`<span class="pill">${testById(t).em} ${esc(testById(t).name)}</span>`).join(" ")}</div>`:""}
 
       <div class="hint" style="margin-top:11px">הציון מחושב מ<b>התוצאה הטובה ביותר</b> בכל מבחן, לפי
-        ${scoreMode()==="norm"?"טבלת הנורמה":"ניקוד יחסי לשכבה"}${want.length?` · המדד מורכב מ-${want.length} מבחנים שנבחרו`:" · המדד מורכב מכל מבחן שיש לו תוצאה"}.
+        <span>${scoreMode()==="norm"?"טבלת הנורמה":"ניקוד יחסי לשכבה"}</span> · <span>${want.length?`המדד מורכב מ-${want.length} מבחנים שנבחרו`:"המדד מורכב מכל מבחן שיש לו תוצאה"}</span>.
         «מגמה» היא המדידה האחרונה מול הטובה שלפני אותו יום — ולכן היא
         מראה גם ירידה, לא רק שיפור.</div>`;
     H().modal("ft-cardModal");

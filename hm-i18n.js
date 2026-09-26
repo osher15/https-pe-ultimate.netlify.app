@@ -1969,6 +1969,9 @@ function termCore(core,col,noTpl){
   /* שם כיתה אוטומטי («ז׳1») — שכבה ומספר, כמו «7-1» בכל השפות */
   m=new RegExp("^"+GR+"(\\d{1,2})$").exec(core);
   if(m)return GRADE[m[1]]+"-"+m[2];
+  /* קבוצה של כיתות שלומדות יחד («ט׳1 + ט׳4») — כל כיתה בנפרד */
+  if(new RegExp("^"+GR+"\\d{1,2}(?: ?\\+ ?"+GR+"\\d{1,2})+$").test(core))
+    return core.split("+").map(x=>termCore(x.trim(),col,true)).join(" + ");
   m=new RegExp("^"+GR+"–"+GR+"(?: · (.+))?$").exec(core);
   if(m){
     const a=GRADE[m[1]], b=GRADE[m[2]];

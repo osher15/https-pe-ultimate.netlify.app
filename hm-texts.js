@@ -1236,7 +1236,7 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "ללא שינוי":["No change", "دون تغيير", "Без изменений", "Sin cambios"],
 "{0} · כיתה {1}":["{0} · class {1}", "{0} · الصف {1}", "{0} · класс {1}", "{0} · grupo {1}"],
 "מבחנים שנמדדו":["Tests measured", "الاختبارات التي قيست", "Измеренные тесты", "Pruebas medidas"],
-"הציון מחושב מ":["The score is calculated from", "تُحسب العلامة من", "Оценка рассчитывается по", "La nota se calcula a partir de"],
+"הציון מחושב מ":["The score is calculated from ", "تُحسب العلامة من ", "Оценка рассчитывается по ", "La nota se calcula a partir de "],
 "בכל מבחן, לפי":["in each test, according to", "في كل اختبار، وفق", "в каждом тесте, согласно", "en cada prueba, según"],
 "«מגמה» היא המדידה האחרונה מול הטובה שלפני אותו יום — ולכן היא":["«Trend» is the latest measurement compared with the best one before that day — so it", "«الاتجاه» هو القياس الأخير مقارنةً بأفضل قياس قبل ذلك اليوم — ولذلك فهو", "«Динамика» — это последнее измерение в сравнении с лучшим до того дня, поэтому она", "La «tendencia» es la última medición frente a la mejor anterior a ese día; por eso"],
 "מראה גם ירידה, לא רק שיפור.":["shows declines too, not just improvement.", "يُظهر التراجع أيضًا، لا التحسّن فقط.", "показывает и спад, а не только прирост.", "también muestra descensos, no solo mejoras."],

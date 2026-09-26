@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="10532cea">
+<meta name="hm-build" content="fc97c7e9">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -8571,7 +8571,7 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "ללא שינוי":["No change", "دون تغيير", "Без изменений", "Sin cambios"],
 "{0} · כיתה {1}":["{0} · class {1}", "{0} · الصف {1}", "{0} · класс {1}", "{0} · grupo {1}"],
 "מבחנים שנמדדו":["Tests measured", "الاختبارات التي قيست", "Измеренные тесты", "Pruebas medidas"],
-"הציון מחושב מ":["The score is calculated from", "تُحسب العلامة من", "Оценка рассчитывается по", "La nota se calcula a partir de"],
+"הציון מחושב מ":["The score is calculated from ", "تُحسب العلامة من ", "Оценка рассчитывается по ", "La nota se calcula a partir de "],
 "בכל מבחן, לפי":["in each test, according to", "في كل اختبار، وفق", "в каждом тесте, согласно", "en cada prueba, según"],
 "«מגמה» היא המדידה האחרונה מול הטובה שלפני אותו יום — ולכן היא":["«Trend» is the latest measurement compared with the best one before that day — so it", "«الاتجاه» هو القياس الأخير مقارنةً بأفضل قياس قبل ذلك اليوم — ولذلك فهو", "«Динамика» — это последнее измерение в сравнении с лучшим до того дня, поэтому она", "La «tendencia» es la última medición frente a la mejor anterior a ese día; por eso"],
 "מראה גם ירידה, לא רק שיפור.":["shows declines too, not just improvement.", "يُظهر التراجع أيضًا، لا التحسّن فقط.", "показывает и спад, а не только прирост.", "también muestra descensos, no solo mejoras."],
@@ -13989,6 +13989,9 @@ function termCore(core,col,noTpl){
   /* שם כיתה אוטומטי («ז׳1») — שכבה ומספר, כמו «7-1» בכל השפות */
   m=new RegExp("^"+GR+"(\\d{1,2})$").exec(core);
   if(m)return GRADE[m[1]]+"-"+m[2];
+  /* קבוצה של כיתות שלומדות יחד («ט׳1 + ט׳4») — כל כיתה בנפרד */
+  if(new RegExp("^"+GR+"\\d{1,2}(?: ?\\+ ?"+GR+"\\d{1,2})+$").test(core))
+    return core.split("+").map(x=>termCore(x.trim(),col,true)).join(" + ");
   m=new RegExp("^"+GR+"–"+GR+"(?: · (.+))?$").exec(core);
   if(m){
     const a=GRADE[m[1]], b=GRADE[m[2]];
@@ -25175,7 +25178,7 @@ window.FT=(function(){
         ${missing.map(t=>`<span class="pill">${testById(t).em} ${esc(testById(t).name)}</span>`).join(" ")}</div>`:""}
 
       <div class="hint" style="margin-top:11px">הציון מחושב מ<b>התוצאה הטובה ביותר</b> בכל מבחן, לפי
-        ${scoreMode()==="norm"?"טבלת הנורמה":"ניקוד יחסי לשכבה"}${want.length?` · המדד מורכב מ-${want.length} מבחנים שנבחרו`:" · המדד מורכב מכל מבחן שיש לו תוצאה"}.
+        <span>${scoreMode()==="norm"?"טבלת הנורמה":"ניקוד יחסי לשכבה"}</span> · <span>${want.length?`המדד מורכב מ-${want.length} מבחנים שנבחרו`:"המדד מורכב מכל מבחן שיש לו תוצאה"}</span>.
         «מגמה» היא המדידה האחרונה מול הטובה שלפני אותו יום — ולכן היא
         מראה גם ירידה, לא רק שיפור.</div>`;
     H().modal("ft-cardModal");
