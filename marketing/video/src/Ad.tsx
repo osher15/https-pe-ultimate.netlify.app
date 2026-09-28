@@ -32,7 +32,7 @@ const Hook: React.FC<{ s: Seg; d: AdData }> = ({ s, d }) => {
   const t = f / FPS;
   const tf = s.cues.length > 1 ? s.cues[1].start - s.t0 : s.d * 0.55;      /* הקפאה עם הכתובית השנייה */
   const gem = s.gem!;
-  const srcT = Math.min(Math.min(t, tf) * gem.rate, gem.dur - 0.06);
+  const srcT = Math.min(gem.from + Math.min(t, tf) * gem.rate, gem.dur - 0.06);
   const zin = spring({ frame: f - fr(tf), fps: FPS, config: { damping: 18, stiffness: 140 } });
   const z = t < tf ? 1 : 1 + (d.hook.face.z - 1) * zin;
   const shake = t > tf + 0.25 && t < tf + 0.42 ? Math.sin(f * 2.3) * 10 : 0;
@@ -148,7 +148,8 @@ const AppSeg: React.FC<{ s: Seg; d: AdData; slam: boolean }> = ({ s, d, slam }) 
               </Freeze>
               {c.rings.map((r, i) => {
                 if (t < r.t0 - 0.1 || t > r.t1) return null;
-                const p = interpolate(t, [r.t0 - 0.1, r.t0 + 0.25, r.t1 - 0.25, r.t1], [0, 1, 1, 0], clamp);
+                const a1 = r.t0 + 0.25, a2 = Math.max(a1 + 0.01, r.t1 - 0.25), a3 = Math.max(a2 + 0.01, r.t1);
+                const p = interpolate(t, [r.t0 - 0.1, a1, a2, a3], [0, 1, 1, 0], clamp);
                 const sc = interpolate(t, [r.t0 - 0.1, r.t0 + 0.3], [1.35, 1], { ...clamp, easing: easeOut });
                 const [x, y, w, h] = r.box;
                 return (
@@ -216,7 +217,7 @@ const Calm: React.FC<{ s: Seg; d: AdData }> = ({ s, d }) => {
   const f = useCurrentFrame();
   const t = f / FPS;
   const gem = s.gem!;
-  const srcT = Math.min(t * gem.rate, gem.dur - 0.06);
+  const srcT = Math.min(gem.from + t * gem.rate, gem.dur - 0.06);
   const at2 = Math.max(0.9, s.d * 0.45);
   return (
     <AbsoluteFill>

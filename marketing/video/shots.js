@@ -51,13 +51,19 @@ const SHOTS={
   hub:{start:0.8, shots:[], push:{z:1.14, dy:40}}
 };
 
-/* הפתיח (קטע Gemini A, 1080×1920 אחרי חיתוך): מיקום בועות הדיבור
-   ליד התלמידים, ונקודת הזום על פני המורה בהקפאה */
+/* הפתיח (קטע Gemini A, 1080×1920 אחרי חיתוך).
+   look: השנייה בקטע שבה המורה מסתכלת למצלמה. ההקפאה («זו אני. כל שיעור.»)
+   נופלת בדיוק על הפריים הזה, ולכן הקטע מתחיל מ-look פחות זמן ההקפאה.
+   בועות: side/x = מרחק מהקצה (בועה ארוכה לא נחתכת); tail = לאן הזנב מצביע.
+   face: נקודת הזום בהקפאה (הפנים בפריים של look) */
 const HOOK={
-  /* side/x: מרחק מהקצה (כך שבועה ארוכה לא נחתכת); tail: לאן הזנב מצביע */
-  bubbles:[{side:"right",x:36,y:215,tail:"bl",at:0.35},{side:"left",x:30,y:470,tail:"br",at:1.0},{side:"left",x:250,y:95,tail:"b",at:1.65}],
-  face:{x:500,y:360,z:1.35}
+  look:4.4,
+  bubbles:[{side:"right",x:30,y:300,tail:"br",at:0.35},{side:"left",x:30,y:400,tail:"bl",at:1.0},{side:"left",x:300,y:150,tail:"b",at:1.65}],
+  face:{x:430,y:620,z:1.35}
 };
+/* הרגע הרגוע (Gemini B): from = מאיפה בקטע מתחילים — מהרגע שהמורה
+   מחייכת למצלמה והתלמיד מניף אגרופים */
+const CALM={from:2.9};
 
 /* אפקטים קוליים — Mixkit Sound Effects Free License, דרך video-shotcraft
    (assets/audio/ATTRIBUTION.md שם מתעד את המקור של כל קובץ) */
@@ -78,4 +84,4 @@ const SFX={
 /* מוזיקה: «House Vibez» (Lily J), Mixkit Stock Music Free License */
 const BGM={file:"house-vibez.mp3", vol:0.11, endVol:0.3};
 
-module.exports={SHOTS,HOOK,SFX,BGM};
+module.exports={SHOTS,HOOK,CALM,SFX,BGM};

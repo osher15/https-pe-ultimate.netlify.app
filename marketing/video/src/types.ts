@@ -7,7 +7,7 @@ export type Clip = {
 };
 export type Seg = {
   k: string; t0: number; t1: number; d: number; line: string | null; cues: Cue[];
-  clip?: Clip; gem?: { src: string; dur: number; rate: number };
+  clip?: Clip; gem?: { src: string; dur: number; from: number; rate: number };
 };
 export type AdData = {
   version: string; lang: string; rtl: boolean; total: number; fps: number;
