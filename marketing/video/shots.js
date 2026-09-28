@@ -52,13 +52,15 @@ const SHOTS={
    בועות: side/x = מרחק מהקצה (בועה ארוכה לא נחתכת); tail = לאן הזנב מצביע.
    face: נקודת הזום בהקפאה (הפנים בפריים של look) */
 const HOOK={
-  look:4.4,
-  bubbles:[{side:"right",x:30,y:300,tail:"br",at:0.35},{side:"left",x:30,y:400,tail:"bl",at:1.0},{side:"left",x:300,y:150,tail:"b",at:1.65}],
-  face:{x:430,y:620,z:1.35}
+  /* הקטע הנוכחי: Gemini A המקורי (464×832). look=null — ההקפאה נופלת עם
+     הכתובית השנייה. לקטע Meta: look:4.4, face:{x:430,y:620}, בועות y:300/400/150 */
+  look:null,
+  bubbles:[{side:"right",x:36,y:215,tail:"bl",at:0.35},{side:"left",x:30,y:470,tail:"br",at:1.0},{side:"left",x:250,y:95,tail:"b",at:1.65}],
+  face:{x:500,y:360,z:1.35}
 };
-/* הרגע הרגוע (Gemini B): from = מאיפה בקטע מתחילים — מהרגע שהמורה
-   מחייכת למצלמה והתלמיד מניף אגרופים */
-const CALM={from:2.9};
+/* הרגע הרגוע (Veo, 1080×1920): from = מאיפה בקטע מתחילים — מהרגע שהמורה
+   מחייכת למצלמה והתלמיד מניף אגרוף (2.7 שנ׳) */
+const CALM={from:2.7};
 
 /* אפקטים קוליים — Mixkit Sound Effects Free License, דרך video-shotcraft
    (assets/audio/ATTRIBUTION.md שם מתעד את המקור של כל קובץ) */

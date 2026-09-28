@@ -167,7 +167,9 @@ function main(){
      ב-lanczos + חידוד עדין, במקום ההגדלה הרכה של הדפדפן */
   fs.mkdirSync(path.join(PUB,"gemini"),{recursive:true});
   ["gemini_A","gemini_B"].forEach(g=>{ const f=path.join(work,"gemini",g+".mp4"); if(!fs.existsSync(f))return;
-    T.ff(["-i",f,"-an","-vf","scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,unsharp=5:5:0.7:3:3:0.3,fps=30",
+    /* חידוד רק לקטע קטן (464×832 וכדומה); קטע 1080p מקורי נשאר כמו שהוא */
+    const sharp=T.probeVideo(f).w<900?",unsharp=5:5:0.7:3:3:0.3":"";
+    T.ff(["-i",f,"-an","-vf","scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920"+sharp+",fps=30",
       "-c:v","libx264","-preset","slow","-crf","14","-pix_fmt","yuv420p",path.join(PUB,"gemini",g+".mp4")]); });
   fs.mkdirSync(path.join(PUB,"props"),{recursive:true});
 
@@ -194,7 +196,7 @@ function main(){
           /* ההקפאה עם הכתובית השנייה — שם המורה צריכה להסתכל למצלמה */
           const tf=s.cues.length>1?s.cues[1].start-s.t0:s.d*0.55;
           if(HOOK.look>=tf){ from=HOOK.look-tf; rate=1; } else rate=Math.max(0.7,HOOK.look/tf);
-        } else if(CALM.from){ from=Math.min(CALM.from,Math.max(0,dur-1)); rate=Math.max(0.75,Math.min(1,(dur-from)/s.d)); }
+        } else if(s.k!=="hook"&&CALM.from){ from=Math.min(CALM.from,Math.max(0,dur-1)); rate=Math.max(0.75,Math.min(1,(dur-from)/s.d)); }
         o.gem={src:`gemini/${s.src}.mp4`, dur:+dur.toFixed(3), from:+from.toFixed(3), rate:+rate.toFixed(3)}; }
       return o;
     });
