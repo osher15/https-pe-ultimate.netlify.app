@@ -13,6 +13,64 @@
    "PE Ultimate": "P.E. Ultimate"
   }
  },
+ "gags": {
+  "_": "טקסט הבדיחות בסרטון (marketing/video). bubbles: שלוש שאלות של תלמידים בפתיח. stamp: הקפאת פריים «זו אני». night: שעה בלילה כשעוד מקלידים. plane: תווית «מצב טיסה» בסצנת העבודה בלי רשת. stamp2: חזרה לבדיחה ברגע הרגוע.",
+  "he": {
+   "bubbles": [
+    "כמה קיבלתי?!",
+    "ואני?!",
+    "זה 6 או 8?"
+   ],
+   "stamp": "זו אני. כל שיעור.",
+   "night": "23:47 · עוד מקלידה…",
+   "plane": "מצב טיסה",
+   "stamp2": "זו אני. עכשיו."
+  },
+  "en": {
+   "bubbles": [
+    "What did I get?!",
+    "And me?!",
+    "Is that a 6 or an 8?"
+   ],
+   "stamp": "Me. Every. Lesson.",
+   "night": "11:47 pm · still typing…",
+   "plane": "Airplane mode",
+   "stamp2": "Me. Now."
+  },
+  "ar": {
+   "bubbles": [
+    "كم حصلت؟!",
+    "وأنا؟!",
+    "هذه 6 أم 8؟"
+   ],
+   "stamp": "أنا. في كل حصة.",
+   "night": "23:47 · ما زلت أكتب…",
+   "plane": "وضع الطيران",
+   "stamp2": "أنا. الآن."
+  },
+  "ru": {
+   "bubbles": [
+    "Сколько у меня?!",
+    "А я?!",
+    "Это 6 или 8?"
+   ],
+   "stamp": "Я. Каждый. Урок.",
+   "night": "23:47 · всё ещё печатаю…",
+   "plane": "Авиарежим",
+   "stamp2": "Я. Теперь."
+  },
+  "es": {
+   "bubbles": [
+    "¿Cuánto saqué?!",
+    "¿Y yo?!",
+    "¿Eso es un 6 o un 8?"
+   ],
+   "stamp": "Yo. Cada. Clase.",
+   "night": "23:47 · sigo tecleando…",
+   "plane": "Modo avión",
+   "stamp2": "Yo. Ahora."
+  }
+ },
  "versions": {
   "teachers": {
    "total": 30,

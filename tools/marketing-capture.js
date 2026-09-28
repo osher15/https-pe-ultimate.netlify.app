@@ -105,6 +105,7 @@ async function tap(page,sel,{pause=650}={}){
   const el=page.locator(sel).first();
   await el.scrollIntoViewIfNeeded(); await wait(250);
   const b=await el.boundingBox(); if(!b)throw new Error("no box: "+sel);
+  if(page._log)page._log.taps.push({t:+(Date.now()/1000-page._log.t0).toFixed(3),sel,x:b.x,y:b.y,w:b.width,h:b.height});
   await page.mouse.move(b.x+b.width/2,b.y+b.height/2,{steps:8});
   await page.mouse.down(); await wait(90); await page.mouse.up();
   await wait(pause);
@@ -115,11 +116,25 @@ async function glide(page,dy,ms=900){
 }
 
 /* ---------- screencast → mp4 ---------- */
-async function record(page,outBase,fn){
+async function record(page,outBase,fn,track=[]){
   const cdp=await page.context().newCDPSession(page);
   const frames=[]; let t0=null;
+  /* יומן «מיקוד» לעריכה: איפה הייתה כל הקשה, ואיפה היו האלמנטים החשובים
+     בכל רגע (פיקסלי CSS של מסך 432×768, בזמני הסרטון). הסרטון המורכב
+     מזיז את המצלמה בדיוק אליהם */
+  const log={t0:Date.now()/1000,taps:[],track:{}}; page._log=log;
+  let sampling=true;
+  const sampler=(async()=>{ while(sampling){
+    const now=Date.now()/1000-log.t0;
+    const boxes=await page.evaluate(sels=>sels.map(q=>{ const e=document.querySelector(q); if(!e)return null;
+      const r=e.getBoundingClientRect(); if(!r.width||!r.height||r.bottom<0||r.top>innerHeight)return null;
+      const cs=getComputedStyle(e); if(cs.visibility==="hidden"||cs.display==="none")return null;
+      return [r.x,r.y,r.width,r.height].map(v=>Math.round(v)); }),track).catch(()=>[]);
+    track.forEach((q,i)=>{ if(boxes[i])(log.track[q]=log.track[q]||[]).push([+now.toFixed(3),...boxes[i]]); });
+    await wait(100);
+  } })();
   cdp.on("Page.screencastFrame",async f=>{
-    const ts=f.metadata.timestamp; if(t0==null)t0=ts;
+    const ts=f.metadata.timestamp; if(t0==null){ t0=ts; log.shift=ts-log.t0; }
     frames.push({t:ts-t0,buf:Buffer.from(f.data,"base64")});
     try{ await cdp.send("Page.screencastFrameAck",{sessionId:f.sessionId}); }catch(e){}
   });
@@ -128,7 +143,13 @@ async function record(page,outBase,fn){
   await fn();
   await wait(400);
   await cdp.send("Page.stopScreencast");
+  sampling=false; await sampler; page._log=null;
   const total=(Date.now()-start)/1000;
+  /* זמני היומן לפי הפריים הראשון של הסרטון */
+  const sh=log.shift||0, fix=t=>+(t-sh).toFixed(3);
+  log.taps.forEach(x=>{ x.t=fix(x.t); });
+  Object.values(log.track).forEach(a=>a.forEach(r=>{ r[0]=fix(r[0]); }));
+  fs.writeFileSync(outBase+".json",JSON.stringify({vw:W,vh:H,dur:+total.toFixed(3),taps:log.taps,track:log.track}));
   await page.screenshot({path:outBase+".png"});
   /* רשימת concat: כל פריים מוחזק עד הפריים הבא; האחרון עד סוף ההקלטה */
   const dir=outBase+"_frames"; fs.rmSync(dir,{recursive:true,force:true}); fs.mkdirSync(dir,{recursive:true});
@@ -151,7 +172,7 @@ async function record(page,outBase,fn){
 const G=()=>`window.HMDATA`;
 const SCENES={
   /* 1. חיבור כיתות — «🔗 חבר כיתות», סימון שתי הכיתות, «חבר» */
-  join:{group:false,prep:async p=>{ await p.evaluate(()=>window.HM.go("ft")); await wait(900);
+  join:{group:false,track:["#ft-groups","#askModal .ask-checks","#ask-ok","#ft-clsName"],prep:async p=>{ await p.evaluate(()=>window.HM.go("ft")); await wait(900);
       await p.evaluate(()=>document.getElementById("ft-groups").scrollIntoView({block:"center"})); await wait(500); },
     run:async p=>{
       await wait(500);
@@ -163,7 +184,7 @@ const SCENES={
       await wait(1500);
     }},
   /* 2. מבחן בקבוצה — רשימה אחת עם הכיתה של כל תלמיד, הזנה מהירה */
-  test:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("ft")); await wait(900);
+  test:{group:true,track:["#ft-list"],prep:async p=>{ await p.evaluate(()=>window.HM.go("ft")); await wait(900);
       await p.evaluate(()=>document.querySelector('#ft-tests [data-t="ljump"]').click()); await wait(900);
       await p.evaluate(()=>document.querySelector("#ft-list").scrollIntoView({block:"start"})); await p.evaluate(()=>scrollBy(0,-120)); await wait(400); },
     run:async p=>{
@@ -179,7 +200,7 @@ const SCENES={
       await wait(900);
     }},
   /* 3. ביפ טסט — שעון רץ, רישום נשירה, «שמור לכיתה» */
-  beep:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("beep")); await wait(900); },
+  beep:{group:true,track:["#bt-startBtn","#bt-lvlBar","#bt-statsCard","#bt-tbl","#bt-toFt"],prep:async p=>{ await p.evaluate(()=>window.HM.go("beep")); await wait(900); },
     run:async p=>{
       await wait(400);
       await tap(p,"#bt-startBtn",{pause:2200});
@@ -189,20 +210,20 @@ const SCENES={
       await tap(p,"#bt-toFt",{pause:1600});
     }},
   /* 4. נוכחות — כל הקבוצה, הקשה אחת */
-  att:{group:true,prep:async p=>{ await p.evaluate(g=>window.TOOLS.show(g,"att"),GID); await wait(1000); },
+  att:{group:true,track:["#tl-attAll","#tl-attStats","#tl-attList"],prep:async p=>{ await p.evaluate(g=>window.TOOLS.show(g,"att"),GID); await wait(1000); },
     run:async p=>{
       await wait(700);
       await tap(p,"#tl-attAll",{pause:900});
       await glide(p,420,1400); await wait(700);
     }},
   /* 5. ציונים — טבלה אחת לקבוצה */
-  grades:{group:true,prep:async p=>{ await p.evaluate(g=>window.STU.show(g,"grades"),GID); await wait(1100); },
+  grades:{group:true,track:["#ft-grades"],prep:async p=>{ await p.evaluate(g=>window.STU.show(g,"grades"),GID); await wait(1100); },
     run:async p=>{ await wait(900); await glide(p,380,1500); await wait(1100); }},
   /* 7. מדד הכושר — ציון לכל תלמיד, לכל הקבוצה */
-  idx:{group:true,prep:async p=>{ await p.evaluate(g=>window.FT.show(g,"idx"),GID); await wait(1200); },
+  idx:{group:true,track:["#ft-idx"],prep:async p=>{ await p.evaluate(g=>window.FT.show(g,"idx"),GID); await wait(1200); },
     run:async p=>{ await wait(900); await glide(p,420,1600); await wait(1000); }},
   /* 8. כרטיס שחקן — התפתחות לאורך זמן (מאמנים) */
-  player:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("ft")); await wait(900);
+  player:{group:true,track:["#ft-cardBody","#ft-cardModal .modal"],prep:async p=>{ await p.evaluate(()=>window.HM.go("ft")); await wait(900);
       await p.evaluate(()=>document.querySelector('#ft-tests [data-t="push"]').click()); await wait(900);
       await p.evaluate(()=>document.querySelector("#ft-list").scrollIntoView({block:"start"})); await p.evaluate(()=>scrollBy(0,-120)); await wait(400); },
     run:async p=>{
@@ -212,11 +233,11 @@ const SCENES={
       await glide(p,520,1800); await wait(1200);
     }},
   /* 9. התקדמות הקבוצה (מאמנים ומנהלים) */
-  prog:{group:true,prep:async p=>{ await p.evaluate(g=>window.FT.show(g,"prog"),GID); await wait(1200); },
+  prog:{group:true,track:["#ft-prog"],prep:async p=>{ await p.evaluate(g=>window.FT.show(g,"prog"),GID); await wait(1200); },
     run:async p=>{ await wait(900); await glide(p,480,1800); await wait(1000); }},
   /* 10. פוטו־פיניש — מצב הסימולציה המובנה: זינוק, הרצים חוצים את הקו,
      הזמנים נרשמים לבד. Math.random קבוע כדי שכל שפה תקבל אותו מירוץ */
-  pf:{group:true,prep:async p=>{
+  pf:{group:true,track:["#pf-gun","#pf-clock","#pf-stage","#pf-chips","#pf-tbody"],prep:async p=>{
       await p.evaluate(()=>{ let s=20260926; Math.random=()=>((s=s*16807%2147483647)/2147483647); });
       await p.evaluate(()=>window.HM.go("photo")); await wait(1200); },
     run:async p=>{
@@ -226,7 +247,7 @@ const SCENES={
       await wait(1500);
     }},
   /* 11. מחולל מערכים — «בנה מערך בשניות» ואז «התחל שיעור» */
-  lesson:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("lesson")); await wait(1100); },
+  lesson:{group:true,track:["#ls-gen","#ls-planCard","#ls-planBody"],prep:async p=>{ await p.evaluate(()=>window.HM.go("lesson")); await wait(1100); },
     run:async p=>{
       await wait(500);
       await tap(p,"#ls-gen",{pause:1500});
@@ -234,7 +255,7 @@ const SCENES={
       await glide(p,700,2200); await wait(900);
     }},
   /* 12. שיעור חי — המערך רץ בטלפון במגרש */
-  live:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("lesson")); await wait(1000);
+  live:{group:true,track:["#ls-startLesson","#lv-clk","#lv-phase","#lv-plan","#lv-bar"],prep:async p=>{ await p.evaluate(()=>window.HM.go("lesson")); await wait(1000);
       await p.evaluate(()=>document.getElementById("ls-gen").click()); await wait(1200); },
     run:async p=>{
       await wait(400);
@@ -243,7 +264,7 @@ const SCENES={
       await glide(p,400,1600); await wait(1000);
     }},
   /* 6. מרכז הכיתה — תמונת מצב */
-  hub:{group:true,prep:async p=>{ await p.evaluate(()=>window.HM.go("cls")); await wait(1100); },
+  hub:{group:true,track:["#hub-root"],prep:async p=>{ await p.evaluate(()=>window.HM.go("cls")); await wait(1100); },
     run:async p=>{ await wait(900); await glide(p,520,1800); await wait(1000); }}
 };
 
@@ -280,7 +301,7 @@ async function openApp(browser,base,lang,withGroup){
       const {ctx,page,errs}=await openApp(browser,base,lang,S.group);
       try{
         await S.prep(page);
-        const r=await record(page,path.join(out,lang+"_"+sc),()=>S.run(page));
+        const r=await record(page,path.join(out,lang+"_"+sc),()=>S.run(page),S.track||[]);
         report.push([lang,sc,r.seconds+"s",r.frames+"f",errs.length?"ERR "+errs[0]:"ok"]);
         console.log(lang,sc,r.seconds+"s",r.frames+" frames",errs.length?"ERR "+errs.join(" | "):"");
       }catch(e){ console.log(lang,sc,"FAILED",e.message); report.push([lang,sc,"FAILED",e.message]); }
