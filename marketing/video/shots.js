@@ -13,42 +13,37 @@
      lead:  כמה שניות לפני האירוע המצלמה כבר שם (ברירת מחדל 0.3)
    האירוע הראשון הוא העוגן: הוא נופל ברבע הראשון של הקטע.
    push — כשאין הקשות: דחיפה איטית לאורך כל הקטע.
-   until — הרגע שחייב להיכנס לקטע (tap / track / tap:"last"), ועוד post שניות;
-     אם הקטע קצר מדי — ההקלטה מורצת מהר יותר (עד ×2.4).
+   until — הרגע שחייב להיכנס לקטע (at / tap / track / tap:"last"), ועוד post שניות.
+     אם הקטע קצר מדי, מראים את התוצאה בקצב טבעי ומוותרים על ההתחלה
+     (הרצה קדימה רק עד ×1.15). בין שתי תנועות מצלמה עוברות לפחות 1.2 שנ׳.
    ============================================================ */
 const SHOTS={
+  /* מערך: המצלמה נוסעת אל המערך שנבנה ועוקבת אחריו בגלילה */
   lesson:{until:{track:"#ls-planBody",post:1.6}, shots:[
-    {tap:"#ls-gen", z:1.9},
-    {track:"#ls-planBody", after:0.6, z:1.35, follow:true, move:0.7}]},
-  live:{until:{tap:"#ls-startLesson",post:1.0}, shots:[
-    {tap:"#ls-startLesson", z:2.0},
-    {track:"#lv-phase", after:0.6, z:1.55, follow:true, move:0.7}]},
-  pf:{until:{track:"#pf-chips",post:0.9}, shots:[
-    {tap:"#pf-gun", z:1.7},
-    {track:["#pf-stage","#pf-clock"], after:0.45, z:1.15, move:0.5},
-    {track:"#pf-chips", after:0.2, z:1.45, follow:true}]},
-  beep:{until:{tap:"#bt-toFt",post:1.0}, shots:[
-    {tap:"#bt-startBtn", z:1.8},
-    {track:"#bt-lvlBar", after:0.5, z:1.45},
-    {tap:"#bt-startBtn", z:1.6, lead:0.2},
-    {tap:"#bt-toFt", z:1.8}]},
+    {track:"#ls-planBody", after:0.3, z:1.35, follow:true}]},
+  /* שיעור חי: השעון והשלב הנוכחי */
+  live:{until:{tap:"#ls-startLesson",post:1.4}, shots:[
+    {track:["#lv-clk","#lv-phase"], after:0.9, z:1.4, follow:true}]},
+  /* פוטו־פיניש: מסלול + שעון יחד; הרצים חוצים את הקו ב-4.0–5.5 שנ׳ בהקלטה */
+  pf:{until:{at:5.4,post:0.6}, shots:[
+    {track:["#pf-stage","#pf-clock"], z:1.15, lead:0},
+    {track:"#pf-chips", after:0.2, z:1.4, follow:true}]},
+  /* ביפ טסט: לוח התוצאות, ואז «שמור לכיתה» והודעת האישור */
+  beep:{until:{tap:"#bt-toFt",post:1.3}, shots:[
+    {track:"#bt-tbl", after:3.0, z:1.3},
+    {tap:"#bt-toFt", z:1.5}]},
+  /* הזנת תוצאות: זום אחד על הרשימה, בלי לקפוץ משורה לשורה */
   test:{until:{tap:"last",post:0.7}, shots:[
-    {tap:"data-val", z:1.75},
-    {tap:"data-val", z:1.75, move:0.35, lead:0.15},
-    {tap:"data-val", z:1.75, move:0.35, lead:0.15},
-    {tap:"data-val", z:1.75, move:0.35, lead:0.15}]},
+    {tap:"data-val", z:1.45, lead:0.5}]},
   join:{until:{tap:"#ask-ok",post:1.0}, shots:[
-    {tap:"[data-join]", z:1.8},
-    {tap:".ask-checks", z:1.7},
-    {tap:"#ask-ok", z:1.7},
-    {track:"#ft-clsName", after:0.6, z:1.7}]},
+    {tap:".ask-checks", z:1.5, lead:0.6},
+    {track:"#ft-clsName", after:0.8, z:1.6}]},
   att:{until:{tap:"#tl-attAll",post:1.2}, shots:[
-    {tap:"#tl-attAll", z:1.9},
-    {track:"#tl-attList", after:0.5, z:1.25, follow:true}]},
+    {tap:"#tl-attAll", z:1.6, lead:0.5},
+    {track:"#tl-attList", after:1.2, z:1.25, follow:true}]},
   player:{until:{tap:"[data-card]",post:1.4}, shots:[
-    {tap:"[data-card]", z:1.8},
-    {track:"#ft-cardBody", after:0.6, z:1.3, follow:true}]},
-  hub:{start:0.8, shots:[], push:{z:1.14, dy:40}}
+    {track:"#ft-cardBody", after:0.2, z:1.3, follow:true}]},
+  hub:{start:0.8, shots:[], push:{z:1.1, dy:30}}
 };
 
 /* הפתיח (קטע Gemini A, 1080×1920 אחרי חיתוך).

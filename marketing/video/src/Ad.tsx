@@ -118,18 +118,20 @@ const AppSeg: React.FC<{ s: Seg; d: AdData; slam: boolean }> = ({ s, d, slam }) 
   const Fx = PH.x + cam.fx * S, Fy = PH.y + cam.fy * S, Cx = PH.x + PH.w / 2, Cy = PH.y + PH.h / 2;
   const dir = d.rtl ? -1 : 1;
   /* כניסה: אחרי הפתיח — הטלפון «נוחת» מלמטה; אחרת — החלקה מהצד */
-  const sIn = spring({ frame: f, fps: FPS, config: slam ? { damping: 13, stiffness: 150, mass: 0.9 } : { damping: 20, stiffness: 210 } });
-  const inX = slam ? 0 : (1 - sIn) * 1100 * dir;
+  const sIn = slam ? spring({ frame: f, fps: FPS, config: { damping: 13, stiffness: 150, mass: 0.9 } })
+    : interpolate(t, [0, 0.45], [0, 1], { ...clamp, easing: easeOut });
+  /* מעבר רך: החלקה קצרה + הופעה הדרגתית (בלי טשטוש תנועה), כדי שהמסך יהיה קריא מיד */
+  const inX = slam ? 0 : (1 - sIn) * 140 * dir;
   const inY = slam ? (1 - sIn) * 1500 : 0;
   const land = slam && t > 0.28 && t < 0.46 ? Math.sin(f * 2.1) * 9 : 0;
-  const outP = interpolate(t, [s.d - 0.2, s.d], [0, 1], { ...clamp, easing: (x) => x * x });
-  const blur = Math.abs(inX) / 90 + outP * 10;
-  const tilt = slam ? (1 - sIn) * 14 : (1 - sIn) * -18 * dir;
+  const outP = interpolate(t, [s.d - 0.3, s.d], [0, 1], { ...clamp, easing: (x) => x * x });
+  const fade = slam ? 1 : Math.min(sIn * 1.3, 1) * (1 - outP * 0.85);
+  const tilt = slam ? (1 - sIn) * 14 : (1 - sIn) * -6 * dir;
   return (
     <AbsoluteFill>
       <AbsoluteFill
         style={{
-          translate: `${inX - outP * 1100 * dir + land}px ${inY}px`, filter: blur > 0.3 ? `blur(${blur}px)` : undefined,
+          translate: `${inX - outP * 120 * dir + land}px ${inY}px`, opacity: fade, scale: `${1 - outP * 0.04}`,
           perspective: 1800,
         }}
       >
@@ -166,7 +168,7 @@ const AppSeg: React.FC<{ s: Seg; d: AdData; slam: boolean }> = ({ s, d, slam }) 
       </AbsoluteFill>
       {/* הכותרת מעל הכול, עם רקע מדורג שלא יתערבב עם הזום */}
       <AbsoluteFill style={{ background: "linear-gradient(180deg,rgba(9,10,20,.92) 0,rgba(9,10,20,.7) 190px,transparent 290px)", opacity: interpolate(cam.z, [1, 1.3], [0.35, 1], clamp) }} />
-      <AbsoluteFill style={{ opacity: 1 - outP, translate: `${-outP * 200 * dir}px 0` }}>
+      <AbsoluteFill style={{ opacity: 1 - outP, translate: `${-outP * 60 * dir}px 0` }}>
         {s.line ? <Headline text={s.line} lang={d.lang} rtl={d.rtl} /> : null}
       </AbsoluteFill>
       {s.k === "offline" ? <OfflineBadge d={d} /> : null}

@@ -44,7 +44,7 @@ export const BrandBg: React.FC = () => {
   );
 };
 
-/* מצלמה: אינטרפולציה לינארית בין המפתחות, ואז ממוצע נע (0.4 שנ׳)
+/* מצלמה: אינטרפולציה לינארית בין המפתחות, ואז ממוצע נע (0.6 שנ׳)
    שהופך כל מעבר לתנועה רכה — גם כשהמפתחות צפופים (מעקב אחרי גלילה) */
 const rawCam = (keys: CamKey[], t: number) => {
   if (t <= keys[0].t) return keys[0];
@@ -58,7 +58,7 @@ const rawCam = (keys: CamKey[], t: number) => {
   return keys[keys.length - 1];
 };
 export const camAt = (keys: CamKey[], t: number) => {
-  const N = 12, win = 0.4;
+  const N = 16, win = 0.6;
   let fx = 0, fy = 0, lz = 0;
   for (let i = 0; i < N; i++) {
     const k = rawCam(keys, t - win * (i / (N - 1)) + win / 2);

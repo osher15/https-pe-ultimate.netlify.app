@@ -82,48 +82,69 @@ function planClip(scene,lang,work,d,segKey){
     if(t==null)continue;
     ev.push({...s,t,box}); prev=t;
   }
-  /* 2. חלון: אירוע העוגן נופל ברבע הראשון של הקטע, אחרי כניסת הטלפון */
+  /* 2. חלון ההקלטה. הכלל: קצב טבעי, כדי שכל מסך יהיה קריא.
+     אם הקטע קצר מכדי להראות גם את הפעולה וגם את התוצאה (until), מראים את
+     התוצאה: החלון מסתיים בה. הרצה קדימה — רק עד ×1.15, כשזה חוסך את החיתוך */
+  const MAX_RATE=1.15, HOLD=1.2;
   const anchor=ev.length?ev[0].t:0;
-  const lead=Math.min(1.1,Math.max(0.55,0.22*d));
+  const lead=Math.min(1.0,Math.max(0.6,0.22*d));
   let start=cfg.start!=null?cfg.start:Math.max(0.35,anchor-lead);
   let rate=1;
-  /* «השורה התחתונה» של הסצנה (הזמנים נרשמו, נשמר לכיתה) חייבת להיכנס לקטע:
-     אם היא רחוקה מדי — מריצים קדימה (עד ×2.4), עם תווית «הרצה מהירה» */
+  let pt=null;
   if(cfg.until){
-    let pt=null;
-    if(cfg.until.tap==="last"&&log.taps.length)pt=log.taps[log.taps.length-1].t;
+    if(cfg.until.at!=null)pt=cfg.until.at;
+    else if(cfg.until.tap==="last"&&log.taps.length)pt=log.taps[log.taps.length-1].t;
     else if(cfg.until.tap){ const tp=log.taps.filter(x=>x.sel.includes(cfg.until.tap)).pop(); if(tp)pt=tp.t; }
     else if(cfg.until.track){ const a=log.track[cfg.until.track]; if(a&&a.length)pt=a[0][0]; }
-    if(pt!=null){ const need=Math.min(recDur-0.1,pt+(cfg.until.post||0.8))-start; if(need>d)rate=Math.min(2.4,need/d); }
   }
-  if(rate===1&&recDur-start<d){
+  if(pt!=null){
+    const end=Math.min(recDur-0.1,pt+(cfg.until.post||0.8));
+    if(end-start>d){
+      if(end-start<=d*MAX_RATE)rate=(end-start)/d;
+      else start=Math.max(0.35,end-d);
+    }
+  }
+  if(recDur-start<d*rate){
     rate=Math.max(0.72,(recDur-start)/d);
     if((recDur-start)/rate<d)start=Math.max(0.2,recDur-d*rate);
   }
-  /* 3. מצלמה: מפתחות בזמן הקטע (שניות) */
+  /* 3. מצלמה: מפתחות בזמן הקטע (שניות). לכל היותר תנועה אחת ל-HOLD שניות,
+     כדי שהעין תספיק לקרוא; אירוע שקרה לפני תחילת החלון קובע את נקודת הפתיחה */
   const toSeg=(t)=>(t-start)/rate;
-  const keys=[{t:0,fx:vw/2,fy:vh/2,z:1}];
+  const before=ev.filter(e=>e.t<=start+0.3).pop();
+  /* אלמנט במעקב — המיקום שלו ברגע שהחלון נפתח (אולי כבר נגלל) */
+  const box0=before?(before.track?boxAt(log,before.track,start)||before.box:before.box):null;
+  const f0=box0?focusOf(box0,before.z,vw,vh):[vw/2,vh/2];
+  const keys=[{t:0,fx:f0[0],fy:f0[1],z:before?before.z:1}];
   const rings=[];
   const push=(t,f,z)=>{ const last=keys[keys.length-1]; if(t<=last.t+0.05){ keys.push({t:last.t+0.05,fx:f[0],fy:f[1],z}); } else keys.push({t,fx:f[0],fy:f[1],z}); };
+  let lastArrive=-HOLD;
   ev.forEach((e,i)=>{
-    const tt=toSeg(e.t), move=e.move||0.55, arrive=Math.max(0.25,tt-(e.lead!=null?e.lead:0.3));
-    if(arrive>d-0.2)return;
-    const lastK=keys[keys.length-1];
-    push(Math.max(lastK.t,arrive-move),[lastK.fx,lastK.fy],lastK.z);       /* מחזיקים עד שמתחילים לזוז */
-    const f=focusOf(e.box,e.z,vw,vh);
-    push(arrive,f,e.z);
-    if(e.tap)rings.push({t0:+(arrive).toFixed(3),t1:+(Math.min(d,tt+0.9)).toFixed(3),box:e.box});
+    const tt=toSeg(e.t), move=e.move||0.8;
+    const isBefore=e===before;
+    if(!isBefore){
+      if(e.t<=start+0.3)return;
+      const lastK0=keys[keys.length-1];
+      /* תנועה אורכת לפחות move שניות — גם כשהאירוע קרוב לתחילת הקטע */
+      const arrive=Math.max(0.3,lastK0.t+move,tt-(e.lead!=null?e.lead:0.35));
+      if(arrive>d-0.5||arrive-lastArrive<HOLD)return;
+      const lastK=keys[keys.length-1];
+      push(Math.max(lastK.t,arrive-move),[lastK.fx,lastK.fy],lastK.z);       /* מחזיקים עד שמתחילים לזוז */
+      push(arrive,focusOf(e.box,e.z,vw,vh),e.z);
+      lastArrive=arrive;
+      if(e.tap)rings.push({t0:+arrive.toFixed(3),t1:+(Math.min(d,tt+1.1)).toFixed(3),box:e.box});
+    }
     /* עוקבים אחרי אלמנט שזז (גלילה) עד האירוע הבא */
     if(e.follow&&e.track){
       const until=i+1<ev.length?ev[i+1].t:start+d*rate;
-      for(let st=e.t+0.25; st<until; st+=0.25){ const b=boxAt(log,e.track,st); if(!b)break;
+      for(let st=Math.max(e.t,start)+0.25; st<until; st+=0.25){ const b=boxAt(log,e.track,st); if(!b)break;
         const ff=focusOf(b,e.z,vw,vh), ts=toSeg(st); if(ts>d)break; push(ts,ff,e.z); }
     }
   });
   if(cfg.push){ const lastK=keys[keys.length-1]; push(Math.max(lastK.t+0.1,d),[lastK.fx,lastK.fy+(cfg.push.dy||0)],lastK.z*cfg.push.z); }
   const taps=log.taps.map(x=>toSeg(x.t)).filter(t=>t>0.05&&t<d-0.05).map(t=>+t.toFixed(3));
   return {src:`out/${lang}_${scene}.mp4`, start:+start.toFixed(3), rate:+rate.toFixed(3), recDur:+recDur.toFixed(3),
-    vw, vh, ff:rate>1.15, keys:keys.map(k=>({t:+k.t.toFixed(3),fx:+k.fx.toFixed(1),fy:+k.fy.toFixed(1),z:+k.z.toFixed(3)})), rings, taps};
+    vw, vh, ff:rate>1.08, keys:keys.map(k=>({t:+k.t.toFixed(3),fx:+k.fx.toFixed(1),fy:+k.fy.toFixed(1),z:+k.z.toFixed(3)})), rings, taps};
 }
 
 function main(){
