@@ -197,7 +197,8 @@ function main(){
           const tf=s.cues.length>1?s.cues[1].start-s.t0:s.d*0.55;
           if(HOOK.look>=tf){ from=HOOK.look-tf; rate=1; } else rate=Math.max(0.7,HOOK.look/tf);
         } else if(s.k!=="hook"&&CALM.from){ from=Math.min(CALM.from,Math.max(0,dur-1)); rate=Math.max(0.75,Math.min(1,(dur-from)/s.d)); }
-        o.gem={src:`gemini/${s.src}.mp4`, dur:+dur.toFixed(3), from:+from.toFixed(3), rate:+rate.toFixed(3)}; }
+        o.gem={src:`gemini/${s.src}.mp4`, dur:+dur.toFixed(3), from:+from.toFixed(3), rate:+rate.toFixed(3)};
+        if(s.k==="hook"&&HOOK.look!=null)o.gem.look=HOOK.look; }
       return o;
     });
     const props={version,lang,rtl:!!RTL[lang],total:P.TOTAL,fps:30,

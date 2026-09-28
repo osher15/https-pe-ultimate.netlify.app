@@ -32,7 +32,9 @@ const Hook: React.FC<{ s: Seg; d: AdData }> = ({ s, d }) => {
   const t = f / FPS;
   const tf = s.cues.length > 1 ? s.cues[1].start - s.t0 : s.d * 0.55;      /* הקפאה עם הכתובית השנייה */
   const gem = s.gem!;
-  const srcT = Math.min(gem.from + Math.min(t, tf) * gem.rate, gem.dur - 0.06);
+  /* ההקפאה תמיד על פריים המבט למצלמה (look), גם כשהכתובית השנייה מגיעה
+     מאוחר מכדי להגיע אליו בקצב רגיל — הקפיצה נבלעת בזום ובשריטת התקליט */
+  const srcT = t >= tf && gem.look != null ? gem.look : Math.min(gem.from + Math.min(t, tf) * gem.rate, gem.dur - 0.06);
   const zin = spring({ frame: f - fr(tf), fps: FPS, config: { damping: 18, stiffness: 140 } });
   const z = t < tf ? 1 : 1 + (d.hook.face.z - 1) * zin;
   const shake = t > tf + 0.25 && t < tf + 0.42 ? Math.sin(f * 2.3) * 10 : 0;
