@@ -227,7 +227,7 @@ therefore met only through the meta tag for this round.
 
 - Real Android / iOS devices (backlog item 5 is still open).
 - The 7-day reminder in real elapsed time (simulated clock only); Netlify spam filtering;
-  email notifications (not configured).
+  delivery of the notification email (configured by the operator, not yet exercised).
 - Native-speaker review (backlog item 8 still open), now also covering the contact form,
   `privacy.html` and `terms.html`.
 
@@ -235,7 +235,8 @@ therefore met only through the meta tag for this round.
 
 1. Operator identity **Osher Shalev** — published in `privacy.html` / `terms.html` (5 languages).
 2. Retention up to 24 months with six-monthly manual review — **approved**; draft notices removed.
-3. Netlify form email notifications — approved, **not yet configured** (dashboard-only step;
-   see `docs/PE_ULTIMATE_PRIVACY_CONTACT_2026-09-29.md`).
+3. Netlify form email notifications — **configured by the operator** in the dashboard
+   (reported, not independently verifiable with the available tools; first real
+   submission will confirm delivery).
 
 Backlog items 2, 5–15 are unchanged from section E.

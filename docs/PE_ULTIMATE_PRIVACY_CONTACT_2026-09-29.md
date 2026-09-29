@@ -91,16 +91,17 @@ The live check is complete; no further TEST submission is needed.
 
 - Real devices (Android Chrome, iOS Safari), including the on-screen keyboard over the form.
 - The 7-day reminder in real elapsed time (tested with a simulated clock only).
-- Netlify spam filtering of genuine submissions, and email notifications (not configured).
+- Netlify spam filtering of genuine submissions, and delivery of the notification email
+  (configured by the operator; no submission has arrived since).
 - Native-speaker review of the new ar/ru/es/en texts in the form, `privacy.html` and `terms.html`.
 
 ### Operator decisions (2026-09-29)
 
 1. Operator identity: **Osher Shalev** — published in `privacy.html` and `terms.html`, all five languages.
 2. Retention: up to 24 months, manual review every six months — **approved**; draft notices removed.
-3. Netlify form email notifications: **approved by the operator, not yet configured.** The
-Netlify tools available to this project cannot create form notifications, so it is a
-dashboard step: Netlify → project `pe-ultimate` → Project configuration → Notifications →
-Emails and webhooks → Form submission notifications → Add notification → Email
-notification → event *New form submission*, form `pe-ultimate-contact`, the operator's
-address → Save.
+3. Netlify form email notifications: **configured by the operator in the Netlify dashboard**
+(2026-09-29, as reported by the operator). The Netlify tools available here can neither
+create nor read form notifications, so this was not independently verified; the next real
+submission is the first live check that the email arrives. Where to find it: Netlify →
+project `pe-ultimate` → Project configuration → Notifications → Emails and webhooks → Form
+submission notifications.
