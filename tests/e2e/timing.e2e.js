@@ -328,11 +328,19 @@ module.exports={title:"פוטו־פיניש — תזמון",tests:[
     const r=await page.evaluate(()=>{
       const src=id=>{ const s=[...document.scripts].map(x=>x.src).find(x=>x.indexOf(id)>=0)||"";
         const m=s.match(/[?&]v=([0-9a-f]+)/); return m?m[1]:null; };
-      return {app:src("hm-app.js"),tests:src("hm-tests.js"),shown:window.HM.buildId?window.HM.buildId():null};
+      const mt=document.querySelector('meta[name="hm-build"]');
+      return {app:src("hm-app.js"),tests:src("hm-tests.js"),meta:mt?mt.content:null,
+        shown:window.HM.buildId?window.HM.buildId():null};
     });
-    /* בקובץ הבודד הסקריפטים מוטמעים ואין חותמות — והמזהה אומר «local»
-       במקום להמציא מספר. בגרסת הרשת הוא חייב לבוא מ-hm-app.js. */
-    if(!r.app){
+    /* סבב 3: המזהה הוא חותמת הבנייה (hm-build) — גיבוב של כל קבצי
+       האפליקציה, ולכן זז בכל שינוי. חותמת hm-app.js לבדה לא זזה כשהשתנו
+       רק קבצים אחרים (כך קרה בסבב 2). בלי חותמת בנייה — כמו קודם:
+       חותמת hm-app.js, ואם גם היא חסרה — «local», לא מספר מומצא. */
+    if(r.meta&&/^[0-9a-f]{6,}$/.test(r.meta)){
+      eq(r.shown,r.meta,"המזהה הוא חותמת הבנייה של הדף");
+      const src=require("fs").readFileSync(require("path").join(__dirname,"../../index.html"),"utf8");
+      eq(r.meta,(src.match(/<meta name="hm-build" content="([0-9a-f]*)">/)||[])[1],"ואותה חותמת של index.html — לא מספר מומצא");
+    }else if(!r.app){
       eq(r.shown,"local","בבנייה המאוחדת אין חותמות, וזה נאמר במפורש");
       eq(r.tests,null,"וגם לא לקובץ התוכן — כלומר אין מאיפה להטעות");
     }else{
