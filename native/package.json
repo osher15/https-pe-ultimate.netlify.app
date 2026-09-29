@@ -1,0 +1,25 @@
+{
+  "name": "pe-ultimate-native",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PE Ultimate — מעטפת Capacitor לגרסאות Google Play ו-App Store. אותו קוד של האתר, מועתק ל-www בזמן הבנייה.",
+  "scripts": {
+    "web": "node build-web.js",
+    "sync": "node build-web.js && npx cap sync",
+    "android": "node build-web.js && npx cap sync android && npx cap open android",
+    "ios": "node build-web.js && npx cap sync ios && npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor-community/keep-awake": "8.0.1",
+    "@capacitor-community/text-to-speech": "8.0.2",
+    "@capacitor/android": "8.5.2",
+    "@capacitor/core": "8.5.2",
+    "@capacitor/filesystem": "8.1.3",
+    "@capacitor/ios": "8.5.2",
+    "@capacitor/share": "8.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.2"
+  },
+  "engines": { "node": ">=22" }
+}

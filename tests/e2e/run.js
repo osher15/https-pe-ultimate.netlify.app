@@ -42,7 +42,8 @@ const suites=[
   require("./shell22.e2e.js"),
   require("./combined23.e2e.js"),
   require("./audit29.e2e.js"),
-  require("./round3.e2e.js")
+  require("./round3.e2e.js"),
+  require("./native.e2e.js")
 ];
 run(suites).then(fail=>process.exit(fail?1:0))
   .catch(e=>{ console.error(e); process.exit(1); });

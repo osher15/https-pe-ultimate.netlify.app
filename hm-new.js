@@ -75,11 +75,14 @@ window.STU=(function(){
   /* שני סוגי מדידות, בשני מקומות: s.tests הוא ביפ טסט בלבד (סבולת
      לב-ריאה, VO₂max), ומבחני הכושר (ספרינט, שכיבות סמיכה, קפיצה...)
      יושבים ב-ft.results ומקושרים לתלמיד ב-sid. הרשימה אמרה «0 מבחנים»
-     לתלמיד שיש לו עשר מדידות כושר — כי ספרה רק את הראשון. */
+     לתלמיד שיש לו עשר מדידות כושר — כי ספרה רק את הראשון.
+     ריצת ביפ אחת נשמרת בשני המקומות («שלח למבחנים» רושם גם כאן), ולכן
+     שורות ה-beep שב-ft.results לא נספרות כמדידת כושר: הן כבר נספרות
+     כ«ביפ טסט». אחרת ריצה אחת הוצגה כשתי מדידות. */
   function ftCounts(){
     const m={}; let rs=[];
     try{ rs=(window.FT&&window.FT.results)?window.FT.results():H().LS.get("ft.results",[]); }catch(e){ rs=[]; }
-    (Array.isArray(rs)?rs:[]).forEach(r=>{ if(r&&r.sid)m[r.sid]=(m[r.sid]||0)+1; });
+    (Array.isArray(rs)?rs:[]).forEach(r=>{ if(r&&r.sid&&r.test!=="beep")m[r.sid]=(m[r.sid]||0)+1; });
     return m;
   }
   function render(){
@@ -147,7 +150,7 @@ window.STU=(function(){
   }
   function zoneColor(g){return {"מצוין":"#5cc8ff","אזור בריא":"#8fd96b","טעון שיפור":"#ffd166","סיכון בריאותי":"#ff6b81"}[g]||"#8a8da1";}
   function chart(s){
-    const T=s.tests; if(T.length<2)return '<div class="hint" style="text-align:center;padding:8px 0">גרף יופיע אחרי שני מבחנים ומעלה</div>';
+    const T=s.tests; if(T.length<2)return '<div class="hint" style="text-align:center;padding:8px 0">גרף יופיע אחרי שתי ריצות ביפ ומעלה</div>';
     const W=440,Hh=120,P=26;
     const ds=T.map(t=>t.dist),mn=Math.min(...ds),mx=Math.max(...ds),sp=Math.max(1,mx-mn);
     const pts=T.map((t,i)=>[P+(W-2*P)*(T.length===1?0:i/(T.length-1)),Hh-P-(Hh-2*P)*((t.dist-mn)/sp)]);
@@ -163,7 +166,8 @@ window.STU=(function(){
     const {esc}=H();
     let prof=null;
     try{ prof=window.FT&&window.FT.progress?window.FT.progress.profile({id:s.id,name:s.name,sex:s.sex}):null; }catch(e){ prof=null; }
-    const rows=prof?prof.tests.filter(t=>t.best):[];
+    /* הביפ מוצג בסעיף משלו (עם VO₂max) — לא פעמיים */
+    const rows=prof?prof.tests.filter(t=>t.best&&t.testId!=="beep"):[];
     const n=rows.reduce((a,t)=>a+t.list.length,0);
     return `<h4 class="stu-sec">📋 מבחני כושר <span class="hint">(${n})</span></h4>`+(rows.length
       ?`<div class="tblwrap"><table class="tbl" id="stu-fitTbl"><thead><tr><th>מבחן</th><th>⭐ שיא</th><th>מדידות</th><th>נמדד לאחרונה</th></tr></thead><tbody>
@@ -188,7 +192,7 @@ window.STU=(function(){
         ${b?`<span class="pill">BMI: <b style="color:${bc.c}">&nbsp;${b.toFixed(1)} · ${bc.g}</b></span><span class="hint" style="font-size:11px">הערכה כללית — בגילאי בי״ס יש להצליב עם עקומות גדילה</span>`:'<span class="hint">הזן גובה ומשקל לחישוב BMI</span>'}
       </div>
       ${lt?`<div class="row" style="margin-bottom:6px;gap:8px">
-        <span class="pill acc">מבחן אחרון: ${lt.dist} מ׳ · VO₂ ${lt.vo2?lt.vo2.toFixed(1):"—"}</span>
+        <span class="pill acc">ביפ טסט אחרון: ${lt.dist} מ׳ · VO₂ ${lt.vo2?lt.vo2.toFixed(1):"—"}</span>
         <span class="catpill" style="background:${zoneColor(lt.zone)}">${esc(lt.zone||"")}</span>
         ${tr?`<span class="pill" style="color:${tr>0?"#8fd96b":"#ff6b81"}">${tr>0?"▲ מגמת שיפור":"▼ מגמת ירידה"}</span>`:""}
       </div>`:""}
@@ -821,9 +825,11 @@ window.STU=(function(){
     });
     $("#stu-csv").addEventListener("click",()=>{
       const list=load(); if(!list.length){H().toast("אין תלמידים");return;}
-      const rows=[["שם","כיתה","מין","גיל","BMI","מבחנים","מרחק אחרון","VO2 אחרון","אזור","מגמה"]];
+      /* אותן שתי ספירות של הרשימה: «מבחנים» ספר רק ביפ טסט */
+      const fc=ftCounts();
+      const rows=[["שם","כיתה","מין","גיל","BMI","מדידות כושר","ביפ טסט","ביפ — מרחק אחרון","VO2 אחרון","אזור","מגמה"]];
       list.forEach(s=>{const lt=latest(s),b=bmi(s);
-        rows.push([s.name,s.cls||"",s.sex==="girls"?"בת":"בן",s.age||"",b?b.toFixed(1):"",s.tests.length,lt?lt.dist:"",lt&&lt.vo2?lt.vo2.toFixed(1):"",lt?lt.zone:"",trend(s)>0?"שיפור":trend(s)<0?"ירידה":""]);});
+        rows.push([s.name,s.cls||"",s.sex==="girls"?"בת":"בן",s.age||"",b?b.toFixed(1):"",fc[s.id]||0,s.tests.length,lt?lt.dist:"",lt&&lt.vo2?lt.vo2.toFixed(1):"",lt?lt.zone:"",trend(s)>0?"שיפור":trend(s)<0?"ירידה":""]);});
       H().dlCSV("students_tracking.csv",rows);
     });
     /* ---------- ציונים ---------- */
@@ -1082,9 +1088,13 @@ async function sendLead(){
   const ctl=typeof AbortController!=="undefined"?new AbortController():null;
   const timer=ctl?setTimeout(()=>ctl.abort(),LEAD_TIMEOUT):null;
   try{
-    const res=await fetch(LEAD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
-      body:new URLSearchParams(payload).toString(),credentials:"same-origin",cache:"no-store",signal:ctl?ctl.signal:undefined});
-    const text=await res.text();
+    /* באפליקציה הארוזה הדף אינו מוגש מ-Netlify: שולחים לכתובת המלאה דרך
+       HTTP של המערכת (hm-native.js). אותו אישור קליטה נבדק בשני המסלולים. */
+    const res=(window.HMN&&window.HMN.native)
+      ? await window.HMN.postForm(payload,LEAD_TIMEOUT)
+      : await fetch(LEAD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+          body:new URLSearchParams(payload).toString(),credentials:"same-origin",cache:"no-store",signal:ctl?ctl.signal:undefined});
+    const text=typeof res.text==="function"?await res.text():res.text;
     if(!LD().leadAckOk(res.status,text)){
       leadStatusMsg("err",t("lead.errServer","לא נשלח — השרת לא אישר שהפרטים נקלטו. הפרטים נשארו בטופס; נסו שוב מאוחר יותר."));
       return;

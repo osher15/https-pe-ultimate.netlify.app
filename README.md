@@ -117,7 +117,8 @@ GitHub**, ולא "בנה לי אתר" — הקוד כבר קיים כאן, אי�
 | `privacy.html` · `terms.html` | מדיניות פרטיות ותנאי שימוש, בחמש שפות (מפעיל: Osher Shalev; שמירת פרטי קשר עד 24 חודשים) |
 | `contact-received.html` | דף האישור של טופס פרטי הקשר (Netlify Forms) — האפליקציה מסמנת «נשלח» רק כשהוא חוזר |
 | `netlify.toml` · `tools/stamp-version.js` | בזמן הפריסה ב-Netlify נכתב `version.json` (commit ומועד פריסה) — מוצג בהגדרות. אין שלב בנייה לאפליקציה עצמה |
-| `docs/PE_ULTIMATE_PLAY_READINESS_2026-09-29.md` | פערים להגשה ל-Google Play (TWA), טיוטת Data safety ותסריט בדיקה במכשיר |
+| `docs/PE_ULTIMATE_PLAY_READINESS_2026-09-29.md` | Google Play ו-App Store: למה Capacitor, פערי המעטפת, העברת נתונים מה-PWA, דרישות Apple ו-Google, טיוטות הצהרות, בנייה ובדיקה במכשיר |
+| `native/` | מעטפת Capacitor (android/, ios/). `node build-web.js` מעתיק את האתר ל-www; אין קוד נפרד לאפליקציה מלבד הגשר `hm-native.js` |
 | `docs/ORIGIN_VISION.md` | מסמך חזון מקורי, ירושה מהמגרש PRO — עדיין ראוי לקריאה |
 | `tests/` | בדיקות יחידה (`hm-data.js`, Node) + בדיקות דפדפן (Playwright) — המספרים העדכניים בדוח הביקורת האחרון ב-`docs/` |
 

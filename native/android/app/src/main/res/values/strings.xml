@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PE Ultimate</string>
+    <string name="title_activity_main">PE Ultimate</string>
+    <string name="package_name">app.netlify.peultimate</string>
+    <string name="custom_url_scheme">app.netlify.peultimate</string>
+</resources>
