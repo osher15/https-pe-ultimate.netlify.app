@@ -108,7 +108,7 @@ module.exports={title:"מסך פרטי הקשר — שליחה מאומתת, ד�
     eq(st.done,true); ok(st.sentAt,"מועד שליחה נשמר");
     eq(log.length,1,"בקשה אחת");
     const body=Object.fromEntries(new URLSearchParams(log[0]));
-    eq(Object.keys(body).sort(),["app_version","bot-field","email","first","form-name","lang","last","phone"],"רק שדות הטופס");
+    eq(Object.keys(body).sort(),["app_version","bot-field","email","first","form-name","kind","lang","last","message","phone"],"רק שדות הטופס");
     eq(body["form-name"],"pe-ultimate-contact");
     eq([body.email,body.phone],[GOOD.email,GOOD.phone]);
     eq(await page.evaluate(()=>localStorage.getItem("peultimate.stu.list")),stuBefore,"נתוני תלמידים לא נגעו");
@@ -201,6 +201,66 @@ module.exports={title:"מסך פרטי הקשר — שליחה מאומתת, ד�
     eq(await page.evaluate(()=>document.documentElement.dir),"rtl");
     eq(await page.getAttribute("#lead-email","dir"),"ltr");
     eq(await page.getAttribute("#lead-phone","dir"),"ltr");
+  }),
+
+  check("שליחה כפולה: שלוש לחיצות מהירות בזמן שהשרת איטי — פנייה אחת בלבד",fresh,async page=>{
+    const log=[];
+    await page.route("**/*",async r=>{ const q=r.request(); if(q.method()!=="POST")return r.fallback();
+      log.push(q.postData()); await new Promise(res=>setTimeout(res,700));
+      return r.fulfill({status:200,contentType:"text/html;charset=utf-8",body:ACK}); });
+    await fill(page,GOOD);
+    await page.evaluate(()=>{ const f=document.getElementById("lead-form");
+      for(let i=0;i<3;i++)f.dispatchEvent(new Event("submit",{cancelable:true,bubbles:true})); });
+    await page.waitForTimeout(1300);
+    eq(log.length,1,"יצאה פנייה אחת");
+    eq((await state(page)).done,true,"ונקלטה");
+  }),
+
+  check("בקשת מחיקה מ«אודות»: בלי שמות, אימייל בלבד מספיק; נשלח kind=delete והתזכורות נעצרות",
+    Object.assign({"hx.leadDone":false,"hx.leadSnoozeUntil":Date.parse("2026-01-01")},base),async page=>{
+    const log=[]; await server(page,"ok",log);
+    await page.evaluate(()=>document.getElementById("ab-leadDel").click()); await page.waitForTimeout(300);
+    eq(await shown(page),true,"הטופס נפתח");
+    eq(await page.evaluate(()=>document.querySelector('#lead-kind input[value="delete"]').checked),true,"במצב מחיקה");
+    eq(await page.evaluate(()=>document.getElementById("lead-names").hidden),true,"בלי שדות שם");
+    eq(await page.evaluate(()=>document.getElementById("lead-delnote").hidden),false,"עם ההסבר על שלושת סוגי המחיקה");
+    const note=await page.textContent("#lead-delnote");
+    ok(/במכשיר/.test(note)&&/Drive/.test(note),"ההסבר מבחין בין Netlify, המכשיר והגיבויים — "+note);
+    /* ריק — לא יוצא כלום */
+    await send(page); eq(log.length,0,"בלי אימייל וטלפון לא נשלח");
+    ok((await errs(page)).email.length>0,"ויש הודעה ליד השדה");
+    await page.fill("#lead-email","test.user@example.com");
+    await page.fill("#lead-message","TEST — synthetic deletion request");
+    await send(page);
+    eq(log.length,1,"נשלחה בקשה אחת");
+    const q=new URLSearchParams(log[0]);
+    eq([q.get("kind"),q.get("first"),q.get("last"),q.get("email"),q.get("phone")],
+       ["delete","","","test.user@example.com",""],"רק מה שנחוץ לזיהוי");
+    eq(q.get("message"),"TEST — synthetic deletion request");
+    const st=await state(page);
+    eq([st.optOut,!!st.delAt],[true,true],"בקשת המחיקה נרשמה");
+    eq(await page.evaluate(()=>window.HMDATA.leadStatus(window.HMLead.state(),Date.now())),"done","אין עוד תזכורות");
+  }),
+
+  check("בקשת מחיקה שנכשלה ברשת: הטקסט נשאר, לא נרשמה כנקלטה",Object.assign({"hx.leadDone":true},base),async page=>{
+    await server(page,"net");
+    await page.evaluate(()=>window.HMLead.open(true,"delete")); await page.waitForTimeout(200);
+    await page.fill("#lead-phone","+972 50 123 4567"); await page.fill("#lead-message","נא למחוק");
+    await send(page);
+    eq(await page.inputValue("#lead-phone"),"+972 50 123 4567");
+    eq(await page.inputValue("#lead-message"),"נא למחוק");
+    eq((await state(page)).optOut,false);
+    ok(/לא נשלח/.test(await page.textContent("#lead-status")),"הודעת כשל");
+  }),
+
+  check("קישור מדף הפרטיות (#delete-contact) פותח ישר את בקשת המחיקה",Object.assign({"hx.leadDone":true},base),async(page,env)=>{
+    const p=await env.ctx.newPage();
+    await p.route("**/*",r=>r.request().url().indexOf("http://127.0.0.1:")===0?r.continue():r.abort());
+    await p.goto(page.url().split("#")[0]+"#delete-contact"); await p.waitForTimeout(900);
+    eq(await p.evaluate(()=>document.getElementById("leadOv").classList.contains("on")),true);
+    eq(await p.evaluate(()=>document.querySelector('#lead-kind input[value="delete"]').checked),true);
+    const priv=fs.readFileSync(path.join(__dirname,"../../privacy.html"),"utf8");
+    ok(priv.indexOf('href="/#delete-contact"')>=0,"ודף הפרטיות מקשר לשם");
   })
 
 ]};

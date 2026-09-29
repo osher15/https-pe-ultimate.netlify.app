@@ -1,0 +1,11 @@
+# פריסה סטטית — אין שלב בנייה לאפליקציה עצמה (Hamegrash.html ו-index.html
+# נבנים ונבדקים לפני ה-commit). הפקודה היחידה כותבת version.json עם ה-commit
+# ומועד הפריסה בפועל, כדי שההגדרות יציגו גרסה אמיתית.
+[build]
+  publish = "."
+  command = "node tools/stamp-version.js"
+
+[[headers]]
+  for = "/version.json"
+  [headers.values]
+    Cache-Control = "no-store"

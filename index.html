@@ -15,27 +15,27 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="0a42ca0a">
+<meta name="hm-build" content="cd981a4f">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=12faec1d">
+<link rel="stylesheet" href="hm-styles.css?v=9f984bd3">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-data.js?v=5162702f"></script>
-<script src="hm-terms.js?v=06da39ac"></script>
-<script src="hm-texts.js?v=f84e5539"></script>
-<script src="hm-i18n.js?v=0fa1b508"></script>
-<script src="hm-app.js?v=eab87ca5"></script>
+<script src="hm-data.js?v=fe7203ad"></script>
+<script src="hm-terms.js?v=7d105907"></script>
+<script src="hm-texts.js?v=a6355c64"></script>
+<script src="hm-i18n.js?v=175c9ee6"></script>
+<script src="hm-app.js?v=94740739"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
 <script src="hm-know.js?v=72244783"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="hm-tools.js?v=9806461b"></script>
+<script src="hm-tools.js?v=584ac944"></script>
 <script src="hm-plans.js?v=20cf74cb"></script>
 <script src="hm-lesson.js?v=a6ad94de"></script>
 <script src="hm-build.js?v=931b1d83"></script>
 <script src="hm-tests.js?v=379b32c8"></script>
-<script src="hm-new.js?v=56fdba62"></script>
+<script src="hm-new.js?v=9dc97293"></script>
 <script src="hm-live.js?v=16d0ab27"></script>
 <script src="hm-hub.js?v=1e6ba46b"></script>
 </helmet>
@@ -903,7 +903,7 @@
         <button class="btn sm ghost" id="gr-csv" style="margin-top:18px">⬇ CSV</button>
         <button class="btn sm ghost" id="gr-fillAtt" style="margin-top:18px" title="ממלא רק שדות ריקים — לא דורס ציון שכבר הוזן">⬇ מלא לפי נוכחות</button>
       </div>
-      <div class="hint" id="gr-fillAttHint" style="margin-top:6px">⬇ מלא לפי נוכחות ממלא רק שדות השתתפות ריקים לפי אחוז הנוכחות בפועל — לא דורס ציון שכבר הוזן, ולא ממציא ציון לתלמיד בלי נתוני נוכחות.</div>
+      <div class="hint" id="gr-fillAttHint" style="margin-top:6px">⬇ מלא לפי נוכחות ממלא רק שדות השתתפות ריקים — לא דורס ציון שכבר הוזן, ולא ממציא ציון לתלמיד בלי נתוני נוכחות. החישוב: מלאה = 1, חלקית (הגיע והשתתף בחלק מהשיעור) = ½, נעדר = 0. פטור לא נספר כלל; תלמיד שיש לו רק פטור נשאר בלי ציון.</div>
       <div class="tblwrap" style="margin-top:13px"><table class="tbl" id="gr-table"></table></div>
       <div class="hint" id="gr-provHint" hidden style="margin-top:8px"></div>
       <div class="empty-state" id="gr-empty" style="display:none"><div class="big">📊</div>אין עדיין תלמידים בכיתה הזו. הוסף תלמידים בלשונית «רשימת תלמידים».</div>
@@ -1595,7 +1595,7 @@
   </details>
 
   <details class="info-sec" data-info="data"><summary data-i18n="info.data.s">💾 הנתונים שלך</summary>
-    <p class="info-w" data-i18n="info.data.w">אין שרת ואין חשבון — וזה גם היתרון וגם האחריות.</p>
+    <p class="info-w" data-i18n="info.data.w">אין חשבון, ונתוני התלמידים לא נשמרים בשרת — וזה גם היתרון וגם האחריות.</p>
     <ul class="info-l" data-i18n="info.data.l">
       <li><b>גיבוי</b> ⚙ הגדרות ← «⬇ גבה הכל לקובץ». «⬆ שחזר מקובץ» מחזיר הכול במכשיר חדש.</li>
       <li><b>הצפנה</b> אפשר להצפין את הגיבוי בסיסמה — אבל אין שחזור סיסמה. אבדה הסיסמה, אבד הקובץ.</li>
@@ -1608,11 +1608,11 @@
 <div class="modal" id="aboutModal"><div class="box" style="max-width:540px">
   <h3><span dir="auto" data-i18n="about.title">📘 אודות PE Ultimate</span><button class="x" data-close="aboutModal">✕</button></h3>
   <div class="ab-hero"><div class="lg">⏱️</div>
-    <div><b dir="auto" data-i18n="brand.full">PE Ultimate</b><span id="ab-ver">גרסה —</span></div></div>
+    <div><b dir="auto" data-i18n="brand.full">PE Ultimate</b><span id="ab-ver">גרסה —</span><span id="ab-deploy" hidden style="display:block;font-size:12px;opacity:.8"></span></div></div>
   <p class="ab-p" data-i18n="ab.p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
     לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, ונתוני התלמידים נשמרים במכשיר.</p>
   <div class="ab-sec"><b data-i18n="ab.privT">🔒 פרטיות</b>
-    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>לאפליקציה אין שרת ואין חשבון משלה.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — בקשת גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (Netlify); (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש גיבוי.</p>
+    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>אין באפליקציה חשבון משתמש, ונתוני התלמידים לא נשלחים למפעיל.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — האתר מוגש מ-Netlify, שרושמת יומני שרת רגילים (כתובת IP, פרטי דפדפן, הכתובת שנטענה), והדפדפן מבקש גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (Netlify Forms); (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול מהמכשיר — לכן יש גיבוי.</p>
     <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a>
       · <a href="terms.html" target="_blank" rel="noopener" data-i18n="ab.termsLink">תנאי שימוש ↗</a></p></div>
   <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
@@ -1630,7 +1630,8 @@
   <div class="ab-sec"><b data-i18n="ab.fbT">📨 שאלון משוב</b>
     <p class="ab-p" data-i18n="ab.fb">רוצים לקבל שאלון משוב וליצור קשר עם המפתח? מסירת הפרטים היא רשות.</p>
     <div class="hint" id="ab-leadStat" style="margin:4px 0 6px"></div>
-    <button class="btn sm ghost" id="ab-lead" data-i18n="ab.fbBtn">השארת פרטי קשר</button></div>
+    <button class="btn sm ghost" id="ab-lead" data-i18n="ab.fbBtn">השארת פרטי קשר</button>
+    <button class="btn sm ghost" id="ab-leadDel" data-i18n="ab.fbDelBtn">בקשה למחוק את פרטי הקשר שלי</button></div>
   <div class="ab-sec"><b data-i18n="ab.warnT">⚠️ אחריות</b>
     <p class="ab-p" data-i18n="ab.warn">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
       תחליף לציוד מדידה מוסמך לתחרות רשמית. ההחלטה החינוכית והציון הם שלך.</p></div>
@@ -1833,6 +1834,7 @@
     <button class="btn sm ghost grow" id="set-purge" data-i18n="set.purge">🧹 נקה נתונים ישנים</button>
   </div>
   <div class="hint" id="set-build" style="margin-top:9px;text-align:center;font-family:'Share Tech Mono'"></div>
+  <div class="hint" id="set-deploy" hidden style="margin-top:2px;text-align:center;font-family:'Share Tech Mono'"></div>
   <!-- שסתום ביטחון: אפליקציה מותקנת שנתקעה על גרסה ישנה אין לה
        שורת כתובת ואין לה «רענון קשה». הכפתור הזה מוחק את מטמון
        הקבצים ומבקש את הכול מחדש מהרשת. הנתונים אינם במטמון הזה
@@ -1971,7 +1973,7 @@
   <p class="lock-note" data-i18n="lock.demoNote">הדגמה: כיתה לדוגמה עם תוצאות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים. אפשר לנקות את נתוני ההדגמה בלחיצה אחת.</p>
   <div class="lock-about">
     <b>מה זה?</b> ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור, שיאים וציונים.<br>
-    <b>איפה הנתונים?</b> <b>במכשיר הזה.</b> לאפליקציה אין שרת ואין חשבון.<br>
+    <b>איפה הנתונים?</b> <b>במכשיר הזה.</b> אין חשבון, ונתוני התלמידים לא נשמרים בשרת.<br>
     תלמידים, ציונים ומדידות לא נשלחים — אלא אם תגדירו בעצמכם סנכרון שיאים או גיבוי לדרייב.<br>
     פרטי הקשר (שלכם, לא של תלמיד) נשלחים רק אם בחרתם למסור אותם.<br>
     <a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות המלאה ↗</a>
@@ -1986,12 +1988,22 @@
   <p data-i18n="lead.sub">האפליקציה חינמית לגמרי — בלי כרטיס אשראי, בלי תשלום ובלי שום התחייבות. השאירו כמה פרטים כדי שאוכל לשלוח לכם שאלון קצר לחוות דעת — זה יעזור לנו לשפר את האפליקציה ולהפוך אותה למקצועית יותר בהמשך.</p>
   <p class="lead-purpose" data-i18n="lead.purpose">הטופס הזה הוא ליצירת קשר ולשאלון משוב בלבד. הוא <b>לא</b> יוצר חשבון ו<b>לא</b> מגבה נתונים לענן — התלמידים, הציונים והמדידות נשארים במכשיר.</p>
   <form id="lead-form" novalidate>
+  <fieldset class="lead-kind" id="lead-kind"><legend data-i18n="lead.kindT">סוג הפנייה</legend>
+    <label><input type="radio" name="lead-kind" value="contact" checked> <span data-i18n="lead.kindContact">יצירת קשר ושאלון משוב</span></label>
+    <label><input type="radio" name="lead-kind" value="delete"> <span data-i18n="lead.kindDelete">בקשה למחוק את פרטי הקשר שלי</span></label>
+  </fieldset>
+  <div class="lead-delnote" id="lead-delnote" hidden>
+    <p data-i18n="lead.delWhat">הבקשה מוחקת את פרטי הקשר ששלחתם למפעיל (בטופס ב-Netlify). מספיק האימייל <b>או</b> הטלפון שמסרתם — אין צורך בפרטים נוספים.</p>
+    <p data-i18n="lead.delOther">זה לא מוחק נתונים במכשיר: את נתוני התלמידים מוחקים במכשיר עצמו (מחיקת נתוני האתר בדפדפן — הסרת אייקון האפליקציה לבדה עלולה להשאיר אותם). גיבויים ששמרתם ב-Google Drive או כקובץ נמצאים אצלכם בלבד — המפעיל לא רואה אותם, ואתם מוחקים אותם שם.</p>
+  </div>
+  <div class="lead-names" id="lead-names">
   <div class="field"><label for="lead-first" data-i18n="lead.first">שם פרטי</label>
     <input type="text" id="lead-first" name="first" autocomplete="given-name" required maxlength="80" aria-describedby="lead-first-err">
     <div class="lead-err" id="lead-first-err" aria-live="polite"></div></div>
   <div class="field"><label for="lead-last" data-i18n="lead.last">שם משפחה</label>
     <input type="text" id="lead-last" name="last" autocomplete="family-name" required maxlength="80" aria-describedby="lead-last-err">
     <div class="lead-err" id="lead-last-err" aria-live="polite"></div></div>
+  </div>
   <div class="field"><label for="lead-email" data-i18n="lead.email">אימייל</label>
     <input type="email" id="lead-email" name="email" dir="ltr" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@example.com" aria-describedby="lead-email-err">
     <div class="lead-err" id="lead-email-err" aria-live="polite"></div></div>
@@ -1999,22 +2011,31 @@
     <input type="tel" id="lead-phone" name="phone" dir="ltr" autocomplete="tel" inputmode="tel" required maxlength="32" placeholder="+44 20 7946 0958" aria-describedby="lead-phone-hint lead-phone-err">
     <div class="lead-hint" id="lead-phone-hint" data-i18n="lead.phoneHint">עם קידומת מדינה אם אתם מחוץ לישראל. 7–15 ספרות.</div>
     <div class="lead-err" id="lead-phone-err" aria-live="polite"></div></div>
-  <p class="lead-contact-hint" data-i18n="lead.bothReq">כל השדות חובה — גם אימייל וגם טלפון.</p>
+  <div class="field"><label for="lead-message" data-i18n="lead.message">הודעה (רשות)</label>
+    <textarea id="lead-message" name="message" rows="3" maxlength="1000" aria-describedby="lead-message-err"></textarea>
+    <div class="lead-err" id="lead-message-err" aria-live="polite"></div></div>
+  <p class="lead-contact-hint" id="lead-reqHint" data-i18n="lead.bothReq">כל השדות חובה — גם אימייל וגם טלפון.</p>
+  <p class="lead-contact-hint" id="lead-reqHintDel" data-i18n="lead.delReq" hidden>אימייל או טלפון — אחד מהם מספיק.</p>
   <div class="lead-status" id="lead-status" role="status" aria-live="polite" hidden></div>
   <button class="btn acc big" id="lead-send" type="submit" style="margin-top:12px" data-i18n="lead.send">שליחה והמשך</button>
   </form>
   <button class="btn acc big" id="lead-done" type="button" style="margin-top:12px" hidden data-i18n="lead.close">סגירה</button>
   <button class="btn ghost" id="lead-skip" type="button" style="margin-top:8px;width:100%" data-i18n="lead.skip">דלגו ל-7 ימים — שום דבר לא יישלח</button>
+  <button class="btn ghost" id="lead-cancel" type="button" style="margin-top:8px;width:100%" hidden data-i18n="lead.cancel">ביטול — שום דבר לא יישלח</button>
   <p class="lock-note" data-i18n="lead.who">הפרטים נשמרים בטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (באמצעות Netlify), ומשמשים רק ליצירת קשר ולשאלון. לבקשת מחיקה — שלחו פנייה דרך אותו טופס.</p>
   <p class="lock-note"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p>
 </div></div>
 <!-- טופס סטטי לזיהוי בידי Netlify Forms — מוסתר, לא בשימוש ישיר.
-     האפליקציה שולחת את אותם שדות בדיוק (hm-data.js: leadPayload). -->
+     האפליקציה שולחת את אותם שדות בדיוק (hm-data.js: leadPayload).
+     החובה נקבעת לפי סוג הפנייה ונאכפת באפליקציה (validateLead):
+     יצירת קשר — כל ארבעת השדות; בקשת מחיקה — אימייל או טלפון. -->
 <form name="pe-ultimate-contact" method="POST" action="/contact-received.html" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
   <input type="hidden" name="form-name" value="pe-ultimate-contact">
   <input name="bot-field" tabindex="-1" autocomplete="off">
-  <input name="first" required><input name="last" required>
-  <input type="email" name="email" required><input type="tel" name="phone" required>
+  <input name="kind">
+  <input name="first"><input name="last">
+  <input type="email" name="email"><input type="tel" name="phone">
+  <textarea name="message"></textarea>
   <input name="lang"><input name="app_version">
 </form>
 </x-dc>

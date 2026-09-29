@@ -267,8 +267,9 @@ window.TOOLS=(function(){
     const rows=[["שם","כיתה","שיעורים","השתתפות מלאה","חלקית","פטור","נעדר","% השתתפות"]];
     l.forEach(s=>{
       const x=per[s.id]||{p:0,h:0,e:0,a:0,days:0};
-      const pct=x.days?Math.round((x.p+x.h*0.5)/x.days*100):0;
-      rows.push([s.name,s.cls||"",x.days,x.p,x.h,x.e,x.a,pct+"%"]);
+      /* פטור לא נספר במכנה — אותה נוסחה של attendanceRateOf() */
+      const elig=x.days-x.e;
+      rows.push([s.name,s.cls||"",x.days,x.p,x.h,x.e,x.a,elig>0?Math.round((x.p+x.h*0.5)/elig*100)+"%":""]);
     });
     const g=isGrp(attCls)?window.HMDATA.groupOf(store,attCls):null;
     H().dlCSV("attendance_"+String((g&&g.name)||attCls||"all").replace(/[\\/:*?"<>|]/g,"")+".csv",rows);
@@ -517,7 +518,7 @@ window.TOOLS=(function(){
     openTab(t||"att");
   }
   /* סיכום הנוכחות של כיתה: בכמה שיעורים סומנה, ואחוז ההשתתפות
-     (מלאה = 1, חלקית = חצי) — אותה נוסחה של דוח הנוכחות. */
+     (מלאה = 1, חלקית = חצי, פטור לא נספר) — אותה נוסחה של דוח הנוכחות. */
   function attSummaryFor(cid){
     const all=ATT(); let days=0,p=0,h=0,marks=0;
     /* קבוצה: הנוכחות של התלמידים שבה, מכל הכיתות; יום נספר פעם אחת */
@@ -526,7 +527,7 @@ window.TOOLS=(function(){
       Object.keys(all).forEach(k=>{
         const c=k.slice(k.indexOf("|")+1); if(!c||c==="all")return;
         const v=Object.keys(all[k]||{}).filter(id=>ids.has(id)).map(id=>all[k][id]); if(!v.length)return;
-        dates.add(k.slice(0,k.indexOf("|"))); v.forEach(x=>{ marks++; if(x==="p")p++; else if(x==="h")h++; });
+        dates.add(k.slice(0,k.indexOf("|"))); v.forEach(x=>{ if(x==="e")return; marks++; if(x==="p")p++; else if(x==="h")h++; });
       });
       return {days:dates.size,pct:marks?Math.round((p+h*0.5)/marks*100):null};
     }
@@ -534,7 +535,7 @@ window.TOOLS=(function(){
       const c=k.slice(k.indexOf("|")+1);
       if(!c||c==="all"||cidOfLabel(c)!==cid)return;
       const rec=all[k]||{}, v=Object.values(rec); if(!v.length)return;
-      days++; v.forEach(x=>{ marks++; if(x==="p")p++; else if(x==="h")h++; });
+      days++; v.forEach(x=>{ if(x==="e")return; marks++; if(x==="p")p++; else if(x==="h")h++; });
     });
     return {days,pct:marks?Math.round((p+h*0.5)/marks*100):null};
   }

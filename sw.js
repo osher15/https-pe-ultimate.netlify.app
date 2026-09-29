@@ -11,7 +11,7 @@
    יוצרת מטמון חדש והישן נמחק — במקום שגרסה ישנה תישאר תקועה על
    מכשיר בלי שאיש יידע.
    ============================================================ */
-const CACHE_VERSION = "0a42ca0a";
+const CACHE_VERSION = "cd981a4f";
 const CACHE = "peultimate-" + CACHE_VERSION;
 
 const SHELL = [
@@ -22,24 +22,24 @@ const SHELL = [
   "./icon-512.png",
   "./icon-maskable-512.png",
   "./apple-touch-icon.png",
-  "./hm-styles.css",
-  "./hm-brand.js",
-  "./hm-data.js",
-  "./hm-terms.js",
-  "./hm-texts.js",
-  "./hm-i18n.js",
-  "./hm-app.js",
-  "./hm-qr.js",
-  "./hm-howto.js",
-  "./hm-know.js",
-  "./hm-tools.js",
-  "./hm-plans.js",
-  "./hm-lesson.js",
-  "./hm-build.js",
-  "./hm-tests.js",
-  "./hm-new.js",
-  "./hm-live.js",
-  "./hm-hub.js"
+  "./hm-styles.css?v=9f984bd3",
+  "./hm-brand.js?v=4f30e0e9",
+  "./hm-data.js?v=fe7203ad",
+  "./hm-terms.js?v=7d105907",
+  "./hm-texts.js?v=a6355c64",
+  "./hm-i18n.js?v=175c9ee6",
+  "./hm-app.js?v=94740739",
+  "./hm-qr.js?v=82eb96ad",
+  "./hm-howto.js?v=cc1c5bf0",
+  "./hm-know.js?v=72244783",
+  "./hm-tools.js?v=584ac944",
+  "./hm-plans.js?v=20cf74cb",
+  "./hm-lesson.js?v=a6ad94de",
+  "./hm-build.js?v=931b1d83",
+  "./hm-tests.js?v=379b32c8",
+  "./hm-new.js?v=9dc97293",
+  "./hm-live.js?v=16d0ab27",
+  "./hm-hub.js?v=1e6ba46b"
 ];
 
 self.addEventListener("install", e => {
@@ -122,6 +122,30 @@ self.addEventListener("fetch", e => {
     return;
   }
 
+  /* קובץ עם חותמת תוכן (hm-*.js?v=XXXXXXXX): הכתובת היא הגרסה, ולכן
+     הוא בלתי משתנה. קודם מטמון, בלי רענון ברקע — והרשת נשמרת במטמון
+     רק אם ה-SHA-1 של מה שהגיע תואם לחותמת. השרת הסטטי מתעלם מ-?v=,
+     כך שבלי הבדיקה הזאת תוכן של פריסה חדשה נשמר תחת כתובת ישנה, ודף
+     ישן שנפתח בלי רשת קיבל תערובת של קבצים משתי גרסאות. */
+  const V = url.searchParams.get("v");
+  if (V && /^[0-9a-f]{8}$/.test(V) && /\/hm-[\w-]+\.(?:js|css)$/.test(url.pathname)) {
+    /* גם ברענון קשה (reload / no-store) — קודם רשת, אבל אותה בדיקה לפני שמירה */
+    const bypass = req.cache === "reload" || req.cache === "no-store" || req.cache === "no-cache";
+    e.respondWith((async () => {
+      const cached = await caches.match(req);
+      if (cached && !bypass) return cached;
+      try {
+        const res = await fetch(req, { cache: "no-store" });
+        if (res && res.ok && await sameVersion(res.clone(), V))
+          (await caches.open(CACHE)).put(req, res.clone());
+        return res;
+      } catch (err) {
+        return cached || Response.error();
+      }
+    })());
+    return;
+  }
+
   /* בקשה שביקשה במפורש לעקוף מטמון (reload / no-store / no-cache)
      מקבלת רשת. אחרת «רענון קשה» אינו רענון — הוא מחזיר את אותו
      קובץ מהמטמון שביקשנו לדלג עליו. */
@@ -148,3 +172,12 @@ self.addEventListener("fetch", e => {
     return cached || (await net) || Response.error();
   })());
 });
+
+async function sameVersion(res, v) {
+  try {
+    const d = await crypto.subtle.digest("SHA-1", await res.arrayBuffer());
+    return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 8) === v;
+  } catch (err) {
+    return false;
+  }
+}

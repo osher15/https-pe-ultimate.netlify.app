@@ -72,6 +72,16 @@ window.STU=(function(){
   }
   const bmi=s=>window.HMDATA.bmi(s&&s.h,s&&s.w);
   const bmiCat=window.HMDATA.bmiCategory;
+  /* שני סוגי מדידות, בשני מקומות: s.tests הוא ביפ טסט בלבד (סבולת
+     לב-ריאה, VO₂max), ומבחני הכושר (ספרינט, שכיבות סמיכה, קפיצה...)
+     יושבים ב-ft.results ומקושרים לתלמיד ב-sid. הרשימה אמרה «0 מבחנים»
+     לתלמיד שיש לו עשר מדידות כושר — כי ספרה רק את הראשון. */
+  function ftCounts(){
+    const m={}; let rs=[];
+    try{ rs=(window.FT&&window.FT.results)?window.FT.results():H().LS.get("ft.results",[]); }catch(e){ rs=[]; }
+    (Array.isArray(rs)?rs:[]).forEach(r=>{ if(r&&r.sid)m[r.sid]=(m[r.sid]||0)+1; });
+    return m;
+  }
   function render(){
     const {$, $$, esc}=H(); const list=load();
     /* הבורר מציג שמות אבל נושא מזהים: הערך הוא cid, התווית היא השם. */
@@ -110,21 +120,23 @@ window.STU=(function(){
       vo2:(a,b)=>(V(b)??-1)-(V(a)??-1),
       vo2a:(a,b)=>(V(a)??Infinity)-(V(b)??Infinity),
       trend:(a,b)=>trend(a)-trend(b)||a.name.localeCompare(b.name,"he"),
-      tests:(a,b)=>a.tests.length-b.tests.length||a.name.localeCompare(b.name,"he")
+      tests:(a,b)=>(a.tests.length+(fcS[a.id]||0))-(b.tests.length+(fcS[b.id]||0))||a.name.localeCompare(b.name,"he")
     };
+    const fcS=ftCounts();
     const sel=H().$("#stu-sortSel");
     if(sel&&sel.value!==sortBy)sel.value=sortBy;
     view.sort(SORTS[sortBy]||SORTS.name);
+    const fc=fcS;
     $("#stu-empty").style.display=view.length?"none":"block";
     $("#stu-list").innerHTML=view.map(s=>{
       const lt=latest(s),tr=trend(s);
       const z=lt?zoneColor(lt.zone):null;
       return `<div class="stu-row" data-id="${s.id}">
         <div class="av">${esc(s.name.slice(0,1))}</div>
-        <div class="grow"><b>${esc(s.name)}</b><div class="sb">${esc(s.cls||"—")} · ${s.tests.length} מבחנים${s.sex?' · <span>'+(s.sex==="boys"?"בן":"בת")+"</span>":""}</div></div>
+        <div class="grow"><b>${esc(s.name)}</b><div class="sb">${esc(s.cls||"—")} · <span>${fc[s.id]||0} מדידות כושר</span> · <span>${s.tests.length} ביפ טסט</span>${s.sex?' · <span>'+(s.sex==="boys"?"בן":"בת")+"</span>":""}</div></div>
         ${tr?`<span class="tr ${tr>0?"up":"dn"}">${tr>0?"▲":"▼"}</span>`:""}
         ${lt?`<span class="mono" style="color:var(--muted);font-size:12px">${lt.dist} מ׳</span>`:""}
-        ${z?`<span class="catpill" style="background:${z}">${esc(lt.zone)}</span>`:'<span class="pill">אין מבחן</span>'}
+        ${z?`<span class="catpill" style="background:${z}">${esc(lt.zone)}</span>`:'<span class="pill">אין ביפ טסט</span>'}
       </div>`;
     }).join("");
     $$("#stu-list .stu-row").forEach(r=>r.addEventListener("click",()=>profile(r.dataset.id)));
@@ -144,6 +156,20 @@ window.STU=(function(){
       <polyline points="${poly}" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       ${pts.map((p,i)=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="var(--acc)"/><text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="11" fill="#e9e9ed" font-family="Inter,Heebo">${T[i].dist}</text>`).join("")}
     </svg>`;
+  }
+  /* מבחני הכושר של התלמיד — אותו פרופיל שכרטיס הכושר בונה
+     (FT.progress.profile), כל ההיסטוריה, חוצת כיתות */
+  function fitSection(s){
+    const {esc}=H();
+    let prof=null;
+    try{ prof=window.FT&&window.FT.progress?window.FT.progress.profile({id:s.id,name:s.name,sex:s.sex}):null; }catch(e){ prof=null; }
+    const rows=prof?prof.tests.filter(t=>t.best):[];
+    const n=rows.reduce((a,t)=>a+t.list.length,0);
+    return `<h4 class="stu-sec">📋 מבחני כושר <span class="hint">(${n})</span></h4>`+(rows.length
+      ?`<div class="tblwrap"><table class="tbl" id="stu-fitTbl"><thead><tr><th>מבחן</th><th>⭐ שיא</th><th>מדידות</th><th>נמדד לאחרונה</th></tr></thead><tbody>
+        ${rows.map(t=>`<tr data-t="${esc(t.testId)}"><td>${esc(t.def.em||"")} ${esc(t.def.name)}</td><td class="mono">${esc(String(t.best.val))} <span class="u">${esc(t.def.unit||"")}</span></td><td class="mono">${t.list.length}</td><td class="mono">${esc(t.dates[t.dates.length-1]||"")}</td></tr>`).join("")}
+      </tbody></table></div>`
+      :'<div class="empty-state" id="stu-fitEmpty">אין עדיין מדידות כושר לתלמיד הזה.</div>');
   }
   function profile(id){
     const {$, $$, esc, modal, toast, dlCSV}=H();
@@ -166,10 +192,12 @@ window.STU=(function(){
         <span class="catpill" style="background:${zoneColor(lt.zone)}">${esc(lt.zone||"")}</span>
         ${tr?`<span class="pill" style="color:${tr>0?"#8fd96b":"#ff6b81"}">${tr>0?"▲ מגמת שיפור":"▼ מגמת ירידה"}</span>`:""}
       </div>`:""}
+      ${fitSection(s)}
+      <h4 class="stu-sec">🫁 ביפ טסט — סבולת לב-ריאה (VO₂max)</h4>
       <div class="card" style="padding:10px;margin:10px 0">${chart(s)}</div>
       ${s.tests.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>תאריך</th><th>מבחן</th><th>מרחק</th><th>שלב</th><th>VO₂max</th><th>אזור</th><th></th></tr></thead><tbody>
         ${s.tests.map((t,i)=>`<tr><td class="mono">${t.d}</td><td>${esc(t.type)}</td><td class="mono">${t.dist} מ׳</td><td class="mono">${t.level||"—"}</td><td class="mono">${t.vo2?t.vo2.toFixed(1):"—"}</td><td><span class="catpill" style="background:${zoneColor(t.zone)}">${esc(t.zone||"")}</span></td><td><button class="x tdel" data-i="${i}">✕</button></td></tr>`).join("")}
-      </tbody></table></div>`:'<div class="empty-state">אין עדיין מבחנים. אחרי ביפ טסט לחץ «שמור לכיתה» בלוח התוצאות.</div>'}
+      </tbody></table></div>`:'<div class="empty-state">אין עדיין ביפ טסט. אחרי ביפ טסט לחץ «שמור לכיתה» בלוח התוצאות.</div>'}
       <div class="row" style="margin-top:13px;justify-content:space-between">
         <button class="btn sm acc" id="stu-fSave">💾 שמור פרטים</button>
         <div class="row">
@@ -544,17 +572,20 @@ window.STU=(function(){
     if(!range)return;
     /* טוענים מחדש אחרי השאלה — כדי לא לדרוס שינוי שנעשה בינתיים */
     const all=load(), list=all.filter(s=>inF(s,grClsF));
-    let filled=0;
+    let filled=0, exOnly=0;
     list.forEach(s=>{
       const g=gradeOf(s,period);
       if(g.part!=null&&g.part!=="")return;          /* יש כבר ציון — לא נוגעים */
       const cid=cidOf(s);
       const rate=cid?window.HMDATA.attendanceRateOf(att,s,store,{cid,from:range.from||null,to:range.to||null}):null;
       if(!rate)return;                               /* אין נתוני נוכחות — לא ממציאים */
+      if(rate.pct==null){ exOnly++; return; }        /* רק פטור — אין על מה לחשב, נשאר חסר */
       g.part=rate.pct; filled++;
     });
     const span=(range.from||"…")+" – "+(range.to||"…");
-    if(filled){ save(all); renderGrades(); H().toast("✓ נמלאו "+filled+" ציונים לפי נוכחות · "+span); }
+    const exNote=exOnly?" · "+H().t("gr.fillExOnly","{0} עם פטור בלבד — הציון נשאר חסר (אין שיעור כשיר לחישוב)").replace("{0}",exOnly):"";
+    if(filled){ save(all); renderGrades(); H().toast("✓ נמלאו "+filled+" ציונים לפי נוכחות · "+span+exNote); }
+    else if(exOnly)H().toast(H().t("gr.fillExOnly","{0} עם פטור בלבד — הציון נשאר חסר (אין שיעור כשיר לחישוב)").replace("{0}",exOnly));
     else H().toast("אין שדות ריקים למלא — או שאין עדיין נתוני נוכחות לתלמידים האלה");
   }
 
@@ -946,10 +977,14 @@ window.NUT=(function(){
      שאינו חוסם שום מסך, ולא מוצג בשיעור פעיל, במצב תלמיד או מעל מסך הכניסה.
    · אחרי קליטה מאושרת — אין תזכורות; הטופס נשאר זמין מ«אודות». */
 const LEAD_ENDPOINT="/", LEAD_TIMEOUT=15000;
+/* קישור ישיר מדף הפרטיות (/#delete-contact). נקרא כבר בטעינת הקובץ —
+   הניתוב של האפליקציה מחליף את ה-hash ל-#home לפני שהטופס מאותחל. */
+const LEAD_DEEP_DELETE=(()=>{ try{ return location.hash==="#delete-contact"; }catch(e){ return false; } })();
 const LD=()=>window.HMDATA;
 function leadState(){
   const {LS}=H();
-  return {done:!!LS.get("hx.leadDone",false),snoozeUntil:LS.get("hx.leadSnoozeUntil",null),sentAt:LS.get("hx.leadSentAt",null)};
+  return {done:!!LS.get("hx.leadDone",false),snoozeUntil:LS.get("hx.leadSnoozeUntil",null),sentAt:LS.get("hx.leadSentAt",null),
+    optOut:!!LS.get("hx.leadOptOut",false),delAt:LS.get("hx.leadDelReqAt",null)};
 }
 /* מצב מגרסה קודמת: hx.leadDone + hx.leadSkipped = דילוג (לא נשלח דבר) —
    הופך לדחייה של 7 ימים מעכשיו. hx.leadDone בלי דילוג = נשלח בגרסה הישנה
@@ -961,7 +996,24 @@ function leadMigrate(){
   }
   try{ localStorage.removeItem(BRAND.ns+"hx.leadSkipped"); }catch(e){}
 }
-let leadWired=false;
+let leadWired=false, leadBusy=false, leadKind="contact";
+/* מצב הטופס: יצירת קשר (כל השדות) או בקשת מחיקה (אימייל או טלפון,
+   בלי שמות). אותו טופס, אותו יעד — השדה kind מבחין. */
+function setLeadKind(k){
+  const {$}=H(); leadKind=k==="delete"?"delete":"contact";
+  const del=leadKind==="delete";
+  const r=document.querySelector('#lead-kind input[value="'+leadKind+'"]'); if(r)r.checked=true;
+  const show=(id,on)=>{ const el=$(id); if(el)el.hidden=!on; };
+  show("#lead-names",!del); show("#lead-delnote",del);
+  show("#lead-reqHint",!del); show("#lead-reqHintDel",del);
+  show("#lead-cancel",del);
+  const st=leadState(); show("#lead-skip",!del&&!st.done&&!st.optOut);
+  const send=$("#lead-send");
+  if(send){ const he=del?"שליחת בקשת מחיקה":"שליחה והמשך";
+    send.dataset.i18n=del?"lead.sendDel":"lead.send"; send.dataset.i18nHe=he;
+    send.textContent=H().t(send.dataset.i18n,he); }
+  leadFieldErrors({}); leadStatusMsg("","");
+}
 function paintLeadLang(){
   const {$}=H(), box=$("#lead-lang"); if(!box||!window.I18N)return;
   const cur=window.I18N.lang();
@@ -978,46 +1030,53 @@ function paintLeadAbout(){
   const el=H().$("#ab-leadStat"); if(!el)return;
   const st=leadState(), k=LD().leadStatus(st,Date.now()), t=H().t;
   el.textContent=
-    k==="done"&&st.sentAt ? t("ab.leadSent","✓ הפרטים נשלחו ונקלטו")+" · "+leadFmtDate(st.sentAt)
+    st.optOut&&st.delAt ? t("ab.leadDelSent","✓ בקשת המחיקה נשלחה ונקלטה")+" · "+leadFmtDate(st.delAt)
+    : k==="done"&&st.sentAt ? t("ab.leadSent","✓ הפרטים נשלחו ונקלטו")+" · "+leadFmtDate(st.sentAt)
     : k==="done" ? t("ab.leadLegacy","הפרטים נשלחו בגרסה קודמת, בלי אישור קליטה. אפשר לשלוח שוב.")
     : k==="snoozed" ? t("ab.leadSnoozed","דילגתם. תזכורת תופיע ב-")+leadFmtDate(st.snoozeUntil)
     : "";
 }
-function openLead(force){
+function openLead(force,kind){
   const {$}=H();
   const ov=$("#leadOv"); if(!ov)return;
   if(!force&&leadState().done)return;
   ov.classList.add("on");
   paintLeadLang(); wireLead();
   const st=leadState();
-  $("#lead-form").hidden=false; $("#lead-done").hidden=true; $("#lead-skip").hidden=!!st.done;
-  leadStatusMsg("", st.done&&st.sentAt ? H().t("ab.leadSent","✓ הפרטים נשלחו ונקלטו")+" · "+leadFmtDate(st.sentAt) : "");
+  $("#lead-form").hidden=false; $("#lead-done").hidden=true;
+  setLeadKind(kind||"contact");
+  if(leadKind==="contact")leadStatusMsg("", st.done&&st.sentAt ? H().t("ab.leadSent","✓ הפרטים נשלחו ונקלטו")+" · "+leadFmtDate(st.sentAt) : "");
   const rb=$("#leadRemind"); if(rb)rb.hidden=true;
 }
 function closeLead(){ const ov=H().$("#leadOv"); if(ov)ov.classList.remove("on"); paintLeadAbout(); }
 function leadFieldErrors(errors){
   const {$}=H(), t=H().t;
   const msg={required:t("lead.errReq","שדה חובה"),
+    idRequired:t("lead.errId","צריך אימייל או טלפון — אחד מהם מספיק"),
+    tooLong:t("lead.errLong","ההודעה ארוכה מדי — עד 1000 תווים"),
     email:t("lead.errEmail","כתובת אימייל לא תקינה — למשל name@example.com"),
     phone:t("lead.errPhone","מספר טלפון לא תקין — 7 עד 15 ספרות, אפשר עם + וקידומת מדינה")};
   let first=null;
-  ["first","last","email","phone"].forEach(k=>{
+  ["first","last","email","phone","message"].forEach(k=>{
     const inp=$("#lead-"+k), er=$("#lead-"+k+"-err"), e=errors[k];
     if(inp)inp.setAttribute("aria-invalid",e?"true":"false");
-    if(er)er.textContent=!e?"":e==="required"?msg.required:msg[k]||msg.required;
+    if(er)er.textContent=!e?"":(e==="required"||e==="idRequired"||e==="tooLong")?msg[e]:msg[k]||msg.required;
     if(e&&!first)first=inp;
   });
   if(first)try{ first.focus(); }catch(x){}
 }
 async function sendLead(){
+  /* לחיצה חוזרת (או Enter) בזמן שליחה — לא יוצאת פנייה שנייה */
+  if(leadBusy)return;
   const {$, LS}=H(), t=H().t;
-  const v=LD().validateLead({first:$("#lead-first").value,last:$("#lead-last").value,
-    email:$("#lead-email").value,phone:$("#lead-phone").value});
+  const del=leadKind==="delete";
+  const v=LD().validateLead({kind:leadKind,first:del?"":$("#lead-first").value,last:del?"":$("#lead-last").value,
+    email:$("#lead-email").value,phone:$("#lead-phone").value,message:($("#lead-message")||{}).value||""});
   leadFieldErrors(v.errors);
   if(!v.ok){ leadStatusMsg("err",t("lead.errFix","לא נשלח — יש לתקן את השדות המסומנים.")); return; }
   /* קובץ מקומי (Hamegrash.html) אינו יכול לשלוח לטופס — אין שרת שיאשר */
   if(location.protocol==="file:"){ leadStatusMsg("err",t("lead.errFile","שליחה אפשרית רק מהאפליקציה המקוונת (pe-ultimate.netlify.app), לא מקובץ שנפתח מהמכשיר.")); return; }
-  const btn=$("#lead-send"); btn.disabled=true;
+  const btn=$("#lead-send"); btn.disabled=true; leadBusy=true;
   leadStatusMsg("busy",t("lead.sending","שולח…"));
   const payload=LD().leadPayload(v.clean,{lang:window.I18N?window.I18N.lang():"he",build:H().buildId?H().buildId():""});
   const ctl=typeof AbortController!=="undefined"?new AbortController():null;
@@ -1030,17 +1089,23 @@ async function sendLead(){
       leadStatusMsg("err",t("lead.errServer","לא נשלח — השרת לא אישר שהפרטים נקלטו. הפרטים נשארו בטופס; נסו שוב מאוחר יותר."));
       return;
     }
-    LS.set("hx.leadDone",true); LS.set("hx.leadSentAt",new Date().toISOString());
+    if(del){
+      /* בקשת מחיקה שנקלטה: לא מזכירים עוד למסור פרטים */
+      LS.set("hx.leadOptOut",true); LS.set("hx.leadDelReqAt",new Date().toISOString());
+      leadStatusMsg("ok",t("lead.okDel","✓ בקשת המחיקה נקלטה. המפעיל ימחק את הפרטים מהטופס ב-Netlify."));
+    }else{
+      LS.set("hx.leadDone",true); LS.set("hx.leadSentAt",new Date().toISOString());
+      leadStatusMsg("ok",t("lead.ok","✓ התקבל — הפרטים נקלטו אצלנו. תודה!"));
+    }
     try{ localStorage.removeItem(BRAND.ns+"hx.leadSnoozeUntil"); }catch(e){}
-    leadStatusMsg("ok",t("lead.ok","✓ התקבל — הפרטים נקלטו אצלנו. תודה!"));
-    $("#lead-form").hidden=true; $("#lead-skip").hidden=true; $("#lead-done").hidden=false;
+    $("#lead-form").hidden=true; $("#lead-skip").hidden=true; $("#lead-cancel").hidden=true; $("#lead-done").hidden=false;
     try{ $("#lead-done").focus(); }catch(e){}
     paintLeadAbout();
   }catch(e){
     leadStatusMsg("err",t("lead.errNet","לא נשלח — אין חיבור לרשת או שהשרת לא ענה. הפרטים נשארו בטופס; נסו שוב."));
   }finally{
     if(timer)clearTimeout(timer);
-    btn.disabled=false;
+    btn.disabled=false; leadBusy=false;
   }
 }
 function snoozeLead(){
@@ -1056,7 +1121,9 @@ function wireLead(){
   $("#lead-form").addEventListener("submit",e=>{ e.preventDefault(); sendLead(); });
   $("#lead-skip").addEventListener("click",()=>{ snoozeLead(); closeLead(); });
   $("#lead-done").addEventListener("click",closeLead);
-  ["first","last","email","phone"].forEach(k=>{ const i=$("#lead-"+k);
+  const lc=$("#lead-cancel"); if(lc)lc.addEventListener("click",closeLead);
+  document.querySelectorAll('#lead-kind input[name="lead-kind"]').forEach(r=>r.addEventListener("change",()=>{ if(r.checked)setLeadKind(r.value); }));
+  ["first","last","email","phone","message"].forEach(k=>{ const i=$("#lead-"+k);
     if(i)i.addEventListener("input",()=>{ i.setAttribute("aria-invalid","false"); const er=$("#lead-"+k+"-err"); if(er)er.textContent=""; }); });
 }
 /* תזכורת בפתיחה, אחרי 7 ימים — פס לא חוסם. לא מעל מסך הכניסה, לא
@@ -1075,6 +1142,10 @@ function initLeadCapture(){
   if(LD().leadStatus(leadState(),Date.now())==="first")openLead(false);
   const b=$("#ab-lead");
   if(b)b.addEventListener("click",()=>{ try{ document.querySelectorAll(".modal.on").forEach(m=>m.classList.remove("on")); }catch(e){} openLead(true); });
+  const bd=$("#ab-leadDel");
+  if(bd)bd.addEventListener("click",()=>{ try{ document.querySelectorAll(".modal.on").forEach(m=>m.classList.remove("on")); }catch(e){} openLead(true,"delete"); });
+  /* קישור ישיר מדף הפרטיות: /#delete-contact פותח את הטופס במצב מחיקה */
+  if(LEAD_DEEP_DELETE)setTimeout(()=>openLead(true,"delete"),0);
   const rf=$("#lead-remFill"); if(rf)rf.addEventListener("click",()=>openLead(true));
   const rl=$("#lead-remLater"); if(rl)rl.addEventListener("click",snoozeLead);
   paintLeadAbout();

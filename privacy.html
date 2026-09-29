@@ -35,16 +35,16 @@ li{margin:.25em 0}
 <p>רשימות תלמידים, נוכחות, ציונים, מדידות, מערכי שיעור, מערכת שעות, הגדרות, קוד המורה וסרטוני שיאים נשמרים בדפדפן של המכשיר (localStorage ו-IndexedDB). הם לא נשלחים למפעיל האפליקציה, ולמפעיל אין גישה אליהם.</p>
 <h2>פרטי קשר שנשלחים למפעיל</h2>
 <ul>
-<li><b>מה:</b> שם פרטי, שם משפחה, אימייל, טלפון, שפת הממשק וגרסת האפליקציה. שום נתון על תלמידים.</li>
+<li><b>מה:</b> סוג הפנייה (יצירת קשר או בקשת מחיקה), שם פרטי, שם משפחה, אימייל, טלפון, הודעה אם כתבתם, שפת הממשק וגרסת האפליקציה. בבקשת מחיקה — רק אימייל או טלפון, בלי שמות. שום נתון על תלמידים.</li>
 <li><b>מתי:</b> רק כשבוחרים «שליחה» בטופס יצירת הקשר. דילוג לא שולח דבר.</li>
 <li><b>למה:</b> ליצירת קשר ולשליחת שאלון משוב על האפליקציה. לא לשיווק, לא למכירה ולא להעברה לאחרים.</li>
 <li><b>איפה:</b> בטופס הייעודי של PE Ultimate ב-Netlify Forms, בחשבון של מפעיל האפליקציה. Netlify מעבד את הנתונים עבור המפעיל.</li>
-<li><b>כמה זמן:</b> עד 24 חודשים ממועד הקבלה, או פחות אם מבקשים מחיקה. המפעיל עובר על הפניות לפחות פעם בחצי שנה ומוחק את מה שעבר את התקופה.</li>
-<li><b>מחיקה:</b> שלחו בקשת מחיקה דרך אותו טופס (אודות ← השארת פרטי קשר). המפעיל מוחק את הפנייה מ-Netlify.</li>
+<li><b>כמה זמן:</b> עד 24 חודשים ממועד הקבלה, או פחות אם מבקשים מחיקה. המפעיל עובר על הפניות לפחות פעם בחצי שנה, ובכל מעבר מוחק כל פנייה שחלפו 18 חודשים מקבלתה — כך ששום פנייה לא נשמרת יותר מ-24 חודשים. המחיקה ידנית; אין מחיקה אוטומטית.</li>
+<li><b>מחיקה:</b> באפליקציה: אודות ← «בקשה למחוק את פרטי הקשר שלי», או <a href="/#delete-contact">פתיחת הבקשה ישירות</a>. מספיק האימייל או הטלפון שמסרתם. המפעיל מוחק את הפנייה ואת בקשת המחיקה מ-Netlify.</li>
 </ul>
 <h2>שירותים חיצוניים</h2>
 <ul>
-<li><b>Netlify</b> (אירוח): בכל טעינה נרשמים יומני שרת רגילים — כתובת IP, פרטי דפדפן והכתובת שנטענה.</li>
+<li><b>Netlify</b> (אירוח): בכל טעינה נרשמים יומני שרת רגילים — כתובת IP, פרטי דפדפן והכתובת שנטענה. Netlify מוסיפה לדפים גם תגית «Powered by Netlify» משלה.</li>
 <li><b>Google Fonts</b>: בכל טעינה מהרשת הדפדפן מבקש גופנים (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים).</li>
 <li><b>סנכרון שיאים — רשות:</b> רק אם המורה מגדיר כתובת וקוד, נשלחים שם תלמיד, ענף, תוצאה וסטטוס ל-Google Sheet של המורה עצמו.</li>
 <li><b>גיבוי לגוגל דרייב — רשות:</b> רק בלחיצה, קובץ גיבוי מוצפן בסיסמה עולה לדרייב של המורה עצמו.</li>
@@ -60,7 +60,7 @@ li{margin:.25em 0}
 <h2>תלמידים</h2>
 <p>במצב תלמיד אפשר לצפות בלוח השיאים ולהגיש שיא לאישור המורה באותו מכשיר. לא נאספים פרטי קשר מתלמידים. המורה או בית הספר אחראים לכך שיש להם רשות לנתוני התלמידים שהם מזינים ולכל שיתוף שהם מגדירים.</p>
 <h2>מחיקת נתונים במכשיר</h2>
-<p>אפשר למחוק פריטים בודדים ואת כל השיאים מתוך האפליקציה. מחיקת נתוני האתר בדפדפן או הסרת האפליקציה מוחקות את כל הנתונים במכשיר. קובצי גיבוי שיצרתם נשארים בשליטתכם.</p>
+<p>אלה שלושה דברים שונים: (1) פרטי הקשר ב-Netlify — נמחקים בבקשת מחיקה, כמתואר למעלה; (2) הנתונים במכשיר — את פריטים בודדים ואת כל השיאים אפשר למחוק מתוך האפליקציה, ומחיקת נתוני האתר בדפדפן מוחקת את כל הנתונים במכשיר (הסרת אייקון האפליקציה לבדה עלולה להשאיר אותם בדפדפן); (3) גיבויים ששמרתם כקובץ או ב-Google Drive שלכם — הם אצלכם בלבד, המפעיל לא רואה אותם, ואתם מוחקים אותם שם.</p>
 <h2>אבטחה</h2>
 <p>האתר מוגש ב-HTTPS. גיבוי לקובץ יכול להיות מוצפן בסיסמה (AES-GCM, מפתח שנגזר מהסיסמה במכשיר; הסיסמה לא נשמרת), וגיבוי לדרייב תמיד מוצפן. קוד המורה מגן מפני שימוש מזדמן במכשיר — הוא אינו חשבון.</p>
 <h2>שינויים</h2>
@@ -73,16 +73,16 @@ li{margin:.25em 0}
 <p>Student rosters, attendance, grades, measurements, lesson plans, timetable, settings, the teacher code and record videos are stored in the device's browser (localStorage and IndexedDB). They are not sent to the app's operator, who has no access to them.</p>
 <h2>Contact details sent to the operator</h2>
 <ul>
-<li><b>What:</b> first name, last name, email, phone, interface language and app version. No student data.</li>
+<li><b>What:</b> the request type (contact or deletion request), first name, last name, email, phone, a message if you wrote one, interface language and app version. For a deletion request — only email or phone, no names. No student data.</li>
 <li><b>When:</b> only when you choose “Send” in the contact form. Skipping sends nothing.</li>
 <li><b>Why:</b> to get in touch and send a feedback survey about the app. Not for marketing, not sold, not passed on.</li>
 <li><b>Where:</b> in PE Ultimate's dedicated form on Netlify Forms, in the operator's account. Netlify processes the data on the operator's behalf.</li>
-<li><b>How long:</b> up to 24 months from receipt, or less if you ask for deletion. The operator reviews submissions at least every six months and deletes those past the period.</li>
-<li><b>Deletion:</b> send a deletion request through the same form (About → Leave contact details). The operator deletes the submission from Netlify.</li>
+<li><b>How long:</b> up to 24 months from receipt, or less if you ask for deletion. The operator reviews submissions at least every six months and, at each review, deletes every submission received more than 18 months earlier — so none is kept beyond 24 months. Deletion is manual; nothing is deleted automatically.</li>
+<li><b>Deletion:</b> in the app: About → “Request deletion of my contact details”, or <a href="/#delete-contact">open the request directly</a>. Your email or phone as you gave them is enough. The operator deletes the submission and the deletion request from Netlify.</li>
 </ul>
 <h2>External services</h2>
 <ul>
-<li><b>Netlify</b> (hosting): each load creates standard server logs — IP address, browser details and the requested URL.</li>
+<li><b>Netlify</b> (hosting): each load creates standard server logs — IP address, browser details and the requested URL. Netlify also adds its own “Powered by Netlify” badge to the pages.</li>
 <li><b>Google Fonts</b>: each online load requests fonts (IP address and browser details, no student data).</li>
 <li><b>Records sync — optional:</b> only if the teacher sets a URL and code, student name, event, result and status are sent to the teacher's own Google Sheet.</li>
 <li><b>Google Drive backup — optional:</b> only on request, a password-encrypted backup file goes to the teacher's own Drive.</li>
@@ -98,7 +98,7 @@ li{margin:.25em 0}
 <h2>Students</h2>
 <p>Student mode lets a student view the records board and submit a record for the teacher's approval on the same device. No contact details are collected from students. The teacher or school is responsible for having permission for the student data they enter and for any sharing they set up.</p>
 <h2>Deleting data on the device</h2>
-<p>Individual items and all records can be deleted in the app. Clearing the site's data in the browser or removing the app deletes all data on the device. Backup files you created stay under your control.</p>
+<p>These are three different things: (1) contact details on Netlify — deleted on a deletion request, as above; (2) data on the device — individual items and all records can be deleted in the app, and clearing the site’s data in the browser deletes all data on the device (removing the app icon alone may leave it in the browser); (3) backups you saved as a file or to your own Google Drive — they are yours alone, the operator cannot see them, and you delete them there.</p>
 <h2>Security</h2>
 <p>The site is served over HTTPS. File backups can be password-encrypted (AES-GCM with a key derived on the device; the password is not stored), and Drive backups are always encrypted. The teacher code protects against casual use of the device — it is not an account.</p>
 <h2>Changes</h2>
@@ -111,16 +111,16 @@ li{margin:.25em 0}
 <p>قوائم الطلاب والحضور والعلامات والقياسات وخطط الدروس والجدول والإعدادات ورمز المعلّم وفيديوهات الأرقام القياسية تُحفظ في متصفح الجهاز (localStorage وIndexedDB). لا تُرسل إلى مشغّل التطبيق، ولا يملك وصولًا إليها.</p>
 <h2>بيانات التواصل المرسلة إلى المشغّل</h2>
 <ul>
-<li><b>ماذا:</b> الاسم الأول واسم العائلة والبريد الإلكتروني والهاتف ولغة الواجهة وإصدار التطبيق. لا بيانات عن الطلاب.</li>
+<li><b>ماذا:</b> نوع الطلب (تواصل أو طلب حذف)، الاسم الأول واسم العائلة والبريد الإلكتروني والهاتف، ورسالة إن كتبتها، ولغة الواجهة وإصدار التطبيق. في طلب الحذف — البريد الإلكتروني أو الهاتف فقط، دون أسماء. لا بيانات عن الطلاب.</li>
 <li><b>متى:</b> فقط عند اختيار «إرسال» في نموذج التواصل. التخطي لا يرسل شيئًا.</li>
 <li><b>لماذا:</b> للتواصل ولإرسال استبيان رأي عن التطبيق. ليس للتسويق ولا للبيع ولا للنقل إلى آخرين.</li>
 <li><b>أين:</b> في النموذج المخصّص لـ PE Ultimate على Netlify Forms، في حساب المشغّل. تعالج Netlify البيانات نيابةً عن المشغّل.</li>
-<li><b>المدة:</b> حتى 24 شهرًا من الاستلام، أو أقل عند طلب الحذف. يراجع المشغّل الطلبات مرة كل ستة أشهر على الأقل ويحذف ما تجاوز المدة.</li>
-<li><b>الحذف:</b> أرسل طلب حذف عبر النموذج نفسه (حول ← ترك بيانات التواصل). يحذف المشغّل الطلب من Netlify.</li>
+<li><b>المدة:</b> حتى 24 شهرًا من الاستلام، أو أقل عند طلب الحذف. يراجع المشغّل الطلبات مرة كل ستة أشهر على الأقل، ويحذف في كل مراجعة كل طلب مضى على استلامه أكثر من 18 شهرًا — فلا يُحتفظ بأي طلب أكثر من 24 شهرًا. الحذف يدوي؛ لا يوجد حذف تلقائي.</li>
+<li><b>الحذف:</b> في التطبيق: حول ← «طلب حذف بيانات التواصل الخاصة بي»، أو <a href="/#delete-contact">فتح الطلب مباشرة</a>. يكفي البريد الإلكتروني أو الهاتف كما أدخلتهما. يحذف المشغّل الطلب وطلب الحذف من Netlify.</li>
 </ul>
 <h2>خدمات خارجية</h2>
 <ul>
-<li><b>Netlify</b> (الاستضافة): عند كل تحميل تُسجَّل سجلات خادم عادية — عنوان IP وبيانات المتصفح والعنوان المطلوب.</li>
+<li><b>Netlify</b> (الاستضافة): عند كل تحميل تُسجَّل سجلات خادم عادية — عنوان IP وبيانات المتصفح والعنوان المطلوب. وتضيف Netlify إلى الصفحات شارة «Powered by Netlify» الخاصة بها.</li>
 <li><b>Google Fonts</b>: عند كل تحميل عبر الإنترنت يطلب المتصفح الخطوط (عنوان IP وبيانات المتصفح، دون بيانات طلاب).</li>
 <li><b>مزامنة الأرقام القياسية — اختيارية:</b> فقط إذا أعدّ المعلّم عنوانًا ورمزًا، يُرسل اسم الطالب والفعالية والنتيجة والحالة إلى Google Sheet الخاص بالمعلّم.</li>
 <li><b>نسخ احتياطي إلى Google Drive — اختياري:</b> عند الطلب فقط، يُرفع ملف نسخ احتياطي مشفّر بكلمة مرور إلى Drive الخاص بالمعلّم.</li>
@@ -136,7 +136,7 @@ li{margin:.25em 0}
 <h2>الطلاب</h2>
 <p>في وضع الطالب يمكن عرض لوحة الأرقام القياسية وتقديم رقم لموافقة المعلّم على الجهاز نفسه. لا تُجمع بيانات تواصل من الطلاب. المعلّم أو المدرسة مسؤولان عن امتلاك الإذن ببيانات الطلاب التي يُدخلانها وبأي مشاركة يُعدّانها.</p>
 <h2>حذف البيانات على الجهاز</h2>
-<p>يمكن حذف عناصر مفردة وجميع الأرقام القياسية من داخل التطبيق. مسح بيانات الموقع في المتصفح أو إزالة التطبيق يحذف كل البيانات على الجهاز. ملفات النسخ الاحتياطي التي أنشأتها تبقى تحت سيطرتك.</p>
+<p>هذه ثلاثة أمور مختلفة: (1) بيانات التواصل على Netlify — تُحذف عند طلب الحذف كما ورد أعلاه؛ (2) البيانات على الجهاز — يمكن حذف عناصر مفردة وجميع الأرقام القياسية من داخل التطبيق، ومسح بيانات الموقع في المتصفح يحذف كل البيانات على الجهاز (إزالة أيقونة التطبيق وحدها قد تُبقيها في المتصفح)؛ (3) النسخ الاحتياطية التي حفظتها كملف أو في Google Drive الخاص بك — هي لديك فقط، لا يراها المشغّل، وأنت من يحذفها هناك.</p>
 <h2>الأمان</h2>
 <p>يُقدَّم الموقع عبر HTTPS. يمكن تشفير النسخة الاحتياطية بكلمة مرور (AES-GCM بمفتاح مشتق على الجهاز؛ لا تُحفظ كلمة المرور)، والنسخ إلى Drive مشفّر دائمًا. رمز المعلّم يحمي من الاستخدام العابر للجهاز — وليس حسابًا.</p>
 <h2>التغييرات</h2>
@@ -149,16 +149,16 @@ li{margin:.25em 0}
 <p>Списки учеников, посещаемость, оценки, измерения, планы уроков, расписание, настройки, код учителя и видео рекордов хранятся в браузере устройства (localStorage и IndexedDB). Они не передаются оператору приложения, и у него нет к ним доступа.</p>
 <h2>Контактные данные, которые получает оператор</h2>
 <ul>
-<li><b>Что:</b> имя, фамилия, email, телефон, язык интерфейса и версия приложения. Никаких данных об учениках.</li>
+<li><b>Что:</b> тип обращения (связь или запрос на удаление), имя, фамилия, email, телефон, сообщение, если вы его написали, язык интерфейса и версия приложения. В запросе на удаление — только email или телефон, без имён. Никаких данных об учениках.</li>
 <li><b>Когда:</b> только если вы нажали «Отправить» в форме связи. Пропуск ничего не отправляет.</li>
 <li><b>Зачем:</b> чтобы связаться с вами и прислать анкету отзыва о приложении. Не для рекламы, не для продажи и не для передачи другим.</li>
 <li><b>Где:</b> в отдельной форме PE Ultimate в Netlify Forms, в учётной записи оператора. Netlify обрабатывает данные по поручению оператора.</li>
-<li><b>Как долго:</b> до 24 месяцев с момента получения или меньше, если вы попросите удалить. Оператор просматривает заявки не реже раза в полгода и удаляет те, у которых срок истёк.</li>
-<li><b>Удаление:</b> отправьте запрос на удаление через ту же форму (О приложении → Оставить контакты). Оператор удалит заявку из Netlify.</li>
+<li><b>Как долго:</b> до 24 месяцев с момента получения или меньше, если вы попросите удалить. Оператор просматривает заявки не реже раза в полгода и при каждом просмотре удаляет все заявки, полученные более 18 месяцев назад, — поэтому ни одна не хранится дольше 24 месяцев. Удаление ручное; автоматического удаления нет.</li>
+<li><b>Удаление:</b> в приложении: О приложении → «Запросить удаление моих контактов», или <a href="/#delete-contact">открыть запрос сразу</a>. Достаточно email или телефона в том виде, в каком вы их указали. Оператор удаляет заявку и запрос на удаление из Netlify.</li>
 </ul>
 <h2>Внешние сервисы</h2>
 <ul>
-<li><b>Netlify</b> (хостинг): при каждой загрузке создаются обычные журналы сервера — IP-адрес, данные браузера и запрошенный адрес.</li>
+<li><b>Netlify</b> (хостинг): при каждой загрузке создаются обычные журналы сервера — IP-адрес, данные браузера и запрошенный адрес. Netlify также добавляет на страницы свой значок «Powered by Netlify».</li>
 <li><b>Google Fonts</b>: при каждой загрузке онлайн браузер запрашивает шрифты (IP-адрес и данные браузера, без данных учеников).</li>
 <li><b>Синхронизация рекордов — по желанию:</b> только если учитель задал адрес и код, имя ученика, дисциплина, результат и статус отправляются в Google-таблицу самого учителя.</li>
 <li><b>Копия на Google Диск — по желанию:</b> только по нажатию зашифрованный паролем файл копии загружается на Диск самого учителя.</li>
@@ -174,7 +174,7 @@ li{margin:.25em 0}
 <h2>Ученики</h2>
 <p>В режиме ученика можно смотреть таблицу рекордов и отправить рекорд на утверждение учителю на том же устройстве. Контакты учеников не собираются. Учитель или школа отвечают за то, чтобы у них было право на данные учеников, которые они вводят, и на любую настроенную ими передачу.</p>
 <h2>Удаление данных на устройстве</h2>
-<p>Отдельные записи и все рекорды можно удалить в приложении. Очистка данных сайта в браузере или удаление приложения стирают все данные на устройстве. Созданные вами резервные копии остаются под вашим контролем.</p>
+<p>Это три разные вещи: (1) контактные данные в Netlify — удаляются по запросу на удаление, как описано выше; (2) данные на устройстве — отдельные записи и все рекорды можно удалить в приложении, а очистка данных сайта в браузере стирает все данные на устройстве (удаление только значка приложения может оставить их в браузере); (3) резервные копии, которые вы сохранили в файл или на свой Google Диск, — они только у вас, оператор их не видит, и удаляете их там вы.</p>
 <h2>Безопасность</h2>
 <p>Сайт работает по HTTPS. Резервную копию в файл можно зашифровать паролем (AES-GCM, ключ выводится на устройстве; пароль не сохраняется), копия на Диск шифруется всегда. Код учителя защищает от случайного использования устройства — это не учётная запись.</p>
 <h2>Изменения</h2>
@@ -187,16 +187,16 @@ li{margin:.25em 0}
 <p>Las listas de alumnado, la asistencia, las notas, las mediciones, los planes de sesión, el horario, los ajustes, el código del docente y los vídeos de récords se guardan en el navegador del dispositivo (localStorage e IndexedDB). No se envían al operador de la app, que no tiene acceso a ellos.</p>
 <h2>Datos de contacto que recibe el operador</h2>
 <ul>
-<li><b>Qué:</b> nombre, apellido, correo, teléfono, idioma de la interfaz y versión de la app. Ningún dato del alumnado.</li>
+<li><b>Qué:</b> el tipo de solicitud (contacto o solicitud de borrado), nombre, apellido, correo, teléfono, un mensaje si lo escribiste, idioma de la interfaz y versión de la app. En una solicitud de borrado, solo correo o teléfono, sin nombres. Ningún dato del alumnado.</li>
 <li><b>Cuándo:</b> solo si eliges «Enviar» en el formulario de contacto. Omitirlo no envía nada.</li>
 <li><b>Para qué:</b> para contactarte y enviarte una encuesta de opinión sobre la app. No para marketing, ni venta, ni cesión a terceros.</li>
 <li><b>Dónde:</b> en el formulario propio de PE Ultimate en Netlify Forms, en la cuenta del operador. Netlify trata los datos por cuenta del operador.</li>
-<li><b>Cuánto tiempo:</b> hasta 24 meses desde la recepción, o menos si pides el borrado. El operador revisa los envíos al menos cada seis meses y borra los que superan el plazo.</li>
-<li><b>Borrado:</b> envía una solicitud de borrado por el mismo formulario (Acerca de → Dejar datos de contacto). El operador borra el envío de Netlify.</li>
+<li><b>Cuánto tiempo:</b> hasta 24 meses desde la recepción, o menos si pides el borrado. El operador revisa los envíos al menos cada seis meses y, en cada revisión, borra todo envío recibido hace más de 18 meses; así ninguno se guarda más de 24 meses. El borrado es manual; no hay borrado automático.</li>
+<li><b>Borrado:</b> en la app: Acerca de → «Pedir que se borren mis datos de contacto», o <a href="/#delete-contact">abrir la solicitud directamente</a>. Basta con el correo o el teléfono tal como los diste. El operador borra el envío y la solicitud de borrado de Netlify.</li>
 </ul>
 <h2>Servicios externos</h2>
 <ul>
-<li><b>Netlify</b> (alojamiento): cada carga genera registros de servidor habituales: dirección IP, datos del navegador y la dirección solicitada.</li>
+<li><b>Netlify</b> (alojamiento): cada carga genera registros de servidor habituales: dirección IP, datos del navegador y la dirección solicitada. Netlify también añade a las páginas su propia insignia «Powered by Netlify».</li>
 <li><b>Google Fonts</b>: en cada carga en línea el navegador pide fuentes (dirección IP y datos del navegador, sin datos del alumnado).</li>
 <li><b>Sincronización de récords, opcional:</b> solo si el docente configura una dirección y un código, se envían nombre del alumno, prueba, resultado y estado a la hoja de Google del propio docente.</li>
 <li><b>Copia en Google Drive, opcional:</b> solo al pulsar, se sube un archivo de copia cifrado con contraseña al Drive del propio docente.</li>
@@ -212,7 +212,7 @@ li{margin:.25em 0}
 <h2>Alumnado</h2>
 <p>En el modo alumno se puede ver la tabla de récords y enviar un récord para que lo apruebe el docente en el mismo dispositivo. No se recogen datos de contacto del alumnado. El docente o el centro son responsables de contar con permiso para los datos del alumnado que introducen y para cualquier intercambio que configuren.</p>
 <h2>Borrar datos del dispositivo</h2>
-<p>En la app se pueden borrar elementos sueltos y todos los récords. Borrar los datos del sitio en el navegador o quitar la app elimina todos los datos del dispositivo. Los archivos de copia que hayas creado siguen bajo tu control.</p>
+<p>Son tres cosas distintas: (1) los datos de contacto en Netlify: se borran con una solicitud de borrado, como se indica arriba; (2) los datos del dispositivo: en la app se pueden borrar elementos sueltos y todos los récords, y borrar los datos del sitio en el navegador elimina todos los datos del dispositivo (quitar solo el icono de la app puede dejarlos en el navegador); (3) las copias que guardaste en un archivo o en tu propio Google Drive: solo las tienes tú, el operador no las ve y eres tú quien las borra allí.</p>
 <h2>Seguridad</h2>
 <p>El sitio se sirve por HTTPS. La copia en archivo puede cifrarse con contraseña (AES-GCM, con una clave derivada en el dispositivo; la contraseña no se guarda) y la copia en Drive siempre va cifrada. El código del docente protege frente al uso casual del dispositivo; no es una cuenta.</p>
 <h2>Cambios</h2>

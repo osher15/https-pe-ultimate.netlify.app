@@ -58,7 +58,8 @@ test("אישור קליטה: רק 2xx עם דף האישור; 404, 500, או ד�
 
 test("התוכן שנשלח: שדות הטופס בלבד, בשם הטופס הייעודי",()=>{
   const p=D.leadPayload(D.validateLead(GOOD).clean,{lang:"en",build:"abc12345"});
-  assert.deepEqual(Object.keys(p).sort(),["app_version","bot-field","email","first","form-name","lang","last","phone"]);
+  assert.deepEqual(Object.keys(p).sort(),["app_version","bot-field","email","first","form-name","kind","lang","last","message","phone"]);
+  assert.equal(p.kind,"contact","ברירת המחדל: יצירת קשר");
   assert.equal(p["form-name"],"pe-ultimate-contact");
   assert.equal(p["bot-field"],"");
 });
@@ -71,9 +72,43 @@ test("הטופס הסטטי ב-index.html תואם בדיוק לשדות שנש�
   const names=[...m[2].matchAll(/name="([^"]+)"/g)].map(x=>x[1]).sort();
   const sent=Object.keys(D.leadPayload(D.validateLead(GOOD).clean,{})).sort();
   assert.deepEqual(names,sent);
-  for(const f of ["first","last","email","phone"])
-    assert.ok(new RegExp('name="'+f+'" required').test(m[2]),f+" חובה גם בטופס המקבל");
+  /* החובה תלויה בסוג הפנייה ולכן נאכפת באפליקציה (validateLead), לא
+     בטופס הסטטי: בקשת מחיקה נשלחת בלי שמות. */
+  assert.ok(/<textarea name="message">/.test(m[2]),"שדה ההודעה קיים בטופס המקבל");
   const ack=require("fs").readFileSync(require("path").join(__dirname,"../../contact-received.html"),"utf8");
   assert.ok(ack.indexOf(D.LEAD_ACK)>=0,"דף האישור נושא את הסימן");
   assert.ok(/action="\/contact-received\.html"/.test(m[0]),"ו-action מפנה אליו");
+});
+
+test("בקשת מחיקה: מספיק אימייל או טלפון, בלי שמות; שניהם ריקים — שגיאה",()=>{
+  assert.equal(D.validateLead({kind:"delete",email:"a@b.co"}).ok,true);
+  assert.equal(D.validateLead({kind:"delete",phone:"+972 50 123 4567"}).ok,true);
+  assert.deepEqual(D.validateLead({kind:"delete"}).errors,{email:"idRequired",phone:"idRequired"});
+  assert.equal(D.validateLead({kind:"delete",email:"not-an-email"}).errors.email,"invalid");
+  const p=D.leadPayload(D.validateLead({kind:"delete",email:"a@b.co",first:"X"}).clean,{});
+  assert.equal(p.kind,"delete");
+  assert.equal(p.first,"X","שם שהוקלד נשמר כפי שהוא — האפליקציה עצמה לא שולחת שמות בבקשת מחיקה");
+});
+
+test("יצירת קשר עדיין דורשת את ארבעת השדות, גם עם הודעה",()=>{
+  assert.deepEqual(Object.keys(D.validateLead({kind:"contact",message:"שלום"}).errors).sort(),["email","first","last","phone"]);
+});
+
+test("הודעה: עד 1000 תווים, שורות נשמרות",()=>{
+  const ok=D.validateLead(Object.assign({},GOOD,{message:"א\r\nב"}));
+  assert.equal(ok.clean.message,"א\nב");
+  assert.equal(D.validateLead(Object.assign({},GOOD,{message:"x".repeat(1001)})).errors.message,"tooLong");
+});
+
+test("בקשת מחיקה שנקלטה עוצרת תזכורות",()=>{
+  const t0=Date.parse("2026-09-29T10:00:00Z");
+  assert.equal(D.leadStatus({optOut:true,snoozeUntil:t0-1},t0),"done");
+});
+
+test("גבול 7 הימים לפי השעון, לא לפי תאריך: דקה לפני — דחוי, בדיוק במועד — תזכורת",()=>{
+  /* ערב מקומי (23:30) — הדחייה היא 7×24 שעות, ולכן היא לא «קופצת» יום
+     בגלל אזור זמן או מעבר חצות */
+  const t0=new Date(2026,8,29,23,30).getTime(), until=D.leadSnoozeUntil(t0);
+  assert.equal(D.leadStatus({snoozeUntil:until},until-60000),"snoozed");
+  assert.equal(D.leadStatus({snoozeUntil:until},until),"reminder");
 });

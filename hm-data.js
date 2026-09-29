@@ -557,11 +557,17 @@ var LEAD_FORM_NAME="pe-ultimate-contact";
    (404, דף הבית, שגיאת רשת שהוחלפה בעמוד מטמון) אינו אישור. */
 var LEAD_ACK="peu-contact-received-v1";
 var EMAIL_RE=/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
+/* סוג הפנייה: contact — יצירת קשר ושאלון (כל ארבעת השדות חובה);
+   delete — בקשה למחוק את פרטי הקשר שנמסרו קודם. בקשת מחיקה לא
+   דורשת פרטים חדשים: מספיק האימייל או הטלפון שנמסרו, לזיהוי. */
+var LEAD_KINDS=["contact","delete"], LEAD_MSG_MAX=1000;
 function leadClean(o){
   o=o||{};
   var t=function(v){ return String(v==null?"":v).replace(/\s+/g," ").trim(); };
   /* באימייל לא מוחקים רווח פנימי — זה היה משנה בשקט את הכתובת; האימות דוחה אותו */
-  return {first:t(o.first),last:t(o.last),email:t(o.email),phone:t(o.phone)};
+  return {kind:o.kind==="delete"?"delete":"contact",
+    first:t(o.first),last:t(o.last),email:t(o.email),phone:t(o.phone),
+    message:String(o.message==null?"":o.message).replace(/\r\n?/g,"\n").trim()};
 }
 /* טלפון בינלאומי: + אופציונלי בהתחלה, ספרות, רווחים, מקפים, נקודות,
    סוגריים ולוכסן. 7–15 ספרות (אורך E.164), בלי אותיות. */
@@ -573,20 +579,29 @@ function validPhone(p){
 }
 function validateLead(o){
   var c=leadClean(o), err={};
-  if(!c.first)err.first="required";
-  if(!c.last)err.last="required";
-  if(!c.email)err.email="required"; else if(c.email.length>254||!EMAIL_RE.test(c.email))err.email="invalid";
-  if(!c.phone)err.phone="required"; else if(!validPhone(c.phone))err.phone="invalid";
+  var badEmail=function(){ return c.email.length>254||!EMAIL_RE.test(c.email); };
+  if(c.kind==="delete"){
+    if(!c.email&&!c.phone){ err.email="idRequired"; err.phone="idRequired"; }
+    if(c.email&&badEmail())err.email="invalid";
+    if(c.phone&&!validPhone(c.phone))err.phone="invalid";
+  }else{
+    if(!c.first)err.first="required";
+    if(!c.last)err.last="required";
+    if(!c.email)err.email="required"; else if(badEmail())err.email="invalid";
+    if(!c.phone)err.phone="required"; else if(!validPhone(c.phone))err.phone="invalid";
+  }
+  if(c.message.length>LEAD_MSG_MAX)err.message="tooLong";
   return {ok:!Object.keys(err).length,errors:err,clean:c};
 }
 /* מצב הטופס לפי מה שנשמר במכשיר:
    done     — נשלח ונקלט (או נשלח בגרסה ישנה) — אין תזכורות
    snoozed  — דולג, והזמן עוד לא הגיע
    reminder — הדחייה עברה: תזכורת לא חוסמת
-   first    — עוד לא הוצג אף פעם: מסך הפתיחה */
+   first    — עוד לא הוצג אף פעם: מסך הפתיחה
+   מי ששלח בקשת מחיקה שנקלטה — לא מקבל עוד תזכורות (optOut). */
 function leadStatus(st,now){
   st=st||{};
-  if(st.done)return "done";
+  if(st.done||st.optOut)return "done";
   var until=Number(st.snoozeUntil);
   if(isFinite(until)&&until>0)return until>Number(now)?"snoozed":"reminder";
   return "first";
@@ -597,7 +612,9 @@ function leadSnoozeUntil(now,days){
 /* מה נשלח — ורק זה. אין כאן שום נתון מהמכשיר מלבד שפת הממשק וגרסה. */
 function leadPayload(clean,meta){
   meta=meta||{};
-  return {"form-name":LEAD_FORM_NAME,first:clean.first,last:clean.last,email:clean.email,phone:clean.phone,
+  return {"form-name":LEAD_FORM_NAME,kind:clean.kind==="delete"?"delete":"contact",
+    first:clean.first||"",last:clean.last||"",email:clean.email||"",phone:clean.phone||"",
+    message:clean.message||"",
     lang:String(meta.lang||""),app_version:String(meta.build||""),"bot-field":""};
 }
 /* אישור קליטה אמין: תשובה 2xx שגופה הוא דף האישור (עם הסימן) */
@@ -1758,8 +1775,9 @@ function classProgress(rows,roster,testDefs,opts){
 }
 
 /* שלב 12 — אחוז נוכחות לתלמיד, לצורך הצעת מילוי בציון ההשתתפות.
-   הנוסחה זהה, בית אחר בית, ל-attSummary() הקיימת ב-hm-tools.js:
-   Math.round((p + h*0.5) / days * 100). לא נכתב כלל חדש.
+   הנוסחה משותפת ל-attSummary() ול-attSummaryFor() ב-hm-tools.js:
+   Math.round((p + h*0.5) / (p+h+a) * 100) — מלאה 1, חלקית ½, נעדר 0,
+   פטור לא נספר כלל.
 
    ההבדל היחיד, והכרחי: תלמיד בלי אף רשומת נוכחות מחזיר null ולא
    "0%" — attSummary מחזירה 0 שם כי זו עמודה בדוח CSV שחייבת תמיד
@@ -1772,13 +1790,17 @@ function classProgress(rows,roster,testDefs,opts){
    שלו נפתרת (resolveClassId) לאותו cid נספר, בלי קשר לאיזו כיתה
    הייתה מסומנת כרגע בלשונית הנוכחות ובלי קשר לשינויי שם — בדיוק
    כמו rowInClass על מדידה. */
+/* פטור (e) אינו היעדרות: הוא יוצא גם מהמונה וגם מהמכנה. קודם יום
+   פטור נספר ב-days בלי זכות — ותלמיד שכל ימיו פטור קיבל 0 בהשתתפות.
+   days = ימים כשירים לחישוב (p/h/a). אם יש רק פטור — days 0 ו-pct
+   null: אין על מה לחשב, והמסך משאיר את הציון חסר ואומר למה. */
 function attendanceRateOf(att,stud,store,opts){
   opts=opts||{};
   var sid=studentKey(stud);
   if(!sid||!att||typeof att!=="object"||Array.isArray(att))return null;
   var cid=isCid(opts.cid)?opts.cid:null;
   var k=(!cid&&opts.cls)?clsKey(opts.cls):null;
-  var p=0,h=0,days=0;
+  var p=0,h=0,a=0,e=0,days=0;
   Object.keys(att).forEach(function(key){
     var i=String(key).indexOf("|"); if(i<0)return;
     var label=key.slice(i+1);
@@ -1790,11 +1812,12 @@ function attendanceRateOf(att,stud,store,opts){
     var rec=att[key];
     if(!rec||typeof rec!=="object"||Array.isArray(rec))return;
     var mark=rec[sid]; if(!mark)return;
+    if(mark==="e"){ e++; return; }
     days++;
-    if(mark==="p")p++; else if(mark==="h")h++;
+    if(mark==="p")p++; else if(mark==="h")h++; else a++;
   });
-  if(!days)return null;
-  return {days:days,p:p,h:h,pct:Math.round((p+h*0.5)/days*100)};
+  if(!days&&!e)return null;
+  return {days:days,p:p,h:h,a:a,e:e,pct:days?Math.round((p+h*0.5)/days*100):null};
 }
 
 /* ============================================================
@@ -2659,7 +2682,7 @@ return {
   syncStudentsFromRosters:syncStudentsFromRosters,classRoster:classRoster,applyRoster:applyRoster,
   mergeRoster:mergeRoster, findStudent:findStudent,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,
-  LEAD_SNOOZE_DAYS:LEAD_SNOOZE_DAYS, LEAD_FORM_NAME:LEAD_FORM_NAME, LEAD_ACK:LEAD_ACK,
+  LEAD_SNOOZE_DAYS:LEAD_SNOOZE_DAYS, LEAD_FORM_NAME:LEAD_FORM_NAME, LEAD_ACK:LEAD_ACK, LEAD_KINDS:LEAD_KINDS, LEAD_MSG_MAX:LEAD_MSG_MAX,
   leadClean:leadClean, validPhone:validPhone, validateLead:validateLead, leadStatus:leadStatus,
   leadSnoozeUntil:leadSnoozeUntil, leadPayload:leadPayload, leadAckOk:leadAckOk,
   foldSearch:foldSearch, searchMatch:searchMatch,
