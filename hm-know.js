@@ -911,10 +911,20 @@ const srcById=id=>SOURCES.find(s=>s.id===id);
 /* ---------- GAMES view ---------- */
 window.GAMES=(function(){
   let inited=false, cat="all", q="";
+  /* החיפוש רץ על הטקסט שבשפת הממשק (מה שהמורה רואה) וגם על הנוסח
+     העברי — כך «Capture» מוצא את «Capture the flag» ו«דגל» עדיין עובד.
+     הטקסט המתורגם נבנה פעם אחת לכל שפה ולכל משחק. */
+  const hayCache={};
+  function hay(g){
+    const L=window.I18N&&window.I18N.lang?window.I18N.lang():"he";
+    const c=hayCache[L]||(hayCache[L]={});
+    if(c[g.id]!=null)return c[g.id];
+    const parts=[g.name,g.goal,g.fit,g.who,g.equip,g.space,catName(g.cat)];
+    const tr=x=>{ try{ return L!=="he"&&window.I18N?window.I18N.tr(x):""; }catch(e){ return ""; } };
+    return (c[g.id]=window.HMDATA.foldSearch(parts.join(" ")+" "+parts.map(tr).join(" ")));
+  }
   function list(){
-    const t=q.trim();
-    return GAMES.filter(g=>(cat==="all"||g.cat===cat)&&
-      (!t||(g.name+" "+g.goal+" "+g.fit+" "+g.who+" "+g.equip).includes(t)));
+    return GAMES.filter(g=>(cat==="all"||g.cat===cat)&&window.HMDATA.searchMatch(hay(g),q));
   }
   function render(){
     const {$, $$, esc}=H();

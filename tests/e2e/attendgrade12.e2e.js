@@ -17,6 +17,9 @@ const seed=extra=>Object.assign({
     "2026-09-01|ח1":{a:"p",b:"p"},
     "2026-09-08|ח1":{a:"p",b:"a"}
   },
+  /* לתקופה יש טווח תאריכים (ביקורת 2026-09-29) — בלעדיו המילוי שואל
+     עליו קודם. השאלה עצמה נבדקת ב-audit29.e2e.js. */
+  "grades.periodRanges":{"רבעון 1":{from:"2026-01-01",to:"2026-12-31"}},
   "pf.guideSeen":true,"schema.version":D.SCHEMA_VERSION
 },extra||{});
 
@@ -83,17 +86,20 @@ module.exports={title:"שלב 12 — מילוי ציון לפי נוכחות",te
     eq(rows,{a:"100",b:"45",c:""});
   }),
 
-  check("חישוב הציון הסופי ממשיך לעבוד אחרי המילוי",seed(),async page=>{
+  check("חישוב הציון ממשיך לעבוד אחרי המילוי — ומסומן זמני כשחסרים רכיבים",seed(),async page=>{
     await openGrades(page);
     await page.evaluate(()=>document.getElementById("gr-fillAtt").click());
     await page.waitForTimeout(400);
-    const total=await page.evaluate(()=>{
-      const tr=document.querySelector('#gr-table tr[data-sid="a"]');
-      return tr.querySelector("td:last-child").textContent.trim();
+    const cell=await page.evaluate(()=>{
+      const td=document.querySelector('#gr-table tr[data-sid="a"] td:last-child');
+      return {v:td.querySelector(".gr-prov")?td.querySelector(".gr-prov").textContent:td.textContent.trim(),
+              prov:td.classList.contains("prov")};
     });
     /* משקל ברירת מחדל: part=70%. אליס 100 בהשתתפות ובלי שאר הרכיבים
-       → 100*0.70 = 70.0, בלי בונוס */
-    eq(total,"70.0");
+       → 100*0.70 = 70.0, בלי בונוס. הנוסחה לא השתנתה — אבל מאז ביקורת
+       2026-09-29 זה ציון *זמני*: רכיבים במשקל חיובי עדיין ריקים. */
+    eq(cell.v,"70.0");
+    eq(cell.prov,true,"חסרים רכיבים — הציון מסומן זמני ולא סופי");
   }),
 
   check("אין נתוני נוכחות לכיתה כלל: הכפתור לא ממציא כלום ומודיע בבירור",seed({"tools.att":{}}),async page=>{

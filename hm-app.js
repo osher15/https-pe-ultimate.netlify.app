@@ -138,6 +138,10 @@ function confetti(n=90){
 }
 function dlCSV(name,rows){
   const esc=v=>{v=String(v??"");return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+  /* שורת הכותרות בשפת הממשק — קובץ שנפתח באקסל הוא חלק מהממשק. רק
+     הכותרות: התאים הם נתונים (שמות תלמידים) ואינם מתורגמים לעולם. */
+  if(rows.length&&window.I18N&&window.I18N.tr)
+    rows=[rows[0].map(c=>typeof c==="string"?window.I18N.tr(c):c)].concat(rows.slice(1));
   const csv="\uFEFF"+rows.map(r=>r.map(esc).join(",")).join("\n");
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
   a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
@@ -584,10 +588,15 @@ function wireLang(){
     const cur=window.I18N.lang();
     box.innerHTML=window.I18N.langs().map(l=>{
       const n=cov.out[l.code]||0;
+      /* האחוז הוא כיסוי מפתחות המילון בלבד — לא בדיקה לשונית ולא כיסוי
+         התוכן. «100%» ליד «טיוטה שממתינה לבדיקה» היה סותר את עצמו, ולכן
+         המסך מציג סטטוס, והאחוז נשאר בתיאור עם השם הנכון שלו. */
       const pct=l.code==="he"?100:Math.round(n/Math.max(1,cov.base)*100);
-      return '<button data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+'>'+
+      const st=l.code==="he"?t("set.langSrc","מקור"):t("set.langDraft","טיוטה, לא נבדקה");
+      const tip=t("set.langKeys","כיסוי מפתחות הממשק")+": "+pct+"%";
+      return '<button data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+' title="'+esc(tip)+'">'+
         '<span class="fl">'+l.flag+'</span><span>'+l.native+'</span>'+
-        '<span class="cv">'+pct+'%</span></button>';
+        '<span class="cv">'+esc(st)+'</span></button>';
     }).join("");
     $$("#set-lang button").forEach(b=>b.addEventListener("click",()=>{
       window.I18N.set(b.dataset.l); paint(); applyTheme();
@@ -1161,10 +1170,16 @@ function paintToday(){
   let html="";
   if(d.now){
     html+=focusCard(d.now,"now");
-    if(d.next)html+=upRow(d.next,"⏭️ הבא");
   }else if(d.next){
     html+=focusCard(d.next,"next");
   }
+  /* משבצות נפרדות באותה שעה — מוצגות יחד עם המוקד, כהתנגשות, ולא
+     כשיעור «בהמשך». אם אלה כיתות שלומדות יחד — מחברים אותן כקבוצה. */
+  if(d.clash&&d.clash.length){
+    html+='<div class="hint hx-clash">⚠ '+esc(t("sched.clash","באותה שעה יש עוד משבצת נפרדת. אם הכיתות לומדות יחד — חברו אותן כקבוצה (מרכז הכיתה ← חבר כיתות); אחרת זו התנגשות במערכת."))+'</div>'+
+      d.clash.map(r=>upRow(r,"⚠")).join("");
+  }
+  if(d.now&&d.next)html+=upRow(d.next,"⏭️ הבא");
   /* «בהמשך» — שיעורים בלבד. שהייה, פרטני וישיבות נמצאים ביום המלא,
      שם הם הקשר; כאן הם היו מאריכים את הרשימה בלי לשנות החלטה. */
   const later=d.later.filter(r=>r.startable);
@@ -1580,7 +1595,12 @@ function loadSampleWeek(){
   if(cur)schedSave([]);
   let added=0;
   DATA.sampleSlots().forEach(o=>{
-    if(o.clsSnapshot){ try{ DATA.registerClass(REGSTORE,o.clsSnapshot); }catch(e){} }
+    if(o.members){
+      /* כיתות שלומדות יחד: כל כיתה נרשמת, והקבוצה נוצרת במודל הקיים */
+      (o.memberNames||[]).forEach(n=>{ try{ DATA.registerClass(REGSTORE,n); }catch(e){} });
+      try{ const g=DATA.makeGroup(REGSTORE,{id:o.cid,name:o.clsSnapshot,members:o.members});
+        if(g&&g.group&&g.group.id!==o.cid&&DATA.isGroupRec(g.group))o=Object.assign({},o,{cid:g.group.id}); }catch(e){}
+    }else if(o.clsSnapshot){ try{ DATA.registerClass(REGSTORE,o.clsSnapshot); }catch(e){} }
     const r=SCHED.add(o);
     if(r.ok&&r.outcome==="added")added++;
   });

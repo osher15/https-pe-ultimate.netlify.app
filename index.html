@@ -15,29 +15,29 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="10532cea">
+<meta name="hm-build" content="655981ca">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=c6c2f721">
+<link rel="stylesheet" href="hm-styles.css?v=2dd8e0d6">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-data.js?v=783d89a5"></script>
-<script src="hm-terms.js?v=3e2a0431"></script>
+<script src="hm-data.js?v=a88ca8e4"></script>
+<script src="hm-terms.js?v=06da39ac"></script>
 <script src="hm-texts.js?v=f84e5539"></script>
-<script src="hm-i18n.js?v=1a6e3e6a"></script>
-<script src="hm-app.js?v=3dc152b2"></script>
+<script src="hm-i18n.js?v=446015c0"></script>
+<script src="hm-app.js?v=eab87ca5"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
-<script src="hm-know.js?v=52230b9a"></script>
+<script src="hm-know.js?v=72244783"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="hm-tools.js?v=32344c4f"></script>
+<script src="hm-tools.js?v=9806461b"></script>
 <script src="hm-plans.js?v=20cf74cb"></script>
-<script src="hm-lesson.js?v=4e01ea1a"></script>
+<script src="hm-lesson.js?v=a6ad94de"></script>
 <script src="hm-build.js?v=931b1d83"></script>
-<script src="hm-tests.js?v=988f2876"></script>
-<script src="hm-new.js?v=0918251e"></script>
-<script src="hm-live.js?v=dfa3fe12"></script>
-<script src="hm-hub.js?v=a54e81a2"></script>
+<script src="hm-tests.js?v=379b32c8"></script>
+<script src="hm-new.js?v=f8e2131a"></script>
+<script src="hm-live.js?v=16d0ab27"></script>
+<script src="hm-hub.js?v=1e6ba46b"></script>
 </helmet>
 <div class="app" dir="rtl">
 <!-- ============================================================
@@ -899,6 +899,7 @@
       </div>
       <div class="hint" id="gr-fillAttHint" style="margin-top:6px">⬇ מלא לפי נוכחות ממלא רק שדות השתתפות ריקים לפי אחוז הנוכחות בפועל — לא דורס ציון שכבר הוזן, ולא ממציא ציון לתלמיד בלי נתוני נוכחות.</div>
       <div class="tblwrap" style="margin-top:13px"><table class="tbl" id="gr-table"></table></div>
+      <div class="hint" id="gr-provHint" hidden style="margin-top:8px"></div>
       <div class="empty-state" id="gr-empty" style="display:none"><div class="big">📊</div>אין עדיין תלמידים בכיתה הזו. הוסף תלמידים בלשונית «רשימת תלמידים».</div>
     </div>
   </div>
@@ -1290,8 +1291,14 @@
             <option value="gender">מאוזן לפי רמה ומגדר</option>
             <option value="random">אקראי לגמרי</option>
           </select></div>
+        <div class="field" style="width:210px"><label>מי נכלל</label>
+          <select id="tl-teamWho" class="tl-who">
+            <option value="present">רק מי שנוכח היום (מלאה או חלקית)</option>
+            <option value="all">כל הכיתה, בלי לבדוק נוכחות</option>
+          </select></div>
         <button class="btn acc" id="tl-teamGo" style="margin-top:18px">🎲 חלק לקבוצות</button>
       </div>
+      <div class="hint tl-whoInfo" id="tl-teamWhoInfo" style="margin-top:8px"></div>
     </div>
     <div class="tl-teams" id="tl-teamsWrap"></div>
     <div class="card" id="tl-teamActions" style="display:none">
@@ -1306,7 +1313,15 @@
     <div class="card" style="text-align:center">
       <h2 style="justify-content:center"><span class="dot"></span> הגרלת תלמיד</h2>
       <div class="hint">בלי חזרות — כל תלמיד יוצא פעם אחת עד שהסבב מתאפס.</div>
-      <div class="field" style="width:170px;margin:11px auto 0"><label>כיתה</label><select id="tl-pickCls"></select></div>
+      <div class="row" style="justify-content:center;margin-top:11px">
+        <div class="field" style="width:170px"><label>כיתה</label><select id="tl-pickCls"></select></div>
+        <div class="field" style="width:210px"><label>מי נכלל</label>
+          <select id="tl-pickWho" class="tl-who">
+            <option value="present">רק מי שנוכח היום (מלאה או חלקית)</option>
+            <option value="all">כל הכיתה, בלי לבדוק נוכחות</option>
+          </select></div>
+      </div>
+      <div class="hint tl-whoInfo" id="tl-pickWhoInfo" style="margin-top:6px"></div>
       <div class="tl-pickbox"><div id="tl-pickName">—</div><div class="sb" id="tl-pickSub"></div></div>
       <div class="row" style="justify-content:center">
         <button class="btn acc big" id="tl-pickGo">🎯 הגרל</button>
@@ -1589,13 +1604,10 @@
   <div class="ab-hero"><div class="lg">⏱️</div>
     <div><b dir="auto" data-i18n="brand.full">PE Ultimate</b><span id="ab-ver">גרסה —</span></div></div>
   <p class="ab-p" data-i18n="ab.p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
-    לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, בשפה אחת, ובלי להוציא שום דבר החוצה.</p>
+    לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, ונתוני התלמידים נשמרים במכשיר.</p>
   <div class="ab-sec"><b data-i18n="ab.privT">🔒 פרטיות</b>
-    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, ציונים ומדידות — נשמרים ב-localStorage של המכשיר הזה בלבד.
-      <b>אין שרת, אין חשבון, ואין שליחה לשום מקום.</b> אלה נתונים על קטינים, ולכן זו החלטת תכנון ולא
-      מקריות. ייצוא CSV או גיבוי הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש
-      גיבוי. הדבר היחיד שיוצא מהמכשיר הוא פרטי הקשר שלך (המורה) שהוזנו במסך הפתיחה הראשון — לא נתון
-      על תלמיד — ונשלחים פעם אחת בלבד.</p></div>
+    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>לאפליקציה אין שרת ואין חשבון משלה.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — בקשת גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס Google Forms של מפתח האפליקציה; (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש גיבוי.</p>
+    <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p></div>
   <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
     <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
       הגופני — סטנדרטים להערכת הישגי התלמידים», משרד החינוך, המזכירות הפדגוגית · תוכנית הלימודים
@@ -1603,6 +1615,14 @@
   <div class="ab-sec"><b data-i18n="ab.builtT">🛠 נבנה עם</b>
     <p class="ab-p" data-i18n="ab.built">JavaScript, HTML ו-CSS בלבד — בלי ספריות חיצוניות ובלי שלב בנייה בדפדפן, כדי
       שהאפליקציה תיפתח מהר ותעבוד בשטח בלי רשת. פותח בשיתוף עם Claude Code.</p></div>
+  <div class="ab-sec"><b data-i18n="ab.credT">🖼 קרדיטים לתמונות</b>
+    <p class="ab-p" dir="ltr" style="text-align:start;font-size:12px">Exercise demos from Wikimedia Commons:
+      Pike_Push_Ups.gif — Danielflefil; Burpees.gif, Jumpingjacks.gif, High_knees.gif — Wensceslao
+      (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, resized);
+      Lunge (CDC) — public domain. All other exercise illustrations are original to PE Ultimate.</p></div>
+  <div class="ab-sec"><b data-i18n="ab.fbT">📨 שאלון משוב</b>
+    <p class="ab-p" data-i18n="ab.fb">רוצים לקבל שאלון משוב וליצור קשר עם המפתח? מסירת הפרטים היא רשות.</p>
+    <button class="btn sm ghost" id="ab-lead" data-i18n="ab.fbBtn">השארת פרטי קשר</button></div>
   <div class="ab-sec"><b data-i18n="ab.warnT">⚠️ אחריות</b>
     <p class="ab-p" data-i18n="ab.warn">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
       תחליף לציוד מדידה מוסמך לתחרות רשמית. ההחלטה החינוכית והציון הם שלך.</p></div>
@@ -1700,7 +1720,7 @@
   <details class="set-sec" open><summary><span class="ic">🎛</span><span data-i18n="set.secGeneral">כללי</span><small data-i18n="set.secGeneralSub">שפה, בית ספר, מראה וצלילים</small></summary><div class="in">
   <div class="field"><label data-i18n="set.lang">שפת הממשק</label>
     <div class="lang-pick" id="set-lang"></div>
-    <div class="hint" id="set-langHint" data-i18n="set.langHint" style="margin-top:6px">שפת הממשק מתחלפת מיד. כל התוכן — מסכים, מבחנים, משחקים, מערכי שיעור, מאגר הידע וההודעות — מתורגם. התרגום הוא טיוטה מקצועית שממתינה לבדיקה של דובר שפת־אם.</div>
+    <div class="hint" id="set-langHint" data-i18n="set.langHint" style="margin-top:6px">שפת הממשק מתחלפת מיד. המסכים, המבחנים, המשחקים, מערכי השיעור המובנים, מאגר הידע וההודעות מתורגמים; מה שאתם מקלידים בעצמכם (שמות, הערות, מערכים שבניתם) נשאר כפי שנכתב. התרגום הוא טיוטה שעוד לא נבדקה על ידי דוברי השפה — אם נשאר טקסט לא מתורגם, זה ליקוי שכדאי לדווח עליו.</div>
   </div>
   <div class="field" style="margin-top:11px"><label data-i18n="set.school">שם בית הספר (מופיע בכותרת, בתעודות ובמצב טלוויזיה)</label><input type="text" id="set-school" placeholder="מקיף גימל באר שבע"></div>
   <div class="field" style="margin-top:12px"><label data-i18n="set.theme">ערכת רקע — נשמרת במכשיר הזה</label>
@@ -1750,6 +1770,7 @@
          שהמורה יחליט לפני שהוא לוחץ, ולא יגלה אחרי מה בעצם ירד. -->
     <label class="check" style="margin-top:10px"><input type="checkbox" id="set-bkEnc">
       <span data-i18n="bk.encrypt">🔐 הצפן את הגיבוי בסיסמה</span></label>
+    <div class="hint" data-i18n="bk.encRec" style="margin-top:4px"><b>מומלץ</b> כשהקובץ יוצא מהמכשיר (דרייב, מייל, מחשב משותף) — יש בו שמות ותוצאות של תלמידים.</div>
     <div class="hint" data-i18n="bk.encryptHint" style="margin-top:4px">קובץ מוצפן אפשר לשמור בדרייב או לשלוח במייל בלי שהתוכן יהיה קריא לאף אחד — גם לא לשירות שמאחסן אותו.
       <b>אין שחזור סיסמה:</b> אבדה הסיסמה, אבד הקובץ. זו המשמעות של הצפנה אמיתית.
       בלי הסימון — קובץ רגיל, לא מוצפן, שכל תוכנה שיודעת לקרוא JSON יכולה לפתוח.</div>
@@ -1759,7 +1780,14 @@
       <input type="file" id="set-bkFile" accept=".json,.hmg,application/json" style="display:none">
     </div>
     <div class="hint" id="set-bkStat" style="margin-top:8px"></div>
-    <hr style="border:none;border-top:1px solid var(--line);margin:14px 0">
+    <details class="bk-howto" style="margin-top:8px"><summary data-i18n="bk.howT">איך משחזרים במכשיר חדש?</summary>
+      <ol class="hint" style="margin:6px 0 0;padding-inline-start:20px">
+        <li data-i18n="bk.how1">פותחים את PE Ultimate במכשיר החדש ונכנסים כמורה.</li>
+        <li data-i18n="bk.how2">הגדרות ← גיבוי וסנכרון ← «⬆ שחזר מקובץ», ובוחרים את קובץ הגיבוי.</li>
+        <li data-i18n="bk.how3">קובץ מוצפן — מקלידים את הסיסמה שנבחרה בגיבוי. בלי הסיסמה אי אפשר לפתוח אותו.</li>
+        <li data-i18n="bk.how4">לפני השחזור מוצג מה ייכנס ומה יוחלף. שום דבר לא נכתב עד שמאשרים, וקובץ פגום נדחה לפני שנוגעים בנתונים.</li>
+      </ol></details>
+    <details class="bk-adv" style="margin-top:12px"><summary data-i18n="bk.advT">⚙️ מתקדם: גיבוי ישיר לגוגל דרייב (דורש הגדרה טכנית)</summary>
     <b>☁️ גיבוי לגוגל דרייב (מתקדם, רשות)</b>
     <div class="hint" style="margin-top:5px">האפליקציה לא מחוברת לשום שרת שלנו — כדי לגבות ישירות לדרייב שלך היא צריכה אישור גוגל משלך, בדיוק כמו כל אתר שמבקש "התחבר עם גוגל". ההרשאה מוגבלת לקבצים שהאפליקציה עצמה יוצרת בדרייב שלך (drive.file) — היא לא יכולה לראות או לגעת בשום קובץ אחר אצלך. הקמה חד-פעמית (כ-5 דקות, בלי תשלום): ראו README, סעיף «גיבוי לגוגל דרייב».</div>
     <div class="hint" style="margin-top:5px"><b>גיבוי לדרייב תמיד מוצפן</b> — קובץ עם שמות ותוצאות של קטינים לא עוזב את המכשיר בגלוי. ודא/י שהסימון "🔐 הצפן את הגיבוי בסיסמה" למעלה מסומן לפני שלוחצים "גבה עכשיו לדרייב"; בלעדיו הכפתור יסרב ויבקש להצפין קודם.</div>
@@ -1776,6 +1804,7 @@
     </div>
     <div class="hint" style="margin-top:4px">זו <b>תזכורת בלבד</b>, לא גיבוי אמיתי ברקע — כי הצפנה דורשת הקלדת סיסמה בכל פעם, ואי אפשר לבקש אותה בלי שאת/ה מול המסך. כשהגיע הזמן תופיע הודעה שמזכירה ללחוץ על "גבה עכשיו לדרייב".</div>
     <div class="hint" id="set-gdStat" style="margin-top:8px"></div>
+    </details>
   </div>
   <div class="field" style="margin-top:13px"><label>קישור לטופס העלאת סרטונים (Google Forms)</label>
     <input type="url" id="set-driveForm" placeholder="https://forms.gle/..." style="direction:ltr;text-align:left;font-size:12px"></div>
@@ -1934,13 +1963,16 @@
   <p class="lock-note" data-i18n="lock.demoNote">הדגמה: כיתה לדוגמה עם תוצאות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים. אפשר לנקות את נתוני ההדגמה בלחיצה אחת.</p>
   <div class="lock-about">
     <b>מה זה?</b> ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור, שיאים וציונים.<br>
-    <b>איפה הנתונים?</b> <b>במכשיר הזה בלבד.</b> אין שרת ואין חשבון — תלמידים, ציונים ומדידות לא נשלחים לשום מקום.
-    פרטי הקשר שהזנת במסך הקודם (שלך, לא של תלמיד) נשלחים פעם אחת אליי כדי ליצור איתך קשר בהמשך.
+    <b>איפה הנתונים?</b> <b>במכשיר הזה.</b> לאפליקציה אין שרת ואין חשבון.<br>
+    תלמידים, ציונים ומדידות לא נשלחים — אלא אם תגדירו בעצמכם סנכרון שיאים או גיבוי לדרייב.<br>
+    פרטי הקשר (שלכם, לא של תלמיד) נשלחים רק אם בחרתם למסור אותם.<br>
+    <a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות המלאה ↗</a>
   </div>
 </div></div>
 
 <!-- ----- איסוף פרטי קשר, פעם אחת בפתיחה הראשונה ----- -->
 <div id="leadOv"><div class="box">
+  <div class="lang-pick lead-lang" id="lead-lang" aria-label="Language"></div>
   <div class="lg">👋</div>
   <h1 dir="auto" data-i18n="lead.title">רגע לפני שנכנסים</h1>
   <p data-i18n="lead.sub">האפליקציה חינמית לגמרי — בלי כרטיס אשראי, בלי תשלום ובלי שום התחייבות. השאירו כמה פרטים כדי שאוכל לשלוח לכם שאלון קצר לחוות דעת — זה יעזור לנו לשפר את האפליקציה ולהפוך אותה למקצועית יותר בהמשך.</p>
@@ -1954,6 +1986,9 @@
   <div class="field" style="margin-top:9px"><label data-i18n="lead.email">אימייל</label>
     <input type="email" id="lead-email" autocomplete="email" placeholder="you@example.com"></div>
   <button class="btn acc big" id="lead-send" style="margin-top:14px" data-i18n="lead.send">שליחה והמשך</button>
+  <button class="btn ghost" id="lead-skip" style="margin-top:8px;width:100%" data-i18n="lead.skip">דלגו בינתיים — אפשר להשאיר פרטים אחר כך בהגדרות</button>
+  <p class="lock-note" data-i18n="lead.who">הפרטים נשלחים לטופס Google Forms של מפתח האפליקציה, רק כדי לשלוח שאלון משוב וליצור קשר. אפשר לבקש את מחיקתם בכל עת.</p>
+  <p class="lock-note"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p>
   <p class="lock-note" data-i18n="lead.note">בלי עלות ובלי כרטיס אשראי — האפליקציה חינמית. הפרטים האלה נשלחים אליי ישירות רק כדי ליצור איתכם קשר. כל השאר — תלמידים, ציונים ומדידות — נשאר במכשיר שלכם בלבד, כרגיל.</p>
 </div></div>
 <iframe name="lead-frame" id="lead-frame" style="display:none" title="lead-submit" tabindex="-1" aria-hidden="true"></iframe>

@@ -171,7 +171,7 @@ module.exports={title:"טבלת מערכת השעות",tests:[
     await page.evaluate(()=>document.getElementById("sw-sample").click());
     await page.waitForTimeout(700);
     const n=await page.evaluate(()=>window.HM.sched.list().length);
-    ok(n>40,"שבוע מלא: "+n+" משבצות");
+    ok(n>35,"שבוע מלא: "+n+" משבצות (כיתות שלומדות יחד — משבצת קבוצה אחת)");
     const filled=await page.evaluate(()=>
       [...document.querySelectorAll("#sw-grid [data-cell]")].filter(c=>!c.classList.contains("empty")).length);
     ok(filled>30,"והטבלה מלאה: "+filled+" תאים");

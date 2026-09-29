@@ -351,6 +351,8 @@ window.LESSON=(function(){
       withGame:$("#ls-optGame").checked,
       withMeasure:$("#ls-optMeasure").checked,
       eq:$$("#ls-eq input:checked").map(i=>i.value),
+      /* מה שלא סומן — לא זמין. זה אילוץ על המשחק ועל הנושא, לא רשימת קניות. */
+      noEq:$$("#ls-eq input").filter(i=>!i.checked).map(i=>i.value),
       subs:$$("#ls-subs input:checked").map(i=>i.value)
     };
   }
@@ -407,25 +409,40 @@ window.LESSON=(function(){
     rememberVariants(T.id,grade,mainBlocks.map(v=>v.n));
 
     /* משחק: מבחירת המשתמש בדף המשחקים, אחרת מהנושא, אחרת כללי */
+    /* ציוד זמין הוא אילוץ: משחק שדורש פריט שלא סומן לא נבחר אוטומטית.
+       משחק שהמורה בחר במפורש נשאר — עם אזהרה, כי ההחלטה שלו. */
+    const DT0=window.HMDATA, eqWarn=[];
+    const clash=g=>g?DT0.equipConflicts(g.equip,o.noEq):[];
     let game=null;
     if(o.withGame&&window.GAMES){
       const picked=H().LS.get("ls.pickGame",null);
-      const cands=(T.games&&T.games.length)?T.games:["g-flags","g-chain","g-relay"];
-      const id=picked||pick(cands);
-      game=window.GAMES.byId(id)||window.GAMES.byId(pick(cands));
+      const own=(T.games&&T.games.length)?T.games:[], generic=["g-flags","g-chain","g-relay"];
+      const fits=ids=>ids.map(id=>window.GAMES.byId(id)).filter(g=>g&&!clash(g).length);
+      if(picked&&window.GAMES.byId(picked))game=window.GAMES.byId(picked);
+      else{ const ok=fits(own).length?fits(own):fits(generic); game=ok.length?pick(ok):null; }
       H().LS.set("ls.pickGame",null);
+      if(!game){
+        eqWarn.push({k:"ls.eqNoGame",items:[]});
+        /* הדקות ששוריינו למשחק חוזרות לחלק העיקרי — המערך נשאר באורך השיעור */
+        if(gameMin&&mainPhases.length)mainPhases[mainPhases.length-1].min+=gameMin;
+      }
     }
+    const needT=DT0.equipConflicts((T.eq||[]).join(", "),o.noEq);
+    if(needT.length)eqWarn.push({k:"ls.eqTopic",items:needT});
+    if(game&&clash(game).length)eqWarn.push({k:"ls.eqGame",items:clash(game)});
 
     const phases=[{n:"חימום: "+warm.n,min:warmMin,d:warm.d,k:"warm"},...mainPhases];
     if(game)phases.push({n:"משחק: "+game.name,min:gameMin,
       d:game.how[0]+" "+(game.how[1]||"")+" · מטרה: "+game.goal,k:"game",gid:game.id});
     phases.push({n:"סיום: "+cool.n,min:coolMin,d:cool.d,k:"cool"});
 
-    const eq=[...new Set([...(T.eq||[]),...o.eq])];
-    if(game&&game.equip)eq.push(game.equip);
+    /* רשימת הציוד נגזרת מהפעילויות שנבחרו בפועל — לא מהתיבות שסומנו.
+       טקסט הציוד של המשחק נשאר שלם: הוא מונח מתורגם במילון, ופירוק
+       שלו לחלקים יצר מקטעים עבריים שאין להם תרגום. */
+    const eq=DT0.mergeEquip(T.eq,game&&game.equip?[game.equip]:[]);
 
     plan={id:newPlanId(),grade,topic:T.id,title:T.name,em:T.em,group:T.g,cls:o.cls,size:o.size,place:o.place,
-      date:today(),goals:T.goals,eq,std:T.std,phases,
+      date:today(),goals:T.goals,eq,eqAvail:o.eq,eqNo:o.noEq,eqWarn,std:T.std,phases,
       assess:T.assess,diff:T.diff,safe:T.safe,cur:T.cur,hw:T.hw,note:T.note||"",
       measure:o.withMeasure,
       mainVariants:mainBlocks.map(v=>v.n),mainSubs:mainBlocks.map(v=>v.sub).filter(Boolean)};
@@ -501,7 +518,7 @@ window.LESSON=(function(){
     b.textContent="▶ התחל שיעור · "+c;
     b.onclick=()=>{
       const r=S.start({cid,clsSnapshot:c,date:today(),
-        planId:(withId(plan)&&plan.id)||null,planTitle:(plan&&plan.title)||""});
+        planId:(withId(plan)&&plan.id)||null,planTitle:(plan&&plan.title)||"",planGroup:(plan&&plan.group)||""});
       if(r.outcome==="blocked"){
         H().toast("כבר פתוח שיעור בכיתה "+(r.active.clsSnapshot||"")); return;
       }
@@ -556,7 +573,8 @@ window.LESSON=(function(){
         <div class="hint" style="margin-top:6px">${plan.std.map(i=>esc(STD[i-1])).join(" · ")}</div></div>
 
       <div class="ls-sec"><h4>🎒 ציוד</h4>
-        <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div></div>
+        <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div>
+        ${(plan.eqWarn||[]).map(w=>`<div class="hint ls-eqWarn">⚠ ${eqWarnHtml(w)}</div>`).join("")}</div>
 
       <div class="ls-sec"><h4 class="row" style="align-items:center">⏱ מהלך השיעור<span class="grow"></span>
         <button class="btn sm ${editPh?"acc":"ghost"}" data-pe="toggle">${editPh?H().t("pe.done","✓ סיום עריכה"):H().t("pe.edit","✎ ערוך מהלך")}</button></h4>
@@ -838,6 +856,7 @@ window.LESSON=(function(){
       <h2>מטרות</h2><ul>${plan.goals.map(g=>"<li>"+esc(g)+"</li>").join("")}</ul>
       <h2>מיפוי לסטנדרטים</h2><div>${plan.std.map(i=>'<span class="tag">'+esc(STD[i-1])+"</span>").join("")}</div>
       <h2>ציוד</h2><div>${plan.eq.map(e=>'<span class="tag">'+esc(e)+"</span>").join("")}</div>
+      ${(plan.eqWarn||[]).map(w=>"<p><b>⚠ "+eqWarnHtml(w)+"</b></p>").join("")}
       <h2>מהלך השיעור</h2>${plan.phases.map(p=>`<div class="ph"><b>${esc(p.n)} · ${p.min} דק׳</b>${
         p.sub?` <span class="tag">${esc(p.sub)}</span>`:""}${
         Array.isArray(p.d)?`<ol>${p.d.map(st=>"<li>"+esc(st)+"</li>").join("")}</ol>`:`<div>${esc(p.d)}</div>`}</div>`).join("")}
@@ -853,6 +872,16 @@ window.LESSON=(function(){
     w.document.close();
   }
 
+  /* אזהרת ציוד נשמרת כמפתח + פריטים ולא כמשפט מוכן: כך היא מתורגמת
+     בשפה הנוכחית, וכל פריט («רשת») בצומת משלו — מונח שהמילון מכיר. */
+  const EQW={"ls.eqNoGame":"לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים.",
+    "ls.eqTopic":"הנושא דורש ציוד שלא סומן כזמין","ls.eqGame":"המשחק שנבחר דורש ציוד שלא סומן כזמין"};
+  function eqWarnHtml(w){
+    const {esc}=H();
+    if(typeof w==="string")return esc(w);
+    const head='<span>'+esc(H().t(w.k,EQW[w.k]||""))+'</span>';
+    return (w.items||[]).length?head+': '+w.items.map(i=>'<span>'+esc(i)+'</span>').join(", "):head;
+  }
   /* ---------- אתחול ---------- */
   function buildTopicSelect(){
     const {$}=H(); const groups=[...new Set(TOPICS.map(t=>t.g))];
@@ -874,6 +903,10 @@ window.LESSON=(function(){
   function init(){
     if(inited)return; inited=true;
     const {$, $$}=H();
+    /* החלפת שפה: המערך שעל המסך מצויר מחדש מאותו מצב (plan נשאר כפי
+       שהוא). בלי זה כפתורים שנבנו ב-t() — «✎ ערוך מהלך» — נשארו
+       בשפה הקודמת עד לבנייה הבאה. */
+    document.addEventListener("i18n:change",()=>{ try{ if(plan)renderPlan(); }catch(e){} });
     buildTopicSelect();
     buildSubSelect();
     $("#ls-focus").addEventListener("change",buildSubSelect);
@@ -1008,6 +1041,12 @@ window.LESSON=(function(){
     if(!plan||!g)return false;
     const ph=plan.phases, at=ph.length&&ph[ph.length-1].k==="cool"?ph.length-1:ph.length;
     ph.splice(at,0,{n:"משחק: "+g.name,min:10,d:(g.how||[]).slice(0,2).join(" ")+(g.goal?" · מטרה: "+g.goal:""),k:"game",gid:g.id});
+    /* גם משחק שנוסף אחר כך נכנס לרשימת הציוד ונבדק מול הציוד הזמין */
+    const DT0=window.HMDATA;
+    plan.eq=DT0.mergeEquip(plan.eq,g.equip?[g.equip]:[]);
+    const c=DT0.equipConflicts(g.equip,plan.eqNo||[]);
+    if(c.length){ plan.eqWarn=(plan.eqWarn||[]).concat([{k:"ls.eqGame",items:c}]);
+      H().toast("⚠ "+c.join(", ")); }
     renderPlan();
     return true;
   }

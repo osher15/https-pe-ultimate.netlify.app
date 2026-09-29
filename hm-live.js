@@ -88,7 +88,7 @@ function start(cid,label){
   /* המערך ששויך לשיעור הזה קודם; אחרת המערך שעל המסך במערכים */
   const as=H().assign&&H().assign.get(cid,iso());
   const p=(as&&as.plan&&as.plan.phases)?as.plan:(window.LESSON&&window.LESSON.current&&window.LESSON.current());
-  const r=S.start({cid,clsSnapshot:name,date:iso(),planId:(p&&p.id)||null,planTitle:(p&&p.title)||""});
+  const r=S.start({cid,clsSnapshot:name,date:iso(),planId:(p&&p.id)||null,planTitle:(p&&p.title)||"",planGroup:(p&&p.group)||""});
   if(r.outcome==="blocked"){ H().toast(t("live.blocked","כבר פתוח שיעור בכיתה")+" "+H().sesName(r.active)); return; }
   if(!r.ok){ H().toast(t("live.cantStart","לא ניתן לפתוח שיעור")); return; }
   if(p)attachPlan(p);
@@ -149,7 +149,7 @@ function paintLive(root,a){
     const x=phaseNow(st);
     phase='<div class="lv-phase" id="lv-phase">'+
       '<div class="row"><span class="pill">'+esc(t("live.step","שלב"))+' '+(x.i+1)+'/'+st.plan.phases.length+'</span>'+
-        '<span class="grow"></span><span class="nx" id="lv-next">'+(x.next?esc(t("live.next","הבא:"))+" "+esc(x.next.n)+" · "+x.next.min+" "+esc(t("ui.min","דק׳")):esc(t("live.last","שלב אחרון")))+'</span></div>'+
+        '<span class="grow"></span><span class="nx" id="lv-next">'+(x.next?'<span>'+esc(t("live.next","הבא:"))+'</span> <span>'+esc(x.next.n)+'</span> · <span>'+x.next.min+" "+esc(t("ui.min","דק׳"))+'</span>':esc(t("live.last","שלב אחרון")))+'</span></div>'+
       '<div class="row"><b class="nm" id="lv-phName">'+esc(x.ph.n)+'</b><span class="grow"></span><span class="left mono" id="lv-left">'+mmss(x.left)+'</span></div>'+
       '<div class="lv-bar"><i id="lv-bar" style="width:'+Math.min(100,Math.max(0,100-x.left/(x.ph.min*60||1)*100))+'%"></i></div>'+
       (x.ph.d?'<div class="lv-desc">'+esc(x.ph.d)+'</div>':"")+
