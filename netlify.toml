@@ -9,3 +9,10 @@
   for = "/version.json"
   [headers.values]
     Cache-Control = "no-store"
+
+# פרויקט המעטפת לחנויות (native/) נמצא במאגר אבל אינו חלק מהאתר
+[[redirects]]
+  from = "/native/*"
+  to = "/404"
+  status = 404
+  force = true

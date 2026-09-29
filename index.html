@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <!-- support.js (הרצת רכיבי Claude Design) לא נטען כאן: הוא מוריד React מ-unpkg
      ומצייר מחדש את כל הדף מהתבנית. זה מריץ את סקריפטי האפליקציה פעם שנייה
@@ -15,16 +15,17 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="87cdce12">
+<meta name="hm-build" content="af1af999">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=9f984bd3">
+<link rel="stylesheet" href="hm-styles.css?v=09db6bb7">
 <script src="hm-brand.js?v=4f30e0e9"></script>
+<script src="hm-native.js?v=bd2dcd6d"></script>
 <script src="hm-data.js?v=fe7203ad"></script>
 <script src="hm-terms.js?v=7d105907"></script>
 <script src="hm-texts.js?v=07c4963b"></script>
-<script src="hm-i18n.js?v=175c9ee6"></script>
-<script src="hm-app.js?v=94740739"></script>
+<script src="hm-i18n.js?v=eccea238"></script>
+<script src="hm-app.js?v=66619b6e"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
 <script src="hm-know.js?v=72244783"></script>
@@ -35,7 +36,7 @@
 <script src="hm-lesson.js?v=a6ad94de"></script>
 <script src="hm-build.js?v=931b1d83"></script>
 <script src="hm-tests.js?v=379b32c8"></script>
-<script src="hm-new.js?v=85a8246d"></script>
+<script src="hm-new.js?v=0ca84bd4"></script>
 <script src="hm-live.js?v=16d0ab27"></script>
 <script src="hm-hub.js?v=1e6ba46b"></script>
 </helmet>
@@ -1786,9 +1787,10 @@
     <div class="row" style="margin-top:10px;gap:8px">
       <button class="btn sm acc" id="set-bkExport" data-i18n="bk.export">⬇ גבה הכל לקובץ</button>
       <button class="btn sm" id="set-bkImport" data-i18n="bk.import">⬆ שחזר מקובץ</button>
-      <input type="file" id="set-bkFile" accept=".json,.hmg,application/json" style="display:none">
+      <input type="file" id="set-bkFile" accept=".json,.hmg,application/json,application/octet-stream" style="display:none">
     </div>
     <div class="hint" id="set-bkStat" style="margin-top:8px"></div>
+    <div class="hint hmn-only" data-i18n="bk.native" style="margin-top:6px">באפליקציה, «גבה הכל לקובץ» פותח את גיליון השיתוף: משם שומרים את הקובץ ב-Files, ב-Google Drive או במייל.</div>
     <details class="bk-howto" style="margin-top:8px"><summary data-i18n="bk.howT">איך משחזרים במכשיר חדש?</summary>
       <ol class="hint" style="margin:6px 0 0;padding-inline-start:20px">
         <li data-i18n="bk.how1">פותחים את PE Ultimate במכשיר החדש ונכנסים כמורה.</li>
@@ -1971,6 +1973,7 @@
   <p class="lock-note" data-i18n="lock.studentNote">מצב תלמיד: צפייה בלוח השיאים ובדף המשחקים, ושליחת שיא חדש לאישור המורה. בלי גישה לתלמידים, למבחנים, להגדרות ולאישור שיאים.</p>
   <button class="btn big ghost" id="lock-demo" style="margin-top:10px" data-i18n="lock.demo">🎬 מצב הדגמה — סיור בלי קוד</button>
   <p class="lock-note" data-i18n="lock.demoNote">הדגמה: כיתה לדוגמה עם תוצאות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים. אפשר לנקות את נתוני ההדגמה בלחיצה אחת.</p>
+  <p class="lock-note hmn-only" id="lock-migrate" hidden data-i18n="lock.migrate">עוברים מהאתר? הנתונים לא עוברים לבד. באתר: הגדרות ← «גבה הכל לקובץ». כאן, אחרי הכניסה: הגדרות ← «שחזר מקובץ».</p>
   <div class="lock-about">
     <b>מה זה?</b> ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור, שיאים וציונים.<br>
     <b>איפה הנתונים?</b> <b>במכשיר הזה.</b> אין חשבון, ונתוני התלמידים לא נשמרים בשרת.<br>

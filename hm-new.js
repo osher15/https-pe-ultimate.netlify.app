@@ -1088,9 +1088,13 @@ async function sendLead(){
   const ctl=typeof AbortController!=="undefined"?new AbortController():null;
   const timer=ctl?setTimeout(()=>ctl.abort(),LEAD_TIMEOUT):null;
   try{
-    const res=await fetch(LEAD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
-      body:new URLSearchParams(payload).toString(),credentials:"same-origin",cache:"no-store",signal:ctl?ctl.signal:undefined});
-    const text=await res.text();
+    /* באפליקציה הארוזה הדף אינו מוגש מ-Netlify: שולחים לכתובת המלאה דרך
+       HTTP של המערכת (hm-native.js). אותו אישור קליטה נבדק בשני המסלולים. */
+    const res=(window.HMN&&window.HMN.native)
+      ? await window.HMN.postForm(payload,LEAD_TIMEOUT)
+      : await fetch(LEAD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+          body:new URLSearchParams(payload).toString(),credentials:"same-origin",cache:"no-store",signal:ctl?ctl.signal:undefined});
+    const text=typeof res.text==="function"?await res.text():res.text;
     if(!LD().leadAckOk(res.status,text)){
       leadStatusMsg("err",t("lead.errServer","לא נשלח — השרת לא אישר שהפרטים נקלטו. הפרטים נשארו בטופס; נסו שוב מאוחר יותר."));
       return;

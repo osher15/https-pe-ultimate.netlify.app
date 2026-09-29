@@ -123,6 +123,10 @@ async function openApp(browser,seed,APP){
     }catch(e){}
   },(seed&&seed.__now)||null);
 
+  /* __native: "ios" | "android" — Capacitor מדומה (capshim.js), לבדיקת
+     המסלולים של גרסת החנות. אינו מחליף בדיקה במכשיר. */
+  await page.addInitScript(require("./capshim.js").capShim,(seed&&seed.__native)||null);
+
   /* הזרעה לפני שהאפליקציה עולה — כך ההסבה רצה על נתונים אמיתיים
      ולא על מכשיר ריק. */
   await page.addInitScript(s=>{
@@ -133,6 +137,7 @@ async function openApp(browser,seed,APP){
          בדיקה שרוצה לבחון את המסך הזה עצמו מזריעה hx.leadDone בעצמה. */
       const d=Object.assign({"hx.leadDone":true},s||{});
       delete d.__now;   /* שעון, לא נתון — אינו נכתב לאחסון */
+      delete d.__native;
       Object.keys(d).forEach(k=>localStorage.setItem("peultimate."+k,JSON.stringify(d[k])));
     }catch(e){}
   },seed||null);

@@ -67,6 +67,7 @@ en:{
   "bk.how2":"Settings → Backup and sync → “⬆ Restore from file”, and choose the backup file.",
   "bk.how3":"Encrypted file — type the password chosen when backing up. Without it the file cannot be opened.",
   "bk.how4":"Before restoring you see what will come in and what will be replaced. Nothing is written until you confirm, and a damaged file is rejected before any data is touched.",
+  "bk.native":"In the app, “Back up everything to a file” opens the share sheet: save the file to Files, Google Drive or email from there.",
   "bk.advT":"⚙️ Advanced: direct backup to Google Drive (needs technical setup)",
   /* ux-redesign */
   "lead.skip":"Skip for 7 days — nothing will be sent",
@@ -376,6 +377,7 @@ en:{
   "lock.studentNote":"Student mode: view the records board and the games page, and submit a new record for teacher approval. No access to students, tests, settings or record approval.",
   "lock.demo":"🎬 Demo mode — take a tour, no code",
   "lock.demoNote":"Demo: a sample class with results, so you can see how everything works before entering real students. You can clear the demo data with one tap.",
+  "lock.migrate":"Moving from the website? Your data does not move by itself. On the website: Settings → “Back up everything to a file”. Here, after signing in: Settings → “Restore from a file”.",
   "lock.newCode":"Set a teacher code — pick one only you know",
   "lock.setCode":"Set code and enter",
   "lock.newCodePh":"New code",
@@ -599,6 +601,7 @@ ar:{
   "bk.how2":"الإعدادات ← النسخ الاحتياطي والمزامنة ← «⬆ استعادة من ملف»، واختر ملف النسخة الاحتياطية.",
   "bk.how3":"ملف مشفّر — اكتب كلمة المرور التي اخترتها عند النسخ. بدونها لا يمكن فتح الملف.",
   "bk.how4":"قبل الاستعادة يُعرض ما سيُضاف وما سيُستبدل. لا يُكتب شيء حتى تؤكّد، ويُرفض الملف التالف قبل المساس بالبيانات.",
+  "bk.native":"في التطبيق، «انسخ كل شيء إلى ملف» يفتح قائمة المشاركة: من هناك احفظ الملف في «الملفات» أو Google Drive أو البريد.",
   "bk.advT":"⚙️ متقدّم: نسخ احتياطي مباشر إلى Google Drive (يتطلّب إعدادًا تقنيًا)",
   /* ux-redesign */
   "lead.skip":"تخطَّ لمدة 7 أيام — لن يُرسَل أي شيء",
@@ -882,6 +885,7 @@ ar:{
   "lock.studentNote":"وضع الطالب: عرض لوحة الأرقام القياسية وصفحة الألعاب، وإرسال رقم قياسي جديد لموافقة المعلّم. بدون وصول إلى الطلاب أو الاختبارات أو الإعدادات أو الموافقات.",
   "lock.demo":"🎬 وضع العرض التوضيحي — جولة بدون رمز",
   "lock.demoNote":"عرض توضيحي: صف نموذجي مع نتائج، لترى كيف يعمل كل شيء قبل إدخال طلاب حقيقيين. يمكن مسح بيانات العرض بضغطة واحدة.",
+  "lock.migrate":"تنتقل من الموقع؟ بياناتك لا تنتقل وحدها. في الموقع: الإعدادات ← «انسخ كل شيء إلى ملف». هنا، بعد الدخول: الإعدادات ← «استعادة من ملف».",
   "lock.newCode":"عيّن رمز المعلّم — اختر رمزًا تعرفه أنت وحدك",
   "lock.setCode":"تعيين الرمز والدخول",
   "lock.newCodePh":"رمز جديد",
@@ -1135,6 +1139,7 @@ ru:{
   "bk.how2":"Настройки → Резервная копия и синхронизация → «⬆ Восстановить из файла» и выберите файл копии.",
   "bk.how3":"Зашифрованный файл — введите пароль, выбранный при создании копии. Без него файл не открыть.",
   "bk.how4":"Перед восстановлением показано, что будет добавлено и что заменено. Ничего не записывается до подтверждения, а повреждённый файл отклоняется до любых изменений.",
+  "bk.native":"В приложении «Сохранить всё в файл» открывает меню «Поделиться»: оттуда сохраните файл в «Файлы», Google Диск или отправьте по почте.",
   "bk.advT":"⚙️ Дополнительно: прямое резервное копирование на Google Диск (нужна техническая настройка)",
   /* ux-redesign */
   "lead.skip":"Пропустить на 7 дней — ничего не будет отправлено",
@@ -1423,6 +1428,7 @@ ru:{
   "lock.studentNote":"Режим ученика: просмотр таблицы рекордов и страницы игр, отправка нового рекорда на подтверждение учителю. Без доступа к ученикам, тестам, настройкам и подтверждению рекордов.",
   "lock.demo":"🎬 Демо-режим — обзор без кода",
   "lock.demoNote":"Демо: учебный класс с результатами, чтобы посмотреть, как всё работает, до ввода реальных учеников. Демо-данные удаляются одним нажатием.",
+  "lock.migrate":"Переходите с сайта? Данные не переносятся сами. На сайте: Настройки → «Сохранить всё в файл». Здесь, после входа: Настройки → «Восстановить из файла».",
   "lock.newCode":"Задайте код учителя — тот, что знаете только вы",
   "lock.setCode":"Задать код и войти",
   "lock.newCodePh":"Новый код",
@@ -1664,6 +1670,7 @@ es:{
   "bk.how2":"Ajustes → Copia y sincronización → «⬆ Restaurar desde archivo» y elige el archivo de copia.",
   "bk.how3":"Archivo cifrado: escribe la contraseña elegida al hacer la copia. Sin ella no se puede abrir.",
   "bk.how4":"Antes de restaurar se muestra qué entrará y qué se sustituirá. No se escribe nada hasta confirmar, y un archivo dañado se rechaza antes de tocar los datos.",
+  "bk.native":"En la app, «Copiar todo a un archivo» abre el menú de compartir: desde ahí guarda el archivo en Archivos, Google Drive o el correo.",
   "bk.advT":"⚙️ Avanzado: copia directa a Google Drive (requiere configuración técnica)",
   /* ux-redesign */
   "lead.skip":"Omitir 7 días: no se enviará nada",
@@ -1998,6 +2005,7 @@ es:{
   "lock.studentNote":"Modo alumnado: ver la tabla de récords y la página de juegos, y enviar un nuevo récord para que el docente lo apruebe. Sin acceso al alumnado, las pruebas, los ajustes ni la aprobación de récords.",
   "lock.demo":"🎬 Modo demostración — un recorrido, sin código",
   "lock.demoNote":"Demostración: un grupo de ejemplo con resultados, para ver cómo funciona todo antes de introducir alumnado real. Puedes borrar los datos de demostración con un toque.",
+  "lock.migrate":"¿Vienes de la web? Tus datos no pasan solos. En la web: Ajustes → «Copiar todo a un archivo». Aquí, tras entrar: Ajustes → «Restaurar desde un archivo».",
   "lock.newCode":"Crea un código docente — elige uno que solo tú conozcas",
   "lock.setCode":"Guardar código y entrar",
   "lock.newCodePh":"Código nuevo",

@@ -1,0 +1,21 @@
+{
+  "appId": "app.netlify.peultimate",
+  "appName": "PE Ultimate",
+  "webDir": "www",
+  "backgroundColor": "#0b1220",
+  "android": {
+    "allowMixedContent": false
+  },
+  "ios": {
+    "contentInset": "never"
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": false
+    },
+    "SystemBars": {
+      "insetsHandling": "css",
+      "style": "DARK"
+    }
+  }
+}

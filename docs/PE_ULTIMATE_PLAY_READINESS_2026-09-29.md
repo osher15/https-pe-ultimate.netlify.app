@@ -1,103 +1,218 @@
-# PE Ultimate — Google Play readiness and gap list (2026-09-29)
+# PE Ultimate — Google Play and App Store readiness (2026-09-29)
 
-Preparation only. Nothing was built for Android, uploaded, or submitted, and no Play
-Console agreement was accepted. Requirements below were checked against official
-Google pages on 2026-09-29 (links in the last column); anything not re-read there is
-marked **to verify in Play Console**.
+Preparation only. Nothing was uploaded or submitted to either store, no store agreement
+was accepted and nothing was bought. Requirements were checked against official Apple,
+Google and Capacitor pages on 2026-09-29 (links inline). Items not re-read there say
+**verify in the console**.
 
-## 1. Is a PWA inside a Trusted Web Activity (TWA) a good fit?
+Status words used below — kept apart on purpose:
 
-**Yes, with two things to confirm on a real phone.**
+- **Code prepared**: in the repo; checked by automated tests (unit tests, and Chromium with a
+  simulated Capacitor — `tests/e2e/native.e2e.js`). Not the real shell, not a device.
+- **Build**: compiled by CI (`.github/workflows/native.yml`). See the latest run for the result.
+- **Device**: run on a real phone or tablet by a person. **Nothing has passed on a device yet.**
+  A simulator or emulator run does not count as a device run.
 
-| App capability | Works in TWA? | Note |
+## 1. Choice of shell: Capacitor for both stores
+
+The same web code (`index.html`, `hm-*.js`, `hm-styles.css`) ships in both apps. Capacitor
+bundles those files into a native app and adds one small bridge file, `hm-native.js`. The bridge
+does nothing in a normal browser.
+
+| | Capacitor (Android + iOS) | TWA on Android + a separate iOS solution |
 |---|---|---|
-| Offline shell (service worker), localStorage, IndexedDB | Yes | TWA runs the site in the user's Chrome; storage is Chrome's storage for the origin. **Uninstalling the TWA app does not clear it** — the privacy text about deletion must say "clear the site's data in Chrome" for the Play build. |
-| Camera (`getUserMedia`) for photo-finish and record videos | Yes, via Chrome's site permission | **Confirm on device** (frame rate and permission prompt). |
-| Microphone for start-signal detection | Yes, via Chrome's site permission | **Confirm on device.** |
-| Web Audio beeps, wake lock, share, clipboard | Yes | Beep timing after screen lock needs a device check (§5). |
-| Google Drive backup (Google Identity Services popup) | Usually yes | **Confirm on device** — popups inside TWA open in a Custom Tab. |
-| Contact form (Netlify Forms, same origin) | Yes | No change. |
+| Shared code | One shell and one bridge file for both stores | TWA covers Android only. iOS needs a WebView shell anyway (in practice Capacitor), so there would be two shells to maintain |
+| Offline | Files are inside the app: the first launch works with no network | The first launch needs the network. After that, offline depends on the service worker cache in Chrome |
+| Teacher data | App container, plus a native copy (see §3). Uninstalling deletes it (Android Auto Backup may restore it) | Chrome's storage for the site: clearing Chrome's data or site data wipes it |
+| Device features | Supported plugins: file save and share, keep-awake, speech on Android, status bar. On iOS, beeps mix with music and play when the ringer is silent (native audio session) | Only what Chrome offers the site. No control over the iOS audio session |
+| Updates | Each change is a store release (review time). No live-update service added | Instant on Android (web deploy). iOS still needs store releases |
+| Google Drive direct backup | Not available (Google blocks sign-in inside WebViews — [disallowed_useragent](https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow)). Replaced by "backup file → share sheet → Drive" | Works on Android (Chrome) |
 
-Alternative if camera/audio misbehave in TWA: a WebView wrapper (e.g. Capacitor). It
-needs explicit Android permissions and more maintenance. Recommendation: **start with TWA**
-(Bubblewrap), fall back only if the device checks fail.
+**Recommendation: Capacitor for both.** It needs no rewrite, gives one maintenance path and full
+offline use, keeps the data inside the app, and gives iOS a real advantage for timers and beeps.
+The costs: a store release for every change, and an Xcode and Gradle upgrade roughly once a year.
 
-## 2. Gap list
+Versions in use: Capacitor 8.5.2 (latest major, v8). It requires Xcode 26 and supports iOS 15+ and
+Android 7.0+ (API 24) ([support policy](https://capacitorjs.com/docs/main/reference/support-policy)).
+Android `targetSdk`/`compileSdk` = 36 (`native/android/variables.gradle`).
 
-| Item | Status now | What is needed | Source |
+## 2. Gap list — what behaves differently in the packaged app
+
+| Area | In a WebView shell | What was done | Status |
 |---|---|---|---|
-| Android project | **Missing** | Generate with Bubblewrap from `manifest.webmanifest` | [TWA quick start](https://developer.chrome.com/docs/android/trusted-web-activity/quick-start) |
-| Package ID | **Missing — owner decision** | Reverse-domain ID, permanent once published (e.g. `app.netlify.pe_ultimate` or a domain the owner controls) | — |
-| Signed **Android App Bundle (AAB)** | **Missing** | Build AAB; sign with an upload key; enrol in **Play App Signing** (required for AAB) | [Sign your app](https://developer.android.com/studio/publish/app-signing) |
-| Upload-key custody | **Missing — owner decision** | Where the keystore and passwords live; losing it blocks updates until reset | same |
-| **Target API level** | n/a yet | **New apps and updates must target Android 16 (API 36) from 31 Aug 2026** | [Target API requirements](https://support.google.com/googleplay/android-developer/answer/11926878), [developer.android.com](https://developer.android.com/google/play/requirements/target-sdk) |
-| Digital Asset Links | **Missing** | `/.well-known/assetlinks.json` on `pe-ultimate.netlify.app` with the **Play App Signing** SHA-256 fingerprint (not only the upload key), else the app shows a browser bar | [TWA quick start](https://developer.chrome.com/docs/android/trusted-web-activity/quick-start), [codelab](https://developers.google.com/codelabs/pwa-in-play) |
-| Manifest | Present | `name`, `short_name`, 192/512 icons, 512 maskable, `display: standalone`, `start_url`, `scope`. OK for Bubblewrap | repo |
-| Privacy policy URL | **Present** | `https://pe-ultimate.netlify.app/privacy.html` — operator named, retention stated, deletion path. Add the TWA note from §1 (uninstall ≠ data deletion) when the Android build exists | repo |
-| **Data safety** form | Not filed | See §3. Do **not** declare "no data collected" | [Data safety](https://support.google.com/googleplay/android-developer/answer/10787469) |
-| **Health apps declaration** | Not filed | Required for **every** app (even with no health features). The app shows VO₂max estimates and fitness zones for education: declare accurately; it is not a medical device | [Health apps declaration](https://support.google.com/googleplay/android-developer/answer/14738291) |
-| Target audience and content | Not filed | See §4 | [Families policies](https://support.google.com/googleplay/android-developer/answer/9893335) |
-| Content rating (IARC questionnaire) | Not filed | No violence, no user-to-user chat, no purchases; photo/video capture stays on device | Play Console → App content — **to verify in Console** |
-| Ads declaration | Not filed | "No ads" | Play Console — **to verify in Console** |
-| Account deletion requirement | Not applicable | The app has no user accounts; contact-details deletion exists in-app and via the privacy page | [User Data policy](https://support.google.com/googleplay/android-developer/answer/10144311) |
-| Store listing graphics | **Missing** | App icon 512×512; **feature graphic 1024×500** (JPEG or 24-bit PNG, no alpha); phone screenshots | [Preview assets](https://support.google.com/googleplay/android-developer/answer/9866151) |
-| Closed test (new personal accounts) | Not started | Accounts created after **13 Nov 2023**: closed test with **≥ 12 testers opted in for 14 continuous days** before applying for production. Account type/creation date is unknown here | [Testing requirements](https://support.google.com/googleplay/android-developer/answer/14151465) |
-| Reviewer access notes | Not written | Explain the first-run teacher code (set on first launch), demo mode (no credentials), and student mode | Play Console → App access |
-| Real-device test pass | **Not done** | §5 | — |
+| File export (CSV, backup, PNG, record files) | `<a download>` does nothing in a WebView | Bridge writes the file to the app cache and opens the system share sheet (Files, Drive, mail, WhatsApp). Cancelling says "not saved" | Code prepared, tested with the simulated plugins |
+| Print / PDF (class report, lesson plan, teams, certificates) | `window.open("")` returns nothing on iOS; on Android it would load into the app's own view | The document opens inside the app, with "Save or share". The shared `.html` file offers printing when opened in a browser | Code prepared. **Printing itself needs a device check**; a native print plugin was not added |
+| Backup restore | `<input type=file>` works in both shells | Accept list widened so iOS does not grey out encrypted `.hmg` files | Code prepared. Device check needed |
+| Service worker | Not needed; on Android it would serve stale files after an app update | Not registered in the app | Code prepared, tested |
+| Data durability | The OS may reclaim WebView storage when space runs low ([Capacitor storage guide](https://capacitorjs.com/docs/guides/storage)) | Every change is also written to `Library/pe-ultimate-data.json` (native). If localStorage is empty at launch, it is restored and the teacher is told | Code prepared, tested (simulated eviction and reopen). Record videos (IndexedDB) are **not** in this copy; they are in the full backup file |
+| Contact form | The page is not served from Netlify, and a cross-origin POST is blocked | Posts to `https://pe-ultimate.netlify.app/` through native HTTP (CapacitorHttp). "Received" only after the server's acknowledgment | Code prepared, tested with a simulated reply. **Not sent live** (only one TEST submission was authorised, and it has been used) |
+| Google Drive direct backup | Google refuses OAuth in a WebView | Hidden in the app. A hint points to file backup → share → Drive | Code prepared, tested |
+| Records sync to the teacher's Google Sheet | Cross-origin POST to Apps Script from `capacitor://localhost` / `https://localhost` | Unchanged | **Device check needed** |
+| Keep screen on | Wake Lock in a WebView is not guaranteed | `@capacitor-community/keep-awake` in the app | Code prepared, tested (simulated) |
+| Voice cues (21 call sites) | Android WebView has no `speechSynthesis` | `@capacitor-community/text-to-speech` when it is missing | Code prepared, tested (simulated) |
+| iPhone silent switch / music | Web Audio is muted by the silent switch | `AVAudioSession` set to `.playback` + `.mixWithOthers` in `AppDelegate.swift` | Code prepared. **Device check needed** (WebKit may change the session) |
+| Timers when the screen is locked or the app is in the background | JS is suspended in both shells | Keep-awake prevents auto-lock during timers. No background audio mode was added | Known limitation — document for teachers |
+| Notch / home indicator / Android edge-to-edge | Content under the system bars | `viewport-fit=cover`; CSS uses `var(--safe-area-inset-*, env(...))` (Capacitor 8 SystemBars injects these on old Android WebViews); overlays padded | Code prepared. **Device check (portrait and landscape)** |
+| Status bar text colour | Must follow the theme ("day" is light) | SystemBars `setStyle` on every theme change | Code prepared, tested (simulated) |
+| Camera / microphone | Needs native permission strings | Android: `CAMERA`, `RECORD_AUDIO`, `MODIFY_AUDIO_SETTINGS`, camera/mic not required to install. iOS: camera, microphone and photo-library-add usage strings (Hebrew + English) | Build config prepared. **Device check** |
+| Fonts | Loaded from Google Fonts. Offline, the system font is used | Unchanged | Open: bundling the fonts would remove a third-party request and give the same look offline |
+| Android back button | Capacitor default: history back, then exit | Unchanged | **Device check** (modals) |
+| External links | Open in the system browser (Capacitor default) | Unchanged | Device check |
+| Version shown in Settings | `version.json` is not fetched from Netlify | `native/build-web.js` writes it with the commit and build time (`context: "app"`) | Code prepared |
+| Uninstall = data gone | App data lives in the app container | First-run hint and backup reminders already in the app | **Store-specific text needed** (§6) |
 
-## 3. Data safety — draft mapping (owner confirms)
+## 3. Data: keeping it, updating, moving from the PWA
 
-"Collect" = data leaves the device to the developer/operator. Student data never does.
+- **App update** (store update of the same app): localStorage and IndexedDB stay in the app
+  container. The native copy is also kept. Tested by reopening in the simulation; **device check:
+  install build N, add data, install build N+1 over it.**
+- **OS eviction**: restored from the native copy (§2).
+- **Moving from the PWA/website to the store app — never automatic.** The app has its own storage
+  and cannot read Safari's or Chrome's. The path uses the existing full backup:
+  1. In the PWA or website: Settings → Backup → "⬇ Back up everything to a file" (optionally
+     encrypted). It includes all app data and record videos (within the size budget; the file
+     says what was left out).
+  2. Move the file (same phone: Files / Downloads; another device: Drive, mail, AirDrop).
+  3. In the store app: sign in → Settings → "⬆ Restore from a file". A preview shows what comes in
+     and what is replaced; nothing is written until confirmed; old schema versions are migrated.
+  4. Keep the PWA until the app shows the same classes and counts.
 
-| Data type | Collected? | Details |
+  A fresh app install with no data shows this hint on the sign-in screen (`#lock-migrate`,
+  5 languages). Tested (simulated).
+
+## 4. Apple — requirements checked
+
+| Requirement | Where we are | Source |
 |---|---|---|
-| Personal info → Name, Email, Phone | **Yes, optional** | Contact form (or deletion request) → operator's Netlify Forms. Purpose: developer communications and feedback survey. Not shared, not sold. User can request deletion. |
-| App info → version; language | Yes, with the form | Sent with the contact form only. |
-| Student names, results, attendance, grades | **Not collected by the developer** | Stored on device. Optional records sync and Drive backup go to the **teacher's own** Google account on the teacher's action — per Google's definition, a user-initiated transfer the user expects. Confirm the wording in the form. |
-| Photos/videos, audio | Not collected | Camera frames and record videos stay on the device (IndexedDB); microphone is analysed live and not recorded. |
-| Device IDs, location, app activity, analytics | Not collected | No analytics or ads SDKs in the code. |
-| Web server logs (IP, user agent) | **Disclose honestly** | Netlify hosting logs every page load; Google Fonts receives IP/user agent. Decide with the form's guidance how to declare these. |
-| Encrypted in transit | Yes | HTTPS. |
-| Deletion request mechanism | Yes | In-app (About → "Request deletion of my contact details") and `https://pe-ultimate.netlify.app/#delete-contact`. |
+| Built with **Xcode 26 / iOS 26 SDK** (required for uploads since 28 Apr 2026) | Capacitor 8 requires Xcode 26; CI selects Xcode 26 | [Upcoming requirements](https://developer.apple.com/news/upcoming-requirements/), [news](https://developer.apple.com/news/?id=ueeok6yw) |
+| **4.2 Minimum Functionality** ("elevate it beyond a repackaged website") | Files are bundled, not a remote URL. It works fully offline, uses native share, keep-awake, camera, microphone and audio session, and has no browser chrome. The one online dependency (contact form) is optional. Risk: low to moderate — reviewers judge the feel. Review notes must explain teacher code, demo mode and student mode | [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) |
+| 5.1.1 privacy policy in App Store Connect **and** in the app | Existing page: `https://pe-ultimate.netlify.app/privacy.html` (linked in About) | same |
+| 4.8 Sign in with Apple | Not applicable: no accounts or third-party login | same |
+| Privacy manifest | `native/ios/App/App/PrivacyInfo.xcprivacy`: no tracking; file-timestamp API reason C617.1 (Filesystem plugin); contact-form data types. Capacitor core ships its own | [Filesystem README](https://capacitorjs.com/docs/apis/filesystem), [privacy manifest guide](https://capacitorjs.com/docs/ios/privacy-manifest) |
+| App Privacy ("nutrition label") | Draft in §6 | App Store Connect |
+| Age rating (new questionnaire: 4+, 9+, 13+, 16+, 18+) | Owner answers. Relevant items: no social media, no web browsing inside the app, fitness/health information (VO₂max zones, BMI) — answer the "medical or wellness" question accurately | [Age ratings](https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/) |
+| Export compliance | The app encrypts backup files with AES-GCM (WebCrypto) and uses HTTPS. `ITSAppUsesNonExemptEncryption` was deliberately **not** set: the owner answers the questionnaire on the first upload | App Store Connect |
+| iPad | The app supports iPhone and iPad (`TARGETED_DEVICE_FAMILY = 1,2`), all orientations on iPad. iPad screenshots are then required | App Store Connect |
+| Icon 1024×1024 | Generated from the 512 px icon (upscaled). **Replace with a 1024 px original before submission** | — |
 
-## 4. Target audience — do not declare "adults only" blindly
+## 5. Google Play — requirements checked (updated for Capacitor)
 
-The app is used by teachers, but **student mode** lets pupils (often under 13–18)
-view the records board and submit a record on the teacher's device. The Play build will
-be listed and downloadable by anyone, so:
+| Item | Status | Source |
+|---|---|---|
+| Target API 36 (new apps and updates from 31 Aug 2026) | `targetSdkVersion = 36` | [Target API](https://support.google.com/googleplay/android-developer/answer/11926878) |
+| Signed **AAB** + Play App Signing | CI builds a **debug APK** for testing only. Release AAB needs the owner's upload key | [Sign your app](https://developer.android.com/studio/publish/app-signing) |
+| Digital Asset Links | **No longer needed** (that was for TWA) | — |
+| Package ID | `app.netlify.peultimate` in the project — **temporary, owner decision**, permanent after the first upload (Android `applicationId` and iOS bundle ID) | — |
+| Data safety | Draft in §6. Do not declare "no data collected" | [Data safety](https://support.google.com/googleplay/android-developer/answer/10787469) |
+| Health apps declaration | Required for every app. Fitness and VO₂max estimates are for education, not a medical device | [Health apps](https://support.google.com/googleplay/android-developer/answer/14738291) |
+| Target audience | Owner decision — see §7 | [Families](https://support.google.com/googleplay/android-developer/answer/9893335) |
+| Closed test for new personal accounts | 12 testers opted in for 14 continuous days before production | [Testing requirements](https://support.google.com/googleplay/android-developer/answer/14151465) |
+| Permissions | Camera, microphone (runtime prompts), internet. No restricted permissions | — |
+| Android Auto Backup | `allowBackup="true"` (template default). App data can go to the user's own Google backup — not data collected by the developer | — |
 
-- The primary audience is education staff; students use it under the teacher's
-  supervision and do not sign up or give contact details.
-- If the target-audience answer includes ages under 13, **Families policies apply**
-  (content, ads, data practices). The current data practices (no ads, no analytics, no
-  contact collection from students) are compatible, but the declaration must be made
-  deliberately.
-- Owner decision needed: declare an audience that excludes children (staff tool, 18+),
-  or a mixed audience with the Families requirements. Do not choose until the actual
-  planned use (who installs the Play app) is settled.
+## 6. Store declarations (drafts — the owner confirms in each console)
 
-## 5. Real-device test script (for the owner; ~20 minutes)
+Data that leaves the device **to the developer**: only the optional contact or deletion form —
+name, email, phone, message, request type, app language and version — sent to the operator's
+Netlify Forms. Not sold, not shared, not used for tracking.
 
-No physical device was available here. Browser automation (Chromium) is **not** a
-substitute for an Android phone.
+| Data type | Apple App Privacy | Google Data safety |
+|---|---|---|
+| Name, email, phone | Contact Info — linked to user, not tracking, purpose "App Functionality" (support/contact). Owner decides whether the feedback survey counts as "Other purposes" | Personal info → collected, optional, purpose "Developer communications", not shared |
+| Message text | User Content → Other User Content, same purpose | Messages → other in-app messages (optional) |
+| Student names, results, attendance, grades | Not collected (stays on the device; backups and Sheets sync go to the teacher's own accounts, on the teacher's action) | Not collected |
+| Photos, video, audio | Not collected (processed on the device) | Not collected |
+| Identifiers, analytics, location, ads | None | None |
+| Third-party request: Google Fonts (IP address and user agent when online) | Owner decides how to declare it, or bundle the fonts to remove it (§2) | Same |
+| Encryption in transit | — | Yes (HTTPS) |
+| Deletion | In-app: About → "Request deletion of my contact details"; web: `/#delete-contact` | Same |
 
-1. **Install** — Android Chrome → `https://pe-ultimate.netlify.app` → menu → *Install app*.
-   Open from the home-screen icon; it should open without a browser bar.
-2. **Version** — Settings → the version line shows a build id, and after one online load
-   a `commit … · פורסם …` line. Note both.
-3. **Offline** — Airplane mode, close the app fully, reopen. Home, students list, a
-   fitness test screen and the beep test must open. Turn the network back on; reopen;
-   nothing should be lost.
-4. **Data** — Demo mode: mark attendance for ט׳3 (full / partial / absent / exempt), then
-   grades → *Fill from attendance*: exempt stays empty, absent is 0.
-5. **Backup/restore** — Settings → backup to a file; clear the site data in Chrome;
-   restore from the file; check the class and grades.
-6. **Timers after lock** — Start the beep test, lock the screen for 30 s, unlock: beeps
-   and level must continue correctly. Repeat with the stopwatch.
-7. **Camera/mic** — Photo-finish: camera opens after the permission prompt. Start-signal
-   by clap: detected.
-8. **Hebrew/RTL** — Menus and forms right-to-left; email/phone fields left-to-right.
-9. **Update** — After a new deploy, the "new version ready" bar appears; tapping it
-   reloads without losing data; ignoring it during a lesson does nothing.
+**Store-specific text still to add before submission (not published yet):** the existing privacy
+page talks about the browser ("clear the site's data"). For the store apps it needs one sentence:
+*"In the app from the App Store or Google Play, deleting the app deletes its data on the device
+(Android may restore it from your own Google backup). Back up to a file first."* It also needs one
+sentence that there is no Netlify page-load logging inside the app, only for the contact form.
 
-Report: phone model, Android and Chrome versions, and which steps failed.
+Suggested review notes (App Store "App Review Information" / Play "App access"): "No account. On
+first launch the teacher chooses a 4-digit code (any digits). 'Demo mode' opens a sample class
+without a code. Student mode shows only the records board. The contact form is optional."
+
+## 7. Audience — do not declare "adults only" blindly
+
+Teachers are the users, but in **student mode** pupils (often under 13–18) view the records board
+and submit a record on the teacher's device. In the store, anyone can download the app. Choose
+deliberately: a staff tool (18+ target, not in the Kids category or Families program), or a mixed
+audience with the Families requirements. The current data practices are compatible with either:
+no ads, no analytics, no contact details from students.
+
+## 8. What needs the owner (accounts, money, hardware)
+
+| Needs | Why | Cost |
+|---|---|---|
+| **Apple Developer Program** membership | TestFlight and App Store | 99 USD per membership year ([Apple](https://developer.apple.com/programs/enroll/)) |
+| Free Apple ID "personal team" in Xcode | **Enough to install on your own iPhones and iPads now.** Up to 3 apps per device; the install expires after 7 days ([Apple](https://developer.apple.com/help/account/basics/about-your-developer-account/)) | Free |
+| Mac with **Xcode 26** | iOS builds, signing, simulator screenshots | You have one |
+| iPhone and iPad for testing | Real-device checks (§9) | You have 2 iPhones and 2 iPads |
+| **Android phone** | Real-device checks. The Android Studio emulator does not count as a device test | Not listed yet |
+| **Google Play Console** account | Internal, closed and production tracks | 25 USD one-time ([Google](https://support.google.com/googleplay/android-developer/answer/6112435)) |
+| Upload keystore (Android) | Signing the release AAB; keep it safe | Owner's custody |
+| Decisions | Package ID; audience; age rating answers; export compliance answer; Data safety and App Privacy wording; Google Fonts; 1024 px icon | — |
+
+## 9. Getting a first test build onto devices
+
+### Android — from CI (no Mac needed)
+1. GitHub → Actions → **Native builds** → latest run → Artifacts → `pe-ultimate-android-debug`.
+2. Unzip, copy `pe-ultimate-debug-<build>-<commit>.apk` to the phone, open it, allow "install
+   unknown apps" for the file manager. It is a **debug** build (signed with the debug key), for
+   testing only.
+
+### iPhone / iPad — on the Mac (free Apple ID is enough for your own devices)
+```bash
+git clone https://github.com/osher15/https-pe-ultimate.netlify.app.git
+cd https-pe-ultimate.netlify.app/native
+npm ci                 # Node 22+
+node build-web.js      # copies the site into native/www and writes version.json
+npx cap sync ios
+npx cap open ios       # opens Xcode
+```
+In Xcode:
+1. Settings → Accounts → add your Apple ID.
+2. Target **App** → Signing & Capabilities → Team = your personal team (or the paid team later).
+   If Xcode says the bundle ID is taken, change it (e.g. add a suffix) — this is the package-ID
+   decision in §8.
+3. Connect the iPhone by cable. On the iPhone: Settings → Privacy & Security → **Developer Mode** →
+   on (it restarts). Choose the iPhone as the run destination and press **Run** (▶).
+4. First launch: on the iPhone, Settings → General → VPN & Device Management → trust your developer
+   profile.
+5. Repeat for each iPhone and iPad. Free-team installs expire after 7 days: press Run again.
+
+**TestFlight** (after enrolling in the paid program): in Xcode, Product → Archive → Distribute App →
+App Store Connect → Upload. Internal testers (your own Apple IDs) can install through the
+TestFlight app without review.
+
+### Device test script (about 30 minutes per device)
+Record: device model, OS version, build id from Settings, and pass/fail per step.
+
+1. **Install and first launch offline**: airplane mode on, open the app. The sign-in screen shows
+   the hint about moving data from the website.
+2. **Move data from the PWA**: in Safari/Chrome (PWA) → Settings → "Back up everything to a file"
+   → save to Files. In the app → sign in → Settings → "Restore from a file" → pick the file (also
+   try an encrypted `.hmg`). Classes, students, grades and record videos match.
+3. **Export and share**: students CSV, full backup, a race PNG → the share sheet opens → save to
+   Files → open the file. Cancel once → the app says "not saved".
+4. **Print/PDF**: class report, lesson plan, teams → the document opens inside the app → "Save or
+   share" → open the file → print or save as PDF from there. "✕ Close" returns to the app.
+5. **Update keeps data**: install the next build over this one (Run again from Xcode / new APK).
+   All data is still there.
+6. **Camera and microphone**: photo-finish opens the camera after the permission prompt; the
+   start signal is detected by a clap.
+7. **Beep test and timers**: with the silent switch on (iPhone) → beeps are audible; with music
+   playing in another app → beeps mix and the music keeps playing; the screen does not auto-lock;
+   voice cues speak (Android too).
+8. **Screen**: notch and home indicator do not cover buttons in portrait and landscape; iPad in
+   both orientations, Split View and Stage Manager; RTL in Hebrew, then switch to English.
+9. **Theme**: switch to the "day" theme → the status-bar text turns dark; switch back.
+10. **Android back button**: with a dialog open and on the home screen.
+11. **Links**: privacy policy and YouTube open in the system browser and return to the app.
+12. **Contact form**: only if you decide to send a real submission. It is not sent automatically;
+    only one TEST submission was authorised, and it has been used.

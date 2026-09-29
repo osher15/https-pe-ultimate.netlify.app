@@ -105,7 +105,16 @@ function tripleBeep(){ beep(660,0.1); setTimeout(()=>beep(660,0.1),150); setTime
    בשפה אחרת הן עוברות קודם דרך המילון ונקראות בקול של אותה שפה. כריזה
    שלא נמצא לה תרגום נשארת עברית בקול עברי — ולא עברית בקול זר. */
 function say(txt,lang){
-  if(!SET.voice||!("speechSynthesis"in window))return;
+  if(!SET.voice)return;
+  /* באפליקציית Android אין speechSynthesis ב-WebView — מנוע הדיבור של
+     המערכת דרך הגשר (hm-native.js). בדפדפן ובאייפון — כמו תמיד. */
+  if(!("speechSynthesis"in window)){
+    if(window.HMN&&window.HMN.native){
+      if(!lang&&window.I18N&&window.I18N.lang()!=="he"){ const tt=window.I18N.tr(txt); if(tt!==txt){ txt=tt; lang=voiceLoc(); } }
+      window.HMN.say(txt,lang||"he-IL",1.05);
+    }
+    return;
+  }
   if(!lang&&window.I18N&&window.I18N.lang()!=="he"){
     const tt=window.I18N.tr(txt); if(tt!==txt){ txt=tt; lang=voiceLoc(); } }
   try{ const u=new SpeechSynthesisUtterance(txt); u.lang=lang||"he-IL"; u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){}
@@ -120,6 +129,12 @@ let wakeHold=false;
 function holdAwake(on){ wakeHold=!!on; keepAwake(!!on); }
 async function keepAwake(on){
   try{
+    /* באפליקציה הארוזה: הפלאגין KeepAwake (Wake Lock ב-WebView אינו מובטח) */
+    if(window.HMN&&window.HMN.native){
+      if(on&&SET.wake){ wakeLock={native:true}; await window.HMN.awake(true); }
+      else if(!on&&wakeLock&&!wakeHold){ wakeLock=null; await window.HMN.awake(false); }
+      return;
+    }
     if(on&&SET.wake&&"wakeLock"in navigator){ if(!wakeLock||wakeLock.released)wakeLock=await navigator.wakeLock.request("screen"); }
     else if(!on&&wakeLock&&!wakeHold){ wakeLock.release(); wakeLock=null; }
   }catch(e){}
@@ -2572,7 +2587,17 @@ function upOffer(version){
   }
   /* רישום ה-service worker רק מעל http(s). מ-file:// הדפדפן חוסם
      אותו ממילא, והאפליקציה שם כבר עובדת אופליין כקובץ יחיד. */
-  if(httpish&&"serviceWorker" in navigator){
+  /* באפליקציה הארוזה הקבצים כבר בתוך האפליקציה, ועדכון מגיע מהחנות.
+     service worker שם רק היה מגיש גרסה ישנה מהמטמון אחרי עדכון. */
+  const nativeApp=!!(window.HMN&&window.HMN.native);
+  /* דפדפן שמחזיק את האתר כאפליקציה מותקנת: מבקשים אחסון קבוע, כדי
+     שהדפדפן לא יפנה אותו כשהמכשיר מתמלא. בלשונית רגילה לא מבקשים —
+     Firefox מציג על זה שאלה. */
+  if(!nativeApp&&httpish&&navigator.storage&&navigator.storage.persist){
+    try{ if(window.matchMedia&&matchMedia("(display-mode: standalone)").matches||navigator.standalone)
+      navigator.storage.persist().catch(()=>{}); }catch(e){}
+  }
+  if(httpish&&!nativeApp&&"serviceWorker" in navigator){
     window.addEventListener("load",()=>{
       /* updateViaCache:"none" — בלעדיו הדפדפן רשאי להגיש את sw.js
          עצמו ממטמון ה-HTTP, ואז בדיקת העדכון בודקת עותק ישן ולא
