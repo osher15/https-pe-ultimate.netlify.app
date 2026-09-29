@@ -780,6 +780,153 @@ window.LESSON=(function(){
     };
   }
 
+  /* ---------- מאגר מערכים בינלאומי (hm-lessonbank.js) ----------
+     60 מערכים מלאים בחמש שפות עצמאיות (לא תרגום מכונה) — הבחירה
+     היא לפי השפה הפעילה כרגע באפליקציה (window.I18N.lang()),
+     ולא דרך מילון ה-DICT הרגיל שמתאים לתרגום מקור אחד. */
+  const BANK_LABELS={
+    he:{identity:"זהות המערך",ageRange:"טווח גילאים",duration:"משך (דק׳)",purpose:"מטרת על",objectives:"מטרות למידה נצפות",
+      priorKnowledge:"ידע מוקדם נדרש",pathwayPosition:"מיקום במסלול",unitContribution:"תרומת המערך",
+      equipment:"ציוד ומרחב",safety:"בטיחות",flow:"מהלך השיעור",opening:"פתיחה",warmup:"חימום",
+      mainA:"פעילות עיקרית א׳",mainB:"פעילות עיקרית ב׳",appliedGame:"משחק יישומי",closing:"סיכום",
+      commonErrors:"טעויות נפוצות",teachingPoints:"דגשי הוראה",adaptations:"התאמות",assessment:"הערכה",
+      reflection:"רפלקציה",continuity:"המשכיות",bankLink:"חיבור למאגר המגרש PRO",systemData:"נתוני מערכת",
+      teacherSummary:"תקציר למורה",pedagogicalValue:"ערך פדגוגי",selfQualityCheck:"בדיקת איכות עצמית",
+      pick:"בחר ענף",listCount:"מערכים בענף",open:"👁 פתח מערך"},
+    en:{identity:"Unit identity",ageRange:"Age range",duration:"Duration (min)",purpose:"Overarching purpose",objectives:"Observable objectives",
+      priorKnowledge:"Prior knowledge",pathwayPosition:"Pathway position",unitContribution:"Unit contribution",
+      equipment:"Equipment & space",safety:"Safety",flow:"Lesson flow",opening:"Opening",warmup:"Warm-up",
+      mainA:"Main activity A",mainB:"Main activity B",appliedGame:"Applied game",closing:"Closing",
+      commonErrors:"Common errors",teachingPoints:"Teaching points",adaptations:"Adaptations",assessment:"Assessment",
+      reflection:"Reflection",continuity:"Continuity",bankLink:"PE Court PRO bank link",systemData:"System data",
+      teacherSummary:"Teacher summary",pedagogicalValue:"Pedagogical value",selfQualityCheck:"Self quality check",
+      pick:"Pick a sport",listCount:"lessons in this sport",open:"👁 Open lesson"},
+    ar:{identity:"هوية الوحدة",ageRange:"الفئة العمرية",duration:"المدة (دقيقة)",purpose:"الهدف العام",objectives:"أهداف تعلم قابلة للملاحظة",
+      priorKnowledge:"المعرفة المسبقة المطلوبة",pathwayPosition:"الموقع في المسار",unitContribution:"مساهمة الوحدة",
+      equipment:"المعدات والمساحة",safety:"السلامة",flow:"سير الدرس",opening:"الافتتاح",warmup:"الإحماء",
+      mainA:"النشاط الرئيسي أ",mainB:"النشاط الرئيسي ب",appliedGame:"اللعبة التطبيقية",closing:"الختام",
+      commonErrors:"الأخطاء الشائعة",teachingPoints:"نقاط التدريس",adaptations:"التكييفات",assessment:"التقويم",
+      reflection:"التأمل الذاتي",continuity:"الاستمرارية",bankLink:"الربط بمخزون الملعب PRO",systemData:"بيانات النظام",
+      teacherSummary:"ملخص للمعلم",pedagogicalValue:"القيمة التربوية",selfQualityCheck:"فحص الجودة الذاتي",
+      pick:"اختر رياضة",listCount:"مواد في هذه الرياضة",open:"👁 افتح المادة"},
+    ru:{identity:"Идентичность модуля",ageRange:"Возрастной диапазон",duration:"Длительность (мин)",purpose:"Главная цель",objectives:"Наблюдаемые цели обучения",
+      priorKnowledge:"Предварительные знания",pathwayPosition:"Место в траектории",unitContribution:"Вклад модуля",
+      equipment:"Оборудование и пространство",safety:"Безопасность",flow:"Ход урока",opening:"Вступление",warmup:"Разминка",
+      mainA:"Основная деятельность А",mainB:"Основная деятельность Б",appliedGame:"Прикладная игра",closing:"Заключение",
+      commonErrors:"Распространённые ошибки",teachingPoints:"Методические акценты",adaptations:"Адаптации",assessment:"Оценивание",
+      reflection:"Рефлексия",continuity:"Преемственность",bankLink:"Связь с банком Двор PRO",systemData:"Системные данные",
+      teacherSummary:"Резюме для учителя",pedagogicalValue:"Педагогическая ценность",selfQualityCheck:"Самопроверка качества",
+      pick:"Выберите вид спорта",listCount:"уроков в этом виде спорта",open:"👁 Открыть урок"},
+    es:{identity:"Identidad de la unidad",ageRange:"Rango de edad",duration:"Duración (min)",purpose:"Propósito general",objectives:"Objetivos observables",
+      priorKnowledge:"Conocimiento previo",pathwayPosition:"Posición en la progresión",unitContribution:"Contribución de la unidad",
+      equipment:"Equipamiento y espacio",safety:"Seguridad",flow:"Desarrollo de la clase",opening:"Apertura",warmup:"Calentamiento",
+      mainA:"Actividad principal A",mainB:"Actividad principal B",appliedGame:"Juego aplicado",closing:"Cierre",
+      commonErrors:"Errores comunes",teachingPoints:"Puntos clave de enseñanza",adaptations:"Adaptaciones",assessment:"Evaluación",
+      reflection:"Reflexión",continuity:"Continuidad",bankLink:"Enlace al banco Cancha PRO",systemData:"Datos del sistema",
+      teacherSummary:"Resumen para el docente",pedagogicalValue:"Valor pedagógico",selfQualityCheck:"Autocontrol de calidad",
+      pick:"Elige un deporte",listCount:"clases en este deporte",open:"👁 Abrir clase"}
+  };
+  let curBankSport=null;
+  function bankLang(){ return (window.I18N&&window.I18N.lang&&window.I18N.lang())||"he"; }
+  function bankDir(){ return (window.I18N&&window.I18N.dir&&window.I18N.dir())||"rtl"; }
+  function bankL(){ return BANK_LABELS[bankLang()]||BANK_LABELS.he; }
+  function bankSports(){
+    const LB=window.LESSONBANK;
+    if(!LB||!LB.sports)return [];
+    return (LB.meta&&LB.meta.sportOrder||Object.keys(LB.sports)).filter(s=>LB.sports[s]);
+  }
+  function bankLessons(sport){
+    const LB=window.LESSONBANK;
+    const bySport=LB&&LB.sports&&LB.sports[sport]; if(!bySport)return [];
+    return bySport[bankLang()]||bySport.he||[];
+  }
+  function bankSportLabel(sport){
+    const LB=window.LESSONBANK;
+    const lbl=LB&&LB.meta&&LB.meta.sportLabel&&LB.meta.sportLabel[sport];
+    return lbl?(lbl[bankLang()]||lbl.he):sport;
+  }
+  function renderBankSports(){
+    const {$}=H();
+    const card=$("#ls-bankCard"); if(!card)return;
+    const sports=bankSports();
+    card.style.display=sports.length?"":"none";
+    if(!sports.length)return;
+    if(!curBankSport||!sports.includes(curBankSport))curBankSport=sports[0];
+    $("#ls-bankSports").innerHTML=sports.map(s=>
+      `<button data-bsport="${s}" class="${s===curBankSport?"on":""}">${H().esc(bankSportLabel(s))}</button>`).join("");
+    H().$$("#ls-bankSports button").forEach(b=>b.addEventListener("click",()=>{
+      curBankSport=b.dataset.bsport; renderBankSports(); renderBankList();
+    }));
+    renderBankList();
+  }
+  function renderBankList(){
+    const {$, esc}=H();
+    const list=$("#ls-bankList"), count=$("#ls-bankCount");
+    if(!list||!curBankSport)return;
+    const lessons=bankLessons(curBankSport);
+    count.textContent=lessons.length+" "+bankL().listCount;
+    list.innerHTML=lessons.map(l=>
+      `<div class="arc-item builtin"><div class="grow">
+        <div class="ttl">📚 ${String(l.n).padStart(2,"0")} · ${esc(l.title)}</div>
+        <div class="sb">${esc(l.ageRange||"")}${l.duration?" · "+esc(l.duration)+" "+(bankLang()==="he"?"דק׳":"min"):""}</div></div>
+        <button class="btn sm" data-bopen="${curBankSport}:${l.n}">${bankL().open}</button></div>`).join("");
+    H().$$("#ls-bankList [data-bopen]").forEach(b=>b.addEventListener("click",()=>{
+      const [sport,n]=b.dataset.bopen.split(":"); openBankLesson(sport,+n);
+    }));
+  }
+  function bankSecList(items){
+    if(!items||!items.length)return"";
+    return "<ul>"+items.map(x=>"<li>"+H().esc(x)+"</li>").join("")+"</ul>";
+  }
+  function bankSec(label,html){
+    if(!html)return"";
+    return `<div class="ls-bank-sec"><h4>${H().esc(label)}</h4>${html}</div>`;
+  }
+  function openBankLesson(sport,n){
+    const {$, esc}=H();
+    const l=bankLessons(sport).find(x=>x.n===n); if(!l)return;
+    const L=bankL();
+    $("#ls-bankTitle").textContent=l.title;
+    const meta=[l.ageRange,l.duration?l.duration+" "+(bankLang()==="he"?"דק׳":"min"):""].filter(Boolean).join(" · ");
+    const flow=l.sections||{};
+    const flowHtml=`<div class="ls-bank-flow">`+["opening","warmup","mainA","mainB","appliedGame","closing"]
+      .filter(k=>flow[k]).map(k=>`<div class="sub"><b>${esc(L[k])}</b><span>${esc(flow[k])}</span></div>`).join("")+`</div>`;
+    $("#ls-bankBody").innerHTML=
+      `<div class="ls-bank-meta">${esc(meta)}</div>`+
+      bankSec(L.identity,l.identity?`<p>${esc(l.identity)}</p>`:"")+
+      bankSec(L.purpose,l.purpose?`<p>${esc(l.purpose)}</p>`:"")+
+      bankSec(L.objectives,bankSecList(l.objectives))+
+      bankSec(L.priorKnowledge,l.priorKnowledge?`<p>${esc(l.priorKnowledge)}</p>`:"")+
+      bankSec(L.pathwayPosition,l.pathwayPosition?`<p>${esc(l.pathwayPosition)}</p>`:"")+
+      bankSec(L.unitContribution,l.unitContribution?`<p>${esc(l.unitContribution)}</p>`:"")+
+      bankSec(L.equipment,l.equipment?`<p>${esc(l.equipment)}</p>`:"")+
+      bankSec(L.safety,bankSecList(l.safety))+
+      bankSec(L.flow,flowHtml)+
+      bankSec(L.commonErrors,bankSecList(l.commonErrors))+
+      bankSec(L.teachingPoints,bankSecList(l.teachingPoints))+
+      bankSec(L.adaptations,l.adaptations?`<p>${esc(l.adaptations)}</p>`:"")+
+      bankSec(L.assessment,l.assessment?`<p>${esc(l.assessment)}</p>`:"")+
+      bankSec(L.reflection,l.reflection?`<p>${esc(l.reflection)}</p>`:"")+
+      bankSec(L.continuity,l.continuity?`<p>${esc(l.continuity)}</p>`:"")+
+      bankSec(L.teacherSummary,l.teacherSummary?`<p>${esc(l.teacherSummary)}</p>`:"")+
+      bankSec(L.pedagogicalValue,l.pedagogicalValue?`<p>${esc(l.pedagogicalValue)}</p>`:"")+
+      bankSec(L.bankLink,l.bankLink?`<p>${esc(l.bankLink)}</p>`:"")+
+      bankSec(L.systemData,l.systemData?`<p>${esc(l.systemData)}</p>`:"")+
+      bankSec(L.selfQualityCheck,l.selfQualityCheck?`<p>${esc(l.selfQualityCheck)}</p>`:"");
+    H().modal("ls-bankModal");
+    $("#ls-bankPrint").onclick=()=>{
+      const w=window.open("","_blank");
+      const dir=bankDir();
+      w.document.write(`<html dir="${dir}" lang="${bankLang()}"><head><meta charset="utf-8"><title>${esc(l.title)}</title>
+        <style>body{font-family:Arial;padding:30px;max-width:800px;margin:0 auto;line-height:1.7;color:#16182b}
+        h1{color:#1f7a4d;font-size:20px}h4{color:#1f7a4d;font-size:14px;margin:16px 0 4px}.m{color:#666;font-size:12px;margin-bottom:10px}
+        p{white-space:pre-wrap;margin:0}</style></head><body>
+        <h1>${esc(l.title)}</h1><div class="m">${esc(meta)}</div>${$("#ls-bankBody").innerHTML}
+        <script>print()<\/script></body></html>`);
+      w.document.close();
+    };
+  }
+
   /* ---------- ייצוא וייבוא של הספרייה ---------- */
   function exportLib(){
     /* המערכים המובנים מגיעים עם האפליקציה ואין טעם לייצא אותם */
@@ -898,6 +1045,8 @@ window.LESSON=(function(){
       e.target.value="";
     });
     renderLib();
+    renderBankSports();
+    document.addEventListener("i18n:change",renderBankSports);
     if(window.LBUILD)window.LBUILD.init();
     fillClassList(); applyTarget();
     const pre=H().LS.get("ls.pickGame",null);
