@@ -84,7 +84,7 @@ module.exports={title:"סבב 3 — פטור, מבחנים בפרופיל, או�
   check("«התלמידים שלי» בהדגמה: מדידות הכושר נספרות, וכתוב במפורש שזה לא ביפ טסט",NOW,async page=>{
     await demo(page);
     await go(page,"stu");
-    const n=await page.evaluate(()=>window.HM.LS.get("ft.results",[]).filter(r=>r.sid==="demo0").length);
+    const n=await page.evaluate(()=>window.HM.LS.get("ft.results",[]).filter(r=>r.sid==="demo0"&&r.test!=="beep").length);
     ok(n>0,"יש מדידות להדגמה");
     const sb=await page.$eval('#stu-list .stu-row[data-id="demo0"] .sb',e=>e.textContent);
     ok(sb.indexOf(n+" מדידות כושר")>=0,"הרשימה מראה "+n+" מדידות כושר — "+sb);
@@ -92,7 +92,7 @@ module.exports={title:"סבב 3 — פטור, מבחנים בפרופיל, או�
     ok(sb.indexOf(" מבחנים")<0,"בלי «0 מבחנים» המטעה");
     await page.click('#stu-list .stu-row[data-id="demo0"]'); await page.waitForTimeout(400);
     const tests=await page.$$eval("#stu-fitTbl tbody tr",tr=>tr.map(x=>x.dataset.t));
-    const want=await page.evaluate(()=>window.FT.progress.profile({id:"demo0",name:"דן אבירם",sex:"boys"}).tests.filter(t=>t.best).map(t=>t.testId));
+    const want=await page.evaluate(()=>window.FT.progress.profile({id:"demo0",name:"דן אבירם",sex:"boys"}).tests.filter(t=>t.best&&t.testId!=="beep").map(t=>t.testId));
     eq(tests.sort(),want.sort(),"הפרופיל מציג את אותם מבחנים שכרטיס הכושר");
     const total=await page.$$eval("#stu-fitTbl tbody tr td:nth-child(3)",td=>td.reduce((a,x)=>a+ +x.textContent,0));
     eq(total,n,"וסכום המדידות תואם");
@@ -187,5 +187,32 @@ module.exports={title:"סבב 3 — פטור, מבחנים בפרופיל, או�
     eq(String(o1[col("השתתפות")]),"90");
     eq(o1[col("סטטוס")],"סופי","משקל 0 לידע — לא חוסם ציון סופי");
     eq(String(o2[col("השתתפות")]),"","חסר — תא ריק, לא 0");
+  }),
+
+  /* ריצת ביפ אחת נשמרת גם ב-s.tests וגם כשורת beep ב-ft.results.
+     הרשימה, הפרופיל והייצוא סופרים אותה פעם אחת — כביפ טסט. */
+  check("ריצת ביפ אחת נספרת פעם אחת: לא גם «מדידת כושר»",twoClasses({
+    "stu.list":[{id:"a",name:"אליס",cls:"ט׳3",cid:T3,sex:"girls",age:14,
+      tests:[{d:"2026-09-20",type:"ביפ",dist:840,level:"7·3",speed:11.5,vo2:44.1,zone:"בריא"}]}],
+    "ft.results":[
+      {id:"f1",ts:1,d:"2026-09-20",cls:"ט׳3",cid:T3,test:"beep",name:"אליס",sid:"a",val:840,unit:"מ׳"},
+      {id:"f2",ts:2,d:"2026-09-21",cls:"ט׳3",cid:T3,test:"r100",name:"אליס",sid:"a",val:15.2,unit:"שנ׳"},
+      {id:"f3",ts:3,d:"2026-09-22",cls:"ט׳3",cid:T3,test:"push",name:"אליס",sid:"a",val:20,unit:"חזרות"}]
+  }),async page=>{
+    await go(page,"stu");
+    const sb=await page.$eval('#stu-list .stu-row[data-id="a"] .sb',e=>e.textContent);
+    ok(sb.indexOf("2 מדידות כושר")>=0,"שתי מדידות כושר, בלי הביפ — "+sb);
+    ok(sb.indexOf("1 ביפ טסט")>=0,"וריצת ביפ אחת — "+sb);
+    await page.click('#stu-list .stu-row[data-id="a"]'); await page.waitForTimeout(400);
+    const t=await page.$$eval("#stu-fitTbl tbody tr",tr=>tr.map(x=>x.dataset.t).sort());
+    eq(t,["push","r100"],"טבלת מבחני הכושר בלי שורת ביפ כפולה");
+    await page.evaluate(()=>window.HM.modal("stu-modal",false));
+    const rows=await page.evaluate(()=>{ let got=null; const o=window.HM.dlCSV; window.HM.dlCSV=(n,r)=>{ got=r; };
+      try{ document.getElementById("stu-csv").click(); }finally{ window.HM.dlCSV=o; } return got; });
+    const h=rows[0], r=rows.find(x=>x[0]==="אליס");
+    ok(h.indexOf("מבחנים")<0,"בייצוא אין עמודת «מבחנים» שסופרת רק ביפ");
+    eq(String(r[h.indexOf("מדידות כושר")]),"2");
+    eq(String(r[h.indexOf("ביפ טסט")]),"1");
+    eq(await page.evaluate(()=>window.HM.LS.get("ft.results",[]).length),3,"שום מדידה לא נמחקה");
   })
 ]};
