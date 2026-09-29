@@ -34,18 +34,17 @@ The Hamegrash PRO form and its responses were **not changed**.
 - Email notifications (optional): Forms → Form notifications → add your address there.
   This is not set by the code.
 - Deleting a submission: open it → Delete. This is also how deletion requests are fulfilled.
-- Proposed retention (pending operator approval, stated in the draft policy): up to
+- Retention (approved by the operator on 2026-09-29, stated in the policy): up to
   24 months from receipt, reviewed at least every six months. **This is a manual
   process** — nothing deletes automatically.
 
 ## Privacy policy and terms
 
-`privacy.html` and `terms.html` are drafts in he/en/ar/ru/es, written from a code
-inventory (storage, outbound requests, device permissions, deletion). They contain no
-placeholder brackets; each carries a visible draft notice until the operator confirms:
-
-1. The operator identity to publish (name or business name).
-2. The retention period (24 months proposed) and the six-monthly review.
+`privacy.html` and `terms.html` are in he/en/ar/ru/es, written from a code inventory
+(storage, outbound requests, device permissions, deletion). On 2026-09-29 the operator
+supplied the identity to publish (**Osher Shalev**) and approved the retention period
+(24 months, six-monthly review); the draft notices were removed. The pages describe how the
+app works and make no claim of compliance with any particular law.
 
 Contact and deletion requests go through the in-app form, so no private email
 address needs to be published.
@@ -95,10 +94,13 @@ The live check is complete; no further TEST submission is needed.
 - Netlify spam filtering of genuine submissions, and email notifications (not configured).
 - Native-speaker review of the new ar/ru/es/en texts in the form, `privacy.html` and `terms.html`.
 
-### Waiting on the operator
+### Operator decisions (2026-09-29)
 
-1. Operator identity to publish in `privacy.html` and `terms.html` (name or business name).
-2. Approval of the retention proposal: up to 24 months, manual review every six months.
-3. Optional: Netlify form email notifications (Forms → Form notifications).
-
-Until 1 and 2 are answered, both pages stay drafts with their visible draft notice.
+1. Operator identity: **Osher Shalev** — published in `privacy.html` and `terms.html`, all five languages.
+2. Retention: up to 24 months, manual review every six months — **approved**; draft notices removed.
+3. Netlify form email notifications: **approved by the operator, not yet configured.** The
+Netlify tools available to this project cannot create form notifications, so it is a
+dashboard step: Netlify → project `pe-ultimate` → Project configuration → Notifications →
+Emails and webhooks → Form submission notifications → Add notification → Email
+notification → event *New form submission*, form `pe-ultimate-contact`, the operator's
+address → Save.

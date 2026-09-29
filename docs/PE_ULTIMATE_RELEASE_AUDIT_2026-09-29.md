@@ -65,7 +65,7 @@ All rows: implemented locally ✔ · tested ✔ · committed ✔ (this branch) �
 | 8 «No change» merges equal and single-day | P2 | Yes (by code and existing tests, which asserted the merge) | Deliberate earlier design | `hm-data.js` (`insufficient` bucket), `hm-tests.js` (fifth column + hint), updated `progress11` unit/e2e tests | unit + e2e | — | VERIFIED FIXED |
 | 9 Generic next-lesson progression | P2 | **Yes** — aerobic lesson got «pairs → 3v3 → full game» | One ball-game ladder for every topic; sessions stored no topic type | `hm-data.js` (fit / move / ball ladders chosen from new additive `planGroup`, or title keywords for old sessions; unknown → modest repeat-and-adjust; explicit «feedback is about the whole lesson, not a student»), `hm-lesson.js`, `hm-live.js` | unit 9.1–9.4 | Ladders are generic per family, not per activity | VERIFIED FIXED |
 | 10 Mandatory contact form blocks first use | P2 | **Yes** (by code + existing test harness comment «no skip, deliberate») | Product decision | `index.html`, `hm-new.js` (language picker on the overlay, «skip for now» — sends nothing, Settings → About entry to give details later, recipient/purpose line, privacy link) | e2e #11 (no request to Google Forms on skip) | Existing «required fields» tests still pass | VERIFIED FIXED |
-| 11 Privacy text contradicts features | P2 | **Yes** — About: «the only thing that leaves the device is your contact details» | Text predates sync/Drive/fonts | `index.html`, `hm-i18n.js` (5 languages), `README.md`, new `privacy.html` | Outbound inventory below; claims checked against code (PBKDF2-SHA256 310k → AES-GCM-256; Drive refuses unencrypted; password never stored) | `privacy.html` has **[TO COMPLETE]** fields (operator, contact, retention, audience) — owner decisions, not guessed | FIXED (text); policy **PENDING owner** |
+| 11 Privacy text contradicts features | P2 | **Yes** — About: «the only thing that leaves the device is your contact details» | Text predates sync/Drive/fonts | `index.html`, `hm-i18n.js` (5 languages), `README.md`, new `privacy.html` | Outbound inventory below; claims checked against code (PBKDF2-SHA256 310k → AES-GCM-256; Drive refuses unencrypted; password never stored) | `privacy.html` has **[TO COMPLETE]** fields (operator, contact, retention, audience) — owner decisions, not guessed | FIXED (text); policy completed — *superseded — see G* |
 | 12 Backup UX too technical | P2 | Yes (by inspection) | — | `index.html` (Drive setup folded into «Advanced», plain recovery steps, encryption marked recommended when the file leaves the device) | e2e #12: full-entity round-trip into a **separate browser context**, every key byte-identical, stable sids/cids, grade 0 preserved; double restore identical; newer-schema file rejected; existing suite covers wrong password, malformed file, v1 upgrade | A storage-quota failure *during* apply can still produce a reported partial restore (validation failures cannot) | VERIFIED (flows); UX FIXED |
 | 13 CC BY-SA images without in-app attribution | P2 rights | Yes | Credits only in `exercise-gifs/CREDITS.md` | `index.html` (About → image credits) | manual | — | FIXED |
 
@@ -136,7 +136,7 @@ this environment's network policy, so Play Console help pages are cited but not 
 | Target API | **VERIFIED requirement:** new apps and updates must target **API 36** since 2026-08-31 (extension to 2026-11-01 on request) — project must meet it | [Target API requirement](https://developer.android.com/google/play/requirements/target-sdk) |
 | Manifest permissions | PENDING — expected: `INTERNET`; `CAMERA` only if not handled by the browser in TWA; no location, contacts or storage needed | — |
 | TWA Digital Asset Links (`/.well-known/assetlinks.json`) | PENDING (needs signing fingerprint) | — |
-| Public privacy policy URL | **PENDING** — `privacy.html` drafted; placeholders must be completed and deployed | this branch |
+| Public privacy policy URL | `https://pe-ultimate.netlify.app/privacy.html` — operator identity and retention filled in (*superseded — see G*); not reviewed by a lawyer | `privacy.html` |
 | Data safety form | PENDING — draft mapping in section B | Play Console |
 | Target audience & content | PENDING — app is for teachers; student mode exists but collects no contact data. Declaring an audience that includes children would bring the Families policy into scope | Play Console → App content (help page not re-read here) |
 | Content rating questionnaire, ads declaration (no ads) | PENDING | Play Console |
@@ -153,7 +153,7 @@ this environment's network policy, so Play Console help pages are cited but not 
 **Must fix before pilot**
 1. Merge this branch and deploy; verify the displayed build ID changes from `3dc152b2`.
 2. Tell pilot teachers who used «Fill from attendance» with a class selected on the old build to check their roster (data-loss bug 1b).
-3. ~~Complete `privacy.html` placeholders~~ *superseded — see G*: drafts deployed without placeholders; operator identity and retention approval still open.
+3. ~~Complete `privacy.html` placeholders~~ *superseded — see G*: operator identity (Osher Shalev) and retention (24 months) supplied and approved on 2026-09-29.
 4. ~~Decide the contact-form destination~~ *done in round 2 — see G*. Original note: the code comment says the Google Form is «המגרש פרו משתמשים» (the Hamegrash PRO users form) — PE Ultimate leads may be landing in the other product's sheet, contrary to the separation described in the README.
 5. One real-device smoke pass (Android Chrome + iOS Safari; offline; Hebrew + English).
 
@@ -231,10 +231,11 @@ therefore met only through the meta tag for this round.
 - Native-speaker review (backlog item 8 still open), now also covering the contact form,
   `privacy.html` and `terms.html`.
 
-### Waiting on the operator
+### Operator decisions (2026-09-29)
 
-1. Operator identity for `privacy.html` / `terms.html`.
-2. Approval of retention: up to 24 months, manual review every six months.
-3. Optional: Netlify form email notifications.
+1. Operator identity **Osher Shalev** — published in `privacy.html` / `terms.html` (5 languages).
+2. Retention up to 24 months with six-monthly manual review — **approved**; draft notices removed.
+3. Netlify form email notifications — approved, **not yet configured** (dashboard-only step;
+   see `docs/PE_ULTIMATE_PRIVACY_CONTACT_2026-09-29.md`).
 
 Backlog items 2, 5–15 are unchanged from section E.
