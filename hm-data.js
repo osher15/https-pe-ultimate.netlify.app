@@ -540,6 +540,72 @@ function mergeEquip(){
 }
 
 /* ============================================================
+   טופס פרטי קשר — אימות, דילוג ותזכורת
+   ------------------------------------------------------------
+   הטופס הקודם שלח ל-Google Forms של המגרש PRO דרך iframe נסתר:
+   האפליקציה לא יכלה לדעת אם הפנייה נקלטה, ו-Google דחה בשקט כל
+   פנייה שחסרו בה נייד או אימייל (שניהם חובה בטופס המקבל), בזמן
+   שהמורה ראה «תודה!».
+
+   עכשיו: ארבעת השדות חובה, הבדיקה בינלאומית (לא פורמט ישראלי),
+   ו«נשלח» מוצג רק אחרי אישור קליטה מהשרת. דילוג לא שולח דבר
+   ודוחה ל-7 ימים; אחר כך תזכורת שאינה חוסמת דבר.
+   ============================================================ */
+var LEAD_SNOOZE_DAYS=7, LEAD_DAY_MS=86400000;
+var LEAD_FORM_NAME="pe-ultimate-contact";
+/* סימן שמופיע רק בדף האישור שהשרת מחזיר אחרי קליטת פנייה. דף אחר
+   (404, דף הבית, שגיאת רשת שהוחלפה בעמוד מטמון) אינו אישור. */
+var LEAD_ACK="peu-contact-received-v1";
+var EMAIL_RE=/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
+function leadClean(o){
+  o=o||{};
+  var t=function(v){ return String(v==null?"":v).replace(/\s+/g," ").trim(); };
+  /* באימייל לא מוחקים רווח פנימי — זה היה משנה בשקט את הכתובת; האימות דוחה אותו */
+  return {first:t(o.first),last:t(o.last),email:t(o.email),phone:t(o.phone)};
+}
+/* טלפון בינלאומי: + אופציונלי בהתחלה, ספרות, רווחים, מקפים, נקודות,
+   סוגריים ולוכסן. 7–15 ספרות (אורך E.164), בלי אותיות. */
+function validPhone(p){
+  var s=String(p||"").trim();
+  if(!/^\+?[0-9\s().\-\/]+$/.test(s))return false;
+  var d=s.replace(/[^0-9]/g,"");
+  return d.length>=7&&d.length<=15;
+}
+function validateLead(o){
+  var c=leadClean(o), err={};
+  if(!c.first)err.first="required";
+  if(!c.last)err.last="required";
+  if(!c.email)err.email="required"; else if(c.email.length>254||!EMAIL_RE.test(c.email))err.email="invalid";
+  if(!c.phone)err.phone="required"; else if(!validPhone(c.phone))err.phone="invalid";
+  return {ok:!Object.keys(err).length,errors:err,clean:c};
+}
+/* מצב הטופס לפי מה שנשמר במכשיר:
+   done     — נשלח ונקלט (או נשלח בגרסה ישנה) — אין תזכורות
+   snoozed  — דולג, והזמן עוד לא הגיע
+   reminder — הדחייה עברה: תזכורת לא חוסמת
+   first    — עוד לא הוצג אף פעם: מסך הפתיחה */
+function leadStatus(st,now){
+  st=st||{};
+  if(st.done)return "done";
+  var until=Number(st.snoozeUntil);
+  if(isFinite(until)&&until>0)return until>Number(now)?"snoozed":"reminder";
+  return "first";
+}
+function leadSnoozeUntil(now,days){
+  return Number(now)+(days==null?LEAD_SNOOZE_DAYS:days)*LEAD_DAY_MS;
+}
+/* מה נשלח — ורק זה. אין כאן שום נתון מהמכשיר מלבד שפת הממשק וגרסה. */
+function leadPayload(clean,meta){
+  meta=meta||{};
+  return {"form-name":LEAD_FORM_NAME,first:clean.first,last:clean.last,email:clean.email,phone:clean.phone,
+    lang:String(meta.lang||""),app_version:String(meta.build||""),"bot-field":""};
+}
+/* אישור קליטה אמין: תשובה 2xx שגופה הוא דף האישור (עם הסימן) */
+function leadAckOk(status,text){
+  return Number(status)>=200&&Number(status)<300&&String(text||"").indexOf(LEAD_ACK)>=0;
+}
+
+/* ============================================================
    חיפוש רב־לשוני
    ------------------------------------------------------------
    החיפוש במשחקים השווה את מה שהוקלד רק לנוסח העברי — ובאנגלית
@@ -2593,6 +2659,9 @@ return {
   syncStudentsFromRosters:syncStudentsFromRosters,classRoster:classRoster,applyRoster:applyRoster,
   mergeRoster:mergeRoster, findStudent:findStudent,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,
+  LEAD_SNOOZE_DAYS:LEAD_SNOOZE_DAYS, LEAD_FORM_NAME:LEAD_FORM_NAME, LEAD_ACK:LEAD_ACK,
+  leadClean:leadClean, validPhone:validPhone, validateLead:validateLead, leadStatus:leadStatus,
+  leadSnoozeUntil:leadSnoozeUntil, leadPayload:leadPayload, leadAckOk:leadAckOk,
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,

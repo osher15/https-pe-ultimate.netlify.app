@@ -15,15 +15,15 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="655981ca">
+<meta name="hm-build" content="0a42ca0a">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="hm-styles.css?v=2dd8e0d6">
+<link rel="stylesheet" href="hm-styles.css?v=12faec1d">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-data.js?v=a88ca8e4"></script>
+<script src="hm-data.js?v=5162702f"></script>
 <script src="hm-terms.js?v=06da39ac"></script>
 <script src="hm-texts.js?v=f84e5539"></script>
-<script src="hm-i18n.js?v=446015c0"></script>
+<script src="hm-i18n.js?v=0fa1b508"></script>
 <script src="hm-app.js?v=eab87ca5"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
@@ -35,7 +35,7 @@
 <script src="hm-lesson.js?v=a6ad94de"></script>
 <script src="hm-build.js?v=931b1d83"></script>
 <script src="hm-tests.js?v=379b32c8"></script>
-<script src="hm-new.js?v=f8e2131a"></script>
+<script src="hm-new.js?v=56fdba62"></script>
 <script src="hm-live.js?v=16d0ab27"></script>
 <script src="hm-hub.js?v=1e6ba46b"></script>
 </helmet>
@@ -82,6 +82,12 @@
   <button class="x" id="stWarnX" aria-label="סגור">✕</button></div>
 <div id="demoBar" hidden>🎬 <b data-i18n="ui.demoBar">מצב הדגמה</b> <span data-i18n="ui.demoNote">— הנתונים כאן הם דוגמה</span>
   <button class="btn sm" id="demoClear" data-i18n="ui.demoClear">נקה נתוני הדגמה</button></div>
+<div id="leadRemind" class="lead-remind" role="region" aria-label="contact" hidden>
+  <span data-i18n="lead.remT">📨 רוצים להשאיר פרטי קשר לשאלון המשוב? זה לא חובה.</span>
+  <button class="btn sm acc" id="lead-remFill" type="button" data-i18n="lead.remFill">השארת פרטים</button>
+  <button class="btn sm ghost" id="lead-remLater" type="button" data-i18n="lead.remLater">הזכר לי בעוד 7 ימים</button>
+</div>
+
 <div id="lsBar" hidden><span id="lsBarT"></span>
   <button class="btn sm ghost" id="lsBarHist">📖 היסטוריה</button>
   <button class="btn sm ghost" id="lsBarEnd">סיים שיעור</button></div>
@@ -1606,8 +1612,9 @@
   <p class="ab-p" data-i18n="ab.p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
     לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, ונתוני התלמידים נשמרים במכשיר.</p>
   <div class="ab-sec"><b data-i18n="ab.privT">🔒 פרטיות</b>
-    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>לאפליקציה אין שרת ואין חשבון משלה.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — בקשת גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס Google Forms של מפתח האפליקציה; (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש גיבוי.</p>
-    <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p></div>
+    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>לאפליקציה אין שרת ואין חשבון משלה.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — בקשת גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (Netlify); (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש גיבוי.</p>
+    <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a>
+      · <a href="terms.html" target="_blank" rel="noopener" data-i18n="ab.termsLink">תנאי שימוש ↗</a></p></div>
   <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
     <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
       הגופני — סטנדרטים להערכת הישגי התלמידים», משרד החינוך, המזכירות הפדגוגית · תוכנית הלימודים
@@ -1622,6 +1629,7 @@
       Lunge (CDC) — public domain. All other exercise illustrations are original to PE Ultimate.</p></div>
   <div class="ab-sec"><b data-i18n="ab.fbT">📨 שאלון משוב</b>
     <p class="ab-p" data-i18n="ab.fb">רוצים לקבל שאלון משוב וליצור קשר עם המפתח? מסירת הפרטים היא רשות.</p>
+    <div class="hint" id="ab-leadStat" style="margin:4px 0 6px"></div>
     <button class="btn sm ghost" id="ab-lead" data-i18n="ab.fbBtn">השארת פרטי קשר</button></div>
   <div class="ab-sec"><b data-i18n="ab.warnT">⚠️ אחריות</b>
     <p class="ab-p" data-i18n="ab.warn">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
@@ -1971,27 +1979,44 @@
 </div></div>
 
 <!-- ----- איסוף פרטי קשר, פעם אחת בפתיחה הראשונה ----- -->
-<div id="leadOv"><div class="box">
+<div id="leadOv" role="dialog" aria-modal="true" aria-labelledby="lead-h"><div class="box">
   <div class="lang-pick lead-lang" id="lead-lang" aria-label="Language"></div>
   <div class="lg">👋</div>
-  <h1 dir="auto" data-i18n="lead.title">רגע לפני שנכנסים</h1>
+  <h1 dir="auto" id="lead-h" data-i18n="lead.title">רגע לפני שנכנסים</h1>
   <p data-i18n="lead.sub">האפליקציה חינמית לגמרי — בלי כרטיס אשראי, בלי תשלום ובלי שום התחייבות. השאירו כמה פרטים כדי שאוכל לשלוח לכם שאלון קצר לחוות דעת — זה יעזור לנו לשפר את האפליקציה ולהפוך אותה למקצועית יותר בהמשך.</p>
-  <div class="field"><label data-i18n="lead.first">שם פרטי</label>
-    <input type="text" id="lead-first" autocomplete="given-name"></div>
-  <div class="field" style="margin-top:9px"><label data-i18n="lead.last">שם משפחה</label>
-    <input type="text" id="lead-last" autocomplete="family-name"></div>
-  <p class="lead-contact-hint" data-i18n="lead.contactHint">נייד או אימייל — מספיק אחד מהשניים. זו רק דרך ליצור איתכם קשר, שום דבר מעבר לזה.</p>
-  <div class="field"><label data-i18n="lead.phone">נייד</label>
-    <input type="tel" id="lead-phone" autocomplete="tel" placeholder="050-0000000"></div>
-  <div class="field" style="margin-top:9px"><label data-i18n="lead.email">אימייל</label>
-    <input type="email" id="lead-email" autocomplete="email" placeholder="you@example.com"></div>
-  <button class="btn acc big" id="lead-send" style="margin-top:14px" data-i18n="lead.send">שליחה והמשך</button>
-  <button class="btn ghost" id="lead-skip" style="margin-top:8px;width:100%" data-i18n="lead.skip">דלגו בינתיים — אפשר להשאיר פרטים אחר כך בהגדרות</button>
-  <p class="lock-note" data-i18n="lead.who">הפרטים נשלחים לטופס Google Forms של מפתח האפליקציה, רק כדי לשלוח שאלון משוב וליצור קשר. אפשר לבקש את מחיקתם בכל עת.</p>
+  <p class="lead-purpose" data-i18n="lead.purpose">הטופס הזה הוא ליצירת קשר ולשאלון משוב בלבד. הוא <b>לא</b> יוצר חשבון ו<b>לא</b> מגבה נתונים לענן — התלמידים, הציונים והמדידות נשארים במכשיר.</p>
+  <form id="lead-form" novalidate>
+  <div class="field"><label for="lead-first" data-i18n="lead.first">שם פרטי</label>
+    <input type="text" id="lead-first" name="first" autocomplete="given-name" required maxlength="80" aria-describedby="lead-first-err">
+    <div class="lead-err" id="lead-first-err" aria-live="polite"></div></div>
+  <div class="field"><label for="lead-last" data-i18n="lead.last">שם משפחה</label>
+    <input type="text" id="lead-last" name="last" autocomplete="family-name" required maxlength="80" aria-describedby="lead-last-err">
+    <div class="lead-err" id="lead-last-err" aria-live="polite"></div></div>
+  <div class="field"><label for="lead-email" data-i18n="lead.email">אימייל</label>
+    <input type="email" id="lead-email" name="email" dir="ltr" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@example.com" aria-describedby="lead-email-err">
+    <div class="lead-err" id="lead-email-err" aria-live="polite"></div></div>
+  <div class="field"><label for="lead-phone" data-i18n="lead.phone">טלפון</label>
+    <input type="tel" id="lead-phone" name="phone" dir="ltr" autocomplete="tel" inputmode="tel" required maxlength="32" placeholder="+44 20 7946 0958" aria-describedby="lead-phone-hint lead-phone-err">
+    <div class="lead-hint" id="lead-phone-hint" data-i18n="lead.phoneHint">עם קידומת מדינה אם אתם מחוץ לישראל. 7–15 ספרות.</div>
+    <div class="lead-err" id="lead-phone-err" aria-live="polite"></div></div>
+  <p class="lead-contact-hint" data-i18n="lead.bothReq">כל השדות חובה — גם אימייל וגם טלפון.</p>
+  <div class="lead-status" id="lead-status" role="status" aria-live="polite" hidden></div>
+  <button class="btn acc big" id="lead-send" type="submit" style="margin-top:12px" data-i18n="lead.send">שליחה והמשך</button>
+  </form>
+  <button class="btn acc big" id="lead-done" type="button" style="margin-top:12px" hidden data-i18n="lead.close">סגירה</button>
+  <button class="btn ghost" id="lead-skip" type="button" style="margin-top:8px;width:100%" data-i18n="lead.skip">דלגו ל-7 ימים — שום דבר לא יישלח</button>
+  <p class="lock-note" data-i18n="lead.who">הפרטים נשמרים בטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (באמצעות Netlify), ומשמשים רק ליצירת קשר ולשאלון. לבקשת מחיקה — שלחו פנייה דרך אותו טופס.</p>
   <p class="lock-note"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p>
-  <p class="lock-note" data-i18n="lead.note">בלי עלות ובלי כרטיס אשראי — האפליקציה חינמית. הפרטים האלה נשלחים אליי ישירות רק כדי ליצור איתכם קשר. כל השאר — תלמידים, ציונים ומדידות — נשאר במכשיר שלכם בלבד, כרגיל.</p>
 </div></div>
-<iframe name="lead-frame" id="lead-frame" style="display:none" title="lead-submit" tabindex="-1" aria-hidden="true"></iframe>
+<!-- טופס סטטי לזיהוי בידי Netlify Forms — מוסתר, לא בשימוש ישיר.
+     האפליקציה שולחת את אותם שדות בדיוק (hm-data.js: leadPayload). -->
+<form name="pe-ultimate-contact" method="POST" action="/contact-received.html" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="hidden" name="form-name" value="pe-ultimate-contact">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <input name="first" required><input name="last" required>
+  <input type="email" name="email" required><input type="tel" name="phone" required>
+  <input name="lang"><input name="app_version">
+</form>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="655981ca">
+<meta name="hm-build" content="0a42ca0a">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -728,8 +728,27 @@ a{color:var(--acc);text-decoration:none}a:hover{color:color-mix(in srgb,var(--ac
   background:radial-gradient(700px 480px at 50% 8%,rgba(167,139,250,.18),transparent 60%),#07080f}
 #leadOv.on{display:grid}
 #leadOv .box{width:min(380px,100%);text-align:center}
-#leadOv .field{text-align:right}
-#leadOv .field input{text-align:right;font-family:'Heebo',sans-serif}
+#leadOv .field{text-align:start;margin-top:9px}
+#leadOv .field input{text-align:start;font-family:'Heebo',sans-serif;min-height:44px;font-size:16px}
+/* אימייל וטלפון נכתבים משמאל לימין גם בממשק מימין לשמאל, ומיושרים לצד הטקסט */
+#leadOv .field input[dir="ltr"]{text-align:left}
+body[data-dir="rtl"] #leadOv .field input[dir="ltr"]{text-align:right}
+#leadOv .field input[aria-invalid="true"]{border-color:var(--stop,#ff6b81)}
+.lead-err{min-height:0;font-size:12px;color:var(--stop,#ff6b81);text-align:start;margin-top:3px}
+.lead-err:empty{display:none}
+.lead-hint{font-size:11.5px;color:var(--faint);text-align:start;margin-top:3px}
+.lead-purpose{font-size:12.5px;color:var(--muted);text-align:start;border-inline-start:3px solid var(--acc);padding-inline-start:8px}
+.lead-status{margin-top:10px;padding:9px 11px;border-radius:10px;font-size:13px;text-align:start;line-height:1.5}
+.lead-status.ok{background:color-mix(in srgb,var(--acc) 18%,transparent);color:var(--acc)}
+.lead-status.err{background:color-mix(in srgb,var(--stop,#ff6b81) 16%,transparent);color:var(--stop,#ff6b81)}
+.lead-status.busy{color:var(--muted)}
+#leadOv .box{max-height:calc(100dvh - 24px);overflow-y:auto}
+/* תזכורת לא חוסמת: פס מתחת לכותרת, לא שכבה מעל המסך */
+.lead-remind{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  background:color-mix(in srgb,var(--acc) 14%,var(--bg2));border-bottom:1px solid var(--line);
+  padding:8px 14px;font-size:13px;text-align:start}
+.lead-remind[hidden]{display:none!important}
+.lead-remind .btn{min-height:40px}
 .lead-contact-hint{font-size:11.5px;color:var(--faint);text-align:right;margin:13px 0 -2px}
 
 /* ============================================================
@@ -1895,6 +1914,12 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
   <button class="x" id="stWarnX" aria-label="סגור">✕</button></div>
 <div id="demoBar" hidden>🎬 <b data-i18n="ui.demoBar">מצב הדגמה</b> <span data-i18n="ui.demoNote">— הנתונים כאן הם דוגמה</span>
   <button class="btn sm" id="demoClear" data-i18n="ui.demoClear">נקה נתוני הדגמה</button></div>
+<div id="leadRemind" class="lead-remind" role="region" aria-label="contact" hidden>
+  <span data-i18n="lead.remT">📨 רוצים להשאיר פרטי קשר לשאלון המשוב? זה לא חובה.</span>
+  <button class="btn sm acc" id="lead-remFill" type="button" data-i18n="lead.remFill">השארת פרטים</button>
+  <button class="btn sm ghost" id="lead-remLater" type="button" data-i18n="lead.remLater">הזכר לי בעוד 7 ימים</button>
+</div>
+
 <div id="lsBar" hidden><span id="lsBarT"></span>
   <button class="btn sm ghost" id="lsBarHist">📖 היסטוריה</button>
   <button class="btn sm ghost" id="lsBarEnd">סיים שיעור</button></div>
@@ -3419,8 +3444,9 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
   <p class="ab-p" data-i18n="ab.p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
     לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, ונתוני התלמידים נשמרים במכשיר.</p>
   <div class="ab-sec"><b data-i18n="ab.privT">🔒 פרטיות</b>
-    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>לאפליקציה אין שרת ואין חשבון משלה.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — בקשת גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס Google Forms של מפתח האפליקציה; (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש גיבוי.</p>
-    <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p></div>
+    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>לאפליקציה אין שרת ואין חשבון משלה.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — בקשת גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (Netlify); (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש גיבוי.</p>
+    <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a>
+      · <a href="terms.html" target="_blank" rel="noopener" data-i18n="ab.termsLink">תנאי שימוש ↗</a></p></div>
   <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
     <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
       הגופני — סטנדרטים להערכת הישגי התלמידים», משרד החינוך, המזכירות הפדגוגית · תוכנית הלימודים
@@ -3435,6 +3461,7 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
       Lunge (CDC) — public domain. All other exercise illustrations are original to PE Ultimate.</p></div>
   <div class="ab-sec"><b data-i18n="ab.fbT">📨 שאלון משוב</b>
     <p class="ab-p" data-i18n="ab.fb">רוצים לקבל שאלון משוב וליצור קשר עם המפתח? מסירת הפרטים היא רשות.</p>
+    <div class="hint" id="ab-leadStat" style="margin:4px 0 6px"></div>
     <button class="btn sm ghost" id="ab-lead" data-i18n="ab.fbBtn">השארת פרטי קשר</button></div>
   <div class="ab-sec"><b data-i18n="ab.warnT">⚠️ אחריות</b>
     <p class="ab-p" data-i18n="ab.warn">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
@@ -3784,27 +3811,44 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
 </div></div>
 
 <!-- ----- איסוף פרטי קשר, פעם אחת בפתיחה הראשונה ----- -->
-<div id="leadOv"><div class="box">
+<div id="leadOv" role="dialog" aria-modal="true" aria-labelledby="lead-h"><div class="box">
   <div class="lang-pick lead-lang" id="lead-lang" aria-label="Language"></div>
   <div class="lg">👋</div>
-  <h1 dir="auto" data-i18n="lead.title">רגע לפני שנכנסים</h1>
+  <h1 dir="auto" id="lead-h" data-i18n="lead.title">רגע לפני שנכנסים</h1>
   <p data-i18n="lead.sub">האפליקציה חינמית לגמרי — בלי כרטיס אשראי, בלי תשלום ובלי שום התחייבות. השאירו כמה פרטים כדי שאוכל לשלוח לכם שאלון קצר לחוות דעת — זה יעזור לנו לשפר את האפליקציה ולהפוך אותה למקצועית יותר בהמשך.</p>
-  <div class="field"><label data-i18n="lead.first">שם פרטי</label>
-    <input type="text" id="lead-first" autocomplete="given-name"></div>
-  <div class="field" style="margin-top:9px"><label data-i18n="lead.last">שם משפחה</label>
-    <input type="text" id="lead-last" autocomplete="family-name"></div>
-  <p class="lead-contact-hint" data-i18n="lead.contactHint">נייד או אימייל — מספיק אחד מהשניים. זו רק דרך ליצור איתכם קשר, שום דבר מעבר לזה.</p>
-  <div class="field"><label data-i18n="lead.phone">נייד</label>
-    <input type="tel" id="lead-phone" autocomplete="tel" placeholder="050-0000000"></div>
-  <div class="field" style="margin-top:9px"><label data-i18n="lead.email">אימייל</label>
-    <input type="email" id="lead-email" autocomplete="email" placeholder="you@example.com"></div>
-  <button class="btn acc big" id="lead-send" style="margin-top:14px" data-i18n="lead.send">שליחה והמשך</button>
-  <button class="btn ghost" id="lead-skip" style="margin-top:8px;width:100%" data-i18n="lead.skip">דלגו בינתיים — אפשר להשאיר פרטים אחר כך בהגדרות</button>
-  <p class="lock-note" data-i18n="lead.who">הפרטים נשלחים לטופס Google Forms של מפתח האפליקציה, רק כדי לשלוח שאלון משוב וליצור קשר. אפשר לבקש את מחיקתם בכל עת.</p>
+  <p class="lead-purpose" data-i18n="lead.purpose">הטופס הזה הוא ליצירת קשר ולשאלון משוב בלבד. הוא <b>לא</b> יוצר חשבון ו<b>לא</b> מגבה נתונים לענן — התלמידים, הציונים והמדידות נשארים במכשיר.</p>
+  <form id="lead-form" novalidate>
+  <div class="field"><label for="lead-first" data-i18n="lead.first">שם פרטי</label>
+    <input type="text" id="lead-first" name="first" autocomplete="given-name" required maxlength="80" aria-describedby="lead-first-err">
+    <div class="lead-err" id="lead-first-err" aria-live="polite"></div></div>
+  <div class="field"><label for="lead-last" data-i18n="lead.last">שם משפחה</label>
+    <input type="text" id="lead-last" name="last" autocomplete="family-name" required maxlength="80" aria-describedby="lead-last-err">
+    <div class="lead-err" id="lead-last-err" aria-live="polite"></div></div>
+  <div class="field"><label for="lead-email" data-i18n="lead.email">אימייל</label>
+    <input type="email" id="lead-email" name="email" dir="ltr" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@example.com" aria-describedby="lead-email-err">
+    <div class="lead-err" id="lead-email-err" aria-live="polite"></div></div>
+  <div class="field"><label for="lead-phone" data-i18n="lead.phone">טלפון</label>
+    <input type="tel" id="lead-phone" name="phone" dir="ltr" autocomplete="tel" inputmode="tel" required maxlength="32" placeholder="+44 20 7946 0958" aria-describedby="lead-phone-hint lead-phone-err">
+    <div class="lead-hint" id="lead-phone-hint" data-i18n="lead.phoneHint">עם קידומת מדינה אם אתם מחוץ לישראל. 7–15 ספרות.</div>
+    <div class="lead-err" id="lead-phone-err" aria-live="polite"></div></div>
+  <p class="lead-contact-hint" data-i18n="lead.bothReq">כל השדות חובה — גם אימייל וגם טלפון.</p>
+  <div class="lead-status" id="lead-status" role="status" aria-live="polite" hidden></div>
+  <button class="btn acc big" id="lead-send" type="submit" style="margin-top:12px" data-i18n="lead.send">שליחה והמשך</button>
+  </form>
+  <button class="btn acc big" id="lead-done" type="button" style="margin-top:12px" hidden data-i18n="lead.close">סגירה</button>
+  <button class="btn ghost" id="lead-skip" type="button" style="margin-top:8px;width:100%" data-i18n="lead.skip">דלגו ל-7 ימים — שום דבר לא יישלח</button>
+  <p class="lock-note" data-i18n="lead.who">הפרטים נשמרים בטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (באמצעות Netlify), ומשמשים רק ליצירת קשר ולשאלון. לבקשת מחיקה — שלחו פנייה דרך אותו טופס.</p>
   <p class="lock-note"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p>
-  <p class="lock-note" data-i18n="lead.note">בלי עלות ובלי כרטיס אשראי — האפליקציה חינמית. הפרטים האלה נשלחים אליי ישירות רק כדי ליצור איתכם קשר. כל השאר — תלמידים, ציונים ומדידות — נשאר במכשיר שלכם בלבד, כרגיל.</p>
 </div></div>
-<iframe name="lead-frame" id="lead-frame" style="display:none" title="lead-submit" tabindex="-1" aria-hidden="true"></iframe>
+<!-- טופס סטטי לזיהוי בידי Netlify Forms — מוסתר, לא בשימוש ישיר.
+     האפליקציה שולחת את אותם שדות בדיוק (hm-data.js: leadPayload). -->
+<form name="pe-ultimate-contact" method="POST" action="/contact-received.html" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="hidden" name="form-name" value="pe-ultimate-contact">
+  <input name="bot-field" tabindex="-1" autocomplete="off">
+  <input name="first" required><input name="last" required>
+  <input type="email" name="email" required><input type="tel" name="phone" required>
+  <input name="lang"><input name="app_version">
+</form>
 <script>
 "use strict";
 /* ============================================================
@@ -4368,6 +4412,72 @@ function mergeEquip(){
       if(t&&!seen[k]){ seen[k]=1; out.push(t); } });
   });
   return out;
+}
+
+/* ============================================================
+   טופס פרטי קשר — אימות, דילוג ותזכורת
+   ------------------------------------------------------------
+   הטופס הקודם שלח ל-Google Forms של המגרש PRO דרך iframe נסתר:
+   האפליקציה לא יכלה לדעת אם הפנייה נקלטה, ו-Google דחה בשקט כל
+   פנייה שחסרו בה נייד או אימייל (שניהם חובה בטופס המקבל), בזמן
+   שהמורה ראה «תודה!».
+
+   עכשיו: ארבעת השדות חובה, הבדיקה בינלאומית (לא פורמט ישראלי),
+   ו«נשלח» מוצג רק אחרי אישור קליטה מהשרת. דילוג לא שולח דבר
+   ודוחה ל-7 ימים; אחר כך תזכורת שאינה חוסמת דבר.
+   ============================================================ */
+var LEAD_SNOOZE_DAYS=7, LEAD_DAY_MS=86400000;
+var LEAD_FORM_NAME="pe-ultimate-contact";
+/* סימן שמופיע רק בדף האישור שהשרת מחזיר אחרי קליטת פנייה. דף אחר
+   (404, דף הבית, שגיאת רשת שהוחלפה בעמוד מטמון) אינו אישור. */
+var LEAD_ACK="peu-contact-received-v1";
+var EMAIL_RE=/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
+function leadClean(o){
+  o=o||{};
+  var t=function(v){ return String(v==null?"":v).replace(/\s+/g," ").trim(); };
+  /* באימייל לא מוחקים רווח פנימי — זה היה משנה בשקט את הכתובת; האימות דוחה אותו */
+  return {first:t(o.first),last:t(o.last),email:t(o.email),phone:t(o.phone)};
+}
+/* טלפון בינלאומי: + אופציונלי בהתחלה, ספרות, רווחים, מקפים, נקודות,
+   סוגריים ולוכסן. 7–15 ספרות (אורך E.164), בלי אותיות. */
+function validPhone(p){
+  var s=String(p||"").trim();
+  if(!/^\+?[0-9\s().\-\/]+$/.test(s))return false;
+  var d=s.replace(/[^0-9]/g,"");
+  return d.length>=7&&d.length<=15;
+}
+function validateLead(o){
+  var c=leadClean(o), err={};
+  if(!c.first)err.first="required";
+  if(!c.last)err.last="required";
+  if(!c.email)err.email="required"; else if(c.email.length>254||!EMAIL_RE.test(c.email))err.email="invalid";
+  if(!c.phone)err.phone="required"; else if(!validPhone(c.phone))err.phone="invalid";
+  return {ok:!Object.keys(err).length,errors:err,clean:c};
+}
+/* מצב הטופס לפי מה שנשמר במכשיר:
+   done     — נשלח ונקלט (או נשלח בגרסה ישנה) — אין תזכורות
+   snoozed  — דולג, והזמן עוד לא הגיע
+   reminder — הדחייה עברה: תזכורת לא חוסמת
+   first    — עוד לא הוצג אף פעם: מסך הפתיחה */
+function leadStatus(st,now){
+  st=st||{};
+  if(st.done)return "done";
+  var until=Number(st.snoozeUntil);
+  if(isFinite(until)&&until>0)return until>Number(now)?"snoozed":"reminder";
+  return "first";
+}
+function leadSnoozeUntil(now,days){
+  return Number(now)+(days==null?LEAD_SNOOZE_DAYS:days)*LEAD_DAY_MS;
+}
+/* מה נשלח — ורק זה. אין כאן שום נתון מהמכשיר מלבד שפת הממשק וגרסה. */
+function leadPayload(clean,meta){
+  meta=meta||{};
+  return {"form-name":LEAD_FORM_NAME,first:clean.first,last:clean.last,email:clean.email,phone:clean.phone,
+    lang:String(meta.lang||""),app_version:String(meta.build||""),"bot-field":""};
+}
+/* אישור קליטה אמין: תשובה 2xx שגופה הוא דף האישור (עם הסימן) */
+function leadAckOk(status,text){
+  return Number(status)>=200&&Number(status)<300&&String(text||"").indexOf(LEAD_ACK)>=0;
 }
 
 /* ============================================================
@@ -6424,6 +6534,9 @@ return {
   syncStudentsFromRosters:syncStudentsFromRosters,classRoster:classRoster,applyRoster:applyRoster,
   mergeRoster:mergeRoster, findStudent:findStudent,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,
+  LEAD_SNOOZE_DAYS:LEAD_SNOOZE_DAYS, LEAD_FORM_NAME:LEAD_FORM_NAME, LEAD_ACK:LEAD_ACK,
+  leadClean:leadClean, validPhone:validPhone, validateLead:validateLead, leadStatus:leadStatus,
+  leadSnoozeUntil:leadSnoozeUntil, leadPayload:leadPayload, leadAckOk:leadAckOk,
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
@@ -12405,6 +12518,27 @@ const DICT={
 he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שבמרקאפ עצמו */
 
 en:{
+  "ab.termsLink":"Terms of use ↗",
+  "ab.leadSnoozed":"Skipped. A reminder will appear on ",
+  "ab.leadLegacy":"Details were sent from an earlier version, without delivery confirmation. You can send them again.",
+  "ab.leadSent":"✓ Details sent and received",
+  "lead.snoozed":"OK — nothing was sent. We'll remind you in 7 days.",
+  "lead.ok":"✓ Received — your details have been recorded. Thank you!",
+  "lead.errNet":"Not sent — no network connection or the server did not respond. Your details are still in the form; please try again.",
+  "lead.errServer":"Not sent — the server did not confirm that your details were received. They are still in the form; please try again later.",
+  "lead.sending":"Sending…",
+  "lead.errFile":"Sending works only from the online app (pe-ultimate.netlify.app), not from a file opened on the device.",
+  "lead.errFix":"Not sent — please fix the highlighted fields.",
+  "lead.errPhone":"Invalid phone number — 7 to 15 digits, optionally with + and a country code",
+  "lead.errEmail":"Invalid email address — for example name@example.com",
+  "lead.errReq":"Required",
+  "lead.remLater":"Remind me in 7 days",
+  "lead.remFill":"Leave details",
+  "lead.remT":"📨 Would you like to leave contact details for the feedback survey? It's optional.",
+  "lead.close":"Close",
+  "lead.bothReq":"All fields are required — both email and phone.",
+  "lead.phoneHint":"Include the country code if you are outside Israel. 7–15 digits.",
+  "lead.purpose":"This form is only for getting in touch and the feedback survey. It does <b>not</b> create an account and does <b>not</b> back anything up to the cloud — students, grades and measurements stay on the device.",
   /* ux-redesign */
   "ab.credT":"🖼 Image credits",
   /* ux-redesign */
@@ -12416,8 +12550,8 @@ en:{
   "bk.how4":"Before restoring you see what will come in and what will be replaced. Nothing is written until you confirm, and a damaged file is rejected before any data is touched.",
   "bk.advT":"⚙️ Advanced: direct backup to Google Drive (needs technical setup)",
   /* ux-redesign */
-  "lead.skip":"Skip for now — you can leave details later in Settings",
-  "lead.who":"Your details go to the app developer's Google Forms form, only to send a feedback survey and get in touch. You can ask for them to be deleted at any time.",
+  "lead.skip":"Skip for 7 days — nothing will be sent",
+  "lead.who":"Your details are stored in PE Ultimate's dedicated form with the app's operator (via Netlify) and are used only to get in touch and send the survey. To ask for deletion, send a request through the same form.",
   "ab.privLink":"Full privacy policy ↗",
   "ab.fbT":"📨 Feedback survey",
   "ab.fb":"Want to receive a feedback survey and be in touch with the developer? Giving your details is optional.",
@@ -12716,13 +12850,11 @@ en:{
   "lock.tooShort":"Pick a code of at least 4 digits",
   "lead.title":"Just before you start",
   "lead.sub":"The app is completely free — no credit card, no payment, no commitment. Leave a few details so we can send you a short feedback questionnaire — it will help us improve the app and make it more professional going forward.",
-  "lead.contactHint":"Mobile or email — either one is enough. It's just a way to reach you, nothing more.",
   "lead.first":"First name",
   "lead.last":"Last name",
-  "lead.phone":"Mobile",
+  "lead.phone":"Phone",
   "lead.email":"Email",
   "lead.send":"Send and continue",
-  "lead.note":"No cost and no credit card — the app is free. These details are sent directly to us just to get in touch with you. Everything else — students, grades, measurements — stays on your device only, as always.",
 
   /* --- ניווט --- */
   "nav.home":"Home",
@@ -12893,7 +13025,7 @@ en:{
   /* --- אודות --- */
   "ab.p":"A field kit for PE teachers: fitness tests, beep test, camera photo-finish, lesson plans, records board, class tools and grades — all on one screen, with student data kept on the device.",
   "ab.privT":"🔒 Privacy",
-  "ab.priv":"Student data — rosters, attendance, grades and measurements — is stored on this device (localStorage and IndexedDB). <b>The app has no server and no account of its own.</b> What does leave the device: (1) on every load — a font request to Google Fonts (IP address and browser details, no student data); (2) your contact details — only if you choose to give them — to the app developer's Google Forms form; (3) only if you set it up: records sync to your Google Sheet (student name, event, result, status) and an encrypted backup to your Google Drive; (4) external links (YouTube, sources, video-upload form) open only when you tap them. CSV export and file backup are always your own action. Clearing the site's data in the browser deletes everything — that's why there is a backup.",
+  "ab.priv":"Student data — rosters, attendance, grades and measurements — is stored on this device (localStorage and IndexedDB). <b>The app has no server and no account of its own.</b> What does leave the device: (1) on every load — a font request to Google Fonts (IP address and browser details, no student data); (2) your contact details — only if you choose to give them — to PE Ultimate's dedicated contact form with the app's operator (Netlify); (3) only if you set it up: records sync to your Google Sheet (student name, event, result, status) and an encrypted backup to your Google Drive; (4) external links (YouTube, sources, video-upload form) open only when you tap them. CSV export and file backup are always your own action. Clearing the site's data in the browser deletes everything — that's why there is a backup.",
   "ab.srcT":"📚 Professional sources",
   "ab.src":"Léger protocol (beep test) · FITNESSGRAM® norms by The Cooper Institute · «PE badge — standards for assessing student achievement», Israeli Ministry of Education, Pedagogical Secretariat · the physical education curriculum. School norms are the teacher's data and are stored on the device.",
   "ab.builtT":"🛠 Built with",
@@ -12903,6 +13035,27 @@ en:{
 },
 
 ar:{
+  "ab.termsLink":"شروط الاستخدام ↗",
+  "ab.leadSnoozed":"تم التخطي. سيظهر تذكير في ",
+  "ab.leadLegacy":"أُرسلت البيانات من إصدار سابق دون تأكيد استلام. يمكنك إرسالها مجددًا.",
+  "ab.leadSent":"✓ أُرسلت البيانات واستُلمت",
+  "lead.snoozed":"حسنًا — لم يُرسَل أي شيء. سنذكّرك بعد 7 أيام.",
+  "lead.ok":"✓ تم الاستلام — سُجّلت بياناتك. شكرًا!",
+  "lead.errNet":"لم يُرسَل — لا يوجد اتصال بالشبكة أو لم يستجب الخادم. ما زالت بياناتك في النموذج؛ حاول مجددًا.",
+  "lead.errServer":"لم يُرسَل — لم يؤكّد الخادم استلام البيانات. ما زالت في النموذج؛ حاول مجددًا لاحقًا.",
+  "lead.sending":"جارٍ الإرسال…",
+  "lead.errFile":"الإرسال ممكن فقط من التطبيق عبر الإنترنت (pe-ultimate.netlify.app)، لا من ملف مفتوح على الجهاز.",
+  "lead.errFix":"لم يُرسَل — يُرجى تصحيح الحقول المُعلَّمة.",
+  "lead.errPhone":"رقم هاتف غير صالح — من 7 إلى 15 رقمًا، ويمكن إضافة + ورمز الدولة",
+  "lead.errEmail":"عنوان بريد إلكتروني غير صالح — مثل name@example.com",
+  "lead.errReq":"حقل مطلوب",
+  "lead.remLater":"ذكّرني بعد 7 أيام",
+  "lead.remFill":"ترك البيانات",
+  "lead.remT":"📨 هل تودّ ترك بيانات التواصل لاستبيان الرأي؟ هذا اختياري.",
+  "lead.close":"إغلاق",
+  "lead.bothReq":"جميع الحقول مطلوبة — البريد الإلكتروني والهاتف معًا.",
+  "lead.phoneHint":"مع رمز الدولة إن كنت خارج إسرائيل. من 7 إلى 15 رقمًا.",
+  "lead.purpose":"هذا النموذج للتواصل واستبيان الرأي فقط. <b>لا</b> ينشئ حسابًا و<b>لا</b> ينسخ أي بيانات احتياطيًا إلى السحابة — تبقى بيانات الطلاب والعلامات والقياسات على الجهاز.",
   /* ux-redesign */
   "ab.credT":"🖼 حقوق الصور",
   /* ux-redesign */
@@ -12914,8 +13067,8 @@ ar:{
   "bk.how4":"قبل الاستعادة يُعرض ما سيُضاف وما سيُستبدل. لا يُكتب شيء حتى تؤكّد، ويُرفض الملف التالف قبل المساس بالبيانات.",
   "bk.advT":"⚙️ متقدّم: نسخ احتياطي مباشر إلى Google Drive (يتطلّب إعدادًا تقنيًا)",
   /* ux-redesign */
-  "lead.skip":"تخطَّ الآن — يمكنك ترك بياناتك لاحقًا من الإعدادات",
-  "lead.who":"تُرسل بياناتك إلى نموذج Google Forms لمطوّر التطبيق، فقط لإرسال استبيان رأي والتواصل معك. يمكنك طلب حذفها في أي وقت.",
+  "lead.skip":"تخطَّ لمدة 7 أيام — لن يُرسَل أي شيء",
+  "lead.who":"تُحفظ بياناتك في النموذج المخصّص لـ PE Ultimate لدى مشغّل التطبيق (عبر Netlify)، وتُستخدم فقط للتواصل ولإرسال الاستبيان. لطلب الحذف، أرسل طلبًا عبر النموذج نفسه.",
   "ab.privLink":"سياسة الخصوصية الكاملة ↗",
   "ab.fbT":"📨 استبيان الرأي",
   "ab.fb":"هل تريد تلقّي استبيان رأي والتواصل مع المطوّر؟ تقديم البيانات اختياري.",
@@ -13188,13 +13341,11 @@ ar:{
   "lock.tooShort":"اختر رمزًا من 4 أرقام على الأقل",
   "lead.title":"قبل أن نبدأ",
   "lead.sub":"التطبيق مجاني تمامًا — بدون بطاقة ائتمان، بدون دفع وبدون أي التزام. اتركوا بعض التفاصيل حتى نتمكن من إرسال استبيان قصير لرأيكم — سيساعدنا ذلك على تحسين التطبيق وجعله أكثر احترافية لاحقًا.",
-  "lead.contactHint":"الجوال أو البريد الإلكتروني — يكفي واحد منهما. هذه فقط طريقة للتواصل معكم، لا أكثر.",
   "lead.first":"الاسم الأول",
   "lead.last":"اسم العائلة",
-  "lead.phone":"الجوال",
+  "lead.phone":"الهاتف",
   "lead.email":"البريد الإلكتروني",
   "lead.send":"إرسال ومتابعة",
-  "lead.note":"بدون تكلفة وبدون بطاقة ائتمان — التطبيق مجاني. هذه التفاصيل تُرسل إلينا مباشرة فقط للتواصل معكم. كل شيء آخر — الطلاب والعلامات والقياسات — يبقى على جهازكم فقط، كما كان دائمًا.",
 
   "nav.home":"الرئيسية",
   "nav.records":"الأرقام",
@@ -13395,7 +13546,7 @@ ar:{
   /* --- אודות --- */
   "ab.p":"عُدّة ميدانية لمعلّم التربية البدنية: اختبارات اللياقة، اختبار البيب، التصوير عند خط النهاية بالكاميرا، خطط الدروس، لوحة الأرقام القياسية، أدوات الصف والعلامات — كل ذلك في شاشة واحدة، وبيانات الطلاب محفوظة على الجهاز.",
   "ab.privT":"🔒 الخصوصية",
-  "ab.priv":"بيانات الطلاب — القوائم والحضور والعلامات والقياسات — محفوظة على هذا الجهاز (localStorage وIndexedDB). <b>ليس للتطبيق خادم ولا حساب خاص به.</b> ما يغادر الجهاز فعلًا: (1) عند كل تحميل — طلب خطوط من Google Fonts (عنوان IP وبيانات المتصفح، دون بيانات طلاب)؛ (2) بيانات التواصل الخاصة بك — فقط إن اخترت تقديمها — إلى نموذج Google Forms لمطوّر التطبيق؛ (3) فقط إن أعددت ذلك: مزامنة الأرقام القياسية مع Google Sheet الخاص بك (اسم الطالب، الفعالية، النتيجة، الحالة) ونسخة احتياطية مشفّرة إلى Google Drive الخاص بك؛ (4) الروابط الخارجية (YouTube، المصادر، نموذج رفع الفيديو) تُفتح فقط عند النقر عليها. تصدير CSV والنسخ الاحتياطي إلى ملف هما دائمًا بمبادرة منك. مسح بيانات الموقع في المتصفح يحذف كل شيء — ولهذا توجد النسخة الاحتياطية.",
+  "ab.priv":"بيانات الطلاب — القوائم والحضور والعلامات والقياسات — محفوظة على هذا الجهاز (localStorage وIndexedDB). <b>ليس للتطبيق خادم ولا حساب خاص به.</b> ما يغادر الجهاز فعلًا: (1) عند كل تحميل — طلب خطوط من Google Fonts (عنوان IP وبيانات المتصفح، دون بيانات طلاب)؛ (2) بيانات التواصل الخاصة بك — فقط إن اخترت تقديمها — إلى نموذج التواصل المخصّص لـ PE Ultimate لدى مشغّل التطبيق (Netlify)؛ (3) فقط إن أعددت ذلك: مزامنة الأرقام القياسية مع Google Sheet الخاص بك (اسم الطالب، الفعالية، النتيجة، الحالة) ونسخة احتياطية مشفّرة إلى Google Drive الخاص بك؛ (4) الروابط الخارجية (YouTube، المصادر، نموذج رفع الفيديو) تُفتح فقط عند النقر عليها. تصدير CSV والنسخ الاحتياطي إلى ملف هما دائمًا بمبادرة منك. مسح بيانات الموقع في المتصفح يحذف كل شيء — ولهذا توجد النسخة الاحتياطية.",
   "ab.srcT":"📚 مصادر مهنية",
   "ab.src":"بروتوكول Léger (اختبار البيب) · معايير FITNESSGRAM® من Cooper Institute · «شارة التربية البدنية — معايير تقييم تحصيل الطلاب»، وزارة التربية والتعليم الإسرائيلية، السكرتارية التربوية · منهاج التربية البدنية. المعايير المدرسية بيانات المعلّم وتُحفظ على الجهاز.",
   "ab.builtT":"🛠 بُني باستخدام",
@@ -13405,6 +13556,27 @@ ar:{
 },
 
 ru:{
+  "ab.termsLink":"Условия использования ↗",
+  "ab.leadSnoozed":"Пропущено. Напоминание появится ",
+  "ab.leadLegacy":"Данные отправлены из прежней версии без подтверждения получения. Можно отправить снова.",
+  "ab.leadSent":"✓ Данные отправлены и получены",
+  "lead.snoozed":"Хорошо — ничего не отправлено. Напомним через 7 дней.",
+  "lead.ok":"✓ Получено — ваши данные сохранены. Спасибо!",
+  "lead.errNet":"Не отправлено — нет сети или сервер не ответил. Данные остались в форме; попробуйте снова.",
+  "lead.errServer":"Не отправлено — сервер не подтвердил получение. Данные остались в форме; попробуйте позже.",
+  "lead.sending":"Отправка…",
+  "lead.errFile":"Отправка возможна только из онлайн-приложения (pe-ultimate.netlify.app), а не из файла, открытого на устройстве.",
+  "lead.errFix":"Не отправлено — исправьте отмеченные поля.",
+  "lead.errPhone":"Неверный номер — от 7 до 15 цифр, можно с + и кодом страны",
+  "lead.errEmail":"Неверный адрес email — например, name@example.com",
+  "lead.errReq":"Обязательное поле",
+  "lead.remLater":"Напомнить через 7 дней",
+  "lead.remFill":"Оставить контакты",
+  "lead.remT":"📨 Хотите оставить контакты для анкеты отзыва? Это не обязательно.",
+  "lead.close":"Закрыть",
+  "lead.bothReq":"Все поля обязательны — и email, и телефон.",
+  "lead.phoneHint":"С кодом страны, если вы не в Израиле. 7–15 цифр.",
+  "lead.purpose":"Эта форма нужна только для связи и анкеты отзыва. Она <b>не</b> создаёт учётную запись и <b>не</b> сохраняет ничего в облако — ученики, оценки и измерения остаются на устройстве.",
   /* ux-redesign */
   "ab.credT":"🖼 Авторы изображений",
   /* ux-redesign */
@@ -13416,8 +13588,8 @@ ru:{
   "bk.how4":"Перед восстановлением показано, что будет добавлено и что заменено. Ничего не записывается до подтверждения, а повреждённый файл отклоняется до любых изменений.",
   "bk.advT":"⚙️ Дополнительно: прямое резервное копирование на Google Диск (нужна техническая настройка)",
   /* ux-redesign */
-  "lead.skip":"Пропустить — оставить данные можно позже в настройках",
-  "lead.who":"Данные отправляются в форму Google Forms разработчика приложения — только чтобы прислать анкету отзыва и связаться с вами. Вы можете попросить удалить их в любое время.",
+  "lead.skip":"Пропустить на 7 дней — ничего не будет отправлено",
+  "lead.who":"Данные хранятся в отдельной форме PE Ultimate у оператора приложения (через Netlify) и используются только для связи и анкеты. Чтобы попросить удалить их, отправьте запрос через эту же форму.",
   "ab.privLink":"Полная политика конфиденциальности ↗",
   "ab.fbT":"📨 Анкета отзыва",
   "ab.fb":"Хотите получить анкету отзыва и быть на связи с разработчиком? Оставлять данные не обязательно.",
@@ -13695,13 +13867,11 @@ ru:{
   "lock.tooShort":"Выберите код минимум из 4 цифр",
   "lead.title":"Прежде чем начать",
   "lead.sub":"Приложение полностью бесплатное — без банковской карты, без оплаты и без обязательств. Оставьте немного данных, чтобы мы могли прислать вам короткую анкету отзыва — это поможет нам улучшить приложение и сделать его более профессиональным в дальнейшем.",
-  "lead.contactHint":"Телефон или email — достаточно одного. Это просто способ связаться с вами, не более того.",
   "lead.first":"Имя",
   "lead.last":"Фамилия",
   "lead.phone":"Телефон",
   "lead.email":"Email",
   "lead.send":"Отправить и продолжить",
-  "lead.note":"Бесплатно и без банковской карты — приложение бесплатное. Эти данные отправляются напрямую нам только для связи с вами. Всё остальное — ученики, оценки, замеры — остаётся только на вашем устройстве, как и раньше.",
 
   "nav.home":"Главная",
   "nav.records":"Рекорды",
@@ -13890,7 +14060,7 @@ ru:{
   /* --- אודות --- */
   "ab.p":"Полевой набор для учителя физкультуры: тесты физподготовки, бип-тест, фотофиниш с камеры, планы уроков, таблица рекордов, инструменты для класса и оценки — всё на одном экране, а данные учеников хранятся на устройстве.",
   "ab.privT":"🔒 Конфиденциальность",
-  "ab.priv":"Данные учеников — списки, посещаемость, оценки и измерения — хранятся на этом устройстве (localStorage и IndexedDB). <b>У приложения нет своего сервера и учётной записи.</b> Что всё же покидает устройство: (1) при каждой загрузке — запрос шрифтов к Google Fonts (IP-адрес и данные браузера, без данных учеников); (2) ваши контактные данные — только если вы решили их оставить — в форму Google Forms разработчика приложения; (3) только если вы это настроили: синхронизация рекордов с вашей Google-таблицей (имя ученика, дисциплина, результат, статус) и зашифрованная копия на ваш Google Диск; (4) внешние ссылки (YouTube, источники, форма загрузки видео) открываются только по нажатию. Экспорт CSV и резервная копия в файл — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё — поэтому и нужна резервная копия.",
+  "ab.priv":"Данные учеников — списки, посещаемость, оценки и измерения — хранятся на этом устройстве (localStorage и IndexedDB). <b>У приложения нет своего сервера и учётной записи.</b> Что всё же покидает устройство: (1) при каждой загрузке — запрос шрифтов к Google Fonts (IP-адрес и данные браузера, без данных учеников); (2) ваши контактные данные — только если вы решили их оставить — в отдельную форму связи PE Ultimate у оператора приложения (Netlify); (3) только если вы это настроили: синхронизация рекордов с вашей Google-таблицей (имя ученика, дисциплина, результат, статус) и зашифрованная копия на ваш Google Диск; (4) внешние ссылки (YouTube, источники, форма загрузки видео) открываются только по нажатию. Экспорт CSV и резервная копия в файл — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё — поэтому и нужна резервная копия.",
   "ab.srcT":"📚 Профессиональные источники",
   "ab.src":"Протокол Léger (бип-тест) · нормы FITNESSGRAM® от Cooper Institute · «Значок по физкультуре — стандарты оценки достижений учащихся», Министерство образования Израиля, Педагогический секретариат · учебная программа по физической культуре. Школьные нормы — данные учителя и хранятся на устройстве.",
   "ab.builtT":"🛠 Сделано с помощью",
@@ -13900,6 +14070,27 @@ ru:{
 },
 
 es:{
+  "ab.termsLink":"Términos de uso ↗",
+  "ab.leadSnoozed":"Omitido. El recordatorio aparecerá el ",
+  "ab.leadLegacy":"Los datos se enviaron desde una versión anterior, sin confirmación de recepción. Puedes enviarlos de nuevo.",
+  "ab.leadSent":"✓ Datos enviados y recibidos",
+  "lead.snoozed":"De acuerdo: no se ha enviado nada. Te lo recordaremos en 7 días.",
+  "lead.ok":"✓ Recibido: tus datos se han registrado. ¡Gracias!",
+  "lead.errNet":"No se ha enviado: no hay conexión o el servidor no respondió. Tus datos siguen en el formulario; inténtalo de nuevo.",
+  "lead.errServer":"No se ha enviado: el servidor no confirmó la recepción. Tus datos siguen en el formulario; inténtalo más tarde.",
+  "lead.sending":"Enviando…",
+  "lead.errFile":"Solo se puede enviar desde la app en línea (pe-ultimate.netlify.app), no desde un archivo abierto en el dispositivo.",
+  "lead.errFix":"No se ha enviado: corrige los campos marcados.",
+  "lead.errPhone":"Teléfono no válido: de 7 a 15 dígitos, opcionalmente con + y prefijo del país",
+  "lead.errEmail":"Correo no válido, por ejemplo name@example.com",
+  "lead.errReq":"Campo obligatorio",
+  "lead.remLater":"Recuérdamelo en 7 días",
+  "lead.remFill":"Dejar datos",
+  "lead.remT":"📨 ¿Quieres dejar tus datos de contacto para la encuesta de opinión? Es opcional.",
+  "lead.close":"Cerrar",
+  "lead.bothReq":"Todos los campos son obligatorios: correo y teléfono.",
+  "lead.phoneHint":"Con el prefijo del país si estás fuera de Israel. De 7 a 15 dígitos.",
+  "lead.purpose":"Este formulario es solo para contactarte y para la encuesta de opinión. <b>No</b> crea una cuenta y <b>no</b> hace copias en la nube: el alumnado, las notas y las mediciones se quedan en el dispositivo.",
   /* ux-redesign */
   "ab.credT":"🖼 Créditos de imágenes",
   /* ux-redesign */
@@ -13911,8 +14102,8 @@ es:{
   "bk.how4":"Antes de restaurar se muestra qué entrará y qué se sustituirá. No se escribe nada hasta confirmar, y un archivo dañado se rechaza antes de tocar los datos.",
   "bk.advT":"⚙️ Avanzado: copia directa a Google Drive (requiere configuración técnica)",
   /* ux-redesign */
-  "lead.skip":"Omitir por ahora: puedes dejar tus datos más tarde en Ajustes",
-  "lead.who":"Tus datos van al formulario de Google Forms del desarrollador de la app, solo para enviarte una encuesta de opinión y contactarte. Puedes pedir que se borren en cualquier momento.",
+  "lead.skip":"Omitir 7 días: no se enviará nada",
+  "lead.who":"Tus datos se guardan en el formulario propio de PE Ultimate, en manos del operador de la app (a través de Netlify), y solo se usan para contactarte y enviarte la encuesta. Para pedir su borrado, envía una solicitud por el mismo formulario.",
   "ab.privLink":"Política de privacidad completa ↗",
   "ab.fbT":"📨 Encuesta de opinión",
   "ab.fb":"¿Quieres recibir una encuesta de opinión y estar en contacto con el desarrollador? Dar tus datos es opcional.",
@@ -14236,13 +14427,11 @@ es:{
   "lock.tooShort":"Elige un código de al menos 4 dígitos",
   "lead.title":"Justo antes de empezar",
   "lead.sub":"La aplicación es totalmente gratuita — sin tarjeta, sin pago, sin compromiso. Déjanos unos datos para enviarte un breve cuestionario de opinión — nos ayudará a mejorar la aplicación y hacerla más profesional.",
-  "lead.contactHint":"Móvil o correo — con uno basta. Es solo una forma de contactarte, nada más.",
   "lead.first":"Nombre",
   "lead.last":"Apellidos",
-  "lead.phone":"Móvil",
+  "lead.phone":"Teléfono",
   "lead.email":"Correo electrónico",
   "lead.send":"Enviar y continuar",
-  "lead.note":"Sin coste y sin tarjeta — la aplicación es gratuita. Estos datos nos llegan directamente solo para ponernos en contacto contigo. Todo lo demás — alumnado, calificaciones, mediciones — sigue solo en tu dispositivo, como siempre.",
   "nav.home":"Inicio",
   "nav.records":"Récords",
   "nav.games":"Juegos",
@@ -14423,7 +14612,7 @@ es:{
   /* --- אודות --- */
   "ab.p":"Un kit de campo para docentes de Educación Física: pruebas de condición física, test de la bip, foto-finish con la cámara, planes de sesión, tabla de récords, herramientas de aula y calificaciones, todo en una sola pantalla y con los datos del alumnado guardados en el dispositivo.",
   "ab.privT":"🔒 Privacidad",
-  "ab.priv":"Los datos del alumnado —listas, asistencia, calificaciones y mediciones— se guardan en este dispositivo (localStorage e IndexedDB). <b>La app no tiene servidor ni cuenta propios.</b> Lo que sí sale del dispositivo: (1) en cada carga, una petición de fuentes a Google Fonts (dirección IP y datos del navegador, sin datos del alumnado); (2) tus datos de contacto —solo si decides darlos— al formulario de Google Forms del desarrollador de la app; (3) solo si lo configuras: la sincronización de récords con tu Google Sheet (nombre del alumno, prueba, resultado, estado) y una copia cifrada en tu Google Drive; (4) los enlaces externos (YouTube, fuentes, formulario de subida de vídeo) solo se abren al pulsarlos. Exportar CSV y la copia a archivo son siempre acción tuya. Borrar los datos del sitio en el navegador lo elimina todo; por eso existe la copia de seguridad.",
+  "ab.priv":"Los datos del alumnado —listas, asistencia, calificaciones y mediciones— se guardan en este dispositivo (localStorage e IndexedDB). <b>La app no tiene servidor ni cuenta propios.</b> Lo que sí sale del dispositivo: (1) en cada carga, una petición de fuentes a Google Fonts (dirección IP y datos del navegador, sin datos del alumnado); (2) tus datos de contacto —solo si decides darlos— al formulario de contacto propio de PE Ultimate, en manos del operador de la app (Netlify); (3) solo si lo configuras: la sincronización de récords con tu Google Sheet (nombre del alumno, prueba, resultado, estado) y una copia cifrada en tu Google Drive; (4) los enlaces externos (YouTube, fuentes, formulario de subida de vídeo) solo se abren al pulsarlos. Exportar CSV y la copia a archivo son siempre acción tuya. Borrar los datos del sitio en el navegador lo elimina todo; por eso existe la copia de seguridad.",
   "ab.srcT":"📚 Fuentes profesionales",
   "ab.src":"Protocolo de Léger (test de la bip) · baremos FITNESSGRAM® de The Cooper Institute · «Insignia de Educación Física — estándares para evaluar el rendimiento del alumnado», Ministerio de Educación de Israel, Secretaría Pedagógica · el currículo de Educación Física. Los baremos del centro son datos del docente y se guardan en el dispositivo.",
   "ab.builtT":"🛠 Hecho con",
@@ -28592,23 +28781,33 @@ window.NUT=(function(){
   return {init,daily};
 })();
 
-/* ============================ איסוף פרטי קשר, פעם אחת בפתיחה ============================
-   כדי לדעת מי קיבל את האפליקציה ולשלוח לו שאלון בהמשך, מסך אחד־פעמי
-   מבקש מהמורה (לא מהתלמיד!) שם ודרך יצירת קשר, ושולח אותם בשקט לטופס
-   Google Forms קיים — בלי שרת משלנו ובלי לגעת בנתוני התלמידים, שנשארים
-   במכשיר בדיוק כמו קודם. מזהי ה-entry נלקחו מקישור "מולא מראש" של
-   הטופס "המגרש פרו משתמשים". */
-const LEAD_FORM={
-  action:"https://docs.google.com/forms/d/e/1FAIpQLSdFAH8PGbTnCywhD754OYVFI7sl6t3sWQIiASd4s2RikIaxZg/formResponse",
-  first:"entry.433001861",
-  last:"entry.603620454",
-  phone:"entry.790270370",
-  email:"entry.457350621"
-};
-/* ביקורת 2026-09-29: המסך חסם גם את ההדגמה ואת בחירת השפה, בלי דילוג.
-   עכשיו: בחירת שפה במסך עצמו, «דלגו בינתיים» (נרשם כדילוג — לא
-   נשלח דבר), ואפשר לחזור אליו מההגדרות ← אודות. השדות עדיין חובה
-   כשבוחרים לשלוח. */
+/* ============================ פרטי קשר — טופס ייעודי, דילוג ותזכורת ============================
+   עד 2026-09 המסך שלח בשקט ל-Google Forms של המגרש PRO דרך iframe נסתר:
+   בלי שום דרך לדעת אם הפנייה נקלטה, ו-Google דחה כל פנייה שחסר בה נייד
+   או אימייל — בזמן שהמורה ראה «תודה!». עכשיו:
+   · טופס ייעודי ל-PE Ultimate (Netlify Forms, באותו אתר) — נפרד מהמגרש PRO.
+   · ארבעת השדות חובה; הבדיקה בינלאומית (hm-data.js: validateLead).
+   · «נשלח» מוצג רק אחרי אישור קליטה: השרת מחזיר את contact-received.html
+     עם סימן קבוע (leadAckOk). כל תשובה אחרת — שגיאה, והפרטים נשארים בטופס.
+   · דילוג לא שולח דבר ודוחה ל-7 ימים (נשמר במכשיר). אחר כך — פס תזכורת
+     שאינו חוסם שום מסך, ולא מוצג בשיעור פעיל, במצב תלמיד או מעל מסך הכניסה.
+   · אחרי קליטה מאושרת — אין תזכורות; הטופס נשאר זמין מ«אודות». */
+const LEAD_ENDPOINT="/", LEAD_TIMEOUT=15000;
+const LD=()=>window.HMDATA;
+function leadState(){
+  const {LS}=H();
+  return {done:!!LS.get("hx.leadDone",false),snoozeUntil:LS.get("hx.leadSnoozeUntil",null),sentAt:LS.get("hx.leadSentAt",null)};
+}
+/* מצב מגרסה קודמת: hx.leadDone + hx.leadSkipped = דילוג (לא נשלח דבר) —
+   הופך לדחייה של 7 ימים מעכשיו. hx.leadDone בלי דילוג = נשלח בגרסה הישנה
+   (בלי אישור) — לא מציקים שוב; אפשר לשלוח מחדש מ«אודות». */
+function leadMigrate(){
+  const {LS}=H();
+  if(LS.get("hx.leadSkipped",false)===true){
+    if(!LS.get("hx.leadSentAt",null)){ LS.set("hx.leadDone",false); LS.set("hx.leadSnoozeUntil",LD().leadSnoozeUntil(Date.now())); }
+  }
+  try{ localStorage.removeItem(BRAND.ns+"hx.leadSkipped"); }catch(e){}
+}
 let leadWired=false;
 function paintLeadLang(){
   const {$}=H(), box=$("#lead-lang"); if(!box||!window.I18N)return;
@@ -28617,50 +28816,118 @@ function paintLeadLang(){
     ' lang="'+l.code+'"><span class="fl">'+l.flag+'</span><span>'+l.native+'</span></button>').join("");
   box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ window.I18N.set(b.dataset.l); paintLeadLang(); }));
 }
+function leadStatusMsg(kind,msg){
+  const el=H().$("#lead-status"); if(!el)return;
+  el.hidden=!msg; el.className="lead-status"+(kind?" "+kind:""); el.textContent=msg||"";
+}
+function leadFmtDate(v){ try{ return new Date(v).toLocaleDateString(H().loc?H().loc():"he-IL"); }catch(e){ return ""; } }
+function paintLeadAbout(){
+  const el=H().$("#ab-leadStat"); if(!el)return;
+  const st=leadState(), k=LD().leadStatus(st,Date.now()), t=H().t;
+  el.textContent=
+    k==="done"&&st.sentAt ? t("ab.leadSent","✓ הפרטים נשלחו ונקלטו")+" · "+leadFmtDate(st.sentAt)
+    : k==="done" ? t("ab.leadLegacy","הפרטים נשלחו בגרסה קודמת, בלי אישור קליטה. אפשר לשלוח שוב.")
+    : k==="snoozed" ? t("ab.leadSnoozed","דילגתם. תזכורת תופיע ב-")+leadFmtDate(st.snoozeUntil)
+    : "";
+}
 function openLead(force){
-  const {$, LS}=H();
+  const {$}=H();
   const ov=$("#leadOv"); if(!ov)return;
-  if(!force&&LS.get("hx.leadDone",false))return;
+  if(!force&&leadState().done)return;
   ov.classList.add("on");
-  paintLeadLang();
-  wireLead();
+  paintLeadLang(); wireLead();
+  const st=leadState();
+  $("#lead-form").hidden=false; $("#lead-done").hidden=true; $("#lead-skip").hidden=!!st.done;
+  leadStatusMsg("", st.done&&st.sentAt ? H().t("ab.leadSent","✓ הפרטים נשלחו ונקלטו")+" · "+leadFmtDate(st.sentAt) : "");
+  const rb=$("#leadRemind"); if(rb)rb.hidden=true;
+}
+function closeLead(){ const ov=H().$("#leadOv"); if(ov)ov.classList.remove("on"); paintLeadAbout(); }
+function leadFieldErrors(errors){
+  const {$}=H(), t=H().t;
+  const msg={required:t("lead.errReq","שדה חובה"),
+    email:t("lead.errEmail","כתובת אימייל לא תקינה — למשל name@example.com"),
+    phone:t("lead.errPhone","מספר טלפון לא תקין — 7 עד 15 ספרות, אפשר עם + וקידומת מדינה")};
+  let first=null;
+  ["first","last","email","phone"].forEach(k=>{
+    const inp=$("#lead-"+k), er=$("#lead-"+k+"-err"), e=errors[k];
+    if(inp)inp.setAttribute("aria-invalid",e?"true":"false");
+    if(er)er.textContent=!e?"":e==="required"?msg.required:msg[k]||msg.required;
+    if(e&&!first)first=inp;
+  });
+  if(first)try{ first.focus(); }catch(x){}
+}
+async function sendLead(){
+  const {$, LS}=H(), t=H().t;
+  const v=LD().validateLead({first:$("#lead-first").value,last:$("#lead-last").value,
+    email:$("#lead-email").value,phone:$("#lead-phone").value});
+  leadFieldErrors(v.errors);
+  if(!v.ok){ leadStatusMsg("err",t("lead.errFix","לא נשלח — יש לתקן את השדות המסומנים.")); return; }
+  /* קובץ מקומי (Hamegrash.html) אינו יכול לשלוח לטופס — אין שרת שיאשר */
+  if(location.protocol==="file:"){ leadStatusMsg("err",t("lead.errFile","שליחה אפשרית רק מהאפליקציה המקוונת (pe-ultimate.netlify.app), לא מקובץ שנפתח מהמכשיר.")); return; }
+  const btn=$("#lead-send"); btn.disabled=true;
+  leadStatusMsg("busy",t("lead.sending","שולח…"));
+  const payload=LD().leadPayload(v.clean,{lang:window.I18N?window.I18N.lang():"he",build:H().buildId?H().buildId():""});
+  const ctl=typeof AbortController!=="undefined"?new AbortController():null;
+  const timer=ctl?setTimeout(()=>ctl.abort(),LEAD_TIMEOUT):null;
+  try{
+    const res=await fetch(LEAD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body:new URLSearchParams(payload).toString(),credentials:"same-origin",cache:"no-store",signal:ctl?ctl.signal:undefined});
+    const text=await res.text();
+    if(!LD().leadAckOk(res.status,text)){
+      leadStatusMsg("err",t("lead.errServer","לא נשלח — השרת לא אישר שהפרטים נקלטו. הפרטים נשארו בטופס; נסו שוב מאוחר יותר."));
+      return;
+    }
+    LS.set("hx.leadDone",true); LS.set("hx.leadSentAt",new Date().toISOString());
+    try{ localStorage.removeItem(BRAND.ns+"hx.leadSnoozeUntil"); }catch(e){}
+    leadStatusMsg("ok",t("lead.ok","✓ התקבל — הפרטים נקלטו אצלנו. תודה!"));
+    $("#lead-form").hidden=true; $("#lead-skip").hidden=true; $("#lead-done").hidden=false;
+    try{ $("#lead-done").focus(); }catch(e){}
+    paintLeadAbout();
+  }catch(e){
+    leadStatusMsg("err",t("lead.errNet","לא נשלח — אין חיבור לרשת או שהשרת לא ענה. הפרטים נשארו בטופס; נסו שוב."));
+  }finally{
+    if(timer)clearTimeout(timer);
+    btn.disabled=false;
+  }
+}
+function snoozeLead(){
+  const {LS, toast}=H(), t=H().t;
+  /* דילוג: שום בקשה לא יוצאת. רק מועד התזכורת נשמר במכשיר. */
+  LS.set("hx.leadSnoozeUntil",LD().leadSnoozeUntil(Date.now()));
+  const rb=H().$("#leadRemind"); if(rb)rb.hidden=true;
+  toast(t("lead.snoozed","בסדר — שום דבר לא נשלח. נזכיר בעוד 7 ימים."));
 }
 function wireLead(){
   if(leadWired)return; leadWired=true;
-  const {$, LS, toast}=H();
-  const ov=$("#leadOv");
-  const close=()=>ov.classList.remove("on");
-  const submitToForm=(first,last,phone,email)=>{
-    if(!LEAD_FORM.action)return;
-    try{
-      const f=document.createElement("form");
-      f.action=LEAD_FORM.action; f.method="POST"; f.target="lead-frame"; f.style.display="none";
-      const add=(name,val)=>{ if(!name||!val)return; const i=document.createElement("input"); i.name=name; i.value=val; f.appendChild(i); };
-      add(LEAD_FORM.first,first); add(LEAD_FORM.last,last); add(LEAD_FORM.phone,phone); add(LEAD_FORM.email,email);
-      document.body.appendChild(f); f.submit(); f.remove();
-    }catch(e){ console.error("lead submit",e); }
-  };
-  $("#lead-send").addEventListener("click",()=>{
-    const first=$("#lead-first").value.trim(), last=$("#lead-last").value.trim(),
-          phone=$("#lead-phone").value.trim(), email=$("#lead-email").value.trim();
-    if(!first||!last||(!phone&&!email)){ toast("שם פרטי, שם משפחה, ואימייל או נייד — שדות חובה"); return; }
-    LS.set("hx.leadDone",true);
-    LS.set("hx.leadSkipped",false);
-    submitToForm(first,last,phone,email);
-    toast("תודה! ממשיכים 👋");
-    close();
-  });
-  const sk=$("#lead-skip");
-  if(sk)sk.addEventListener("click",()=>{
-    /* דילוג: שום דבר לא נשלח. לא שואלים שוב בכל פתיחה — ההגדרות זוכרות. */
-    LS.set("hx.leadDone",true); LS.set("hx.leadSkipped",true);
-    close();
-  });
+  const {$}=H();
+  $("#lead-form").addEventListener("submit",e=>{ e.preventDefault(); sendLead(); });
+  $("#lead-skip").addEventListener("click",()=>{ snoozeLead(); closeLead(); });
+  $("#lead-done").addEventListener("click",closeLead);
+  ["first","last","email","phone"].forEach(k=>{ const i=$("#lead-"+k);
+    if(i)i.addEventListener("input",()=>{ i.setAttribute("aria-invalid","false"); const er=$("#lead-"+k+"-err"); if(er)er.textContent=""; }); });
+}
+/* תזכורת בפתיחה, אחרי 7 ימים — פס לא חוסם. לא מעל מסך הכניסה, לא
+   במצב תלמיד ולא בשיעור פעיל: אלה רגעים שבהם אסור להפריע. */
+function maybeRemindLead(){
+  const {$}=H(), bar=$("#leadRemind"); if(!bar)return;
+  const k=LD().leadStatus(leadState(),Date.now());
+  const on=id=>{ const el=$(id); return !!(el&&el.classList.contains("on")); };
+  let active=false; try{ active=!!(H().session&&H().session.active()); }catch(e){}
+  const student=H().role&&H().role()==="student";
+  bar.hidden=!(k==="reminder"&&!on("#lockOv")&&!on("#leadOv")&&!student&&!active);
 }
 function initLeadCapture(){
-  openLead(false);
-  const b=H().$("#ab-lead");
-  if(b)b.addEventListener("click",()=>{ try{ H().modal&&document.querySelectorAll(".modal.on").forEach(m=>m.classList.remove("on")); }catch(e){} openLead(true); });
+  const {$}=H();
+  leadMigrate();
+  if(LD().leadStatus(leadState(),Date.now())==="first")openLead(false);
+  const b=$("#ab-lead");
+  if(b)b.addEventListener("click",()=>{ try{ document.querySelectorAll(".modal.on").forEach(m=>m.classList.remove("on")); }catch(e){} openLead(true); });
+  const rf=$("#lead-remFill"); if(rf)rf.addEventListener("click",()=>openLead(true));
+  const rl=$("#lead-remLater"); if(rl)rl.addEventListener("click",snoozeLead);
+  paintLeadAbout();
+  /* אחרי שמסך הכניסה הוחלט (HMBootNew ממשיך באותו מחזור) */
+  setTimeout(maybeRemindLead,0);
+  window.HMLead={open:openLead,remind:maybeRemindLead,state:leadState};
 }
 
 /* ============================ HOME extras + נעילת מורה ============================ */
@@ -28677,6 +28944,7 @@ window.HMBootNew=function(){
     sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
     $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
+    maybeRemindLead();
   };
   if(locked){
     $("#lockOv").classList.add("on");
