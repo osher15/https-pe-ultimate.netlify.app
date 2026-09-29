@@ -50,11 +50,58 @@ placeholder brackets; each carries a visible draft notice until the operator con
 Contact and deletion requests go through the in-app form, so no private email
 address needs to be published.
 
-## Evidence
+## Status (updated 2026-09-29, after deploy)
 
+Vocabulary: **deployed** = serving on https://pe-ultimate.netlify.app; **verified** = checked
+with evidence named below; **pending** = not yet verified — not a success.
+
+### Deployed and verified
+
+| Item | Evidence |
+|---|---|
+| Code merged to `main` | PR #6 → merge commit `c6060d0` |
+| Production deploy | Netlify deploy `6abbbdd8bdef9c0008417617`, state *ready*, `commit_ref c6060d0`, published 2026-09-29 13:32 UTC |
+| Live page is this build | Live fetch of the home page (no cache): `<meta name="hm-build" content="0a42ca0a">`, `hm-app.js?v=eab87ca5`, `#lead-form`, `#leadRemind` and the static form `pe-ultimate-contact` present |
+| Netlify detected the form | Form `pe-ultimate-contact` (id `6abbbde047344f0007c18423`) listed with fields `bot-field`, `first`, `last`, `email`, `phone`, `lang`, `app_version`; honeypot on (Netlify API, read after the deploy) |
+| Hamegrash PRO form | Not changed |
+
+Note: Settings → About shows the version from the `hm-app.js` stamp, which stays `eab87ca5`
+because that file did not change in this round. The build meta tag (`0a42ca0a`) is the one
+that changed.
+
+### Verified by automated tests (not on the live site)
+
+- Unit 540/540 and e2e 465/465 on `6bb7c82` (the tested head merged as `c6060d0`); CI green.
 - Unit: `tests/unit/lead.test.js` (validation, statuses, confirmation, payload ↔ static form).
 - E2E: `tests/e2e/lead.e2e.js` (partial forms blocked, international numbers, confirmed
   success, network failure, unconfirmed server reply, skip = no request, 7-day timing
   across reopen, reminder non-blocking, not during an active lesson, migration, RTL/LTR).
-- Live: one synthetic submission marked TEST after deploy, confirmed in Netlify and
-  deleted (see the PR / release notes for the result).
+  Server replies and the clock are simulated in these tests.
+
+### Pending — live TEST submission
+
+| Step | Status |
+|---|---|
+| One synthetic submission sent through the live UI (first `TEST`, last `Synthetic-Claude`, email `test.peu@example.com`, phone `+44 20 7946 0958`) | **Sent once**, 2026-09-29. The app showed «✓ הפרטים נשלחו ונקלטו», which it shows only when the server returns the confirmation page |
+| Submission received in Netlify, fields correct | **PENDING** — not verified. Four reads of the Netlify forms API returned *Internal server error*; the dashboard was not checked |
+| TEST submission deleted | **PENDING** — not deleted |
+
+Do not send another TEST before checking, to avoid a duplicate. Manual check: Netlify →
+project `pe-ultimate` → Forms → `pe-ultimate-contact` (also the **Spam** tab) → confirm the
+fields above plus non-empty `lang` and `app_version` → open that entry → Delete. Update this
+table afterwards.
+
+### Not tested
+
+- Real devices (Android Chrome, iOS Safari), including the on-screen keyboard over the form.
+- The 7-day reminder in real elapsed time (tested with a simulated clock only).
+- Netlify spam filtering of genuine submissions, and email notifications (not configured).
+- Native-speaker review of the new ar/ru/es/en texts in the form, `privacy.html` and `terms.html`.
+
+### Waiting on the operator
+
+1. Operator identity to publish in `privacy.html` and `terms.html` (name or business name).
+2. Approval of the retention proposal: up to 24 months, manual review every six months.
+3. Optional: Netlify form email notifications (Forms → Form notifications).
+
+Until 1 and 2 are answered, both pages stay drafts with their visible draft notice.
