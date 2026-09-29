@@ -32,6 +32,13 @@ function stampSW(){
   const htmlFile=path.join(__dirname,"index.html");
   const files=["index.html","hm-styles.css","manifest.webmanifest"].concat(
     fs.readdirSync(__dirname).filter(f=>/^hm-[\w-]+\.js$/.test(f)).sort());
+  /* רשימת המטמון המוקדם נושאת את אותן חותמות ?v= של index.html. בלעדיהן
+     המטמון החזיק «./hm-app.js» בזמן שהדף מבקש «hm-app.js?v=…» — ופתיחה
+     ראשונה בלי רשת אחרי ההתקנה לא מצאה אף קובץ. */
+  const short=f=>crypto.createHash("sha1").update(R(f)).digest("hex").slice(0,8);
+  const raw=fs.readFileSync(swFile,"utf8");
+  const stamped=raw.replace(/"\.\/(hm-[\w-]+\.(?:js|css))(\?v=[0-9a-f]+)?"/g,(_,f)=>'"./'+f+'?v='+short(f)+'"');
+  if(stamped!==raw)fs.writeFileSync(swFile,stamped);
   const cur=fs.readFileSync(swFile,"utf8");
   /* גם שינוי בלוגיקת ה-service worker עצמו חייב להוליד גרסה חדשה,
      אחרת מכשיר מותקן ממשיך להגיש מדלי מטמון ישן. שורת הגרסה עצמה

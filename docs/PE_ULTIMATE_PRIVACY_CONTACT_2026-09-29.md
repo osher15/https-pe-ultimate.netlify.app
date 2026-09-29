@@ -17,12 +17,14 @@ The Hamegrash PRO form and its responses were **not changed**.
 | Aspect | Behaviour |
 |---|---|
 | Destination | Dedicated Netlify Form `pe-ultimate-contact` on the PE Ultimate site (operator's Netlify account). Detected from the hidden static `<form data-netlify>` in `index.html`. |
-| Fields | `first`, `last`, `email`, `phone` — all required in the app **and** in the static form; plus `lang`, `app_version`, honeypot `bot-field`. Nothing from the device's student data. |
+| Fields | `kind` (`contact` or `delete`), `first`, `last`, `email`, `phone`, `message` (optional, ≤1000 chars), `lang`, `app_version`, honeypot `bot-field`. Required fields depend on the kind and are enforced in the app (`validateLead`): **contact** — first, last, email **and** phone; **delete** — email **or** phone only, no names. Nothing from the device's student data. *(Round 3: the static form no longer carries `required`, because a deletion request legitimately has no names.)* |
 | Validation | `hm-data.js: validateLead` — email shape; phone 7–15 digits with optional `+`, spaces, `-`, `.`, `()`, `/`. No country-specific format. |
 | Confirmation | The app POSTs to `/` and counts it as received **only** if the reply is 2xx and is `contact-received.html` (contains `peu-contact-received-v1`). Anything else → error; the typed details stay in the form. |
 | Skip | Sends nothing. Stores `hx.leadSnoozeUntil = now + 7 days` on the device. Reload/reopen before then shows nothing. |
 | Reminder | After 7 days: a non-blocking bar under the header («Leave details» / «Remind me in 7 days»). Not shown over the lock screen, in student mode, or during an active lesson. Never blocks students, backup or restore. |
 | After success | `hx.leadDone = true`, `hx.leadSentAt` set; no reminders. Form stays available at Settings → About. |
+| Deletion request | About → «בקשה למחוק את פרטי הקשר שלי», or `https://pe-ultimate.netlify.app/#delete-contact` (linked from the privacy page). Explains the three separate things: contact details on Netlify (this request), data on the device (clear site data), backups on Drive/file (the user's own). After a confirmed request: `hx.leadOptOut`, no more reminders. |
+| Double submit | An in-flight guard: repeated taps or Enter while sending produce one request (e2e-tested). |
 | Older installs | «Skipped» on the previous version → 7-day snooze from first launch of this version. «Sent» on an older version → no reminders (About says it was unconfirmed and offers to resend). |
 | Offline file (`Hamegrash.html`) | Cannot confirm delivery → shows that sending works only in the online app. |
 | Marketing | No marketing consent is collected; the form is contact + feedback survey only. |
@@ -31,12 +33,16 @@ The Hamegrash PRO form and its responses were **not changed**.
 
 - Submissions: Netlify → project `pe-ultimate` → Forms → `pe-ultimate-contact`.
   Check the **Spam** tab too (Netlify filters automatically).
-- Email notifications (optional): Forms → Form notifications → add your address there.
-  This is not set by the code.
-- Deleting a submission: open it → Delete. This is also how deletion requests are fulfilled.
-- Retention (approved by the operator on 2026-09-29, stated in the policy): up to
-  24 months from receipt, reviewed at least every six months. **This is a manual
-  process** — nothing deletes automatically.
+- Email notifications: configured by the operator (Project configuration → Notifications →
+  Form submission notifications). Not set by the code.
+- Deleting a submission: open it → Delete.
+- **Deletion requests** (`kind = delete`): find every submission with the same email or
+  phone, delete them, then delete the request itself.
+- **Retention** (approved 2026-09-29): up to 24 months. The policy commits to a review at
+  least every six months that deletes **every submission older than 18 months** — this is
+  what guarantees the 24-month cap (a submission is at most 18 months + 6 months old
+  when it is deleted). Manual; nothing deletes automatically. Suggested: a calendar
+  reminder on 1 March and 1 September.
 
 ## Privacy policy and terms
 

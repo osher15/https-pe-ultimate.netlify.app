@@ -116,6 +116,8 @@ GitHub**, ולא "בנה לי אתר" — הקוד כבר קיים כאן, אי�
 | `Hamegrash.html` | קובץ יחיד אופליין — נבנה, לא נערך ידנית |
 | `privacy.html` · `terms.html` | מדיניות פרטיות ותנאי שימוש, בחמש שפות (מפעיל: Osher Shalev; שמירת פרטי קשר עד 24 חודשים) |
 | `contact-received.html` | דף האישור של טופס פרטי הקשר (Netlify Forms) — האפליקציה מסמנת «נשלח» רק כשהוא חוזר |
+| `netlify.toml` · `tools/stamp-version.js` | בזמן הפריסה ב-Netlify נכתב `version.json` (commit ומועד פריסה) — מוצג בהגדרות. אין שלב בנייה לאפליקציה עצמה |
+| `docs/PE_ULTIMATE_PLAY_READINESS_2026-09-29.md` | פערים להגשה ל-Google Play (TWA), טיוטת Data safety ותסריט בדיקה במכשיר |
 | `docs/ORIGIN_VISION.md` | מסמך חזון מקורי, ירושה מהמגרש PRO — עדיין ראוי לקריאה |
 | `tests/` | בדיקות יחידה (`hm-data.js`, Node) + בדיקות דפדפן (Playwright) — המספרים העדכניים בדוח הביקורת האחרון ב-`docs/` |
 

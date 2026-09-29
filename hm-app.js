@@ -559,8 +559,13 @@ setInterval(()=>{ const d=new Date(); const tc=$("#topClock"); try{ paintNavLive
    הוא נקרא מ-hm-tests.js — קובץ תוכן שיכול לא להשתנות סבבים שלמים,
    ואז המספר בהגדרות נשאר זהה בזמן שהאפליקציה כן התעדכנה. בפיילוט זה
    ההבדל בין «יש לך את התיקון» לבין ניחוש. */
+/* מזהה הבנייה: החותמת שהבנייה כותבת לדף (hm-build) — משתנה עם כל קובץ.
+   קודם הוצגה חותמת hm-app.js בלבד, ולכן פריסה ששינתה קבצים אחרים
+   הציגה את אותה «גרסה». */
 function buildId(){
   try{
+    const mt=document.querySelector('meta[name="hm-build"]');
+    if(mt&&/^[0-9a-f]{6,}$/.test(mt.content))return mt.content;
     const sc=[...document.scripts].map(s=>s.src).find(x=>/hm-app\.js/.test(x))||"";
     const m=sc.match(/[?&]v=([0-9a-f]+)/);
     return m?m[1]:"local";
@@ -723,7 +728,7 @@ function openInfo(){
 }
 $("#btnInfo").addEventListener("click",()=>{ ac(); openInfo(); });
 /* sec — מקטע לפתוח ישירות («backup» מלוח המורה של השיאים) */
-function openSettings(sec){ const bi=$("#set-build"); if(bi)bi.textContent="גרסה "+buildId();
+function openSettings(sec){ const bi=$("#set-build"); if(bi)bi.textContent="גרסה "+buildId(); paintVer();
   $("#set-school").value=SET.school; $("#set-sound").checked=SET.sound; $("#set-voice").checked=SET.voice; $("#set-wake").checked=SET.wake; $("#set-touch").checked=!!SET.touch; applyTheme();
   $("#set-driveForm").value=SET.driveForm||""; $("#set-driveFolder").value=SET.driveFolder||"";
   $("#set-syncUrl").value=SET.syncUrl||""; $("#set-syncCode").value=SET.syncCode||"";
@@ -2273,12 +2278,36 @@ function wireGDrive(){
   }
 }
 
+/* ---------- מה נפרס בפועל ----------
+   version.json נכתב בזמן הפריסה ב-Netlify (tools/stamp-version.js):
+   commit ומועד פריסה אמיתיים. נשמר במכשיר רק כשהוא שייך לאותה בנייה
+   שהדף מריץ — אחרת (דף ישן מהמטמון מול פריסה חדשה) לא מציגים פרטים
+   של גרסה אחרת. בלי רשת או מקובץ מקומי — מזהה הבנייה בלבד. */
+function verInfo(){ const v=LS.get("hx.verInfo",null); return v&&v.build===buildId()?v:null; }
+function verLine(){
+  const v=verInfo(); if(!v||!v.commit)return "";
+  let d=""; try{ d=new Date(v.deployedAt).toLocaleString(loc(),{dateStyle:"short",timeStyle:"short"}); }catch(e){ d=""; }
+  return "commit "+String(v.commit).slice(0,7)+" · פורסם "+d;
+}
+function paintVer(){
+  const line=verLine();
+  ["#set-deploy","#ab-deploy"].forEach(id=>{ const el=$(id); if(el){ el.textContent=line; el.hidden=!line; } });
+}
+function loadVerInfo(){
+  if(location.protocol==="file:")return;
+  try{
+    fetch("version.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(v=>{
+      if(v&&v.build&&v.build===buildId()){ LS.set("hx.verInfo",v); paintVer(); }
+    }).catch(()=>{});
+  }catch(e){}
+}
+
 /* ---------- אודות ---------- */
 function wireAbout(){
   const b=$("#set-about"); if(!b)return;
   b.addEventListener("click",()=>{
     const v="גרסה "+buildId();
-    const av=$("#ab-ver"); if(av)av.textContent=v;
+    const av=$("#ab-ver"); if(av)av.textContent=v; paintVer();
     const ab=$("#ab-build"); if(ab)ab.textContent=v+" · "+(navigator.onLine?"מחובר":"לא מחובר")+
       " · "+(location.protocol==="file:"?"קובץ מקומי":"מותקן מהרשת");
     modal("setModal",false); modal("aboutModal",true);
@@ -5525,8 +5554,22 @@ function runMigration(){
   }
   return MIG_REPORT;
 }
+/* ברכה לפי שעת היום — קודם היה כתוב «בוקר טוב» גם בערב */
+const GREETS=[[5,"home.greetNight","לילה טוב,"],[12,"home.greetMorning","בוקר טוב,"],
+  [17,"home.greetNoon","צהריים טובים,"],[22,"home.greetEvening","ערב טוב,"],[24,"home.greetNight","לילה טוב,"]];
+function paintGreet(){
+  try{
+    const el=document.querySelector('#view-home [data-i18n^="home.greet"]'); if(!el)return;
+    const h=new Date().getHours(), g=GREETS.find(x=>h<x[0])||GREETS[0];
+    if(el.dataset.i18n===g[1])return;
+    el.dataset.i18n=g[1]; el.dataset.i18nHe=g[2]; el.textContent=t(g[1],g[2]);
+  }catch(e){}
+}
 window.HMBoot=function(){
   runMigration();
+  loadVerInfo();
+  paintGreet();
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden)paintGreet(); });
   /* פעם אחת בעלייה: מכשיר שרשימות הכיתה שלו מלאות ו«התלמידים שלי»
      ריק מתיישר עוד לפני שהמורה פותח מסך כלשהו. */
   syncStudents();

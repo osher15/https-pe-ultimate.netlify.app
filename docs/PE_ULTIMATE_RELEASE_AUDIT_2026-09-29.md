@@ -240,3 +240,27 @@ therefore met only through the meta tag for this round.
    submission will confirm delivery).
 
 Backlog items 2, 5–15 are unchanged from section E.
+
+---
+
+## H. Round 3 — remaining defects and gaps (2026-09-29)
+
+Baseline: `main` = `8ea9712` (PR #8), live deploy `6abbed01…` of that commit.
+
+| # | Issue | Root cause | Fix | Evidence |
+|---|---|---|---|---|
+| 1 | Exempt student got 0 participation (demo ט׳3, 29.9: Omer «פטור» → 0) | `attendanceRateOf` counted an exempt day in the denominator with no credit | Exempt leaves numerator **and** denominator (also in the attendance CSV and the class-hub rate). Only exempt → no eligible lesson → the grade stays empty and the toast says why. Manual grades are never overwritten. The calculation (full 1, partial ½, absent 0, exempt not counted) is shown under the button | unit `attendgrade12` 4–4ה; e2e `round3` #1–#2 (UI marking in demo mode) |
+| 2 | «0 מבחנים» in «התלמידים שלי» / profile while the fitness screen shows measurements | Two different kinds of data: `s.tests` holds beep tests only; fitness measurements live in `ft.results` (linked by `sid`). The label said «מבחנים» for the first | Row shows «N מדידות כושר · M ביפ טסט»; profile has a «מבחני כושר» table from the same profile the fitness card uses, and a separate beep-test section. No data created or deleted | e2e `round3` #3 |
+| 3 | Data loss / grade rules | (regression cover) | Two classes, existing grades, fill in one, reopen: all students and grades intact; `0` stays 0, missing stays missing; weight-0 component does not block «final»; backup→wipe→restore identical; CSV exports 0 as 0, missing as empty | unit `round3`; e2e `round3` #4–#5, #9 |
+| 4 | Contact form | Double submit possible via repeated submit events | In-flight guard; deletion-request kind (email **or** phone, optional message, no names); `/#delete-contact` deep link; opt-out after a confirmed deletion request | unit `lead` (+5); e2e `lead` #13–#16 |
+| 5 | Privacy text overstatements | «No server» (the site is served by Netlify, which logs requests); «removing the app deletes all data» (an installed PWA/TWA keeps data in the browser) | Corrected in About, lock screen, info screen and `privacy.html` (5 languages). Retention text now states the mechanism that enforces the 24-month cap (6-monthly review deleting anything older than 18 months) | review of strings |
+| 6 | Settings version showed only the `hm-app.js` stamp | — | Build id = page's `hm-build`; real commit and deploy time from `version.json`, written by Netlify at deploy (`netlify.toml` → `tools/stamp-version.js`), shown only if it belongs to the same build | e2e `round3` #8 |
+| 7 | Service worker could mix versions | Versioned assets (`?v=`) were refreshed in the background; the host ignores `?v=`, so new content could be stored under an old key; the precache held unversioned URLs | Versioned assets are immutable in the SW: cache-first, stored only after a SHA-1 match with `?v=`; precache list stamped with the same hashes at build | code review; full e2e `update` suite |
+| 8 | «בוקר טוב» in the evening | Hard-coded greeting | Time-of-day greeting in 5 languages | e2e `round3` #7 |
+| 9 | Student mode exposure | (check) | Only the records board; pending submissions, student list and grades not shown; settings hidden | e2e `round3` #6 |
+
+Google Play: see `docs/PE_ULTIMATE_PLAY_READINESS_2026-09-29.md` (gap list, Data safety
+draft, audience, real-device test script). Nothing was submitted.
+
+Not tested in this round: real Android/iOS devices (no device available), timers and
+audio after screen lock, TWA packaging, native-speaker review.

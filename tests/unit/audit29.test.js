@@ -159,7 +159,7 @@ test("3.8 נוכחות לפי טווח התקופה: נוכחות ישנה לא 
              "2026-09-22|ט׳3":{demo0:"p"},"2026-09-29|ט׳3":{demo0:"p"}};
   assert.equal(D.attendanceRateOf(att,s,st,{cid:T3}).pct,50,"בלי טווח — הכול, כמו קודם");
   assert.deepEqual(D.attendanceRateOf(att,s,st,{cid:T3,from:"2026-09-01",to:"2026-12-31"}),
-    {days:2,p:2,h:0,pct:100});
+    {days:2,p:2,h:0,a:0,e:0,pct:100});
   assert.equal(D.attendanceRateOf(att,s,st,{cid:T3,from:"2026-02-01",to:"2026-08-31"}),null,
     "אין נוכחות בטווח — null, לא 0");
 });
