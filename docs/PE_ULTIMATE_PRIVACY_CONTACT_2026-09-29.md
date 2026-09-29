@@ -78,18 +78,15 @@ that changed.
   across reopen, reminder non-blocking, not during an active lesson, migration, RTL/LTR).
   Server replies and the clock are simulated in these tests.
 
-### Pending — live TEST submission
+### Live TEST submission
 
 | Step | Status |
 |---|---|
 | One synthetic submission sent through the live UI (first `TEST`, last `Synthetic-Claude`, email `test.peu@example.com`, phone `+44 20 7946 0958`) | **Sent once**, 2026-09-29. The app showed «✓ הפרטים נשלחו ונקלטו», which it shows only when the server returns the confirmation page |
-| Submission received in Netlify, fields correct | **PENDING** — not verified. Four reads of the Netlify forms API returned *Internal server error*; the dashboard was not checked |
-| TEST submission deleted | **PENDING** — not deleted |
+| Submission received in Netlify, fields correct | **VERIFIED** by the operator in the Netlify dashboard (Forms → `pe-ultimate-contact` → *Verified submissions*, not spam), 2026-09-29: exactly one entry, `first` TEST, `last` Synthetic-Claude, `email` test.peu@example.com, `phone` +44 20 7946 0958, `lang` he, `app_version` eab87ca5. The Netlify forms API itself returned *Internal server error* on four reads, so this check was done in the dashboard |
+| TEST submission deleted | **PENDING** — to be deleted by the operator in the dashboard (select only that entry → *Delete submission*; not *Delete form*) |
 
-Do not send another TEST before checking, to avoid a duplicate. Manual check: Netlify →
-project `pe-ultimate` → Forms → `pe-ultimate-contact` (also the **Spam** tab) → confirm the
-fields above plus non-empty `lang` and `app_version` → open that entry → Delete. Update this
-table afterwards.
+No further TEST submission is needed. Update this table once the deletion is done.
 
 ### Not tested
 
