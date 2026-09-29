@@ -3,121 +3,220 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PE Ultimate — מדיניות פרטיות · Privacy policy</title>
-<!-- ============================================================
-     מדיניות פרטיות — נכתבה מתוך מלאי בפועל של הקוד (ביקורת
-     2026-09-29, docs/PE_ULTIMATE_RELEASE_AUDIT_2026-09-29.md §C).
-     כל שינוי בבקשות היוצאות של האפליקציה מחייב עדכון כאן.
-     הסוגריים [להשלמה] הם החלטות של בעל האפליקציה — לא לפרסם
-     לציבור/לחנות לפני שהושלמו ונבדקו. זה אינו ייעוץ משפטי.
-     ============================================================ -->
+<title>PE Ultimate — Privacy policy · מדיניות פרטיות</title>
+<!-- נכתב מתוך מלאי בפועל של הקוד (docs/PE_ULTIMATE_PRIVACY_CONTACT_2026-09-29.md).
+     כל שינוי במה שהאפליקציה שולחת החוצה מחייב עדכון כאן. זה אינו ייעוץ משפטי. -->
 <style>
 :root{--bg:#ffffff;--ink:#16182b;--muted:#5b6070;--acc:#1f7a4d;--line:#dfe3ea;--warn:#8a5a00;--warnbg:#fff6e0}
 @media (prefers-color-scheme:dark){:root{--bg:#0b1220;--ink:#e9e9ed;--muted:#a3a9b8;--acc:#5fd39a;--line:#26324a;--warn:#ffd166;--warnbg:#2a2210}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
-main{max-width:760px;margin:0 auto;padding:24px 16px 64px}
-h1{font-size:1.6rem;color:var(--acc);margin:.2em 0}
-h2{font-size:1.15rem;margin:1.6em 0 .4em;border-bottom:1px solid var(--line);padding-bottom:4px}
-table{width:100%;border-collapse:collapse;font-size:.92rem}
-th,td{border:1px solid var(--line);padding:6px 8px;vertical-align:top;text-align:start}
+main{max-width:760px;margin:0 auto;padding:20px 16px 64px}
+nav.langs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+nav.langs a{border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink);text-decoration:none;min-height:40px;display:inline-flex;align-items:center}
+.draft{background:var(--warnbg);color:var(--warn);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:.95rem}
+section{border-top:3px solid var(--line);margin-top:28px;padding-top:10px}
+h1{font-size:1.5rem;color:var(--acc);margin:.2em 0}
+h2{font-size:1.1rem;margin:1.4em 0 .3em}
 .meta{color:var(--muted);font-size:.9rem}
-.todo{background:var(--warnbg);color:var(--warn);padding:1px 5px;border-radius:4px}
-.tbl{overflow-x:auto}
-section[lang=en]{direction:ltr;text-align:left;margin-top:48px;border-top:3px solid var(--line);padding-top:12px}
+ul{padding-inline-start:22px}
+li{margin:.25em 0}
 </style>
 </head>
 <body>
 <main>
-<section lang="he">
-<h1>PE Ultimate — מדיניות פרטיות</h1>
-<p class="meta">עודכן לאחרונה: 29 בספטמבר 2026 · English below</p>
-
-<h2>מי אנחנו</h2>
-<p>PE Ultimate היא אפליקציית דפדפן (PWA) למורים לחינוך גופני. היא פועלת בלי שרת ובלי חשבון משתמש משלה.
-מפעיל/ת האפליקציה ואיש/אשת הקשר לענייני פרטיות: <span class="todo">[להשלמה: שם המפעיל וכתובת קשר]</span>.</p>
-
-<h2>מה נשמר, ואיפה</h2>
-<p>כל נתוני העבודה — רשימות תלמידים, נוכחות, ציונים, מדידות, מערכי שיעור, מערכת שעות והגדרות — נשמרים
-<b>במכשיר שבו האפליקציה פתוחה</b> (localStorage ו-IndexedDB של הדפדפן). הם לא נשלחים אלינו ואין לנו גישה אליהם.
-מחיקת נתוני האתר בדפדפן, או הסרת האפליקציה, מוחקת אותם; לכן יש גיבוי לקובץ.</p>
-
-<h2>מה כן יוצא מהמכשיר</h2>
-<div class="tbl"><table>
-<tr><th>מה</th><th>לאן</th><th>מתי</th><th>אילו נתונים</th></tr>
-<tr><td>טעינת האתר</td><td>Netlify (האירוח)</td><td>בכל פתיחה מהרשת</td><td>כתובת IP, פרטי דפדפן, הכתובת שנטענה — יומני שרת רגילים של האירוח</td></tr>
-<tr><td>גופנים</td><td>Google Fonts</td><td>בכל טעינה עם רשת</td><td>כתובת IP ופרטי דפדפן. בלי נתוני תלמידים</td></tr>
-<tr><td>פרטי קשר של המורה (רשות)</td><td>טופס Google Forms של מפעיל האפליקציה</td><td>רק אם בחרת «שליחה והמשך»</td><td>שם פרטי, שם משפחה, נייד ו/או אימייל</td></tr>
-<tr><td>סנכרון שיאים (רשות, דורש הגדרה)</td><td>Google Apps Script / Google Sheet <b>שלך</b></td><td>רק אחרי שהגדרת כתובת וקוד בהגדרות</td><td>שם תלמיד, ענף, תוצאה, סטטוס אישור. בלי סרטונים</td></tr>
-<tr><td>גיבוי לדרייב (רשות, דורש הגדרה)</td><td>Google Drive <b>שלך</b></td><td>רק כשלוחצים «גבה עכשיו לדרייב»</td><td>קובץ גיבוי <b>מוצפן בסיסמה</b> (האפליקציה מסרבת לגבות לדרייב בלי הצפנה)</td></tr>
-<tr><td>קישורים חיצוניים</td><td>YouTube, אתרי מקורות, טופס העלאת סרטון שהמורה הגדיר</td><td>רק כשלוחצים על קישור</td><td>מה שהאתר החיצוני אוסף לפי המדיניות שלו</td></tr>
-</table></div>
-<p>אין באפליקציה פרסומות, אין כלי אנליטיקה ואין מעקב.</p>
-
-<h2>נתונים על קטינים</h2>
-<p>האפליקציה מיועדת למורים. נתוני תלמידים מוזנים בידי המורה ונשמרים במכשיר שלו. מצב התלמיד (צפייה בלוח השיאים
-ושליחת שיא לאישור) אינו אוסף פרטי קשר מתלמידים. המורה/בית הספר אחראים לבסיס החוקי לעיבוד נתוני התלמידים
-שהם מזינים, ולכל שיתוף שהם מגדירים (סנכרון, דרייב, ייצוא). <span class="todo">[להשלמה: קהל יעד מוצהר ותנאי שימוש]</span></p>
-
-<h2>שמירה ומחיקה</h2>
+<nav class="langs" aria-label="Language"><a href="#he" lang="he">עברית</a><a href="#en" lang="en">English</a><a href="#ar" lang="ar">العربية</a><a href="#ru" lang="ru">Русский</a><a href="#es" lang="es">Español</a></nav>
+<section id="he" lang="he" dir="rtl"><h1>PE Ultimate — מדיניות פרטיות</h1>
+<p class="meta">עודכן: 29 בספטמבר 2026 · <a href="terms.html#he">תנאי שימוש</a></p>
+<p class="draft">טיוטה: פרטי הזהות של מפעיל האפליקציה ותקופת השמירה ממתינים לאישור המפעיל. התיאור הטכני כאן תואם את קוד האפליקציה כפי שנבדק.</p>
+<h2>למי האפליקציה מיועדת</h2>
+<p>PE Ultimate מיועדת למורים לחינוך גופני ולאנשי הוראה ואימון. היא אינה מיועדת להרשמה עצמאית של תלמידים ואין בה חשבונות משתמש.</p>
+<h2>נתונים שנשמרים במכשיר בלבד</h2>
+<p>רשימות תלמידים, נוכחות, ציונים, מדידות, מערכי שיעור, מערכת שעות, הגדרות, קוד המורה וסרטוני שיאים נשמרים בדפדפן של המכשיר (localStorage ו-IndexedDB). הם לא נשלחים למפעיל האפליקציה, ולמפעיל אין גישה אליהם.</p>
+<h2>פרטי קשר שנשלחים למפעיל</h2>
 <ul>
-<li>נתונים במכשיר: נשמרים עד שתמחק/י אותם (הגדרות ← ניקוי, או מחיקת נתוני האתר בדפדפן).</li>
-<li>פרטי קשר שנשלחו בטופס: נשמרים בטופס של המפעיל <span class="todo">[להשלמה: תקופת שמירה]</span>. לבקשת מחיקה: <span class="todo">[להשלמה: כתובת קשר]</span>.</li>
-<li>נתונים בגיליון/בדרייב שלך: בשליטתך המלאה, לפי תנאי Google.</li>
+<li><b>מה:</b> שם פרטי, שם משפחה, אימייל, טלפון, שפת הממשק וגרסת האפליקציה. שום נתון על תלמידים.</li>
+<li><b>מתי:</b> רק כשבוחרים «שליחה» בטופס יצירת הקשר. דילוג לא שולח דבר.</li>
+<li><b>למה:</b> ליצירת קשר ולשליחת שאלון משוב על האפליקציה. לא לשיווק, לא למכירה ולא להעברה לאחרים.</li>
+<li><b>איפה:</b> בטופס הייעודי של PE Ultimate ב-Netlify Forms, בחשבון של מפעיל האפליקציה. Netlify מעבד את הנתונים עבור המפעיל.</li>
+<li><b>כמה זמן:</b> עד 24 חודשים ממועד הקבלה, או פחות אם מבקשים מחיקה. המפעיל עובר על הפניות לפחות פעם בחצי שנה ומוחק את מה שעבר את התקופה.</li>
+<li><b>מחיקה:</b> שלחו בקשת מחיקה דרך אותו טופס (אודות ← השארת פרטי קשר). המפעיל מוחק את הפנייה מ-Netlify.</li>
 </ul>
-
+<h2>שירותים חיצוניים</h2>
+<ul>
+<li><b>Netlify</b> (אירוח): בכל טעינה נרשמים יומני שרת רגילים — כתובת IP, פרטי דפדפן והכתובת שנטענה.</li>
+<li><b>Google Fonts</b>: בכל טעינה מהרשת הדפדפן מבקש גופנים (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים).</li>
+<li><b>סנכרון שיאים — רשות:</b> רק אם המורה מגדיר כתובת וקוד, נשלחים שם תלמיד, ענף, תוצאה וסטטוס ל-Google Sheet של המורה עצמו.</li>
+<li><b>גיבוי לגוגל דרייב — רשות:</b> רק בלחיצה, קובץ גיבוי מוצפן בסיסמה עולה לדרייב של המורה עצמו.</li>
+<li><b>קישורים חיצוניים</b> (YouTube, מקורות, טופס העלאת סרטון שהמורה הגדיר) נפתחים רק בלחיצה.</li>
+</ul>
+<p>אין באפליקציה פרסומות, כלי אנליטיקה או מעקב.</p>
+<h2>הרשאות במכשיר</h2>
+<ul>
+<li><b>מצלמה:</b> לפוטו־פיניש ולצילום או בחירת סרטון שיא. התמונה מעובדת במכשיר.</li>
+<li><b>מיקרופון:</b> רק לזיהוי אות זינוק (יריה או מחיאת כף) בזמן אמת. השמע לא מוקלט ולא נשלח.</li>
+<li><b>מסך דולק, העתקה ושיתוף:</b> רק בזמן שימוש או בלחיצה. אין גישה למיקום, לאנשי קשר או להתראות.</li>
+</ul>
+<h2>תלמידים</h2>
+<p>במצב תלמיד אפשר לצפות בלוח השיאים ולהגיש שיא לאישור המורה באותו מכשיר. לא נאספים פרטי קשר מתלמידים. המורה או בית הספר אחראים לכך שיש להם רשות לנתוני התלמידים שהם מזינים ולכל שיתוף שהם מגדירים.</p>
+<h2>מחיקת נתונים במכשיר</h2>
+<p>אפשר למחוק פריטים בודדים ואת כל השיאים מתוך האפליקציה. מחיקת נתוני האתר בדפדפן או הסרת האפליקציה מוחקות את כל הנתונים במכשיר. קובצי גיבוי שיצרתם נשארים בשליטתכם.</p>
 <h2>אבטחה</h2>
-<p>האתר מוגש ב-HTTPS. גיבוי לקובץ יכול להיות מוצפן בסיסמה (AES-GCM, המפתח נגזר מהסיסמה במכשיר; הסיסמה לא נשמרת), וגיבוי לדרייב
-תמיד מוצפן. קוד מורה מקומי מגן על המכשיר מפני שימוש מזדמן — הוא אינו חשבון ואינו מחליף נעילת מכשיר.</p>
-
+<p>האתר מוגש ב-HTTPS. גיבוי לקובץ יכול להיות מוצפן בסיסמה (AES-GCM, מפתח שנגזר מהסיסמה במכשיר; הסיסמה לא נשמרת), וגיבוי לדרייב תמיד מוצפן. קוד המורה מגן מפני שימוש מזדמן במכשיר — הוא אינו חשבון.</p>
 <h2>שינויים</h2>
-<p>נעדכן דף זה כשמשתנה מה שהאפליקציה שולחת החוצה. תאריך העדכון מופיע למעלה.</p>
-</section>
-
-<section lang="en">
-<h1>PE Ultimate — Privacy policy</h1>
-<p class="meta">Last updated: 29 September 2026</p>
-
-<h2>Who we are</h2>
-<p>PE Ultimate is a browser app (PWA) for physical-education teachers. It runs without a server or user account of its own.
-Operator and privacy contact: <span class="todo">[TO COMPLETE: operator name and contact address]</span>.</p>
-
-<h2>What is stored, and where</h2>
-<p>All working data — student rosters, attendance, grades, measurements, lesson plans, timetable and settings — is stored
-<b>on the device where the app is open</b> (the browser's localStorage and IndexedDB). It is not sent to us and we have no access to it.
-Clearing the site's data or removing the app deletes it; that is why file backup exists.</p>
-
-<h2>What does leave the device</h2>
-<div class="tbl"><table>
-<tr><th>What</th><th>Where to</th><th>When</th><th>Which data</th></tr>
-<tr><td>Loading the site</td><td>Netlify (hosting)</td><td>Every online load</td><td>IP address, browser details, requested URL — standard hosting logs</td></tr>
-<tr><td>Fonts</td><td>Google Fonts</td><td>Every online load</td><td>IP address and browser details. No student data</td></tr>
-<tr><td>Teacher contact details (optional)</td><td>The operator's Google Forms form</td><td>Only if you choose “Send and continue”</td><td>First name, last name, phone and/or email</td></tr>
-<tr><td>Records sync (optional, needs setup)</td><td><b>Your</b> Google Apps Script / Google Sheet</td><td>Only after you configure a URL and code in Settings</td><td>Student name, event, result, approval status. No videos</td></tr>
-<tr><td>Drive backup (optional, needs setup)</td><td><b>Your</b> Google Drive</td><td>Only when you tap “Back up to Drive now”</td><td>A <b>password-encrypted</b> backup file (the app refuses unencrypted Drive backups)</td></tr>
-<tr><td>External links</td><td>YouTube, source websites, a video-upload form set by the teacher</td><td>Only when you tap a link</td><td>Whatever that site collects under its own policy</td></tr>
-</table></div>
-<p>The app contains no ads, no analytics and no tracking.</p>
-
-<h2>Data about minors</h2>
-<p>The app is intended for teachers. Student data is entered by the teacher and kept on their device. Student mode (viewing the records board
-and submitting a record for approval) does not collect contact details from students. The teacher/school is responsible for the legal basis for
-processing the student data they enter and for any sharing they configure (sync, Drive, export). <span class="todo">[TO COMPLETE: declared target audience and terms of use]</span></p>
-
-<h2>Retention and deletion</h2>
+<p>הדף מתעדכן כשמשתנה מה שהאפליקציה שולחת החוצה. הוא מתאר את פעולת האפליקציה ואינו אישור עמידה בדין מסוים.</p></section><section id="en" lang="en" dir="ltr"><h1>PE Ultimate — Privacy policy</h1>
+<p class="meta">Updated: 29 September 2026 · <a href="terms.html#en">Terms of use</a></p>
+<p class="draft">Draft: the operator's identity and the retention period await the operator's approval. The technical description matches the app's code as reviewed.</p>
+<h2>Who the app is for</h2>
+<p>PE Ultimate is for physical-education teachers and teaching and coaching staff. It is not meant for students to sign up on their own, and it has no user accounts.</p>
+<h2>Data kept only on the device</h2>
+<p>Student rosters, attendance, grades, measurements, lesson plans, timetable, settings, the teacher code and record videos are stored in the device's browser (localStorage and IndexedDB). They are not sent to the app's operator, who has no access to them.</p>
+<h2>Contact details sent to the operator</h2>
 <ul>
-<li>On-device data: kept until you delete it (Settings → clear, or clearing the site's data in the browser).</li>
-<li>Contact details sent through the form: kept in the operator's form <span class="todo">[TO COMPLETE: retention period]</span>. Deletion requests: <span class="todo">[TO COMPLETE: contact address]</span>.</li>
-<li>Data in your own Sheet/Drive: fully under your control, subject to Google's terms.</li>
+<li><b>What:</b> first name, last name, email, phone, interface language and app version. No student data.</li>
+<li><b>When:</b> only when you choose “Send” in the contact form. Skipping sends nothing.</li>
+<li><b>Why:</b> to get in touch and send a feedback survey about the app. Not for marketing, not sold, not passed on.</li>
+<li><b>Where:</b> in PE Ultimate's dedicated form on Netlify Forms, in the operator's account. Netlify processes the data on the operator's behalf.</li>
+<li><b>How long:</b> up to 24 months from receipt, or less if you ask for deletion. The operator reviews submissions at least every six months and deletes those past the period.</li>
+<li><b>Deletion:</b> send a deletion request through the same form (About → Leave contact details). The operator deletes the submission from Netlify.</li>
 </ul>
-
+<h2>External services</h2>
+<ul>
+<li><b>Netlify</b> (hosting): each load creates standard server logs — IP address, browser details and the requested URL.</li>
+<li><b>Google Fonts</b>: each online load requests fonts (IP address and browser details, no student data).</li>
+<li><b>Records sync — optional:</b> only if the teacher sets a URL and code, student name, event, result and status are sent to the teacher's own Google Sheet.</li>
+<li><b>Google Drive backup — optional:</b> only on request, a password-encrypted backup file goes to the teacher's own Drive.</li>
+<li><b>External links</b> (YouTube, sources, a video-upload form set by the teacher) open only when tapped.</li>
+</ul>
+<p>The app has no ads, analytics or tracking.</p>
+<h2>Device permissions</h2>
+<ul>
+<li><b>Camera:</b> for photo-finish and to record or choose a record video. Images are processed on the device.</li>
+<li><b>Microphone:</b> only to detect a start signal (shot or clap) live. Audio is not recorded or sent.</li>
+<li><b>Screen wake, copy and share:</b> only during use or when tapped. No access to location, contacts or notifications.</li>
+</ul>
+<h2>Students</h2>
+<p>Student mode lets a student view the records board and submit a record for the teacher's approval on the same device. No contact details are collected from students. The teacher or school is responsible for having permission for the student data they enter and for any sharing they set up.</p>
+<h2>Deleting data on the device</h2>
+<p>Individual items and all records can be deleted in the app. Clearing the site's data in the browser or removing the app deletes all data on the device. Backup files you created stay under your control.</p>
 <h2>Security</h2>
-<p>The site is served over HTTPS. File backups can be password-encrypted (AES-GCM, key derived on the device; the password is not stored), and Drive
-backups are always encrypted. The local teacher code protects the device against casual use — it is not an account and does not replace a device lock.</p>
-
+<p>The site is served over HTTPS. File backups can be password-encrypted (AES-GCM with a key derived on the device; the password is not stored), and Drive backups are always encrypted. The teacher code protects against casual use of the device — it is not an account.</p>
 <h2>Changes</h2>
-<p>We will update this page whenever what the app sends off the device changes. The date above shows the last update.</p>
-</section>
+<p>This page is updated when what the app sends off the device changes. It describes how the app works and is not a certification of compliance with any particular law.</p></section><section id="ar" lang="ar" dir="rtl"><h1>PE Ultimate — سياسة الخصوصية</h1>
+<p class="meta">آخر تحديث: 29 سبتمبر 2026 · <a href="terms.html#ar">شروط الاستخدام</a></p>
+<p class="draft">مسودة: هوية مشغّل التطبيق ومدة الاحتفاظ بانتظار موافقة المشغّل. الوصف التقني يطابق شيفرة التطبيق كما رُوجعت.</p>
+<h2>لمن التطبيق</h2>
+<p>PE Ultimate مخصّص لمعلّمي التربية البدنية ولطواقم التعليم والتدريب. ليس مخصّصًا لتسجيل الطلاب بأنفسهم، ولا توجد فيه حسابات مستخدمين.</p>
+<h2>بيانات تبقى على الجهاز فقط</h2>
+<p>قوائم الطلاب والحضور والعلامات والقياسات وخطط الدروس والجدول والإعدادات ورمز المعلّم وفيديوهات الأرقام القياسية تُحفظ في متصفح الجهاز (localStorage وIndexedDB). لا تُرسل إلى مشغّل التطبيق، ولا يملك وصولًا إليها.</p>
+<h2>بيانات التواصل المرسلة إلى المشغّل</h2>
+<ul>
+<li><b>ماذا:</b> الاسم الأول واسم العائلة والبريد الإلكتروني والهاتف ولغة الواجهة وإصدار التطبيق. لا بيانات عن الطلاب.</li>
+<li><b>متى:</b> فقط عند اختيار «إرسال» في نموذج التواصل. التخطي لا يرسل شيئًا.</li>
+<li><b>لماذا:</b> للتواصل ولإرسال استبيان رأي عن التطبيق. ليس للتسويق ولا للبيع ولا للنقل إلى آخرين.</li>
+<li><b>أين:</b> في النموذج المخصّص لـ PE Ultimate على Netlify Forms، في حساب المشغّل. تعالج Netlify البيانات نيابةً عن المشغّل.</li>
+<li><b>المدة:</b> حتى 24 شهرًا من الاستلام، أو أقل عند طلب الحذف. يراجع المشغّل الطلبات مرة كل ستة أشهر على الأقل ويحذف ما تجاوز المدة.</li>
+<li><b>الحذف:</b> أرسل طلب حذف عبر النموذج نفسه (حول ← ترك بيانات التواصل). يحذف المشغّل الطلب من Netlify.</li>
+</ul>
+<h2>خدمات خارجية</h2>
+<ul>
+<li><b>Netlify</b> (الاستضافة): عند كل تحميل تُسجَّل سجلات خادم عادية — عنوان IP وبيانات المتصفح والعنوان المطلوب.</li>
+<li><b>Google Fonts</b>: عند كل تحميل عبر الإنترنت يطلب المتصفح الخطوط (عنوان IP وبيانات المتصفح، دون بيانات طلاب).</li>
+<li><b>مزامنة الأرقام القياسية — اختيارية:</b> فقط إذا أعدّ المعلّم عنوانًا ورمزًا، يُرسل اسم الطالب والفعالية والنتيجة والحالة إلى Google Sheet الخاص بالمعلّم.</li>
+<li><b>نسخ احتياطي إلى Google Drive — اختياري:</b> عند الطلب فقط، يُرفع ملف نسخ احتياطي مشفّر بكلمة مرور إلى Drive الخاص بالمعلّم.</li>
+<li><b>الروابط الخارجية</b> (YouTube، المصادر، نموذج رفع الفيديو الذي حدّده المعلّم) تُفتح فقط عند النقر.</li>
+</ul>
+<p>لا توجد في التطبيق إعلانات ولا أدوات تحليل ولا تتبّع.</p>
+<h2>أذونات الجهاز</h2>
+<ul>
+<li><b>الكاميرا:</b> للتصوير عند خط النهاية ولتصوير فيديو الرقم القياسي أو اختياره. تُعالَج الصور على الجهاز.</li>
+<li><b>الميكروفون:</b> فقط لاكتشاف إشارة الانطلاق (طلقة أو تصفيق) مباشرة. الصوت لا يُسجَّل ولا يُرسل.</li>
+<li><b>إبقاء الشاشة مضاءة والنسخ والمشاركة:</b> أثناء الاستخدام أو عند النقر فقط. لا وصول إلى الموقع أو جهات الاتصال أو الإشعارات.</li>
+</ul>
+<h2>الطلاب</h2>
+<p>في وضع الطالب يمكن عرض لوحة الأرقام القياسية وتقديم رقم لموافقة المعلّم على الجهاز نفسه. لا تُجمع بيانات تواصل من الطلاب. المعلّم أو المدرسة مسؤولان عن امتلاك الإذن ببيانات الطلاب التي يُدخلانها وبأي مشاركة يُعدّانها.</p>
+<h2>حذف البيانات على الجهاز</h2>
+<p>يمكن حذف عناصر مفردة وجميع الأرقام القياسية من داخل التطبيق. مسح بيانات الموقع في المتصفح أو إزالة التطبيق يحذف كل البيانات على الجهاز. ملفات النسخ الاحتياطي التي أنشأتها تبقى تحت سيطرتك.</p>
+<h2>الأمان</h2>
+<p>يُقدَّم الموقع عبر HTTPS. يمكن تشفير النسخة الاحتياطية بكلمة مرور (AES-GCM بمفتاح مشتق على الجهاز؛ لا تُحفظ كلمة المرور)، والنسخ إلى Drive مشفّر دائمًا. رمز المعلّم يحمي من الاستخدام العابر للجهاز — وليس حسابًا.</p>
+<h2>التغييرات</h2>
+<p>تُحدَّث هذه الصفحة عندما يتغيّر ما يرسله التطبيق خارج الجهاز. وهي تصف عمل التطبيق وليست شهادة امتثال لقانون بعينه.</p></section><section id="ru" lang="ru" dir="ltr"><h1>PE Ultimate — Политика конфиденциальности</h1>
+<p class="meta">Обновлено: 29 сентября 2026 · <a href="terms.html#ru">Условия использования</a></p>
+<p class="draft">Черновик: данные об операторе приложения и срок хранения ждут утверждения оператором. Техническое описание соответствует проверенному коду приложения.</p>
+<h2>Для кого приложение</h2>
+<p>PE Ultimate предназначено для учителей физкультуры, педагогов и тренеров. Оно не предназначено для самостоятельной регистрации учеников, учётных записей в нём нет.</p>
+<h2>Данные, которые остаются только на устройстве</h2>
+<p>Списки учеников, посещаемость, оценки, измерения, планы уроков, расписание, настройки, код учителя и видео рекордов хранятся в браузере устройства (localStorage и IndexedDB). Они не передаются оператору приложения, и у него нет к ним доступа.</p>
+<h2>Контактные данные, которые получает оператор</h2>
+<ul>
+<li><b>Что:</b> имя, фамилия, email, телефон, язык интерфейса и версия приложения. Никаких данных об учениках.</li>
+<li><b>Когда:</b> только если вы нажали «Отправить» в форме связи. Пропуск ничего не отправляет.</li>
+<li><b>Зачем:</b> чтобы связаться с вами и прислать анкету отзыва о приложении. Не для рекламы, не для продажи и не для передачи другим.</li>
+<li><b>Где:</b> в отдельной форме PE Ultimate в Netlify Forms, в учётной записи оператора. Netlify обрабатывает данные по поручению оператора.</li>
+<li><b>Как долго:</b> до 24 месяцев с момента получения или меньше, если вы попросите удалить. Оператор просматривает заявки не реже раза в полгода и удаляет те, у которых срок истёк.</li>
+<li><b>Удаление:</b> отправьте запрос на удаление через ту же форму (О приложении → Оставить контакты). Оператор удалит заявку из Netlify.</li>
+</ul>
+<h2>Внешние сервисы</h2>
+<ul>
+<li><b>Netlify</b> (хостинг): при каждой загрузке создаются обычные журналы сервера — IP-адрес, данные браузера и запрошенный адрес.</li>
+<li><b>Google Fonts</b>: при каждой загрузке онлайн браузер запрашивает шрифты (IP-адрес и данные браузера, без данных учеников).</li>
+<li><b>Синхронизация рекордов — по желанию:</b> только если учитель задал адрес и код, имя ученика, дисциплина, результат и статус отправляются в Google-таблицу самого учителя.</li>
+<li><b>Копия на Google Диск — по желанию:</b> только по нажатию зашифрованный паролем файл копии загружается на Диск самого учителя.</li>
+<li><b>Внешние ссылки</b> (YouTube, источники, форма загрузки видео, заданная учителем) открываются только по нажатию.</li>
+</ul>
+<p>В приложении нет рекламы, аналитики и отслеживания.</p>
+<h2>Разрешения на устройстве</h2>
+<ul>
+<li><b>Камера:</b> для фотофиниша и чтобы снять или выбрать видео рекорда. Изображение обрабатывается на устройстве.</li>
+<li><b>Микрофон:</b> только чтобы в реальном времени распознать сигнал старта (выстрел или хлопок). Звук не записывается и не отправляется.</li>
+<li><b>Неотключаемый экран, копирование и «поделиться»:</b> только во время работы или по нажатию. Нет доступа к геолокации, контактам и уведомлениям.</li>
+</ul>
+<h2>Ученики</h2>
+<p>В режиме ученика можно смотреть таблицу рекордов и отправить рекорд на утверждение учителю на том же устройстве. Контакты учеников не собираются. Учитель или школа отвечают за то, чтобы у них было право на данные учеников, которые они вводят, и на любую настроенную ими передачу.</p>
+<h2>Удаление данных на устройстве</h2>
+<p>Отдельные записи и все рекорды можно удалить в приложении. Очистка данных сайта в браузере или удаление приложения стирают все данные на устройстве. Созданные вами резервные копии остаются под вашим контролем.</p>
+<h2>Безопасность</h2>
+<p>Сайт работает по HTTPS. Резервную копию в файл можно зашифровать паролем (AES-GCM, ключ выводится на устройстве; пароль не сохраняется), копия на Диск шифруется всегда. Код учителя защищает от случайного использования устройства — это не учётная запись.</p>
+<h2>Изменения</h2>
+<p>Страница обновляется, когда меняется то, что приложение отправляет за пределы устройства. Она описывает работу приложения и не является подтверждением соответствия какому-либо закону.</p></section><section id="es" lang="es" dir="ltr"><h1>PE Ultimate — Política de privacidad</h1>
+<p class="meta">Actualizado: 29 de septiembre de 2026 · <a href="terms.html#es">Términos de uso</a></p>
+<p class="draft">Borrador: la identidad del operador de la app y el plazo de conservación están pendientes de su aprobación. La descripción técnica coincide con el código de la app revisado.</p>
+<h2>Para quién es la app</h2>
+<p>PE Ultimate está pensada para docentes de Educación Física y personal docente y de entrenamiento. No está pensada para que el alumnado se registre por su cuenta y no tiene cuentas de usuario.</p>
+<h2>Datos que se quedan solo en el dispositivo</h2>
+<p>Las listas de alumnado, la asistencia, las notas, las mediciones, los planes de sesión, el horario, los ajustes, el código del docente y los vídeos de récords se guardan en el navegador del dispositivo (localStorage e IndexedDB). No se envían al operador de la app, que no tiene acceso a ellos.</p>
+<h2>Datos de contacto que recibe el operador</h2>
+<ul>
+<li><b>Qué:</b> nombre, apellido, correo, teléfono, idioma de la interfaz y versión de la app. Ningún dato del alumnado.</li>
+<li><b>Cuándo:</b> solo si eliges «Enviar» en el formulario de contacto. Omitirlo no envía nada.</li>
+<li><b>Para qué:</b> para contactarte y enviarte una encuesta de opinión sobre la app. No para marketing, ni venta, ni cesión a terceros.</li>
+<li><b>Dónde:</b> en el formulario propio de PE Ultimate en Netlify Forms, en la cuenta del operador. Netlify trata los datos por cuenta del operador.</li>
+<li><b>Cuánto tiempo:</b> hasta 24 meses desde la recepción, o menos si pides el borrado. El operador revisa los envíos al menos cada seis meses y borra los que superan el plazo.</li>
+<li><b>Borrado:</b> envía una solicitud de borrado por el mismo formulario (Acerca de → Dejar datos de contacto). El operador borra el envío de Netlify.</li>
+</ul>
+<h2>Servicios externos</h2>
+<ul>
+<li><b>Netlify</b> (alojamiento): cada carga genera registros de servidor habituales: dirección IP, datos del navegador y la dirección solicitada.</li>
+<li><b>Google Fonts</b>: en cada carga en línea el navegador pide fuentes (dirección IP y datos del navegador, sin datos del alumnado).</li>
+<li><b>Sincronización de récords, opcional:</b> solo si el docente configura una dirección y un código, se envían nombre del alumno, prueba, resultado y estado a la hoja de Google del propio docente.</li>
+<li><b>Copia en Google Drive, opcional:</b> solo al pulsar, se sube un archivo de copia cifrado con contraseña al Drive del propio docente.</li>
+<li><b>Enlaces externos</b> (YouTube, fuentes, un formulario de subida de vídeo configurado por el docente) solo se abren al pulsarlos.</li>
+</ul>
+<p>La app no tiene publicidad, analítica ni seguimiento.</p>
+<h2>Permisos del dispositivo</h2>
+<ul>
+<li><b>Cámara:</b> para el foto-finish y para grabar o elegir un vídeo de récord. La imagen se procesa en el dispositivo.</li>
+<li><b>Micrófono:</b> solo para detectar en directo la señal de salida (disparo o palmada). El audio no se graba ni se envía.</li>
+<li><b>Pantalla activa, copiar y compartir:</b> solo durante el uso o al pulsar. Sin acceso a ubicación, contactos ni notificaciones.</li>
+</ul>
+<h2>Alumnado</h2>
+<p>En el modo alumno se puede ver la tabla de récords y enviar un récord para que lo apruebe el docente en el mismo dispositivo. No se recogen datos de contacto del alumnado. El docente o el centro son responsables de contar con permiso para los datos del alumnado que introducen y para cualquier intercambio que configuren.</p>
+<h2>Borrar datos del dispositivo</h2>
+<p>En la app se pueden borrar elementos sueltos y todos los récords. Borrar los datos del sitio en el navegador o quitar la app elimina todos los datos del dispositivo. Los archivos de copia que hayas creado siguen bajo tu control.</p>
+<h2>Seguridad</h2>
+<p>El sitio se sirve por HTTPS. La copia en archivo puede cifrarse con contraseña (AES-GCM, con una clave derivada en el dispositivo; la contraseña no se guarda) y la copia en Drive siempre va cifrada. El código del docente protege frente al uso casual del dispositivo; no es una cuenta.</p>
+<h2>Cambios</h2>
+<p>Esta página se actualiza cuando cambia lo que la app envía fuera del dispositivo. Describe cómo funciona la app y no es una certificación de cumplimiento de ninguna ley concreta.</p></section>
 </main>
 </body>
 </html>

@@ -205,11 +205,12 @@ module.exports={title:"ביקורת 2026-09-29 — תלמידים, קבוצות 
     ok(await page.locator("#lead-lang button").count()>=5,"בחירת שפה במסך עצמו");
     await page.click('#lead-lang button[data-l="en"]'); await page.waitForTimeout(200);
     eq(await page.evaluate(()=>window.I18N.lang()),"en");
-    let posted=0; page.on("request",r=>{ if(/docs\.google\.com\/forms/.test(r.url()))posted++; });
+    let posted=0; page.on("request",r=>{ if(r.method()==="POST")posted++; });
     await page.click("#lead-skip"); await page.waitForTimeout(300);
     eq(await page.locator("#leadOv.on").count(),0,"נסגר");
     eq(posted,0,"דילוג לא שולח דבר");
-    eq(await page.evaluate(()=>window.HM.LS.get("hx.leadSkipped",false)),true);
+    /* מאז 2026-09-29 (סבב 2): דילוג = דחייה מקומית ל-7 ימים, ולא סימון «הושלם» */
+    ok(await page.evaluate(()=>window.HM.LS.get("hx.leadSnoozeUntil",0)>Date.now()),"נשמר מועד תזכורת");
     ok(await page.locator("#lock-demo").count(),"ההדגמה זמינה במסך הכניסה");
   }),
 

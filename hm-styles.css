@@ -716,8 +716,27 @@ a{color:var(--acc);text-decoration:none}a:hover{color:color-mix(in srgb,var(--ac
   background:radial-gradient(700px 480px at 50% 8%,rgba(167,139,250,.18),transparent 60%),#07080f}
 #leadOv.on{display:grid}
 #leadOv .box{width:min(380px,100%);text-align:center}
-#leadOv .field{text-align:right}
-#leadOv .field input{text-align:right;font-family:'Heebo',sans-serif}
+#leadOv .field{text-align:start;margin-top:9px}
+#leadOv .field input{text-align:start;font-family:'Heebo',sans-serif;min-height:44px;font-size:16px}
+/* אימייל וטלפון נכתבים משמאל לימין גם בממשק מימין לשמאל, ומיושרים לצד הטקסט */
+#leadOv .field input[dir="ltr"]{text-align:left}
+body[data-dir="rtl"] #leadOv .field input[dir="ltr"]{text-align:right}
+#leadOv .field input[aria-invalid="true"]{border-color:var(--stop,#ff6b81)}
+.lead-err{min-height:0;font-size:12px;color:var(--stop,#ff6b81);text-align:start;margin-top:3px}
+.lead-err:empty{display:none}
+.lead-hint{font-size:11.5px;color:var(--faint);text-align:start;margin-top:3px}
+.lead-purpose{font-size:12.5px;color:var(--muted);text-align:start;border-inline-start:3px solid var(--acc);padding-inline-start:8px}
+.lead-status{margin-top:10px;padding:9px 11px;border-radius:10px;font-size:13px;text-align:start;line-height:1.5}
+.lead-status.ok{background:color-mix(in srgb,var(--acc) 18%,transparent);color:var(--acc)}
+.lead-status.err{background:color-mix(in srgb,var(--stop,#ff6b81) 16%,transparent);color:var(--stop,#ff6b81)}
+.lead-status.busy{color:var(--muted)}
+#leadOv .box{max-height:calc(100dvh - 24px);overflow-y:auto}
+/* תזכורת לא חוסמת: פס מתחת לכותרת, לא שכבה מעל המסך */
+.lead-remind{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  background:color-mix(in srgb,var(--acc) 14%,var(--bg2));border-bottom:1px solid var(--line);
+  padding:8px 14px;font-size:13px;text-align:start}
+.lead-remind[hidden]{display:none!important}
+.lead-remind .btn{min-height:40px}
 .lead-contact-hint{font-size:11.5px;color:var(--faint);text-align:right;margin:13px 0 -2px}
 
 /* ============================================================

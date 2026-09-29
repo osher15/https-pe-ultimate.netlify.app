@@ -934,23 +934,33 @@ window.NUT=(function(){
   return {init,daily};
 })();
 
-/* ============================ איסוף פרטי קשר, פעם אחת בפתיחה ============================
-   כדי לדעת מי קיבל את האפליקציה ולשלוח לו שאלון בהמשך, מסך אחד־פעמי
-   מבקש מהמורה (לא מהתלמיד!) שם ודרך יצירת קשר, ושולח אותם בשקט לטופס
-   Google Forms קיים — בלי שרת משלנו ובלי לגעת בנתוני התלמידים, שנשארים
-   במכשיר בדיוק כמו קודם. מזהי ה-entry נלקחו מקישור "מולא מראש" של
-   הטופס "המגרש פרו משתמשים". */
-const LEAD_FORM={
-  action:"https://docs.google.com/forms/d/e/1FAIpQLSdFAH8PGbTnCywhD754OYVFI7sl6t3sWQIiASd4s2RikIaxZg/formResponse",
-  first:"entry.433001861",
-  last:"entry.603620454",
-  phone:"entry.790270370",
-  email:"entry.457350621"
-};
-/* ביקורת 2026-09-29: המסך חסם גם את ההדגמה ואת בחירת השפה, בלי דילוג.
-   עכשיו: בחירת שפה במסך עצמו, «דלגו בינתיים» (נרשם כדילוג — לא
-   נשלח דבר), ואפשר לחזור אליו מההגדרות ← אודות. השדות עדיין חובה
-   כשבוחרים לשלוח. */
+/* ============================ פרטי קשר — טופס ייעודי, דילוג ותזכורת ============================
+   עד 2026-09 המסך שלח בשקט ל-Google Forms של המגרש PRO דרך iframe נסתר:
+   בלי שום דרך לדעת אם הפנייה נקלטה, ו-Google דחה כל פנייה שחסר בה נייד
+   או אימייל — בזמן שהמורה ראה «תודה!». עכשיו:
+   · טופס ייעודי ל-PE Ultimate (Netlify Forms, באותו אתר) — נפרד מהמגרש PRO.
+   · ארבעת השדות חובה; הבדיקה בינלאומית (hm-data.js: validateLead).
+   · «נשלח» מוצג רק אחרי אישור קליטה: השרת מחזיר את contact-received.html
+     עם סימן קבוע (leadAckOk). כל תשובה אחרת — שגיאה, והפרטים נשארים בטופס.
+   · דילוג לא שולח דבר ודוחה ל-7 ימים (נשמר במכשיר). אחר כך — פס תזכורת
+     שאינו חוסם שום מסך, ולא מוצג בשיעור פעיל, במצב תלמיד או מעל מסך הכניסה.
+   · אחרי קליטה מאושרת — אין תזכורות; הטופס נשאר זמין מ«אודות». */
+const LEAD_ENDPOINT="/", LEAD_TIMEOUT=15000;
+const LD=()=>window.HMDATA;
+function leadState(){
+  const {LS}=H();
+  return {done:!!LS.get("hx.leadDone",false),snoozeUntil:LS.get("hx.leadSnoozeUntil",null),sentAt:LS.get("hx.leadSentAt",null)};
+}
+/* מצב מגרסה קודמת: hx.leadDone + hx.leadSkipped = דילוג (לא נשלח דבר) —
+   הופך לדחייה של 7 ימים מעכשיו. hx.leadDone בלי דילוג = נשלח בגרסה הישנה
+   (בלי אישור) — לא מציקים שוב; אפשר לשלוח מחדש מ«אודות». */
+function leadMigrate(){
+  const {LS}=H();
+  if(LS.get("hx.leadSkipped",false)===true){
+    if(!LS.get("hx.leadSentAt",null)){ LS.set("hx.leadDone",false); LS.set("hx.leadSnoozeUntil",LD().leadSnoozeUntil(Date.now())); }
+  }
+  try{ localStorage.removeItem(BRAND.ns+"hx.leadSkipped"); }catch(e){}
+}
 let leadWired=false;
 function paintLeadLang(){
   const {$}=H(), box=$("#lead-lang"); if(!box||!window.I18N)return;
@@ -959,50 +969,118 @@ function paintLeadLang(){
     ' lang="'+l.code+'"><span class="fl">'+l.flag+'</span><span>'+l.native+'</span></button>').join("");
   box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ window.I18N.set(b.dataset.l); paintLeadLang(); }));
 }
+function leadStatusMsg(kind,msg){
+  const el=H().$("#lead-status"); if(!el)return;
+  el.hidden=!msg; el.className="lead-status"+(kind?" "+kind:""); el.textContent=msg||"";
+}
+function leadFmtDate(v){ try{ return new Date(v).toLocaleDateString(H().loc?H().loc():"he-IL"); }catch(e){ return ""; } }
+function paintLeadAbout(){
+  const el=H().$("#ab-leadStat"); if(!el)return;
+  const st=leadState(), k=LD().leadStatus(st,Date.now()), t=H().t;
+  el.textContent=
+    k==="done"&&st.sentAt ? t("ab.leadSent","✓ הפרטים נשלחו ונקלטו")+" · "+leadFmtDate(st.sentAt)
+    : k==="done" ? t("ab.leadLegacy","הפרטים נשלחו בגרסה קודמת, בלי אישור קליטה. אפשר לשלוח שוב.")
+    : k==="snoozed" ? t("ab.leadSnoozed","דילגתם. תזכורת תופיע ב-")+leadFmtDate(st.snoozeUntil)
+    : "";
+}
 function openLead(force){
-  const {$, LS}=H();
+  const {$}=H();
   const ov=$("#leadOv"); if(!ov)return;
-  if(!force&&LS.get("hx.leadDone",false))return;
+  if(!force&&leadState().done)return;
   ov.classList.add("on");
-  paintLeadLang();
-  wireLead();
+  paintLeadLang(); wireLead();
+  const st=leadState();
+  $("#lead-form").hidden=false; $("#lead-done").hidden=true; $("#lead-skip").hidden=!!st.done;
+  leadStatusMsg("", st.done&&st.sentAt ? H().t("ab.leadSent","✓ הפרטים נשלחו ונקלטו")+" · "+leadFmtDate(st.sentAt) : "");
+  const rb=$("#leadRemind"); if(rb)rb.hidden=true;
+}
+function closeLead(){ const ov=H().$("#leadOv"); if(ov)ov.classList.remove("on"); paintLeadAbout(); }
+function leadFieldErrors(errors){
+  const {$}=H(), t=H().t;
+  const msg={required:t("lead.errReq","שדה חובה"),
+    email:t("lead.errEmail","כתובת אימייל לא תקינה — למשל name@example.com"),
+    phone:t("lead.errPhone","מספר טלפון לא תקין — 7 עד 15 ספרות, אפשר עם + וקידומת מדינה")};
+  let first=null;
+  ["first","last","email","phone"].forEach(k=>{
+    const inp=$("#lead-"+k), er=$("#lead-"+k+"-err"), e=errors[k];
+    if(inp)inp.setAttribute("aria-invalid",e?"true":"false");
+    if(er)er.textContent=!e?"":e==="required"?msg.required:msg[k]||msg.required;
+    if(e&&!first)first=inp;
+  });
+  if(first)try{ first.focus(); }catch(x){}
+}
+async function sendLead(){
+  const {$, LS}=H(), t=H().t;
+  const v=LD().validateLead({first:$("#lead-first").value,last:$("#lead-last").value,
+    email:$("#lead-email").value,phone:$("#lead-phone").value});
+  leadFieldErrors(v.errors);
+  if(!v.ok){ leadStatusMsg("err",t("lead.errFix","לא נשלח — יש לתקן את השדות המסומנים.")); return; }
+  /* קובץ מקומי (Hamegrash.html) אינו יכול לשלוח לטופס — אין שרת שיאשר */
+  if(location.protocol==="file:"){ leadStatusMsg("err",t("lead.errFile","שליחה אפשרית רק מהאפליקציה המקוונת (pe-ultimate.netlify.app), לא מקובץ שנפתח מהמכשיר.")); return; }
+  const btn=$("#lead-send"); btn.disabled=true;
+  leadStatusMsg("busy",t("lead.sending","שולח…"));
+  const payload=LD().leadPayload(v.clean,{lang:window.I18N?window.I18N.lang():"he",build:H().buildId?H().buildId():""});
+  const ctl=typeof AbortController!=="undefined"?new AbortController():null;
+  const timer=ctl?setTimeout(()=>ctl.abort(),LEAD_TIMEOUT):null;
+  try{
+    const res=await fetch(LEAD_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body:new URLSearchParams(payload).toString(),credentials:"same-origin",cache:"no-store",signal:ctl?ctl.signal:undefined});
+    const text=await res.text();
+    if(!LD().leadAckOk(res.status,text)){
+      leadStatusMsg("err",t("lead.errServer","לא נשלח — השרת לא אישר שהפרטים נקלטו. הפרטים נשארו בטופס; נסו שוב מאוחר יותר."));
+      return;
+    }
+    LS.set("hx.leadDone",true); LS.set("hx.leadSentAt",new Date().toISOString());
+    try{ localStorage.removeItem(BRAND.ns+"hx.leadSnoozeUntil"); }catch(e){}
+    leadStatusMsg("ok",t("lead.ok","✓ התקבל — הפרטים נקלטו אצלנו. תודה!"));
+    $("#lead-form").hidden=true; $("#lead-skip").hidden=true; $("#lead-done").hidden=false;
+    try{ $("#lead-done").focus(); }catch(e){}
+    paintLeadAbout();
+  }catch(e){
+    leadStatusMsg("err",t("lead.errNet","לא נשלח — אין חיבור לרשת או שהשרת לא ענה. הפרטים נשארו בטופס; נסו שוב."));
+  }finally{
+    if(timer)clearTimeout(timer);
+    btn.disabled=false;
+  }
+}
+function snoozeLead(){
+  const {LS, toast}=H(), t=H().t;
+  /* דילוג: שום בקשה לא יוצאת. רק מועד התזכורת נשמר במכשיר. */
+  LS.set("hx.leadSnoozeUntil",LD().leadSnoozeUntil(Date.now()));
+  const rb=H().$("#leadRemind"); if(rb)rb.hidden=true;
+  toast(t("lead.snoozed","בסדר — שום דבר לא נשלח. נזכיר בעוד 7 ימים."));
 }
 function wireLead(){
   if(leadWired)return; leadWired=true;
-  const {$, LS, toast}=H();
-  const ov=$("#leadOv");
-  const close=()=>ov.classList.remove("on");
-  const submitToForm=(first,last,phone,email)=>{
-    if(!LEAD_FORM.action)return;
-    try{
-      const f=document.createElement("form");
-      f.action=LEAD_FORM.action; f.method="POST"; f.target="lead-frame"; f.style.display="none";
-      const add=(name,val)=>{ if(!name||!val)return; const i=document.createElement("input"); i.name=name; i.value=val; f.appendChild(i); };
-      add(LEAD_FORM.first,first); add(LEAD_FORM.last,last); add(LEAD_FORM.phone,phone); add(LEAD_FORM.email,email);
-      document.body.appendChild(f); f.submit(); f.remove();
-    }catch(e){ console.error("lead submit",e); }
-  };
-  $("#lead-send").addEventListener("click",()=>{
-    const first=$("#lead-first").value.trim(), last=$("#lead-last").value.trim(),
-          phone=$("#lead-phone").value.trim(), email=$("#lead-email").value.trim();
-    if(!first||!last||(!phone&&!email)){ toast("שם פרטי, שם משפחה, ואימייל או נייד — שדות חובה"); return; }
-    LS.set("hx.leadDone",true);
-    LS.set("hx.leadSkipped",false);
-    submitToForm(first,last,phone,email);
-    toast("תודה! ממשיכים 👋");
-    close();
-  });
-  const sk=$("#lead-skip");
-  if(sk)sk.addEventListener("click",()=>{
-    /* דילוג: שום דבר לא נשלח. לא שואלים שוב בכל פתיחה — ההגדרות זוכרות. */
-    LS.set("hx.leadDone",true); LS.set("hx.leadSkipped",true);
-    close();
-  });
+  const {$}=H();
+  $("#lead-form").addEventListener("submit",e=>{ e.preventDefault(); sendLead(); });
+  $("#lead-skip").addEventListener("click",()=>{ snoozeLead(); closeLead(); });
+  $("#lead-done").addEventListener("click",closeLead);
+  ["first","last","email","phone"].forEach(k=>{ const i=$("#lead-"+k);
+    if(i)i.addEventListener("input",()=>{ i.setAttribute("aria-invalid","false"); const er=$("#lead-"+k+"-err"); if(er)er.textContent=""; }); });
+}
+/* תזכורת בפתיחה, אחרי 7 ימים — פס לא חוסם. לא מעל מסך הכניסה, לא
+   במצב תלמיד ולא בשיעור פעיל: אלה רגעים שבהם אסור להפריע. */
+function maybeRemindLead(){
+  const {$}=H(), bar=$("#leadRemind"); if(!bar)return;
+  const k=LD().leadStatus(leadState(),Date.now());
+  const on=id=>{ const el=$(id); return !!(el&&el.classList.contains("on")); };
+  let active=false; try{ active=!!(H().session&&H().session.active()); }catch(e){}
+  const student=H().role&&H().role()==="student";
+  bar.hidden=!(k==="reminder"&&!on("#lockOv")&&!on("#leadOv")&&!student&&!active);
 }
 function initLeadCapture(){
-  openLead(false);
-  const b=H().$("#ab-lead");
-  if(b)b.addEventListener("click",()=>{ try{ H().modal&&document.querySelectorAll(".modal.on").forEach(m=>m.classList.remove("on")); }catch(e){} openLead(true); });
+  const {$}=H();
+  leadMigrate();
+  if(LD().leadStatus(leadState(),Date.now())==="first")openLead(false);
+  const b=$("#ab-lead");
+  if(b)b.addEventListener("click",()=>{ try{ document.querySelectorAll(".modal.on").forEach(m=>m.classList.remove("on")); }catch(e){} openLead(true); });
+  const rf=$("#lead-remFill"); if(rf)rf.addEventListener("click",()=>openLead(true));
+  const rl=$("#lead-remLater"); if(rl)rl.addEventListener("click",snoozeLead);
+  paintLeadAbout();
+  /* אחרי שמסך הכניסה הוחלט (HMBootNew ממשיך באותו מחזור) */
+  setTimeout(maybeRemindLead,0);
+  window.HMLead={open:openLead,remind:maybeRemindLead,state:leadState};
 }
 
 /* ============================ HOME extras + נעילת מורה ============================ */
@@ -1019,6 +1097,7 @@ window.HMBootNew=function(){
     sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
     $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
+    maybeRemindLead();
   };
   if(locked){
     $("#lockOv").classList.add("on");
