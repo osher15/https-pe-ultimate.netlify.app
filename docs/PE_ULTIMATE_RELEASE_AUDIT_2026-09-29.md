@@ -221,7 +221,7 @@ therefore met only through the meta tag for this round.
 | Item | Status |
 |---|---|
 | Live TEST submission received in Netlify with correct fields | **VERIFIED** (moved from pending). One synthetic submission marked TEST was sent through the live UI; the app showed its confirmed-receipt message; the operator confirmed in the Netlify dashboard one verified (non-spam) entry with all six fields correct (`lang` he, `app_version` eab87ca5) |
-| Deleting that TEST submission | **PENDING** — not deleted |
+| Deleting that TEST submission | **VERIFIED** — deleted by the operator (entry only, form kept); a later Netlify API read returned no submissions |
 
 ### Not tested
 
@@ -236,6 +236,5 @@ therefore met only through the meta tag for this round.
 1. Operator identity for `privacy.html` / `terms.html`.
 2. Approval of retention: up to 24 months, manual review every six months.
 3. Optional: Netlify form email notifications.
-4. Delete the TEST submission (Netlify → Forms → `pe-ultimate-contact` → select only that entry → *Delete submission*).
 
 Backlog items 2, 5–15 are unchanged from section E.

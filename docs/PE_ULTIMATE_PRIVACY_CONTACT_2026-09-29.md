@@ -84,9 +84,9 @@ that changed.
 |---|---|
 | One synthetic submission sent through the live UI (first `TEST`, last `Synthetic-Claude`, email `test.peu@example.com`, phone `+44 20 7946 0958`) | **Sent once**, 2026-09-29. The app showed «✓ הפרטים נשלחו ונקלטו», which it shows only when the server returns the confirmation page |
 | Submission received in Netlify, fields correct | **VERIFIED** by the operator in the Netlify dashboard (Forms → `pe-ultimate-contact` → *Verified submissions*, not spam), 2026-09-29: exactly one entry, `first` TEST, `last` Synthetic-Claude, `email` test.peu@example.com, `phone` +44 20 7946 0958, `lang` he, `app_version` eab87ca5. The Netlify forms API itself returned *Internal server error* on four reads, so this check was done in the dashboard |
-| TEST submission deleted | **PENDING** — to be deleted by the operator in the dashboard (select only that entry → *Delete submission*; not *Delete form*) |
+| TEST submission deleted | **VERIFIED** — deleted by the operator in the dashboard (that entry only; the form itself kept). A later Netlify API read of the form's submissions returned an empty list |
 
-No further TEST submission is needed. Update this table once the deletion is done.
+The live check is complete; no further TEST submission is needed.
 
 ### Not tested
 
