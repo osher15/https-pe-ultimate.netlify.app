@@ -7,7 +7,9 @@ and privacy behaviour, and assess Android / Google Play readiness.
 this branch with an automated check. *STILL REPRODUCIBLE* = present and not fixed.
 *NOT REPRODUCED* = could not reproduce. *NOT TESTED* = no evidence gathered.
 Separately, every change is marked **implemented locally → tested → committed → deployed**.
-Nothing in this report is deployed: production still serves `4dae863`. Branch head at the end of this work: `3700a8a` (pushed, not merged).
+Sections 0–F record the first audit round as written at the time (then: nothing deployed,
+branch head `3700a8a`). **Current status is in section G**; rows that a later round
+superseded are marked *superseded — see G*.
 
 ---
 
@@ -73,7 +75,7 @@ All rows: implemented locally ✔ · tested ✔ · committed ✔ (this branch) �
 |---|---|---|---|
 | Netlify (hosting) | every online load | IP, UA, URL (server logs) | yes |
 | `fonts.googleapis.com` / `fonts.gstatic.com` | every online load | IP, UA | **yes** |
-| `docs.google.com/forms/…` (lead form) | «Send and continue» on the contact screen | teacher first/last name, phone and/or email | opt-in (skip now possible) |
+| ~~`docs.google.com/forms/…` (lead form)~~ *superseded — see G*: same-origin Netlify Form `pe-ultimate-contact` | «Send» on the contact screen | teacher first/last name, phone **and** email | opt-in (skip sends nothing) |
 | `script.google.com` (records sync) | after teacher sets URL + code | student name, event, result, status | opt-in |
 | `accounts.google.com`, `www.googleapis.com` (Drive) | «Back up to Drive now» | encrypted backup blob | opt-in |
 | YouTube / source sites / teacher-set Forms & Drive links | user taps a link | whatever those sites collect | user-initiated |
@@ -84,11 +86,11 @@ No analytics, ads or tracking SDKs were found. The service worker fetches same-o
 
 | Play category | Collected by developer? | Notes |
 |---|---|---|
-| Personal info → Name, Email, Phone | **Yes, optional** | Lead form → operator's Google Form. Purpose: developer communications / feedback. Not shared. |
+| Personal info → Name, Email, Phone | **Yes, optional** | Contact form → operator's Netlify Forms (*superseded — see G*; was a Google Form). Purpose: developer communications / feedback. Not shared. |
 | Student names, results, attendance | **Not collected by the developer** | Stored on device. Optional sync/Drive go to the **teacher's own** Google account — declare per Google's guidance on user-initiated transfers to user-controlled accounts (owner to confirm). |
 | App activity, device IDs, location, photos/videos | Not collected | Camera frames for photo-finish and record videos stay on device (IndexedDB). |
 | Data encrypted in transit | Yes (HTTPS) | |
-| Deletion request mechanism | Needs the contact address in `privacy.html` | |
+| Deletion request mechanism | Via the in-app contact form; operator deletes in Netlify (*superseded — see G*) | |
 
 ---
 
@@ -151,8 +153,8 @@ this environment's network policy, so Play Console help pages are cited but not 
 **Must fix before pilot**
 1. Merge this branch and deploy; verify the displayed build ID changes from `3dc152b2`.
 2. Tell pilot teachers who used «Fill from attendance» with a class selected on the old build to check their roster (data-loss bug 1b).
-3. Complete `privacy.html` placeholders (operator, contact, retention, audience).
-4. Decide the contact-form destination: the code comment says the Google Form is «המגרש פרו משתמשים» (the Hamegrash PRO users form) — PE Ultimate leads may be landing in the other product's sheet, contrary to the separation described in the README.
+3. ~~Complete `privacy.html` placeholders~~ *superseded — see G*: drafts deployed without placeholders; operator identity and retention approval still open.
+4. ~~Decide the contact-form destination~~ *done in round 2 — see G*. Original note: the code comment says the Google Form is «המגרש פרו משתמשים» (the Hamegrash PRO users form) — PE Ultimate leads may be landing in the other product's sheet, contrary to the separation described in the README.
 5. One real-device smoke pass (Android Chrome + iOS Safari; offline; Hebrew + English).
 
 **Must fix before public release**
@@ -193,3 +195,46 @@ logic is tested without the new dialog, which is covered in `audit29.e2e`).
 No migration was added and no stored identifier changed. New keys/fields are additive:
 `grades.periodRanges`, `hx.leadSkipped`, `session.planGroup`, `plan.eqAvail/eqNo/eqWarn`.
 Old records without them keep working (unit 9.4, e2e #2).
+
+---
+
+## G. Status after round 2 (contact form, privacy, terms) — updated 2026-09-29
+
+Details: `docs/PE_ULTIMATE_PRIVACY_CONTACT_2026-09-29.md`.
+
+### Deployed and verified
+
+| Item | Evidence |
+|---|---|
+| Round 1 (this report) | PR #5 → `dd7382f`, deployed |
+| Round 2 | PR #6 → merge commit `c6060d0`; Netlify production deploy `6abbbdd8bdef9c0008417617` *ready*, `commit_ref c6060d0`, 2026-09-29 13:32 UTC |
+| Live site serves round 2 | Live fetch (no cache): `hm-build` `0a42ca0a`, `hm-app.js?v=eab87ca5`, contact form and reminder markup present |
+| Netlify form detected | `pe-ultimate-contact`, all four contact fields required in the app and in the static form |
+| Tests on the merged head (`6bb7c82`) | unit 540/540, e2e 465/465, CI green |
+
+Settings → About still shows version `eab87ca5` (from the unchanged `hm-app.js` stamp); the
+build meta tag is what changed. Backlog item 1 («verify the displayed build ID changes») is
+therefore met only through the meta tag for this round.
+
+### Verification of the live TEST submission
+
+| Item | Status |
+|---|---|
+| Live TEST submission received in Netlify with correct fields | **VERIFIED** (moved from pending). One synthetic submission marked TEST was sent through the live UI; the app showed its confirmed-receipt message; the operator confirmed in the Netlify dashboard one verified (non-spam) entry with all six fields correct (`lang` he, `app_version` eab87ca5) |
+| Deleting that TEST submission | **VERIFIED** — deleted by the operator (entry only, form kept); a later Netlify API read returned no submissions |
+
+### Not tested
+
+- Real Android / iOS devices (backlog item 5 is still open).
+- The 7-day reminder in real elapsed time (simulated clock only); Netlify spam filtering;
+  email notifications (not configured).
+- Native-speaker review (backlog item 8 still open), now also covering the contact form,
+  `privacy.html` and `terms.html`.
+
+### Waiting on the operator
+
+1. Operator identity for `privacy.html` / `terms.html`.
+2. Approval of retention: up to 24 months, manual review every six months.
+3. Optional: Netlify form email notifications.
+
+Backlog items 2, 5–15 are unchanged from section E.
