@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="048a49da">
+<meta name="hm-build" content="655981ca">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23017,22 +23017,24 @@ window.LESSON=(function(){
       else{ const ok=fits(own).length?fits(own):fits(generic); game=ok.length?pick(ok):null; }
       H().LS.set("ls.pickGame",null);
       if(!game){
-        eqWarn.push(H().t("ls.eqNoGame","לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים."));
+        eqWarn.push({k:"ls.eqNoGame",items:[]});
         /* הדקות ששוריינו למשחק חוזרות לחלק העיקרי — המערך נשאר באורך השיעור */
         if(gameMin&&mainPhases.length)mainPhases[mainPhases.length-1].min+=gameMin;
       }
     }
     const needT=DT0.equipConflicts((T.eq||[]).join(", "),o.noEq);
-    if(needT.length)eqWarn.push(H().t("ls.eqTopic","הנושא דורש ציוד שלא סומן כזמין")+": "+needT.join(", "));
-    if(game&&clash(game).length)eqWarn.push(H().t("ls.eqGame","המשחק שנבחר דורש ציוד שלא סומן כזמין")+": "+clash(game).join(", "));
+    if(needT.length)eqWarn.push({k:"ls.eqTopic",items:needT});
+    if(game&&clash(game).length)eqWarn.push({k:"ls.eqGame",items:clash(game)});
 
     const phases=[{n:"חימום: "+warm.n,min:warmMin,d:warm.d,k:"warm"},...mainPhases];
     if(game)phases.push({n:"משחק: "+game.name,min:gameMin,
       d:game.how[0]+" "+(game.how[1]||"")+" · מטרה: "+game.goal,k:"game",gid:game.id});
     phases.push({n:"סיום: "+cool.n,min:coolMin,d:cool.d,k:"cool"});
 
-    /* רשימת הציוד נגזרת מהפעילויות שנבחרו בפועל — לא מהתיבות שסומנו */
-    const eq=DT0.mergeEquip(T.eq,game?DT0.equipParts(game.equip):[]);
+    /* רשימת הציוד נגזרת מהפעילויות שנבחרו בפועל — לא מהתיבות שסומנו.
+       טקסט הציוד של המשחק נשאר שלם: הוא מונח מתורגם במילון, ופירוק
+       שלו לחלקים יצר מקטעים עבריים שאין להם תרגום. */
+    const eq=DT0.mergeEquip(T.eq,game&&game.equip?[game.equip]:[]);
 
     plan={id:newPlanId(),grade,topic:T.id,title:T.name,em:T.em,group:T.g,cls:o.cls,size:o.size,place:o.place,
       date:today(),goals:T.goals,eq,eqAvail:o.eq,eqNo:o.noEq,eqWarn,std:T.std,phases,
@@ -23167,7 +23169,7 @@ window.LESSON=(function(){
 
       <div class="ls-sec"><h4>🎒 ציוד</h4>
         <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div>
-        ${(plan.eqWarn||[]).map(w=>`<div class="hint ls-eqWarn">⚠ ${esc(w)}</div>`).join("")}</div>
+        ${(plan.eqWarn||[]).map(w=>`<div class="hint ls-eqWarn">⚠ ${eqWarnHtml(w)}</div>`).join("")}</div>
 
       <div class="ls-sec"><h4 class="row" style="align-items:center">⏱ מהלך השיעור<span class="grow"></span>
         <button class="btn sm ${editPh?"acc":"ghost"}" data-pe="toggle">${editPh?H().t("pe.done","✓ סיום עריכה"):H().t("pe.edit","✎ ערוך מהלך")}</button></h4>
@@ -23449,7 +23451,7 @@ window.LESSON=(function(){
       <h2>מטרות</h2><ul>${plan.goals.map(g=>"<li>"+esc(g)+"</li>").join("")}</ul>
       <h2>מיפוי לסטנדרטים</h2><div>${plan.std.map(i=>'<span class="tag">'+esc(STD[i-1])+"</span>").join("")}</div>
       <h2>ציוד</h2><div>${plan.eq.map(e=>'<span class="tag">'+esc(e)+"</span>").join("")}</div>
-      ${(plan.eqWarn||[]).map(w=>"<p><b>⚠ "+esc(w)+"</b></p>").join("")}
+      ${(plan.eqWarn||[]).map(w=>"<p><b>⚠ "+eqWarnHtml(w)+"</b></p>").join("")}
       <h2>מהלך השיעור</h2>${plan.phases.map(p=>`<div class="ph"><b>${esc(p.n)} · ${p.min} דק׳</b>${
         p.sub?` <span class="tag">${esc(p.sub)}</span>`:""}${
         Array.isArray(p.d)?`<ol>${p.d.map(st=>"<li>"+esc(st)+"</li>").join("")}</ol>`:`<div>${esc(p.d)}</div>`}</div>`).join("")}
@@ -23465,6 +23467,16 @@ window.LESSON=(function(){
     w.document.close();
   }
 
+  /* אזהרת ציוד נשמרת כמפתח + פריטים ולא כמשפט מוכן: כך היא מתורגמת
+     בשפה הנוכחית, וכל פריט («רשת») בצומת משלו — מונח שהמילון מכיר. */
+  const EQW={"ls.eqNoGame":"לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים.",
+    "ls.eqTopic":"הנושא דורש ציוד שלא סומן כזמין","ls.eqGame":"המשחק שנבחר דורש ציוד שלא סומן כזמין"};
+  function eqWarnHtml(w){
+    const {esc}=H();
+    if(typeof w==="string")return esc(w);
+    const head='<span>'+esc(H().t(w.k,EQW[w.k]||""))+'</span>';
+    return (w.items||[]).length?head+': '+w.items.map(i=>'<span>'+esc(i)+'</span>').join(", "):head;
+  }
   /* ---------- אתחול ---------- */
   function buildTopicSelect(){
     const {$}=H(); const groups=[...new Set(TOPICS.map(t=>t.g))];
@@ -23626,9 +23638,9 @@ window.LESSON=(function(){
     ph.splice(at,0,{n:"משחק: "+g.name,min:10,d:(g.how||[]).slice(0,2).join(" ")+(g.goal?" · מטרה: "+g.goal:""),k:"game",gid:g.id});
     /* גם משחק שנוסף אחר כך נכנס לרשימת הציוד ונבדק מול הציוד הזמין */
     const DT0=window.HMDATA;
-    plan.eq=DT0.mergeEquip(plan.eq,DT0.equipParts(g.equip));
+    plan.eq=DT0.mergeEquip(plan.eq,g.equip?[g.equip]:[]);
     const c=DT0.equipConflicts(g.equip,plan.eqNo||[]);
-    if(c.length){ plan.eqWarn=(plan.eqWarn||[]).concat([H().t("ls.eqGame","המשחק שנבחר דורש ציוד שלא סומן כזמין")+": "+c.join(", ")]);
+    if(c.length){ plan.eqWarn=(plan.eqWarn||[]).concat([{k:"ls.eqGame",items:c}]);
       H().toast("⚠ "+c.join(", ")); }
     renderPlan();
     return true;
