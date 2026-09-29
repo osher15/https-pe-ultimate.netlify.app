@@ -341,7 +341,8 @@ test("מספר השיעור נשמר על המשבצת כשהשעה היא צל�
 
 test("הדוגמה נטענת במלואה בלי כפילות ובלי דחייה",()=>{
   const slots=D.sampleSlots();
-  assert.ok(slots.length>40,"שבוע מלא, לא שתי דוגמאות: "+slots.length);
+  /* 39 מאז שכיתות שלומדות יחד הן משבצת קבוצה אחת (ביקורת 2026-09-29) */
+  assert.ok(slots.length>35,"שבוע מלא, לא שתי דוגמאות: "+slots.length);
   let l=[], dup=0, bad=[];
   slots.forEach(o=>{
     const r=D.schedAdd(l,o);
@@ -369,7 +370,8 @@ test("שיעורי הדוגמה נושאים מזהה כיתה, והשאר לא"
 test("הדוגמה מכילה גם פרטני, גם שהייה וגם שיעורים",()=>{
   const kinds={};
   D.sampleSlots().forEach(o=>{ kinds[o.kind||D.KIND_PE]=(kinds[o.kind||D.KIND_PE]||0)+1; });
-  assert.ok(kinds.pe>20,"רוב המערכת היא שיעורים: "+kinds.pe);
+  /* 19: כיתות שלומדות יחד הן משבצת קבוצה אחת (ביקורת 2026-09-29) */
+  assert.ok(kinds.pe>15,"רוב המערכת היא שיעורים: "+kinds.pe);
   assert.ok(kinds.prat>0,"פרטני");
   assert.ok(kinds.stay>0,"שהייה");
   assert.ok(kinds.other>0,"ישיבות והכנת חומרים");
@@ -456,19 +458,22 @@ test("שיעור שהתקיים אינו «הבא» גם אם שעתו עוד ל
   assert.deepEqual(d.past.map(r=>r.slot.clsSnapshot),["ח׳3"]);
 });
 
-test("שני שיעורים באותה שעה — אחד «הבא» והשני «בהמשך», ושניהם נשארים",()=>{
+/* ביקורת 2026-09-29: השנייה הייתה «בהמשך» באותה דקה — עכשיו היא התנגשות
+   שמוצגת לצד המוקד. עדיין לא נעלמת, ועדיין לא מאוחדת אוטומטית. */
+test("שני שיעורים נפרדים באותה שעה — אחד «הבא» והשני «התנגשות», ושניהם נשארים",()=>{
   let l=D.schedAdd([],{day:0,time:"11:40",cid:"c:ז:9",clsSnapshot:"ז׳9"}).list;
   l=D.schedAdd(l,{day:0,time:"11:40",cid:"c:ז:10",clsSnapshot:"ז׳10"}).list;
   const d=dayOf(l,9*60);
   assert.equal(d.next.slot.clsSnapshot,"ז׳9");
-  assert.deepEqual(d.later.map(r=>r.slot.clsSnapshot),["ז׳10"],
+  assert.deepEqual(d.clash.map(r=>r.slot.clsSnapshot),["ז׳10"],
     "הכיתה השנייה לא נעלמת רק כי היא באותה דקה");
+  assert.deepEqual(d.later,[],"ואינה מוצגת כשיעור מאוחר יותר");
 });
 
 test("כל פריט מופיע פעם אחת בדיוק",()=>{
   [6*60,9*60+10,11*60,20*60].forEach(t=>{
     const d=dayOf(week(),t);
-    const n=(d.now?1:0)+(d.next?1:0)+d.later.length+d.past.length;
+    const n=(d.now?1:0)+(d.next?1:0)+d.later.length+d.past.length+d.clash.length;
     assert.equal(n,4,"בשעה "+t+" — פריט נכפל או נעלם");
   });
 });

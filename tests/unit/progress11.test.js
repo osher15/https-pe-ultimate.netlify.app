@@ -34,7 +34,7 @@ test("1. צבירה נכונה: completed = improved+declined+noChange, לכל �
   const push=cov.tests[0];
   assert.equal(push.testId,"push"); assert.equal(push.name,"שכיבות סמיכה");
   assert.equal(push.completed,4);
-  assert.equal(push.completed,push.improved+push.declined+push.noChange);
+  assert.equal(push.completed,push.improved+push.declined+push.noChange+push.insufficient);
 });
 
 test("2. מספר המשתפרים",()=>{
@@ -47,9 +47,10 @@ test("3. מספר הנסוגים",()=>{
   assert.equal(push.declined,1,"רק בוב — 22→16 בכיוון high");
 });
 
-test("4. בלי שינוי מדיד: גם תוצאה זהה וגם מדידה אחת בלבד",()=>{
+test("4. «בלי שינוי» (תוצאה זהה) ו«אין עדיין השוואה» (יום אחד) — שני דליים נפרדים",()=>{
   const push=D.classProgress(rows(),roster,TESTS,{cid:X}).tests[0];
-  assert.equal(push.noChange,2,"קרול (מדידה אחת) + ארז (20=20)");
+  assert.equal(push.noChange,1,"ארז (20=20)");
+  assert.equal(push.insufficient,1,"קרול (מדידה אחת)");
 });
 
 test("5. מבחן שאף אחד בכיתה לא ניגש אליו אינו מופיע",()=>{
@@ -62,7 +63,7 @@ test("6. בידוד לפי cid: כיתה אחרת אינה מדליפה תלמי
   const cov=D.classProgress(rows(),other,TESTS,{cid:Y});
   assert.equal(cov.tests.length,1);
   assert.equal(cov.tests[0].completed,1);
-  assert.equal(cov.tests[0].improved,0); assert.equal(cov.tests[0].declined,0); assert.equal(cov.tests[0].noChange,1);
+  assert.equal(cov.tests[0].improved,0); assert.equal(cov.tests[0].declined,0); assert.equal(cov.tests[0].noChange,0); assert.equal(cov.tests[0].insufficient,1);
 });
 
 test("7. שינוי שם כיתה: אותו cid, אותן מדידות — אותה תוצאה בדיוק",()=>{
@@ -92,7 +93,7 @@ test("8. דטרמיניסטית: שתי קריאות זהות נותנות או�
 test("כיתה בלי תלמידים ברשימה: אין קריסה; אם יש מדידות מכיתה זו הן עדיין מוגדרות כ'נמדד', אבל 0 תלמידים בכל דלי",()=>{
   const cov=D.classProgress(rows(),[],TESTS,{cid:X});
   assert.equal(cov.tests.length,1,"push עדיין מוגדר כ'נמדד' — כמו ב-classCoverage");
-  assert.deepEqual(cov.tests[0],{testId:"push",name:"שכיבות סמיכה",def:TESTS[0],completed:0,improved:0,declined:0,noChange:0});
+  assert.deepEqual(cov.tests[0],{testId:"push",name:"שכיבות סמיכה",def:TESTS[0],completed:0,improved:0,declined:0,noChange:0,insufficient:0});
 });
 
 test("כיתה בלי אף מדידה: אין מבחנים בכלל",()=>{
@@ -106,13 +107,13 @@ test("כל הכיתה משתפרת",()=>{
     {id:"m3",test:"push",sid:"b",cid:X,val:10,d:"2026-09-01"},{id:"m4",test:"push",sid:"b",cid:X,val:12,d:"2026-09-10"}
   ];
   const cov=D.classProgress(rs,roster.slice(0,2),TESTS,{cid:X});
-  assert.deepEqual(cov.tests[0],{testId:"push",name:"שכיבות סמיכה",def:TESTS[0],completed:2,improved:2,declined:0,noChange:0});
+  assert.deepEqual(cov.tests[0],{testId:"push",name:"שכיבות סמיכה",def:TESTS[0],completed:2,improved:2,declined:0,noChange:0,insufficient:0});
 });
 
-test("כל הכיתה ללא שינוי מדיד (מדידה אחת לכולם)",()=>{
+test("כל הכיתה נמדדה יום אחד — אין עדיין השוואה, לא «ללא שינוי»",()=>{
   const rs=[{id:"m1",test:"push",sid:"a",cid:X,val:10,d:"2026-09-01"},{id:"m2",test:"push",sid:"b",cid:X,val:12,d:"2026-09-01"}];
   const cov=D.classProgress(rs,roster.slice(0,2),TESTS,{cid:X});
-  assert.deepEqual(cov.tests[0],{testId:"push",name:"שכיבות סמיכה",def:TESTS[0],completed:2,improved:0,declined:0,noChange:2});
+  assert.deepEqual(cov.tests[0],{testId:"push",name:"שכיבות סמיכה",def:TESTS[0],completed:2,improved:0,declined:0,noChange:0,insufficient:2});
 });
 
 test("חלק משתפרים וחלק נסוגים — שני הדליים חיים זה לצד זה",()=>{

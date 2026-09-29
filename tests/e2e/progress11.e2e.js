@@ -47,7 +47,7 @@ module.exports={title:"שלב 11 — תובנות התקדמות לכיתה",tes
     eq(rows.length,1,"רק push נמדד");
     const cells=rows[0];
     ok(cells[0].indexOf("שכיבות סמיכה")>=0,"שם המבחן מהקטלוג — "+cells[0]);
-    eq(cells.slice(1),["3","1","1","1"],"נמדדו · משתפרים · נסוגים · בלי שינוי מדיד");
+    eq(cells.slice(1),["3","1","1","0","1"],"נמדדו · משתפרים · נסוגים · בלי שינוי מדיד · אין עדיין השוואה (גל — יום אחד)");
     const sum=await txt(page,"#ft-prog .ft-idxsum");
     ok(sum.indexOf("1")>=0,"הסיכום סופר שיפור אחד ונסיגה אחת — "+sum);
   }),
@@ -74,17 +74,17 @@ module.exports={title:"שלב 11 — תובנות התקדמות לכיתה",tes
     ]}),async page=>{
     await openProg(page);
     const row=await page.evaluate(()=>[...document.querySelectorAll("#ft-prog tbody tr td")].map(td=>td.textContent.trim()));
-    eq(row.slice(1),["2","2","0","0"]);
+    eq(row.slice(1),["2","2","0","0","0"]);
   }),
 
-  check("כל הכיתה בלי שינוי מדיד (מדידה אחת לכולם)",seed({
+  check("כל הכיתה נמדדה יום אחד בלבד — אין עדיין השוואה",seed({
     "ft.results":[
       {id:"r1",d:"2026-09-01",ts:1,cls:"ח׳1",cid:X,test:"push",name:"אליס כהן",sid:"a",val:10,unit:"חזרות"},
       {id:"r2",d:"2026-09-01",ts:2,cls:"ח׳1",cid:X,test:"push",name:"בוב לוי",sid:"b",val:12,unit:"חזרות"}
     ]}),async page=>{
     await openProg(page);
     const row=await page.evaluate(()=>[...document.querySelectorAll("#ft-prog tbody tr td")].map(td=>td.textContent.trim()));
-    eq(row.slice(1),["2","0","0","2"]);
+    eq(row.slice(1),["2","0","0","0","2"],"יום מדידה אחד — «אין עדיין השוואה», לא «בלי שינוי»");
   }),
 
   /* ---------- שינוי שם — רגרסיה ---------- */

@@ -1722,17 +1722,19 @@ window.FT=(function(){
         מדדו מבחן אחד בלשונית «מבחנים» — תובנות ההתקדמות יופיעו אחרי שתי מדידות לפחות לתלמיד.</div>`;
     }else{
       body=`<div class="tblwrap" style="margin-top:11px"><table class="tbl">
-        <thead><tr><th>מבחן</th><th>נמדדו</th><th>משתפרים</th><th>נסוגים</th><th>בלי שינוי מדיד</th></tr></thead>
+        <thead><tr><th>מבחן</th><th>נמדדו</th><th>משתפרים</th><th>נסוגים</th><th>בלי שינוי מדיד</th><th>אין עדיין השוואה</th></tr></thead>
         <tbody>${prog.tests.map(t=>`<tr>
           <td><b>${esc((t.def&&t.def.em?t.def.em+" ":"")+t.name)}</b></td>
           <td class="mono" style="text-align:center">${t.completed}</td>
           <td class="mono" style="text-align:center;color:var(--acc)">${t.improved}</td>
           <td class="mono" style="text-align:center;color:var(--stop)">${t.declined}</td>
           <td class="mono" style="text-align:center;color:var(--muted)">${t.noChange}</td>
+          <td class="mono" style="text-align:center;color:var(--muted)">${t.insufficient||0}</td>
         </tr>`).join("")}</tbody></table></div>
         <div class="hint" style="margin-top:7px">«משתפרים»/«נסוגים» משווים את הטוב ביום המדידה האחרון מול הטוב ביום הראשון —
-          אותה השוואה שחלון ההיסטוריה של התלמיד כבר מציג. «בלי שינוי מדיד» כולל גם תוצאה זהה
-          וגם תלמיד שנמדד יום אחד בלבד ועדיין אין עם מה להשוות — שני מצבים, אותה מסקנה כנה: אין עדיין מגמה.</div>`;
+          אותה השוואה שחלון ההיסטוריה של התלמיד כבר מציג.
+          «בלי שינוי מדיד» — אותה תוצאה בשני ימי מדידה.
+          «אין עדיין השוואה» — נמדד ביום אחד בלבד, ולכן אין מגמה לדווח עליה.</div>`;
     }
 
     $("#ft-prog").innerHTML=`

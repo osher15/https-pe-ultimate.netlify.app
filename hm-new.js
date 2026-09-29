@@ -15,8 +15,13 @@ const H=()=>window.HM;
 /* ============================ STU — התלמידים שלי ============================ */
 window.STU=(function(){
   let inited=false;
-  const load=()=>H().LS.get("stu.list",[]);
-  const save=l=>H().LS.set("stu.list",l);
+  /* הרשימה נקראת דרך normalizeStudents: רשומה בלי tests (ההדגמה,
+     ייבוא ישן) מקבלת מערך ריק במקום להפיל את כל המסך. רשומה פגומה
+     לגמרי אינה מוצגת — אבל גם אינה נמחקת: save מחזיר אותה למקומה. */
+  const raw=()=>H().LS.get("stu.list",[]);
+  const load=()=>window.HMDATA.normalizeStudents(raw()).list;
+  const badRecs=()=>window.HMDATA.normalizeStudents(raw()).bad;
+  const save=l=>H().LS.set("stu.list",l.concat(badRecs()));
   /* ============================================================
      זהות כיתה
      ------------------------------------------------------------
@@ -72,7 +77,7 @@ window.STU=(function(){
     /* הבורר מציג שמות אבל נושא מזהים: הערך הוא cid, התווית היא השם. */
     const classes=classList(list);
     $("#stu-classSel").innerHTML=classOpts(list,classes,clsF);
-    let view=list.filter(s=>(!q||s.name.includes(q))&&inF(s,clsF));
+    let view=list.filter(s=>window.HMDATA.searchMatch(s.name,q)&&inF(s,clsF));
     const withT=list.filter(s=>s.tests.length);
     const avg=withT.length?withT.reduce((a,s)=>a+(latest(s).vo2||0),0)/withT.length:0;
     const below=withT.filter(s=>latest(s).zone==="סיכון בריאותי").length;
@@ -116,13 +121,17 @@ window.STU=(function(){
       const z=lt?zoneColor(lt.zone):null;
       return `<div class="stu-row" data-id="${s.id}">
         <div class="av">${esc(s.name.slice(0,1))}</div>
-        <div class="grow"><b>${esc(s.name)}</b><div class="sb">${esc(s.cls||"—")} · ${s.tests.length} מבחנים${s.sex?" · "+(s.sex==="boys"?"בן":"בת"):""}</div></div>
+        <div class="grow"><b>${esc(s.name)}</b><div class="sb">${esc(s.cls||"—")} · ${s.tests.length} מבחנים${s.sex?' · <span>'+(s.sex==="boys"?"בן":"בת")+"</span>":""}</div></div>
         ${tr?`<span class="tr ${tr>0?"up":"dn"}">${tr>0?"▲":"▼"}</span>`:""}
         ${lt?`<span class="mono" style="color:var(--muted);font-size:12px">${lt.dist} מ׳</span>`:""}
         ${z?`<span class="catpill" style="background:${z}">${esc(lt.zone)}</span>`:'<span class="pill">אין מבחן</span>'}
       </div>`;
     }).join("");
     $$("#stu-list .stu-row").forEach(r=>r.addEventListener("click",()=>profile(r.dataset.id)));
+    /* רשומה פגומה לא מוצגת, אבל גם לא נעלמת בשקט */
+    const nBad=badRecs().length;
+    if(nBad)$("#stu-list").insertAdjacentHTML("beforeend",'<div class="hint" id="stu-bad">⚠ '+
+      esc(H().t("stu.badRecs","רשומות פגומות ברשימה לא מוצגות, אבל נשמרות כפי שהן — גבו את הנתונים לפני כל שינוי."))+" ("+nBad+")</div>");
   }
   function zoneColor(g){return {"מצוין":"#5cc8ff","אזור בריא":"#8fd96b","טעון שיפור":"#ffd166","סיכון בריאותי":"#ff6b81"}[g]||"#8a8da1";}
   function chart(s){
@@ -273,17 +282,20 @@ window.STU=(function(){
   let grPeriod="",grClsF="";
   const examColsFor=period=>loadExamCols()[period]||[];
   const gradeOf=(s,period)=>{ const g=(s.grades=s.grades||{}); return g[period]=g[period]||{exams:{}}; };
+  /* הנוסחה והכלל «זמני או סופי» ב-hm-data.js (gradeResult), כדי שהטבלה,
+     מרכז הכיתה וה-CSV יענו אותה תשובה ויהיו מכוסים בבדיקות. */
   function computeFinal(s,period,weights,examCols){
-    const g=(s.grades&&s.grades[period])||{};
-    const examVals=examCols.map(c=>g.exams&&g.exams[c]).filter(v=>v!=null&&v!=="").map(Number);
-    const examsAvg=examVals.length?examVals.reduce((a,b)=>a+b,0)/examVals.length:null;
-    const cats=[["part",g.part],["exams",examsAvg],["improve",g.improve],["team",g.team],["know",g.know]];
-    let total=0,any=false;
-    cats.forEach(([k,v])=>{ if(v!=null&&v!==""){ total+=(+v)*weights[k]/100; any=true; } });
-    const cap=weights.bonusMax??DEF_WEIGHTS.bonusMax;
-    const bonus=g.bonus!=null&&g.bonus!==""?Math.max(0,Math.min(cap,+g.bonus)):0;
-    if(bonus)any=true;
-    return {total:any?Math.round(Math.min(100,total+bonus)*10)/10:null,examsAvg,bonus};
+    return window.HMDATA.gradeResult((s.grades&&s.grades[period])||{},weights,examCols);
+  }
+  /* תא הציון: סופי — מספר מודגש. זמני — מספר מעומעם, «זמני», ומה חסר.
+     כל תווית ב-span משלה, כדי שהתרגום יזהה את שמות ברירת המחדל. */
+  function gradeCell(r,L){
+    const {esc}=H();
+    if(r.value==null)return "—";
+    if(r.complete)return r.value.toFixed(1);
+    return '<span class="gr-prov">'+r.value.toFixed(1)+'</span> <small class="gr-provTag">'+
+      esc(H().t("gr.prov","זמני"))+'</small><div class="gr-miss"><span>'+esc(H().t("gr.missing","חסר"))+'</span>: '+
+      r.missing.map(k=>'<span>'+esc(L[k])+'</span>').join(", ")+'</div>';
   }
   function renderWeightsHint(){
     const {$}=H(); const w=loadWeights();
@@ -382,7 +394,7 @@ window.STU=(function(){
     }<th>בונוס<br>(עד ${weights.bonusMax??10})</th><th>ציון סופי</th></tr></thead>`;
     const body=view.map(s=>{
       const g=gradeOf(s,grPeriod);
-      const {total,examsAvg}=computeFinal(s,grPeriod,weights,examCols);
+      const r=computeFinal(s,grPeriod,weights,examCols), examsAvg=r.examsAvg;
       const num=(f,cap)=>`<td><input class="gr-in" type="number" min="0" max="${cap||100}" data-f="${f}" value="${g[f]??""}"></td>`;
       return `<tr data-sid="${s.id}">
         <td><b>${esc(s.name)}</b></td>
@@ -394,20 +406,23 @@ window.STU=(function(){
         ${show("team")?num("team"):""}
         ${show("know")?num("know"):""}
         ${num("bonus",weights.bonusMax??10)}
-        <td class="mono" style="font-weight:800;color:var(--acc)">${total!=null?total.toFixed(1):"—"}</td>
+        <td class="mono gr-final${r.complete?"":" prov"}">${gradeCell(r,L)}</td>
       </tr>`;
     }).join("");
     $("#gr-table").innerHTML=head+"<tbody>"+body+"</tbody>";
+    paintProvHint(view,weights,examCols);
     /* עדכון שורה בודדת בלבד (בלי לבנות מחדש את כל הטבלה) — כדי לא לאבד פוקוס/מעבר Tab
        באמצע הזנת ציונים רצופה בסגנון גיליון. */
     function updateRowTotals(tr,s){
-      const {total,examsAvg}=computeFinal(s,grPeriod,weights,examCols);
+      const r=computeFinal(s,grPeriod,weights,examCols), examsAvg=r.examsAvg;
       const cells=tr.querySelectorAll("td");
       /* תא ממוצע המבחנים הוא ה-.mono הראשון, והציון הסופי הוא האחרון —
          איתור לפי מיקום קבוע נשבר כשקטגוריה במשקל 0 מוסתרת. */
       const monos=tr.querySelectorAll("td.mono");
       if(monos.length>1)monos[0].textContent=examsAvg!=null?examsAvg.toFixed(1):"—";
-      cells[cells.length-1].textContent=total!=null?total.toFixed(1):"—";
+      const fc=cells[cells.length-1];
+      fc.innerHTML=gradeCell(r,L); fc.classList.toggle("prov",!r.complete);
+      paintProvHint(view,weights,examCols);
     }
     $$("#gr-table [data-f]").forEach(inp=>inp.addEventListener("change",()=>{
       const tr=inp.closest("tr"), s=list.find(x=>x.id===tr.dataset.sid); if(!s)return;
@@ -434,6 +449,13 @@ window.STU=(function(){
       H().undo(`העמודה «${name}» הוסרה`,()=>{ back(); renderGrades(); });
     }));
   }
+  /* הסבר אחד מתחת לטבלה, רק כשיש בה ציון זמני */
+  function paintProvHint(view,weights,examCols){
+    const el=H().$("#gr-provHint"); if(!el)return;
+    const n=view.filter(s=>computeFinal(s,grPeriod,weights,examCols).status===window.HMDATA.GRADE_PROV).length;
+    el.hidden=!n;
+    if(n)el.textContent=H().t("gr.provHint","ציון זמני: חסר לפחות רכיב אחד שיש לו משקל במבנה הציון, ולכן הוא עוד לא ציון סופי ולא נספר כך במרכז הכיתה. רכיב במשקל 0 אינו נדרש, ו-0 הוא ציון תקין.")+" ("+n+")";
+  }
   async function addExamCol(){
     const cols0=loadExamCols(), arr0=cols0[grPeriod]||[];
     const name=await H().ask({fields:[{label:"שם עמודת המבחן:",value:"מבחן "+(arr0.length+1)}],ok:"＋ הוסף"});
@@ -451,21 +473,31 @@ window.STU=(function(){
   function delPeriod(){
     const periods=loadPeriods();
     if(periods.length<=1){H().toast("חייבת להישאר לפחות תקופה אחת");return;}
-    const back=H().snap(["grades.periods","grades.examCols","stu.list"]), was=grPeriod;
+    const back=H().snap(["grades.periods","grades.examCols","stu.list","grades.periodRanges"]), was=grPeriod;
     const idx=periods.indexOf(grPeriod); periods.splice(idx,1); savePeriods(periods);
     const cols=loadExamCols(); delete cols[grPeriod]; saveExamCols(cols);
     const list=load(); list.forEach(s=>{ if(s.grades)delete s.grades[grPeriod]; }); save(list);
+    const rg=loadRanges(); if(rg[was]){ delete rg[was]; H().LS.set("grades.periodRanges",rg); }
     grPeriod=periods[0]; renderGrades();
     H().undo(`התקופה «${was}» נמחקה, עם הציונים שבה`,()=>{ back(); grPeriod=was; renderGrades(); },8000);
   }
   function exportGradesCsv(){
     const list=load().filter(s=>inF(s,grClsF)).sort((a,b)=>a.name.localeCompare(b.name,"he"));
     if(!list.length){H().toast("אין תלמידים");return;}
-    const weights=loadWeights(), examCols=examColsFor(grPeriod);
-    const rows=[["שם","כיתה","השתתפות ורצינות",...examCols,"ממוצע מבחנים","שיפור והתמדה","עבודת צוות","ציון סופי"]];
+    const weights=loadWeights(), examCols=examColsFor(grPeriod), L=loadLabels();
+    const tt=H().t;
+    /* עמודת סטטוס מפורשת: מי שפותח את הקובץ באקסל רואה אם הציון סופי
+       או זמני ומה חסר — בלי להסיק את זה מתאים ריקים. */
+    const rows=[["שם","כיתה",L.part,...examCols,L.exams,L.improve,L.team,L.know,"בונוס",
+      tt("gr.csvGrade","ציון"),tt("gr.csvStatus","סטטוס"),tt("gr.csvMissing","רכיבים חסרים")]];
+    const fx=v=>v!=null?v:"";
     list.forEach(s=>{
-      const g=gradeOf(s,grPeriod); const {total,examsAvg}=computeFinal(s,grPeriod,weights,examCols);
-      rows.push([s.name,s.cls||"",g.part??"",...examCols.map(c=>(g.exams&&g.exams[c])??""),examsAvg!=null?examsAvg.toFixed(1):"",g.improve??"",g.team??"",total!=null?total.toFixed(1):""]);
+      const g=gradeOf(s,grPeriod), r=computeFinal(s,grPeriod,weights,examCols);
+      rows.push([s.name,s.cls||"",fx(g.part),...examCols.map(c=>fx(g.exams&&g.exams[c])),
+        r.examsAvg!=null?r.examsAvg.toFixed(1):"",fx(g.improve),fx(g.team),fx(g.know),fx(g.bonus),
+        r.value!=null?r.value.toFixed(1):"",
+        r.status===window.HMDATA.GRADE_FINAL?tt("gr.stFinal","סופי"):r.status===window.HMDATA.GRADE_PROV?tt("gr.prov","זמני"):"",
+        r.missing.map(k=>L[k]).join("; ")]);
     });
     H().dlCSV("ציונים_"+grPeriod+".csv",rows);
   }
@@ -478,20 +510,51 @@ window.STU=(function(){
      הנוסחה היא attendanceRateOf() ב-hm-data.js, שהיא בדיוק הנוסחה
      של attSummary() ב-hm-tools.js. tools.att לא נקרא כאן פעם
      נוספת בצורה חדשה — נקרא ישירות מהמפתח הקיים, כמו כל מקום אחר. */
-  function fillFromAttendance(){
-    const list=load().filter(s=>inF(s,grClsF));
-    if(!list.length){ H().toast("אין תלמידים"); return; }
+  /* תקופת הערכה היא שם בלבד («רבעון 1»), בלי תאריכים — ולכן המילוי
+     חישב נוכחות מכל התאריכים אי-פעם, גם בתקופה חדשה. עכשיו לכל תקופה
+     יש טווח תאריכים (מפתח נפרד, תוספתי — שמות התקופות לא משתנים).
+     אין טווח — שואלים פעם אחת, עם ברירת מחדל של כל מה שנרשם. */
+  const loadRanges=()=>{ const r=H().LS.get("grades.periodRanges",{}); return r&&typeof r==="object"&&!Array.isArray(r)?r:{}; };
+  async function periodRange(period,list,att){
+    const ranges=loadRanges(), cur=ranges[period];
+    if(cur&&(cur.from||cur.to))return cur;
+    const ids=new Set(list.map(s=>s.id)), days=[];
+    Object.keys(att).forEach(k=>{ const i=k.indexOf("|"); if(i<0)return;
+      const rec=att[k]; if(rec&&Object.keys(rec).some(id=>ids.has(id)))days.push(k.slice(0,i)); });
+    days.sort();
+    const v=await H().ask({title:"📅 "+period,
+      msg:H().t("gr.rangeAsk","מאילו תאריכים לחשב את הנוכחות לתקופה הזו? רק נוכחות בטווח נכנסת לחישוב. הטווח נשמר לתקופה."),
+      fields:[{k:"from",label:H().t("gr.from","מתאריך"),type:"date",value:days[0]||""},
+              {k:"to",label:H().t("gr.to","עד תאריך"),type:"date",value:days[days.length-1]||""}],
+      ok:"⬇ "+H().t("gr.fillGo","מלא")});
+    if(v===null)return null;
+    let from=String(v.from||""), to=String(v.to||"");
+    if(from&&to&&from>to){ const x=from; from=to; to=x; }
+    const next=loadRanges(); next[period]={from,to}; H().LS.set("grades.periodRanges",next);
+    return {from,to};
+  }
+  async function fillFromAttendance(){
+    /* נשמרת הרשימה המלאה. קודם נשמר רק הסינון לכיתה שנבחרה — ומילוי
+       ב-ט׳3 מחק מהמכשיר את כל התלמידים של שאר הכיתות. */
+    const period=grPeriod;
+    const list0=load().filter(s=>inF(s,grClsF));
+    if(!list0.length){ H().toast("אין תלמידים"); return; }
     const att=H().LS.get("tools.att",{});
+    const range=await periodRange(period,list0,att);
+    if(!range)return;
+    /* טוענים מחדש אחרי השאלה — כדי לא לדרוס שינוי שנעשה בינתיים */
+    const all=load(), list=all.filter(s=>inF(s,grClsF));
     let filled=0;
     list.forEach(s=>{
-      const g=gradeOf(s,grPeriod);
-      if(g.part!=null)return;                       /* יש כבר ציון — לא נוגעים */
+      const g=gradeOf(s,period);
+      if(g.part!=null&&g.part!=="")return;          /* יש כבר ציון — לא נוגעים */
       const cid=cidOf(s);
-      const rate=cid?window.HMDATA.attendanceRateOf(att,s,store,{cid}):null;
+      const rate=cid?window.HMDATA.attendanceRateOf(att,s,store,{cid,from:range.from||null,to:range.to||null}):null;
       if(!rate)return;                               /* אין נתוני נוכחות — לא ממציאים */
       g.part=rate.pct; filled++;
     });
-    if(filled){ save(list); renderGrades(); H().toast("✓ נמלאו "+filled+" ציונים לפי נוכחות"); }
+    const span=(range.from||"…")+" – "+(range.to||"…");
+    if(filled){ save(all); renderGrades(); H().toast("✓ נמלאו "+filled+" ציונים לפי נוכחות · "+span); }
     else H().toast("אין שדות ריקים למלא — או שאין עדיין נתוני נוכחות לתלמידים האלה");
   }
 
@@ -797,10 +860,12 @@ window.STU=(function(){
     const periods=loadPeriods(), period=grPeriod||periods[0];
     const w=loadWeights(), cols=examColsFor(period);
     const l=load().filter(s=>inF(s,cid));
-    const graded=l.filter(s=>computeFinal(s,period,w,cols).total!=null).length;
+    const rs=l.map(s=>computeFinal(s,period,w,cols));
+    const graded=rs.filter(r=>r.complete).length;
+    const prov=rs.filter(r=>r.status===window.HMDATA.GRADE_PROV).length;
     const ids=new Set(l.map(s=>s.id));
     const peer=(loadAssess()||[]).filter(a=>(a.students||[]).some(id=>ids.has(id))).length;
-    return {total:l.length,period,graded,peer};
+    return {total:l.length,period,graded,prov,peer};
   }
   /* התקופה שנבחרה בלשונית הציונים — מדד הכושר נכתב אליה, ולא תמיד לראשונה */
   return {init,importFromBeep,count:()=>load().length,show,summary,
@@ -882,11 +947,30 @@ const LEAD_FORM={
   phone:"entry.790270370",
   email:"entry.457350621"
 };
-function initLeadCapture(){
-  const {$, LS, toast}=H();
+/* ביקורת 2026-09-29: המסך חסם גם את ההדגמה ואת בחירת השפה, בלי דילוג.
+   עכשיו: בחירת שפה במסך עצמו, «דלגו בינתיים» (נרשם כדילוג — לא
+   נשלח דבר), ואפשר לחזור אליו מההגדרות ← אודות. השדות עדיין חובה
+   כשבוחרים לשלוח. */
+let leadWired=false;
+function paintLeadLang(){
+  const {$}=H(), box=$("#lead-lang"); if(!box||!window.I18N)return;
+  const cur=window.I18N.lang();
+  box.innerHTML=window.I18N.langs().map(l=>'<button type="button" data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+
+    ' lang="'+l.code+'"><span class="fl">'+l.flag+'</span><span>'+l.native+'</span></button>').join("");
+  box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ window.I18N.set(b.dataset.l); paintLeadLang(); }));
+}
+function openLead(force){
+  const {$, LS}=H();
   const ov=$("#leadOv"); if(!ov)return;
-  if(LS.get("hx.leadDone",false))return;
+  if(!force&&LS.get("hx.leadDone",false))return;
   ov.classList.add("on");
+  paintLeadLang();
+  wireLead();
+}
+function wireLead(){
+  if(leadWired)return; leadWired=true;
+  const {$, LS, toast}=H();
+  const ov=$("#leadOv");
   const close=()=>ov.classList.remove("on");
   const submitToForm=(first,last,phone,email)=>{
     if(!LEAD_FORM.action)return;
@@ -903,10 +987,22 @@ function initLeadCapture(){
           phone=$("#lead-phone").value.trim(), email=$("#lead-email").value.trim();
     if(!first||!last||(!phone&&!email)){ toast("שם פרטי, שם משפחה, ואימייל או נייד — שדות חובה"); return; }
     LS.set("hx.leadDone",true);
+    LS.set("hx.leadSkipped",false);
     submitToForm(first,last,phone,email);
     toast("תודה! ממשיכים 👋");
     close();
   });
+  const sk=$("#lead-skip");
+  if(sk)sk.addEventListener("click",()=>{
+    /* דילוג: שום דבר לא נשלח. לא שואלים שוב בכל פתיחה — ההגדרות זוכרות. */
+    LS.set("hx.leadDone",true); LS.set("hx.leadSkipped",true);
+    close();
+  });
+}
+function initLeadCapture(){
+  openLead(false);
+  const b=H().$("#ab-lead");
+  if(b)b.addEventListener("click",()=>{ try{ H().modal&&document.querySelectorAll(".modal.on").forEach(m=>m.classList.remove("on")); }catch(e){} openLead(true); });
 }
 
 /* ============================ HOME extras + נעילת מורה ============================ */
@@ -987,7 +1083,9 @@ window.HMBootNew=function(){
     try{ window.HMDATA.registerClass({get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},cls); }catch(e){}
     const kids=[["דן אבירם","boys"],["איתי כהן","boys"],["רון לוי","boys"],["עומר בר","boys"],
                 ["יהב שני","boys"],["ניר גל","boys"],["אלון מור","boys"],["גיא פרץ","boys"]];
-    LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1]})));
+    /* אותה צורה כמו כל נתיב יצירה אחר — tests:[] חובה, אחרת
+       «התלמידים שלי» לא רואה את הכיתה שכל שאר המסכים רואים. */
+    LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1],age:14,h:null,w:null,tests:[]})));
     LS.set("ft.last",{grade:"ט",num:3,sort:"todo"});
     const day=n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
     const res=[]; let id=0;

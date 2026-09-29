@@ -67,7 +67,8 @@ function cards(cid){
         (fit.last?' · <span class="dim">'+esc(t("hub.lastMeas","אחרונה"))+' '+esc(fit.last)+'</span>':"")],
       [["idx",t("hub.openIdx","מדד הכושר"),true],["cov",t("hub.openCov","מה חסר"),false],["prog",t("hub.openProg","התקדמות"),false]])+
     card("📊",t("hub.grades","ציונים"),[num(stuS.graded+"/"+stuS.total,t("hub.graded","עם ציון סופי")),
-        '<span class="dim">'+esc(stuS.period||"")+'</span>'],
+        stuS.prov?num(stuS.prov,t("hub.prov","עם ציון זמני — חסרים רכיבים")):"",
+        '<span class="dim">'+esc(stuS.period||"")+'</span>'].filter(Boolean),
       [["grades",t("hub.openGrades","טבלת הציונים"),true]])+
     card("🤝",t("hub.assess","הערכות"),[num(stuS.peer,t("hub.peerN","הערכות עמיתים"))],
       [["peer",t("hub.openPeer","הערכת עמיתים"),false],["rub",t("hub.openRub","מחוונים"),false]])+
@@ -96,7 +97,9 @@ function paint(){
   let act=null; try{ act=H().session.active(); }catch(e){}
   root.innerHTML=
     '<div class="hub-top"><div><div class="kick">'+esc(t("hub.title","מרכז הכיתה"))+'</div>'+
-      '<h2 id="cls-title">'+esc(H().classTitle(cid))+'</h2></div></div>'+
+      /* «כיתה» ושם הכיתה בצמתים נפרדים — כך השם האוטומטי («ט׳3») מתורגם
+         כמו בכל מסך אחר («9-3»), ולא נשאר עברית בתוך «Class ט׳3». */
+      '<h2 id="cls-title">'+esc(H().classTitle(cid)).replace(/^(\S+) /,'<span>$1</span> <span>')+'</span></h2></div></div>'+
     '<div class="hub-chips">'+list().map(c=>'<button class="chip'+(c.cid===cid?" on":"")+'" data-cls="'+esc(c.cid)+'">'+
       (c.group?"👥 ":"")+esc(c.name)+(act&&act.cid===c.cid?' <span class="livedot" title="'+esc(t("hub.inLesson","בשיעור עכשיו"))+'">●</span>':"")+'</button>').join("")+'</div>'+
     '<div class="card hub-ov" id="cls-body">'+H().classOverviewHtml(cid)+'</div>'+

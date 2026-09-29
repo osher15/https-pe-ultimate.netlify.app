@@ -17,6 +17,9 @@ const seed=extra=>Object.assign({
     "2026-09-01|ח1":{a:"p",b:"p"},
     "2026-09-08|ח1":{a:"p",b:"a"}
   },
+  /* לתקופה יש טווח תאריכים (ביקורת 2026-09-29) — בלעדיו המילוי שואל
+     עליו קודם. השאלה עצמה נבדקת ב-audit29.e2e.js. */
+  "grades.periodRanges":{"רבעון 1":{from:"2026-01-01",to:"2026-12-31"}},
   "pf.guideSeen":true,"schema.version":D.SCHEMA_VERSION
 },extra||{});
 

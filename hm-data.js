@@ -495,6 +495,113 @@ function sameStudent(rec,stud){
   /* לרשומה יש מזהה ולתלמיד אין — אין בסיס להתאמה. */
   return false;
 }
+/* ============================================================
+   ציוד זמין — אילוץ, לא תוספת
+   ------------------------------------------------------------
+   במחולל המהיר «ציוד זמין» נוסף לרשימת הציוד ולא הגביל דבר: מערך
+   אירובי עם כדורים וקונוסים בלבד ביקש חישוקים, כי המשחק שנבחר
+   דרש אותם. כאן: פריט שלא סומן כזמין הוא אילוץ.
+
+   טקסט הציוד של משחק הוא חופשי («קונוסים / חישוקים», «חישוקים
+   (״קנים״), כדורי ספוג»). מפרקים לפי פסיק ו-+; «/» הוא חלופה —
+   החלק נחסם רק כשכל החלופות בו דורשות פריט לא זמין. סוגריים הם
+   דוגמאות, לא דרישה.
+   ============================================================ */
+var EQUIP_KEYS={"כדורים":"כדור","קונוסים":"קונוס","מזרנים":"מזרן","חישוקים":"חישוק",
+  "רשת":"רשת","חבל":"חבל","רמקול":"רמקול","וסטים":"וסט"};
+function equipParts(str){
+  return String(str==null?"":str).replace(/\([^)]*\)/g," ")
+    .split(/[,،;+·]/).map(function(x){ return x.replace(/\s+/g," ").trim(); })
+    .filter(function(x){ return x&&!/^(אין|ללא)$/.test(x); });
+}
+function equipNeeds(part,item){
+  var k=EQUIP_KEYS[item]; return !!k&&String(part).indexOf(k)>=0;
+}
+/* הפריטים הלא-זמינים שהטקסט דורש בלי חלופה */
+function equipConflicts(str,unavailable){
+  var un=asList(unavailable).filter(function(u){ return EQUIP_KEYS[u]; }), out=[];
+  if(!un.length)return out;
+  equipParts(str).forEach(function(part){
+    var alts=part.split("/");
+    var blocked=alts.map(function(a){ return un.filter(function(u){ return equipNeeds(a,u); }); });
+    if(blocked.every(function(b){ return b.length; }))
+      blocked.forEach(function(b){ b.forEach(function(u){ if(out.indexOf(u)<0)out.push(u); }); });
+  });
+  return out;
+}
+/* איחוד רשימות ציוד בלי כפילויות (לפי קיפול — «קונוסים» פעם אחת) */
+function mergeEquip(){
+  var out=[], seen={};
+  Array.prototype.slice.call(arguments).forEach(function(l){
+    asList(l).forEach(function(x){ var t=String(x==null?"":x).trim(), k=foldSearch(t);
+      if(t&&!seen[k]){ seen[k]=1; out.push(t); } });
+  });
+  return out;
+}
+
+/* ============================================================
+   חיפוש רב־לשוני
+   ------------------------------------------------------------
+   החיפוש במשחקים השווה את מה שהוקלד רק לנוסח העברי — ובאנגלית
+   «Capture» החזיר 0 משחקים ליד כרטיס «Capture the flag». החיפוש
+   צריך לרוץ על מה שהמורה רואה, ועדיין למצוא גם בעברית.
+
+   קיפול להשוואה בלבד (לא נשמר, לא מוצג): אותיות קטנות, בלי סימני
+   ניקוד/טעמים/תשכיל ובלי סימני הטעמה (Capturé = Capture), ё→е,
+   גרש ומירכאות עבריים כשווים ללטיניים, רווחים מאוחדים.
+   המחרוזת המקורית לעולם לא משתנה.
+   ============================================================ */
+function foldSearch(str){
+  var s=String(str==null?"":str);
+  try{ s=s.normalize("NFKD"); }catch(e){}
+  return s.replace(/[\u0300-\u036f\u0591-\u05c7\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]/g,"")
+    .replace(/\u0640/g,"")                      /* תטוויל ערבי */
+    .toLowerCase()
+    .replace(/ё/g,"е")
+    .replace(/[׳’‘`]/g,"'").replace(/[״“”„]/g,'"')
+    .replace(/\s+/g," ").trim();
+}
+/* כל מילה בשאילתה צריכה להופיע (AND), בכל סדר. שאילתה ריקה — הכול. */
+function searchMatch(hay,query){
+  var q=foldSearch(query); if(!q)return true;
+  var h=foldSearch(hay);
+  return q.split(" ").every(function(w){ return h.indexOf(w)>=0; });
+}
+
+/* ============================================================
+   צורת רשומת תלמיד
+   ------------------------------------------------------------
+   כל נתיב יצירה כותב {id,name,cls,cid,sex,age,h,w,tests:[]} — חוץ
+   ממצב ההדגמה, שכתב רשומות בלי tests. כל מסך אחר עבר דרך
+   studentsIn והציג שמונה תלמידים; «התלמידים שלי» קרא s.tests.length
+   ונפל כולו, וכך אותה כיתה הייתה מלאה במסך אחד וריקה בשני.
+
+   הצורה מתוקנת בקריאה, לא בהנחה: שדה רשות חסר מקבל ברירת מחדל
+   ריקה (tests:[], h/w:null) — אף ערך קיים לא משתנה. רשומה שאינה
+   אובייקט בכלל אינה «מתוקנת» ואינה נמחקת: היא חוזרת בנפרד (bad),
+   נשמרת במקומה, ומי שמציג את הרשימה יכול לומר שהיא שם.
+   ============================================================ */
+function isStudentRec(s){ return !!s&&typeof s==="object"&&!Array.isArray(s); }
+function normalizeStudent(s){
+  if(!isStudentRec(s))return null;
+  var out={};
+  for(var k in s)if(Object.prototype.hasOwnProperty.call(s,k))out[k]=s[k];
+  out.name=s.name==null?"":String(s.name);
+  if(s.cls!=null&&typeof s.cls!=="string")out.cls=String(s.cls);
+  out.tests=Array.isArray(s.tests)?s.tests.filter(isStudentRec):[];
+  if(!("h" in out))out.h=null;
+  if(!("w" in out))out.w=null;
+  return out;
+}
+function normalizeStudents(raw){
+  var list=[], bad=[];
+  asList(raw).forEach(function(s){
+    var n=normalizeStudent(s);
+    if(n)list.push(n); else bad.push(s);
+  });
+  return {list:list,bad:bad};
+}
+
 /* מדידה שייכת לכיתה? לפי cid כשהוא כתוב עליה. מדידה ישנה בלי cid
    נבחנת לפי התווית שנשמרה עליה — נגזרת מהתוכן, לא מנוחשת. */
 function rowInClass(r,cid){
@@ -1552,7 +1659,7 @@ function classCoverage(rows,roster,testDefs,opts){
    שונה בפועל: תוצאה זהה (firstToLast.unchanged), ותלמיד שנמדד פעם
    אחת בלבד ולכן אין עם מה להשוות (progress().reason). שתי סיבות,
    מסקנה אחת כנה: אין עדיין שינוי הניתן למדידה — לא "אפס" מומצא.
-   completed הוא תמיד improved+declined+noChange, ותמיד שווה למספר
+   completed הוא תמיד improved+declined+noChange+insufficient, ותמיד שווה למספר
    ה-done של אותו מבחן ב-classCoverage — חלוקה נקייה, בלי לספור אף
    תלמיד פעמיים או להשמיט אותו. */
 function classProgress(rows,roster,testDefs,opts){
@@ -1565,17 +1672,21 @@ function classProgress(rows,roster,testDefs,opts){
   var cov=classCoverage(rs,roster,defs,opts);
   var tests=cov.tests.map(function(tid){
     var T=byId[tid];
-    var improved=0,declined=0,noChange=0;
+    var improved=0,declined=0,noChange=0,insufficient=0;
     cov.students.forEach(function(row){
       if(!row.done[tid])return;                 /* לא נמדד — לא נספר בשום דלי */
       var pr=progress(rs,row.stud,tid,T&&T.dir,scope);
       var ftl=pr.firstToLast;
-      if(ftl&&ftl.improved)improved++;
-      else if(ftl&&ftl.declined)declined++;
-      else noChange++;                          /* ללא שינוי, או עדיין אין עם מה להשוות */
+      /* ביקורת 2026-09-29: «ללא שינוי» ו«אין עדיין עם מה להשוות» הופרדו.
+         תוצאה זהה בשני ימים היא ממצא; מדידה ביום אחד אינה מגמה בכלל. */
+      if(!ftl)insufficient++;
+      else if(ftl.improved)improved++;
+      else if(ftl.declined)declined++;
+      else noChange++;
     });
     return {testId:tid,name:T?T.name:tid,def:T||null,
-      completed:improved+declined+noChange,improved:improved,declined:declined,noChange:noChange};
+      completed:improved+declined+noChange+insufficient,improved:improved,declined:declined,
+      noChange:noChange,insufficient:insufficient};
   });
   return {tests:tests};
 }
@@ -1607,6 +1718,9 @@ function attendanceRateOf(att,stud,store,opts){
     var label=key.slice(i+1);
     if(cid){ if(resolveClassId(store,label)!==cid)return; }
     else if(k){ if(clsKey(label)!==k)return; }
+    var day=key.slice(0,i);
+    if(opts.from&&day<opts.from)return;
+    if(opts.to&&day>opts.to)return;
     var rec=att[key];
     if(!rec||typeof rec!=="object"||Array.isArray(rec))return;
     var mark=rec[sid]; if(!mark)return;
@@ -1615,6 +1729,92 @@ function attendanceRateOf(att,stud,store,opts){
   });
   if(!days)return null;
   return {days:days,p:p,h:h,pct:Math.round((p+h*0.5)/days*100)};
+}
+
+/* ============================================================
+   5ב'. מי נוכח היום — לקבוצות ולהגרלה
+   ------------------------------------------------------------
+   «קבוצות — מאוזנות, מהנוכחים» חילק בפועל את כל הכיתה: הנוכחות
+   לא נקראה בכלל. כאן הסימון של כל תלמיד בתאריך אחד, מאותו מבנה
+   בדיוק (tools.att, «תאריך|תווית כיתה») — התווית נפתרת ל-cid, כך
+   שגם «ט3» וגם «ט׳3» נמצאים, וגם שיעור בקבוצה (כל תלמיד תחת הכיתה
+   שלו). סימון תחת «כל הכיתות» (all) נלקח רק כשאין סימון בכיתה.
+
+   החלוקה: p ו-h משתתפים (חלקית היא עדיין בשיעור); a נעדר; e פטור
+   (נמצא, אבל לא בפעילות); ללא סימון — לא נחשב נוכח. אף אחד מהם
+   לא נעלם: המסך מציג כמה יש בכל סוג.
+   ============================================================ */
+function attendanceMarkOn(att,store,stud,date){
+  var sid=studentKey(stud);
+  if(!sid||!date||!att||typeof att!=="object"||Array.isArray(att))return null;
+  var cid=cidOfStudent(stud,store), pre=String(date)+"|", hit=null, loose=null;
+  Object.keys(att).forEach(function(key){
+    if(hit||key.indexOf(pre)!==0)return;
+    var rec=att[key];
+    if(!rec||typeof rec!=="object"||Array.isArray(rec)||!rec[sid])return;
+    var label=key.slice(pre.length);
+    if(label==="all"||label===""){ loose=loose||rec[sid]; return; }
+    if(cid&&resolveClassId(store,label)===cid)hit=rec[sid];
+  });
+  return hit||loose;
+}
+var ATT_IN={p:1,h:1};
+function splitByAttendance(list,att,store,date){
+  var out={present:[],absent:[],exempt:[],unmarked:[],partial:0};
+  asList(list).forEach(function(s){
+    if(!isStudentRec(s))return;
+    var m=attendanceMarkOn(att,store,s,date);
+    if(ATT_IN[m]){ out.present.push(s); if(m==="h")out.partial++; }
+    else if(m==="a")out.absent.push(s);
+    else if(m==="e")out.exempt.push(s);
+    else out.unmarked.push(s);
+  });
+  out.marked=out.present.length+out.absent.length+out.exempt.length;
+  return out;
+}
+
+/* ============================================================
+   5ג'. ציון תקופה — זמני או סופי
+   ------------------------------------------------------------
+   הנוסחה לא השתנתה: כל רכיב × המשקל שלו, ועוד בונוס, עד 100.
+   מה שהשתנה הוא השם שהתוצאה מקבלת. קודם כל רכיב שהיה מולא נכנס
+   לסכום והחסרים נספרו כאפס — ואחרי «מלא לפי נוכחות» בלבד תלמיד
+   נוכח קיבל «ציון סופי 70», הנעדר «0», ומרכז הכיתה ספר 8/8 «עם
+   ציון סופי» בזמן שיכולת, שיפור ועבודת צוות היו ריקים.
+
+   הכלל: ציון הוא סופי רק כשכל רכיב במשקל גדול מ-0 מולא. רכיב
+   במשקל 0 לא נדרש. אפס הוא ערך תקין (שונה מ«לא מולא»). הבונוס
+   הוא רשות ואינו תנאי. אחרת התוצאה «זמנית», עם רשימת החסרים.
+   ============================================================ */
+var GRADE_KEYS=["part","exams","improve","team","know"];
+var GRADE_FINAL="final", GRADE_PROV="provisional", GRADE_EMPTY="empty";
+function gradeNum(v){
+  if(v==null||v==="")return null;
+  var n=Number(v); return isFinite(n)?n:null;
+}
+function gradeResult(g,weights,examCols){
+  g=(g&&typeof g==="object")?g:{}; weights=weights||{};
+  var ex=(g.exams&&typeof g.exams==="object")?g.exams:{};
+  var vals=asList(examCols).map(function(c){ return gradeNum(ex[c]); })
+    .filter(function(v){ return v!=null; });
+  var examsAvg=vals.length?vals.reduce(function(a,b){ return a+b; },0)/vals.length:null;
+  var comp={part:gradeNum(g.part),exams:examsAvg,improve:gradeNum(g.improve),
+            team:gradeNum(g.team),know:gradeNum(g.know)};
+  var total=0, any=false, missing=[], required=0;
+  GRADE_KEYS.forEach(function(k){
+    var w=Number(weights[k])||0; if(w<=0)return;
+    required++;
+    if(comp[k]==null){ missing.push(k); return; }
+    total+=comp[k]*w/100; any=true;
+  });
+  var cap=gradeNum(weights.bonusMax); if(cap==null)cap=10;
+  var b=gradeNum(g.bonus), bonus=b!=null?Math.max(0,Math.min(cap,b)):0;
+  if(bonus)any=true;
+  var value=any?Math.round(Math.min(100,total+bonus)*10)/10:null;
+  var complete=any&&required>0&&!missing.length;
+  return {value:value,final:complete?value:null,complete:complete,
+    status:!any?GRADE_EMPTY:(complete?GRADE_FINAL:GRADE_PROV),
+    missing:missing,examsAvg:examsAvg,bonus:bonus};
 }
 
 /* ============================================================
@@ -1696,7 +1896,10 @@ function createSession(list,o){
     endedAt:null,
     status:SESSION_ACTIVE,
     planId:o.planId==null?null:o.planId,
-    planTitle:String(o.planTitle||"")
+    planTitle:String(o.planTitle||""),
+    /* קבוצת הנושא של המערך («כושר גופני») — כדי שההמשך המומלץ ידע
+       אם זה משחק כדור או אימון כושר. תוספתי: שיעור ישן בלעדיה עובד. */
+    planGroup:String(o.planGroup||"")
   };
   return {ok:true,outcome:"created",session:ses,list:[ses].concat(all).slice(0,SESSION_MAX)};
 }
@@ -1872,7 +2075,16 @@ function sampleSlots(){
     Object.keys(hours).forEach(function(h){
       var g=SAMPLE_GROUPS[hours[h]]; if(!g)return;
       var b=bellByHour(+h); if(!b)return;
-      if(g.cls){
+      if(g.cls&&g.cls.length>1){
+        /* כיתות שהדוגמה מגדירה כלומדות יחד (peI: י״ב1 + י״ב2) הן משבצת
+           אחת של קבוצה — לא שתי משבצות נפרדות באותה שעה, שבדף הבית
+           נראו כ«הבא» ועוד שיעור «בהמשך» באותה דקה. הקורא יוצר את
+           הקבוצה (makeGroup) לפי members; כל כיתה שומרת את זהותה. */
+        var nms=g.cls.map(function(c){ return clsName(c[0],c[1]); });
+        var cids=nms.map(classId), gname=nms.join(" + ");
+        out.push({day:day,time:b.s,kind:KIND_PE,cid:groupId(gname,cids,[]),clsSnapshot:gname,
+          members:cids,memberNames:nms});
+      }else if(g.cls){
         g.cls.forEach(function(c){
           var nm=clsName(c[0],c[1]);
           out.push({day:day,time:b.s,kind:KIND_PE,cid:classId(nm),clsSnapshot:nm});
@@ -1927,7 +2139,7 @@ function weekCell(week,day,h){ return (week&&week.cell[day+"|"+h])||[]; }
    טהור. הקורא מחליט מה להציג ומה לסנן.
    ============================================================ */
 function splitDay(rows,nowMin){
-  var list=asList(rows), now=null, next=null, later=[], past=[], i, r;
+  var list=asList(rows), now=null, next=null, later=[], past=[], clash=[], i, r;
   /* שיעור פתוח הוא «עכשיו» גם אחרי שהצלצול עבר — זה מה שהמורה סימן */
   for(i=0;i<list.length;i++)if(list[i]&&list[i].status===SESSION_ACTIVE){ now=list[i]; break; }
   if(!now)for(i=0;i<list.length;i++){
@@ -1943,7 +2155,18 @@ function splitDay(rows,nowMin){
     if(!next&&r.startable){ next=r; continue; }
     later.push(r);
   }
-  return {now:now,next:next,later:later,past:past};
+  /* שתי משבצות נפרדות באותה שעה בדיוק כמו השיעור שבמוקד: זו התנגשות
+     (או כיתות שלומדות יחד ולא חוברו) — לא «שיעור בהמשך». הן לא
+     מאוחדות אוטומטית; המסך אומר זאת ומשאיר את ההחלטה למורה. */
+  var focus=now||next;
+  var ft=focus&&focus.slot?timeMin(focus.slot.time):null;
+  if(ft!=null){
+    var same=function(x){ return x&&x.startable&&x.slot&&timeMin(x.slot.time)===ft&&x.slot.day===focus.slot.day; };
+    if(now&&next&&same(next)){ clash.push(next); next=null; }
+    later=later.filter(function(x){ if(same(x)){ clash.push(x); return false; } return true; });
+    if(now&&!next){ for(i=0;i<later.length;i++)if(later[i].startable){ next=later.splice(i,1)[0]; break; } }
+  }
+  return {now:now,next:next,later:later,past:past,clash:clash};
 }
 /* כמה דקות עד שהמשבצת מתחילה. שלילי — היא כבר התחילה. */
 function minsUntil(slot,nowMin){
@@ -1985,6 +2208,42 @@ var LADDER=[
   "משחק מצומצם 3 נגד 3",
   "משחק מלא עם כללים"
 ];
+/* ביקורת 2026-09-29: שיעור אירובי קיבל «תרגול בזוגות → משחק 3 נגד 3»
+   — סולם של משחקי כדור. סולם לפי סוג הנושא: כדור, כושר, תנועה.
+   הסוג נלקח מקבוצת הנושא שנשמרה על השיעור (planGroup), ובשיעור ישן
+   בלי קבוצה — ממילים מובהקות בשם המערך. לא ידוע — אין סולם, אלא
+   הצעה צנועה: לחזור על הנושא עם התאמה אחת. */
+var LADDER_FIT=[
+  "היכרות עם המבנה ובקרת קצב אישית",
+  "אותו מבנה — עוד סבב או מנוחה קצרה יותר",
+  "העלאת עצימות בהדרגה, לפי דירוג המאמץ",
+  "עבודה עצמאית בזוגות לפי דירוג מאמץ",
+  "מדידה חוזרת והשוואה לנקודת הפתיחה"
+];
+var LADDER_MOVE=[
+  "הדגמה ותרגול בשליטה, עם עזרה",
+  "תרגול בזוגות עם עזרה הדדית",
+  "חיבור שני אלמנטים לרצף",
+  "רצף קצר מול הכיתה",
+  "רצף אישי לפי בחירה"
+];
+var LADDERS={ball:LADDER,fit:LADDER_FIT,move:LADDER_MOVE};
+var FAMILY_OF_GROUP={"משחקי כדור":"ball","כושר גופני":"fit","אתלטיקה":"fit","התעמלות ותנועה":"move"};
+function ladderFamily(group,title){
+  var g=String(group||"").split(" · ")[0].trim();   /* «כושר גופני · בונה ידני» */
+  if(FAMILY_OF_GROUP[g])return FAMILY_OF_GROUP[g];
+  if(g)return null;                      /* קבוצה ידועה אחרת (ידע, מבחנים) — בלי סולם */
+  var t=String(title||"");
+  if(/כדור|מסיר|קליע|כדרור|פריזבי|מחבט/.test(t))return "ball";
+  if(/אירובי|סבולת|כוח|ליבה|מהירות|זריזות|ריצ|כושר|אינטרוול|גמישות/.test(t))return "fit";
+  if(/התעמלות|אקרובט|שיווי משקל|תנועה|ריקוד|מחול/.test(t))return "move";
+  return null;
+}
+var GENERIC_STEPS={
+  up:["לחזור על הנושא עם אתגר אחד נוסף — זמן, מרחק או מורכבות"],
+  mid:["לחזור על הנושא עם התאמה אחת — לפי מה שראית בשיעור הקודם"],
+  down:["לפשט: פחות כללים ויותר זמן תרגול, באותו נושא"]
+};
 function ratingOf(s){
   var r=s&&s.rating;
   return (r===1||r===0||r===-1)?r:null;
@@ -2026,6 +2285,7 @@ function nextLesson(sessions,opts){
 
   var r=ratingOf(last);
   var stage=lad.stage;
+  var fam=ladderFamily(last.planGroup,lad.topic), L=fam?LADDERS[fam]:null;
   if(r===RATING_DOWN){
     why.push("בשיעור הקודם סימנת «לא עבד» — חוזרים צעד אחורה במקום להמשיך הלאה");
   }else if(r===RATING_UP){
@@ -2038,9 +2298,18 @@ function nextLesson(sessions,opts){
   if(lad.streak>=3)
     why.push(lad.streak+" שיעורים ברצף על «"+lad.topic+"» — כדאי לשקול נושא חדש אחרי השיעור הזה");
 
-  steps.push(LADDER[stage]);
-  if(stage+1<LADDER.length)steps.push(LADDER[stage+1]);
-  if(stage+2<LADDER.length)steps.push(LADDER[stage+2]);
+  if(L){
+    steps.push(L[stage]);
+    if(stage+1<L.length)steps.push(L[stage+1]);
+    if(stage+2<L.length)steps.push(L[stage+2]);
+    why.push({ball:"שלבי התקדמות של משחק כדור — לפי הנושא",fit:"שלבי התקדמות של כושר (עומס וקצב) — לפי הנושא",
+      move:"שלבי התקדמות של תנועה והתעמלות — לפי הנושא"}[fam]);
+  }else{
+    steps=(r===RATING_UP?GENERIC_STEPS.up:r===RATING_DOWN?GENERIC_STEPS.down:GENERIC_STEPS.mid).slice();
+    why.push("אין מספיק פרטים על סוג הנושא — ההצעה היא חזרה עם התאמה, לא שלב חדש");
+  }
+  /* המשוב הוא על השיעור כולו. אין ממנו שום מסקנה על תלמיד מסוים. */
+  if(r!=null)why.push("המשוב הוא על השיעור כולו — לא על שליטה של תלמיד מסוים");
 
   /* מדידה: לא המלצה פדגוגית אלא תזכורת מנהלית — כיתה בלי מדידה
      לאורך זמן היא כיתה שאי אפשר יהיה לתת עליה ציון. */
@@ -2056,7 +2325,7 @@ function nextLesson(sessions,opts){
       why.push(since+" שיעורים ללא מדידה — שווה לשלב מדידה אחת בשיעור הבא");
     }
   }
-  return {ok:true,topic:lad.topic,stage:stage,streak:lad.streak,
+  return {ok:true,topic:lad.topic,stage:stage,streak:lad.streak,family:fam,
     rating:r,note:String(last.note||""),session:last,
     title:lad.topic,steps:steps,why:why,measure:measure};
 }
@@ -2324,6 +2593,9 @@ return {
   syncStudentsFromRosters:syncStudentsFromRosters,classRoster:classRoster,applyRoster:applyRoster,
   mergeRoster:mergeRoster, findStudent:findStudent,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,
+  foldSearch:foldSearch, searchMatch:searchMatch,
+  EQUIP_KEYS:EQUIP_KEYS, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
+  isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,
   ERR:ERR, classifyStorageError:classifyStorageError, safeSet:safeSet, safeGet:safeGet,
@@ -2331,6 +2603,9 @@ return {
   resolveCandidates:resolveCandidates, resolveAmbiguous:resolveAmbiguous,
   profileOf:profileOf, missingTests:missingTests, classCoverage:classCoverage, classProgress:classProgress,
   attendanceRateOf:attendanceRateOf,
+  GRADE_KEYS:GRADE_KEYS, GRADE_FINAL:GRADE_FINAL, GRADE_PROV:GRADE_PROV, GRADE_EMPTY:GRADE_EMPTY,
+  gradeNum:gradeNum, gradeResult:gradeResult,
+  attendanceMarkOn:attendanceMarkOn, splitByAttendance:splitByAttendance,
   SESSION_ACTIVE:SESSION_ACTIVE, SESSION_DONE:SESSION_DONE, SESSION_MAX:SESSION_MAX,
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
   sessionById:sessionById, completeSession:completeSession, resumeSession:resumeSession,
@@ -2347,7 +2622,7 @@ return {
   BELLS:BELLS, SLOT_DEFAULT_MIN:SLOT_DEFAULT_MIN,
   bellByHour:bellByHour, bellOfTime:bellOfTime, slotWindow:slotWindow, slotNow:slotNow,
   RATING_UP:RATING_UP, RATING_MID:RATING_MID, RATING_DOWN:RATING_DOWN,
-  LADDER:LADDER, NEXT_MEASURE_GAP:NEXT_MEASURE_GAP,
+  LADDER:LADDER, LADDERS:LADDERS, ladderFamily:ladderFamily, GENERIC_STEPS:GENERIC_STEPS, NEXT_MEASURE_GAP:NEXT_MEASURE_GAP,
   ratingOf:ratingOf, ladderStage:ladderStage, nextLesson:nextLesson,
   ASSESS_VERSION:ASSESS_VERSION, ASSESS_REASON:ASSESS_REASON, assess:assess,
   archiveNorm:archiveNorm,

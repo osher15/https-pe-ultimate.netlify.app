@@ -59,13 +59,50 @@ window.TOOLS=(function(){
      1. מחולל קבוצות
      ============================================================ */
   let teams=[], teamCls="", teamN=4, teamMode="balanced";
-  function pool(){
-    const l=students();
-    return l.filter(s=>inClass(s,teamCls));
+  /* ============================================================
+     מי נכלל — קבוצות והגרלה
+     ------------------------------------------------------------
+     «רק מי שנוכח»: סימון מלאה/חלקית בתאריך השיעור (או היום, מחוץ
+     לשיעור). נעדר, פטור ומי שלא סומן — לא נכללים, והמסך אומר כמה
+     מכל סוג, כדי שאיש לא ייעלם בשקט וכדי שמי שלא סומן לא ייחשב נוכח.
+     «כל הכיתה» — כמו קודם, בלי לבדוק נוכחות.
+     ברירת המחדל: «רק מי שנוכח» כשיש סימון נוכחות לכיתה בתאריך הזה;
+     אחרת «כל הכיתה». בחירה מפורשת של המורה גוברת.
+     ============================================================ */
+  let who="all", whoSet=false;
+  function whoDate(cid){
+    const a=lessonCtx();
+    return (a&&a.cid&&a.cid===cid&&a.date)?a.date:today();
   }
+  function scoped(cid){
+    const base=students().filter(s=>window.HMDATA.isStudentRec(s)&&inClass(s,cid));
+    const date=whoDate(cid);
+    const sp=window.HMDATA.splitByAttendance(base,ATT(),store,date);
+    const mode=whoSet?who:(sp.marked?"present":"all");
+    return {base,date,sp,mode,list:mode==="present"?sp.present:base};
+  }
+  function paintWho(elId,selId,cid){
+    const {$}=H(), x=scoped(cid), t=H().t;
+    const sel=$("#"+selId); if(sel)sel.value=x.mode;
+    const el=$("#"+elId); if(!el)return x;
+    if(x.mode==="all"){
+      el.textContent=t("tl.whoAll","כל הכיתה נכללת")+" ("+x.base.length+")"+
+        (x.sp.marked?"":" · "+t("tl.whoNoAtt","לא סומנה נוכחות לתאריך הזה")+" "+x.date);
+    }else{
+      const out=[[x.sp.absent.length,t("tl.whoAbs","נעדרים")],[x.sp.exempt.length,t("tl.whoEx","פטורים")],
+                 [x.sp.unmarked.length,t("tl.whoUn","לא סומנו")]].filter(v=>v[0]).map(v=>v[0]+" "+v[1]);
+      el.textContent=x.date+" · "+x.sp.present.length+" "+t("tl.whoIn","משתתפים")+
+        (x.sp.partial?" ("+x.sp.partial+" "+t("tl.whoPart","חלקית")+")":"")+
+        (out.length?" · "+t("tl.whoOut","לא נכללו")+": "+out.join(", "):"")+
+        (x.sp.marked?"":" · "+t("tl.whoMark","סמנו נוכחות בלשונית «נוכחות», או בחרו «כל הכיתה»."));
+    }
+    return x;
+  }
+  function pool(){ return scoped(teamCls).list; }
   function makeTeams(){
     const {toast}=H();
     const p=pool();
+    paintWho("tl-teamWhoInfo","tl-teamWho",teamCls);
     if(p.length<teamN){toast("אין מספיק תלמידים למספר הקבוצות");return;}
     const n=Math.max(2,Math.min(10,teamN));
     teams=Array.from({length:n},()=>[]);
@@ -119,7 +156,7 @@ window.TOOLS=(function(){
       .t{border:2px solid #1f7a4d;border-radius:9px;padding:10px 13px;break-inside:avoid}
       .t b{color:#1f7a4d;font-size:15px}ol{margin:6px 0 0;padding-inline-start:20px;line-height:1.75}
       </style></head><body>
-      <h1>חלוקה לקבוצות</h1><div class="meta">${school}${teamCls?"כיתה "+esc(labelOf(teamCls))+" · ":""}${today()}</div>
+      <h1>חלוקה לקבוצות</h1><div class="meta">${school}${teamCls?"כיתה "+esc(labelOf(teamCls))+" · ":""}${esc(H().$("#tl-teamWhoInfo")?H().$("#tl-teamWhoInfo").textContent:today())}</div>
       <div class="g">${teams.map((t,i)=>`<div class="t"><b>קבוצה ${i+1}</b>
         <ol>${t.map(e=>"<li>"+esc(e.s.name)+"</li>").join("")}</ol></div>`).join("")}</div>
       <script>print()<\/script></body></html>`);
@@ -130,10 +167,7 @@ window.TOOLS=(function(){
      2. הגרלת תלמיד — בלי חזרות עד שכולם יצאו
      ============================================================ */
   let pickCls="", picked=[], lastPick=null;
-  function pickPool(){
-    const l=students();
-    return l.filter(s=>inClass(s,pickCls));
-  }
+  function pickPool(){ return scoped(pickCls).list; }
   function drawStudent(){
     const {$, esc, toast, beep, confetti}=H();
     let p=pickPool();
@@ -157,6 +191,7 @@ window.TOOLS=(function(){
   function renderPicked(){
     const {$, esc}=H();
     const p=pickPool();
+    paintWho("tl-pickWhoInfo","tl-pickWho",pickCls);
     $("#tl-pickList").innerHTML=picked.length
       ? picked.map(id=>{const s=p.find(x=>x.id===id);return s?`<span class="pill">${esc(s.name)}</span>`:"";}).join("")
       : '<span class="hint">עדיין לא הוגרל אף אחד בסבב הזה.</span>';
@@ -217,6 +252,8 @@ window.TOOLS=(function(){
       if(a[key][id]===k)delete a[key][id]; else a[key][id]=k;
       H().LS.set("tools.att",a); renderAtt();
     }));
+    /* שינוי נוכחות משנה את מי שנכלל בקבוצות ובהגרלה */
+    paintWho("tl-teamWhoInfo","tl-teamWho",teamCls); paintWho("tl-pickWhoInfo","tl-pickWho",pickCls);
   }
   function attSummary(){
     const {esc}=H();
@@ -375,12 +412,19 @@ window.TOOLS=(function(){
     return !!hit;
   }
   let skipCtx=false;   /* פתיחה ממרכז הכיתה: הכיתה שנבחרה שם גוברת על השיעור */
+  /* קבוצות והגרלה נפתחות על כיתת השיעור (לפי cid) — קודם נשארו
+     «כל הכיתות» גם כשנכנסו מתוך שיעור פעיל. */
+  function applyLessonCtxTools(){
+    const a=lessonCtx(); if(!a||!a.cid)return;
+    if(teamCls!==a.cid){ teamCls=a.cid; teams=[]; }
+    if(pickCls!==a.cid){ pickCls=a.cid; picked=[]; }
+  }
   function init(){
     const {$, $$}=H();
-    if(!skipCtx)applyLessonCtx();
+    if(!skipCtx){ applyLessonCtx(); applyLessonCtxTools(); }
     skipCtx=false;
     if(inited){ fillClassSelects(); const d=H().$("#tl-attDate"); if(d)d.value=attDate;
-      renderAtt(); renderRub(); renderPicked(); return; }
+      renderAtt(); renderRub(); renderPicked(); renderTeams(); paintWho("tl-teamWhoInfo","tl-teamWho",teamCls); return; }
     inited=true;
     $$("#tl-tabs [data-tt]").forEach(b=>b.addEventListener("click",()=>{
       tab=b.dataset.tt;
@@ -388,7 +432,10 @@ window.TOOLS=(function(){
       ["teams","pick","att","rub"].forEach(t=>$("#tl-sub-"+t).style.display=t===tab?"":"none");
     }));
     /* קבוצות */
-    $("#tl-teamCls").addEventListener("change",e=>{teamCls=e.target.value;});
+    $("#tl-teamCls").addEventListener("change",e=>{teamCls=e.target.value;paintWho("tl-teamWhoInfo","tl-teamWho",teamCls);});
+    ["tl-teamWho","tl-pickWho"].forEach(id=>$("#"+id).addEventListener("change",e=>{
+      who=e.target.value; whoSet=true; picked=[];
+      paintWho("tl-teamWhoInfo","tl-teamWho",teamCls); renderPicked(); }));
     $("#tl-teamN").addEventListener("input",e=>{teamN=+e.target.value||4;$("#tl-teamNVal").textContent=teamN;});
     $("#tl-teamMode").addEventListener("change",e=>{teamMode=e.target.value;});
     $("#tl-teamGo").addEventListener("click",makeTeams);
@@ -422,7 +469,7 @@ window.TOOLS=(function(){
       H().LS.set("tools.scores",s); curRub=null; renderRub();
       H().undo("המחוון נמחק, עם הציונים שלו",()=>{ back(); curRub=was; renderRub(); });
     });
-    fillClassSelects(); renderAtt(); renderRub(); renderPicked();
+    fillClassSelects(); renderAtt(); renderRub(); renderPicked(); paintWho("tl-teamWhoInfo","tl-teamWho",teamCls);
   }
   /* ============================================================
      ממשק למצב שיעור
@@ -466,7 +513,7 @@ window.TOOLS=(function(){
     skipCtx=true;
     H().go("tools");
     skipCtx=false;
-    if(inited){ fillClassSelects(); renderAtt(); renderRub(); renderPicked(); }
+    if(inited){ fillClassSelects(); renderAtt(); renderRub(); renderPicked(); paintWho("tl-teamWhoInfo","tl-teamWho",teamCls); }
     openTab(t||"att");
   }
   /* סיכום הנוכחות של כיתה: בכמה שיעורים סומנה, ואחוז ההשתתפות

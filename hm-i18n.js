@@ -38,6 +38,54 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "ab.credT":"🖼 Image credits",
+  /* ux-redesign */
+  "bk.encRec":"<b>Recommended</b> whenever the file leaves the device (Drive, email, a shared computer) — it contains student names and results.",
+  "bk.howT":"How do I restore on a new device?",
+  "bk.how1":"Open PE Ultimate on the new device and sign in as the teacher.",
+  "bk.how2":"Settings → Backup and sync → “⬆ Restore from file”, and choose the backup file.",
+  "bk.how3":"Encrypted file — type the password chosen when backing up. Without it the file cannot be opened.",
+  "bk.how4":"Before restoring you see what will come in and what will be replaced. Nothing is written until you confirm, and a damaged file is rejected before any data is touched.",
+  "bk.advT":"⚙️ Advanced: direct backup to Google Drive (needs technical setup)",
+  /* ux-redesign */
+  "lead.skip":"Skip for now — you can leave details later in Settings",
+  "lead.who":"Your details go to the app developer's Google Forms form, only to send a feedback survey and get in touch. You can ask for them to be deleted at any time.",
+  "ab.privLink":"Full privacy policy ↗",
+  "ab.fbT":"📨 Feedback survey",
+  "ab.fb":"Want to receive a feedback survey and be in touch with the developer? Giving your details is optional.",
+  "ab.fbBtn":"Leave contact details",
+  /* ux-redesign */
+  "set.langSrc":"source",
+  "set.langDraft":"draft, not reviewed",
+  "set.langKeys":"Interface key coverage",
+  "ls.eqNoGame":"No game fits the available equipment — no game was added. You can pick a game on the Games page.",
+  "ls.eqTopic":"This topic needs equipment not marked as available",
+  "ls.eqGame":"The chosen game needs equipment not marked as available",
+  "sched.clash":"Another separate slot is at the same time. If these classes are taught together, join them as a group (Class hub → Join classes); otherwise this is a timetable clash.",
+  /* ux-redesign */
+  "stu.badRecs":"Damaged records in the list are not shown, but they are kept as they are — back up your data before any change.",
+  "gr.prov":"provisional",
+  "gr.missing":"Missing",
+  "gr.provHint":"Provisional grade: at least one component with a weight in the grade structure is still empty, so this is not yet a final grade and the class hub does not count it as one. A component weighted 0 is not required, and 0 is a valid grade.",
+  "gr.csvGrade":"Grade",
+  "gr.csvStatus":"Status",
+  "gr.csvMissing":"Missing components",
+  "gr.stFinal":"final",
+  "hub.prov":"with a provisional grade — components missing",
+  "gr.rangeAsk":"Which dates should attendance be counted from for this period? Only attendance within the range is used. The range is saved for the period.",
+  "gr.from":"From",
+  "gr.to":"To",
+  "gr.fillGo":"Fill",
+  "tl.whoAll":"The whole class is included",
+  "tl.whoNoAtt":"no attendance marked for this date",
+  "tl.whoAbs":"absent",
+  "tl.whoEx":"exempt",
+  "tl.whoUn":"not marked",
+  "tl.whoIn":"taking part",
+  "tl.whoPart":"partial",
+  "tl.whoOut":"Not included",
+  "tl.whoMark":"Mark attendance in the “Attendance” tab, or choose “Whole class”.",
+  /* ux-redesign */
   "grp.need2":"You need at least two classes with students to combine",
   "grp.joinT":"🔗 Combine classes",
   "grp.joinM":"Tick the classes that learn together. Every test, grade and attendance is entered once for all of them, and each result is saved to the student's own class.",
@@ -340,7 +388,7 @@ en:{
   "set.clsHint":"Renaming only changes the name. Students, measurements and lessons of the class stay with it — they are identified by a fixed id, not by the name.",
   "set.clsPick":"Class", "set.clsCurLbl":"Current name", "set.clsNewLbl":"New name",
   "set.clsNewPh":"e.g. 9th grade, section 3 — Honors", "set.clsSaveBtn":"Save",
-  "set.lang":"Language", "set.langHint":"The interface changes language immediately. All content — screens, tests, games, lesson plans, the knowledge base and messages — is translated. The translation is a professional draft awaiting native-speaker review.",
+  "set.lang":"Language", "set.langHint":"The interface language changes immediately. Screens, tests, games, built-in lesson plans, the knowledge base and messages are translated; what you type yourself (names, notes, lessons you built) stays as written. The translation is a draft not yet reviewed by native speakers — any untranslated text left is a defect worth reporting.",
   "set.about":"📘 About, version and credits",
   "set.purge":"🧹 Clear old data",
   "set.install":"📲 Install as an app: in Chrome — menu ⋮ then \"Add to Home screen\". On iPhone — Share then \"Add to Home Screen\". Saved as a file, the app works without internet too (only the fonts load from the network).",
@@ -475,9 +523,9 @@ en:{
   "info.data.l":"<li><b>Backup</b> ⚙ Settings → «⬇ Back up everything to a file». «⬆ Restore from a file» brings everything back on a new device.</li><li><b>Encryption</b> you can encrypt the backup with a password — but there is no password recovery. Lose the password, lose the file.</li><li><b>Wrong class name?</b> ⚙ Settings → «🏷 Class names». Renaming does not disconnect any student or measurement.</li><li><b>Hard to read in the sun?</b> ☀ in the top bar, and «Large buttons» in Settings for one-handed use.</li>",
 
   /* --- אודות --- */
-  "ab.p":"A field kit for PE teachers: fitness tests, beep test, camera photo-finish, lesson plans, records board, class tools and grades — all on one screen, and without sending anything out.",
+  "ab.p":"A field kit for PE teachers: fitness tests, beep test, camera photo-finish, lesson plans, records board, class tools and grades — all on one screen, with student data kept on the device.",
   "ab.privT":"🔒 Privacy",
-  "ab.priv":"Student data — rosters, grades and measurements — is stored in this device's localStorage only. <b>No server, no account, and nothing is sent anywhere.</b> This is data about minors, so it is a design decision, not an accident. CSV export or backup is always an action you initiate. Clearing site data in the browser deletes everything — that is why there is a backup. The only thing that leaves the device is your (the teacher's) contact details entered on the first welcome screen — not data about any student — sent once only.",
+  "ab.priv":"Student data — rosters, attendance, grades and measurements — is stored on this device (localStorage and IndexedDB). <b>The app has no server and no account of its own.</b> What does leave the device: (1) on every load — a font request to Google Fonts (IP address and browser details, no student data); (2) your contact details — only if you choose to give them — to the app developer's Google Forms form; (3) only if you set it up: records sync to your Google Sheet (student name, event, result, status) and an encrypted backup to your Google Drive; (4) external links (YouTube, sources, video-upload form) open only when you tap them. CSV export and file backup are always your own action. Clearing the site's data in the browser deletes everything — that's why there is a backup.",
   "ab.srcT":"📚 Professional sources",
   "ab.src":"Léger protocol (beep test) · FITNESSGRAM® norms by The Cooper Institute · «PE badge — standards for assessing student achievement», Israeli Ministry of Education, Pedagogical Secretariat · the physical education curriculum. School norms are the teacher's data and are stored on the device.",
   "ab.builtT":"🛠 Built with",
@@ -487,6 +535,54 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "ab.credT":"🖼 حقوق الصور",
+  /* ux-redesign */
+  "bk.encRec":"<b>موصى به</b> كلما غادر الملف الجهاز (Drive، البريد، حاسوب مشترك) — ففيه أسماء الطلاب ونتائجهم.",
+  "bk.howT":"كيف أستعيد البيانات على جهاز جديد؟",
+  "bk.how1":"افتح PE Ultimate على الجهاز الجديد وادخل كمعلّم.",
+  "bk.how2":"الإعدادات ← النسخ الاحتياطي والمزامنة ← «⬆ استعادة من ملف»، واختر ملف النسخة الاحتياطية.",
+  "bk.how3":"ملف مشفّر — اكتب كلمة المرور التي اخترتها عند النسخ. بدونها لا يمكن فتح الملف.",
+  "bk.how4":"قبل الاستعادة يُعرض ما سيُضاف وما سيُستبدل. لا يُكتب شيء حتى تؤكّد، ويُرفض الملف التالف قبل المساس بالبيانات.",
+  "bk.advT":"⚙️ متقدّم: نسخ احتياطي مباشر إلى Google Drive (يتطلّب إعدادًا تقنيًا)",
+  /* ux-redesign */
+  "lead.skip":"تخطَّ الآن — يمكنك ترك بياناتك لاحقًا من الإعدادات",
+  "lead.who":"تُرسل بياناتك إلى نموذج Google Forms لمطوّر التطبيق، فقط لإرسال استبيان رأي والتواصل معك. يمكنك طلب حذفها في أي وقت.",
+  "ab.privLink":"سياسة الخصوصية الكاملة ↗",
+  "ab.fbT":"📨 استبيان الرأي",
+  "ab.fb":"هل تريد تلقّي استبيان رأي والتواصل مع المطوّر؟ تقديم البيانات اختياري.",
+  "ab.fbBtn":"ترك بيانات التواصل",
+  /* ux-redesign */
+  "set.langSrc":"المصدر",
+  "set.langDraft":"مسودة، غير مراجَعة",
+  "set.langKeys":"تغطية مفاتيح الواجهة",
+  "ls.eqNoGame":"لم تُوجد لعبة تناسب المعدات المتاحة — لم تُضَف لعبة. يمكن اختيار لعبة من صفحة الألعاب.",
+  "ls.eqTopic":"يتطلّب هذا الموضوع معدات غير مُعلَّمة كمتاحة",
+  "ls.eqGame":"اللعبة المختارة تتطلّب معدات غير مُعلَّمة كمتاحة",
+  "sched.clash":"توجد حصة منفصلة أخرى في الوقت نفسه. إذا كانت الصفوف تتعلّم معًا فاربطوها كمجموعة (مركز الصف ← ربط الصفوف)؛ وإلا فهذا تعارض في الجدول.",
+  /* ux-redesign */
+  "stu.badRecs":"سجلات تالفة في القائمة لا تُعرض، لكنها محفوظة كما هي — انسخوا البيانات احتياطيًا قبل أي تغيير.",
+  "gr.prov":"مؤقتة",
+  "gr.missing":"ناقص",
+  "gr.provHint":"درجة مؤقتة: مكوّن واحد على الأقل له وزن في بنية الدرجة ما زال فارغًا، لذا فهي ليست درجة نهائية بعد ولا يحسبها مركز الصف كذلك. المكوّن الذي وزنه 0 غير مطلوب، و0 درجة صحيحة.",
+  "gr.csvGrade":"الدرجة",
+  "gr.csvStatus":"الحالة",
+  "gr.csvMissing":"مكوّنات ناقصة",
+  "gr.stFinal":"نهائية",
+  "hub.prov":"بدرجة مؤقتة — مكوّنات ناقصة",
+  "gr.rangeAsk":"من أي تواريخ تُحسب الحضور لهذه الفترة؟ يدخل في الحساب الحضور ضمن النطاق فقط. يُحفظ النطاق للفترة.",
+  "gr.from":"من تاريخ",
+  "gr.to":"حتى تاريخ",
+  "gr.fillGo":"املأ",
+  "tl.whoAll":"الصف كله مشمول",
+  "tl.whoNoAtt":"لم يُسجَّل حضور لهذا التاريخ",
+  "tl.whoAbs":"غائبون",
+  "tl.whoEx":"معفَون",
+  "tl.whoUn":"غير مسجَّلين",
+  "tl.whoIn":"مشاركون",
+  "tl.whoPart":"جزئيًا",
+  "tl.whoOut":"غير مشمولين",
+  "tl.whoMark":"سجّلوا الحضور في تبويب «الحضور»، أو اختاروا «الصف كله».",
   /* ux-redesign */
   "grp.need2":"تحتاج إلى صفّين على الأقل فيهما طلاب لدمجهما",
   "grp.joinT":"🔗 دمج صفوف",
@@ -760,7 +856,7 @@ ar:{
   "set.clsHint":"تغيير الاسم يغيّر الاسم فقط. الطلاب والقياسات والحصص الخاصة بالصف يبقون معه — يُعرَّفون بمعرّف ثابت، لا بالاسم.",
   "set.clsPick":"الصف", "set.clsCurLbl":"الاسم الحالي", "set.clsNewLbl":"اسم جديد",
   "set.clsNewPh":"مثال: تاسع 3 — متفوقين", "set.clsSaveBtn":"حفظ",
-  "set.lang":"اللغة", "set.langHint":"تتغيّر لغة الواجهة فورًا. كل المحتوى مترجم — الشاشات والاختبارات والألعاب وخطط الدروس وقاعدة المعرفة والرسائل. الترجمة مسودة مهنية بانتظار مراجعة متحدث أصلي.",
+  "set.lang":"اللغة", "set.langHint":"تتغيّر لغة الواجهة فورًا. الشاشات والاختبارات والألعاب وخطط الدروس المدمجة وقاعدة المعرفة والرسائل مترجمة؛ أمّا ما تكتبونه بأنفسكم (الأسماء والملاحظات والدروس التي بنيتموها) فيبقى كما كُتب. الترجمة مسودة لم يراجعها بعد متحدثون أصليون — وأي نص غير مترجم هو خلل يستحق الإبلاغ عنه.",
   "set.about":"📘 حول، الإصدار والاعتمادات",
   "set.purge":"🧹 مسح البيانات القديمة",
   "set.install":"📲 التثبيت كتطبيق: في كروم — القائمة ⋮ ثم \"إضافة إلى الشاشة الرئيسية\". في آيفون — مشاركة ثم \"إضافة إلى الشاشة الرئيسية\". التطبيق يعمل بدون إنترنت أيضًا (الخطوط فقط تُحمّل من الشبكة).",
@@ -929,9 +1025,9 @@ ar:{
   "info.data.l":"<li><b>النسخ الاحتياطي</b> ⚙ الإعدادات ← «⬇ انسخ كل شيء إلى ملف». «⬆ استعادة من ملف» تعيد كل شيء على جهاز جديد.</li><li><b>التشفير</b> يمكن تشفير النسخة الاحتياطية بكلمة مرور — لكن لا توجد استعادة لكلمة المرور. ضاعت كلمة المرور، ضاع الملف.</li><li><b>اسم صف خاطئ؟</b> ⚙ الإعدادات ← «🏷 أسماء الصفوف». تغيير الاسم لا يفصل أي طالب ولا أي قياس.</li><li><b>صعب القراءة في الشمس؟</b> ☀ في الشريط العلوي، و«أزرار كبيرة» في الإعدادات للاستخدام بيد واحدة.</li>",
 
   /* --- אודות --- */
-  "ab.p":"عُدّة ميدانية لمعلّم التربية البدنية: اختبارات اللياقة، اختبار البيب، تصوير خط النهاية بالكاميرا، خطط الدروس، لوحة الأرقام القياسية، أدوات الصف والعلامات — كل ذلك في شاشة واحدة، ودون إرسال أي شيء إلى الخارج.",
+  "ab.p":"عُدّة ميدانية لمعلّم التربية البدنية: اختبارات اللياقة، اختبار البيب، التصوير عند خط النهاية بالكاميرا، خطط الدروس، لوحة الأرقام القياسية، أدوات الصف والعلامات — كل ذلك في شاشة واحدة، وبيانات الطلاب محفوظة على الجهاز.",
   "ab.privT":"🔒 الخصوصية",
-  "ab.priv":"بيانات الطلاب — القوائم والعلامات والقياسات — محفوظة في localStorage على هذا الجهاز فقط. <b>لا خادم، لا حساب، ولا إرسال إلى أي مكان.</b> هذه بيانات عن قاصرين، ولذلك هذا قرار تصميمي وليس صدفة. تصدير CSV أو النسخ الاحتياطي فعلٌ تبادر إليه أنت دائمًا. مسح بيانات الموقع في المتصفح يحذف كل شيء — لذلك يوجد نسخ احتياطي. الشيء الوحيد الذي يخرج من الجهاز هو بيانات الاتصال الخاصة بك (المعلّم) التي أُدخلت في شاشة الترحيب الأولى — لا بيانات عن أي طالب — وتُرسل مرة واحدة فقط.",
+  "ab.priv":"بيانات الطلاب — القوائم والحضور والعلامات والقياسات — محفوظة على هذا الجهاز (localStorage وIndexedDB). <b>ليس للتطبيق خادم ولا حساب خاص به.</b> ما يغادر الجهاز فعلًا: (1) عند كل تحميل — طلب خطوط من Google Fonts (عنوان IP وبيانات المتصفح، دون بيانات طلاب)؛ (2) بيانات التواصل الخاصة بك — فقط إن اخترت تقديمها — إلى نموذج Google Forms لمطوّر التطبيق؛ (3) فقط إن أعددت ذلك: مزامنة الأرقام القياسية مع Google Sheet الخاص بك (اسم الطالب، الفعالية، النتيجة، الحالة) ونسخة احتياطية مشفّرة إلى Google Drive الخاص بك؛ (4) الروابط الخارجية (YouTube، المصادر، نموذج رفع الفيديو) تُفتح فقط عند النقر عليها. تصدير CSV والنسخ الاحتياطي إلى ملف هما دائمًا بمبادرة منك. مسح بيانات الموقع في المتصفح يحذف كل شيء — ولهذا توجد النسخة الاحتياطية.",
   "ab.srcT":"📚 مصادر مهنية",
   "ab.src":"بروتوكول Léger (اختبار البيب) · معايير FITNESSGRAM® من Cooper Institute · «شارة التربية البدنية — معايير تقييم تحصيل الطلاب»، وزارة التربية والتعليم الإسرائيلية، السكرتارية التربوية · منهاج التربية البدنية. المعايير المدرسية بيانات المعلّم وتُحفظ على الجهاز.",
   "ab.builtT":"🛠 بُني باستخدام",
@@ -941,6 +1037,54 @@ ar:{
 },
 
 ru:{
+  /* ux-redesign */
+  "ab.credT":"🖼 Авторы изображений",
+  /* ux-redesign */
+  "bk.encRec":"<b>Рекомендуется</b>, если файл покидает устройство (Диск, почта, общий компьютер): в нём имена и результаты учеников.",
+  "bk.howT":"Как восстановить на новом устройстве?",
+  "bk.how1":"Откройте PE Ultimate на новом устройстве и войдите как учитель.",
+  "bk.how2":"Настройки → Резервная копия и синхронизация → «⬆ Восстановить из файла» и выберите файл копии.",
+  "bk.how3":"Зашифрованный файл — введите пароль, выбранный при создании копии. Без него файл не открыть.",
+  "bk.how4":"Перед восстановлением показано, что будет добавлено и что заменено. Ничего не записывается до подтверждения, а повреждённый файл отклоняется до любых изменений.",
+  "bk.advT":"⚙️ Дополнительно: прямое резервное копирование на Google Диск (нужна техническая настройка)",
+  /* ux-redesign */
+  "lead.skip":"Пропустить — оставить данные можно позже в настройках",
+  "lead.who":"Данные отправляются в форму Google Forms разработчика приложения — только чтобы прислать анкету отзыва и связаться с вами. Вы можете попросить удалить их в любое время.",
+  "ab.privLink":"Полная политика конфиденциальности ↗",
+  "ab.fbT":"📨 Анкета отзыва",
+  "ab.fb":"Хотите получить анкету отзыва и быть на связи с разработчиком? Оставлять данные не обязательно.",
+  "ab.fbBtn":"Оставить контакты",
+  /* ux-redesign */
+  "set.langSrc":"оригинал",
+  "set.langDraft":"черновик, не проверен",
+  "set.langKeys":"Покрытие ключей интерфейса",
+  "ls.eqNoGame":"Не найдено игры под доступный инвентарь — игра не добавлена. Можно выбрать игру на странице игр.",
+  "ls.eqTopic":"Для темы нужен инвентарь, не отмеченный как доступный",
+  "ls.eqGame":"Для выбранной игры нужен инвентарь, не отмеченный как доступный",
+  "sched.clash":"В это же время есть ещё один отдельный урок. Если классы занимаются вместе, объедините их в группу (Центр класса → Объединить классы); иначе это накладка в расписании.",
+  /* ux-redesign */
+  "stu.badRecs":"Повреждённые записи в списке не показаны, но сохранены как есть — сделайте резервную копию перед любыми изменениями.",
+  "gr.prov":"предварительная",
+  "gr.missing":"Не хватает",
+  "gr.provHint":"Предварительная оценка: как минимум один компонент с весом в структуре оценки ещё не заполнен, поэтому это пока не итоговая оценка, и центр класса не считает её итоговой. Компонент с весом 0 не обязателен, а 0 — допустимая оценка.",
+  "gr.csvGrade":"Оценка",
+  "gr.csvStatus":"Статус",
+  "gr.csvMissing":"Недостающие компоненты",
+  "gr.stFinal":"итоговая",
+  "hub.prov":"с предварительной оценкой — не хватает компонентов",
+  "gr.rangeAsk":"За какие даты считать посещаемость в этом периоде? В расчёт идёт только посещаемость внутри диапазона. Диапазон сохраняется для периода.",
+  "gr.from":"С даты",
+  "gr.to":"По дату",
+  "gr.fillGo":"Заполнить",
+  "tl.whoAll":"Включён весь класс",
+  "tl.whoNoAtt":"посещаемость на эту дату не отмечена",
+  "tl.whoAbs":"отсутствуют",
+  "tl.whoEx":"освобождены",
+  "tl.whoUn":"не отмечены",
+  "tl.whoIn":"участвуют",
+  "tl.whoPart":"частично",
+  "tl.whoOut":"Не включены",
+  "tl.whoMark":"Отметьте посещаемость во вкладке «Посещаемость» или выберите «Весь класс».",
   /* ux-redesign */
   "grp.need2":"Чтобы объединить, нужны хотя бы два класса с учениками",
   "grp.joinT":"🔗 Объединить классы",
@@ -1219,7 +1363,7 @@ ru:{
   "set.clsHint":"Переименование меняет только название. Ученики, измерения и уроки класса остаются с ним — они определяются по постоянному id, а не по названию.",
   "set.clsPick":"Класс", "set.clsCurLbl":"Текущее название", "set.clsNewLbl":"Новое название",
   "set.clsNewPh":"например: 9 класс, группа 3 — с углублённым изучением", "set.clsSaveBtn":"Сохранить",
-  "set.lang":"Язык", "set.langHint":"Язык интерфейса меняется сразу. Переведено всё содержимое — экраны, тесты, игры, планы уроков, база знаний и сообщения. Перевод — профессиональный черновик, ожидающий проверки носителем языка.",
+  "set.lang":"Язык", "set.langHint":"Язык интерфейса меняется сразу. Экраны, тесты, игры, встроенные планы уроков, база знаний и сообщения переведены; то, что вы вводите сами (имена, заметки, созданные вами уроки), остаётся как написано. Перевод — черновик, ещё не проверенный носителями языка; любой оставшийся непереведённый текст — это недочёт, о котором стоит сообщить.",
   "set.about":"📘 О программе, версия и благодарности",
   "set.purge":"🧹 Очистить старые данные",
   "set.install":"📲 Установка как приложение: в Chrome — меню ⋮ и «Добавить на главный экран». На iPhone — «Поделиться» и «На экран «Домой»». Сохранённое как файл, приложение работает и без интернета (из сети грузятся только шрифты).",
@@ -1376,9 +1520,9 @@ ru:{
   "info.data.l":"<li><b>Резервная копия</b> ⚙ Настройки → «⬇ Сохранить всё в файл». «⬆ Восстановить из файла» возвращает всё на новом устройстве.</li><li><b>Шифрование</b> резервную копию можно зашифровать паролем — но восстановления пароля нет. Потерян пароль — потерян файл.</li><li><b>Неверное название класса?</b> ⚙ Настройки → «🏷 Названия классов». Переименование не отвязывает ни одного ученика и ни одного измерения.</li><li><b>Трудно читать на солнце?</b> ☀ в верхней панели, а в настройках — «Крупные кнопки» для работы одной рукой.</li>",
 
   /* --- אודות --- */
-  "ab.p":"Полевой набор для учителя физкультуры: тесты физподготовки, бип-тест, фотофиниш с камеры, планы уроков, таблица рекордов, инструменты класса и оценки — всё на одном экране и без отправки чего-либо наружу.",
+  "ab.p":"Полевой набор для учителя физкультуры: тесты физподготовки, бип-тест, фотофиниш с камеры, планы уроков, таблица рекордов, инструменты для класса и оценки — всё на одном экране, а данные учеников хранятся на устройстве.",
   "ab.privT":"🔒 Конфиденциальность",
-  "ab.priv":"Данные учеников — списки, оценки и измерения — хранятся только в localStorage этого устройства. <b>Нет сервера, нет аккаунта, ничего никуда не отправляется.</b> Это данные о несовершеннолетних, поэтому так задумано, а не случайно. Экспорт CSV или резервная копия — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё — поэтому есть резервная копия. Единственное, что покидает устройство, — ваши (учителя) контактные данные, введённые на первом приветственном экране, — не данные об учениках, — и отправляются они один раз.",
+  "ab.priv":"Данные учеников — списки, посещаемость, оценки и измерения — хранятся на этом устройстве (localStorage и IndexedDB). <b>У приложения нет своего сервера и учётной записи.</b> Что всё же покидает устройство: (1) при каждой загрузке — запрос шрифтов к Google Fonts (IP-адрес и данные браузера, без данных учеников); (2) ваши контактные данные — только если вы решили их оставить — в форму Google Forms разработчика приложения; (3) только если вы это настроили: синхронизация рекордов с вашей Google-таблицей (имя ученика, дисциплина, результат, статус) и зашифрованная копия на ваш Google Диск; (4) внешние ссылки (YouTube, источники, форма загрузки видео) открываются только по нажатию. Экспорт CSV и резервная копия в файл — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё — поэтому и нужна резервная копия.",
   "ab.srcT":"📚 Профессиональные источники",
   "ab.src":"Протокол Léger (бип-тест) · нормы FITNESSGRAM® от Cooper Institute · «Значок по физкультуре — стандарты оценки достижений учащихся», Министерство образования Израиля, Педагогический секретариат · учебная программа по физической культуре. Школьные нормы — данные учителя и хранятся на устройстве.",
   "ab.builtT":"🛠 Сделано с помощью",
@@ -1388,6 +1532,54 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "ab.credT":"🖼 Créditos de imágenes",
+  /* ux-redesign */
+  "bk.encRec":"<b>Recomendado</b> cuando el archivo sale del dispositivo (Drive, correo, un ordenador compartido): contiene nombres y resultados del alumnado.",
+  "bk.howT":"¿Cómo restauro en un dispositivo nuevo?",
+  "bk.how1":"Abre PE Ultimate en el dispositivo nuevo y entra como docente.",
+  "bk.how2":"Ajustes → Copia y sincronización → «⬆ Restaurar desde archivo» y elige el archivo de copia.",
+  "bk.how3":"Archivo cifrado: escribe la contraseña elegida al hacer la copia. Sin ella no se puede abrir.",
+  "bk.how4":"Antes de restaurar se muestra qué entrará y qué se sustituirá. No se escribe nada hasta confirmar, y un archivo dañado se rechaza antes de tocar los datos.",
+  "bk.advT":"⚙️ Avanzado: copia directa a Google Drive (requiere configuración técnica)",
+  /* ux-redesign */
+  "lead.skip":"Omitir por ahora: puedes dejar tus datos más tarde en Ajustes",
+  "lead.who":"Tus datos van al formulario de Google Forms del desarrollador de la app, solo para enviarte una encuesta de opinión y contactarte. Puedes pedir que se borren en cualquier momento.",
+  "ab.privLink":"Política de privacidad completa ↗",
+  "ab.fbT":"📨 Encuesta de opinión",
+  "ab.fb":"¿Quieres recibir una encuesta de opinión y estar en contacto con el desarrollador? Dar tus datos es opcional.",
+  "ab.fbBtn":"Dejar datos de contacto",
+  /* ux-redesign */
+  "set.langSrc":"original",
+  "set.langDraft":"borrador, sin revisar",
+  "set.langKeys":"Cobertura de claves de la interfaz",
+  "ls.eqNoGame":"Ningún juego se ajusta al material disponible: no se ha añadido juego. Puedes elegir uno en la página de juegos.",
+  "ls.eqTopic":"El tema requiere material no marcado como disponible",
+  "ls.eqGame":"El juego elegido requiere material no marcado como disponible",
+  "sched.clash":"A la misma hora hay otra franja separada. Si estos grupos tienen clase juntos, únelos como grupo (Centro del grupo → Unir grupos); si no, es un conflicto de horario.",
+  /* ux-redesign */
+  "stu.badRecs":"Los registros dañados de la lista no se muestran, pero se conservan tal cual: haz una copia de seguridad antes de cualquier cambio.",
+  "gr.prov":"provisional",
+  "gr.missing":"Falta",
+  "gr.provHint":"Nota provisional: al menos un componente con peso en la estructura de la nota sigue vacío, así que aún no es una nota final y el centro del grupo no la cuenta como tal. Un componente con peso 0 no es obligatorio, y 0 es una nota válida.",
+  "gr.csvGrade":"Nota",
+  "gr.csvStatus":"Estado",
+  "gr.csvMissing":"Componentes que faltan",
+  "gr.stFinal":"final",
+  "hub.prov":"con nota provisional — faltan componentes",
+  "gr.rangeAsk":"¿De qué fechas se calcula la asistencia para este período? Solo cuenta la asistencia dentro del rango. El rango se guarda para el período.",
+  "gr.from":"Desde",
+  "gr.to":"Hasta",
+  "gr.fillGo":"Rellenar",
+  "tl.whoAll":"Se incluye todo el grupo",
+  "tl.whoNoAtt":"no se ha registrado asistencia para esta fecha",
+  "tl.whoAbs":"ausentes",
+  "tl.whoEx":"exentos",
+  "tl.whoUn":"sin marcar",
+  "tl.whoIn":"participan",
+  "tl.whoPart":"parcial",
+  "tl.whoOut":"No incluidos",
+  "tl.whoMark":"Registra la asistencia en la pestaña «Asistencia» o elige «Todo el grupo».",
   /* ux-redesign */
   "grp.need2":"Necesitas al menos dos clases con alumnos para unirlas",
   "grp.joinT":"🔗 Unir clases",
@@ -1722,7 +1914,7 @@ es:{
   "set.clsNewPh":"p. ej. 3.º ESO B — Deportivo",
   "set.clsSaveBtn":"Guardar",
   "set.lang":"Idioma",
-  "set.langHint":"La interfaz cambia de idioma al instante. Todo el contenido está traducido: pantallas, pruebas, juegos, planes de sesión, base de conocimiento y mensajes. La traducción es un borrador profesional pendiente de revisión por hablantes nativos.",
+  "set.langHint":"El idioma de la interfaz cambia al instante. Las pantallas, pruebas, juegos, planes de sesión incorporados, la base de conocimiento y los mensajes están traducidos; lo que escribes tú (nombres, notas, sesiones que creaste) queda tal cual. La traducción es un borrador aún no revisado por hablantes nativos: cualquier texto sin traducir es un defecto que conviene comunicar.",
   "set.about":"📘 Acerca de, versión y créditos",
   "set.purge":"🧹 Borrar datos antiguos",
   "set.install":"📲 Instalar como aplicación: en Chrome — menú ⋮ y luego «Añadir a pantalla de inicio». En iPhone — Compartir y luego «Añadir a pantalla de inicio». Guardada como archivo, la aplicación funciona también sin internet (solo las fuentes se cargan de la red).",
@@ -1861,9 +2053,9 @@ es:{
   "info.data.l":"<li><b>Copia de seguridad</b> ⚙ Ajustes → «⬇ Copiar todo a un archivo». «⬆ Restaurar desde un archivo» lo recupera todo en un dispositivo nuevo.</li><li><b>Cifrado</b> puedes cifrar la copia con una contraseña — pero no hay recuperación de contraseña. Si pierdes la contraseña, pierdes el archivo.</li><li><b>¿Nombre de grupo incorrecto?</b> ⚙ Ajustes → «🏷 Nombres de los grupos». Cambiar el nombre no desvincula a ningún alumno ni ninguna medición.</li><li><b>¿Cuesta leer al sol?</b> ☀ en la barra superior, y «Botones grandes» en Ajustes para usarla con una mano.</li>",
 
   /* --- אודות --- */
-  "ab.p":"Un kit de campo para docentes de Educación Física: pruebas de condición física, test de la bip, foto-finish con la cámara, planes de sesión, tabla de récords, herramientas de clase y calificaciones — todo en una sola pantalla y sin enviar nada fuera.",
+  "ab.p":"Un kit de campo para docentes de Educación Física: pruebas de condición física, test de la bip, foto-finish con la cámara, planes de sesión, tabla de récords, herramientas de aula y calificaciones, todo en una sola pantalla y con los datos del alumnado guardados en el dispositivo.",
   "ab.privT":"🔒 Privacidad",
-  "ab.priv":"Los datos del alumnado — listas, calificaciones y mediciones — se guardan solo en el localStorage de este dispositivo. <b>Sin servidor, sin cuenta y sin envíos a ninguna parte.</b> Son datos de menores, así que es una decisión de diseño, no una casualidad. Exportar a CSV o hacer una copia es siempre una acción que inicias tú. Borrar los datos del sitio en el navegador lo elimina todo — por eso existe la copia de seguridad. Lo único que sale del dispositivo son tus datos de contacto (del docente) introducidos en la primera pantalla de bienvenida — ningún dato de alumnado — y se envían una sola vez.",
+  "ab.priv":"Los datos del alumnado —listas, asistencia, calificaciones y mediciones— se guardan en este dispositivo (localStorage e IndexedDB). <b>La app no tiene servidor ni cuenta propios.</b> Lo que sí sale del dispositivo: (1) en cada carga, una petición de fuentes a Google Fonts (dirección IP y datos del navegador, sin datos del alumnado); (2) tus datos de contacto —solo si decides darlos— al formulario de Google Forms del desarrollador de la app; (3) solo si lo configuras: la sincronización de récords con tu Google Sheet (nombre del alumno, prueba, resultado, estado) y una copia cifrada en tu Google Drive; (4) los enlaces externos (YouTube, fuentes, formulario de subida de vídeo) solo se abren al pulsarlos. Exportar CSV y la copia a archivo son siempre acción tuya. Borrar los datos del sitio en el navegador lo elimina todo; por eso existe la copia de seguridad.",
   "ab.srcT":"📚 Fuentes profesionales",
   "ab.src":"Protocolo de Léger (test de la bip) · baremos FITNESSGRAM® de The Cooper Institute · «Insignia de Educación Física — estándares para evaluar el rendimiento del alumnado», Ministerio de Educación de Israel, Secretaría Pedagógica · el currículo de Educación Física. Los baremos del centro son datos del docente y se guardan en el dispositivo.",
   "ab.builtT":"🛠 Hecho con",
@@ -1936,7 +2128,9 @@ const TERM_COL={en:0,ar:1,ru:2,es:3};
 const HEB=/[֐-׿]/;
 const SKIP={SCRIPT:1,STYLE:1,TEXTAREA:1,NOSCRIPT:1,CODE:1,PRE:1};
 const T_SRC=new WeakMap(), T_OUT=new WeakMap();   /* צומת → המקור העברי / מה שכתבנו בו */
-const T_ATTRS=["placeholder","title","aria-label"];
+/* label — תוויות <optgroup> (קבוצות הנושאים במחולל המערכים נשארו
+   בעברית גם באנגלית); alt — טקסט חלופי לתמונות, לקוראי מסך. */
+const T_ATTRS=["placeholder","title","aria-label","label","alt"];
 /* מפרק טקסט לקידומת (אימוג׳י, סמלים), ליבה, וסיומת (נקודתיים, חצים) —
    בדיוק כפי שהמונחים נאספו. */
 function splitTerm(s){
@@ -2147,7 +2341,7 @@ function applyTerms(root){
   const w=(scope.ownerDocument||document).createTreeWalker(scope,NodeFilter.SHOW_TEXT);
   for(let n=w.nextNode();n;n=w.nextNode())termText(n);
   termAttrs(scope);
-  scope.querySelectorAll("[placeholder],[title],[aria-label]").forEach(termAttrs);
+  scope.querySelectorAll(T_ATTRS.map(a=>"["+a+"]").join(",")).forEach(termAttrs);
 }
 let termObs=null;
 function watchTerms(){

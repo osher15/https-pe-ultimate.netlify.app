@@ -43,5 +43,6 @@ test("מערכת שעות שלמה נטענת בלי שני מזהים זהים"
   D.sampleSlots().forEach(o=>{ const r=D.schedAdd(l,o); if(r.ok)l=r.list; });
   const ids=new Set(l.map(x=>x.id));
   assert.equal(ids.size,l.length,"משבצת כפולה — מחיקה אחת תמחק שתיים");
-  assert.ok(l.length>40,"ובאמת נטענה מערכת שלמה: "+l.length);
+  /* 39 מאז שכיתות שלומדות יחד הן משבצת קבוצה אחת (ביקורת 2026-09-29) */
+  assert.ok(l.length>35,"ובאמת נטענה מערכת שלמה: "+l.length);
 });

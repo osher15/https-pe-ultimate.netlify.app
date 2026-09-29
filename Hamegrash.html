@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="10532cea">
+<meta name="hm-build" content="048a49da">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1843,6 +1843,12 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
 .ask-checks{display:flex;flex-wrap:wrap;gap:8px}.ask-checks label{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-weight:600}.ask-checks label:has(input:checked){border-color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent)}
 #ft-groups button,#cp-groups button{flex:0 1 auto;padding-inline:12px}#ft-groups button.ghost,#cp-groups button.ghost{border-style:dashed}.ft-row .nm .ccls,.cp-item .ccls{display:inline-block;margin-inline-start:6px;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--panel2);color:var(--muted);font-weight:600;vertical-align:middle}
 
+/* ציון תקופה: סופי מודגש; זמני מעומעם עם «זמני» ומה חסר */
+#gr-table td.gr-final{font-weight:800;color:var(--acc)}
+#gr-table td.gr-final.prov{font-weight:600;color:var(--muted)}
+#gr-table .gr-provTag{font-family:inherit;font-weight:700;color:#fbbf24}
+#gr-table .gr-miss{font-family:inherit;font-size:11px;font-weight:500;white-space:normal;min-width:110px;line-height:1.3}
+
 </style>
 </head>
 <body>
@@ -2706,6 +2712,7 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
       </div>
       <div class="hint" id="gr-fillAttHint" style="margin-top:6px">⬇ מלא לפי נוכחות ממלא רק שדות השתתפות ריקים לפי אחוז הנוכחות בפועל — לא דורס ציון שכבר הוזן, ולא ממציא ציון לתלמיד בלי נתוני נוכחות.</div>
       <div class="tblwrap" style="margin-top:13px"><table class="tbl" id="gr-table"></table></div>
+      <div class="hint" id="gr-provHint" hidden style="margin-top:8px"></div>
       <div class="empty-state" id="gr-empty" style="display:none"><div class="big">📊</div>אין עדיין תלמידים בכיתה הזו. הוסף תלמידים בלשונית «רשימת תלמידים».</div>
     </div>
   </div>
@@ -3097,8 +3104,14 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
             <option value="gender">מאוזן לפי רמה ומגדר</option>
             <option value="random">אקראי לגמרי</option>
           </select></div>
+        <div class="field" style="width:210px"><label>מי נכלל</label>
+          <select id="tl-teamWho" class="tl-who">
+            <option value="present">רק מי שנוכח היום (מלאה או חלקית)</option>
+            <option value="all">כל הכיתה, בלי לבדוק נוכחות</option>
+          </select></div>
         <button class="btn acc" id="tl-teamGo" style="margin-top:18px">🎲 חלק לקבוצות</button>
       </div>
+      <div class="hint tl-whoInfo" id="tl-teamWhoInfo" style="margin-top:8px"></div>
     </div>
     <div class="tl-teams" id="tl-teamsWrap"></div>
     <div class="card" id="tl-teamActions" style="display:none">
@@ -3113,7 +3126,15 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
     <div class="card" style="text-align:center">
       <h2 style="justify-content:center"><span class="dot"></span> הגרלת תלמיד</h2>
       <div class="hint">בלי חזרות — כל תלמיד יוצא פעם אחת עד שהסבב מתאפס.</div>
-      <div class="field" style="width:170px;margin:11px auto 0"><label>כיתה</label><select id="tl-pickCls"></select></div>
+      <div class="row" style="justify-content:center;margin-top:11px">
+        <div class="field" style="width:170px"><label>כיתה</label><select id="tl-pickCls"></select></div>
+        <div class="field" style="width:210px"><label>מי נכלל</label>
+          <select id="tl-pickWho" class="tl-who">
+            <option value="present">רק מי שנוכח היום (מלאה או חלקית)</option>
+            <option value="all">כל הכיתה, בלי לבדוק נוכחות</option>
+          </select></div>
+      </div>
+      <div class="hint tl-whoInfo" id="tl-pickWhoInfo" style="margin-top:6px"></div>
       <div class="tl-pickbox"><div id="tl-pickName">—</div><div class="sb" id="tl-pickSub"></div></div>
       <div class="row" style="justify-content:center">
         <button class="btn acc big" id="tl-pickGo">🎯 הגרל</button>
@@ -3396,13 +3417,10 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
   <div class="ab-hero"><div class="lg">⏱️</div>
     <div><b dir="auto" data-i18n="brand.full">PE Ultimate</b><span id="ab-ver">גרסה —</span></div></div>
   <p class="ab-p" data-i18n="ab.p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
-    לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, בשפה אחת, ובלי להוציא שום דבר החוצה.</p>
+    לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, ונתוני התלמידים נשמרים במכשיר.</p>
   <div class="ab-sec"><b data-i18n="ab.privT">🔒 פרטיות</b>
-    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, ציונים ומדידות — נשמרים ב-localStorage של המכשיר הזה בלבד.
-      <b>אין שרת, אין חשבון, ואין שליחה לשום מקום.</b> אלה נתונים על קטינים, ולכן זו החלטת תכנון ולא
-      מקריות. ייצוא CSV או גיבוי הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש
-      גיבוי. הדבר היחיד שיוצא מהמכשיר הוא פרטי הקשר שלך (המורה) שהוזנו במסך הפתיחה הראשון — לא נתון
-      על תלמיד — ונשלחים פעם אחת בלבד.</p></div>
+    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>לאפליקציה אין שרת ואין חשבון משלה.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — בקשת גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס Google Forms של מפתח האפליקציה; (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול — לכן יש גיבוי.</p>
+    <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p></div>
   <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
     <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
       הגופני — סטנדרטים להערכת הישגי התלמידים», משרד החינוך, המזכירות הפדגוגית · תוכנית הלימודים
@@ -3410,6 +3428,14 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
   <div class="ab-sec"><b data-i18n="ab.builtT">🛠 נבנה עם</b>
     <p class="ab-p" data-i18n="ab.built">JavaScript, HTML ו-CSS בלבד — בלי ספריות חיצוניות ובלי שלב בנייה בדפדפן, כדי
       שהאפליקציה תיפתח מהר ותעבוד בשטח בלי רשת. פותח בשיתוף עם Claude Code.</p></div>
+  <div class="ab-sec"><b data-i18n="ab.credT">🖼 קרדיטים לתמונות</b>
+    <p class="ab-p" dir="ltr" style="text-align:start;font-size:12px">Exercise demos from Wikimedia Commons:
+      Pike_Push_Ups.gif — Danielflefil; Burpees.gif, Jumpingjacks.gif, High_knees.gif — Wensceslao
+      (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, resized);
+      Lunge (CDC) — public domain. All other exercise illustrations are original to PE Ultimate.</p></div>
+  <div class="ab-sec"><b data-i18n="ab.fbT">📨 שאלון משוב</b>
+    <p class="ab-p" data-i18n="ab.fb">רוצים לקבל שאלון משוב וליצור קשר עם המפתח? מסירת הפרטים היא רשות.</p>
+    <button class="btn sm ghost" id="ab-lead" data-i18n="ab.fbBtn">השארת פרטי קשר</button></div>
   <div class="ab-sec"><b data-i18n="ab.warnT">⚠️ אחריות</b>
     <p class="ab-p" data-i18n="ab.warn">כלי עזר להוראה. מדידות מהמצלמה ומהשעון הן טובות ככל שתנאי השטח מאפשרים, ואינן
       תחליף לציוד מדידה מוסמך לתחרות רשמית. ההחלטה החינוכית והציון הם שלך.</p></div>
@@ -3507,7 +3533,7 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
   <details class="set-sec" open><summary><span class="ic">🎛</span><span data-i18n="set.secGeneral">כללי</span><small data-i18n="set.secGeneralSub">שפה, בית ספר, מראה וצלילים</small></summary><div class="in">
   <div class="field"><label data-i18n="set.lang">שפת הממשק</label>
     <div class="lang-pick" id="set-lang"></div>
-    <div class="hint" id="set-langHint" data-i18n="set.langHint" style="margin-top:6px">שפת הממשק מתחלפת מיד. כל התוכן — מסכים, מבחנים, משחקים, מערכי שיעור, מאגר הידע וההודעות — מתורגם. התרגום הוא טיוטה מקצועית שממתינה לבדיקה של דובר שפת־אם.</div>
+    <div class="hint" id="set-langHint" data-i18n="set.langHint" style="margin-top:6px">שפת הממשק מתחלפת מיד. המסכים, המבחנים, המשחקים, מערכי השיעור המובנים, מאגר הידע וההודעות מתורגמים; מה שאתם מקלידים בעצמכם (שמות, הערות, מערכים שבניתם) נשאר כפי שנכתב. התרגום הוא טיוטה שעוד לא נבדקה על ידי דוברי השפה — אם נשאר טקסט לא מתורגם, זה ליקוי שכדאי לדווח עליו.</div>
   </div>
   <div class="field" style="margin-top:11px"><label data-i18n="set.school">שם בית הספר (מופיע בכותרת, בתעודות ובמצב טלוויזיה)</label><input type="text" id="set-school" placeholder="מקיף גימל באר שבע"></div>
   <div class="field" style="margin-top:12px"><label data-i18n="set.theme">ערכת רקע — נשמרת במכשיר הזה</label>
@@ -3557,6 +3583,7 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
          שהמורה יחליט לפני שהוא לוחץ, ולא יגלה אחרי מה בעצם ירד. -->
     <label class="check" style="margin-top:10px"><input type="checkbox" id="set-bkEnc">
       <span data-i18n="bk.encrypt">🔐 הצפן את הגיבוי בסיסמה</span></label>
+    <div class="hint" data-i18n="bk.encRec" style="margin-top:4px"><b>מומלץ</b> כשהקובץ יוצא מהמכשיר (דרייב, מייל, מחשב משותף) — יש בו שמות ותוצאות של תלמידים.</div>
     <div class="hint" data-i18n="bk.encryptHint" style="margin-top:4px">קובץ מוצפן אפשר לשמור בדרייב או לשלוח במייל בלי שהתוכן יהיה קריא לאף אחד — גם לא לשירות שמאחסן אותו.
       <b>אין שחזור סיסמה:</b> אבדה הסיסמה, אבד הקובץ. זו המשמעות של הצפנה אמיתית.
       בלי הסימון — קובץ רגיל, לא מוצפן, שכל תוכנה שיודעת לקרוא JSON יכולה לפתוח.</div>
@@ -3566,7 +3593,14 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
       <input type="file" id="set-bkFile" accept=".json,.hmg,application/json" style="display:none">
     </div>
     <div class="hint" id="set-bkStat" style="margin-top:8px"></div>
-    <hr style="border:none;border-top:1px solid var(--line);margin:14px 0">
+    <details class="bk-howto" style="margin-top:8px"><summary data-i18n="bk.howT">איך משחזרים במכשיר חדש?</summary>
+      <ol class="hint" style="margin:6px 0 0;padding-inline-start:20px">
+        <li data-i18n="bk.how1">פותחים את PE Ultimate במכשיר החדש ונכנסים כמורה.</li>
+        <li data-i18n="bk.how2">הגדרות ← גיבוי וסנכרון ← «⬆ שחזר מקובץ», ובוחרים את קובץ הגיבוי.</li>
+        <li data-i18n="bk.how3">קובץ מוצפן — מקלידים את הסיסמה שנבחרה בגיבוי. בלי הסיסמה אי אפשר לפתוח אותו.</li>
+        <li data-i18n="bk.how4">לפני השחזור מוצג מה ייכנס ומה יוחלף. שום דבר לא נכתב עד שמאשרים, וקובץ פגום נדחה לפני שנוגעים בנתונים.</li>
+      </ol></details>
+    <details class="bk-adv" style="margin-top:12px"><summary data-i18n="bk.advT">⚙️ מתקדם: גיבוי ישיר לגוגל דרייב (דורש הגדרה טכנית)</summary>
     <b>☁️ גיבוי לגוגל דרייב (מתקדם, רשות)</b>
     <div class="hint" style="margin-top:5px">האפליקציה לא מחוברת לשום שרת שלנו — כדי לגבות ישירות לדרייב שלך היא צריכה אישור גוגל משלך, בדיוק כמו כל אתר שמבקש "התחבר עם גוגל". ההרשאה מוגבלת לקבצים שהאפליקציה עצמה יוצרת בדרייב שלך (drive.file) — היא לא יכולה לראות או לגעת בשום קובץ אחר אצלך. הקמה חד-פעמית (כ-5 דקות, בלי תשלום): ראו README, סעיף «גיבוי לגוגל דרייב».</div>
     <div class="hint" style="margin-top:5px"><b>גיבוי לדרייב תמיד מוצפן</b> — קובץ עם שמות ותוצאות של קטינים לא עוזב את המכשיר בגלוי. ודא/י שהסימון "🔐 הצפן את הגיבוי בסיסמה" למעלה מסומן לפני שלוחצים "גבה עכשיו לדרייב"; בלעדיו הכפתור יסרב ויבקש להצפין קודם.</div>
@@ -3583,6 +3617,7 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
     </div>
     <div class="hint" style="margin-top:4px">זו <b>תזכורת בלבד</b>, לא גיבוי אמיתי ברקע — כי הצפנה דורשת הקלדת סיסמה בכל פעם, ואי אפשר לבקש אותה בלי שאת/ה מול המסך. כשהגיע הזמן תופיע הודעה שמזכירה ללחוץ על "גבה עכשיו לדרייב".</div>
     <div class="hint" id="set-gdStat" style="margin-top:8px"></div>
+    </details>
   </div>
   <div class="field" style="margin-top:13px"><label>קישור לטופס העלאת סרטונים (Google Forms)</label>
     <input type="url" id="set-driveForm" placeholder="https://forms.gle/..." style="direction:ltr;text-align:left;font-size:12px"></div>
@@ -3741,13 +3776,16 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
   <p class="lock-note" data-i18n="lock.demoNote">הדגמה: כיתה לדוגמה עם תוצאות, כדי לראות איך הכול עובד לפני שמזינים תלמידים אמיתיים. אפשר לנקות את נתוני ההדגמה בלחיצה אחת.</p>
   <div class="lock-about">
     <b>מה זה?</b> ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור, שיאים וציונים.<br>
-    <b>איפה הנתונים?</b> <b>במכשיר הזה בלבד.</b> אין שרת ואין חשבון — תלמידים, ציונים ומדידות לא נשלחים לשום מקום.
-    פרטי הקשר שהזנת במסך הקודם (שלך, לא של תלמיד) נשלחים פעם אחת אליי כדי ליצור איתך קשר בהמשך.
+    <b>איפה הנתונים?</b> <b>במכשיר הזה.</b> לאפליקציה אין שרת ואין חשבון.<br>
+    תלמידים, ציונים ומדידות לא נשלחים — אלא אם תגדירו בעצמכם סנכרון שיאים או גיבוי לדרייב.<br>
+    פרטי הקשר (שלכם, לא של תלמיד) נשלחים רק אם בחרתם למסור אותם.<br>
+    <a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות המלאה ↗</a>
   </div>
 </div></div>
 
 <!-- ----- איסוף פרטי קשר, פעם אחת בפתיחה הראשונה ----- -->
 <div id="leadOv"><div class="box">
+  <div class="lang-pick lead-lang" id="lead-lang" aria-label="Language"></div>
   <div class="lg">👋</div>
   <h1 dir="auto" data-i18n="lead.title">רגע לפני שנכנסים</h1>
   <p data-i18n="lead.sub">האפליקציה חינמית לגמרי — בלי כרטיס אשראי, בלי תשלום ובלי שום התחייבות. השאירו כמה פרטים כדי שאוכל לשלוח לכם שאלון קצר לחוות דעת — זה יעזור לנו לשפר את האפליקציה ולהפוך אותה למקצועית יותר בהמשך.</p>
@@ -3761,6 +3799,9 @@ body[data-mod="cls"]{--acc:#34d399;--accDim:rgba(52,211,153,.18)}
   <div class="field" style="margin-top:9px"><label data-i18n="lead.email">אימייל</label>
     <input type="email" id="lead-email" autocomplete="email" placeholder="you@example.com"></div>
   <button class="btn acc big" id="lead-send" style="margin-top:14px" data-i18n="lead.send">שליחה והמשך</button>
+  <button class="btn ghost" id="lead-skip" style="margin-top:8px;width:100%" data-i18n="lead.skip">דלגו בינתיים — אפשר להשאיר פרטים אחר כך בהגדרות</button>
+  <p class="lock-note" data-i18n="lead.who">הפרטים נשלחים לטופס Google Forms של מפתח האפליקציה, רק כדי לשלוח שאלון משוב וליצור קשר. אפשר לבקש את מחיקתם בכל עת.</p>
+  <p class="lock-note"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a></p>
   <p class="lock-note" data-i18n="lead.note">בלי עלות ובלי כרטיס אשראי — האפליקציה חינמית. הפרטים האלה נשלחים אליי ישירות רק כדי ליצור איתכם קשר. כל השאר — תלמידים, ציונים ומדידות — נשאר במכשיר שלכם בלבד, כרגיל.</p>
 </div></div>
 <iframe name="lead-frame" id="lead-frame" style="display:none" title="lead-submit" tabindex="-1" aria-hidden="true"></iframe>
@@ -4285,6 +4326,113 @@ function sameStudent(rec,stud){
   /* לרשומה יש מזהה ולתלמיד אין — אין בסיס להתאמה. */
   return false;
 }
+/* ============================================================
+   ציוד זמין — אילוץ, לא תוספת
+   ------------------------------------------------------------
+   במחולל המהיר «ציוד זמין» נוסף לרשימת הציוד ולא הגביל דבר: מערך
+   אירובי עם כדורים וקונוסים בלבד ביקש חישוקים, כי המשחק שנבחר
+   דרש אותם. כאן: פריט שלא סומן כזמין הוא אילוץ.
+
+   טקסט הציוד של משחק הוא חופשי («קונוסים / חישוקים», «חישוקים
+   (״קנים״), כדורי ספוג»). מפרקים לפי פסיק ו-+; «/» הוא חלופה —
+   החלק נחסם רק כשכל החלופות בו דורשות פריט לא זמין. סוגריים הם
+   דוגמאות, לא דרישה.
+   ============================================================ */
+var EQUIP_KEYS={"כדורים":"כדור","קונוסים":"קונוס","מזרנים":"מזרן","חישוקים":"חישוק",
+  "רשת":"רשת","חבל":"חבל","רמקול":"רמקול","וסטים":"וסט"};
+function equipParts(str){
+  return String(str==null?"":str).replace(/\([^)]*\)/g," ")
+    .split(/[,،;+·]/).map(function(x){ return x.replace(/\s+/g," ").trim(); })
+    .filter(function(x){ return x&&!/^(אין|ללא)$/.test(x); });
+}
+function equipNeeds(part,item){
+  var k=EQUIP_KEYS[item]; return !!k&&String(part).indexOf(k)>=0;
+}
+/* הפריטים הלא-זמינים שהטקסט דורש בלי חלופה */
+function equipConflicts(str,unavailable){
+  var un=asList(unavailable).filter(function(u){ return EQUIP_KEYS[u]; }), out=[];
+  if(!un.length)return out;
+  equipParts(str).forEach(function(part){
+    var alts=part.split("/");
+    var blocked=alts.map(function(a){ return un.filter(function(u){ return equipNeeds(a,u); }); });
+    if(blocked.every(function(b){ return b.length; }))
+      blocked.forEach(function(b){ b.forEach(function(u){ if(out.indexOf(u)<0)out.push(u); }); });
+  });
+  return out;
+}
+/* איחוד רשימות ציוד בלי כפילויות (לפי קיפול — «קונוסים» פעם אחת) */
+function mergeEquip(){
+  var out=[], seen={};
+  Array.prototype.slice.call(arguments).forEach(function(l){
+    asList(l).forEach(function(x){ var t=String(x==null?"":x).trim(), k=foldSearch(t);
+      if(t&&!seen[k]){ seen[k]=1; out.push(t); } });
+  });
+  return out;
+}
+
+/* ============================================================
+   חיפוש רב־לשוני
+   ------------------------------------------------------------
+   החיפוש במשחקים השווה את מה שהוקלד רק לנוסח העברי — ובאנגלית
+   «Capture» החזיר 0 משחקים ליד כרטיס «Capture the flag». החיפוש
+   צריך לרוץ על מה שהמורה רואה, ועדיין למצוא גם בעברית.
+
+   קיפול להשוואה בלבד (לא נשמר, לא מוצג): אותיות קטנות, בלי סימני
+   ניקוד/טעמים/תשכיל ובלי סימני הטעמה (Capturé = Capture), ё→е,
+   גרש ומירכאות עבריים כשווים ללטיניים, רווחים מאוחדים.
+   המחרוזת המקורית לעולם לא משתנה.
+   ============================================================ */
+function foldSearch(str){
+  var s=String(str==null?"":str);
+  try{ s=s.normalize("NFKD"); }catch(e){}
+  return s.replace(/[\u0300-\u036f\u0591-\u05c7\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]/g,"")
+    .replace(/\u0640/g,"")                      /* תטוויל ערבי */
+    .toLowerCase()
+    .replace(/ё/g,"е")
+    .replace(/[׳’‘`]/g,"'").replace(/[״“”„]/g,'"')
+    .replace(/\s+/g," ").trim();
+}
+/* כל מילה בשאילתה צריכה להופיע (AND), בכל סדר. שאילתה ריקה — הכול. */
+function searchMatch(hay,query){
+  var q=foldSearch(query); if(!q)return true;
+  var h=foldSearch(hay);
+  return q.split(" ").every(function(w){ return h.indexOf(w)>=0; });
+}
+
+/* ============================================================
+   צורת רשומת תלמיד
+   ------------------------------------------------------------
+   כל נתיב יצירה כותב {id,name,cls,cid,sex,age,h,w,tests:[]} — חוץ
+   ממצב ההדגמה, שכתב רשומות בלי tests. כל מסך אחר עבר דרך
+   studentsIn והציג שמונה תלמידים; «התלמידים שלי» קרא s.tests.length
+   ונפל כולו, וכך אותה כיתה הייתה מלאה במסך אחד וריקה בשני.
+
+   הצורה מתוקנת בקריאה, לא בהנחה: שדה רשות חסר מקבל ברירת מחדל
+   ריקה (tests:[], h/w:null) — אף ערך קיים לא משתנה. רשומה שאינה
+   אובייקט בכלל אינה «מתוקנת» ואינה נמחקת: היא חוזרת בנפרד (bad),
+   נשמרת במקומה, ומי שמציג את הרשימה יכול לומר שהיא שם.
+   ============================================================ */
+function isStudentRec(s){ return !!s&&typeof s==="object"&&!Array.isArray(s); }
+function normalizeStudent(s){
+  if(!isStudentRec(s))return null;
+  var out={};
+  for(var k in s)if(Object.prototype.hasOwnProperty.call(s,k))out[k]=s[k];
+  out.name=s.name==null?"":String(s.name);
+  if(s.cls!=null&&typeof s.cls!=="string")out.cls=String(s.cls);
+  out.tests=Array.isArray(s.tests)?s.tests.filter(isStudentRec):[];
+  if(!("h" in out))out.h=null;
+  if(!("w" in out))out.w=null;
+  return out;
+}
+function normalizeStudents(raw){
+  var list=[], bad=[];
+  asList(raw).forEach(function(s){
+    var n=normalizeStudent(s);
+    if(n)list.push(n); else bad.push(s);
+  });
+  return {list:list,bad:bad};
+}
+
 /* מדידה שייכת לכיתה? לפי cid כשהוא כתוב עליה. מדידה ישנה בלי cid
    נבחנת לפי התווית שנשמרה עליה — נגזרת מהתוכן, לא מנוחשת. */
 function rowInClass(r,cid){
@@ -5342,7 +5490,7 @@ function classCoverage(rows,roster,testDefs,opts){
    שונה בפועל: תוצאה זהה (firstToLast.unchanged), ותלמיד שנמדד פעם
    אחת בלבד ולכן אין עם מה להשוות (progress().reason). שתי סיבות,
    מסקנה אחת כנה: אין עדיין שינוי הניתן למדידה — לא "אפס" מומצא.
-   completed הוא תמיד improved+declined+noChange, ותמיד שווה למספר
+   completed הוא תמיד improved+declined+noChange+insufficient, ותמיד שווה למספר
    ה-done של אותו מבחן ב-classCoverage — חלוקה נקייה, בלי לספור אף
    תלמיד פעמיים או להשמיט אותו. */
 function classProgress(rows,roster,testDefs,opts){
@@ -5355,17 +5503,21 @@ function classProgress(rows,roster,testDefs,opts){
   var cov=classCoverage(rs,roster,defs,opts);
   var tests=cov.tests.map(function(tid){
     var T=byId[tid];
-    var improved=0,declined=0,noChange=0;
+    var improved=0,declined=0,noChange=0,insufficient=0;
     cov.students.forEach(function(row){
       if(!row.done[tid])return;                 /* לא נמדד — לא נספר בשום דלי */
       var pr=progress(rs,row.stud,tid,T&&T.dir,scope);
       var ftl=pr.firstToLast;
-      if(ftl&&ftl.improved)improved++;
-      else if(ftl&&ftl.declined)declined++;
-      else noChange++;                          /* ללא שינוי, או עדיין אין עם מה להשוות */
+      /* ביקורת 2026-09-29: «ללא שינוי» ו«אין עדיין עם מה להשוות» הופרדו.
+         תוצאה זהה בשני ימים היא ממצא; מדידה ביום אחד אינה מגמה בכלל. */
+      if(!ftl)insufficient++;
+      else if(ftl.improved)improved++;
+      else if(ftl.declined)declined++;
+      else noChange++;
     });
     return {testId:tid,name:T?T.name:tid,def:T||null,
-      completed:improved+declined+noChange,improved:improved,declined:declined,noChange:noChange};
+      completed:improved+declined+noChange+insufficient,improved:improved,declined:declined,
+      noChange:noChange,insufficient:insufficient};
   });
   return {tests:tests};
 }
@@ -5397,6 +5549,9 @@ function attendanceRateOf(att,stud,store,opts){
     var label=key.slice(i+1);
     if(cid){ if(resolveClassId(store,label)!==cid)return; }
     else if(k){ if(clsKey(label)!==k)return; }
+    var day=key.slice(0,i);
+    if(opts.from&&day<opts.from)return;
+    if(opts.to&&day>opts.to)return;
     var rec=att[key];
     if(!rec||typeof rec!=="object"||Array.isArray(rec))return;
     var mark=rec[sid]; if(!mark)return;
@@ -5405,6 +5560,92 @@ function attendanceRateOf(att,stud,store,opts){
   });
   if(!days)return null;
   return {days:days,p:p,h:h,pct:Math.round((p+h*0.5)/days*100)};
+}
+
+/* ============================================================
+   5ב'. מי נוכח היום — לקבוצות ולהגרלה
+   ------------------------------------------------------------
+   «קבוצות — מאוזנות, מהנוכחים» חילק בפועל את כל הכיתה: הנוכחות
+   לא נקראה בכלל. כאן הסימון של כל תלמיד בתאריך אחד, מאותו מבנה
+   בדיוק (tools.att, «תאריך|תווית כיתה») — התווית נפתרת ל-cid, כך
+   שגם «ט3» וגם «ט׳3» נמצאים, וגם שיעור בקבוצה (כל תלמיד תחת הכיתה
+   שלו). סימון תחת «כל הכיתות» (all) נלקח רק כשאין סימון בכיתה.
+
+   החלוקה: p ו-h משתתפים (חלקית היא עדיין בשיעור); a נעדר; e פטור
+   (נמצא, אבל לא בפעילות); ללא סימון — לא נחשב נוכח. אף אחד מהם
+   לא נעלם: המסך מציג כמה יש בכל סוג.
+   ============================================================ */
+function attendanceMarkOn(att,store,stud,date){
+  var sid=studentKey(stud);
+  if(!sid||!date||!att||typeof att!=="object"||Array.isArray(att))return null;
+  var cid=cidOfStudent(stud,store), pre=String(date)+"|", hit=null, loose=null;
+  Object.keys(att).forEach(function(key){
+    if(hit||key.indexOf(pre)!==0)return;
+    var rec=att[key];
+    if(!rec||typeof rec!=="object"||Array.isArray(rec)||!rec[sid])return;
+    var label=key.slice(pre.length);
+    if(label==="all"||label===""){ loose=loose||rec[sid]; return; }
+    if(cid&&resolveClassId(store,label)===cid)hit=rec[sid];
+  });
+  return hit||loose;
+}
+var ATT_IN={p:1,h:1};
+function splitByAttendance(list,att,store,date){
+  var out={present:[],absent:[],exempt:[],unmarked:[],partial:0};
+  asList(list).forEach(function(s){
+    if(!isStudentRec(s))return;
+    var m=attendanceMarkOn(att,store,s,date);
+    if(ATT_IN[m]){ out.present.push(s); if(m==="h")out.partial++; }
+    else if(m==="a")out.absent.push(s);
+    else if(m==="e")out.exempt.push(s);
+    else out.unmarked.push(s);
+  });
+  out.marked=out.present.length+out.absent.length+out.exempt.length;
+  return out;
+}
+
+/* ============================================================
+   5ג'. ציון תקופה — זמני או סופי
+   ------------------------------------------------------------
+   הנוסחה לא השתנתה: כל רכיב × המשקל שלו, ועוד בונוס, עד 100.
+   מה שהשתנה הוא השם שהתוצאה מקבלת. קודם כל רכיב שהיה מולא נכנס
+   לסכום והחסרים נספרו כאפס — ואחרי «מלא לפי נוכחות» בלבד תלמיד
+   נוכח קיבל «ציון סופי 70», הנעדר «0», ומרכז הכיתה ספר 8/8 «עם
+   ציון סופי» בזמן שיכולת, שיפור ועבודת צוות היו ריקים.
+
+   הכלל: ציון הוא סופי רק כשכל רכיב במשקל גדול מ-0 מולא. רכיב
+   במשקל 0 לא נדרש. אפס הוא ערך תקין (שונה מ«לא מולא»). הבונוס
+   הוא רשות ואינו תנאי. אחרת התוצאה «זמנית», עם רשימת החסרים.
+   ============================================================ */
+var GRADE_KEYS=["part","exams","improve","team","know"];
+var GRADE_FINAL="final", GRADE_PROV="provisional", GRADE_EMPTY="empty";
+function gradeNum(v){
+  if(v==null||v==="")return null;
+  var n=Number(v); return isFinite(n)?n:null;
+}
+function gradeResult(g,weights,examCols){
+  g=(g&&typeof g==="object")?g:{}; weights=weights||{};
+  var ex=(g.exams&&typeof g.exams==="object")?g.exams:{};
+  var vals=asList(examCols).map(function(c){ return gradeNum(ex[c]); })
+    .filter(function(v){ return v!=null; });
+  var examsAvg=vals.length?vals.reduce(function(a,b){ return a+b; },0)/vals.length:null;
+  var comp={part:gradeNum(g.part),exams:examsAvg,improve:gradeNum(g.improve),
+            team:gradeNum(g.team),know:gradeNum(g.know)};
+  var total=0, any=false, missing=[], required=0;
+  GRADE_KEYS.forEach(function(k){
+    var w=Number(weights[k])||0; if(w<=0)return;
+    required++;
+    if(comp[k]==null){ missing.push(k); return; }
+    total+=comp[k]*w/100; any=true;
+  });
+  var cap=gradeNum(weights.bonusMax); if(cap==null)cap=10;
+  var b=gradeNum(g.bonus), bonus=b!=null?Math.max(0,Math.min(cap,b)):0;
+  if(bonus)any=true;
+  var value=any?Math.round(Math.min(100,total+bonus)*10)/10:null;
+  var complete=any&&required>0&&!missing.length;
+  return {value:value,final:complete?value:null,complete:complete,
+    status:!any?GRADE_EMPTY:(complete?GRADE_FINAL:GRADE_PROV),
+    missing:missing,examsAvg:examsAvg,bonus:bonus};
 }
 
 /* ============================================================
@@ -5486,7 +5727,10 @@ function createSession(list,o){
     endedAt:null,
     status:SESSION_ACTIVE,
     planId:o.planId==null?null:o.planId,
-    planTitle:String(o.planTitle||"")
+    planTitle:String(o.planTitle||""),
+    /* קבוצת הנושא של המערך («כושר גופני») — כדי שההמשך המומלץ ידע
+       אם זה משחק כדור או אימון כושר. תוספתי: שיעור ישן בלעדיה עובד. */
+    planGroup:String(o.planGroup||"")
   };
   return {ok:true,outcome:"created",session:ses,list:[ses].concat(all).slice(0,SESSION_MAX)};
 }
@@ -5662,7 +5906,16 @@ function sampleSlots(){
     Object.keys(hours).forEach(function(h){
       var g=SAMPLE_GROUPS[hours[h]]; if(!g)return;
       var b=bellByHour(+h); if(!b)return;
-      if(g.cls){
+      if(g.cls&&g.cls.length>1){
+        /* כיתות שהדוגמה מגדירה כלומדות יחד (peI: י״ב1 + י״ב2) הן משבצת
+           אחת של קבוצה — לא שתי משבצות נפרדות באותה שעה, שבדף הבית
+           נראו כ«הבא» ועוד שיעור «בהמשך» באותה דקה. הקורא יוצר את
+           הקבוצה (makeGroup) לפי members; כל כיתה שומרת את זהותה. */
+        var nms=g.cls.map(function(c){ return clsName(c[0],c[1]); });
+        var cids=nms.map(classId), gname=nms.join(" + ");
+        out.push({day:day,time:b.s,kind:KIND_PE,cid:groupId(gname,cids,[]),clsSnapshot:gname,
+          members:cids,memberNames:nms});
+      }else if(g.cls){
         g.cls.forEach(function(c){
           var nm=clsName(c[0],c[1]);
           out.push({day:day,time:b.s,kind:KIND_PE,cid:classId(nm),clsSnapshot:nm});
@@ -5717,7 +5970,7 @@ function weekCell(week,day,h){ return (week&&week.cell[day+"|"+h])||[]; }
    טהור. הקורא מחליט מה להציג ומה לסנן.
    ============================================================ */
 function splitDay(rows,nowMin){
-  var list=asList(rows), now=null, next=null, later=[], past=[], i, r;
+  var list=asList(rows), now=null, next=null, later=[], past=[], clash=[], i, r;
   /* שיעור פתוח הוא «עכשיו» גם אחרי שהצלצול עבר — זה מה שהמורה סימן */
   for(i=0;i<list.length;i++)if(list[i]&&list[i].status===SESSION_ACTIVE){ now=list[i]; break; }
   if(!now)for(i=0;i<list.length;i++){
@@ -5733,7 +5986,18 @@ function splitDay(rows,nowMin){
     if(!next&&r.startable){ next=r; continue; }
     later.push(r);
   }
-  return {now:now,next:next,later:later,past:past};
+  /* שתי משבצות נפרדות באותה שעה בדיוק כמו השיעור שבמוקד: זו התנגשות
+     (או כיתות שלומדות יחד ולא חוברו) — לא «שיעור בהמשך». הן לא
+     מאוחדות אוטומטית; המסך אומר זאת ומשאיר את ההחלטה למורה. */
+  var focus=now||next;
+  var ft=focus&&focus.slot?timeMin(focus.slot.time):null;
+  if(ft!=null){
+    var same=function(x){ return x&&x.startable&&x.slot&&timeMin(x.slot.time)===ft&&x.slot.day===focus.slot.day; };
+    if(now&&next&&same(next)){ clash.push(next); next=null; }
+    later=later.filter(function(x){ if(same(x)){ clash.push(x); return false; } return true; });
+    if(now&&!next){ for(i=0;i<later.length;i++)if(later[i].startable){ next=later.splice(i,1)[0]; break; } }
+  }
+  return {now:now,next:next,later:later,past:past,clash:clash};
 }
 /* כמה דקות עד שהמשבצת מתחילה. שלילי — היא כבר התחילה. */
 function minsUntil(slot,nowMin){
@@ -5775,6 +6039,42 @@ var LADDER=[
   "משחק מצומצם 3 נגד 3",
   "משחק מלא עם כללים"
 ];
+/* ביקורת 2026-09-29: שיעור אירובי קיבל «תרגול בזוגות → משחק 3 נגד 3»
+   — סולם של משחקי כדור. סולם לפי סוג הנושא: כדור, כושר, תנועה.
+   הסוג נלקח מקבוצת הנושא שנשמרה על השיעור (planGroup), ובשיעור ישן
+   בלי קבוצה — ממילים מובהקות בשם המערך. לא ידוע — אין סולם, אלא
+   הצעה צנועה: לחזור על הנושא עם התאמה אחת. */
+var LADDER_FIT=[
+  "היכרות עם המבנה ובקרת קצב אישית",
+  "אותו מבנה — עוד סבב או מנוחה קצרה יותר",
+  "העלאת עצימות בהדרגה, לפי דירוג המאמץ",
+  "עבודה עצמאית בזוגות לפי דירוג מאמץ",
+  "מדידה חוזרת והשוואה לנקודת הפתיחה"
+];
+var LADDER_MOVE=[
+  "הדגמה ותרגול בשליטה, עם עזרה",
+  "תרגול בזוגות עם עזרה הדדית",
+  "חיבור שני אלמנטים לרצף",
+  "רצף קצר מול הכיתה",
+  "רצף אישי לפי בחירה"
+];
+var LADDERS={ball:LADDER,fit:LADDER_FIT,move:LADDER_MOVE};
+var FAMILY_OF_GROUP={"משחקי כדור":"ball","כושר גופני":"fit","אתלטיקה":"fit","התעמלות ותנועה":"move"};
+function ladderFamily(group,title){
+  var g=String(group||"").split(" · ")[0].trim();   /* «כושר גופני · בונה ידני» */
+  if(FAMILY_OF_GROUP[g])return FAMILY_OF_GROUP[g];
+  if(g)return null;                      /* קבוצה ידועה אחרת (ידע, מבחנים) — בלי סולם */
+  var t=String(title||"");
+  if(/כדור|מסיר|קליע|כדרור|פריזבי|מחבט/.test(t))return "ball";
+  if(/אירובי|סבולת|כוח|ליבה|מהירות|זריזות|ריצ|כושר|אינטרוול|גמישות/.test(t))return "fit";
+  if(/התעמלות|אקרובט|שיווי משקל|תנועה|ריקוד|מחול/.test(t))return "move";
+  return null;
+}
+var GENERIC_STEPS={
+  up:["לחזור על הנושא עם אתגר אחד נוסף — זמן, מרחק או מורכבות"],
+  mid:["לחזור על הנושא עם התאמה אחת — לפי מה שראית בשיעור הקודם"],
+  down:["לפשט: פחות כללים ויותר זמן תרגול, באותו נושא"]
+};
 function ratingOf(s){
   var r=s&&s.rating;
   return (r===1||r===0||r===-1)?r:null;
@@ -5816,6 +6116,7 @@ function nextLesson(sessions,opts){
 
   var r=ratingOf(last);
   var stage=lad.stage;
+  var fam=ladderFamily(last.planGroup,lad.topic), L=fam?LADDERS[fam]:null;
   if(r===RATING_DOWN){
     why.push("בשיעור הקודם סימנת «לא עבד» — חוזרים צעד אחורה במקום להמשיך הלאה");
   }else if(r===RATING_UP){
@@ -5828,9 +6129,18 @@ function nextLesson(sessions,opts){
   if(lad.streak>=3)
     why.push(lad.streak+" שיעורים ברצף על «"+lad.topic+"» — כדאי לשקול נושא חדש אחרי השיעור הזה");
 
-  steps.push(LADDER[stage]);
-  if(stage+1<LADDER.length)steps.push(LADDER[stage+1]);
-  if(stage+2<LADDER.length)steps.push(LADDER[stage+2]);
+  if(L){
+    steps.push(L[stage]);
+    if(stage+1<L.length)steps.push(L[stage+1]);
+    if(stage+2<L.length)steps.push(L[stage+2]);
+    why.push({ball:"שלבי התקדמות של משחק כדור — לפי הנושא",fit:"שלבי התקדמות של כושר (עומס וקצב) — לפי הנושא",
+      move:"שלבי התקדמות של תנועה והתעמלות — לפי הנושא"}[fam]);
+  }else{
+    steps=(r===RATING_UP?GENERIC_STEPS.up:r===RATING_DOWN?GENERIC_STEPS.down:GENERIC_STEPS.mid).slice();
+    why.push("אין מספיק פרטים על סוג הנושא — ההצעה היא חזרה עם התאמה, לא שלב חדש");
+  }
+  /* המשוב הוא על השיעור כולו. אין ממנו שום מסקנה על תלמיד מסוים. */
+  if(r!=null)why.push("המשוב הוא על השיעור כולו — לא על שליטה של תלמיד מסוים");
 
   /* מדידה: לא המלצה פדגוגית אלא תזכורת מנהלית — כיתה בלי מדידה
      לאורך זמן היא כיתה שאי אפשר יהיה לתת עליה ציון. */
@@ -5846,7 +6156,7 @@ function nextLesson(sessions,opts){
       why.push(since+" שיעורים ללא מדידה — שווה לשלב מדידה אחת בשיעור הבא");
     }
   }
-  return {ok:true,topic:lad.topic,stage:stage,streak:lad.streak,
+  return {ok:true,topic:lad.topic,stage:stage,streak:lad.streak,family:fam,
     rating:r,note:String(last.note||""),session:last,
     title:lad.topic,steps:steps,why:why,measure:measure};
 }
@@ -6114,6 +6424,9 @@ return {
   syncStudentsFromRosters:syncStudentsFromRosters,classRoster:classRoster,applyRoster:applyRoster,
   mergeRoster:mergeRoster, findStudent:findStudent,
   studentKey:studentKey, refKey:refKey, sameStudent:sameStudent, attemptsOf:attemptsOf, rowInClass:rowInClass,
+  foldSearch:foldSearch, searchMatch:searchMatch,
+  EQUIP_KEYS:EQUIP_KEYS, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
+  isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,
   ERR:ERR, classifyStorageError:classifyStorageError, safeSet:safeSet, safeGet:safeGet,
@@ -6121,6 +6434,9 @@ return {
   resolveCandidates:resolveCandidates, resolveAmbiguous:resolveAmbiguous,
   profileOf:profileOf, missingTests:missingTests, classCoverage:classCoverage, classProgress:classProgress,
   attendanceRateOf:attendanceRateOf,
+  GRADE_KEYS:GRADE_KEYS, GRADE_FINAL:GRADE_FINAL, GRADE_PROV:GRADE_PROV, GRADE_EMPTY:GRADE_EMPTY,
+  gradeNum:gradeNum, gradeResult:gradeResult,
+  attendanceMarkOn:attendanceMarkOn, splitByAttendance:splitByAttendance,
   SESSION_ACTIVE:SESSION_ACTIVE, SESSION_DONE:SESSION_DONE, SESSION_MAX:SESSION_MAX,
   newSessionId:newSessionId, createSession:createSession, activeSession:activeSession,
   sessionById:sessionById, completeSession:completeSession, resumeSession:resumeSession,
@@ -6137,7 +6453,7 @@ return {
   BELLS:BELLS, SLOT_DEFAULT_MIN:SLOT_DEFAULT_MIN,
   bellByHour:bellByHour, bellOfTime:bellOfTime, slotWindow:slotWindow, slotNow:slotNow,
   RATING_UP:RATING_UP, RATING_MID:RATING_MID, RATING_DOWN:RATING_DOWN,
-  LADDER:LADDER, NEXT_MEASURE_GAP:NEXT_MEASURE_GAP,
+  LADDER:LADDER, LADDERS:LADDERS, ladderFamily:ladderFamily, GENERIC_STEPS:GENERIC_STEPS, NEXT_MEASURE_GAP:NEXT_MEASURE_GAP,
   ratingOf:ratingOf, ladderStage:ladderStage, nextLesson:nextLesson,
   ASSESS_VERSION:ASSESS_VERSION, ASSESS_REASON:ASSESS_REASON, assess:assess,
   archiveNorm:archiveNorm,
@@ -6174,6 +6490,38 @@ return {
    סדר העמודות: en · ar · ru · es
    ============================================================ */
 window.I18N_TERMS={
+"במכשיר הזה.":["On this device.", "على هذا الجهاز.", "На этом устройстве.", "En este dispositivo."],
+"לאפליקציה אין שרת ואין חשבון.":["The app has no server and no account.", "ليس للتطبيق خادم ولا حساب.", "У приложения нет сервера и учётной записи.", "La app no tiene servidor ni cuenta."],
+"תלמידים, ציונים ומדידות לא נשלחים — אלא אם תגדירו בעצמכם סנכרון שיאים או גיבוי לדרייב.":["Students, grades and measurements are not sent — unless you set up records sync or a Drive backup yourself.", "لا تُرسل بيانات الطلاب والعلامات والقياسات — إلا إذا أعددت بنفسك مزامنة الأرقام القياسية أو نسخًا احتياطيًا إلى Drive.", "Ученики, оценки и измерения не отправляются — если только вы сами не настроите синхронизацию рекордов или копию на Диск.", "El alumnado, las notas y las mediciones no se envían, salvo que configures tú la sincronización de récords o una copia en Drive."],
+"פרטי הקשר (שלכם, לא של תלמיד) נשלחים רק אם בחרתם למסור אותם.":["Contact details (yours, not a student's) are sent only if you chose to give them.", "تُرسل بيانات التواصل (بياناتك، لا بيانات طالب) فقط إن اخترت تقديمها.", "Контактные данные (ваши, не ученика) отправляются, только если вы решили их оставить.", "Los datos de contacto (tuyos, no de un alumno) solo se envían si decidiste darlos."],
+"מדיניות הפרטיות המלאה ↗":["Full privacy policy ↗", "سياسة الخصوصية الكاملة ↗", "Полная политика конфиденциальности ↗", "Política de privacidad completa ↗"],
+"מדיניות הפרטיות המלאה":["Full privacy policy", "سياسة الخصوصية الكاملة", "Полная политика конфиденциальности", "Política de privacidad completa"],
+"היכרות עם המבנה ובקרת קצב אישית":["Get to know the format and control your own pace", "التعرّف على البنية والتحكّم بالإيقاع الشخصي", "Знакомство со структурой и контроль собственного темпа", "Conocer la estructura y controlar el ritmo propio"],
+"אותו מבנה — עוד סבב או מנוחה קצרה יותר":["Same format — one more round or a shorter rest", "البنية نفسها — جولة إضافية أو راحة أقصر", "Та же структура — ещё один круг или отдых короче", "La misma estructura: una ronda más o un descanso más corto"],
+"העלאת עצימות בהדרגה, לפי דירוג המאמץ":["Raise the intensity gradually, guided by effort rating", "رفع الشدة تدريجيًا وفق تقدير الجهد", "Постепенное повышение интенсивности по оценке нагрузки", "Aumentar la intensidad poco a poco, según la escala de esfuerzo"],
+"עבודה עצמאית בזוגות לפי דירוג מאמץ":["Independent work in pairs guided by effort rating", "عمل مستقل في أزواج وفق تقدير الجهد", "Самостоятельная работа в парах по оценке нагрузки", "Trabajo autónomo en parejas según la escala de esfuerzo"],
+"מדידה חוזרת והשוואה לנקודת הפתיחה":["Re-measure and compare with the starting point", "قياس متكرر ومقارنة بنقطة البداية", "Повторное измерение и сравнение с исходной точкой", "Volver a medir y comparar con el punto de partida"],
+"הדגמה ותרגול בשליטה, עם עזרה":["Demonstration and controlled practice, with spotting", "عرض وتدريب مضبوط، مع مساعدة", "Показ и контролируемая отработка, со страховкой", "Demostración y práctica controlada, con ayuda"],
+"תרגול בזוגות עם עזרה הדדית":["Practice in pairs with mutual spotting", "تدريب في أزواج مع مساعدة متبادلة", "Отработка в парах со взаимной страховкой", "Práctica en parejas con ayuda mutua"],
+"חיבור שני אלמנטים לרצף":["Link two elements into a sequence", "ربط عنصرين في سلسلة", "Соединение двух элементов в связку", "Enlazar dos elementos en una secuencia"],
+"רצף קצר מול הכיתה":["A short sequence in front of the class", "سلسلة قصيرة أمام الصف", "Короткая связка перед классом", "Una secuencia corta ante el grupo"],
+"רצף אישי לפי בחירה":["A personal sequence of the student's choice", "سلسلة شخصية حسب الاختيار", "Собственная связка по выбору", "Una secuencia personal a elección"],
+"לחזור על הנושא עם אתגר אחד נוסף — זמן, מרחק או מורכבות":["Repeat the topic with one added challenge — time, distance or complexity", "تكرار الموضوع مع تحدٍّ إضافي واحد — الوقت أو المسافة أو التعقيد", "Повторить тему с одним дополнительным усложнением — время, дистанция или сложность", "Repetir el tema con un reto añadido: tiempo, distancia o complejidad"],
+"לחזור על הנושא עם התאמה אחת — לפי מה שראית בשיעור הקודם":["Repeat the topic with one adjustment — based on what you saw last lesson", "تكرار الموضوع مع تعديل واحد — وفق ما رأيته في الدرس السابق", "Повторить тему с одной корректировкой — по тому, что вы видели на прошлом уроке", "Repetir el tema con un ajuste, según lo que viste en la sesión anterior"],
+"לפשט: פחות כללים ויותר זמן תרגול, באותו נושא":["Simplify: fewer rules and more practice time, on the same topic", "التبسيط: قواعد أقل ووقت تدريب أكثر، في الموضوع نفسه", "Упростить: меньше правил и больше времени на отработку, та же тема", "Simplificar: menos reglas y más tiempo de práctica, con el mismo tema"],
+"שלבי התקדמות של משחק כדור — לפי הנושא":["Ball-game progression steps — based on the topic", "مراحل تقدّم لعبة كرة — وفق الموضوع", "Этапы прогрессии для игры с мячом — по теме", "Pasos de progresión de juego de balón, según el tema"],
+"שלבי התקדמות של כושר (עומס וקצב) — לפי הנושא":["Fitness progression steps (load and pace) — based on the topic", "مراحل تقدّم اللياقة (الحِمل والإيقاع) — وفق الموضوع", "Этапы прогрессии по физподготовке (нагрузка и темп) — по теме", "Pasos de progresión de condición física (carga y ritmo), según el tema"],
+"שלבי התקדמות של תנועה והתעמלות — לפי הנושא":["Movement and gymnastics progression steps — based on the topic", "مراحل تقدّم الحركة والجمباز — وفق الموضوع", "Этапы прогрессии по движению и гимнастике — по теме", "Pasos de progresión de movimiento y gimnasia, según el tema"],
+"אין מספיק פרטים על סוג הנושא — ההצעה היא חזרה עם התאמה, לא שלב חדש":["Not enough detail about the kind of topic — the suggestion is to repeat with an adjustment, not a new stage", "لا تفاصيل كافية عن نوع الموضوع — الاقتراح تكرار مع تعديل، لا مرحلة جديدة", "Недостаточно данных о типе темы — предлагается повтор с корректировкой, а не новый этап", "No hay suficientes datos sobre el tipo de tema: se sugiere repetir con un ajuste, no una etapa nueva"],
+"המשוב הוא על השיעור כולו — לא על שליטה של תלמיד מסוים":["The feedback is about the whole lesson — not about any individual student's mastery", "التقييم عن الدرس كله — لا عن إتقان طالب بعينه", "Отзыв относится ко всему уроку — не к освоению конкретным учеником", "La valoración es sobre toda la sesión, no sobre el dominio de un alumno concreto"],
+"אותה השוואה שחלון ההיסטוריה של התלמיד כבר מציג.":["the same comparison the student's history window already shows.", "وهي المقارنة نفسها التي تعرضها نافذة سجلّ الطالب.", "то же сравнение, что уже показывает окно истории ученика.", "la misma comparación que ya muestra la ventana de historial del alumno."],
+"אין עדיין השוואה":["No comparison yet", "لا مقارنة بعد", "Пока не с чем сравнить", "Aún sin comparación"],
+"«בלי שינוי מדיד» — אותה תוצאה בשני ימי מדידה.":["“No measurable change” — the same result on two measurement days.", "«بلا تغيير قابل للقياس» — النتيجة نفسها في يومَي قياس.", "«Без измеримых изменений» — одинаковый результат в два дня измерений.", "«Sin cambio medible»: el mismo resultado en dos días de medición."],
+"«אין עדיין השוואה» — נמדד ביום אחד בלבד, ולכן אין מגמה לדווח עליה.":["“No comparison yet” — measured on one day only, so there is no trend to report.", "«لا مقارنة بعد» — قيس في يوم واحد فقط، فلا يوجد اتجاه للإبلاغ عنه.", "«Пока не с чем сравнить» — измерение только за один день, поэтому о динамике говорить нельзя.", "«Aún sin comparación»: medido en un solo día, así que no hay tendencia que informar."],
+"מי נכלל":["Who is included", "من يُشمَل", "Кто участвует", "Quién se incluye"],
+"רק מי שנוכח היום (מלאה או חלקית)":["Only those present today (full or partial)", "الحاضرون اليوم فقط (كليًا أو جزئيًا)", "Только присутствующие сегодня (полностью или частично)", "Solo quienes están hoy (total o parcial)"],
+"כל הכיתה, בלי לבדוק נוכחות":["Whole class, without checking attendance", "الصف كله، دون التحقق من الحضور", "Весь класс, без проверки посещаемости", "Todo el grupo, sin comprobar asistencia"],
+"נמלאו {0} ציונים לפי נוכחות · {1}":["{0} grades filled in from attendance · {1}", "تم ملء {0} علامات حسب الحضور · {1}", "Заполнено оценок по посещаемости: {0} · {1}", "Se han rellenado {0} notas según la asistencia · {1}"],
 "(לקבוצת למידה מכמה כיתות)":["(for a learning group drawn from several classes)", "(لمجموعة تعلّم من عدة صفوف)", "(для учебной группы из нескольких классов)", "(para un grupo de aprendizaje de varios grupos)"],
 "100 מטר":["100 m", "100 م", "100 м", "100 m"],
 "1000 מטר":["1000 m", "1000 م", "1000 м", "1000 m"],
@@ -12058,6 +12406,54 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "ab.credT":"🖼 Image credits",
+  /* ux-redesign */
+  "bk.encRec":"<b>Recommended</b> whenever the file leaves the device (Drive, email, a shared computer) — it contains student names and results.",
+  "bk.howT":"How do I restore on a new device?",
+  "bk.how1":"Open PE Ultimate on the new device and sign in as the teacher.",
+  "bk.how2":"Settings → Backup and sync → “⬆ Restore from file”, and choose the backup file.",
+  "bk.how3":"Encrypted file — type the password chosen when backing up. Without it the file cannot be opened.",
+  "bk.how4":"Before restoring you see what will come in and what will be replaced. Nothing is written until you confirm, and a damaged file is rejected before any data is touched.",
+  "bk.advT":"⚙️ Advanced: direct backup to Google Drive (needs technical setup)",
+  /* ux-redesign */
+  "lead.skip":"Skip for now — you can leave details later in Settings",
+  "lead.who":"Your details go to the app developer's Google Forms form, only to send a feedback survey and get in touch. You can ask for them to be deleted at any time.",
+  "ab.privLink":"Full privacy policy ↗",
+  "ab.fbT":"📨 Feedback survey",
+  "ab.fb":"Want to receive a feedback survey and be in touch with the developer? Giving your details is optional.",
+  "ab.fbBtn":"Leave contact details",
+  /* ux-redesign */
+  "set.langSrc":"source",
+  "set.langDraft":"draft, not reviewed",
+  "set.langKeys":"Interface key coverage",
+  "ls.eqNoGame":"No game fits the available equipment — no game was added. You can pick a game on the Games page.",
+  "ls.eqTopic":"This topic needs equipment not marked as available",
+  "ls.eqGame":"The chosen game needs equipment not marked as available",
+  "sched.clash":"Another separate slot is at the same time. If these classes are taught together, join them as a group (Class hub → Join classes); otherwise this is a timetable clash.",
+  /* ux-redesign */
+  "stu.badRecs":"Damaged records in the list are not shown, but they are kept as they are — back up your data before any change.",
+  "gr.prov":"provisional",
+  "gr.missing":"Missing",
+  "gr.provHint":"Provisional grade: at least one component with a weight in the grade structure is still empty, so this is not yet a final grade and the class hub does not count it as one. A component weighted 0 is not required, and 0 is a valid grade.",
+  "gr.csvGrade":"Grade",
+  "gr.csvStatus":"Status",
+  "gr.csvMissing":"Missing components",
+  "gr.stFinal":"final",
+  "hub.prov":"with a provisional grade — components missing",
+  "gr.rangeAsk":"Which dates should attendance be counted from for this period? Only attendance within the range is used. The range is saved for the period.",
+  "gr.from":"From",
+  "gr.to":"To",
+  "gr.fillGo":"Fill",
+  "tl.whoAll":"The whole class is included",
+  "tl.whoNoAtt":"no attendance marked for this date",
+  "tl.whoAbs":"absent",
+  "tl.whoEx":"exempt",
+  "tl.whoUn":"not marked",
+  "tl.whoIn":"taking part",
+  "tl.whoPart":"partial",
+  "tl.whoOut":"Not included",
+  "tl.whoMark":"Mark attendance in the “Attendance” tab, or choose “Whole class”.",
+  /* ux-redesign */
   "grp.need2":"You need at least two classes with students to combine",
   "grp.joinT":"🔗 Combine classes",
   "grp.joinM":"Tick the classes that learn together. Every test, grade and attendance is entered once for all of them, and each result is saved to the student's own class.",
@@ -12360,7 +12756,7 @@ en:{
   "set.clsHint":"Renaming only changes the name. Students, measurements and lessons of the class stay with it — they are identified by a fixed id, not by the name.",
   "set.clsPick":"Class", "set.clsCurLbl":"Current name", "set.clsNewLbl":"New name",
   "set.clsNewPh":"e.g. 9th grade, section 3 — Honors", "set.clsSaveBtn":"Save",
-  "set.lang":"Language", "set.langHint":"The interface changes language immediately. All content — screens, tests, games, lesson plans, the knowledge base and messages — is translated. The translation is a professional draft awaiting native-speaker review.",
+  "set.lang":"Language", "set.langHint":"The interface language changes immediately. Screens, tests, games, built-in lesson plans, the knowledge base and messages are translated; what you type yourself (names, notes, lessons you built) stays as written. The translation is a draft not yet reviewed by native speakers — any untranslated text left is a defect worth reporting.",
   "set.about":"📘 About, version and credits",
   "set.purge":"🧹 Clear old data",
   "set.install":"📲 Install as an app: in Chrome — menu ⋮ then \"Add to Home screen\". On iPhone — Share then \"Add to Home Screen\". Saved as a file, the app works without internet too (only the fonts load from the network).",
@@ -12495,9 +12891,9 @@ en:{
   "info.data.l":"<li><b>Backup</b> ⚙ Settings → «⬇ Back up everything to a file». «⬆ Restore from a file» brings everything back on a new device.</li><li><b>Encryption</b> you can encrypt the backup with a password — but there is no password recovery. Lose the password, lose the file.</li><li><b>Wrong class name?</b> ⚙ Settings → «🏷 Class names». Renaming does not disconnect any student or measurement.</li><li><b>Hard to read in the sun?</b> ☀ in the top bar, and «Large buttons» in Settings for one-handed use.</li>",
 
   /* --- אודות --- */
-  "ab.p":"A field kit for PE teachers: fitness tests, beep test, camera photo-finish, lesson plans, records board, class tools and grades — all on one screen, and without sending anything out.",
+  "ab.p":"A field kit for PE teachers: fitness tests, beep test, camera photo-finish, lesson plans, records board, class tools and grades — all on one screen, with student data kept on the device.",
   "ab.privT":"🔒 Privacy",
-  "ab.priv":"Student data — rosters, grades and measurements — is stored in this device's localStorage only. <b>No server, no account, and nothing is sent anywhere.</b> This is data about minors, so it is a design decision, not an accident. CSV export or backup is always an action you initiate. Clearing site data in the browser deletes everything — that is why there is a backup. The only thing that leaves the device is your (the teacher's) contact details entered on the first welcome screen — not data about any student — sent once only.",
+  "ab.priv":"Student data — rosters, attendance, grades and measurements — is stored on this device (localStorage and IndexedDB). <b>The app has no server and no account of its own.</b> What does leave the device: (1) on every load — a font request to Google Fonts (IP address and browser details, no student data); (2) your contact details — only if you choose to give them — to the app developer's Google Forms form; (3) only if you set it up: records sync to your Google Sheet (student name, event, result, status) and an encrypted backup to your Google Drive; (4) external links (YouTube, sources, video-upload form) open only when you tap them. CSV export and file backup are always your own action. Clearing the site's data in the browser deletes everything — that's why there is a backup.",
   "ab.srcT":"📚 Professional sources",
   "ab.src":"Léger protocol (beep test) · FITNESSGRAM® norms by The Cooper Institute · «PE badge — standards for assessing student achievement», Israeli Ministry of Education, Pedagogical Secretariat · the physical education curriculum. School norms are the teacher's data and are stored on the device.",
   "ab.builtT":"🛠 Built with",
@@ -12507,6 +12903,54 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "ab.credT":"🖼 حقوق الصور",
+  /* ux-redesign */
+  "bk.encRec":"<b>موصى به</b> كلما غادر الملف الجهاز (Drive، البريد، حاسوب مشترك) — ففيه أسماء الطلاب ونتائجهم.",
+  "bk.howT":"كيف أستعيد البيانات على جهاز جديد؟",
+  "bk.how1":"افتح PE Ultimate على الجهاز الجديد وادخل كمعلّم.",
+  "bk.how2":"الإعدادات ← النسخ الاحتياطي والمزامنة ← «⬆ استعادة من ملف»، واختر ملف النسخة الاحتياطية.",
+  "bk.how3":"ملف مشفّر — اكتب كلمة المرور التي اخترتها عند النسخ. بدونها لا يمكن فتح الملف.",
+  "bk.how4":"قبل الاستعادة يُعرض ما سيُضاف وما سيُستبدل. لا يُكتب شيء حتى تؤكّد، ويُرفض الملف التالف قبل المساس بالبيانات.",
+  "bk.advT":"⚙️ متقدّم: نسخ احتياطي مباشر إلى Google Drive (يتطلّب إعدادًا تقنيًا)",
+  /* ux-redesign */
+  "lead.skip":"تخطَّ الآن — يمكنك ترك بياناتك لاحقًا من الإعدادات",
+  "lead.who":"تُرسل بياناتك إلى نموذج Google Forms لمطوّر التطبيق، فقط لإرسال استبيان رأي والتواصل معك. يمكنك طلب حذفها في أي وقت.",
+  "ab.privLink":"سياسة الخصوصية الكاملة ↗",
+  "ab.fbT":"📨 استبيان الرأي",
+  "ab.fb":"هل تريد تلقّي استبيان رأي والتواصل مع المطوّر؟ تقديم البيانات اختياري.",
+  "ab.fbBtn":"ترك بيانات التواصل",
+  /* ux-redesign */
+  "set.langSrc":"المصدر",
+  "set.langDraft":"مسودة، غير مراجَعة",
+  "set.langKeys":"تغطية مفاتيح الواجهة",
+  "ls.eqNoGame":"لم تُوجد لعبة تناسب المعدات المتاحة — لم تُضَف لعبة. يمكن اختيار لعبة من صفحة الألعاب.",
+  "ls.eqTopic":"يتطلّب هذا الموضوع معدات غير مُعلَّمة كمتاحة",
+  "ls.eqGame":"اللعبة المختارة تتطلّب معدات غير مُعلَّمة كمتاحة",
+  "sched.clash":"توجد حصة منفصلة أخرى في الوقت نفسه. إذا كانت الصفوف تتعلّم معًا فاربطوها كمجموعة (مركز الصف ← ربط الصفوف)؛ وإلا فهذا تعارض في الجدول.",
+  /* ux-redesign */
+  "stu.badRecs":"سجلات تالفة في القائمة لا تُعرض، لكنها محفوظة كما هي — انسخوا البيانات احتياطيًا قبل أي تغيير.",
+  "gr.prov":"مؤقتة",
+  "gr.missing":"ناقص",
+  "gr.provHint":"درجة مؤقتة: مكوّن واحد على الأقل له وزن في بنية الدرجة ما زال فارغًا، لذا فهي ليست درجة نهائية بعد ولا يحسبها مركز الصف كذلك. المكوّن الذي وزنه 0 غير مطلوب، و0 درجة صحيحة.",
+  "gr.csvGrade":"الدرجة",
+  "gr.csvStatus":"الحالة",
+  "gr.csvMissing":"مكوّنات ناقصة",
+  "gr.stFinal":"نهائية",
+  "hub.prov":"بدرجة مؤقتة — مكوّنات ناقصة",
+  "gr.rangeAsk":"من أي تواريخ تُحسب الحضور لهذه الفترة؟ يدخل في الحساب الحضور ضمن النطاق فقط. يُحفظ النطاق للفترة.",
+  "gr.from":"من تاريخ",
+  "gr.to":"حتى تاريخ",
+  "gr.fillGo":"املأ",
+  "tl.whoAll":"الصف كله مشمول",
+  "tl.whoNoAtt":"لم يُسجَّل حضور لهذا التاريخ",
+  "tl.whoAbs":"غائبون",
+  "tl.whoEx":"معفَون",
+  "tl.whoUn":"غير مسجَّلين",
+  "tl.whoIn":"مشاركون",
+  "tl.whoPart":"جزئيًا",
+  "tl.whoOut":"غير مشمولين",
+  "tl.whoMark":"سجّلوا الحضور في تبويب «الحضور»، أو اختاروا «الصف كله».",
   /* ux-redesign */
   "grp.need2":"تحتاج إلى صفّين على الأقل فيهما طلاب لدمجهما",
   "grp.joinT":"🔗 دمج صفوف",
@@ -12780,7 +13224,7 @@ ar:{
   "set.clsHint":"تغيير الاسم يغيّر الاسم فقط. الطلاب والقياسات والحصص الخاصة بالصف يبقون معه — يُعرَّفون بمعرّف ثابت، لا بالاسم.",
   "set.clsPick":"الصف", "set.clsCurLbl":"الاسم الحالي", "set.clsNewLbl":"اسم جديد",
   "set.clsNewPh":"مثال: تاسع 3 — متفوقين", "set.clsSaveBtn":"حفظ",
-  "set.lang":"اللغة", "set.langHint":"تتغيّر لغة الواجهة فورًا. كل المحتوى مترجم — الشاشات والاختبارات والألعاب وخطط الدروس وقاعدة المعرفة والرسائل. الترجمة مسودة مهنية بانتظار مراجعة متحدث أصلي.",
+  "set.lang":"اللغة", "set.langHint":"تتغيّر لغة الواجهة فورًا. الشاشات والاختبارات والألعاب وخطط الدروس المدمجة وقاعدة المعرفة والرسائل مترجمة؛ أمّا ما تكتبونه بأنفسكم (الأسماء والملاحظات والدروس التي بنيتموها) فيبقى كما كُتب. الترجمة مسودة لم يراجعها بعد متحدثون أصليون — وأي نص غير مترجم هو خلل يستحق الإبلاغ عنه.",
   "set.about":"📘 حول، الإصدار والاعتمادات",
   "set.purge":"🧹 مسح البيانات القديمة",
   "set.install":"📲 التثبيت كتطبيق: في كروم — القائمة ⋮ ثم \"إضافة إلى الشاشة الرئيسية\". في آيفون — مشاركة ثم \"إضافة إلى الشاشة الرئيسية\". التطبيق يعمل بدون إنترنت أيضًا (الخطوط فقط تُحمّل من الشبكة).",
@@ -12949,9 +13393,9 @@ ar:{
   "info.data.l":"<li><b>النسخ الاحتياطي</b> ⚙ الإعدادات ← «⬇ انسخ كل شيء إلى ملف». «⬆ استعادة من ملف» تعيد كل شيء على جهاز جديد.</li><li><b>التشفير</b> يمكن تشفير النسخة الاحتياطية بكلمة مرور — لكن لا توجد استعادة لكلمة المرور. ضاعت كلمة المرور، ضاع الملف.</li><li><b>اسم صف خاطئ؟</b> ⚙ الإعدادات ← «🏷 أسماء الصفوف». تغيير الاسم لا يفصل أي طالب ولا أي قياس.</li><li><b>صعب القراءة في الشمس؟</b> ☀ في الشريط العلوي، و«أزرار كبيرة» في الإعدادات للاستخدام بيد واحدة.</li>",
 
   /* --- אודות --- */
-  "ab.p":"عُدّة ميدانية لمعلّم التربية البدنية: اختبارات اللياقة، اختبار البيب، تصوير خط النهاية بالكاميرا، خطط الدروس، لوحة الأرقام القياسية، أدوات الصف والعلامات — كل ذلك في شاشة واحدة، ودون إرسال أي شيء إلى الخارج.",
+  "ab.p":"عُدّة ميدانية لمعلّم التربية البدنية: اختبارات اللياقة، اختبار البيب، التصوير عند خط النهاية بالكاميرا، خطط الدروس، لوحة الأرقام القياسية، أدوات الصف والعلامات — كل ذلك في شاشة واحدة، وبيانات الطلاب محفوظة على الجهاز.",
   "ab.privT":"🔒 الخصوصية",
-  "ab.priv":"بيانات الطلاب — القوائم والعلامات والقياسات — محفوظة في localStorage على هذا الجهاز فقط. <b>لا خادم، لا حساب، ولا إرسال إلى أي مكان.</b> هذه بيانات عن قاصرين، ولذلك هذا قرار تصميمي وليس صدفة. تصدير CSV أو النسخ الاحتياطي فعلٌ تبادر إليه أنت دائمًا. مسح بيانات الموقع في المتصفح يحذف كل شيء — لذلك يوجد نسخ احتياطي. الشيء الوحيد الذي يخرج من الجهاز هو بيانات الاتصال الخاصة بك (المعلّم) التي أُدخلت في شاشة الترحيب الأولى — لا بيانات عن أي طالب — وتُرسل مرة واحدة فقط.",
+  "ab.priv":"بيانات الطلاب — القوائم والحضور والعلامات والقياسات — محفوظة على هذا الجهاز (localStorage وIndexedDB). <b>ليس للتطبيق خادم ولا حساب خاص به.</b> ما يغادر الجهاز فعلًا: (1) عند كل تحميل — طلب خطوط من Google Fonts (عنوان IP وبيانات المتصفح، دون بيانات طلاب)؛ (2) بيانات التواصل الخاصة بك — فقط إن اخترت تقديمها — إلى نموذج Google Forms لمطوّر التطبيق؛ (3) فقط إن أعددت ذلك: مزامنة الأرقام القياسية مع Google Sheet الخاص بك (اسم الطالب، الفعالية، النتيجة، الحالة) ونسخة احتياطية مشفّرة إلى Google Drive الخاص بك؛ (4) الروابط الخارجية (YouTube، المصادر، نموذج رفع الفيديو) تُفتح فقط عند النقر عليها. تصدير CSV والنسخ الاحتياطي إلى ملف هما دائمًا بمبادرة منك. مسح بيانات الموقع في المتصفح يحذف كل شيء — ولهذا توجد النسخة الاحتياطية.",
   "ab.srcT":"📚 مصادر مهنية",
   "ab.src":"بروتوكول Léger (اختبار البيب) · معايير FITNESSGRAM® من Cooper Institute · «شارة التربية البدنية — معايير تقييم تحصيل الطلاب»، وزارة التربية والتعليم الإسرائيلية، السكرتارية التربوية · منهاج التربية البدنية. المعايير المدرسية بيانات المعلّم وتُحفظ على الجهاز.",
   "ab.builtT":"🛠 بُني باستخدام",
@@ -12961,6 +13405,54 @@ ar:{
 },
 
 ru:{
+  /* ux-redesign */
+  "ab.credT":"🖼 Авторы изображений",
+  /* ux-redesign */
+  "bk.encRec":"<b>Рекомендуется</b>, если файл покидает устройство (Диск, почта, общий компьютер): в нём имена и результаты учеников.",
+  "bk.howT":"Как восстановить на новом устройстве?",
+  "bk.how1":"Откройте PE Ultimate на новом устройстве и войдите как учитель.",
+  "bk.how2":"Настройки → Резервная копия и синхронизация → «⬆ Восстановить из файла» и выберите файл копии.",
+  "bk.how3":"Зашифрованный файл — введите пароль, выбранный при создании копии. Без него файл не открыть.",
+  "bk.how4":"Перед восстановлением показано, что будет добавлено и что заменено. Ничего не записывается до подтверждения, а повреждённый файл отклоняется до любых изменений.",
+  "bk.advT":"⚙️ Дополнительно: прямое резервное копирование на Google Диск (нужна техническая настройка)",
+  /* ux-redesign */
+  "lead.skip":"Пропустить — оставить данные можно позже в настройках",
+  "lead.who":"Данные отправляются в форму Google Forms разработчика приложения — только чтобы прислать анкету отзыва и связаться с вами. Вы можете попросить удалить их в любое время.",
+  "ab.privLink":"Полная политика конфиденциальности ↗",
+  "ab.fbT":"📨 Анкета отзыва",
+  "ab.fb":"Хотите получить анкету отзыва и быть на связи с разработчиком? Оставлять данные не обязательно.",
+  "ab.fbBtn":"Оставить контакты",
+  /* ux-redesign */
+  "set.langSrc":"оригинал",
+  "set.langDraft":"черновик, не проверен",
+  "set.langKeys":"Покрытие ключей интерфейса",
+  "ls.eqNoGame":"Не найдено игры под доступный инвентарь — игра не добавлена. Можно выбрать игру на странице игр.",
+  "ls.eqTopic":"Для темы нужен инвентарь, не отмеченный как доступный",
+  "ls.eqGame":"Для выбранной игры нужен инвентарь, не отмеченный как доступный",
+  "sched.clash":"В это же время есть ещё один отдельный урок. Если классы занимаются вместе, объедините их в группу (Центр класса → Объединить классы); иначе это накладка в расписании.",
+  /* ux-redesign */
+  "stu.badRecs":"Повреждённые записи в списке не показаны, но сохранены как есть — сделайте резервную копию перед любыми изменениями.",
+  "gr.prov":"предварительная",
+  "gr.missing":"Не хватает",
+  "gr.provHint":"Предварительная оценка: как минимум один компонент с весом в структуре оценки ещё не заполнен, поэтому это пока не итоговая оценка, и центр класса не считает её итоговой. Компонент с весом 0 не обязателен, а 0 — допустимая оценка.",
+  "gr.csvGrade":"Оценка",
+  "gr.csvStatus":"Статус",
+  "gr.csvMissing":"Недостающие компоненты",
+  "gr.stFinal":"итоговая",
+  "hub.prov":"с предварительной оценкой — не хватает компонентов",
+  "gr.rangeAsk":"За какие даты считать посещаемость в этом периоде? В расчёт идёт только посещаемость внутри диапазона. Диапазон сохраняется для периода.",
+  "gr.from":"С даты",
+  "gr.to":"По дату",
+  "gr.fillGo":"Заполнить",
+  "tl.whoAll":"Включён весь класс",
+  "tl.whoNoAtt":"посещаемость на эту дату не отмечена",
+  "tl.whoAbs":"отсутствуют",
+  "tl.whoEx":"освобождены",
+  "tl.whoUn":"не отмечены",
+  "tl.whoIn":"участвуют",
+  "tl.whoPart":"частично",
+  "tl.whoOut":"Не включены",
+  "tl.whoMark":"Отметьте посещаемость во вкладке «Посещаемость» или выберите «Весь класс».",
   /* ux-redesign */
   "grp.need2":"Чтобы объединить, нужны хотя бы два класса с учениками",
   "grp.joinT":"🔗 Объединить классы",
@@ -13239,7 +13731,7 @@ ru:{
   "set.clsHint":"Переименование меняет только название. Ученики, измерения и уроки класса остаются с ним — они определяются по постоянному id, а не по названию.",
   "set.clsPick":"Класс", "set.clsCurLbl":"Текущее название", "set.clsNewLbl":"Новое название",
   "set.clsNewPh":"например: 9 класс, группа 3 — с углублённым изучением", "set.clsSaveBtn":"Сохранить",
-  "set.lang":"Язык", "set.langHint":"Язык интерфейса меняется сразу. Переведено всё содержимое — экраны, тесты, игры, планы уроков, база знаний и сообщения. Перевод — профессиональный черновик, ожидающий проверки носителем языка.",
+  "set.lang":"Язык", "set.langHint":"Язык интерфейса меняется сразу. Экраны, тесты, игры, встроенные планы уроков, база знаний и сообщения переведены; то, что вы вводите сами (имена, заметки, созданные вами уроки), остаётся как написано. Перевод — черновик, ещё не проверенный носителями языка; любой оставшийся непереведённый текст — это недочёт, о котором стоит сообщить.",
   "set.about":"📘 О программе, версия и благодарности",
   "set.purge":"🧹 Очистить старые данные",
   "set.install":"📲 Установка как приложение: в Chrome — меню ⋮ и «Добавить на главный экран». На iPhone — «Поделиться» и «На экран «Домой»». Сохранённое как файл, приложение работает и без интернета (из сети грузятся только шрифты).",
@@ -13396,9 +13888,9 @@ ru:{
   "info.data.l":"<li><b>Резервная копия</b> ⚙ Настройки → «⬇ Сохранить всё в файл». «⬆ Восстановить из файла» возвращает всё на новом устройстве.</li><li><b>Шифрование</b> резервную копию можно зашифровать паролем — но восстановления пароля нет. Потерян пароль — потерян файл.</li><li><b>Неверное название класса?</b> ⚙ Настройки → «🏷 Названия классов». Переименование не отвязывает ни одного ученика и ни одного измерения.</li><li><b>Трудно читать на солнце?</b> ☀ в верхней панели, а в настройках — «Крупные кнопки» для работы одной рукой.</li>",
 
   /* --- אודות --- */
-  "ab.p":"Полевой набор для учителя физкультуры: тесты физподготовки, бип-тест, фотофиниш с камеры, планы уроков, таблица рекордов, инструменты класса и оценки — всё на одном экране и без отправки чего-либо наружу.",
+  "ab.p":"Полевой набор для учителя физкультуры: тесты физподготовки, бип-тест, фотофиниш с камеры, планы уроков, таблица рекордов, инструменты для класса и оценки — всё на одном экране, а данные учеников хранятся на устройстве.",
   "ab.privT":"🔒 Конфиденциальность",
-  "ab.priv":"Данные учеников — списки, оценки и измерения — хранятся только в localStorage этого устройства. <b>Нет сервера, нет аккаунта, ничего никуда не отправляется.</b> Это данные о несовершеннолетних, поэтому так задумано, а не случайно. Экспорт CSV или резервная копия — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё — поэтому есть резервная копия. Единственное, что покидает устройство, — ваши (учителя) контактные данные, введённые на первом приветственном экране, — не данные об учениках, — и отправляются они один раз.",
+  "ab.priv":"Данные учеников — списки, посещаемость, оценки и измерения — хранятся на этом устройстве (localStorage и IndexedDB). <b>У приложения нет своего сервера и учётной записи.</b> Что всё же покидает устройство: (1) при каждой загрузке — запрос шрифтов к Google Fonts (IP-адрес и данные браузера, без данных учеников); (2) ваши контактные данные — только если вы решили их оставить — в форму Google Forms разработчика приложения; (3) только если вы это настроили: синхронизация рекордов с вашей Google-таблицей (имя ученика, дисциплина, результат, статус) и зашифрованная копия на ваш Google Диск; (4) внешние ссылки (YouTube, источники, форма загрузки видео) открываются только по нажатию. Экспорт CSV и резервная копия в файл — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё — поэтому и нужна резервная копия.",
   "ab.srcT":"📚 Профессиональные источники",
   "ab.src":"Протокол Léger (бип-тест) · нормы FITNESSGRAM® от Cooper Institute · «Значок по физкультуре — стандарты оценки достижений учащихся», Министерство образования Израиля, Педагогический секретариат · учебная программа по физической культуре. Школьные нормы — данные учителя и хранятся на устройстве.",
   "ab.builtT":"🛠 Сделано с помощью",
@@ -13408,6 +13900,54 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "ab.credT":"🖼 Créditos de imágenes",
+  /* ux-redesign */
+  "bk.encRec":"<b>Recomendado</b> cuando el archivo sale del dispositivo (Drive, correo, un ordenador compartido): contiene nombres y resultados del alumnado.",
+  "bk.howT":"¿Cómo restauro en un dispositivo nuevo?",
+  "bk.how1":"Abre PE Ultimate en el dispositivo nuevo y entra como docente.",
+  "bk.how2":"Ajustes → Copia y sincronización → «⬆ Restaurar desde archivo» y elige el archivo de copia.",
+  "bk.how3":"Archivo cifrado: escribe la contraseña elegida al hacer la copia. Sin ella no se puede abrir.",
+  "bk.how4":"Antes de restaurar se muestra qué entrará y qué se sustituirá. No se escribe nada hasta confirmar, y un archivo dañado se rechaza antes de tocar los datos.",
+  "bk.advT":"⚙️ Avanzado: copia directa a Google Drive (requiere configuración técnica)",
+  /* ux-redesign */
+  "lead.skip":"Omitir por ahora: puedes dejar tus datos más tarde en Ajustes",
+  "lead.who":"Tus datos van al formulario de Google Forms del desarrollador de la app, solo para enviarte una encuesta de opinión y contactarte. Puedes pedir que se borren en cualquier momento.",
+  "ab.privLink":"Política de privacidad completa ↗",
+  "ab.fbT":"📨 Encuesta de opinión",
+  "ab.fb":"¿Quieres recibir una encuesta de opinión y estar en contacto con el desarrollador? Dar tus datos es opcional.",
+  "ab.fbBtn":"Dejar datos de contacto",
+  /* ux-redesign */
+  "set.langSrc":"original",
+  "set.langDraft":"borrador, sin revisar",
+  "set.langKeys":"Cobertura de claves de la interfaz",
+  "ls.eqNoGame":"Ningún juego se ajusta al material disponible: no se ha añadido juego. Puedes elegir uno en la página de juegos.",
+  "ls.eqTopic":"El tema requiere material no marcado como disponible",
+  "ls.eqGame":"El juego elegido requiere material no marcado como disponible",
+  "sched.clash":"A la misma hora hay otra franja separada. Si estos grupos tienen clase juntos, únelos como grupo (Centro del grupo → Unir grupos); si no, es un conflicto de horario.",
+  /* ux-redesign */
+  "stu.badRecs":"Los registros dañados de la lista no se muestran, pero se conservan tal cual: haz una copia de seguridad antes de cualquier cambio.",
+  "gr.prov":"provisional",
+  "gr.missing":"Falta",
+  "gr.provHint":"Nota provisional: al menos un componente con peso en la estructura de la nota sigue vacío, así que aún no es una nota final y el centro del grupo no la cuenta como tal. Un componente con peso 0 no es obligatorio, y 0 es una nota válida.",
+  "gr.csvGrade":"Nota",
+  "gr.csvStatus":"Estado",
+  "gr.csvMissing":"Componentes que faltan",
+  "gr.stFinal":"final",
+  "hub.prov":"con nota provisional — faltan componentes",
+  "gr.rangeAsk":"¿De qué fechas se calcula la asistencia para este período? Solo cuenta la asistencia dentro del rango. El rango se guarda para el período.",
+  "gr.from":"Desde",
+  "gr.to":"Hasta",
+  "gr.fillGo":"Rellenar",
+  "tl.whoAll":"Se incluye todo el grupo",
+  "tl.whoNoAtt":"no se ha registrado asistencia para esta fecha",
+  "tl.whoAbs":"ausentes",
+  "tl.whoEx":"exentos",
+  "tl.whoUn":"sin marcar",
+  "tl.whoIn":"participan",
+  "tl.whoPart":"parcial",
+  "tl.whoOut":"No incluidos",
+  "tl.whoMark":"Registra la asistencia en la pestaña «Asistencia» o elige «Todo el grupo».",
   /* ux-redesign */
   "grp.need2":"Necesitas al menos dos clases con alumnos para unirlas",
   "grp.joinT":"🔗 Unir clases",
@@ -13742,7 +14282,7 @@ es:{
   "set.clsNewPh":"p. ej. 3.º ESO B — Deportivo",
   "set.clsSaveBtn":"Guardar",
   "set.lang":"Idioma",
-  "set.langHint":"La interfaz cambia de idioma al instante. Todo el contenido está traducido: pantallas, pruebas, juegos, planes de sesión, base de conocimiento y mensajes. La traducción es un borrador profesional pendiente de revisión por hablantes nativos.",
+  "set.langHint":"El idioma de la interfaz cambia al instante. Las pantallas, pruebas, juegos, planes de sesión incorporados, la base de conocimiento y los mensajes están traducidos; lo que escribes tú (nombres, notas, sesiones que creaste) queda tal cual. La traducción es un borrador aún no revisado por hablantes nativos: cualquier texto sin traducir es un defecto que conviene comunicar.",
   "set.about":"📘 Acerca de, versión y créditos",
   "set.purge":"🧹 Borrar datos antiguos",
   "set.install":"📲 Instalar como aplicación: en Chrome — menú ⋮ y luego «Añadir a pantalla de inicio». En iPhone — Compartir y luego «Añadir a pantalla de inicio». Guardada como archivo, la aplicación funciona también sin internet (solo las fuentes se cargan de la red).",
@@ -13881,9 +14421,9 @@ es:{
   "info.data.l":"<li><b>Copia de seguridad</b> ⚙ Ajustes → «⬇ Copiar todo a un archivo». «⬆ Restaurar desde un archivo» lo recupera todo en un dispositivo nuevo.</li><li><b>Cifrado</b> puedes cifrar la copia con una contraseña — pero no hay recuperación de contraseña. Si pierdes la contraseña, pierdes el archivo.</li><li><b>¿Nombre de grupo incorrecto?</b> ⚙ Ajustes → «🏷 Nombres de los grupos». Cambiar el nombre no desvincula a ningún alumno ni ninguna medición.</li><li><b>¿Cuesta leer al sol?</b> ☀ en la barra superior, y «Botones grandes» en Ajustes para usarla con una mano.</li>",
 
   /* --- אודות --- */
-  "ab.p":"Un kit de campo para docentes de Educación Física: pruebas de condición física, test de la bip, foto-finish con la cámara, planes de sesión, tabla de récords, herramientas de clase y calificaciones — todo en una sola pantalla y sin enviar nada fuera.",
+  "ab.p":"Un kit de campo para docentes de Educación Física: pruebas de condición física, test de la bip, foto-finish con la cámara, planes de sesión, tabla de récords, herramientas de aula y calificaciones, todo en una sola pantalla y con los datos del alumnado guardados en el dispositivo.",
   "ab.privT":"🔒 Privacidad",
-  "ab.priv":"Los datos del alumnado — listas, calificaciones y mediciones — se guardan solo en el localStorage de este dispositivo. <b>Sin servidor, sin cuenta y sin envíos a ninguna parte.</b> Son datos de menores, así que es una decisión de diseño, no una casualidad. Exportar a CSV o hacer una copia es siempre una acción que inicias tú. Borrar los datos del sitio en el navegador lo elimina todo — por eso existe la copia de seguridad. Lo único que sale del dispositivo son tus datos de contacto (del docente) introducidos en la primera pantalla de bienvenida — ningún dato de alumnado — y se envían una sola vez.",
+  "ab.priv":"Los datos del alumnado —listas, asistencia, calificaciones y mediciones— se guardan en este dispositivo (localStorage e IndexedDB). <b>La app no tiene servidor ni cuenta propios.</b> Lo que sí sale del dispositivo: (1) en cada carga, una petición de fuentes a Google Fonts (dirección IP y datos del navegador, sin datos del alumnado); (2) tus datos de contacto —solo si decides darlos— al formulario de Google Forms del desarrollador de la app; (3) solo si lo configuras: la sincronización de récords con tu Google Sheet (nombre del alumno, prueba, resultado, estado) y una copia cifrada en tu Google Drive; (4) los enlaces externos (YouTube, fuentes, formulario de subida de vídeo) solo se abren al pulsarlos. Exportar CSV y la copia a archivo son siempre acción tuya. Borrar los datos del sitio en el navegador lo elimina todo; por eso existe la copia de seguridad.",
   "ab.srcT":"📚 Fuentes profesionales",
   "ab.src":"Protocolo de Léger (test de la bip) · baremos FITNESSGRAM® de The Cooper Institute · «Insignia de Educación Física — estándares para evaluar el rendimiento del alumnado», Ministerio de Educación de Israel, Secretaría Pedagógica · el currículo de Educación Física. Los baremos del centro son datos del docente y se guardan en el dispositivo.",
   "ab.builtT":"🛠 Hecho con",
@@ -13956,7 +14496,9 @@ const TERM_COL={en:0,ar:1,ru:2,es:3};
 const HEB=/[֐-׿]/;
 const SKIP={SCRIPT:1,STYLE:1,TEXTAREA:1,NOSCRIPT:1,CODE:1,PRE:1};
 const T_SRC=new WeakMap(), T_OUT=new WeakMap();   /* צומת → המקור העברי / מה שכתבנו בו */
-const T_ATTRS=["placeholder","title","aria-label"];
+/* label — תוויות <optgroup> (קבוצות הנושאים במחולל המערכים נשארו
+   בעברית גם באנגלית); alt — טקסט חלופי לתמונות, לקוראי מסך. */
+const T_ATTRS=["placeholder","title","aria-label","label","alt"];
 /* מפרק טקסט לקידומת (אימוג׳י, סמלים), ליבה, וסיומת (נקודתיים, חצים) —
    בדיוק כפי שהמונחים נאספו. */
 function splitTerm(s){
@@ -14167,7 +14709,7 @@ function applyTerms(root){
   const w=(scope.ownerDocument||document).createTreeWalker(scope,NodeFilter.SHOW_TEXT);
   for(let n=w.nextNode();n;n=w.nextNode())termText(n);
   termAttrs(scope);
-  scope.querySelectorAll("[placeholder],[title],[aria-label]").forEach(termAttrs);
+  scope.querySelectorAll(T_ATTRS.map(a=>"["+a+"]").join(",")).forEach(termAttrs);
 }
 let termObs=null;
 function watchTerms(){
@@ -14377,6 +14919,10 @@ function confetti(n=90){
 }
 function dlCSV(name,rows){
   const esc=v=>{v=String(v??"");return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+  /* שורת הכותרות בשפת הממשק — קובץ שנפתח באקסל הוא חלק מהממשק. רק
+     הכותרות: התאים הם נתונים (שמות תלמידים) ואינם מתורגמים לעולם. */
+  if(rows.length&&window.I18N&&window.I18N.tr)
+    rows=[rows[0].map(c=>typeof c==="string"?window.I18N.tr(c):c)].concat(rows.slice(1));
   const csv="\uFEFF"+rows.map(r=>r.map(esc).join(",")).join("\n");
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
   a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
@@ -14823,10 +15369,15 @@ function wireLang(){
     const cur=window.I18N.lang();
     box.innerHTML=window.I18N.langs().map(l=>{
       const n=cov.out[l.code]||0;
+      /* האחוז הוא כיסוי מפתחות המילון בלבד — לא בדיקה לשונית ולא כיסוי
+         התוכן. «100%» ליד «טיוטה שממתינה לבדיקה» היה סותר את עצמו, ולכן
+         המסך מציג סטטוס, והאחוז נשאר בתיאור עם השם הנכון שלו. */
       const pct=l.code==="he"?100:Math.round(n/Math.max(1,cov.base)*100);
-      return '<button data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+'>'+
+      const st=l.code==="he"?t("set.langSrc","מקור"):t("set.langDraft","טיוטה, לא נבדקה");
+      const tip=t("set.langKeys","כיסוי מפתחות הממשק")+": "+pct+"%";
+      return '<button data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+' title="'+esc(tip)+'">'+
         '<span class="fl">'+l.flag+'</span><span>'+l.native+'</span>'+
-        '<span class="cv">'+pct+'%</span></button>';
+        '<span class="cv">'+esc(st)+'</span></button>';
     }).join("");
     $$("#set-lang button").forEach(b=>b.addEventListener("click",()=>{
       window.I18N.set(b.dataset.l); paint(); applyTheme();
@@ -15400,10 +15951,16 @@ function paintToday(){
   let html="";
   if(d.now){
     html+=focusCard(d.now,"now");
-    if(d.next)html+=upRow(d.next,"⏭️ הבא");
   }else if(d.next){
     html+=focusCard(d.next,"next");
   }
+  /* משבצות נפרדות באותה שעה — מוצגות יחד עם המוקד, כהתנגשות, ולא
+     כשיעור «בהמשך». אם אלה כיתות שלומדות יחד — מחברים אותן כקבוצה. */
+  if(d.clash&&d.clash.length){
+    html+='<div class="hint hx-clash">⚠ '+esc(t("sched.clash","באותה שעה יש עוד משבצת נפרדת. אם הכיתות לומדות יחד — חברו אותן כקבוצה (מרכז הכיתה ← חבר כיתות); אחרת זו התנגשות במערכת."))+'</div>'+
+      d.clash.map(r=>upRow(r,"⚠")).join("");
+  }
+  if(d.now&&d.next)html+=upRow(d.next,"⏭️ הבא");
   /* «בהמשך» — שיעורים בלבד. שהייה, פרטני וישיבות נמצאים ביום המלא,
      שם הם הקשר; כאן הם היו מאריכים את הרשימה בלי לשנות החלטה. */
   const later=d.later.filter(r=>r.startable);
@@ -15819,7 +16376,12 @@ function loadSampleWeek(){
   if(cur)schedSave([]);
   let added=0;
   DATA.sampleSlots().forEach(o=>{
-    if(o.clsSnapshot){ try{ DATA.registerClass(REGSTORE,o.clsSnapshot); }catch(e){} }
+    if(o.members){
+      /* כיתות שלומדות יחד: כל כיתה נרשמת, והקבוצה נוצרת במודל הקיים */
+      (o.memberNames||[]).forEach(n=>{ try{ DATA.registerClass(REGSTORE,n); }catch(e){} });
+      try{ const g=DATA.makeGroup(REGSTORE,{id:o.cid,name:o.clsSnapshot,members:o.members});
+        if(g&&g.group&&g.group.id!==o.cid&&DATA.isGroupRec(g.group))o=Object.assign({},o,{cid:g.group.id}); }catch(e){}
+    }else if(o.clsSnapshot){ try{ DATA.registerClass(REGSTORE,o.clsSnapshot); }catch(e){} }
     const r=SCHED.add(o);
     if(r.ok&&r.outcome==="added")added++;
   });
@@ -21261,10 +21823,20 @@ const srcById=id=>SOURCES.find(s=>s.id===id);
 /* ---------- GAMES view ---------- */
 window.GAMES=(function(){
   let inited=false, cat="all", q="";
+  /* החיפוש רץ על הטקסט שבשפת הממשק (מה שהמורה רואה) וגם על הנוסח
+     העברי — כך «Capture» מוצא את «Capture the flag» ו«דגל» עדיין עובד.
+     הטקסט המתורגם נבנה פעם אחת לכל שפה ולכל משחק. */
+  const hayCache={};
+  function hay(g){
+    const L=window.I18N&&window.I18N.lang?window.I18N.lang():"he";
+    const c=hayCache[L]||(hayCache[L]={});
+    if(c[g.id]!=null)return c[g.id];
+    const parts=[g.name,g.goal,g.fit,g.who,g.equip,g.space,catName(g.cat)];
+    const tr=x=>{ try{ return L!=="he"&&window.I18N?window.I18N.tr(x):""; }catch(e){ return ""; } };
+    return (c[g.id]=window.HMDATA.foldSearch(parts.join(" ")+" "+parts.map(tr).join(" ")));
+  }
   function list(){
-    const t=q.trim();
-    return GAMES.filter(g=>(cat==="all"||g.cat===cat)&&
-      (!t||(g.name+" "+g.goal+" "+g.fit+" "+g.who+" "+g.equip).includes(t)));
+    return GAMES.filter(g=>(cat==="all"||g.cat===cat)&&window.HMDATA.searchMatch(hay(g),q));
   }
   function render(){
     const {$, $$, esc}=H();
@@ -21457,13 +22029,50 @@ window.TOOLS=(function(){
      1. מחולל קבוצות
      ============================================================ */
   let teams=[], teamCls="", teamN=4, teamMode="balanced";
-  function pool(){
-    const l=students();
-    return l.filter(s=>inClass(s,teamCls));
+  /* ============================================================
+     מי נכלל — קבוצות והגרלה
+     ------------------------------------------------------------
+     «רק מי שנוכח»: סימון מלאה/חלקית בתאריך השיעור (או היום, מחוץ
+     לשיעור). נעדר, פטור ומי שלא סומן — לא נכללים, והמסך אומר כמה
+     מכל סוג, כדי שאיש לא ייעלם בשקט וכדי שמי שלא סומן לא ייחשב נוכח.
+     «כל הכיתה» — כמו קודם, בלי לבדוק נוכחות.
+     ברירת המחדל: «רק מי שנוכח» כשיש סימון נוכחות לכיתה בתאריך הזה;
+     אחרת «כל הכיתה». בחירה מפורשת של המורה גוברת.
+     ============================================================ */
+  let who="all", whoSet=false;
+  function whoDate(cid){
+    const a=lessonCtx();
+    return (a&&a.cid&&a.cid===cid&&a.date)?a.date:today();
   }
+  function scoped(cid){
+    const base=students().filter(s=>window.HMDATA.isStudentRec(s)&&inClass(s,cid));
+    const date=whoDate(cid);
+    const sp=window.HMDATA.splitByAttendance(base,ATT(),store,date);
+    const mode=whoSet?who:(sp.marked?"present":"all");
+    return {base,date,sp,mode,list:mode==="present"?sp.present:base};
+  }
+  function paintWho(elId,selId,cid){
+    const {$}=H(), x=scoped(cid), t=H().t;
+    const sel=$("#"+selId); if(sel)sel.value=x.mode;
+    const el=$("#"+elId); if(!el)return x;
+    if(x.mode==="all"){
+      el.textContent=t("tl.whoAll","כל הכיתה נכללת")+" ("+x.base.length+")"+
+        (x.sp.marked?"":" · "+t("tl.whoNoAtt","לא סומנה נוכחות לתאריך הזה")+" "+x.date);
+    }else{
+      const out=[[x.sp.absent.length,t("tl.whoAbs","נעדרים")],[x.sp.exempt.length,t("tl.whoEx","פטורים")],
+                 [x.sp.unmarked.length,t("tl.whoUn","לא סומנו")]].filter(v=>v[0]).map(v=>v[0]+" "+v[1]);
+      el.textContent=x.date+" · "+x.sp.present.length+" "+t("tl.whoIn","משתתפים")+
+        (x.sp.partial?" ("+x.sp.partial+" "+t("tl.whoPart","חלקית")+")":"")+
+        (out.length?" · "+t("tl.whoOut","לא נכללו")+": "+out.join(", "):"")+
+        (x.sp.marked?"":" · "+t("tl.whoMark","סמנו נוכחות בלשונית «נוכחות», או בחרו «כל הכיתה»."));
+    }
+    return x;
+  }
+  function pool(){ return scoped(teamCls).list; }
   function makeTeams(){
     const {toast}=H();
     const p=pool();
+    paintWho("tl-teamWhoInfo","tl-teamWho",teamCls);
     if(p.length<teamN){toast("אין מספיק תלמידים למספר הקבוצות");return;}
     const n=Math.max(2,Math.min(10,teamN));
     teams=Array.from({length:n},()=>[]);
@@ -21517,7 +22126,7 @@ window.TOOLS=(function(){
       .t{border:2px solid #1f7a4d;border-radius:9px;padding:10px 13px;break-inside:avoid}
       .t b{color:#1f7a4d;font-size:15px}ol{margin:6px 0 0;padding-inline-start:20px;line-height:1.75}
       </style></head><body>
-      <h1>חלוקה לקבוצות</h1><div class="meta">${school}${teamCls?"כיתה "+esc(labelOf(teamCls))+" · ":""}${today()}</div>
+      <h1>חלוקה לקבוצות</h1><div class="meta">${school}${teamCls?"כיתה "+esc(labelOf(teamCls))+" · ":""}${esc(H().$("#tl-teamWhoInfo")?H().$("#tl-teamWhoInfo").textContent:today())}</div>
       <div class="g">${teams.map((t,i)=>`<div class="t"><b>קבוצה ${i+1}</b>
         <ol>${t.map(e=>"<li>"+esc(e.s.name)+"</li>").join("")}</ol></div>`).join("")}</div>
       <script>print()<\/script></body></html>`);
@@ -21528,10 +22137,7 @@ window.TOOLS=(function(){
      2. הגרלת תלמיד — בלי חזרות עד שכולם יצאו
      ============================================================ */
   let pickCls="", picked=[], lastPick=null;
-  function pickPool(){
-    const l=students();
-    return l.filter(s=>inClass(s,pickCls));
-  }
+  function pickPool(){ return scoped(pickCls).list; }
   function drawStudent(){
     const {$, esc, toast, beep, confetti}=H();
     let p=pickPool();
@@ -21555,6 +22161,7 @@ window.TOOLS=(function(){
   function renderPicked(){
     const {$, esc}=H();
     const p=pickPool();
+    paintWho("tl-pickWhoInfo","tl-pickWho",pickCls);
     $("#tl-pickList").innerHTML=picked.length
       ? picked.map(id=>{const s=p.find(x=>x.id===id);return s?`<span class="pill">${esc(s.name)}</span>`:"";}).join("")
       : '<span class="hint">עדיין לא הוגרל אף אחד בסבב הזה.</span>';
@@ -21615,6 +22222,8 @@ window.TOOLS=(function(){
       if(a[key][id]===k)delete a[key][id]; else a[key][id]=k;
       H().LS.set("tools.att",a); renderAtt();
     }));
+    /* שינוי נוכחות משנה את מי שנכלל בקבוצות ובהגרלה */
+    paintWho("tl-teamWhoInfo","tl-teamWho",teamCls); paintWho("tl-pickWhoInfo","tl-pickWho",pickCls);
   }
   function attSummary(){
     const {esc}=H();
@@ -21773,12 +22382,19 @@ window.TOOLS=(function(){
     return !!hit;
   }
   let skipCtx=false;   /* פתיחה ממרכז הכיתה: הכיתה שנבחרה שם גוברת על השיעור */
+  /* קבוצות והגרלה נפתחות על כיתת השיעור (לפי cid) — קודם נשארו
+     «כל הכיתות» גם כשנכנסו מתוך שיעור פעיל. */
+  function applyLessonCtxTools(){
+    const a=lessonCtx(); if(!a||!a.cid)return;
+    if(teamCls!==a.cid){ teamCls=a.cid; teams=[]; }
+    if(pickCls!==a.cid){ pickCls=a.cid; picked=[]; }
+  }
   function init(){
     const {$, $$}=H();
-    if(!skipCtx)applyLessonCtx();
+    if(!skipCtx){ applyLessonCtx(); applyLessonCtxTools(); }
     skipCtx=false;
     if(inited){ fillClassSelects(); const d=H().$("#tl-attDate"); if(d)d.value=attDate;
-      renderAtt(); renderRub(); renderPicked(); return; }
+      renderAtt(); renderRub(); renderPicked(); renderTeams(); paintWho("tl-teamWhoInfo","tl-teamWho",teamCls); return; }
     inited=true;
     $$("#tl-tabs [data-tt]").forEach(b=>b.addEventListener("click",()=>{
       tab=b.dataset.tt;
@@ -21786,7 +22402,10 @@ window.TOOLS=(function(){
       ["teams","pick","att","rub"].forEach(t=>$("#tl-sub-"+t).style.display=t===tab?"":"none");
     }));
     /* קבוצות */
-    $("#tl-teamCls").addEventListener("change",e=>{teamCls=e.target.value;});
+    $("#tl-teamCls").addEventListener("change",e=>{teamCls=e.target.value;paintWho("tl-teamWhoInfo","tl-teamWho",teamCls);});
+    ["tl-teamWho","tl-pickWho"].forEach(id=>$("#"+id).addEventListener("change",e=>{
+      who=e.target.value; whoSet=true; picked=[];
+      paintWho("tl-teamWhoInfo","tl-teamWho",teamCls); renderPicked(); }));
     $("#tl-teamN").addEventListener("input",e=>{teamN=+e.target.value||4;$("#tl-teamNVal").textContent=teamN;});
     $("#tl-teamMode").addEventListener("change",e=>{teamMode=e.target.value;});
     $("#tl-teamGo").addEventListener("click",makeTeams);
@@ -21820,7 +22439,7 @@ window.TOOLS=(function(){
       H().LS.set("tools.scores",s); curRub=null; renderRub();
       H().undo("המחוון נמחק, עם הציונים שלו",()=>{ back(); curRub=was; renderRub(); });
     });
-    fillClassSelects(); renderAtt(); renderRub(); renderPicked();
+    fillClassSelects(); renderAtt(); renderRub(); renderPicked(); paintWho("tl-teamWhoInfo","tl-teamWho",teamCls);
   }
   /* ============================================================
      ממשק למצב שיעור
@@ -21864,7 +22483,7 @@ window.TOOLS=(function(){
     skipCtx=true;
     H().go("tools");
     skipCtx=false;
-    if(inited){ fillClassSelects(); renderAtt(); renderRub(); renderPicked(); }
+    if(inited){ fillClassSelects(); renderAtt(); renderRub(); renderPicked(); paintWho("tl-teamWhoInfo","tl-teamWho",teamCls); }
     openTab(t||"att");
   }
   /* סיכום הנוכחות של כיתה: בכמה שיעורים סומנה, ואחוז ההשתתפות
@@ -22327,6 +22946,8 @@ window.LESSON=(function(){
       withGame:$("#ls-optGame").checked,
       withMeasure:$("#ls-optMeasure").checked,
       eq:$$("#ls-eq input:checked").map(i=>i.value),
+      /* מה שלא סומן — לא זמין. זה אילוץ על המשחק ועל הנושא, לא רשימת קניות. */
+      noEq:$$("#ls-eq input").filter(i=>!i.checked).map(i=>i.value),
       subs:$$("#ls-subs input:checked").map(i=>i.value)
     };
   }
@@ -22383,25 +23004,38 @@ window.LESSON=(function(){
     rememberVariants(T.id,grade,mainBlocks.map(v=>v.n));
 
     /* משחק: מבחירת המשתמש בדף המשחקים, אחרת מהנושא, אחרת כללי */
+    /* ציוד זמין הוא אילוץ: משחק שדורש פריט שלא סומן לא נבחר אוטומטית.
+       משחק שהמורה בחר במפורש נשאר — עם אזהרה, כי ההחלטה שלו. */
+    const DT0=window.HMDATA, eqWarn=[];
+    const clash=g=>g?DT0.equipConflicts(g.equip,o.noEq):[];
     let game=null;
     if(o.withGame&&window.GAMES){
       const picked=H().LS.get("ls.pickGame",null);
-      const cands=(T.games&&T.games.length)?T.games:["g-flags","g-chain","g-relay"];
-      const id=picked||pick(cands);
-      game=window.GAMES.byId(id)||window.GAMES.byId(pick(cands));
+      const own=(T.games&&T.games.length)?T.games:[], generic=["g-flags","g-chain","g-relay"];
+      const fits=ids=>ids.map(id=>window.GAMES.byId(id)).filter(g=>g&&!clash(g).length);
+      if(picked&&window.GAMES.byId(picked))game=window.GAMES.byId(picked);
+      else{ const ok=fits(own).length?fits(own):fits(generic); game=ok.length?pick(ok):null; }
       H().LS.set("ls.pickGame",null);
+      if(!game){
+        eqWarn.push(H().t("ls.eqNoGame","לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים."));
+        /* הדקות ששוריינו למשחק חוזרות לחלק העיקרי — המערך נשאר באורך השיעור */
+        if(gameMin&&mainPhases.length)mainPhases[mainPhases.length-1].min+=gameMin;
+      }
     }
+    const needT=DT0.equipConflicts((T.eq||[]).join(", "),o.noEq);
+    if(needT.length)eqWarn.push(H().t("ls.eqTopic","הנושא דורש ציוד שלא סומן כזמין")+": "+needT.join(", "));
+    if(game&&clash(game).length)eqWarn.push(H().t("ls.eqGame","המשחק שנבחר דורש ציוד שלא סומן כזמין")+": "+clash(game).join(", "));
 
     const phases=[{n:"חימום: "+warm.n,min:warmMin,d:warm.d,k:"warm"},...mainPhases];
     if(game)phases.push({n:"משחק: "+game.name,min:gameMin,
       d:game.how[0]+" "+(game.how[1]||"")+" · מטרה: "+game.goal,k:"game",gid:game.id});
     phases.push({n:"סיום: "+cool.n,min:coolMin,d:cool.d,k:"cool"});
 
-    const eq=[...new Set([...(T.eq||[]),...o.eq])];
-    if(game&&game.equip)eq.push(game.equip);
+    /* רשימת הציוד נגזרת מהפעילויות שנבחרו בפועל — לא מהתיבות שסומנו */
+    const eq=DT0.mergeEquip(T.eq,game?DT0.equipParts(game.equip):[]);
 
     plan={id:newPlanId(),grade,topic:T.id,title:T.name,em:T.em,group:T.g,cls:o.cls,size:o.size,place:o.place,
-      date:today(),goals:T.goals,eq,std:T.std,phases,
+      date:today(),goals:T.goals,eq,eqAvail:o.eq,eqNo:o.noEq,eqWarn,std:T.std,phases,
       assess:T.assess,diff:T.diff,safe:T.safe,cur:T.cur,hw:T.hw,note:T.note||"",
       measure:o.withMeasure,
       mainVariants:mainBlocks.map(v=>v.n),mainSubs:mainBlocks.map(v=>v.sub).filter(Boolean)};
@@ -22477,7 +23111,7 @@ window.LESSON=(function(){
     b.textContent="▶ התחל שיעור · "+c;
     b.onclick=()=>{
       const r=S.start({cid,clsSnapshot:c,date:today(),
-        planId:(withId(plan)&&plan.id)||null,planTitle:(plan&&plan.title)||""});
+        planId:(withId(plan)&&plan.id)||null,planTitle:(plan&&plan.title)||"",planGroup:(plan&&plan.group)||""});
       if(r.outcome==="blocked"){
         H().toast("כבר פתוח שיעור בכיתה "+(r.active.clsSnapshot||"")); return;
       }
@@ -22532,7 +23166,8 @@ window.LESSON=(function(){
         <div class="hint" style="margin-top:6px">${plan.std.map(i=>esc(STD[i-1])).join(" · ")}</div></div>
 
       <div class="ls-sec"><h4>🎒 ציוד</h4>
-        <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div></div>
+        <div class="row" style="gap:6px;flex-wrap:wrap">${plan.eq.map(e=>`<span class="pill">${esc(e)}</span>`).join("")}</div>
+        ${(plan.eqWarn||[]).map(w=>`<div class="hint ls-eqWarn">⚠ ${esc(w)}</div>`).join("")}</div>
 
       <div class="ls-sec"><h4 class="row" style="align-items:center">⏱ מהלך השיעור<span class="grow"></span>
         <button class="btn sm ${editPh?"acc":"ghost"}" data-pe="toggle">${editPh?H().t("pe.done","✓ סיום עריכה"):H().t("pe.edit","✎ ערוך מהלך")}</button></h4>
@@ -22814,6 +23449,7 @@ window.LESSON=(function(){
       <h2>מטרות</h2><ul>${plan.goals.map(g=>"<li>"+esc(g)+"</li>").join("")}</ul>
       <h2>מיפוי לסטנדרטים</h2><div>${plan.std.map(i=>'<span class="tag">'+esc(STD[i-1])+"</span>").join("")}</div>
       <h2>ציוד</h2><div>${plan.eq.map(e=>'<span class="tag">'+esc(e)+"</span>").join("")}</div>
+      ${(plan.eqWarn||[]).map(w=>"<p><b>⚠ "+esc(w)+"</b></p>").join("")}
       <h2>מהלך השיעור</h2>${plan.phases.map(p=>`<div class="ph"><b>${esc(p.n)} · ${p.min} דק׳</b>${
         p.sub?` <span class="tag">${esc(p.sub)}</span>`:""}${
         Array.isArray(p.d)?`<ol>${p.d.map(st=>"<li>"+esc(st)+"</li>").join("")}</ol>`:`<div>${esc(p.d)}</div>`}</div>`).join("")}
@@ -22850,6 +23486,10 @@ window.LESSON=(function(){
   function init(){
     if(inited)return; inited=true;
     const {$, $$}=H();
+    /* החלפת שפה: המערך שעל המסך מצויר מחדש מאותו מצב (plan נשאר כפי
+       שהוא). בלי זה כפתורים שנבנו ב-t() — «✎ ערוך מהלך» — נשארו
+       בשפה הקודמת עד לבנייה הבאה. */
+    document.addEventListener("i18n:change",()=>{ try{ if(plan)renderPlan(); }catch(e){} });
     buildTopicSelect();
     buildSubSelect();
     $("#ls-focus").addEventListener("change",buildSubSelect);
@@ -22984,6 +23624,12 @@ window.LESSON=(function(){
     if(!plan||!g)return false;
     const ph=plan.phases, at=ph.length&&ph[ph.length-1].k==="cool"?ph.length-1:ph.length;
     ph.splice(at,0,{n:"משחק: "+g.name,min:10,d:(g.how||[]).slice(0,2).join(" ")+(g.goal?" · מטרה: "+g.goal:""),k:"game",gid:g.id});
+    /* גם משחק שנוסף אחר כך נכנס לרשימת הציוד ונבדק מול הציוד הזמין */
+    const DT0=window.HMDATA;
+    plan.eq=DT0.mergeEquip(plan.eq,DT0.equipParts(g.equip));
+    const c=DT0.equipConflicts(g.equip,plan.eqNo||[]);
+    if(c.length){ plan.eqWarn=(plan.eqWarn||[]).concat([H().t("ls.eqGame","המשחק שנבחר דורש ציוד שלא סומן כזמין")+": "+c.join(", ")]);
+      H().toast("⚠ "+c.join(", ")); }
     renderPlan();
     return true;
   }
@@ -26026,17 +26672,19 @@ window.FT=(function(){
         מדדו מבחן אחד בלשונית «מבחנים» — תובנות ההתקדמות יופיעו אחרי שתי מדידות לפחות לתלמיד.</div>`;
     }else{
       body=`<div class="tblwrap" style="margin-top:11px"><table class="tbl">
-        <thead><tr><th>מבחן</th><th>נמדדו</th><th>משתפרים</th><th>נסוגים</th><th>בלי שינוי מדיד</th></tr></thead>
+        <thead><tr><th>מבחן</th><th>נמדדו</th><th>משתפרים</th><th>נסוגים</th><th>בלי שינוי מדיד</th><th>אין עדיין השוואה</th></tr></thead>
         <tbody>${prog.tests.map(t=>`<tr>
           <td><b>${esc((t.def&&t.def.em?t.def.em+" ":"")+t.name)}</b></td>
           <td class="mono" style="text-align:center">${t.completed}</td>
           <td class="mono" style="text-align:center;color:var(--acc)">${t.improved}</td>
           <td class="mono" style="text-align:center;color:var(--stop)">${t.declined}</td>
           <td class="mono" style="text-align:center;color:var(--muted)">${t.noChange}</td>
+          <td class="mono" style="text-align:center;color:var(--muted)">${t.insufficient||0}</td>
         </tr>`).join("")}</tbody></table></div>
         <div class="hint" style="margin-top:7px">«משתפרים»/«נסוגים» משווים את הטוב ביום המדידה האחרון מול הטוב ביום הראשון —
-          אותה השוואה שחלון ההיסטוריה של התלמיד כבר מציג. «בלי שינוי מדיד» כולל גם תוצאה זהה
-          וגם תלמיד שנמדד יום אחד בלבד ועדיין אין עם מה להשוות — שני מצבים, אותה מסקנה כנה: אין עדיין מגמה.</div>`;
+          אותה השוואה שחלון ההיסטוריה של התלמיד כבר מציג.
+          «בלי שינוי מדיד» — אותה תוצאה בשני ימי מדידה.
+          «אין עדיין השוואה» — נמדד ביום אחד בלבד, ולכן אין מגמה לדווח עליה.</div>`;
     }
 
     $("#ft-prog").innerHTML=`
@@ -27013,8 +27661,13 @@ const H=()=>window.HM;
 /* ============================ STU — התלמידים שלי ============================ */
 window.STU=(function(){
   let inited=false;
-  const load=()=>H().LS.get("stu.list",[]);
-  const save=l=>H().LS.set("stu.list",l);
+  /* הרשימה נקראת דרך normalizeStudents: רשומה בלי tests (ההדגמה,
+     ייבוא ישן) מקבלת מערך ריק במקום להפיל את כל המסך. רשומה פגומה
+     לגמרי אינה מוצגת — אבל גם אינה נמחקת: save מחזיר אותה למקומה. */
+  const raw=()=>H().LS.get("stu.list",[]);
+  const load=()=>window.HMDATA.normalizeStudents(raw()).list;
+  const badRecs=()=>window.HMDATA.normalizeStudents(raw()).bad;
+  const save=l=>H().LS.set("stu.list",l.concat(badRecs()));
   /* ============================================================
      זהות כיתה
      ------------------------------------------------------------
@@ -27070,7 +27723,7 @@ window.STU=(function(){
     /* הבורר מציג שמות אבל נושא מזהים: הערך הוא cid, התווית היא השם. */
     const classes=classList(list);
     $("#stu-classSel").innerHTML=classOpts(list,classes,clsF);
-    let view=list.filter(s=>(!q||s.name.includes(q))&&inF(s,clsF));
+    let view=list.filter(s=>window.HMDATA.searchMatch(s.name,q)&&inF(s,clsF));
     const withT=list.filter(s=>s.tests.length);
     const avg=withT.length?withT.reduce((a,s)=>a+(latest(s).vo2||0),0)/withT.length:0;
     const below=withT.filter(s=>latest(s).zone==="סיכון בריאותי").length;
@@ -27114,13 +27767,17 @@ window.STU=(function(){
       const z=lt?zoneColor(lt.zone):null;
       return `<div class="stu-row" data-id="${s.id}">
         <div class="av">${esc(s.name.slice(0,1))}</div>
-        <div class="grow"><b>${esc(s.name)}</b><div class="sb">${esc(s.cls||"—")} · ${s.tests.length} מבחנים${s.sex?" · "+(s.sex==="boys"?"בן":"בת"):""}</div></div>
+        <div class="grow"><b>${esc(s.name)}</b><div class="sb">${esc(s.cls||"—")} · ${s.tests.length} מבחנים${s.sex?' · <span>'+(s.sex==="boys"?"בן":"בת")+"</span>":""}</div></div>
         ${tr?`<span class="tr ${tr>0?"up":"dn"}">${tr>0?"▲":"▼"}</span>`:""}
         ${lt?`<span class="mono" style="color:var(--muted);font-size:12px">${lt.dist} מ׳</span>`:""}
         ${z?`<span class="catpill" style="background:${z}">${esc(lt.zone)}</span>`:'<span class="pill">אין מבחן</span>'}
       </div>`;
     }).join("");
     $$("#stu-list .stu-row").forEach(r=>r.addEventListener("click",()=>profile(r.dataset.id)));
+    /* רשומה פגומה לא מוצגת, אבל גם לא נעלמת בשקט */
+    const nBad=badRecs().length;
+    if(nBad)$("#stu-list").insertAdjacentHTML("beforeend",'<div class="hint" id="stu-bad">⚠ '+
+      esc(H().t("stu.badRecs","רשומות פגומות ברשימה לא מוצגות, אבל נשמרות כפי שהן — גבו את הנתונים לפני כל שינוי."))+" ("+nBad+")</div>");
   }
   function zoneColor(g){return {"מצוין":"#5cc8ff","אזור בריא":"#8fd96b","טעון שיפור":"#ffd166","סיכון בריאותי":"#ff6b81"}[g]||"#8a8da1";}
   function chart(s){
@@ -27271,17 +27928,20 @@ window.STU=(function(){
   let grPeriod="",grClsF="";
   const examColsFor=period=>loadExamCols()[period]||[];
   const gradeOf=(s,period)=>{ const g=(s.grades=s.grades||{}); return g[period]=g[period]||{exams:{}}; };
+  /* הנוסחה והכלל «זמני או סופי» ב-hm-data.js (gradeResult), כדי שהטבלה,
+     מרכז הכיתה וה-CSV יענו אותה תשובה ויהיו מכוסים בבדיקות. */
   function computeFinal(s,period,weights,examCols){
-    const g=(s.grades&&s.grades[period])||{};
-    const examVals=examCols.map(c=>g.exams&&g.exams[c]).filter(v=>v!=null&&v!=="").map(Number);
-    const examsAvg=examVals.length?examVals.reduce((a,b)=>a+b,0)/examVals.length:null;
-    const cats=[["part",g.part],["exams",examsAvg],["improve",g.improve],["team",g.team],["know",g.know]];
-    let total=0,any=false;
-    cats.forEach(([k,v])=>{ if(v!=null&&v!==""){ total+=(+v)*weights[k]/100; any=true; } });
-    const cap=weights.bonusMax??DEF_WEIGHTS.bonusMax;
-    const bonus=g.bonus!=null&&g.bonus!==""?Math.max(0,Math.min(cap,+g.bonus)):0;
-    if(bonus)any=true;
-    return {total:any?Math.round(Math.min(100,total+bonus)*10)/10:null,examsAvg,bonus};
+    return window.HMDATA.gradeResult((s.grades&&s.grades[period])||{},weights,examCols);
+  }
+  /* תא הציון: סופי — מספר מודגש. זמני — מספר מעומעם, «זמני», ומה חסר.
+     כל תווית ב-span משלה, כדי שהתרגום יזהה את שמות ברירת המחדל. */
+  function gradeCell(r,L){
+    const {esc}=H();
+    if(r.value==null)return "—";
+    if(r.complete)return r.value.toFixed(1);
+    return '<span class="gr-prov">'+r.value.toFixed(1)+'</span> <small class="gr-provTag">'+
+      esc(H().t("gr.prov","זמני"))+'</small><div class="gr-miss"><span>'+esc(H().t("gr.missing","חסר"))+'</span>: '+
+      r.missing.map(k=>'<span>'+esc(L[k])+'</span>').join(", ")+'</div>';
   }
   function renderWeightsHint(){
     const {$}=H(); const w=loadWeights();
@@ -27380,7 +28040,7 @@ window.STU=(function(){
     }<th>בונוס<br>(עד ${weights.bonusMax??10})</th><th>ציון סופי</th></tr></thead>`;
     const body=view.map(s=>{
       const g=gradeOf(s,grPeriod);
-      const {total,examsAvg}=computeFinal(s,grPeriod,weights,examCols);
+      const r=computeFinal(s,grPeriod,weights,examCols), examsAvg=r.examsAvg;
       const num=(f,cap)=>`<td><input class="gr-in" type="number" min="0" max="${cap||100}" data-f="${f}" value="${g[f]??""}"></td>`;
       return `<tr data-sid="${s.id}">
         <td><b>${esc(s.name)}</b></td>
@@ -27392,20 +28052,23 @@ window.STU=(function(){
         ${show("team")?num("team"):""}
         ${show("know")?num("know"):""}
         ${num("bonus",weights.bonusMax??10)}
-        <td class="mono" style="font-weight:800;color:var(--acc)">${total!=null?total.toFixed(1):"—"}</td>
+        <td class="mono gr-final${r.complete?"":" prov"}">${gradeCell(r,L)}</td>
       </tr>`;
     }).join("");
     $("#gr-table").innerHTML=head+"<tbody>"+body+"</tbody>";
+    paintProvHint(view,weights,examCols);
     /* עדכון שורה בודדת בלבד (בלי לבנות מחדש את כל הטבלה) — כדי לא לאבד פוקוס/מעבר Tab
        באמצע הזנת ציונים רצופה בסגנון גיליון. */
     function updateRowTotals(tr,s){
-      const {total,examsAvg}=computeFinal(s,grPeriod,weights,examCols);
+      const r=computeFinal(s,grPeriod,weights,examCols), examsAvg=r.examsAvg;
       const cells=tr.querySelectorAll("td");
       /* תא ממוצע המבחנים הוא ה-.mono הראשון, והציון הסופי הוא האחרון —
          איתור לפי מיקום קבוע נשבר כשקטגוריה במשקל 0 מוסתרת. */
       const monos=tr.querySelectorAll("td.mono");
       if(monos.length>1)monos[0].textContent=examsAvg!=null?examsAvg.toFixed(1):"—";
-      cells[cells.length-1].textContent=total!=null?total.toFixed(1):"—";
+      const fc=cells[cells.length-1];
+      fc.innerHTML=gradeCell(r,L); fc.classList.toggle("prov",!r.complete);
+      paintProvHint(view,weights,examCols);
     }
     $$("#gr-table [data-f]").forEach(inp=>inp.addEventListener("change",()=>{
       const tr=inp.closest("tr"), s=list.find(x=>x.id===tr.dataset.sid); if(!s)return;
@@ -27432,6 +28095,13 @@ window.STU=(function(){
       H().undo(`העמודה «${name}» הוסרה`,()=>{ back(); renderGrades(); });
     }));
   }
+  /* הסבר אחד מתחת לטבלה, רק כשיש בה ציון זמני */
+  function paintProvHint(view,weights,examCols){
+    const el=H().$("#gr-provHint"); if(!el)return;
+    const n=view.filter(s=>computeFinal(s,grPeriod,weights,examCols).status===window.HMDATA.GRADE_PROV).length;
+    el.hidden=!n;
+    if(n)el.textContent=H().t("gr.provHint","ציון זמני: חסר לפחות רכיב אחד שיש לו משקל במבנה הציון, ולכן הוא עוד לא ציון סופי ולא נספר כך במרכז הכיתה. רכיב במשקל 0 אינו נדרש, ו-0 הוא ציון תקין.")+" ("+n+")";
+  }
   async function addExamCol(){
     const cols0=loadExamCols(), arr0=cols0[grPeriod]||[];
     const name=await H().ask({fields:[{label:"שם עמודת המבחן:",value:"מבחן "+(arr0.length+1)}],ok:"＋ הוסף"});
@@ -27449,21 +28119,31 @@ window.STU=(function(){
   function delPeriod(){
     const periods=loadPeriods();
     if(periods.length<=1){H().toast("חייבת להישאר לפחות תקופה אחת");return;}
-    const back=H().snap(["grades.periods","grades.examCols","stu.list"]), was=grPeriod;
+    const back=H().snap(["grades.periods","grades.examCols","stu.list","grades.periodRanges"]), was=grPeriod;
     const idx=periods.indexOf(grPeriod); periods.splice(idx,1); savePeriods(periods);
     const cols=loadExamCols(); delete cols[grPeriod]; saveExamCols(cols);
     const list=load(); list.forEach(s=>{ if(s.grades)delete s.grades[grPeriod]; }); save(list);
+    const rg=loadRanges(); if(rg[was]){ delete rg[was]; H().LS.set("grades.periodRanges",rg); }
     grPeriod=periods[0]; renderGrades();
     H().undo(`התקופה «${was}» נמחקה, עם הציונים שבה`,()=>{ back(); grPeriod=was; renderGrades(); },8000);
   }
   function exportGradesCsv(){
     const list=load().filter(s=>inF(s,grClsF)).sort((a,b)=>a.name.localeCompare(b.name,"he"));
     if(!list.length){H().toast("אין תלמידים");return;}
-    const weights=loadWeights(), examCols=examColsFor(grPeriod);
-    const rows=[["שם","כיתה","השתתפות ורצינות",...examCols,"ממוצע מבחנים","שיפור והתמדה","עבודת צוות","ציון סופי"]];
+    const weights=loadWeights(), examCols=examColsFor(grPeriod), L=loadLabels();
+    const tt=H().t;
+    /* עמודת סטטוס מפורשת: מי שפותח את הקובץ באקסל רואה אם הציון סופי
+       או זמני ומה חסר — בלי להסיק את זה מתאים ריקים. */
+    const rows=[["שם","כיתה",L.part,...examCols,L.exams,L.improve,L.team,L.know,"בונוס",
+      tt("gr.csvGrade","ציון"),tt("gr.csvStatus","סטטוס"),tt("gr.csvMissing","רכיבים חסרים")]];
+    const fx=v=>v!=null?v:"";
     list.forEach(s=>{
-      const g=gradeOf(s,grPeriod); const {total,examsAvg}=computeFinal(s,grPeriod,weights,examCols);
-      rows.push([s.name,s.cls||"",g.part??"",...examCols.map(c=>(g.exams&&g.exams[c])??""),examsAvg!=null?examsAvg.toFixed(1):"",g.improve??"",g.team??"",total!=null?total.toFixed(1):""]);
+      const g=gradeOf(s,grPeriod), r=computeFinal(s,grPeriod,weights,examCols);
+      rows.push([s.name,s.cls||"",fx(g.part),...examCols.map(c=>fx(g.exams&&g.exams[c])),
+        r.examsAvg!=null?r.examsAvg.toFixed(1):"",fx(g.improve),fx(g.team),fx(g.know),fx(g.bonus),
+        r.value!=null?r.value.toFixed(1):"",
+        r.status===window.HMDATA.GRADE_FINAL?tt("gr.stFinal","סופי"):r.status===window.HMDATA.GRADE_PROV?tt("gr.prov","זמני"):"",
+        r.missing.map(k=>L[k]).join("; ")]);
     });
     H().dlCSV("ציונים_"+grPeriod+".csv",rows);
   }
@@ -27476,20 +28156,51 @@ window.STU=(function(){
      הנוסחה היא attendanceRateOf() ב-hm-data.js, שהיא בדיוק הנוסחה
      של attSummary() ב-hm-tools.js. tools.att לא נקרא כאן פעם
      נוספת בצורה חדשה — נקרא ישירות מהמפתח הקיים, כמו כל מקום אחר. */
-  function fillFromAttendance(){
-    const list=load().filter(s=>inF(s,grClsF));
-    if(!list.length){ H().toast("אין תלמידים"); return; }
+  /* תקופת הערכה היא שם בלבד («רבעון 1»), בלי תאריכים — ולכן המילוי
+     חישב נוכחות מכל התאריכים אי-פעם, גם בתקופה חדשה. עכשיו לכל תקופה
+     יש טווח תאריכים (מפתח נפרד, תוספתי — שמות התקופות לא משתנים).
+     אין טווח — שואלים פעם אחת, עם ברירת מחדל של כל מה שנרשם. */
+  const loadRanges=()=>{ const r=H().LS.get("grades.periodRanges",{}); return r&&typeof r==="object"&&!Array.isArray(r)?r:{}; };
+  async function periodRange(period,list,att){
+    const ranges=loadRanges(), cur=ranges[period];
+    if(cur&&(cur.from||cur.to))return cur;
+    const ids=new Set(list.map(s=>s.id)), days=[];
+    Object.keys(att).forEach(k=>{ const i=k.indexOf("|"); if(i<0)return;
+      const rec=att[k]; if(rec&&Object.keys(rec).some(id=>ids.has(id)))days.push(k.slice(0,i)); });
+    days.sort();
+    const v=await H().ask({title:"📅 "+period,
+      msg:H().t("gr.rangeAsk","מאילו תאריכים לחשב את הנוכחות לתקופה הזו? רק נוכחות בטווח נכנסת לחישוב. הטווח נשמר לתקופה."),
+      fields:[{k:"from",label:H().t("gr.from","מתאריך"),type:"date",value:days[0]||""},
+              {k:"to",label:H().t("gr.to","עד תאריך"),type:"date",value:days[days.length-1]||""}],
+      ok:"⬇ "+H().t("gr.fillGo","מלא")});
+    if(v===null)return null;
+    let from=String(v.from||""), to=String(v.to||"");
+    if(from&&to&&from>to){ const x=from; from=to; to=x; }
+    const next=loadRanges(); next[period]={from,to}; H().LS.set("grades.periodRanges",next);
+    return {from,to};
+  }
+  async function fillFromAttendance(){
+    /* נשמרת הרשימה המלאה. קודם נשמר רק הסינון לכיתה שנבחרה — ומילוי
+       ב-ט׳3 מחק מהמכשיר את כל התלמידים של שאר הכיתות. */
+    const period=grPeriod;
+    const list0=load().filter(s=>inF(s,grClsF));
+    if(!list0.length){ H().toast("אין תלמידים"); return; }
     const att=H().LS.get("tools.att",{});
+    const range=await periodRange(period,list0,att);
+    if(!range)return;
+    /* טוענים מחדש אחרי השאלה — כדי לא לדרוס שינוי שנעשה בינתיים */
+    const all=load(), list=all.filter(s=>inF(s,grClsF));
     let filled=0;
     list.forEach(s=>{
-      const g=gradeOf(s,grPeriod);
-      if(g.part!=null)return;                       /* יש כבר ציון — לא נוגעים */
+      const g=gradeOf(s,period);
+      if(g.part!=null&&g.part!=="")return;          /* יש כבר ציון — לא נוגעים */
       const cid=cidOf(s);
-      const rate=cid?window.HMDATA.attendanceRateOf(att,s,store,{cid}):null;
+      const rate=cid?window.HMDATA.attendanceRateOf(att,s,store,{cid,from:range.from||null,to:range.to||null}):null;
       if(!rate)return;                               /* אין נתוני נוכחות — לא ממציאים */
       g.part=rate.pct; filled++;
     });
-    if(filled){ save(list); renderGrades(); H().toast("✓ נמלאו "+filled+" ציונים לפי נוכחות"); }
+    const span=(range.from||"…")+" – "+(range.to||"…");
+    if(filled){ save(all); renderGrades(); H().toast("✓ נמלאו "+filled+" ציונים לפי נוכחות · "+span); }
     else H().toast("אין שדות ריקים למלא — או שאין עדיין נתוני נוכחות לתלמידים האלה");
   }
 
@@ -27795,10 +28506,12 @@ window.STU=(function(){
     const periods=loadPeriods(), period=grPeriod||periods[0];
     const w=loadWeights(), cols=examColsFor(period);
     const l=load().filter(s=>inF(s,cid));
-    const graded=l.filter(s=>computeFinal(s,period,w,cols).total!=null).length;
+    const rs=l.map(s=>computeFinal(s,period,w,cols));
+    const graded=rs.filter(r=>r.complete).length;
+    const prov=rs.filter(r=>r.status===window.HMDATA.GRADE_PROV).length;
     const ids=new Set(l.map(s=>s.id));
     const peer=(loadAssess()||[]).filter(a=>(a.students||[]).some(id=>ids.has(id))).length;
-    return {total:l.length,period,graded,peer};
+    return {total:l.length,period,graded,prov,peer};
   }
   /* התקופה שנבחרה בלשונית הציונים — מדד הכושר נכתב אליה, ולא תמיד לראשונה */
   return {init,importFromBeep,count:()=>load().length,show,summary,
@@ -27880,11 +28593,30 @@ const LEAD_FORM={
   phone:"entry.790270370",
   email:"entry.457350621"
 };
-function initLeadCapture(){
-  const {$, LS, toast}=H();
+/* ביקורת 2026-09-29: המסך חסם גם את ההדגמה ואת בחירת השפה, בלי דילוג.
+   עכשיו: בחירת שפה במסך עצמו, «דלגו בינתיים» (נרשם כדילוג — לא
+   נשלח דבר), ואפשר לחזור אליו מההגדרות ← אודות. השדות עדיין חובה
+   כשבוחרים לשלוח. */
+let leadWired=false;
+function paintLeadLang(){
+  const {$}=H(), box=$("#lead-lang"); if(!box||!window.I18N)return;
+  const cur=window.I18N.lang();
+  box.innerHTML=window.I18N.langs().map(l=>'<button type="button" data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+
+    ' lang="'+l.code+'"><span class="fl">'+l.flag+'</span><span>'+l.native+'</span></button>').join("");
+  box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ window.I18N.set(b.dataset.l); paintLeadLang(); }));
+}
+function openLead(force){
+  const {$, LS}=H();
   const ov=$("#leadOv"); if(!ov)return;
-  if(LS.get("hx.leadDone",false))return;
+  if(!force&&LS.get("hx.leadDone",false))return;
   ov.classList.add("on");
+  paintLeadLang();
+  wireLead();
+}
+function wireLead(){
+  if(leadWired)return; leadWired=true;
+  const {$, LS, toast}=H();
+  const ov=$("#leadOv");
   const close=()=>ov.classList.remove("on");
   const submitToForm=(first,last,phone,email)=>{
     if(!LEAD_FORM.action)return;
@@ -27901,10 +28633,22 @@ function initLeadCapture(){
           phone=$("#lead-phone").value.trim(), email=$("#lead-email").value.trim();
     if(!first||!last||(!phone&&!email)){ toast("שם פרטי, שם משפחה, ואימייל או נייד — שדות חובה"); return; }
     LS.set("hx.leadDone",true);
+    LS.set("hx.leadSkipped",false);
     submitToForm(first,last,phone,email);
     toast("תודה! ממשיכים 👋");
     close();
   });
+  const sk=$("#lead-skip");
+  if(sk)sk.addEventListener("click",()=>{
+    /* דילוג: שום דבר לא נשלח. לא שואלים שוב בכל פתיחה — ההגדרות זוכרות. */
+    LS.set("hx.leadDone",true); LS.set("hx.leadSkipped",true);
+    close();
+  });
+}
+function initLeadCapture(){
+  openLead(false);
+  const b=H().$("#ab-lead");
+  if(b)b.addEventListener("click",()=>{ try{ H().modal&&document.querySelectorAll(".modal.on").forEach(m=>m.classList.remove("on")); }catch(e){} openLead(true); });
 }
 
 /* ============================ HOME extras + נעילת מורה ============================ */
@@ -27985,7 +28729,9 @@ window.HMBootNew=function(){
     try{ window.HMDATA.registerClass({get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},cls); }catch(e){}
     const kids=[["דן אבירם","boys"],["איתי כהן","boys"],["רון לוי","boys"],["עומר בר","boys"],
                 ["יהב שני","boys"],["ניר גל","boys"],["אלון מור","boys"],["גיא פרץ","boys"]];
-    LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1]})));
+    /* אותה צורה כמו כל נתיב יצירה אחר — tests:[] חובה, אחרת
+       «התלמידים שלי» לא רואה את הכיתה שכל שאר המסכים רואים. */
+    LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1],age:14,h:null,w:null,tests:[]})));
     LS.set("ft.last",{grade:"ט",num:3,sort:"todo"});
     const day=n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
     const res=[]; let id=0;
@@ -28182,7 +28928,7 @@ function start(cid,label){
   /* המערך ששויך לשיעור הזה קודם; אחרת המערך שעל המסך במערכים */
   const as=H().assign&&H().assign.get(cid,iso());
   const p=(as&&as.plan&&as.plan.phases)?as.plan:(window.LESSON&&window.LESSON.current&&window.LESSON.current());
-  const r=S.start({cid,clsSnapshot:name,date:iso(),planId:(p&&p.id)||null,planTitle:(p&&p.title)||""});
+  const r=S.start({cid,clsSnapshot:name,date:iso(),planId:(p&&p.id)||null,planTitle:(p&&p.title)||"",planGroup:(p&&p.group)||""});
   if(r.outcome==="blocked"){ H().toast(t("live.blocked","כבר פתוח שיעור בכיתה")+" "+H().sesName(r.active)); return; }
   if(!r.ok){ H().toast(t("live.cantStart","לא ניתן לפתוח שיעור")); return; }
   if(p)attachPlan(p);
@@ -28243,7 +28989,7 @@ function paintLive(root,a){
     const x=phaseNow(st);
     phase='<div class="lv-phase" id="lv-phase">'+
       '<div class="row"><span class="pill">'+esc(t("live.step","שלב"))+' '+(x.i+1)+'/'+st.plan.phases.length+'</span>'+
-        '<span class="grow"></span><span class="nx" id="lv-next">'+(x.next?esc(t("live.next","הבא:"))+" "+esc(x.next.n)+" · "+x.next.min+" "+esc(t("ui.min","דק׳")):esc(t("live.last","שלב אחרון")))+'</span></div>'+
+        '<span class="grow"></span><span class="nx" id="lv-next">'+(x.next?'<span>'+esc(t("live.next","הבא:"))+'</span> <span>'+esc(x.next.n)+'</span> · <span>'+x.next.min+" "+esc(t("ui.min","דק׳"))+'</span>':esc(t("live.last","שלב אחרון")))+'</span></div>'+
       '<div class="row"><b class="nm" id="lv-phName">'+esc(x.ph.n)+'</b><span class="grow"></span><span class="left mono" id="lv-left">'+mmss(x.left)+'</span></div>'+
       '<div class="lv-bar"><i id="lv-bar" style="width:'+Math.min(100,Math.max(0,100-x.left/(x.ph.min*60||1)*100))+'%"></i></div>'+
       (x.ph.d?'<div class="lv-desc">'+esc(x.ph.d)+'</div>':"")+
@@ -28423,7 +29169,8 @@ function cards(cid){
         (fit.last?' · <span class="dim">'+esc(t("hub.lastMeas","אחרונה"))+' '+esc(fit.last)+'</span>':"")],
       [["idx",t("hub.openIdx","מדד הכושר"),true],["cov",t("hub.openCov","מה חסר"),false],["prog",t("hub.openProg","התקדמות"),false]])+
     card("📊",t("hub.grades","ציונים"),[num(stuS.graded+"/"+stuS.total,t("hub.graded","עם ציון סופי")),
-        '<span class="dim">'+esc(stuS.period||"")+'</span>'],
+        stuS.prov?num(stuS.prov,t("hub.prov","עם ציון זמני — חסרים רכיבים")):"",
+        '<span class="dim">'+esc(stuS.period||"")+'</span>'].filter(Boolean),
       [["grades",t("hub.openGrades","טבלת הציונים"),true]])+
     card("🤝",t("hub.assess","הערכות"),[num(stuS.peer,t("hub.peerN","הערכות עמיתים"))],
       [["peer",t("hub.openPeer","הערכת עמיתים"),false],["rub",t("hub.openRub","מחוונים"),false]])+
@@ -28452,7 +29199,9 @@ function paint(){
   let act=null; try{ act=H().session.active(); }catch(e){}
   root.innerHTML=
     '<div class="hub-top"><div><div class="kick">'+esc(t("hub.title","מרכז הכיתה"))+'</div>'+
-      '<h2 id="cls-title">'+esc(H().classTitle(cid))+'</h2></div></div>'+
+      /* «כיתה» ושם הכיתה בצמתים נפרדים — כך השם האוטומטי («ט׳3») מתורגם
+         כמו בכל מסך אחר («9-3»), ולא נשאר עברית בתוך «Class ט׳3». */
+      '<h2 id="cls-title">'+esc(H().classTitle(cid)).replace(/^(\S+) /,'<span>$1</span> <span>')+'</span></h2></div></div>'+
     '<div class="hub-chips">'+list().map(c=>'<button class="chip'+(c.cid===cid?" on":"")+'" data-cls="'+esc(c.cid)+'">'+
       (c.group?"👥 ":"")+esc(c.name)+(act&&act.cid===c.cid?' <span class="livedot" title="'+esc(t("hub.inLesson","בשיעור עכשיו"))+'">●</span>':"")+'</button>').join("")+'</div>'+
     '<div class="card hub-ov" id="cls-body">'+H().classOverviewHtml(cid)+'</div>'+
