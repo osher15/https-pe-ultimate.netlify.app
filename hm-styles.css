@@ -699,7 +699,8 @@ a{color:var(--acc);text-decoration:none}a:hover{color:color-mix(in srgb,var(--ac
 #lockOv{position:fixed;inset:0;z-index:400;display:none;place-items:center;padding:22px;
   background:radial-gradient(700px 480px at 50% 8%,rgba(167,139,250,.18),transparent 60%),#07080f}
 #lockOv.on{display:grid}
-#lockOv .box{width:min(380px,100%);text-align:center}
+#lockOv .box{width:min(380px,100%);text-align:center;max-height:calc(100dvh - 24px);overflow-y:auto}
+#lock-lang{justify-content:center;margin:0 0 14px}
 #lockOv .lg{width:70px;height:70px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;font-size:34px;
   background:linear-gradient(135deg,var(--acc),#5b4bb8);box-shadow:0 12px 40px rgba(167,139,250,.4)}
 /* אותו מבנה כמו שם המותג בכותרת העליונה (.topbar .ttl): המילה
@@ -1372,6 +1373,9 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
   color:var(--ink);border-radius:11px;padding:8px 12px;font-family:'Heebo';font-size:13.5px;font-weight:600;
   cursor:pointer;min-height:calc(40px + var(--touch));flex:none;transition:.12s}
 .backbtn[hidden]{display:none!important}
+/* «חזרה» מצביע לתחילת השורה: → בעברית ובערבית, ← משמאל לימין */
+.backbtn .bk-ar{font-style:normal;display:inline-block}
+body[data-dir="ltr"] .backbtn .bk-ar{transform:scaleX(-1)}
 .backbtn:active{transform:scale(.94)}
 .backbtn:hover{border-color:var(--acc);color:var(--acc)}
 @media(max-width:430px){.backbtn span{display:none}.backbtn{padding:8px 11px}}
@@ -1395,7 +1399,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 #demoBar{z-index:120;display:flex;align-items:center;justify-content:center;gap:10px;
   flex-wrap:wrap;background:color-mix(in srgb,var(--warn) 22%,var(--bg2));border-bottom:1px solid var(--warn);
   color:var(--warn);padding:8px 14px;font-size:13px;font-weight:600}
-#demoBar[hidden]{display:none!important}
+#demoBar[hidden],#demoReload[hidden]{display:none!important}
 .lock-about{margin-top:14px;border-top:1px solid var(--line);padding-top:12px;font-size:12.5px;
   color:var(--muted);line-height:1.7;text-align:start}
 .lock-about b{color:var(--ink)}

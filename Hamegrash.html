@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="f1052841">
+<meta name="hm-build" content="de9315b2">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -723,7 +723,8 @@ a{color:var(--acc);text-decoration:none}a:hover{color:color-mix(in srgb,var(--ac
 #lockOv{position:fixed;inset:0;z-index:400;display:none;place-items:center;padding:22px;
   background:radial-gradient(700px 480px at 50% 8%,rgba(167,139,250,.18),transparent 60%),#07080f}
 #lockOv.on{display:grid}
-#lockOv .box{width:min(380px,100%);text-align:center}
+#lockOv .box{width:min(380px,100%);text-align:center;max-height:calc(100dvh - 24px);overflow-y:auto}
+#lock-lang{justify-content:center;margin:0 0 14px}
 #lockOv .lg{width:70px;height:70px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;font-size:34px;
   background:linear-gradient(135deg,var(--acc),#5b4bb8);box-shadow:0 12px 40px rgba(167,139,250,.4)}
 /* אותו מבנה כמו שם המותג בכותרת העליונה (.topbar .ttl): המילה
@@ -1396,6 +1397,9 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
   color:var(--ink);border-radius:11px;padding:8px 12px;font-family:'Heebo';font-size:13.5px;font-weight:600;
   cursor:pointer;min-height:calc(40px + var(--touch));flex:none;transition:.12s}
 .backbtn[hidden]{display:none!important}
+/* «חזרה» מצביע לתחילת השורה: → בעברית ובערבית, ← משמאל לימין */
+.backbtn .bk-ar{font-style:normal;display:inline-block}
+body[data-dir="ltr"] .backbtn .bk-ar{transform:scaleX(-1)}
 .backbtn:active{transform:scale(.94)}
 .backbtn:hover{border-color:var(--acc);color:var(--acc)}
 @media(max-width:430px){.backbtn span{display:none}.backbtn{padding:8px 11px}}
@@ -1419,7 +1423,7 @@ body[data-theme="day"][data-mod="ft"]{--acc:#b45309;--accDim:rgba(180,83,9,.14)}
 #demoBar{z-index:120;display:flex;align-items:center;justify-content:center;gap:10px;
   flex-wrap:wrap;background:color-mix(in srgb,var(--warn) 22%,var(--bg2));border-bottom:1px solid var(--warn);
   color:var(--warn);padding:8px 14px;font-size:13px;font-weight:600}
-#demoBar[hidden]{display:none!important}
+#demoBar[hidden],#demoReload[hidden]{display:none!important}
 .lock-about{margin-top:14px;border-top:1px solid var(--line);padding-top:12px;font-size:12.5px;
   color:var(--muted);line-height:1.7;text-align:start}
 .lock-about b{color:var(--ink)}
@@ -1929,14 +1933,14 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
      ============================================================ -->
 <header class="apphead">
 <div class="topbar">
-  <button class="backbtn" id="btnBack" hidden>→<span data-i18n="nav.back">חזרה</span></button>
+  <button class="backbtn" id="btnBack" hidden><i class="bk-ar" aria-hidden="true">→</i><span data-i18n="nav.back">חזרה</span></button>
   <div class="brand"><div class="logo">⏱️</div>
     <div><div class="ttl" dir="auto"><span data-i18n="brand.word">PE</span> <b style="color:var(--acc)">Ultimate</b></div><div class="sub" id="schoolSub" dir="auto">ערכת שטח למורה לחינוך גופני</div></div>
   </div>
   <div class="sboard">
     <button id="roleBadge" style="display:none">👦 מצב תלמיד<span id="roleExit">יציאה 🔓</span></button>
     <span class="clock" id="topClock">--:--</span>
-    <button class="iconbtn langbtn" id="btnLang" title="שפת הממשק" data-i18n-title="ui.lang" aria-label="שפת הממשק" aria-haspopup="true">עב</button>
+    <button class="iconbtn langbtn" id="btnLang" title="שפת הממשק" data-i18n-title="ui.lang" aria-label="שפת הממשק" data-i18n-aria-label="ui.lang" aria-haspopup="true">עב</button>
     <button class="iconbtn" id="btnSun" title="מצב שמש — ניגודיות גבוהה לאור יום" data-i18n-title="ui.sun">☀</button>
     <button class="iconbtn" id="btnSettings" title="הגדרות" data-i18n-title="ui.settings" aria-label="הגדרות">⚙</button></div>
 </div>
@@ -1956,6 +1960,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
   <button class="btn sm" id="stWarnSave">💾 ייצא גיבוי עכשיו</button>
   <button class="x" id="stWarnX" aria-label="סגור">✕</button></div>
 <div id="demoBar" hidden>🎬 <b data-i18n="ui.demoBar">מצב הדגמה</b> <span data-i18n="ui.demoNote">— הנתונים כאן הם דוגמה</span>
+  <button class="btn sm" id="demoReload" hidden>↻ טען את ההדגמה מחדש באנגלית</button>
   <button class="btn sm" id="demoClear" data-i18n="ui.demoClear">נקה נתוני הדגמה</button></div>
 <div id="leadRemind" class="lead-remind" role="region" aria-label="contact" hidden>
   <span data-i18n="lead.remT">📨 רוצים להשאיר פרטי קשר לשאלון המשוב? זה לא חובה.</span>
@@ -2555,7 +2560,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
       <textarea id="rec-spFilm" rows="4"></textarea></div>
     <div class="field" style="margin-top:9px"><label>חיפוש יוטיוב לסרטון הסבר</label>
       <input type="text" id="rec-spYt" placeholder="קפיצה בחבל טכניקה נכונה"></div>
-    <div class="hint" style="margin:9px 0 12px">אפשר להדגיש מילה בתוך כלל עם שתי כוכביות: <code>**מהצד**</code>.</div>
+    <div class="hint" style="margin:9px 0 12px">אפשר להדגיש מילה בתוך כלל עם שתי כוכביות: <code data-i18n="rec.boldEx">**מהצד**</code>.</div>
     <button class="btn acc big" id="rec-spSave">שמור ענף</button>
   </div></div>
 
@@ -3837,6 +3842,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
     <input type="file" id="stu-fileImport" accept=".csv,.txt,text/csv,text/plain" style="display:none"></label>
 </div></div>
 <div id="lockOv"><div class="box">
+  <div class="lang-pick lead-lang" id="lock-lang" aria-label="Language"></div>
   <div class="lg">🔐</div>
   <h1 dir="auto"><span data-i18n="brand.word">PE</span> <b style="color:var(--acc)">Ultimate</b></h1>
   <p data-i18n="lock.sub">אזור מורה — הזן קוד כדי להיכנס</p>
@@ -4098,6 +4104,9 @@ function bootMirror(){
     var keys=snap&&snap.data?Object.keys(snap.data).filter(function(k){ return k.indexOf(NS)===0; }):[];
     if(!keys.length){ done(); return; }
     keys.forEach(function(k){ try{ localStorage.setItem(k,snap.data[k]); }catch(e){} });
+    /* hm-i18n כבר רשם «en» כהתקנה חדשה. עותק בלי בחירת שפה הוא של משתמש
+       קיים — מוחקים, וכך בטעינה הבאה הוא נשאר בשפה שראה (עברית). */
+    if(!(NS+"lang" in snap.data))try{ localStorage.removeItem(NS+"lang"); }catch(e){}
     try{ sessionStorage.setItem("hmn.restored",String(keys.length)); }catch(e){}
     location.reload();
   },function(){ done(); });
@@ -8116,6 +8125,21 @@ window.I18N_TERMS={
 "תרגיל T — שינויי כיוון":["T-drill — changes of direction", "تمرين T — تغيير الاتجاه", "T-тест — смена направления", "Test en T — cambios de dirección"],
 "תת־משקל":["Underweight", "نقص وزن", "Недостаточный вес", "Bajo peso"],
 "סיום:":["Cool-down:", "الختام:", "Заминка:", "Vuelta a la calma:"],
+/* פערים שנמצאו בסריקת מצב אנגלית (התקנה חדשה + הדגמה) */
+"מבדק אירובי — 3 מועדים":["Aerobic assessment — 3 sessions", "تقييم هوائي — 3 مواعيد", "Аэробный тест — 3 сессии", "Prueba aeróbica — 3 sesiones"],
+"אימון מחזורי — 3 מועדים":["Circuit training — 3 sessions", "تدريب دائري — 3 مواعيد", "Круговая тренировка — 3 сессии", "Circuito de entrenamiento — 3 sesiones"],
+"מבחן עיוני — אחוז תשובות נכונות":["Theory test — percentage of correct answers", "اختبار نظري — نسبة الإجابات الصحيحة", "Теоретический тест — процент правильных ответов", "Examen teórico — porcentaje de respuestas correctas"],
+"מועד {0}":["Session {0}", "الموعد {0}", "Сессия {0}", "Sesión {0}"],
+"הושלם":["Completed", "مكتمل", "Выполнено", "Completado"],
+"יום A":["Day A", "اليوم A", "День A", "Día A"],
+"יום B":["Day B", "اليوم B", "День B", "Día B"],
+"מהירות ההתחלה בפרוטוקול התקני של Léger היא 8.0 קמ״ש למסלול 20 מ׳. שינוי שלה משנה את כל לוח הזמנים של הביפים, ולכן ערכי ה-VO₂max יוצגו כהערכה בלבד — הנורמות של FITNESSGRAM מבוססות על הפרוטוקול התקני.":["The starting speed in the standard Léger protocol is 8.0 km/h for a 20 m lane. Changing it changes the whole beep schedule, so VO₂max values will be shown as an estimate only — the FITNESSGRAM norms are based on the standard protocol.", "سرعة البداية في بروتوكول Léger القياسي هي 8.0 كم/س لمسار 20 م. تغييرها يغيّر جدول الصافرات كله، ولذلك تُعرض قيم VO₂max كتقدير فقط — معايير FITNESSGRAM مبنية على البروتوكول القياسي.", "Начальная скорость в стандартном протоколе Léger — 8,0 км/ч для дорожки 20 м. Её изменение меняет всё расписание сигналов, поэтому значения VO₂max будут показаны только как оценка — нормы FITNESSGRAM основаны на стандартном протоколе.", "La velocidad inicial del protocolo estándar de Léger es 8,0 km/h para una calle de 20 m. Cambiarla modifica todo el calendario de pitidos, por lo que los valores de VO₂máx. se mostrarán solo como estimación: los baremos FITNESSGRAM se basan en el protocolo estándar."],
+"המרחק בין האקדח למצלמה, במטרים. הקול נוסע 343 מ׳ בשנייה, ולכן אם המצלמה עומדת 34 מ׳ מהזינוק היא שומעת את הירייה עשירית שנייה אחרי שהיא קרתה — והזמנים יוצאים קצרים מדי בדיוק בעשירית הזאת. הזנת המרחק מקזזת את זה.":["The distance between the starting gun and the camera, in metres. Sound travels 343 m per second, so if the camera stands 34 m from the start it hears the shot a tenth of a second after it happened — and the times come out too short by exactly that tenth. Entering the distance corrects for this.", "المسافة بين مسدس الانطلاق والكاميرا بالأمتار. ينتقل الصوت 343 م في الثانية، فإذا كانت الكاميرا على بُعد 34 م من خط الانطلاق فإنها تسمع الطلقة بعد عُشر ثانية من حدوثها — وتخرج الأزمنة أقصر من الحقيقة بهذا العُشر تمامًا. إدخال المسافة يعوّض ذلك.", "Расстояние от стартового пистолета до камеры, в метрах. Звук проходит 343 м в секунду, поэтому если камера стоит в 34 м от старта, она слышит выстрел на десятую секунды позже — и время получается короче ровно на эту десятую. Ввод расстояния это компенсирует.", "La distancia entre la pistola y la cámara, en metros. El sonido recorre 343 m por segundo, así que si la cámara está a 34 m de la salida oye el disparo una décima de segundo después de que ocurra, y los tiempos salen cortos justo en esa décima. Introducir la distancia lo compensa."],
+"כמה שינוי בתמונה נחשב «רץ עבר». נמוך מדי — צל, ענף או תלמיד ברקע נספרים כחצייה. גבוה מדי — רץ בחולצה בהירה על רקע בהיר לא נתפס. התחל ב-45, ואם יש חציות מדומות העלה בהדרגה.":["How much change in the image counts as «a runner crossed». Too low — a shadow, a branch or a student in the background counts as a crossing. Too high — a runner in a light shirt against a light background is missed. Start at 45, and if you get false crossings, raise it gradually.", "مقدار التغيّر في الصورة الذي يُعدّ «مرّ عدّاء». منخفض جدًا — يُحتسب ظلّ أو غصن أو طالب في الخلفية عبورًا. مرتفع جدًا — لا يُلتقط عدّاء بقميص فاتح على خلفية فاتحة. ابدأ بـ 45، وإن ظهرت عبورات وهمية فارفعه تدريجيًا.", "Какое изменение в кадре считается «бегун пересёк линию». Слишком низко — тень, ветка или ученик на фоне засчитываются как пересечение. Слишком высоко — бегун в светлой футболке на светлом фоне не распознаётся. Начните с 45 и при ложных срабатываниях постепенно повышайте.", "Cuánto cambio en la imagen cuenta como «pasó un corredor». Demasiado bajo: una sombra, una rama o un alumno al fondo cuentan como paso. Demasiado alto: no se detecta a un corredor con camiseta clara sobre fondo claro. Empieza en 45 y, si hay pasos falsos, súbelo poco a poco."],
+"שם הקריטריון":["Criterion name", "اسم المعيار", "Название критерия", "Nombre del criterio"],
+"תיאור קצר (אופציונלי)":["Short description (optional)", "وصف قصير (اختياري)", "Краткое описание (необязательно)", "Descripción breve (opcional)"],
+"למשל: לשים לב שדנה חוזרת מפציעה — תפקיד שיפוט בחלק הסופי":["e.g. Dana is coming back from an injury — give her a referee role in the final part", "مثلًا: الانتباه إلى أن دانا عائدة من إصابة — دور تحكيم في الجزء الأخير", "например: Дана возвращается после травмы — роль судьи в заключительной части", "p. ej.: Dana vuelve de una lesión — rol de árbitra en la parte final"],
+"מדידות כושר":["Fitness measurements", "قياسات اللياقة", "Измерения формы", "Mediciones de condición física"],
 };
 
 ;
@@ -13074,6 +13098,28 @@ en:{
   "nav.live":"Lesson",
   "nav.classes":"Classes",
   "ui.lang":"Interface language",
+  /* התקנה חדשה באנגלית · הדגמה · ייצוא */
+  "rec.boldEx":"**from the side**",
+  "bt.stuN":"Student {0}",
+  "bt.profDef":"{0} · {1} m · age {2}",
+  "gr.formula":"Final grade = {0} + bonus up to {1} pts (capped at 100)",
+  "ui.demoOn":"🎬 Demo mode — sample class {0}",
+  "ui.demoReloadEn":"↻ Reload the demo in English",
+  "ui.demoReloadHe":"↻ Reload the demo in Hebrew",
+  "ui.demoReloadQ":"Reload the demo?\n\nOnly the demo students and their results are replaced — same IDs and the same class, with English names. No other data changes.",
+  "ui.demoReloadOk":"↻ Reload",
+  "ui.demoReloaded":"✓ Demo reloaded",
+  "ui.demoClearQ":"Delete the demo data?\n\nThe sample class and its results will be deleted, and the app will be empty and ready for real data.",
+  "ui.demoClearOk":"🗑 Delete",
+  "ui.demoCleared":"Demo data deleted",
+  "csv.beep":"beep-test",
+  "csv.grades":"grades",
+  "csv.card":"student-card",
+  "csv.test":"test",
+  "csv.index":"fitness-index",
+  "pf.mailSubj":"Results: {0}",
+  "pf.mailWind":"⚠ Illegal wind: {0} m/s",
+  "csv.badge":"pe-badge",
   "ui.min":"min",
   "area.plans":"Plans",
   "area.games":"Games",
@@ -13608,6 +13654,28 @@ ar:{
   "nav.live":"الدرس",
   "nav.classes":"الصفوف",
   "ui.lang":"لغة الواجهة",
+  /* התקנה חדשה באנגלית · הדגמה · ייצוא */
+  "rec.boldEx":"**من الجانب**",
+  "bt.stuN":"طالب {0}",
+  "bt.profDef":"{0} · {1} م · العمر {2}",
+  "gr.formula":"العلامة النهائية = {0} + مكافأة حتى {1} نقاط (بحد أقصى 100)",
+  "ui.demoOn":"🎬 وضع العرض التوضيحي — صف نموذجي {0}",
+  "ui.demoReloadEn":"↻ إعادة تحميل العرض التوضيحي بالإنجليزية",
+  "ui.demoReloadHe":"↻ إعادة تحميل العرض التوضيحي بالعبرية",
+  "ui.demoReloadQ":"إعادة تحميل العرض التوضيحي؟\n\nيُستبدل طلاب العرض ونتائجهم فقط — بالمعرّفات نفسها والصف نفسه، مع أسماء بالإنجليزية. لا تتغيّر أي بيانات أخرى.",
+  "ui.demoReloadOk":"↻ إعادة التحميل",
+  "ui.demoReloaded":"✓ أُعيد تحميل العرض التوضيحي",
+  "ui.demoClearQ":"حذف بيانات العرض التوضيحي؟\n\nسيُحذف الصف النموذجي ونتائجه، ويعود التطبيق فارغًا وجاهزًا للبيانات الحقيقية.",
+  "ui.demoClearOk":"🗑 حذف",
+  "ui.demoCleared":"حُذفت بيانات العرض التوضيحي",
+  "csv.beep":"اختبار-بيب",
+  "csv.grades":"العلامات",
+  "csv.card":"بطاقة-الطالب",
+  "csv.test":"اختبار",
+  "csv.index":"مؤشر-اللياقة",
+  "pf.mailSubj":"النتائج: {0}",
+  "pf.mailWind":"⚠ رياح غير قانونية: {0} م/ث",
+  "csv.badge":"وسام-التربية-البدنية",
   "ui.min":"د",
   "area.plans":"الخطط",
   "area.games":"ألعاب",
@@ -14146,6 +14214,28 @@ ru:{
   "nav.live":"Урок",
   "nav.classes":"Классы",
   "ui.lang":"Язык интерфейса",
+  /* התקנה חדשה באנגלית · הדגמה · ייצוא */
+  "rec.boldEx":"**сбоку**",
+  "bt.stuN":"Ученик {0}",
+  "bt.profDef":"{0} · {1} м · возраст {2}",
+  "gr.formula":"Итоговая оценка = {0} + бонус до {1} б. (не более 100)",
+  "ui.demoOn":"🎬 Демо-режим — учебный класс {0}",
+  "ui.demoReloadEn":"↻ Перезагрузить демо на английском",
+  "ui.demoReloadHe":"↻ Перезагрузить демо на иврите",
+  "ui.demoReloadQ":"Перезагрузить демо?\n\nЗаменяются только демо-ученики и их результаты — те же идентификаторы и тот же класс, с английскими именами. Другие данные не меняются.",
+  "ui.demoReloadOk":"↻ Перезагрузить",
+  "ui.demoReloaded":"✓ Демо перезагружено",
+  "ui.demoClearQ":"Удалить демо-данные?\n\nУчебный класс и его результаты будут удалены, и приложение снова станет пустым и готовым к реальным данным.",
+  "ui.demoClearOk":"🗑 Удалить",
+  "ui.demoCleared":"Демо-данные удалены",
+  "csv.beep":"бип-тест",
+  "csv.grades":"оценки",
+  "csv.card":"карточка-ученика",
+  "csv.test":"тест",
+  "csv.index":"индекс-формы",
+  "pf.mailSubj":"Результаты: {0}",
+  "pf.mailWind":"⚠ Недопустимый ветер: {0} м/с",
+  "csv.badge":"значок-физкультуры",
   "ui.min":"мин",
   "area.plans":"Планы",
   "area.games":"Игры",
@@ -14677,6 +14767,28 @@ es:{
   "nav.live":"Sesión",
   "nav.classes":"Grupos",
   "ui.lang":"Idioma de la interfaz",
+  /* התקנה חדשה באנגלית · הדגמה · ייצוא */
+  "rec.boldEx":"**de lado**",
+  "bt.stuN":"Alumno {0}",
+  "bt.profDef":"{0} · {1} m · edad {2}",
+  "gr.formula":"Nota final = {0} + bonificación de hasta {1} pts (máximo 100)",
+  "ui.demoOn":"🎬 Modo demostración — grupo de ejemplo {0}",
+  "ui.demoReloadEn":"↻ Recargar la demostración en inglés",
+  "ui.demoReloadHe":"↻ Recargar la demostración en hebreo",
+  "ui.demoReloadQ":"¿Recargar la demostración?\n\nSolo se sustituyen el alumnado de demostración y sus resultados — los mismos identificadores y el mismo grupo, con nombres en inglés. Ningún otro dato cambia.",
+  "ui.demoReloadOk":"↻ Recargar",
+  "ui.demoReloaded":"✓ Demostración recargada",
+  "ui.demoClearQ":"¿Borrar los datos de demostración?\n\nSe borrarán el grupo de ejemplo y sus resultados, y la app quedará vacía y lista para datos reales.",
+  "ui.demoClearOk":"🗑 Borrar",
+  "ui.demoCleared":"Datos de demostración borrados",
+  "csv.beep":"test-de-la-bip",
+  "csv.grades":"notas",
+  "csv.card":"ficha-alumno",
+  "csv.test":"prueba",
+  "csv.index":"indice-condicion-fisica",
+  "pf.mailSubj":"Resultados: {0}",
+  "pf.mailWind":"⚠ Viento ilegal: {0} m/s",
+  "csv.badge":"insignia-ef",
   "ui.min":"min",
   "area.plans":"Planes",
   "area.games":"Juegos",
@@ -15025,13 +15137,25 @@ es:{
 };
 
 const KEY=(window.BRAND&&window.BRAND.ns||"pehub.")+"lang";
-let cur=(function(){
+/* שפת הפתיחה — בלי ניחוש משפת הדפדפן או המכשיר, בכוונה:
+     · בחירה שמורה — תמיד היא.
+     · התקנה חדשה (אין אף מפתח של האפליקציה) — אנגלית, גם במכשיר עברי.
+       זו חוויית ההדגמה הבינלאומית; המעבר לעברית במרחק הקשה.
+     · מכשיר שכבר יש בו נתונים ואין בו בחירה — משתמש קיים, שעד עכשיו
+       ראה עברית כברירת מחדל. הוא נשאר בעברית.
+   הבחירה נכתבת מיד בשני המקרים, כדי שהנתונים שייכתבו מעכשיו לא יהפכו
+   משתמש חדש ל«קיים» בפתיחה הבאה. */
+function initialLang(){
   try{ const v=localStorage.getItem(KEY); if(v&&DICT[v.replace(/"/g,"")]!==undefined)return v.replace(/"/g,""); }catch(e){}
-  /* בכוונה בלי ניחוש משפת הדפדפן. התוכן המקצועי עדיין עברית, ולכן
-     מורה ישראלי עם טלפון מוגדר באנגלית היה מקבל ממשק אנגלי מעל תוכן
-     עברי — גרוע משתי השפות. ברירת המחדל היא עברית, והבחירה מפורשת. */
-  return "he";
-})();
+  const ns=KEY.slice(0,-4);
+  let existing=false;
+  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i);
+    if(k&&k.indexOf(ns)===0&&k!==KEY){ existing=true; break; } } }catch(e){}
+  const code=existing?"he":"en";
+  try{ localStorage.setItem(KEY,code); }catch(e){}
+  return code;
+}
+let cur=initialLang();
 
 const info=c=>LANGS.find(l=>l.code===c)||LANGS[0];
 
@@ -15961,6 +16085,12 @@ function buildId(){
 
 /* קיצור לשימוש בקוד: HM.t("nav.home") — מפתח חסר נופל לעברית שנמסרה. */
 function t(key,def){ return window.I18N?window.I18N.t(key,def):(def!=null?def:key); }
+/* טקסט שהאפליקציה עצמה יצרה (שם כיתה אוטומטי «ט׳3», ערך ברירת מחדל) — בשפת
+   הממשק. לא לשימוש על טקסט שהמורה הקליד. */
+function trUI(s){ return window.I18N&&window.I18N.tr?window.I18N.tr(s):s; }
+/* שם כיתה: רק השם האוטומטי («ט׳3» → «9-3») מתורגם. שם שהמורה נתן לכיתה
+   נשאר כפי שנכתב — גם בקבצים שמייצאים. */
+function clsUI(s){ return /^(י״[אב]|[א-י]׳)\d{1,2}$/.test(String(s||"").trim())?trUI(String(s).trim()):s; }
 /* תאריכים ומספרים לפי שפת הממשק. עד עכשיו הם היו נעולים על he-IL,
    ולכן דף הבית בערבית הציג כותרת ערבית מעל תאריך עברי. */
 function loc(){
@@ -18177,7 +18307,7 @@ const BT=(function(){
     if(!running&&!elapsedOffset){toast("המבחן עוד לא התחיל");return;}
     const el=getElapsed(), done=completedCount(el);
     const lb=done>0?beeps[done-1]:{level:1,shInLvl:0,speed:startSpeed};
-    const nm=who||("תלמיד "+nextNum);
+    const nm=who||t("bt.stuN","תלמיד {0}").replace("{0}",nextNum);
     results.push({id:Date.now()+Math.random(),name:nm,level:lb.level,sh:lb.shInLvl,dist:done*distance,time:+el.toFixed(1),speed:lb.speed});
     if(!who)nextNum++;
     persist(); renderResults(); renderHeat(); renderLanes(); beep(440,0.16);
@@ -18380,7 +18510,8 @@ const BT=(function(){
       const p2=profs()[+i]; if(p2)profApply(p2);
     });
     $("#bt-profSave").addEventListener("click",async()=>{
-      const def=(classSex==="girls"?"בנות":"בנים")+" · "+distance+" מ׳ · גיל "+classAge;
+      const def=t("bt.profDef","{0} · {1} מ׳ · גיל {2}").replace("{0}",trUI(classSex==="girls"?"בנות":"בנים"))
+        .replace("{1}",distance).replace("{2}",classAge);
       const nm=await ask({fields:[{label:"שם הפרופיל:",value:def}],ok:"💾 שמור"}); if(nm===null)return;
       const name=nm.trim()||def;
       const list=profs();
@@ -18414,14 +18545,14 @@ const BT=(function(){
     $("#bt-sortDist").addEventListener("click",function(){sortBy="dist";this.classList.add("on");$("#bt-sortOrder").classList.remove("on");renderResults()});
     $("#bt-csvBtn").addEventListener("click",()=>{
       if(!results.length){toast("אין רישומים");return;}
-      const sexHe=classSex==="boys"?"בנים":"בנות";
+      const sexHe=trUI(classSex==="boys"?"בנים":"בנות");
       const rows=[["מס","שם","שלב","מקטע","מרחק (מ)","זמן (שנ)","מהירות (קמ\"ש)","VO2max","דרגה","מין","גיל","מרחק לכיוון (מ)"]];
       results.forEach((r,i)=>{ const v=vo2max(r.speed,classAge), ok=r.dist>0&&v>0;
-        rows.push([i+1,r.name,r.level,r.sh,r.dist,r.time.toFixed(1),r.speed.toFixed(1),ok?v.toFixed(1):"",ok?classify(v,classAge,classSex).g:"",sexHe,classAge,distance]); });
+        rows.push([i+1,r.name,r.level,r.sh,r.dist,r.time.toFixed(1),r.speed.toFixed(1),ok?v.toFixed(1):"",ok?trUI(classify(v,classAge,classSex).g):"",sexHe,classAge,distance]); });
       /* שם הקובץ נשא תאריך ולא כלום, ולכן שלושה מקצים באותו יום ירדו
          כ-«(1)», «(2)» ו«(3)» בתיקיית ההורדות. */
-      const clsPart=(heat.cls||"").replace(/[\\/:*?"<>|]/g,"").trim();
-      dlCSV("ביפ-טסט"+(clsPart?"-"+clsPart:"")+"-"+new Date().toISOString().slice(0,10)+".csv",rows);
+      const clsPart=String(clsUI(heat.cls||"")).replace(/[\\/:*?"<>|]/g,"").trim();
+      dlCSV(t("csv.beep","ביפ-טסט")+(clsPart?"-"+clsPart:"")+"-"+new Date().toISOString().slice(0,10)+".csv",rows);
     });
     const btPaint=()=>{ persist();renderResults();renderHeat();renderLanes();$("#bt-regBtn").disabled=!(running||elapsedOffset>0); };
     $("#bt-clearBtn").addEventListener("click",()=>{ if(!results.length)return;
@@ -18488,7 +18619,8 @@ const PF=(function(){
      לירות. כל השאר ממשיך בדיוק כמו קודם: הרצועה נבנית, תמונת הסיום
      עובדת, ההקשה על מסלול ומקשי 1–9 רושמים זמן כרגיל. */
   let manual=LS.get("pf.manual",false);
-  let META=Object.assign({title:"אליפות בית הספר — ריצת 60 מ׳",round:"גמר",dist:60,date:"",wind:""},LS.get("pf.meta",{}));
+  const PF_TITLE_DEF="אליפות בית הספר — ריצת 60 מ׳";
+  let META=Object.assign({title:PF_TITLE_DEF,round:"גמר",dist:60,date:"",wind:""},LS.get("pf.meta",{}));
 
   /* detection */
   const PW=320,PH=180,CELL=4,BANDW=10;
@@ -19221,7 +19353,10 @@ const PF=(function(){
   function loadSample(){
     laneN=4; LS.set("pf.laneN",4); $("#pf-laneCount").value=4; $("#pf-laneCountVal").textContent=4;
     buildLanes(false);
-    const demo=[["דניאל כהן",8.42],["יואב לוי",8.57],["איתי מזרחי",8.91],["נועם פרץ",9.34]];
+    /* שמות מומצאים — בעברית בממשק עברי, אחרת ההדגמה הבינלאומית באנגלית */
+    const demo=window.I18N&&window.I18N.lang()!=="he"
+      ?[["Daniel Hayes",8.42],["Jacob Reed",8.57],["Tyler Grant",8.91],["Nathan Price",9.34]]
+      :[["דניאל כהן",8.42],["יואב לוי",8.57],["איתי מזרחי",8.91],["נועם פרץ",9.34]];
     demo.forEach((d,i)=>{lanes[i].name=d[0];lanes[i].time=d[1];lanes[i].src="דוגמה";});
     persistNames(); renderChips(); renderBoard(); refreshLaneSel();
     switchTab("results"); toast("נתוני דוגמה נטענו");
@@ -19231,15 +19366,17 @@ const PF=(function(){
   function csvSprint(){
     const list=finished(); if(!list.length){toast("אין תוצאות");return;}
     const rows=[["דירוג","מסלול","שם","זמן (שנ)","פער","מקור","תחרות","שלב","מרחק","תאריך","רוח"]];
-    list.forEach((l,i)=>rows.push([i+1,l.lane,l.name,l.time.toFixed(3),i?(l.time-list[0].time).toFixed(2):"0",l.src||"",META.title,META.round,META.dist,META.date,META.wind]));
+    list.forEach((l,i)=>rows.push([i+1,l.lane,l.name,l.time.toFixed(3),i?(l.time-list[0].time).toFixed(2):"0",trUI(l.src||""),trUI(META.title),trUI(META.round),META.dist,META.date,META.wind]));
     dlCSV("photofinish.csv",rows);
   }
   function mailResults(){
     const list=finished(); if(!list.length){toast("אין תוצאות");return;}
-    const body=[`${META.title} · ${META.round} · ${META.dist} מ׳ · ${META.date}`,""].concat(
-      list.map((l,i)=>`${i+1}. ${l.name} (מסלול ${l.lane}) — ${fmtMSc(l.time)}${i?" (+"+(l.time-list[0].time).toFixed(2)+")":""}`)
-    ).concat(windIllegal()?["","⚠ רוח לא חוקית: "+META.wind+" מ/ש"]:[]).join("\n");
-    location.href="mailto:?subject="+encodeURIComponent("תוצאות: "+META.title)+"&body="+encodeURIComponent(body);
+    /* גוף המייל בשפת הממשק — שם המקצה ושמות הרצים כפי שנכתבו */
+    const lane=trUI("מסלול"), m=trUI("מ׳");
+    const body=[`${trUI(META.title)} · ${trUI(META.round)} · ${META.dist} ${m} · ${META.date}`,""].concat(
+      list.map((l,i)=>`${i+1}. ${l.name} (${lane} ${l.lane}) — ${fmtMSc(l.time)}${i?" (+"+(l.time-list[0].time).toFixed(2)+")":""}`)
+    ).concat(windIllegal()?["",t("pf.mailWind","⚠ רוח לא חוקית: {0} מ/ש").replace("{0}",META.wind)]:[]).join("\n");
+    location.href="mailto:?subject="+encodeURIComponent(t("pf.mailSubj","תוצאות: {0}").replace("{0}",trUI(META.title)))+"&body="+encodeURIComponent(body);
   }
   function printCert(){
     const list=finished(); if(!list.length){toast("אין תוצאות");return;}
@@ -19317,11 +19454,13 @@ const PF=(function(){
 
   /* ---------- meta form ---------- */
   function fillMetaForm(){
-    $("#pf-setTitle").value=META.title; $("#pf-setRound").value=META.round;
+    /* כותרת ברירת המחדל בשפת הממשק; כותרת שהמורה כתב — כפי שנכתבה */
+    $("#pf-setTitle").value=META.title===PF_TITLE_DEF?trUI(META.title):META.title; $("#pf-setRound").value=META.round;
     $("#pf-setDist").value=META.dist; $("#pf-setDate").value=META.date; $("#pf-setWind").value=META.wind;
   }
   function saveMeta(){
-    META={title:$("#pf-setTitle").value.trim()||"מקצה",round:$("#pf-setRound").value,
+    const ti=$("#pf-setTitle").value.trim();
+    META={title:ti===trUI(PF_TITLE_DEF)?PF_TITLE_DEF:(ti||"מקצה"),round:$("#pf-setRound").value,
       dist:+$("#pf-setDist").value||0,date:$("#pf-setDate").value,wind:$("#pf-setWind").value};
     LS.set("pf.meta",META); renderMeta(); toast("הפרטים נשמרו");
   }
@@ -19347,7 +19486,7 @@ const PF=(function(){
   function paintSaveBtn(){
     const b=$("#pf-toFt"); if(!b)return;
     const act=SESSION.active();
-    b.textContent=act&&act.clsSnapshot?t("pf.saveTo","🏅 שמור ל־{0}").replace("{0}",act.clsSnapshot):t("pf.saveCls","🏅 שמור לכיתה");
+    b.textContent=act&&act.clsSnapshot?t("pf.saveTo","🏅 שמור ל־{0}").replace("{0}",clsUI(act.clsSnapshot)):t("pf.saveCls","🏅 שמור לכיתה");
   }
   /* ---------- הצבה — אשף אחד ----------
      ההסבר על הצבת המצלמה היה בשלושה מקומות: חלון הדרכה בכניסה הראשונה,
@@ -20912,7 +21051,7 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,ask,undo,actToast,snap,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,ask,undo,actToast,snap,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,trUI,clsUI,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,
@@ -22898,10 +23037,10 @@ window.TOOLS=(function(){
       const x=per[s.id]||{p:0,h:0,e:0,a:0,days:0};
       /* פטור לא נספר במכנה — אותה נוסחה של attendanceRateOf() */
       const elig=x.days-x.e;
-      rows.push([s.name,s.cls||"",x.days,x.p,x.h,x.e,x.a,elig>0?Math.round((x.p+x.h*0.5)/elig*100)+"%":""]);
+      rows.push([s.name,H().clsUI(s.cls||""),x.days,x.p,x.h,x.e,x.a,elig>0?Math.round((x.p+x.h*0.5)/elig*100)+"%":""]);
     });
     const g=isGrp(attCls)?window.HMDATA.groupOf(store,attCls):null;
-    H().dlCSV("attendance_"+String((g&&g.name)||attCls||"all").replace(/[\\/:*?"<>|]/g,"")+".csv",rows);
+    H().dlCSV("attendance_"+String((g&&g.name)||H().clsUI(attCls)||"all").replace(/[\\/:*?"<>|]/g,"")+".csv",rows);
     H().toast("דוח נוכחות הורד");
   }
 
@@ -22958,18 +23097,23 @@ window.TOOLS=(function(){
      בחירת תבנית ממלאת את השם והקריטריונים, ואפשר לערוך לפני השמירה. */
   async function newRubric(){
     const {toast}=H();
-    const EMPTY_CRIT="מיומנות\nמאמץ\nשיתוף פעולה\nבטיחות";
-    const p0=PRESETS[0];
+    /* התבניות נכתבות במחוון החדש בשפת הממשק — מחוון שנוצר באנגלית הוא
+       מחוון באנגלית. מה שהמורה משנה בשדות נשמר כפי שהקליד. */
+    const tr=s=>window.I18N&&window.I18N.tr?window.I18N.tr(s):s;
+    const EMPTY_CRIT=["מיומנות","מאמץ","שיתוף פעולה","בטיחות"].map(tr).join("\n");
+    const NEW_NAME=tr("מחוון חדש");
+    const P=PRESETS.map(p=>({name:tr(p.name),crit:p.crit.map(tr)}));
+    const p0=P[0];
     const v=await H().ask({title:"📐 מחוון חדש",fields:[
       {k:"tpl",label:"תבנית",type:"select",value:"0",
-        options:PRESETS.map((p,i)=>[String(i),p.name]).concat([["-1","מחוון ריק"]]),
-        onchange:(val,ins)=>{ const p=PRESETS[+val];
-          ins[1].value=p?p.name:"מחוון חדש"; ins[2].value=p?p.crit.join("\n"):EMPTY_CRIT; }},
-      {k:"name",label:"שם המחוון:",value:p0?p0.name:"מחוון חדש"},
+        options:P.map((p,i)=>[String(i),p.name]).concat([["-1","מחוון ריק"]]),
+        onchange:(val,ins)=>{ const p=P[+val];
+          ins[1].value=p?p.name:NEW_NAME; ins[2].value=p?p.crit.join("\n"):EMPTY_CRIT; }},
+      {k:"name",label:"שם המחוון:",value:p0?p0.name:NEW_NAME},
       {k:"crit",label:"קריטריונים, אחד בכל שורה:",type:"textarea",rows:5,value:p0?p0.crit.join("\n"):EMPTY_CRIT}
     ],ok:"＋ צור מחוון"});
     if(v===null)return;
-    const name=(v.name||"").trim()||"מחוון חדש";
+    const name=(v.name||"").trim()||NEW_NAME;
     const crit=String(v.crit||"").split("\n").map(x=>x.trim()).filter(Boolean);
     if(!crit.length){toast("צריך לפחות קריטריון אחד");return;}
     const list=RUB(), id="rb"+Date.now().toString(36);
@@ -22984,7 +23128,7 @@ window.TOOLS=(function(){
       const mine=sc[r.id+"|"+s.id]||{};
       const vals=r.crit.map((_,i)=>mine[i]||"");
       const nums=vals.filter(v=>v).map(Number);
-      rows.push([s.name,s.cls||"",...vals,nums.length?(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2):""]);
+      rows.push([s.name,H().clsUI(s.cls||""),...vals,nums.length?(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2):""]);
     });
     H().dlCSV("rubric_"+r.name+".csv",rows);
   }
@@ -26500,9 +26644,9 @@ window.FT=(function(){
     $("#ft-cardPdf").onclick=()=>studentReport(name,c,rows,idx,scored,missing);
     $("#ft-cardCsv").onclick=()=>{
       const out=[["מבחן","הטוב","יחידה","ציון","ניסיונות","נמדד לאחרונה","ימי מדידה"]];
-      rows.forEach(r=>out.push([r.T.name,r.bst.val,r.T.unit,r.sc.v!=null?r.sc.v.toFixed(0):"",
+      rows.forEach(r=>out.push([H().trUI(r.T.name),r.bst.val,H().trUI(r.T.unit),r.sc.v!=null?r.sc.v.toFixed(0):"",
         r.list.length,r.dates[r.dates.length-1],r.dates.length]));
-      H().dlCSV("כרטיס-"+name+"-"+fname(disp(c))+"-"+today()+".csv",out);
+      H().dlCSV(H().t("csv.card","כרטיס")+"-"+name+"-"+fname(H().clsUI(disp(c)))+"-"+today()+".csv",out);
     };
   }
 
@@ -27178,8 +27322,9 @@ window.FT=(function(){
     const rs=resultsFor(c,T.id).sort((a,b)=>a.d.localeCompare(b.d)||a.name.localeCompare(b.name,"he"));
     if(!rs.length){H().toast("אין עדיין תוצאות במבחן הזה");return;}
     const rows=[["תאריך","כיתה","שם","מבחן","תוצאה","יחידה"]];
-    rs.forEach(r=>rows.push([r.d,r.cls,r.name,T.name,r.val,r.unit]));
-    H().dlCSV("מבחן-"+T.name+"-"+fname(disp(c))+"-"+today()+".csv",rows);
+    const tr=H().trUI;
+    rs.forEach(r=>rows.push([r.d,H().clsUI(r.cls),r.name,tr(T.name),r.val,tr(r.unit)]));
+    H().dlCSV(H().t("csv.test","מבחן")+"-"+fname(tr(T.name))+"-"+fname(H().clsUI(disp(c)))+"-"+today()+".csv",rows);
   }
 
   /* ============================================================
@@ -27515,10 +27660,10 @@ window.FT=(function(){
     const out=[head];
     rows.forEach(r=>{
       const by={}; r.rows.forEach(x=>by[x.test]=x);
-      out.push([r.s.name,r.s.sex==="girls"?"בת":r.s.sex==="boys"?"בן":"",
+      out.push([r.s.name,H().trUI(r.s.sex==="girls"?"בת":r.s.sex==="boys"?"בן":""),
         ...usedTests.map(t=>by[t]?by[t].sc.toFixed(0):""),r.idx!=null?r.idx.toFixed(1):""]);
     });
-    H().dlCSV("מדד-כושר-"+fname(disp(cls()))+"-"+today()+".csv",out);
+    H().dlCSV(H().t("csv.index","מדד-כושר")+"-"+fname(H().clsUI(disp(cls())))+"-"+today()+".csv",out);
   }
 
   /* כתיבת המדד לעמודת «מדד כושר» בלשונית הציונים */
@@ -27902,8 +28047,8 @@ window.FT=(function(){
     if(!rows.length){H().toast("אין נתונים");return;}
     const out=[["שם","אירובי","מחזורי","עיוני","השתתפות","פעילות קבועה","חד־פעמית","יומן","סה״כ","זכאי לאות"]];
     rows.forEach(r=>out.push([r.s.name,r.per.aer,r.per.cir,r.per.theory,r.per.part,r.per.club,r.per.event,r.per.diary,
-      r.total,r.ok?"כן":"לא"]));
-    H().dlCSV("אות-החינוך-הגופני-"+fname(disp(cls()))+"-"+today()+".csv",out);
+      r.total,H().trUI(r.ok?"כן":"לא")]));
+    H().dlCSV(H().t("csv.badge","אות-החינוך-הגופני")+"-"+fname(H().clsUI(disp(cls())))+"-"+today()+".csv",out);
   }
 
   /* ============================================================
@@ -28319,6 +28464,9 @@ window.FT=(function(){
 "use strict";
 /* עוזר מקומי: אזור הלוקאל נגזר משפת הממשק (HM.loc). */
 function H_LOC(){ return (window.HM&&window.HM.loc)?window.HM.loc():"he-IL"; }
+/* ערך ברירת מחדל של האפליקציה, בשפת הממשק — רק כשהערך עדיין זהה לברירת
+   המחדל העברית. טקסט שהמורה כתב בעצמו לא עובר תרגום. */
+function H_DEF(v,def){ return v===def&&window.I18N&&window.I18N.tr?window.I18N.tr(v):v; }
 /* מודולים חדשים: שיעור מלא (LESSON) · תלמידים (STU) · תזונה (NUT) · תוספות בית/נעילה */
 (function(){
 /* אזורי FITNESSGRAM ונוסחת Léger עברו ל-hm-data.js. הם מחשבים
@@ -28553,7 +28701,8 @@ window.STU=(function(){
     });
     $("#stu-fCsv").addEventListener("click",()=>{
       const rows=[["תאריך","מבחן","מרחק (מ)","שלב","VO2max","אזור"]];
-      s.tests.forEach(t=>rows.push([t.d,t.type,t.dist,t.level||"",t.vo2?t.vo2.toFixed(1):"",t.zone||""]));
+      const tr=H().trUI||(x=>x);
+      s.tests.forEach(t=>rows.push([t.d,tr(t.type),t.dist,t.level||"",t.vo2?t.vo2.toFixed(1):"",t.zone?tr(t.zone):""]));
       dlCSV("progress_"+s.name+".csv",rows);
     });
     $$("#stu-mBody .tdel").forEach(b2=>b2.addEventListener("click",e=>{
@@ -28578,7 +28727,7 @@ window.STU=(function(){
     const gid=(DTA().isGroupId(sg)&&DTA().groupOf(store,sg))?sg:null;
     res.forEach(r=>{
       if(!(r.dist>0))return;
-      const nm=r.name.trim(); if(!nm||/^תלמיד \d+$/.test(nm))return;
+      const nm=r.name.trim(); if(!nm||/^(תלמיד|Student|طالب|Ученик|Alumno) \d+$/.test(nm))return;
       let s=gid?list.find(x=>x.name===nm&&DTA().studentInScope(store,gid,x))
                :(o.cid&&list.find(x=>x.name===nm&&x.cid===o.cid));
       s=s||list.find(x=>x.name===nm);
@@ -28650,10 +28799,11 @@ window.STU=(function(){
   function renderWeightsHint(){
     const {$}=H(); const w=loadWeights();
     const L=loadLabels();
+    const tr=s=>window.I18N&&window.I18N.tr?window.I18N.tr(s):s;
     const parts=["part","exams","improve","team","know"].filter(k=>(w[k]||0)>0)
-      .map(k=>`${L[k]} ${w[k]}%`);
-    $("#gr-formula").textContent="ציון סופי = "+parts.join(" + ")
-      +` + בונוס עד ${w.bonusMax??10} נק׳ (מוגבל ל-100)`;
+      .map(k=>`${tr(L[k])} ${w[k]}%`);
+    $("#gr-formula").textContent=H().t("gr.formula","ציון סופי = {0} + בונוס עד {1} נק׳ (מוגבל ל-100)")
+      .replace("{0}",parts.join(" + ")).replace("{1}",w.bonusMax??10);
   }
   function updWSum(){
     const {$}=H();
@@ -28843,13 +28993,13 @@ window.STU=(function(){
     const fx=v=>v!=null?v:"";
     list.forEach(s=>{
       const g=gradeOf(s,grPeriod), r=computeFinal(s,grPeriod,weights,examCols);
-      rows.push([s.name,s.cls||"",fx(g.part),...examCols.map(c=>fx(g.exams&&g.exams[c])),
+      rows.push([s.name,H().clsUI(s.cls||""),fx(g.part),...examCols.map(c=>fx(g.exams&&g.exams[c])),
         r.examsAvg!=null?r.examsAvg.toFixed(1):"",fx(g.improve),fx(g.team),fx(g.know),fx(g.bonus),
         r.value!=null?r.value.toFixed(1):"",
         r.status===window.HMDATA.GRADE_FINAL?tt("gr.stFinal","סופי"):r.status===window.HMDATA.GRADE_PROV?tt("gr.prov","זמני"):"",
-        r.missing.map(k=>L[k]).join("; ")]);
+        r.missing.map(k=>H().trUI(L[k])).join("; ")]);
     });
-    H().dlCSV("ציונים_"+grPeriod+".csv",rows);
+    H().dlCSV(tt("csv.grades","ציונים")+"_"+H().trUI(grPeriod)+".csv",rows);
   }
 
   /* ============================================================
@@ -29079,7 +29229,8 @@ window.STU=(function(){
   }
   function renderPCritEdit(){
     const {$,$$,esc}=H();
-    const crit=loadPCrit();
+    const crit=loadPCrit().map(c=>{ const d=DEF_PCRIT.find(x=>x.id===c.id)||{};
+      return Object.assign({},c,{t:H_DEF(c.t,d.t),d:H_DEF(c.d,d.d)}); });
     $("#pa-critEdit").innerHTML=crit.map(c=>`<div class="row" data-cid="${c.id}" style="gap:6px">
         <div class="field" style="width:150px;margin:0"><input type="text" data-pct="${c.id}" value="${esc(c.t)}" placeholder="שם הקריטריון"></div>
         <div class="field grow" style="margin:0"><input type="text" data-pcd="${c.id}" value="${esc(c.d||"")}" placeholder="תיאור קצר (אופציונלי)"></div>
@@ -29147,7 +29298,8 @@ window.STU=(function(){
       const fc=ftCounts();
       const rows=[["שם","כיתה","מין","גיל","BMI","מדידות כושר","ביפ טסט","ביפ — מרחק אחרון","VO2 אחרון","אזור","מגמה"]];
       list.forEach(s=>{const lt=latest(s),b=bmi(s);
-        rows.push([s.name,s.cls||"",s.sex==="girls"?"בת":"בן",s.age||"",b?b.toFixed(1):"",fc[s.id]||0,s.tests.length,lt?lt.dist:"",lt&&lt.vo2?lt.vo2.toFixed(1):"",lt?lt.zone:"",trend(s)>0?"שיפור":trend(s)<0?"ירידה":""]);});
+        const tr=H().trUI;
+        rows.push([s.name,H().clsUI(s.cls||""),tr(s.sex==="girls"?"בת":"בן"),s.age||"",b?b.toFixed(1):"",fc[s.id]||0,s.tests.length,lt?lt.dist:"",lt&&lt.vo2?lt.vo2.toFixed(1):"",lt&&lt.zone?tr(lt.zone):"",tr(trend(s)>0?"שיפור":trend(s)<0?"ירידה":"")]);});
       H().dlCSV("students_tracking.csv",rows);
     });
     /* ---------- ציונים ---------- */
@@ -29338,12 +29490,16 @@ function setLeadKind(k){
     send.textContent=H().t(send.dataset.i18n,he); }
   leadFieldErrors({}); leadStatusMsg("","");
 }
+/* בוחר השפה של מסכי הפתיחה — טופס הקשר ומסך הכניסה. הבחירה נשמרת
+   (I18N.set) ונשארת אחרי סגירה, פתיחה ועדכון. */
 function paintLeadLang(){
-  const {$}=H(), box=$("#lead-lang"); if(!box||!window.I18N)return;
+  const {$}=H(); if(!window.I18N)return;
   const cur=window.I18N.lang();
-  box.innerHTML=window.I18N.langs().map(l=>'<button type="button" data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+
-    ' lang="'+l.code+'"><span class="fl">'+l.flag+'</span><span>'+l.native+'</span></button>').join("");
-  box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ window.I18N.set(b.dataset.l); paintLeadLang(); }));
+  ["#lead-lang","#lock-lang"].forEach(sel=>{ const box=$(sel); if(!box)return;
+    box.innerHTML=window.I18N.langs().map(l=>'<button type="button" data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+
+      ' lang="'+l.code+'"><span class="fl">'+l.flag+'</span><span>'+l.native+'</span></button>').join("");
+    box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ window.I18N.set(b.dataset.l); paintLeadLang(); }));
+  });
 }
 function leadStatusMsg(kind,msg){
   const el=H().$("#lead-status"); if(!el)return;
@@ -29498,6 +29654,8 @@ window.HMBootNew=function(){
     $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
     maybeRemindLead();
   };
+  paintLeadLang();
+  document.addEventListener("i18n:change",paintLeadLang);
   if(locked){
     $("#lockOv").classList.add("on");
     /* בפעם הראשונה אין קוד — המורה קובע אותו כאן, והוא נשמר במכשיר בלבד
@@ -29554,19 +29712,33 @@ window.HMBootNew=function(){
       return Array.isArray(v)?v.length:(v&&typeof v==="object"?Object.keys(v).length:0); };
     return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
   }
-  function seedDemo(){
+  /* השמות לפי שפת הממשק בזמן ההפעלה: עברית — שמות עבריים; כל שפה אחרת —
+     הדגמה בינלאומית באנגלית. שמות מומצאים. הכיתה היא אותה כיתה אוטומטית
+     («ט׳3», שמוצגת «9-3» מחוץ לעברית) כי השכבה קובעת את הנורמות.
+     המזהים (demo0…demo7, dm…) זהים בשתי השפות. */
+  const DEMO_KIDS={
+    he:["דן אבירם","איתי כהן","רון לוי","עומר בר","יהב שני","ניר גל","אלון מור","גיא פרץ"],
+    en:["Liam Carter","Noah Bennett","Ethan Brooks","Mason Hughes","Lucas Foster","Owen Mitchell","Caleb Turner","Ryan Walsh"]
+  };
+  const DEMO_LANG_KEY="hx.demoLang";
+  const demoLangFor=()=>(window.I18N&&window.I18N.lang()!=="he")?"en":"he";
+  /* הדגמה מלפני השינוי לא רשמה שפה — היא נזרעה בעברית */
+  const demoLang=()=>LS.get(DEMO_LANG_KEY,"he");
+  const DEMO_SID=/^demo\d+$/, DEMO_RID=/^dm\d+$/;
+  function seedDemo(lang){
     const cls="ט׳3", cid=window.HMDATA.classId(cls);
     /* כיתת ההדגמה נרשמת כמו כל כיתה אחרת — כדי שההדגמה תדגים את
        המודל האמיתי: מזהה על התלמיד, על המדידה וברישום. */
     try{ window.HMDATA.registerClass({get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},cls); }catch(e){}
-    const kids=[["דן אבירם","boys"],["איתי כהן","boys"],["רון לוי","boys"],["עומר בר","boys"],
-                ["יהב שני","boys"],["ניר גל","boys"],["אלון מור","boys"],["גיא פרץ","boys"]];
+    const kids=(DEMO_KIDS[lang]||DEMO_KIDS.en).map(n=>[n,"boys"]);
     /* אותה צורה כמו כל נתיב יצירה אחר — tests:[] חובה, אחרת
-       «התלמידים שלי» לא רואה את הכיתה שכל שאר המסכים רואים. */
-    LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1],age:14,h:null,w:null,tests:[]})));
+       «התלמידים שלי» לא רואה את הכיתה שכל שאר המסכים רואים.
+       טעינה מחדש מחליפה רק את רשומות ההדגמה; כל רשומה אחרת נשארת. */
+    const keep=(LS.get("stu.list",[])||[]).filter(s=>!DEMO_SID.test(s&&s.id));
+    LS.set("stu.list",keep.concat(kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1],age:14,h:null,w:null,tests:[]}))));
     LS.set("ft.last",{grade:"ט",num:3,sort:"todo"});
     const day=n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
-    const res=[]; let id=0;
+    const res=(LS.get("ft.results",[])||[]).filter(r=>!(r&&(DEMO_RID.test(r.id)||DEMO_SID.test(r.sid)))); let id=0;
     const put=(t,unit,vals,d)=>kids.forEach((k,i)=>{ if(vals[i]==null)return;
       res.push({id:"dm"+(id++),ts:Date.now()-id*1000,d,cls,cid,test:t,name:k[0],sid:"demo"+i,
         gradeKey:"ט",sex:k[1],val:vals[i],unit}); });
@@ -29580,18 +29752,27 @@ window.HMBootNew=function(){
     put("ljump","ס״מ",[198,221,186,236,164,175,207,169],day(12));
     put("beep","מ׳",[880,1140,760,1320,540,660,980,600],day(33));
     LS.set("ft.results",res);
+    LS.set(DEMO_LANG_KEY,lang);
     LS.set(DEMO_KEY,true);
   }
   function clearDemo(){
     ["ft.results","ft.roster","ft.last","stu.list","bt.results","bt.heat","pf.names"]
       .forEach(k=>{ try{ localStorage.removeItem(BRAND.ns+k); }catch(e){} });
     LS.set(DEMO_KEY,false);
-    try{ localStorage.removeItem(BRAND.ns+DEMO_KEY); }catch(e){}
+    try{ localStorage.removeItem(BRAND.ns+DEMO_KEY); localStorage.removeItem(BRAND.ns+DEMO_LANG_KEY); }catch(e){}
   }
   function paintDemoBar(){
     const bar=$("#demoBar"); if(!bar)return;
     bar.hidden=!(demoOn()&&H0.role()!=="student");
+    /* הדגמה בשפה אחרת מהממשק (למשל הדגמה עברית ישנה, והממשק באנגלית) —
+       כפתור מפורש לטעינה מחדש. לא אוטומטי: רק המורה מחליט. */
+    const rl=$("#demoReload");
+    if(rl){ const want=demoLangFor();
+      rl.hidden=bar.hidden||demoLang()===want;
+      rl.textContent=want==="he"?H0.t("ui.demoReloadHe","↻ טען את ההדגמה מחדש בעברית")
+        :H0.t("ui.demoReloadEn","↻ טען את ההדגמה מחדש באנגלית"); }
   }
+  document.addEventListener("i18n:change",paintDemoBar);
   const demoBtn=$("#lock-demo");
   if(demoBtn)demoBtn.addEventListener("click",()=>{
     if(hasRealData()&&!demoOn()){
@@ -29599,17 +29780,25 @@ window.HMBootNew=function(){
       H0.ask({msg:"במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.",alert:true,ok:"הבנתי"});
       return;
     }
-    if(!demoOn())seedDemo();
+    if(!demoOn())seedDemo(demoLangFor());
     sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
     $("#lockOv").classList.remove("on");
     paintDemoBar(); H0.go("ft");
-    toast("🎬 מצב הדגמה — כיתה ט׳3 לדוגמה");
+    toast(H0.t("ui.demoOn","🎬 מצב הדגמה — כיתה {0} לדוגמה").replace("{0}",H0.trUI?H0.trUI("ט׳3"):"ט׳3"));
+  });
+  const dr=$("#demoReload");
+  if(dr)dr.addEventListener("click",async()=>{
+    if(!demoOn())return;
+    if(!(await H0.ask({msg:H0.t("ui.demoReloadQ","לטעון את ההדגמה מחדש?\n\nרק תלמידי ההדגמה והתוצאות שלהם מוחלפים — אותם מזהים ואותה כיתה, בשמות בשפה הנוכחית. שום נתון אחר לא משתנה."),
+      ok:H0.t("ui.demoReloadOk","↻ טען מחדש")})))return;
+    seedDemo(demoLangFor()); toast(H0.t("ui.demoReloaded","✓ ההדגמה נטענה מחדש"));
+    setTimeout(()=>location.reload(),600);
   });
   const dc=$("#demoClear");
   if(dc)dc.addEventListener("click",async()=>{
-    if(!(await H0.ask({msg:"למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים.",danger:true,ok:"🗑 מחק"})))return;
-    clearDemo(); toast("נתוני ההדגמה נמחקו"); setTimeout(()=>location.reload(),600);
+    if(!(await H0.ask({msg:H0.t("ui.demoClearQ","למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים."),danger:true,ok:H0.t("ui.demoClearOk","🗑 מחק")})))return;
+    clearDemo(); toast(H0.t("ui.demoCleared","נתוני ההדגמה נמחקו")); setTimeout(()=>location.reload(),600);
   });
   paintDemoBar();
 
@@ -29633,7 +29822,8 @@ window.HMBootNew=function(){
   if(lockChk){ lockChk.checked=LS.get("hx.lock",true);
     lockChk.addEventListener("change",()=>LS.set("hx.lock",lockChk.checked)); }
   /* weekly challenge */
-  function chGet(){ return Object.assign({t:"אתגר השבוע: 100 שכיבות סמיכה",target:100,cur:0},LS.get("hx.ch",{})); }
+  const CH_DEF="אתגר השבוע: 100 שכיבות סמיכה";
+  function chGet(){ return Object.assign({t:CH_DEF,target:100,cur:0},LS.get("hx.ch",{})); }
   function chRender(){
     const c=chGet(),p=Math.min(100,Math.round(c.cur/Math.max(1,c.target)*100));
     $("#hx-chTitle").textContent=c.t;
@@ -29649,7 +29839,7 @@ window.HMBootNew=function(){
   });
   $("#hx-chEdit").addEventListener("click",async()=>{
     const c=chGet();
-    const v=await H0.ask({fields:[{k:"t",label:"שם האתגר:",value:c.t},{k:"tg",label:"יעד מספרי:",type:"number",value:c.target}],ok:"✓ אתגר חדש"});
+    const v=await H0.ask({fields:[{k:"t",label:"שם האתגר:",value:H_DEF(c.t,CH_DEF)},{k:"tg",label:"יעד מספרי:",type:"number",value:c.target}],ok:"✓ אתגר חדש"});
     if(v===null)return;
     const t=v.t, tg=parseFloat(v.tg); if(isNaN(tg))return;
     LS.set("hx.ch",{t:t.trim()||c.t,target:tg,cur:0}); chRender(); toast("אתגר חדש יצא לדרך!");

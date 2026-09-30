@@ -589,6 +589,12 @@ function buildId(){
 
 /* קיצור לשימוש בקוד: HM.t("nav.home") — מפתח חסר נופל לעברית שנמסרה. */
 function t(key,def){ return window.I18N?window.I18N.t(key,def):(def!=null?def:key); }
+/* טקסט שהאפליקציה עצמה יצרה (שם כיתה אוטומטי «ט׳3», ערך ברירת מחדל) — בשפת
+   הממשק. לא לשימוש על טקסט שהמורה הקליד. */
+function trUI(s){ return window.I18N&&window.I18N.tr?window.I18N.tr(s):s; }
+/* שם כיתה: רק השם האוטומטי («ט׳3» → «9-3») מתורגם. שם שהמורה נתן לכיתה
+   נשאר כפי שנכתב — גם בקבצים שמייצאים. */
+function clsUI(s){ return /^(י״[אב]|[א-י]׳)\d{1,2}$/.test(String(s||"").trim())?trUI(String(s).trim()):s; }
 /* תאריכים ומספרים לפי שפת הממשק. עד עכשיו הם היו נעולים על he-IL,
    ולכן דף הבית בערבית הציג כותרת ערבית מעל תאריך עברי. */
 function loc(){
@@ -2805,7 +2811,7 @@ const BT=(function(){
     if(!running&&!elapsedOffset){toast("המבחן עוד לא התחיל");return;}
     const el=getElapsed(), done=completedCount(el);
     const lb=done>0?beeps[done-1]:{level:1,shInLvl:0,speed:startSpeed};
-    const nm=who||("תלמיד "+nextNum);
+    const nm=who||t("bt.stuN","תלמיד {0}").replace("{0}",nextNum);
     results.push({id:Date.now()+Math.random(),name:nm,level:lb.level,sh:lb.shInLvl,dist:done*distance,time:+el.toFixed(1),speed:lb.speed});
     if(!who)nextNum++;
     persist(); renderResults(); renderHeat(); renderLanes(); beep(440,0.16);
@@ -3008,7 +3014,8 @@ const BT=(function(){
       const p2=profs()[+i]; if(p2)profApply(p2);
     });
     $("#bt-profSave").addEventListener("click",async()=>{
-      const def=(classSex==="girls"?"בנות":"בנים")+" · "+distance+" מ׳ · גיל "+classAge;
+      const def=t("bt.profDef","{0} · {1} מ׳ · גיל {2}").replace("{0}",trUI(classSex==="girls"?"בנות":"בנים"))
+        .replace("{1}",distance).replace("{2}",classAge);
       const nm=await ask({fields:[{label:"שם הפרופיל:",value:def}],ok:"💾 שמור"}); if(nm===null)return;
       const name=nm.trim()||def;
       const list=profs();
@@ -3042,14 +3049,14 @@ const BT=(function(){
     $("#bt-sortDist").addEventListener("click",function(){sortBy="dist";this.classList.add("on");$("#bt-sortOrder").classList.remove("on");renderResults()});
     $("#bt-csvBtn").addEventListener("click",()=>{
       if(!results.length){toast("אין רישומים");return;}
-      const sexHe=classSex==="boys"?"בנים":"בנות";
+      const sexHe=trUI(classSex==="boys"?"בנים":"בנות");
       const rows=[["מס","שם","שלב","מקטע","מרחק (מ)","זמן (שנ)","מהירות (קמ\"ש)","VO2max","דרגה","מין","גיל","מרחק לכיוון (מ)"]];
       results.forEach((r,i)=>{ const v=vo2max(r.speed,classAge), ok=r.dist>0&&v>0;
-        rows.push([i+1,r.name,r.level,r.sh,r.dist,r.time.toFixed(1),r.speed.toFixed(1),ok?v.toFixed(1):"",ok?classify(v,classAge,classSex).g:"",sexHe,classAge,distance]); });
+        rows.push([i+1,r.name,r.level,r.sh,r.dist,r.time.toFixed(1),r.speed.toFixed(1),ok?v.toFixed(1):"",ok?trUI(classify(v,classAge,classSex).g):"",sexHe,classAge,distance]); });
       /* שם הקובץ נשא תאריך ולא כלום, ולכן שלושה מקצים באותו יום ירדו
          כ-«(1)», «(2)» ו«(3)» בתיקיית ההורדות. */
-      const clsPart=(heat.cls||"").replace(/[\\/:*?"<>|]/g,"").trim();
-      dlCSV("ביפ-טסט"+(clsPart?"-"+clsPart:"")+"-"+new Date().toISOString().slice(0,10)+".csv",rows);
+      const clsPart=String(clsUI(heat.cls||"")).replace(/[\\/:*?"<>|]/g,"").trim();
+      dlCSV(t("csv.beep","ביפ-טסט")+(clsPart?"-"+clsPart:"")+"-"+new Date().toISOString().slice(0,10)+".csv",rows);
     });
     const btPaint=()=>{ persist();renderResults();renderHeat();renderLanes();$("#bt-regBtn").disabled=!(running||elapsedOffset>0); };
     $("#bt-clearBtn").addEventListener("click",()=>{ if(!results.length)return;
@@ -3116,7 +3123,8 @@ const PF=(function(){
      לירות. כל השאר ממשיך בדיוק כמו קודם: הרצועה נבנית, תמונת הסיום
      עובדת, ההקשה על מסלול ומקשי 1–9 רושמים זמן כרגיל. */
   let manual=LS.get("pf.manual",false);
-  let META=Object.assign({title:"אליפות בית הספר — ריצת 60 מ׳",round:"גמר",dist:60,date:"",wind:""},LS.get("pf.meta",{}));
+  const PF_TITLE_DEF="אליפות בית הספר — ריצת 60 מ׳";
+  let META=Object.assign({title:PF_TITLE_DEF,round:"גמר",dist:60,date:"",wind:""},LS.get("pf.meta",{}));
 
   /* detection */
   const PW=320,PH=180,CELL=4,BANDW=10;
@@ -3849,7 +3857,10 @@ const PF=(function(){
   function loadSample(){
     laneN=4; LS.set("pf.laneN",4); $("#pf-laneCount").value=4; $("#pf-laneCountVal").textContent=4;
     buildLanes(false);
-    const demo=[["דניאל כהן",8.42],["יואב לוי",8.57],["איתי מזרחי",8.91],["נועם פרץ",9.34]];
+    /* שמות מומצאים — בעברית בממשק עברי, אחרת ההדגמה הבינלאומית באנגלית */
+    const demo=window.I18N&&window.I18N.lang()!=="he"
+      ?[["Daniel Hayes",8.42],["Jacob Reed",8.57],["Tyler Grant",8.91],["Nathan Price",9.34]]
+      :[["דניאל כהן",8.42],["יואב לוי",8.57],["איתי מזרחי",8.91],["נועם פרץ",9.34]];
     demo.forEach((d,i)=>{lanes[i].name=d[0];lanes[i].time=d[1];lanes[i].src="דוגמה";});
     persistNames(); renderChips(); renderBoard(); refreshLaneSel();
     switchTab("results"); toast("נתוני דוגמה נטענו");
@@ -3859,15 +3870,17 @@ const PF=(function(){
   function csvSprint(){
     const list=finished(); if(!list.length){toast("אין תוצאות");return;}
     const rows=[["דירוג","מסלול","שם","זמן (שנ)","פער","מקור","תחרות","שלב","מרחק","תאריך","רוח"]];
-    list.forEach((l,i)=>rows.push([i+1,l.lane,l.name,l.time.toFixed(3),i?(l.time-list[0].time).toFixed(2):"0",l.src||"",META.title,META.round,META.dist,META.date,META.wind]));
+    list.forEach((l,i)=>rows.push([i+1,l.lane,l.name,l.time.toFixed(3),i?(l.time-list[0].time).toFixed(2):"0",trUI(l.src||""),trUI(META.title),trUI(META.round),META.dist,META.date,META.wind]));
     dlCSV("photofinish.csv",rows);
   }
   function mailResults(){
     const list=finished(); if(!list.length){toast("אין תוצאות");return;}
-    const body=[`${META.title} · ${META.round} · ${META.dist} מ׳ · ${META.date}`,""].concat(
-      list.map((l,i)=>`${i+1}. ${l.name} (מסלול ${l.lane}) — ${fmtMSc(l.time)}${i?" (+"+(l.time-list[0].time).toFixed(2)+")":""}`)
-    ).concat(windIllegal()?["","⚠ רוח לא חוקית: "+META.wind+" מ/ש"]:[]).join("\n");
-    location.href="mailto:?subject="+encodeURIComponent("תוצאות: "+META.title)+"&body="+encodeURIComponent(body);
+    /* גוף המייל בשפת הממשק — שם המקצה ושמות הרצים כפי שנכתבו */
+    const lane=trUI("מסלול"), m=trUI("מ׳");
+    const body=[`${trUI(META.title)} · ${trUI(META.round)} · ${META.dist} ${m} · ${META.date}`,""].concat(
+      list.map((l,i)=>`${i+1}. ${l.name} (${lane} ${l.lane}) — ${fmtMSc(l.time)}${i?" (+"+(l.time-list[0].time).toFixed(2)+")":""}`)
+    ).concat(windIllegal()?["",t("pf.mailWind","⚠ רוח לא חוקית: {0} מ/ש").replace("{0}",META.wind)]:[]).join("\n");
+    location.href="mailto:?subject="+encodeURIComponent(t("pf.mailSubj","תוצאות: {0}").replace("{0}",trUI(META.title)))+"&body="+encodeURIComponent(body);
   }
   function printCert(){
     const list=finished(); if(!list.length){toast("אין תוצאות");return;}
@@ -3945,11 +3958,13 @@ const PF=(function(){
 
   /* ---------- meta form ---------- */
   function fillMetaForm(){
-    $("#pf-setTitle").value=META.title; $("#pf-setRound").value=META.round;
+    /* כותרת ברירת המחדל בשפת הממשק; כותרת שהמורה כתב — כפי שנכתבה */
+    $("#pf-setTitle").value=META.title===PF_TITLE_DEF?trUI(META.title):META.title; $("#pf-setRound").value=META.round;
     $("#pf-setDist").value=META.dist; $("#pf-setDate").value=META.date; $("#pf-setWind").value=META.wind;
   }
   function saveMeta(){
-    META={title:$("#pf-setTitle").value.trim()||"מקצה",round:$("#pf-setRound").value,
+    const ti=$("#pf-setTitle").value.trim();
+    META={title:ti===trUI(PF_TITLE_DEF)?PF_TITLE_DEF:(ti||"מקצה"),round:$("#pf-setRound").value,
       dist:+$("#pf-setDist").value||0,date:$("#pf-setDate").value,wind:$("#pf-setWind").value};
     LS.set("pf.meta",META); renderMeta(); toast("הפרטים נשמרו");
   }
@@ -3975,7 +3990,7 @@ const PF=(function(){
   function paintSaveBtn(){
     const b=$("#pf-toFt"); if(!b)return;
     const act=SESSION.active();
-    b.textContent=act&&act.clsSnapshot?t("pf.saveTo","🏅 שמור ל־{0}").replace("{0}",act.clsSnapshot):t("pf.saveCls","🏅 שמור לכיתה");
+    b.textContent=act&&act.clsSnapshot?t("pf.saveTo","🏅 שמור ל־{0}").replace("{0}",clsUI(act.clsSnapshot)):t("pf.saveCls","🏅 שמור לכיתה");
   }
   /* ---------- הצבה — אשף אחד ----------
      ההסבר על הצבת המצלמה היה בשלושה מקומות: חלון הדרכה בכניסה הראשונה,
@@ -5540,7 +5555,7 @@ const FIT=(function(){
 
 /* ===== bridge for new modules ===== */
 window.REC=REC; window.BT=BT; window.PF=PF; window.FIT=FIT;
-window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,ask,undo,actToast,snap,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,loc,voiceLoc,
+window.HM={$,$$,LS,SET,ac,beep,horn,tripleBeep,say,keepAwake,holdAwake,toast,ask,undo,actToast,snap,confetti,dlCSV,esc,modal,go,fmtMS,fmtMSc,t,trUI,clsUI,loc,voiceLoc,
   setRole,isStudent,isGuest,role:()=>ROLE,applyTheme,exercises:()=>FIT._test.EX,
   openClassRename,classRenameList:clsRenameList,
   storage:()=>LS.health(),migration:()=>MIG_REPORT,schemaVersion:DATA.SCHEMA_VERSION,buildId,

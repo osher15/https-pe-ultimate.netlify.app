@@ -259,6 +259,28 @@ en:{
   "nav.live":"Lesson",
   "nav.classes":"Classes",
   "ui.lang":"Interface language",
+  /* התקנה חדשה באנגלית · הדגמה · ייצוא */
+  "rec.boldEx":"**from the side**",
+  "bt.stuN":"Student {0}",
+  "bt.profDef":"{0} · {1} m · age {2}",
+  "gr.formula":"Final grade = {0} + bonus up to {1} pts (capped at 100)",
+  "ui.demoOn":"🎬 Demo mode — sample class {0}",
+  "ui.demoReloadEn":"↻ Reload the demo in English",
+  "ui.demoReloadHe":"↻ Reload the demo in Hebrew",
+  "ui.demoReloadQ":"Reload the demo?\n\nOnly the demo students and their results are replaced — same IDs and the same class, with English names. No other data changes.",
+  "ui.demoReloadOk":"↻ Reload",
+  "ui.demoReloaded":"✓ Demo reloaded",
+  "ui.demoClearQ":"Delete the demo data?\n\nThe sample class and its results will be deleted, and the app will be empty and ready for real data.",
+  "ui.demoClearOk":"🗑 Delete",
+  "ui.demoCleared":"Demo data deleted",
+  "csv.beep":"beep-test",
+  "csv.grades":"grades",
+  "csv.card":"student-card",
+  "csv.test":"test",
+  "csv.index":"fitness-index",
+  "pf.mailSubj":"Results: {0}",
+  "pf.mailWind":"⚠ Illegal wind: {0} m/s",
+  "csv.badge":"pe-badge",
   "ui.min":"min",
   "area.plans":"Plans",
   "area.games":"Games",
@@ -793,6 +815,28 @@ ar:{
   "nav.live":"الدرس",
   "nav.classes":"الصفوف",
   "ui.lang":"لغة الواجهة",
+  /* התקנה חדשה באנגלית · הדגמה · ייצוא */
+  "rec.boldEx":"**من الجانب**",
+  "bt.stuN":"طالب {0}",
+  "bt.profDef":"{0} · {1} م · العمر {2}",
+  "gr.formula":"العلامة النهائية = {0} + مكافأة حتى {1} نقاط (بحد أقصى 100)",
+  "ui.demoOn":"🎬 وضع العرض التوضيحي — صف نموذجي {0}",
+  "ui.demoReloadEn":"↻ إعادة تحميل العرض التوضيحي بالإنجليزية",
+  "ui.demoReloadHe":"↻ إعادة تحميل العرض التوضيحي بالعبرية",
+  "ui.demoReloadQ":"إعادة تحميل العرض التوضيحي؟\n\nيُستبدل طلاب العرض ونتائجهم فقط — بالمعرّفات نفسها والصف نفسه، مع أسماء بالإنجليزية. لا تتغيّر أي بيانات أخرى.",
+  "ui.demoReloadOk":"↻ إعادة التحميل",
+  "ui.demoReloaded":"✓ أُعيد تحميل العرض التوضيحي",
+  "ui.demoClearQ":"حذف بيانات العرض التوضيحي؟\n\nسيُحذف الصف النموذجي ونتائجه، ويعود التطبيق فارغًا وجاهزًا للبيانات الحقيقية.",
+  "ui.demoClearOk":"🗑 حذف",
+  "ui.demoCleared":"حُذفت بيانات العرض التوضيحي",
+  "csv.beep":"اختبار-بيب",
+  "csv.grades":"العلامات",
+  "csv.card":"بطاقة-الطالب",
+  "csv.test":"اختبار",
+  "csv.index":"مؤشر-اللياقة",
+  "pf.mailSubj":"النتائج: {0}",
+  "pf.mailWind":"⚠ رياح غير قانونية: {0} م/ث",
+  "csv.badge":"وسام-التربية-البدنية",
   "ui.min":"د",
   "area.plans":"الخطط",
   "area.games":"ألعاب",
@@ -1331,6 +1375,28 @@ ru:{
   "nav.live":"Урок",
   "nav.classes":"Классы",
   "ui.lang":"Язык интерфейса",
+  /* התקנה חדשה באנגלית · הדגמה · ייצוא */
+  "rec.boldEx":"**сбоку**",
+  "bt.stuN":"Ученик {0}",
+  "bt.profDef":"{0} · {1} м · возраст {2}",
+  "gr.formula":"Итоговая оценка = {0} + бонус до {1} б. (не более 100)",
+  "ui.demoOn":"🎬 Демо-режим — учебный класс {0}",
+  "ui.demoReloadEn":"↻ Перезагрузить демо на английском",
+  "ui.demoReloadHe":"↻ Перезагрузить демо на иврите",
+  "ui.demoReloadQ":"Перезагрузить демо?\n\nЗаменяются только демо-ученики и их результаты — те же идентификаторы и тот же класс, с английскими именами. Другие данные не меняются.",
+  "ui.demoReloadOk":"↻ Перезагрузить",
+  "ui.demoReloaded":"✓ Демо перезагружено",
+  "ui.demoClearQ":"Удалить демо-данные?\n\nУчебный класс и его результаты будут удалены, и приложение снова станет пустым и готовым к реальным данным.",
+  "ui.demoClearOk":"🗑 Удалить",
+  "ui.demoCleared":"Демо-данные удалены",
+  "csv.beep":"бип-тест",
+  "csv.grades":"оценки",
+  "csv.card":"карточка-ученика",
+  "csv.test":"тест",
+  "csv.index":"индекс-формы",
+  "pf.mailSubj":"Результаты: {0}",
+  "pf.mailWind":"⚠ Недопустимый ветер: {0} м/с",
+  "csv.badge":"значок-физкультуры",
   "ui.min":"мин",
   "area.plans":"Планы",
   "area.games":"Игры",
@@ -1862,6 +1928,28 @@ es:{
   "nav.live":"Sesión",
   "nav.classes":"Grupos",
   "ui.lang":"Idioma de la interfaz",
+  /* התקנה חדשה באנגלית · הדגמה · ייצוא */
+  "rec.boldEx":"**de lado**",
+  "bt.stuN":"Alumno {0}",
+  "bt.profDef":"{0} · {1} m · edad {2}",
+  "gr.formula":"Nota final = {0} + bonificación de hasta {1} pts (máximo 100)",
+  "ui.demoOn":"🎬 Modo demostración — grupo de ejemplo {0}",
+  "ui.demoReloadEn":"↻ Recargar la demostración en inglés",
+  "ui.demoReloadHe":"↻ Recargar la demostración en hebreo",
+  "ui.demoReloadQ":"¿Recargar la demostración?\n\nSolo se sustituyen el alumnado de demostración y sus resultados — los mismos identificadores y el mismo grupo, con nombres en inglés. Ningún otro dato cambia.",
+  "ui.demoReloadOk":"↻ Recargar",
+  "ui.demoReloaded":"✓ Demostración recargada",
+  "ui.demoClearQ":"¿Borrar los datos de demostración?\n\nSe borrarán el grupo de ejemplo y sus resultados, y la app quedará vacía y lista para datos reales.",
+  "ui.demoClearOk":"🗑 Borrar",
+  "ui.demoCleared":"Datos de demostración borrados",
+  "csv.beep":"test-de-la-bip",
+  "csv.grades":"notas",
+  "csv.card":"ficha-alumno",
+  "csv.test":"prueba",
+  "csv.index":"indice-condicion-fisica",
+  "pf.mailSubj":"Resultados: {0}",
+  "pf.mailWind":"⚠ Viento ilegal: {0} m/s",
+  "csv.badge":"insignia-ef",
   "ui.min":"min",
   "area.plans":"Planes",
   "area.games":"Juegos",
@@ -2210,13 +2298,25 @@ es:{
 };
 
 const KEY=(window.BRAND&&window.BRAND.ns||"pehub.")+"lang";
-let cur=(function(){
+/* שפת הפתיחה — בלי ניחוש משפת הדפדפן או המכשיר, בכוונה:
+     · בחירה שמורה — תמיד היא.
+     · התקנה חדשה (אין אף מפתח של האפליקציה) — אנגלית, גם במכשיר עברי.
+       זו חוויית ההדגמה הבינלאומית; המעבר לעברית במרחק הקשה.
+     · מכשיר שכבר יש בו נתונים ואין בו בחירה — משתמש קיים, שעד עכשיו
+       ראה עברית כברירת מחדל. הוא נשאר בעברית.
+   הבחירה נכתבת מיד בשני המקרים, כדי שהנתונים שייכתבו מעכשיו לא יהפכו
+   משתמש חדש ל«קיים» בפתיחה הבאה. */
+function initialLang(){
   try{ const v=localStorage.getItem(KEY); if(v&&DICT[v.replace(/"/g,"")]!==undefined)return v.replace(/"/g,""); }catch(e){}
-  /* בכוונה בלי ניחוש משפת הדפדפן. התוכן המקצועי עדיין עברית, ולכן
-     מורה ישראלי עם טלפון מוגדר באנגלית היה מקבל ממשק אנגלי מעל תוכן
-     עברי — גרוע משתי השפות. ברירת המחדל היא עברית, והבחירה מפורשת. */
-  return "he";
-})();
+  const ns=KEY.slice(0,-4);
+  let existing=false;
+  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i);
+    if(k&&k.indexOf(ns)===0&&k!==KEY){ existing=true; break; } } }catch(e){}
+  const code=existing?"he":"en";
+  try{ localStorage.setItem(KEY,code); }catch(e){}
+  return code;
+}
+let cur=initialLang();
 
 const info=c=>LANGS.find(l=>l.code===c)||LANGS[0];
 

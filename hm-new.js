@@ -1,6 +1,9 @@
 "use strict";
 /* עוזר מקומי: אזור הלוקאל נגזר משפת הממשק (HM.loc). */
 function H_LOC(){ return (window.HM&&window.HM.loc)?window.HM.loc():"he-IL"; }
+/* ערך ברירת מחדל של האפליקציה, בשפת הממשק — רק כשהערך עדיין זהה לברירת
+   המחדל העברית. טקסט שהמורה כתב בעצמו לא עובר תרגום. */
+function H_DEF(v,def){ return v===def&&window.I18N&&window.I18N.tr?window.I18N.tr(v):v; }
 /* מודולים חדשים: שיעור מלא (LESSON) · תלמידים (STU) · תזונה (NUT) · תוספות בית/נעילה */
 (function(){
 /* אזורי FITNESSGRAM ונוסחת Léger עברו ל-hm-data.js. הם מחשבים
@@ -235,7 +238,8 @@ window.STU=(function(){
     });
     $("#stu-fCsv").addEventListener("click",()=>{
       const rows=[["תאריך","מבחן","מרחק (מ)","שלב","VO2max","אזור"]];
-      s.tests.forEach(t=>rows.push([t.d,t.type,t.dist,t.level||"",t.vo2?t.vo2.toFixed(1):"",t.zone||""]));
+      const tr=H().trUI||(x=>x);
+      s.tests.forEach(t=>rows.push([t.d,tr(t.type),t.dist,t.level||"",t.vo2?t.vo2.toFixed(1):"",t.zone?tr(t.zone):""]));
       dlCSV("progress_"+s.name+".csv",rows);
     });
     $$("#stu-mBody .tdel").forEach(b2=>b2.addEventListener("click",e=>{
@@ -260,7 +264,7 @@ window.STU=(function(){
     const gid=(DTA().isGroupId(sg)&&DTA().groupOf(store,sg))?sg:null;
     res.forEach(r=>{
       if(!(r.dist>0))return;
-      const nm=r.name.trim(); if(!nm||/^תלמיד \d+$/.test(nm))return;
+      const nm=r.name.trim(); if(!nm||/^(תלמיד|Student|طالب|Ученик|Alumno) \d+$/.test(nm))return;
       let s=gid?list.find(x=>x.name===nm&&DTA().studentInScope(store,gid,x))
                :(o.cid&&list.find(x=>x.name===nm&&x.cid===o.cid));
       s=s||list.find(x=>x.name===nm);
@@ -332,10 +336,11 @@ window.STU=(function(){
   function renderWeightsHint(){
     const {$}=H(); const w=loadWeights();
     const L=loadLabels();
+    const tr=s=>window.I18N&&window.I18N.tr?window.I18N.tr(s):s;
     const parts=["part","exams","improve","team","know"].filter(k=>(w[k]||0)>0)
-      .map(k=>`${L[k]} ${w[k]}%`);
-    $("#gr-formula").textContent="ציון סופי = "+parts.join(" + ")
-      +` + בונוס עד ${w.bonusMax??10} נק׳ (מוגבל ל-100)`;
+      .map(k=>`${tr(L[k])} ${w[k]}%`);
+    $("#gr-formula").textContent=H().t("gr.formula","ציון סופי = {0} + בונוס עד {1} נק׳ (מוגבל ל-100)")
+      .replace("{0}",parts.join(" + ")).replace("{1}",w.bonusMax??10);
   }
   function updWSum(){
     const {$}=H();
@@ -525,13 +530,13 @@ window.STU=(function(){
     const fx=v=>v!=null?v:"";
     list.forEach(s=>{
       const g=gradeOf(s,grPeriod), r=computeFinal(s,grPeriod,weights,examCols);
-      rows.push([s.name,s.cls||"",fx(g.part),...examCols.map(c=>fx(g.exams&&g.exams[c])),
+      rows.push([s.name,H().clsUI(s.cls||""),fx(g.part),...examCols.map(c=>fx(g.exams&&g.exams[c])),
         r.examsAvg!=null?r.examsAvg.toFixed(1):"",fx(g.improve),fx(g.team),fx(g.know),fx(g.bonus),
         r.value!=null?r.value.toFixed(1):"",
         r.status===window.HMDATA.GRADE_FINAL?tt("gr.stFinal","סופי"):r.status===window.HMDATA.GRADE_PROV?tt("gr.prov","זמני"):"",
-        r.missing.map(k=>L[k]).join("; ")]);
+        r.missing.map(k=>H().trUI(L[k])).join("; ")]);
     });
-    H().dlCSV("ציונים_"+grPeriod+".csv",rows);
+    H().dlCSV(tt("csv.grades","ציונים")+"_"+H().trUI(grPeriod)+".csv",rows);
   }
 
   /* ============================================================
@@ -761,7 +766,8 @@ window.STU=(function(){
   }
   function renderPCritEdit(){
     const {$,$$,esc}=H();
-    const crit=loadPCrit();
+    const crit=loadPCrit().map(c=>{ const d=DEF_PCRIT.find(x=>x.id===c.id)||{};
+      return Object.assign({},c,{t:H_DEF(c.t,d.t),d:H_DEF(c.d,d.d)}); });
     $("#pa-critEdit").innerHTML=crit.map(c=>`<div class="row" data-cid="${c.id}" style="gap:6px">
         <div class="field" style="width:150px;margin:0"><input type="text" data-pct="${c.id}" value="${esc(c.t)}" placeholder="שם הקריטריון"></div>
         <div class="field grow" style="margin:0"><input type="text" data-pcd="${c.id}" value="${esc(c.d||"")}" placeholder="תיאור קצר (אופציונלי)"></div>
@@ -829,7 +835,8 @@ window.STU=(function(){
       const fc=ftCounts();
       const rows=[["שם","כיתה","מין","גיל","BMI","מדידות כושר","ביפ טסט","ביפ — מרחק אחרון","VO2 אחרון","אזור","מגמה"]];
       list.forEach(s=>{const lt=latest(s),b=bmi(s);
-        rows.push([s.name,s.cls||"",s.sex==="girls"?"בת":"בן",s.age||"",b?b.toFixed(1):"",fc[s.id]||0,s.tests.length,lt?lt.dist:"",lt&&lt.vo2?lt.vo2.toFixed(1):"",lt?lt.zone:"",trend(s)>0?"שיפור":trend(s)<0?"ירידה":""]);});
+        const tr=H().trUI;
+        rows.push([s.name,H().clsUI(s.cls||""),tr(s.sex==="girls"?"בת":"בן"),s.age||"",b?b.toFixed(1):"",fc[s.id]||0,s.tests.length,lt?lt.dist:"",lt&&lt.vo2?lt.vo2.toFixed(1):"",lt&&lt.zone?tr(lt.zone):"",tr(trend(s)>0?"שיפור":trend(s)<0?"ירידה":"")]);});
       H().dlCSV("students_tracking.csv",rows);
     });
     /* ---------- ציונים ---------- */
@@ -1020,12 +1027,16 @@ function setLeadKind(k){
     send.textContent=H().t(send.dataset.i18n,he); }
   leadFieldErrors({}); leadStatusMsg("","");
 }
+/* בוחר השפה של מסכי הפתיחה — טופס הקשר ומסך הכניסה. הבחירה נשמרת
+   (I18N.set) ונשארת אחרי סגירה, פתיחה ועדכון. */
 function paintLeadLang(){
-  const {$}=H(), box=$("#lead-lang"); if(!box||!window.I18N)return;
+  const {$}=H(); if(!window.I18N)return;
   const cur=window.I18N.lang();
-  box.innerHTML=window.I18N.langs().map(l=>'<button type="button" data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+
-    ' lang="'+l.code+'"><span class="fl">'+l.flag+'</span><span>'+l.native+'</span></button>').join("");
-  box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ window.I18N.set(b.dataset.l); paintLeadLang(); }));
+  ["#lead-lang","#lock-lang"].forEach(sel=>{ const box=$(sel); if(!box)return;
+    box.innerHTML=window.I18N.langs().map(l=>'<button type="button" data-l="'+l.code+'"'+(l.code===cur?' class="on"':"")+
+      ' lang="'+l.code+'"><span class="fl">'+l.flag+'</span><span>'+l.native+'</span></button>').join("");
+    box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ window.I18N.set(b.dataset.l); paintLeadLang(); }));
+  });
 }
 function leadStatusMsg(kind,msg){
   const el=H().$("#lead-status"); if(!el)return;
@@ -1180,6 +1191,8 @@ window.HMBootNew=function(){
     $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
     maybeRemindLead();
   };
+  paintLeadLang();
+  document.addEventListener("i18n:change",paintLeadLang);
   if(locked){
     $("#lockOv").classList.add("on");
     /* בפעם הראשונה אין קוד — המורה קובע אותו כאן, והוא נשמר במכשיר בלבד
@@ -1236,19 +1249,33 @@ window.HMBootNew=function(){
       return Array.isArray(v)?v.length:(v&&typeof v==="object"?Object.keys(v).length:0); };
     return n("ft.results")+n("stu.list")+n("rec.list")+n("ft.roster")+n("bt.results")>0;
   }
-  function seedDemo(){
+  /* השמות לפי שפת הממשק בזמן ההפעלה: עברית — שמות עבריים; כל שפה אחרת —
+     הדגמה בינלאומית באנגלית. שמות מומצאים. הכיתה היא אותה כיתה אוטומטית
+     («ט׳3», שמוצגת «9-3» מחוץ לעברית) כי השכבה קובעת את הנורמות.
+     המזהים (demo0…demo7, dm…) זהים בשתי השפות. */
+  const DEMO_KIDS={
+    he:["דן אבירם","איתי כהן","רון לוי","עומר בר","יהב שני","ניר גל","אלון מור","גיא פרץ"],
+    en:["Liam Carter","Noah Bennett","Ethan Brooks","Mason Hughes","Lucas Foster","Owen Mitchell","Caleb Turner","Ryan Walsh"]
+  };
+  const DEMO_LANG_KEY="hx.demoLang";
+  const demoLangFor=()=>(window.I18N&&window.I18N.lang()!=="he")?"en":"he";
+  /* הדגמה מלפני השינוי לא רשמה שפה — היא נזרעה בעברית */
+  const demoLang=()=>LS.get(DEMO_LANG_KEY,"he");
+  const DEMO_SID=/^demo\d+$/, DEMO_RID=/^dm\d+$/;
+  function seedDemo(lang){
     const cls="ט׳3", cid=window.HMDATA.classId(cls);
     /* כיתת ההדגמה נרשמת כמו כל כיתה אחרת — כדי שההדגמה תדגים את
        המודל האמיתי: מזהה על התלמיד, על המדידה וברישום. */
     try{ window.HMDATA.registerClass({get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)},cls); }catch(e){}
-    const kids=[["דן אבירם","boys"],["איתי כהן","boys"],["רון לוי","boys"],["עומר בר","boys"],
-                ["יהב שני","boys"],["ניר גל","boys"],["אלון מור","boys"],["גיא פרץ","boys"]];
+    const kids=(DEMO_KIDS[lang]||DEMO_KIDS.en).map(n=>[n,"boys"]);
     /* אותה צורה כמו כל נתיב יצירה אחר — tests:[] חובה, אחרת
-       «התלמידים שלי» לא רואה את הכיתה שכל שאר המסכים רואים. */
-    LS.set("stu.list",kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1],age:14,h:null,w:null,tests:[]})));
+       «התלמידים שלי» לא רואה את הכיתה שכל שאר המסכים רואים.
+       טעינה מחדש מחליפה רק את רשומות ההדגמה; כל רשומה אחרת נשארת. */
+    const keep=(LS.get("stu.list",[])||[]).filter(s=>!DEMO_SID.test(s&&s.id));
+    LS.set("stu.list",keep.concat(kids.map((k,i)=>({id:"demo"+i,name:k[0],cls,cid,sex:k[1],age:14,h:null,w:null,tests:[]}))));
     LS.set("ft.last",{grade:"ט",num:3,sort:"todo"});
     const day=n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
-    const res=[]; let id=0;
+    const res=(LS.get("ft.results",[])||[]).filter(r=>!(r&&(DEMO_RID.test(r.id)||DEMO_SID.test(r.sid)))); let id=0;
     const put=(t,unit,vals,d)=>kids.forEach((k,i)=>{ if(vals[i]==null)return;
       res.push({id:"dm"+(id++),ts:Date.now()-id*1000,d,cls,cid,test:t,name:k[0],sid:"demo"+i,
         gradeKey:"ט",sex:k[1],val:vals[i],unit}); });
@@ -1262,18 +1289,27 @@ window.HMBootNew=function(){
     put("ljump","ס״מ",[198,221,186,236,164,175,207,169],day(12));
     put("beep","מ׳",[880,1140,760,1320,540,660,980,600],day(33));
     LS.set("ft.results",res);
+    LS.set(DEMO_LANG_KEY,lang);
     LS.set(DEMO_KEY,true);
   }
   function clearDemo(){
     ["ft.results","ft.roster","ft.last","stu.list","bt.results","bt.heat","pf.names"]
       .forEach(k=>{ try{ localStorage.removeItem(BRAND.ns+k); }catch(e){} });
     LS.set(DEMO_KEY,false);
-    try{ localStorage.removeItem(BRAND.ns+DEMO_KEY); }catch(e){}
+    try{ localStorage.removeItem(BRAND.ns+DEMO_KEY); localStorage.removeItem(BRAND.ns+DEMO_LANG_KEY); }catch(e){}
   }
   function paintDemoBar(){
     const bar=$("#demoBar"); if(!bar)return;
     bar.hidden=!(demoOn()&&H0.role()!=="student");
+    /* הדגמה בשפה אחרת מהממשק (למשל הדגמה עברית ישנה, והממשק באנגלית) —
+       כפתור מפורש לטעינה מחדש. לא אוטומטי: רק המורה מחליט. */
+    const rl=$("#demoReload");
+    if(rl){ const want=demoLangFor();
+      rl.hidden=bar.hidden||demoLang()===want;
+      rl.textContent=want==="he"?H0.t("ui.demoReloadHe","↻ טען את ההדגמה מחדש בעברית")
+        :H0.t("ui.demoReloadEn","↻ טען את ההדגמה מחדש באנגלית"); }
   }
+  document.addEventListener("i18n:change",paintDemoBar);
   const demoBtn=$("#lock-demo");
   if(demoBtn)demoBtn.addEventListener("click",()=>{
     if(hasRealData()&&!demoOn()){
@@ -1281,17 +1317,25 @@ window.HMBootNew=function(){
       H0.ask({msg:"במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.",alert:true,ok:"הבנתי"});
       return;
     }
-    if(!demoOn())seedDemo();
+    if(!demoOn())seedDemo(demoLangFor());
     sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
     $("#lockOv").classList.remove("on");
     paintDemoBar(); H0.go("ft");
-    toast("🎬 מצב הדגמה — כיתה ט׳3 לדוגמה");
+    toast(H0.t("ui.demoOn","🎬 מצב הדגמה — כיתה {0} לדוגמה").replace("{0}",H0.trUI?H0.trUI("ט׳3"):"ט׳3"));
+  });
+  const dr=$("#demoReload");
+  if(dr)dr.addEventListener("click",async()=>{
+    if(!demoOn())return;
+    if(!(await H0.ask({msg:H0.t("ui.demoReloadQ","לטעון את ההדגמה מחדש?\n\nרק תלמידי ההדגמה והתוצאות שלהם מוחלפים — אותם מזהים ואותה כיתה, בשמות בשפה הנוכחית. שום נתון אחר לא משתנה."),
+      ok:H0.t("ui.demoReloadOk","↻ טען מחדש")})))return;
+    seedDemo(demoLangFor()); toast(H0.t("ui.demoReloaded","✓ ההדגמה נטענה מחדש"));
+    setTimeout(()=>location.reload(),600);
   });
   const dc=$("#demoClear");
   if(dc)dc.addEventListener("click",async()=>{
-    if(!(await H0.ask({msg:"למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים.",danger:true,ok:"🗑 מחק"})))return;
-    clearDemo(); toast("נתוני ההדגמה נמחקו"); setTimeout(()=>location.reload(),600);
+    if(!(await H0.ask({msg:H0.t("ui.demoClearQ","למחוק את נתוני ההדגמה?\n\nהכיתה לדוגמה והתוצאות שלה יימחקו, והאפליקציה תחזור להיות ריקה ומוכנה לנתונים אמיתיים."),danger:true,ok:H0.t("ui.demoClearOk","🗑 מחק")})))return;
+    clearDemo(); toast(H0.t("ui.demoCleared","נתוני ההדגמה נמחקו")); setTimeout(()=>location.reload(),600);
   });
   paintDemoBar();
 
@@ -1315,7 +1359,8 @@ window.HMBootNew=function(){
   if(lockChk){ lockChk.checked=LS.get("hx.lock",true);
     lockChk.addEventListener("change",()=>LS.set("hx.lock",lockChk.checked)); }
   /* weekly challenge */
-  function chGet(){ return Object.assign({t:"אתגר השבוע: 100 שכיבות סמיכה",target:100,cur:0},LS.get("hx.ch",{})); }
+  const CH_DEF="אתגר השבוע: 100 שכיבות סמיכה";
+  function chGet(){ return Object.assign({t:CH_DEF,target:100,cur:0},LS.get("hx.ch",{})); }
   function chRender(){
     const c=chGet(),p=Math.min(100,Math.round(c.cur/Math.max(1,c.target)*100));
     $("#hx-chTitle").textContent=c.t;
@@ -1331,7 +1376,7 @@ window.HMBootNew=function(){
   });
   $("#hx-chEdit").addEventListener("click",async()=>{
     const c=chGet();
-    const v=await H0.ask({fields:[{k:"t",label:"שם האתגר:",value:c.t},{k:"tg",label:"יעד מספרי:",type:"number",value:c.target}],ok:"✓ אתגר חדש"});
+    const v=await H0.ask({fields:[{k:"t",label:"שם האתגר:",value:H_DEF(c.t,CH_DEF)},{k:"tg",label:"יעד מספרי:",type:"number",value:c.target}],ok:"✓ אתגר חדש"});
     if(v===null)return;
     const t=v.t, tg=parseFloat(v.tg); if(isNaN(tg))return;
     LS.set("hx.ch",{t:t.trim()||c.t,target:tg,cur:0}); chRender(); toast("אתגר חדש יצא לדרך!");

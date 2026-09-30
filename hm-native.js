@@ -157,6 +157,9 @@ function bootMirror(){
     var keys=snap&&snap.data?Object.keys(snap.data).filter(function(k){ return k.indexOf(NS)===0; }):[];
     if(!keys.length){ done(); return; }
     keys.forEach(function(k){ try{ localStorage.setItem(k,snap.data[k]); }catch(e){} });
+    /* hm-i18n כבר רשם «en» כהתקנה חדשה. עותק בלי בחירת שפה הוא של משתמש
+       קיים — מוחקים, וכך בטעינה הבאה הוא נשאר בשפה שראה (עברית). */
+    if(!(NS+"lang" in snap.data))try{ localStorage.removeItem(NS+"lang"); }catch(e){}
     try{ sessionStorage.setItem("hmn.restored",String(keys.length)); }catch(e){}
     location.reload();
   },function(){ done(); });
