@@ -20,9 +20,9 @@ if(!build)throw new Error("index.html בלי hm-build — הרץ קודם node b
 
 /* כל קובץ ש-index.html מפנה אליו חייב להיות כאן — בדיקה בסוף */
 const FILES=["index.html","manifest.webmanifest","privacy.html","terms.html","contact-received.html",
-  "icon-192.png","icon-512.png","icon-maskable-512.png","apple-touch-icon.png","hm-styles.css"]
+  "icon-192.png","icon-512.png","icon-maskable-512.png","apple-touch-icon.png","hm-styles.css","hm-fonts.css"]
   .concat(fs.readdirSync(ROOT).filter(f=>/^hm-[\w-]+\.js$/.test(f)));
-const DIRS=["exercise-gifs"];
+const DIRS=["exercise-gifs","fonts"];
 
 fs.rmSync(OUT,{recursive:true,force:true});
 fs.mkdirSync(OUT,{recursive:true});

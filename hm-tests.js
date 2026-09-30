@@ -1795,7 +1795,7 @@ window.FT=(function(){
     const school=(H().SET.school||"").trim();
     w.document.write('<!DOCTYPE html><html dir="rtl" lang="he"><head><meta charset="utf-8">'+
       '<title>'+H().esc(title)+'</title>'+
-      '<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">'+
+      '<link href="hm-fonts.css" rel="stylesheet">'+
       '<style>'+RPT_CSS+'</style></head><body>'+inner+
       '<div class="note noprint" style="text-align:center;margin-top:18px">'+
       'להדפסה או לשמירה כ-PDF: <b>Ctrl/⌘ + P</b> ← «יעד» ← «שמור כ-PDF».</div>'+
