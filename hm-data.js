@@ -503,7 +503,7 @@ function sameStudent(rec,stud){
    דרש אותם. כאן: פריט שלא סומן כזמין הוא אילוץ.
 
    טקסט הציוד של משחק הוא חופשי («קונוסים / חישוקים», «חישוקים
-   (״קנים״), כדורי ספוג»). מפרקים לפי פסיק ו-+; «/» הוא חלופה —
+   (״קנים״), כדורי ספוג»). מפרקים לפי פסיק ו-+; «/» ו«או» הם חלופה —
    החלק נחסם רק כשכל החלופות בו דורשות פריט לא זמין. סוגריים הם
    דוגמאות, לא דרישה.
    ============================================================ */
@@ -514,15 +514,18 @@ function equipParts(str){
     .split(/[,،;+·]/).map(function(x){ return x.replace(/\s+/g," ").trim(); })
     .filter(function(x){ return x&&!/^(אין|ללא)$/.test(x); });
 }
+/* «מזרן» ו«מזרנים» אינן חולקות שורש כתוב אחד (נ סופית מול נ רגילה) */
+var EQUIP_STEM2={"מזרנים":"מזרנ"};
 function equipNeeds(part,item){
-  var k=EQUIP_KEYS[item]; return !!k&&String(part).indexOf(k)>=0;
+  var k=EQUIP_KEYS[item], p=String(part); if(!k)return false;
+  return p.indexOf(k)>=0||(!!EQUIP_STEM2[item]&&p.indexOf(EQUIP_STEM2[item])>=0);
 }
 /* הפריטים הלא-זמינים שהטקסט דורש בלי חלופה */
 function equipConflicts(str,unavailable){
   var un=asList(unavailable).filter(function(u){ return EQUIP_KEYS[u]; }), out=[];
   if(!un.length)return out;
   equipParts(str).forEach(function(part){
-    var alts=part.split("/");
+    var alts=part.split(/\/|\s+או\s+/);
     var blocked=alts.map(function(a){ return un.filter(function(u){ return equipNeeds(a,u); }); });
     if(blocked.every(function(b){ return b.length; }))
       blocked.forEach(function(b){ b.forEach(function(u){ if(out.indexOf(u)<0)out.push(u); }); });

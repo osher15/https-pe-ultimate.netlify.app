@@ -59,3 +59,13 @@ test("2.5 כיסוי: לכל וריאציה בקבוצת הכושר יש זמנ�
   ["basket","volley","handball","soccer"].forEach(id=>
     variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes("כדורים"),id+": חסר need ב-"+v.n)));
 });
+
+test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או» היא חלופה כמו «/»",()=>{
+  assert.deepEqual(D.equipConflicts("מזרנים",["מזרנים"]),["מזרנים"],"רבים מזוהה");
+  assert.deepEqual(D.equipConflicts("מזרן",["מזרנים"]),["מזרנים"],"יחיד עדיין מזוהה");
+  assert.deepEqual(D.equipConflicts("עיתונים או מזרנים קטנים",["מזרנים"]),[],"«או» — עיתונים מספיקים");
+  assert.deepEqual(D.equipConflicts("קונוסים או חישוקים",["קונוסים"]),[],"אחת מהשתיים מספיקה");
+  assert.deepEqual(D.equipConflicts("קונוסים או חישוקים",["קונוסים","חישוקים"]),["קונוסים","חישוקים"],"שתיהן חסרות — חסום");
+  assert.deepEqual(D.equipConflicts("רשת + כדור עף או כדור גומי",["כדורים"]),["כדורים"],"שתי החלופות דורשות כדור");
+  assert.deepEqual(D.equipConflicts("מזרנים, חישוקים, קונוסים",["מזרנים"]),["מזרנים"],"פסיק — כולם נדרשים");
+});
