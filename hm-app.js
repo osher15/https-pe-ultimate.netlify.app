@@ -2072,12 +2072,21 @@ async function bkApply(snap){
   const be=STORE||MEMFALLBACK;
   /* מוחקים רק את המפתחות שלנו — מפתחות של אתרים אחרים באותו דומיין
      אינם שלנו למחוק, וגם דגלים שהאפליקציה תכתוב מחדש בעצמה. */
+  const prev={}; bkKeys().forEach(k=>{ try{ prev[k]=be.getItem(BK_PREFIX+k); }catch(e){} });
   try{ bkKeys().forEach(k=>be.removeItem(BK_PREFIX+k)); }catch(e){}
   let failed=0;
   Object.keys(snap.data).forEach(k=>{
     try{ be.setItem(BK_PREFIX+k,snap.data[k]); }
     catch(e){ failed++; storageTrouble({code:DATA.classifyStorageError(e),error:e},"שחזור",k); }
   });
+  /* כתיבה שנכשלה באמצע משאירה מכשיר עם חצי קובץ ובלי הנתונים הקודמים.
+     במקרה כזה מחזירים את מה שהיה, והשחזור נחשב כמי שלא קרה. */
+  if(failed){
+    let lost=0;
+    try{ bkKeys().forEach(k=>be.removeItem(BK_PREFIX+k)); }catch(e){}
+    Object.keys(prev).forEach(k=>{ if(prev[k]==null)return; try{ be.setItem(BK_PREFIX+k,prev[k]); }catch(e){ lost++; } });
+    return {keys:0,failed,rolledBack:true,lost,media:{added:0,failed:0}};
+  }
   /* השיאים מתווספים ולא מוחקים: רשומה עם אותו מזהה נדרסת, אבל
      סרטון שקיים רק במכשיר ולא בקובץ נשאר במקומו. */
   let media={added:0,failed:0};
@@ -2446,8 +2455,11 @@ function bkPreview(snap){
     modal("bk-modal",false);
     /* מדווחים בדיוק מה נכנס. «שוחזר» סתמי הוא מה שאפשר למורה
        לחשוב שיש לו סרטונים שאין לו. */
-    toast(r.failed?("שוחזר חלקית — "+r.failed+" קבוצות נתונים לא נכתבו")
+    toast(r.rolledBack?(r.lost?("השחזור נכשל, ו-"+r.lost+" קבוצות נתונים קודמות לא הוחזרו במלואן — ייצאו גיבוי לפני שממשיכים")
+        :"השחזור נכשל (אין מספיק מקום במכשיר). הנתונים הקודמים נשארו כפי שהיו"):
+      r.failed?("שוחזר חלקית — "+r.failed+" קבוצות נתונים לא נכתבו")
       :("✓ שוחזר "+r.keys+" קבוצות נתונים"+(r.media.added?" · "+r.media.added+" שיאים":"")+" — טוען מחדש"));
+    if(r.rolledBack){ $("#bk-go").disabled=false; return; }
     setTimeout(()=>location.reload(),r.failed?2500:900);
   };
   /* חלון ההגדרות נפתח לפני זה ויושב אחריו ב-DOM, ולכן הוא היה מכסה
