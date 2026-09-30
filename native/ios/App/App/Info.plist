@@ -67,17 +67,17 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>המצלמה משמשת לפוטו־פיניש ולצילום סרטון שיא. התמונה מעובדת במכשיר. / The camera is used for photo-finish timing and record videos; images are processed on the device.</string>
+	<string>The camera is used for photo-finish timing and record videos; images are processed on the device. / המצלמה משמשת לפוטו־פיניש ולצילום סרטון שיא. התמונה מעובדת במכשיר.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>המיקרופון מזהה אות זינוק (יריה או מחיאת כף) בזמן אמת. השמע לא מוקלט ולא נשלח. / The microphone detects a start signal (shot or clap) live; audio is not recorded or sent.</string>
+	<string>The microphone detects a start signal (shot or clap) live; audio is not recorded or sent. / המיקרופון מזהה אות זינוק (יריה או מחיאת כף) בזמן אמת. השמע לא מוקלט ולא נשלח.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>שמירת תמונה או סרטון שבחרת לשמור מתוך גיליון השיתוף. / Saves an image or video you chose to save from the share sheet.</string>
+	<string>Saves an image or video you chose to save from the share sheet. / שמירת תמונה או סרטון שבחרת לשמור מתוך גיליון השיתוף.</string>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
 	<key>CFBundleLocalizations</key>
 	<array>
-		<string>he</string>
 		<string>en</string>
+		<string>he</string>
 		<string>ar</string>
 		<string>ru</string>
 		<string>es</string>

@@ -269,10 +269,10 @@ window.TOOLS=(function(){
       const x=per[s.id]||{p:0,h:0,e:0,a:0,days:0};
       /* פטור לא נספר במכנה — אותה נוסחה של attendanceRateOf() */
       const elig=x.days-x.e;
-      rows.push([s.name,s.cls||"",x.days,x.p,x.h,x.e,x.a,elig>0?Math.round((x.p+x.h*0.5)/elig*100)+"%":""]);
+      rows.push([s.name,H().clsUI(s.cls||""),x.days,x.p,x.h,x.e,x.a,elig>0?Math.round((x.p+x.h*0.5)/elig*100)+"%":""]);
     });
     const g=isGrp(attCls)?window.HMDATA.groupOf(store,attCls):null;
-    H().dlCSV("attendance_"+String((g&&g.name)||attCls||"all").replace(/[\\/:*?"<>|]/g,"")+".csv",rows);
+    H().dlCSV("attendance_"+String((g&&g.name)||H().clsUI(attCls)||"all").replace(/[\\/:*?"<>|]/g,"")+".csv",rows);
     H().toast("דוח נוכחות הורד");
   }
 
@@ -329,18 +329,23 @@ window.TOOLS=(function(){
      בחירת תבנית ממלאת את השם והקריטריונים, ואפשר לערוך לפני השמירה. */
   async function newRubric(){
     const {toast}=H();
-    const EMPTY_CRIT="מיומנות\nמאמץ\nשיתוף פעולה\nבטיחות";
-    const p0=PRESETS[0];
+    /* התבניות נכתבות במחוון החדש בשפת הממשק — מחוון שנוצר באנגלית הוא
+       מחוון באנגלית. מה שהמורה משנה בשדות נשמר כפי שהקליד. */
+    const tr=s=>window.I18N&&window.I18N.tr?window.I18N.tr(s):s;
+    const EMPTY_CRIT=["מיומנות","מאמץ","שיתוף פעולה","בטיחות"].map(tr).join("\n");
+    const NEW_NAME=tr("מחוון חדש");
+    const P=PRESETS.map(p=>({name:tr(p.name),crit:p.crit.map(tr)}));
+    const p0=P[0];
     const v=await H().ask({title:"📐 מחוון חדש",fields:[
       {k:"tpl",label:"תבנית",type:"select",value:"0",
-        options:PRESETS.map((p,i)=>[String(i),p.name]).concat([["-1","מחוון ריק"]]),
-        onchange:(val,ins)=>{ const p=PRESETS[+val];
-          ins[1].value=p?p.name:"מחוון חדש"; ins[2].value=p?p.crit.join("\n"):EMPTY_CRIT; }},
-      {k:"name",label:"שם המחוון:",value:p0?p0.name:"מחוון חדש"},
+        options:P.map((p,i)=>[String(i),p.name]).concat([["-1","מחוון ריק"]]),
+        onchange:(val,ins)=>{ const p=P[+val];
+          ins[1].value=p?p.name:NEW_NAME; ins[2].value=p?p.crit.join("\n"):EMPTY_CRIT; }},
+      {k:"name",label:"שם המחוון:",value:p0?p0.name:NEW_NAME},
       {k:"crit",label:"קריטריונים, אחד בכל שורה:",type:"textarea",rows:5,value:p0?p0.crit.join("\n"):EMPTY_CRIT}
     ],ok:"＋ צור מחוון"});
     if(v===null)return;
-    const name=(v.name||"").trim()||"מחוון חדש";
+    const name=(v.name||"").trim()||NEW_NAME;
     const crit=String(v.crit||"").split("\n").map(x=>x.trim()).filter(Boolean);
     if(!crit.length){toast("צריך לפחות קריטריון אחד");return;}
     const list=RUB(), id="rb"+Date.now().toString(36);
@@ -355,7 +360,7 @@ window.TOOLS=(function(){
       const mine=sc[r.id+"|"+s.id]||{};
       const vals=r.crit.map((_,i)=>mine[i]||"");
       const nums=vals.filter(v=>v).map(Number);
-      rows.push([s.name,s.cls||"",...vals,nums.length?(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2):""]);
+      rows.push([s.name,H().clsUI(s.cls||""),...vals,nums.length?(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2):""]);
     });
     H().dlCSV("rubric_"+r.name+".csv",rows);
   }

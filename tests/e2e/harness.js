@@ -131,6 +131,13 @@ async function openApp(browser,seed,APP){
      ולא על מכשיר ריק. */
   await page.addInitScript(s=>{
     try{
+      /* __fresh — התקנה חדשה באמת: אף מפתח של האפליקציה, גם לא hx.leadDone
+         (בחירת השפה הראשונה תלויה בזה). __fakefs — קובץ העותק של גרסת
+         החנות, כאילו נשאר מהתקנה קודמת. בטעינה מחדש לא נוגעים בכלום. */
+      if(s&&s.__fresh){
+        if(s.__fakefs&&!localStorage.getItem("__fakefs"))localStorage.setItem("__fakefs",JSON.stringify(s.__fakefs));
+        return;
+      }
       /* מסך פרטי הקשר הוא שלב פתיחה חד־פעמי שחוסם את מסך הכניסה, ואין
          בו דילוג — זו החלטה מכוונת. הבדיקות מתחילות ממורה שכבר עבר
          אותו, ממש כשם שהן מתחילות ממורה שכבר ראה את הדרכת הפוטו־פיניש.

@@ -878,9 +878,9 @@ window.FT=(function(){
     $("#ft-cardPdf").onclick=()=>studentReport(name,c,rows,idx,scored,missing);
     $("#ft-cardCsv").onclick=()=>{
       const out=[["מבחן","הטוב","יחידה","ציון","ניסיונות","נמדד לאחרונה","ימי מדידה"]];
-      rows.forEach(r=>out.push([r.T.name,r.bst.val,r.T.unit,r.sc.v!=null?r.sc.v.toFixed(0):"",
+      rows.forEach(r=>out.push([H().trUI(r.T.name),r.bst.val,H().trUI(r.T.unit),r.sc.v!=null?r.sc.v.toFixed(0):"",
         r.list.length,r.dates[r.dates.length-1],r.dates.length]));
-      H().dlCSV("כרטיס-"+name+"-"+fname(disp(c))+"-"+today()+".csv",out);
+      H().dlCSV(H().t("csv.card","כרטיס")+"-"+name+"-"+fname(H().clsUI(disp(c)))+"-"+today()+".csv",out);
     };
   }
 
@@ -1556,8 +1556,9 @@ window.FT=(function(){
     const rs=resultsFor(c,T.id).sort((a,b)=>a.d.localeCompare(b.d)||a.name.localeCompare(b.name,"he"));
     if(!rs.length){H().toast("אין עדיין תוצאות במבחן הזה");return;}
     const rows=[["תאריך","כיתה","שם","מבחן","תוצאה","יחידה"]];
-    rs.forEach(r=>rows.push([r.d,r.cls,r.name,T.name,r.val,r.unit]));
-    H().dlCSV("מבחן-"+T.name+"-"+fname(disp(c))+"-"+today()+".csv",rows);
+    const tr=H().trUI;
+    rs.forEach(r=>rows.push([r.d,H().clsUI(r.cls),r.name,tr(T.name),r.val,tr(r.unit)]));
+    H().dlCSV(H().t("csv.test","מבחן")+"-"+fname(tr(T.name))+"-"+fname(H().clsUI(disp(c)))+"-"+today()+".csv",rows);
   }
 
   /* ============================================================
@@ -1893,10 +1894,10 @@ window.FT=(function(){
     const out=[head];
     rows.forEach(r=>{
       const by={}; r.rows.forEach(x=>by[x.test]=x);
-      out.push([r.s.name,r.s.sex==="girls"?"בת":r.s.sex==="boys"?"בן":"",
+      out.push([r.s.name,H().trUI(r.s.sex==="girls"?"בת":r.s.sex==="boys"?"בן":""),
         ...usedTests.map(t=>by[t]?by[t].sc.toFixed(0):""),r.idx!=null?r.idx.toFixed(1):""]);
     });
-    H().dlCSV("מדד-כושר-"+fname(disp(cls()))+"-"+today()+".csv",out);
+    H().dlCSV(H().t("csv.index","מדד-כושר")+"-"+fname(H().clsUI(disp(cls())))+"-"+today()+".csv",out);
   }
 
   /* כתיבת המדד לעמודת «מדד כושר» בלשונית הציונים */
@@ -2280,8 +2281,8 @@ window.FT=(function(){
     if(!rows.length){H().toast("אין נתונים");return;}
     const out=[["שם","אירובי","מחזורי","עיוני","השתתפות","פעילות קבועה","חד־פעמית","יומן","סה״כ","זכאי לאות"]];
     rows.forEach(r=>out.push([r.s.name,r.per.aer,r.per.cir,r.per.theory,r.per.part,r.per.club,r.per.event,r.per.diary,
-      r.total,r.ok?"כן":"לא"]));
-    H().dlCSV("אות-החינוך-הגופני-"+fname(disp(cls()))+"-"+today()+".csv",out);
+      r.total,H().trUI(r.ok?"כן":"לא")]));
+    H().dlCSV(H().t("csv.badge","אות-החינוך-הגופני")+"-"+fname(H().clsUI(disp(cls())))+"-"+today()+".csv",out);
   }
 
   /* ============================================================

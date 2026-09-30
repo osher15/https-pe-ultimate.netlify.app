@@ -1,9 +1,9 @@
 {
   "name": "PE Ultimate — Field Kit for PE Teachers",
   "short_name": "PE Ultimate",
-  "description": "מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור, שיאים וציונים — הכול במכשיר, בלי חשבון ובלי אינטרנט.",
-  "lang": "he",
-  "dir": "rtl",
+  "description": "Fitness tests, beep test, camera photo-finish, lesson plans, records and grades — all on the device, no account and no internet needed.",
+  "lang": "en",
+  "dir": "ltr",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -17,8 +17,8 @@
     { "src": "./icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
-    { "name": "מבחני כושר", "url": "./index.html#ft", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
-    { "name": "ביפ טסט",   "url": "./index.html#beep", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
-    { "name": "פוטו־פיניש", "url": "./index.html#photo", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] }
+    { "name": "Fitness tests", "url": "./index.html#ft", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
+    { "name": "Beep test",   "url": "./index.html#beep", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] },
+    { "name": "Photo-finish", "url": "./index.html#photo", "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }] }
   ]
 }

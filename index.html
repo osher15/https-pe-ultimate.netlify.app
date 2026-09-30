@@ -15,27 +15,27 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="f1052841">
+<meta name="hm-build" content="de9315b2">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
-<link rel="stylesheet" href="hm-styles.css?v=09db6bb7">
+<link rel="stylesheet" href="hm-styles.css?v=ffe3a4d2">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-native.js?v=bd2dcd6d"></script>
+<script src="hm-native.js?v=6c53d8bd"></script>
 <script src="hm-data.js?v=fe7203ad"></script>
-<script src="hm-terms.js?v=7d105907"></script>
+<script src="hm-terms.js?v=b2ee46d0"></script>
 <script src="hm-texts.js?v=07c4963b"></script>
-<script src="hm-i18n.js?v=eccea238"></script>
-<script src="hm-app.js?v=66619b6e"></script>
+<script src="hm-i18n.js?v=c8588595"></script>
+<script src="hm-app.js?v=b468eee2"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
 <script src="hm-know.js?v=72244783"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="hm-tools.js?v=584ac944"></script>
+<script src="hm-tools.js?v=0baf385d"></script>
 <script src="hm-plans.js?v=20cf74cb"></script>
 <script src="hm-lesson.js?v=a6ad94de"></script>
 <script src="hm-build.js?v=931b1d83"></script>
-<script src="hm-tests.js?v=19e85bfc"></script>
-<script src="hm-new.js?v=0ca84bd4"></script>
+<script src="hm-tests.js?v=3eb1035d"></script>
+<script src="hm-new.js?v=18f9d58a"></script>
 <script src="hm-live.js?v=16d0ab27"></script>
 <script src="hm-hub.js?v=1e6ba46b"></script>
 </helmet>
@@ -54,14 +54,14 @@
      ============================================================ -->
 <header class="apphead">
 <div class="topbar">
-  <button class="backbtn" id="btnBack" hidden>→<span data-i18n="nav.back">חזרה</span></button>
+  <button class="backbtn" id="btnBack" hidden><i class="bk-ar" aria-hidden="true">→</i><span data-i18n="nav.back">חזרה</span></button>
   <div class="brand"><div class="logo">⏱️</div>
     <div><div class="ttl" dir="auto"><span data-i18n="brand.word">PE</span> <b style="color:var(--acc)">Ultimate</b></div><div class="sub" id="schoolSub" dir="auto">ערכת שטח למורה לחינוך גופני</div></div>
   </div>
   <div class="sboard">
     <button id="roleBadge" style="display:none">👦 מצב תלמיד<span id="roleExit">יציאה 🔓</span></button>
     <span class="clock" id="topClock">--:--</span>
-    <button class="iconbtn langbtn" id="btnLang" title="שפת הממשק" data-i18n-title="ui.lang" aria-label="שפת הממשק" aria-haspopup="true">עב</button>
+    <button class="iconbtn langbtn" id="btnLang" title="שפת הממשק" data-i18n-title="ui.lang" aria-label="שפת הממשק" data-i18n-aria-label="ui.lang" aria-haspopup="true">עב</button>
     <button class="iconbtn" id="btnSun" title="מצב שמש — ניגודיות גבוהה לאור יום" data-i18n-title="ui.sun">☀</button>
     <button class="iconbtn" id="btnSettings" title="הגדרות" data-i18n-title="ui.settings" aria-label="הגדרות">⚙</button></div>
 </div>
@@ -81,6 +81,7 @@
   <button class="btn sm" id="stWarnSave">💾 ייצא גיבוי עכשיו</button>
   <button class="x" id="stWarnX" aria-label="סגור">✕</button></div>
 <div id="demoBar" hidden>🎬 <b data-i18n="ui.demoBar">מצב הדגמה</b> <span data-i18n="ui.demoNote">— הנתונים כאן הם דוגמה</span>
+  <button class="btn sm" id="demoReload" hidden>↻ טען את ההדגמה מחדש באנגלית</button>
   <button class="btn sm" id="demoClear" data-i18n="ui.demoClear">נקה נתוני הדגמה</button></div>
 <div id="leadRemind" class="lead-remind" role="region" aria-label="contact" hidden>
   <span data-i18n="lead.remT">📨 רוצים להשאיר פרטי קשר לשאלון המשוב? זה לא חובה.</span>
@@ -680,7 +681,7 @@
       <textarea id="rec-spFilm" rows="4"></textarea></div>
     <div class="field" style="margin-top:9px"><label>חיפוש יוטיוב לסרטון הסבר</label>
       <input type="text" id="rec-spYt" placeholder="קפיצה בחבל טכניקה נכונה"></div>
-    <div class="hint" style="margin:9px 0 12px">אפשר להדגיש מילה בתוך כלל עם שתי כוכביות: <code>**מהצד**</code>.</div>
+    <div class="hint" style="margin:9px 0 12px">אפשר להדגיש מילה בתוך כלל עם שתי כוכביות: <code data-i18n="rec.boldEx">**מהצד**</code>.</div>
     <button class="btn acc big" id="rec-spSave">שמור ענף</button>
   </div></div>
 
@@ -1962,6 +1963,7 @@
     <input type="file" id="stu-fileImport" accept=".csv,.txt,text/csv,text/plain" style="display:none"></label>
 </div></div>
 <div id="lockOv"><div class="box">
+  <div class="lang-pick lead-lang" id="lock-lang" aria-label="Language"></div>
   <div class="lg">🔐</div>
   <h1 dir="auto"><span data-i18n="brand.word">PE</span> <b style="color:var(--acc)">Ultimate</b></h1>
   <p data-i18n="lock.sub">אזור מורה — הזן קוד כדי להיכנס</p>
