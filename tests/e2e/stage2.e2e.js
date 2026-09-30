@@ -70,5 +70,34 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     const after=await page.evaluate(()=>window.LESSON.current().phases.filter(x=>x.k==="main")[0]);
     ok(!after.t&&!after.tr&&!after.fit,"הזמנים נמחקו אחרי עריכת שלבים: "+JSON.stringify(after.t));
     ok(after.d.indexOf("שורה שהמורה הוסיף")>=0,"והעריכה עצמה נשמרה");
+  }),
+  check("ציוד אחר: התיבות החדשות קיימות, הקלדה מסמנת «ציוד אחר» והטקסט נכנס לרשימת הציוד של המערך",null,async page=>{
+    await go(page,"lesson");
+    const vals=await page.$$eval("#ls-eq input",e=>e.map(x=>x.value));
+    ["חבל","חבל עבה","צלחת מעופפת","ציוד אחר"].forEach(v=>ok(vals.includes(v),"חסרה תיבה: "+v));
+    eq(await page.$eval("#ls-eqOtherOn",e=>e.checked),false,"ברירת מחדל — לא מסומן");
+    await page.fill("#ls-eqOther","משרוקית וסרטים");
+    eq(await page.$eval("#ls-eqOtherOn",e=>e.checked),true,"הקלדה מסמנת אוטומטית");
+    await page.selectOption("#ls-focus","aerobic");
+    await page.click("#ls-gen"); await page.waitForTimeout(100);
+    const eqs=await page.evaluate(()=>window.LESSON.current().eq);
+    ok(eqs.includes("משרוקית וסרטים"),"הציוד שהוקלד ברשימה: "+JSON.stringify(eqs));
+  }),
+
+  check("אין עברית שנשארת בשום שדה של אף משחק בארבע השפות, ובתיבות הציוד החדשות",null,async page=>{
+    const leaks=await page.evaluate(()=>{
+      const H=/[֐-׿]/, out=[], labels=[...document.querySelectorAll("#ls-eq label")].map(l=>l.textContent.trim());
+      ["en","ar","ru","es"].forEach(L=>{
+        window.I18N.set(L);
+        window.GAMES.all().forEach(g=>{
+          const f={name:g.name,who:g.who,space:g.space,equip:g.equip,time:g.time,goal:g.goal,fit:g.fit,safe:g.safe};
+          g.how.forEach((x,i)=>f["how"+i]=x); g.vars.forEach((x,i)=>f["vars"+i]=x);
+          Object.keys(f).forEach(k=>{ const t=window.I18N.tr(f[k]); if(H.test(t))out.push(L+" · "+g.name+" · "+k+": "+t.slice(0,90)); });
+        });
+        labels.concat(["ציוד אחר","מה עוד יש לך? (אפשר להקליד)"]).forEach(x=>{ const t=window.I18N.tr(x); if(H.test(t))out.push(L+" · תווית: "+x); });
+      });
+      return out;
+    });
+    eq(leaks,[],"עברית שנשארה");
   })
 ]};

@@ -184,8 +184,13 @@ module.exports={title:"ביקורת 2026-09-29 — תלמידים, קבוצות 
     await page.selectOption("#ls-focus","aerobic");
     for(let i=0;i<15;i++){
       await page.click("#ls-gen"); await page.waitForTimeout(60);
-      const eqs=await page.evaluate(()=>window.LESSON.current().eq.join(" | "));
-      ok(!/חישוק/.test(eqs),"בנייה "+(i+1)+": "+eqs);
+      /* «חישוקים» יכול להופיע כחלופה («קונוסים / חישוקים / כדור»); מה שאסור —
+         שהמערך ידרוש פריט שסומן כלא זמין */
+      const r=await page.evaluate(()=>{ const p=window.LESSON.current();
+        return {eqs:p.eq.join(" | "),need:window.HMDATA.equipConflicts(p.eq.join(" , "),p.eqNo||[]),
+          warn:(p.eqWarn||[]).map(w=>w.k).filter(k=>k==="ls.eqGame"||k==="ls.eqTopic")}; });
+      eq(r.need,[],"בנייה "+(i+1)+": דורש ציוד שלא סומן — "+r.eqs);
+      eq(r.warn,[],"בנייה "+(i+1)+": אזהרת ציוד — "+r.eqs);
     }
   }),
 

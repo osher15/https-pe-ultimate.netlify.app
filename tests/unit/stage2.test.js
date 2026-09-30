@@ -69,3 +69,28 @@ test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או�
   assert.deepEqual(D.equipConflicts("רשת + כדור עף או כדור גומי",["כדורים"]),["כדורים"],"שתי החלופות דורשות כדור");
   assert.deepEqual(D.equipConflicts("מזרנים, חישוקים, קונוסים",["מזרנים"]),["מזרנים"],"פסיק — כולם נדרשים");
 });
+
+const KNOW=fs.readFileSync(path.join(__dirname,"../../hm-know.js"),"utf8");
+const GAMES=eval("("+KNOW.match(/const GAMES=\[[\s\S]*?\n\];/)[0].replace("const GAMES=","").replace(/;$/,"")+")");
+const ALL_TRACKED=Object.keys(D.EQUIP_KEYS).filter(k=>k!=="ציוד אחר");
+
+test("2.7 «ציוד אחר» מפתח את החסימה; חבל עבה (משיכה) אינו חבל קפיצה; פריזבי מזוהה",()=>{
+  assert.deepEqual(D.equipConflicts("רשת / גומי נמתח / ציוד אחר",["רשת"]),[],"גומי נמתח אינו ברשימה — אף פעם לא חוסם");
+  assert.deepEqual(D.equipConflicts("רשת או ציוד אחר",["רשת","ציוד אחר"]),["רשת","ציוד אחר"],"הכול חסר — חסום");
+  assert.deepEqual(D.equipConflicts("רשת או ציוד אחר",["רשת"]),[],"ציוד אחר זמין — לא חסום");
+  assert.deepEqual(D.equipConflicts("חבל עבה עם סימון אמצע",["חבל"]),[],"חבל קפיצה חסר אינו חוסם חבל עבה");
+  assert.deepEqual(D.equipConflicts("חבל עבה עם סימון אמצע",["חבל עבה"]),["חבל עבה"]);
+  assert.deepEqual(D.equipConflicts("חבל עבה (חבל טיפוס) עם סימון",["חבל עבה"]),["חבל עבה"],"חבל טיפוס = אותו פריט");
+  assert.deepEqual(D.equipConflicts("חבלים",["חבל עבה"]),[],"חבלי קפיצה אינם חבל עבה");
+  assert.deepEqual(D.equipConflicts("חבל ארוך",["חבל"]),["חבל"],"חבל רגיל עדיין מזוהה");
+  assert.deepEqual(D.equipConflicts("צלחת מעופפת אחת (פריזבי)",["צלחת מעופפת"]),["צלחת מעופפת"]);
+  assert.deepEqual(D.equipConflicts("פריזבי",["צלחת מעופפת"]),["צלחת מעופפת"],"גם השם «פריזבי»");
+});
+
+test("2.8 כל משחק ניתן לשיבוץ כשסומן רק «ציוד אחר» — אף משחק לא נחסם בגלל חוסר בציוד מקובע",()=>{
+  GAMES.forEach(g=>assert.deepEqual(D.equipConflicts(g.equip,ALL_TRACKED),[],g.name+": «"+g.equip+"» חוסם גם כשיש «ציוד אחר»"));
+});
+
+test("2.9 שמות כדורים בשתי מילים («כדור סל», «כדור רגל», «כדור עף») בשדה הציוד של המשחקים",()=>{
+  GAMES.forEach(g=>assert.ok(!/כדורסל|כדורגל|כדורעף/.test(g.equip),g.name+": «"+g.equip+"»"));
+});

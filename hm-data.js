@@ -508,17 +508,24 @@ function sameStudent(rec,stud){
    דוגמאות, לא דרישה.
    ============================================================ */
 var EQUIP_KEYS={"כדורים":"כדור","קונוסים":"קונוס","מזרנים":"מזרן","חישוקים":"חישוק",
-  "רשת":"רשת","חבל":"חבל","רמקול":"רמקול","וסטים":"וסט"};
+  "רשת":"רשת","חבל":"חבל","רמקול":"רמקול","וסטים":"וסט",
+  "חבל עבה":"חבל עבה","צלחת מעופפת":"צלחת מעופפת","ציוד אחר":"ציוד אחר"};
 function equipParts(str){
   return String(str==null?"":str).replace(/\([^)]*\)/g," ")
     .split(/[,،;+·]/).map(function(x){ return x.replace(/\s+/g," ").trim(); })
     .filter(function(x){ return x&&!/^(אין|ללא)$/.test(x); });
 }
-/* «מזרן» ו«מזרנים» אינן חולקות שורש כתוב אחד (נ סופית מול נ רגילה) */
-var EQUIP_STEM2={"מזרנים":"מזרנ"};
+/* צורות כתיב נוספות לאותו פריט: «מזרן»/«מזרנים» (נ סופית מול רגילה),
+   «פריזבי» ו«חבל טיפוס». «חבל עבה» (משיכה) הוא פריט נפרד מחבל קפיצה:
+   כשמזהים «חבל», מתעלמים ממופעים של «חבל עבה» ו«חבל טיפוס». */
+var EQUIP_EXTRA={"מזרנים":["מזרנ"],"צלחת מעופפת":["פריזבי"],"חבל עבה":["חבל טיפוס"]};
 function equipNeeds(part,item){
   var k=EQUIP_KEYS[item], p=String(part); if(!k)return false;
-  return p.indexOf(k)>=0||(!!EQUIP_STEM2[item]&&p.indexOf(EQUIP_STEM2[item])>=0);
+  if(item==="חבל")p=p.replace(/חבל\s+(עבה|טיפוס)/g," ");
+  if(p.indexOf(k)>=0)return true;
+  var ex=EQUIP_EXTRA[item]||[];
+  for(var i=0;i<ex.length;i++)if(p.indexOf(ex[i])>=0)return true;
+  return false;
 }
 /* הפריטים הלא-זמינים שהטקסט דורש בלי חלופה */
 function equipConflicts(str,unavailable){

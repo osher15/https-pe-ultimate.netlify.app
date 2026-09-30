@@ -353,6 +353,8 @@ window.LESSON=(function(){
       eq:$$("#ls-eq input:checked").map(i=>i.value),
       /* מה שלא סומן — לא זמין. זה אילוץ על המשחק ועל הנושא, לא רשימת קניות. */
       noEq:$$("#ls-eq input").filter(i=>!i.checked).map(i=>i.value),
+      /* ציוד שהמורה הקליד בעצמו: נספר כזמין ונכנס לרשימת הציוד של המערך */
+      other:($("#ls-eqOther")?$("#ls-eqOther").value.trim():""),
       subs:$$("#ls-subs input:checked").map(i=>i.value)
     };
   }
@@ -462,7 +464,8 @@ window.LESSON=(function(){
     /* רשימת הציוד נגזרת מהפעילויות שנבחרו בפועל — לא מהתיבות שסומנו.
        טקסט הציוד של המשחק נשאר שלם: הוא מונח מתורגם במילון, ופירוק
        שלו לחלקים יצר מקטעים עבריים שאין להם תרגום. */
-    const eq=DT0.mergeEquip(T.eq,game&&game.equip?[game.equip]:[]);
+    const eq=DT0.mergeEquip(T.eq,game&&game.equip?[game.equip]:[],
+      o.other&&o.eq.includes("ציוד אחר")?[o.other]:[]);
 
     plan={id:newPlanId(),grade,topic:T.id,title:T.name,em:T.em,group:T.g,cls:o.cls,size:o.size,place:o.place,
       date:today(),goals:T.goals,eq,eqAvail:o.eq,eqNo:o.noEq,eqWarn,std:T.std,phases,
@@ -943,6 +946,7 @@ window.LESSON=(function(){
     buildTopicSelect();
     buildSubSelect();
     $("#ls-focus").addEventListener("change",buildSubSelect);
+    $("#ls-eqOther").addEventListener("input",()=>{ if($("#ls-eqOther").value.trim())$("#ls-eqOtherOn").checked=true; });
     $$("#ls-gradeSeg button").forEach(b=>b.addEventListener("click",()=>{
       $$("#ls-gradeSeg button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); grade=b.dataset.g;
       buildSubSelect();
