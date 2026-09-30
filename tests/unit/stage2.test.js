@@ -56,8 +56,9 @@ test("2.4 הממצא מהביקורת: מעגל אירובי עם דילוגי �
 test("2.5 כיסוי: לכל וריאציה בקבוצת הכושר יש זמנים; לענפי כדור יש ציוד נדרש",()=>{
   ["aerobic","strength","core","speed","flex"].forEach(id=>
     variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok(v.t,id+": חסר t ב-"+v.n)));
-  ["basket","volley","handball","soccer"].forEach(id=>
-    variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes("כדורים"),id+": חסר need ב-"+v.n)));
+  const BALL={basket:"כדור סל",volley:"כדור עף",handball:"כדור יד",soccer:"כדור רגל"};
+  Object.keys(BALL).forEach(id=>
+    variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes(BALL[id]),id+": חסר "+BALL[id]+" ב-"+v.n)));
 });
 
 test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או» היא חלופה כמו «/»",()=>{
@@ -66,7 +67,7 @@ test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או�
   assert.deepEqual(D.equipConflicts("עיתונים או מזרנים קטנים",["מזרנים"]),[],"«או» — עיתונים מספיקים");
   assert.deepEqual(D.equipConflicts("קונוסים או חישוקים",["קונוסים"]),[],"אחת מהשתיים מספיקה");
   assert.deepEqual(D.equipConflicts("קונוסים או חישוקים",["קונוסים","חישוקים"]),["קונוסים","חישוקים"],"שתיהן חסרות — חסום");
-  assert.deepEqual(D.equipConflicts("רשת + כדור עף או כדור גומי",["כדורים"]),["כדורים"],"שתי החלופות דורשות כדור");
+  assert.deepEqual(D.equipConflicts("רשת + כדור עף או כדור גומי",["כדור עף","כדור גומי"]),["כדור עף","כדור גומי"],"שתי החלופות חסרות — חסום");
   assert.deepEqual(D.equipConflicts("מזרנים, חישוקים, קונוסים",["מזרנים"]),["מזרנים"],"פסיק — כולם נדרשים");
 });
 
@@ -93,4 +94,24 @@ test("2.8 כל משחק ניתן לשיבוץ כשסומן רק «ציוד אח�
 
 test("2.9 שמות כדורים בשתי מילים («כדור סל», «כדור רגל», «כדור עף») בשדה הציוד של המשחקים",()=>{
   GAMES.forEach(g=>assert.ok(!/כדורסל|כדורגל|כדורעף/.test(g.equip),g.name+": «"+g.equip+"»"));
+});
+
+test("2.10 סוגי כדורים נפרדים: כדור ספציפי נחסם רק כשהוא חסר; «כדור» בלי סוג — רק כשאין אף כדור",()=>{
+  assert.deepEqual(D.equipConflicts("כדור סל",["כדור עף"]),[],"חסר כדור עף — כדור סל לא נחסם");
+  assert.deepEqual(D.equipConflicts("כדור סל",["כדור סל"]),["כדור סל"]);
+  assert.deepEqual(D.equipConflicts("כדורסל",["כדור סל"]),["כדור סל"],"כתיב מחובר מזוהה");
+  assert.deepEqual(D.equipConflicts("כדורגלים",["כדור רגל"]),["כדור רגל"]);
+  assert.deepEqual(D.equipConflicts("כדורי עף",["כדור עף"]),["כדור עף"]);
+  assert.deepEqual(D.equipConflicts("כדור אחד",["כדור סל"]),[],"כדור כלשהו — יש עוד סוגים");
+  assert.deepEqual(D.equipConflicts("כדור אחד",D.BALL_TYPES),["כדורים"],"אף כדור לא זמין");
+  assert.deepEqual(D.equipConflicts("כדור רך",["כדור רך"]),[],"רך מתקיים גם מספוג או גומי");
+  assert.deepEqual(D.equipConflicts("כדור רך",["כדור רך","כדור ספוג","כדור גומי"]),["כדור רך"]);
+  assert.deepEqual(D.equipConflicts("1–3 כדורים רכים",["כדור רך","כדור ספוג"]),[],"גומי זמין");
+  assert.deepEqual(D.equipConflicts("כדור סל או כדור גומי",["כדור סל"]),[],"חלופה אחת זמינה");
+  assert.deepEqual(D.equipConflicts("כדור אחד",["כדורים"]),["כדורים"],"«כדורים» ישן = כל הכדורים");
+  assert.deepEqual(D.variantEquipConflicts({need:["כדור סל"]},["כדור עף"]),[]);
+  assert.deepEqual(D.variantEquipConflicts({need:["כדור סל"]},["כדור סל"]),["כדור סל"]);
+  assert.deepEqual(D.variantEquipConflicts({need:["כדורים"]},["כדור סל"]),[],"כדור כלשהו");
+  assert.deepEqual(D.variantEquipConflicts({need:["כדורים"]},D.BALL_TYPES),["כדורים"]);
+  assert.ok(D.BALL_TYPES.every(b=>D.EQUIP_KEYS[b]),"כל סוג כדור רשום כפריט");
 });

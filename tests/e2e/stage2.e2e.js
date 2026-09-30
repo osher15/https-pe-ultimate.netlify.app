@@ -30,9 +30,9 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     ok(seen,"המעגל לא נבחר אף פעם ב-40 בניות עם חבלים");
   }),
 
-  check("אין חלופה (כדורסל בלי כדורים): נבנה מערך, והאזהרה אומרת מה חסר",null,async page=>{
+  check("אין חלופה (כדורסל בלי כדור סל): נבנה מערך, והאזהרה אומרת מה חסר",null,async page=>{
     await go(page,"lesson");
-    await page.uncheck('#ls-eq input[value="כדורים"]');
+    await page.uncheck('#ls-eq input[value="כדור סל"]');
     const r=await build(page,"basket","mid",45);
     ok(r.main.length===1,"המערך נבנה");
     ok(r.eqWarn.indexOf("ls.eqVariant")>=0,"אזהרת ציוד על הבלוק: "+r.eqWarn);
@@ -99,5 +99,22 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
       return out;
     });
     eq(leaks,[],"עברית שנשארה");
+  }),
+  check("סוגי כדורים: שבע תיבות מסומנות כברירת מחדל; כדור סל חסר לא חוסם כדורעף וכדורגל, וכדור עף חסר כן חוסם כדורעף",null,async page=>{
+    await go(page,"lesson");
+    const balls=["כדור סל","כדור רגל","כדור עף","כדור יד","כדור ספוג","כדור גומי","כדור רך"];
+    for(const b of balls)eq(await page.$eval('#ls-eq input[value="'+b+'"]',e=>e.checked),true,b+" מסומן כברירת מחדל");
+    ok(await page.locator('#ls-eq input[value="כדורים"]').count()===0,"אין עוד תיבה כללית «כדורים»");
+    await page.check('#ls-eq input[value="רשת"]');   /* כדורעף דורש גם רשת; היא לא מסומנת כברירת מחדל */
+    await page.uncheck('#ls-eq input[value="כדור סל"]');
+    for(let i=0;i<8;i++){
+      const r=await build(page,"volley","mid",45);
+      ok(r.eqWarn.indexOf("ls.eqVariant")<0,"כדורעף בלי כדור סל לא אמור להיחסם: "+r.eqWarn);
+    }
+    const bk=await build(page,"basket","mid",45);
+    ok(bk.eqWarn.indexOf("ls.eqVariant")>=0,"כדורסל בלי כדור סל — אזהרה: "+bk.eqWarn);
+    await page.check('#ls-eq input[value="כדור סל"]'); await page.uncheck('#ls-eq input[value="כדור עף"]');
+    const vb=await build(page,"volley","mid",45);
+    ok(vb.eqWarn.indexOf("ls.eqVariant")>=0,"כדורעף בלי כדור עף — אזהרה: "+vb.eqWarn);
   })
 ]};

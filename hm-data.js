@@ -507,18 +507,28 @@ function sameStudent(rec,stud){
    החלק נחסם רק כשכל החלופות בו דורשות פריט לא זמין. סוגריים הם
    דוגמאות, לא דרישה.
    ============================================================ */
-var EQUIP_KEYS={"כדורים":"כדור","קונוסים":"קונוס","מזרנים":"מזרן","חישוקים":"חישוק",
+var EQUIP_KEYS={"כדורים":"כדור",
+  "כדור סל":"כדור סל","כדור רגל":"כדור רגל","כדור עף":"כדור עף","כדור יד":"כדור יד",
+  "כדור ספוג":"כדור ספוג","כדור גומי":"כדור גומי","כדור רך":"כדור רך",
+  "קונוסים":"קונוס","מזרנים":"מזרן","חישוקים":"חישוק",
   "רשת":"רשת","חבל":"חבל","רמקול":"רמקול","וסטים":"וסט",
   "חבל עבה":"חבל עבה","צלחת מעופפת":"צלחת מעופפת","ציוד אחר":"ציוד אחר"};
+/* סוגי כדורים הם פריטים נפרדים (כל אחד עם תיבת סימון). «כדורים» בלי סוג
+   הוא «כל כדור»: נחסם רק כשאף סוג לא זמין. «כדור רך» מתקיים גם מכדור
+   ספוג או גומי. */
+var BALL_TYPES=["כדור סל","כדור רגל","כדור עף","כדור יד","כדור ספוג","כדור גומי","כדור רך"];
+var SOFT_BALLS=["כדור רך","כדור ספוג","כדור גומי"];
 function equipParts(str){
   return String(str==null?"":str).replace(/\([^)]*\)/g," ")
     .split(/[,،;+·]/).map(function(x){ return x.replace(/\s+/g," ").trim(); })
     .filter(function(x){ return x&&!/^(אין|ללא)$/.test(x); });
 }
 /* צורות כתיב נוספות לאותו פריט: «מזרן»/«מזרנים» (נ סופית מול רגילה),
-   «פריזבי» ו«חבל טיפוס». «חבל עבה» (משיכה) הוא פריט נפרד מחבל קפיצה:
-   כשמזהים «חבל», מתעלמים ממופעים של «חבל עבה» ו«חבל טיפוס». */
-var EQUIP_EXTRA={"מזרנים":["מזרנ"],"צלחת מעופפת":["פריזבי"],"חבל עבה":["חבל טיפוס"]};
+   «כדורסל»/«כדור סל», «פריזבי» ו«חבל טיפוס». «חבל עבה» (משיכה) הוא פריט
+   נפרד מחבל קפיצה: כשמזהים «חבל», מתעלמים ממופעים של «חבל עבה» ו«חבל טיפוס». */
+var EQUIP_EXTRA={"מזרנים":["מזרנ"],"צלחת מעופפת":["פריזבי"],"חבל עבה":["חבל טיפוס"],
+  "כדור סל":["כדורסל"],"כדור רגל":["כדורגל"],"כדור עף":["כדורעף","כדורי עף"],"כדור יד":["כדוריד","כדורי יד"],
+  "כדור ספוג":["כדורי ספוג"],"כדור גומי":["כדורי גומי"],"כדור רך":["כדורים רכים","כדורי רך"]};
 function equipNeeds(part,item){
   var k=EQUIP_KEYS[item], p=String(part); if(!k)return false;
   if(item==="חבל")p=p.replace(/חבל\s+(עבה|טיפוס)/g," ");
@@ -527,13 +537,35 @@ function equipNeeds(part,item){
   for(var i=0;i<ex.length;i++)if(p.indexOf(ex[i])>=0)return true;
   return false;
 }
+/* «כדורים» ברשימת הלא-זמינים (נתונים ישנים) = כל סוגי הכדורים */
+function expandUnavailable(list){
+  var un=asList(list).filter(function(u){ return EQUIP_KEYS[u]; }).slice();
+  if(un.indexOf("כדורים")>=0)BALL_TYPES.forEach(function(b){ if(un.indexOf(b)<0)un.push(b); });
+  return un;
+}
+function allIn(list,un){ return list.every(function(x){ return un.indexOf(x)>=0; }); }
+/* הפריטים החסרים לחלופה אחת */
+function altMissing(alt,un){
+  var out=[], typed=false;
+  BALL_TYPES.forEach(function(b){
+    if(!equipNeeds(alt,b))return;
+    typed=true;
+    if((b==="כדור רך"?allIn(SOFT_BALLS,un):un.indexOf(b)>=0)&&out.indexOf(b)<0)out.push(b);
+  });
+  Object.keys(EQUIP_KEYS).forEach(function(k){
+    if(k==="כדורים"||BALL_TYPES.indexOf(k)>=0)return;
+    if(un.indexOf(k)>=0&&equipNeeds(alt,k)&&out.indexOf(k)<0)out.push(k);
+  });
+  if(!typed&&equipNeeds(alt,"כדורים")&&allIn(BALL_TYPES,un))out.push("כדורים");
+  return out;
+}
 /* הפריטים הלא-זמינים שהטקסט דורש בלי חלופה */
 function equipConflicts(str,unavailable){
-  var un=asList(unavailable).filter(function(u){ return EQUIP_KEYS[u]; }), out=[];
+  var un=expandUnavailable(unavailable), out=[];
   if(!un.length)return out;
   equipParts(str).forEach(function(part){
     var alts=part.split(/\/|\s+או\s+/);
-    var blocked=alts.map(function(a){ return un.filter(function(u){ return equipNeeds(a,u); }); });
+    var blocked=alts.map(function(a){ return altMissing(a,un); });
     if(blocked.every(function(b){ return b.length; }))
       blocked.forEach(function(b){ b.forEach(function(u){ if(out.indexOf(u)<0)out.push(u); }); });
   });
@@ -550,8 +582,12 @@ function equipConflicts(str,unavailable){
    וריאציה בלי t נשארת כמו קודם: אין ידיעה כמה זמן היא לוקחת.
    ============================================================ */
 function variantEquipConflicts(v,unavailable){
-  var un=asList(unavailable).filter(function(u){ return EQUIP_KEYS[u]; });
-  return asList(v&&v.need).filter(function(k){ return un.indexOf(k)>=0; });
+  var un=expandUnavailable(unavailable);
+  return asList(v&&v.need).filter(function(k){
+    if(k==="כדורים")return allIn(BALL_TYPES,un);
+    if(k==="כדור רך")return allIn(SOFT_BALLS,un);
+    return un.indexOf(k)>=0;
+  });
 }
 /* status: exact | transit (הפער קטן — נרשם כמעברים והסברים) |
    short (הפעילות קצרה מהזמן — צריך להוסיף סבבים) | tight (ארוכה מעט) |
@@ -2723,7 +2759,7 @@ return {
   leadClean:leadClean, validPhone:validPhone, validateLead:validateLead, leadStatus:leadStatus,
   leadSnoozeUntil:leadSnoozeUntil, leadPayload:leadPayload, leadAckOk:leadAckOk,
   foldSearch:foldSearch, searchMatch:searchMatch,
-  EQUIP_KEYS:EQUIP_KEYS, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
+  EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
