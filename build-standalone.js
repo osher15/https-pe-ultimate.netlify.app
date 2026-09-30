@@ -30,7 +30,7 @@ function stampSW(){
   const swFile=path.join(__dirname,"sw.js");
   if(!fs.existsSync(swFile))return;
   const htmlFile=path.join(__dirname,"index.html");
-  const files=["index.html","hm-styles.css","manifest.webmanifest"].concat(
+  const files=["index.html","hm-styles.css","hm-fonts.css","manifest.webmanifest"].concat(
     fs.readdirSync(__dirname).filter(f=>/^hm-[\w-]+\.js$/.test(f)).sort());
   /* רשימת המטמון המוקדם נושאת את אותן חותמות ?v= של index.html. בלעדיהן
      המטמון החזיק «./hm-app.js» בזמן שהדף מבקש «hm-app.js?v=…» — ופתיחה
@@ -112,6 +112,22 @@ const missing=inHtml.filter(f=>!SCRIPTS.includes(f));
 if(missing.length)throw new Error("סקריפטים חסרים ברשימת הבנייה: "+missing.join(", "));
 const js=SCRIPTS.map(R).join("\n;\n");
 
+/* ---- גופנים בתוך הקובץ הבודד ----
+   הקובץ הבודד נפתח לרוב בלי רשת ובלי תיקיית fonts/ לידו, ולכן
+   הגופנים העיקריים (עברית, לטינית, קירילית) נארזים בתוכו כ-data URI.
+   החלקים הנדירים (latin-ext, cyrillic-ext) נשארים בחוץ — תו כזה
+   ייפול לגופן המערכת, כמו קודם בלי רשת. */
+const INLINE_FONTS=["heebo-hebrew-wght-normal","heebo-latin-wght-normal","inter-latin-wght-normal",
+  "inter-cyrillic-wght-normal","share-tech-mono-latin-400-normal"];
+function fontsInline(){
+  const src=R("hm-fonts.css");
+  const faces=src.match(/@font-face\{[^}]*\}/g)||[];
+  const keep=faces.filter(f=>INLINE_FONTS.some(n=>f.indexOf("fonts/"+n+".woff2")>=0));
+  if(keep.length!==INLINE_FONTS.length)throw new Error("hm-fonts.css: חסר גופן לאריזה בקובץ הבודד");
+  return keep.map(f=>f.replace(/url\(fonts\/([\w-]+\.woff2)\)/,(_,n)=>
+    "url(data:font/woff2;base64,"+fs.readFileSync(path.join(__dirname,"fonts",n)).toString("base64")+")")).join("\n");
+}
+
 const out=`<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -120,10 +136,8 @@ const out=`<!DOCTYPE html>
 <meta name="theme-color" content="#0b1220">
 ${(html.match(BUILD_META)||[""])[0]}
 <title>PE Ultimate — Field Kit for PE Teachers</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
+${fontsInline()}
 ${css}
 </style>
 </head>

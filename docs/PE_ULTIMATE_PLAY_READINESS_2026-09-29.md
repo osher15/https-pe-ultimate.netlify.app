@@ -55,7 +55,7 @@ Android `targetSdk`/`compileSdk` = 36 (`native/android/variables.gradle`).
 | Notch / home indicator / Android edge-to-edge | Content under the system bars | `viewport-fit=cover`; CSS uses `var(--safe-area-inset-*, env(...))` (Capacitor 8 SystemBars injects these on old Android WebViews); overlays padded | Code prepared. **Device check (portrait and landscape)** |
 | Status bar text colour | Must follow the theme ("day" is light) | SystemBars `setStyle` on every theme change | Code prepared, tested (simulated) |
 | Camera / microphone | Needs native permission strings | Android: `CAMERA`, `RECORD_AUDIO`, `MODIFY_AUDIO_SETTINGS`, camera/mic not required to install. iOS: camera, microphone and photo-library-add usage strings (Hebrew + English) | Build config prepared. **Device check** |
-| Fonts | Loaded from Google Fonts. Offline, the system font is used | Unchanged | Open: bundling the fonts would remove a third-party request and give the same look offline |
+| Fonts | Were loaded from Google Fonts. Offline, the system font was used | **Bundled locally** (`hm-fonts.css`, `fonts/`): Heebo, Inter (variable) and Share Tech Mono, as published by Fontsource. SIL OFL 1.1; the licence texts are in `fonts/OFL-*.txt`. Share Tech Mono has a Reserved Font Name, so its file ships unmodified. The single-file version embeds the main subsets. No request to Google Fonts from the site or the app | Code prepared, checked in Chromium (fonts load, 0 external requests) |
 | Android back button | Capacitor default: history back, then exit | Unchanged | **Device check** (modals) |
 | External links | Open in the system browser (Capacitor default) | Unchanged | Device check |
 | Version shown in Settings | `version.json` is not fetched from Netlify | `native/build-web.js` writes it with the commit and build time (`context: "app"`) | Code prepared |
@@ -93,7 +93,7 @@ Android `targetSdk`/`compileSdk` = 36 (`native/android/variables.gradle`).
 | Age rating (new questionnaire: 4+, 9+, 13+, 16+, 18+) | Owner answers. Relevant items: no social media, no web browsing inside the app, fitness/health information (VO₂max zones, BMI) — answer the "medical or wellness" question accurately | [Age ratings](https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/) |
 | Export compliance | The app encrypts backup files with AES-GCM (WebCrypto) and uses HTTPS. `ITSAppUsesNonExemptEncryption` was deliberately **not** set: the owner answers the questionnaire on the first upload | App Store Connect |
 | iPad | The app supports iPhone and iPad (`TARGETED_DEVICE_FAMILY = 1,2`), all orientations on iPad. iPad screenshots are then required | App Store Connect |
-| Icon 1024×1024 | Generated from the 512 px icon (upscaled). **Replace with a 1024 px original before submission** | — |
+| Icon 1024×1024 | Checked 2026-09-30: RGB, **no alpha** (required); readable down to 40 px. It is the 512 px icon upscaled 2×, so edges are soft at full size. **Replace with a 1024 px original (or vector) before submission.** Android adaptive icon enlarged to fill the circle within the safe zone | — |
 
 ## 5. Google Play — requirements checked (updated for Capacitor)
 
@@ -123,7 +123,7 @@ Netlify Forms. Not sold, not shared, not used for tracking.
 | Student names, results, attendance, grades | Not collected (stays on the device; backups and Sheets sync go to the teacher's own accounts, on the teacher's action) | Not collected |
 | Photos, video, audio | Not collected (processed on the device) | Not collected |
 | Identifiers, analytics, location, ads | None | None |
-| Third-party request: Google Fonts (IP address and user agent when online) | Owner decides how to declare it, or bundle the fonts to remove it (§2) | Same |
+| Google Fonts | No longer requested (fonts bundled, §2). The privacy page and the in-app About text still list Google Fonts — harmless over-disclosure, remove at the next policy update | Same |
 | Encryption in transit | — | Yes (HTTPS) |
 | Deletion | In-app: About → "Request deletion of my contact details"; web: `/#delete-contact` | Same |
 
@@ -156,17 +156,31 @@ no ads, no analytics, no contact details from students.
 | **Android phone** | Real-device checks. The Android Studio emulator does not count as a device test | Not listed yet |
 | **Google Play Console** account | Internal, closed and production tracks | 25 USD one-time ([Google](https://support.google.com/googleplay/android-developer/answer/6112435)) |
 | Upload keystore (Android) | Signing the release AAB; keep it safe | Owner's custody |
-| Decisions | Package ID; audience; age rating answers; export compliance answer; Data safety and App Privacy wording; Google Fonts; 1024 px icon | — |
+| Decisions | See §10 | — |
 
 ## 9. Getting a first test build onto devices
 
 ### Android — from CI (no Mac needed)
 1. GitHub → Actions → **Native builds** → latest run → Artifacts → `pe-ultimate-android-debug`.
 2. Unzip, copy `pe-ultimate-debug-<build>-<commit>.apk` to the phone, open it, allow "install
-   unknown apps" for the file manager. It is a **debug** build (signed with the debug key), for
-   testing only.
+   unknown apps" for the file manager. It is a **debug** build, for testing only.
+3. Every test APK from this repository is signed with the same debug key
+   (`native/android/app/debug.keystore`, standard password `android`, not a secret), and its
+   version code is the CI run number. So a newer test APK installs **over** the older one and the
+   data stays. The very first APK (commit `f6df3c4`) was signed with a random key: if it is
+   installed, uninstall it once before installing a newer one.
+4. The Google Play version will be signed with a different key (the owner's upload key /
+   Play App Signing). Moving from a test APK to the store version means uninstalling, so **back up
+   to a file first**.
 
 ### iPhone / iPad — on the Mac (free Apple ID is enough for your own devices)
+**First check the Mac:** Apple menu  → **About This Mac**. Note the **Chip** (Apple M… or Intel) and
+the **macOS** name and version. Xcode 26.0–26.3 needs macOS Sequoia 15.6 or later; Xcode 26.4 and
+later need macOS Tahoe 26.2; Xcode 27 needs Tahoe 26.6
+([Apple](https://developer.apple.com/xcode/system-requirements/)). The App Store offers the newest
+Xcode your macOS can run; older versions are at developer.apple.com/download (free Apple ID). Also
+install Node.js 22 (nodejs.org) and Git (`xcode-select --install`).
+
 ```bash
 git clone https://github.com/osher15/https-pe-ultimate.netlify.app.git
 cd https-pe-ultimate.netlify.app/native
@@ -216,3 +230,15 @@ Record: device model, OS version, build id from Settings, and pass/fail per step
 11. **Links**: privacy policy and YouTube open in the system browser and return to the app.
 12. **Contact form**: only if you decide to send a real submission. It is not sent automatically;
     only one TEST submission was authorised, and it has been used.
+
+## 10. Decisions still open (owner)
+
+1. **Package / bundle ID** — `app.netlify.peultimate` is temporary; permanent after the first upload.
+2. **Target audience** — staff-only (18+, no Families) or mixed with the Families requirements (student mode exists).
+3. **Age rating answers** (Apple questionnaire, Google IARC) — especially the fitness/health information question.
+4. **Export compliance** — the app encrypts backups with AES-GCM; answer Apple's questionnaire on the first upload.
+5. **Data safety / App Privacy wording** — confirm the drafts in §6 (contact form only).
+6. **1024 px original icon** — the current one is upscaled.
+7. **Store-specific privacy sentence** — "deleting the app deletes its data" (and remove the Google Fonts line).
+8. **Accounts** — Apple Developer Program (99 USD/year) and Google Play Console (25 USD once), only after the device tests.
+

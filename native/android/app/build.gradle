@@ -7,7 +7,8 @@ android {
         applicationId "app.netlify.peultimate"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        // בנייה ב-CI: מספר הריצה, כדי שכל APK חדש יותקן כעדכון מעל הקודם
+        versionCode Integer.parseInt(System.getenv("GITHUB_RUN_NUMBER") ?: "1")
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
@@ -16,7 +17,22 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    // מפתח debug קבוע (הסיסמה הסטנדרטית של Android, "android" — לא סוד).
+    // בלעדיו כל ריצת CI חותמת במפתח אקראי אחר, ו-APK חדש לא מותקן מעל
+    // הקודם: צריך להסיר את האפליקציה — והנתונים נמחקים. לבדיקות בלבד;
+    // גרסת החנות נחתמת במפתח ההעלאה של הבעלים.
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
