@@ -529,6 +529,33 @@ function equipConflicts(str,unavailable){
   });
   return out;
 }
+/* ============================================================
+   בלוק ראשי: ציוד נדרש וזמן
+   ------------------------------------------------------------
+   לכל וריאציה יכולים להיות שני שדות מובנים (לא טקסט, כדי שלא
+   ישברו תרגומים):
+     need — פריטי ציוד מהרשימה הקבועה של המחולל, שבלעדיהם הפעילות
+            לא מתקיימת;
+     t    — דקות לכל שלב בתיאור, כולל מעברים; באותו אורך כמו d.
+   וריאציה בלי t נשארת כמו קודם: אין ידיעה כמה זמן היא לוקחת.
+   ============================================================ */
+function variantEquipConflicts(v,unavailable){
+  var un=asList(unavailable).filter(function(u){ return EQUIP_KEYS[u]; });
+  return asList(v&&v.need).filter(function(k){ return un.indexOf(k)>=0; });
+}
+/* status: exact | transit (הפער קטן — נרשם כמעברים והסברים) |
+   short (הפעילות קצרה מהזמן — צריך להוסיף סבבים) | tight (ארוכה מעט) |
+   over (ארוכה בהרבה מהזמן שהוקצה) */
+function variantFit(v,alloc){
+  var t=v&&asList(v.t), d=v&&v.d;
+  if(!t||!t.length||!Array.isArray(d)||t.length!==d.length||!(alloc>0))return {known:false};
+  var base=t.reduce(function(a,x){ return a+(+x||0); },0), gap=alloc-base;
+  var tol=Math.max(3,Math.round(alloc*0.15)), st;
+  if(gap===0)st="exact";
+  else if(gap>0)st=gap<=tol?"transit":"short";
+  else st=-gap<=tol?"tight":"over";
+  return {known:true,base:base,gap:gap,status:st,transit:st==="transit"?gap:0};
+}
 /* איחוד רשימות ציוד בלי כפילויות (לפי קיפול — «קונוסים» פעם אחת) */
 function mergeEquip(){
   var out=[], seen={};
@@ -2687,6 +2714,7 @@ return {
   leadSnoozeUntil:leadSnoozeUntil, leadPayload:leadPayload, leadAckOk:leadAckOk,
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
+  variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,

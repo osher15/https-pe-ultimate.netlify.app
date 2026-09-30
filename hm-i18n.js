@@ -97,6 +97,10 @@ en:{
   "ls.eqNoGame":"No game fits the available equipment — no game was added. You can pick a game on the Games page.",
   "ls.eqTopic":"This topic needs equipment not marked as available",
   "ls.eqGame":"The chosen game needs equipment not marked as available",
+  "ls.eqVariant":"The chosen activity needs equipment not marked as available",
+  "ls.timeShort":"The activity describes fewer minutes than allotted (described / allotted) — add rounds or pick a longer activity",
+  "ls.timeOver":"The activity describes more minutes than allotted (described / allotted) — trim rounds or pick a shorter activity",
+  "ls.transit":"Transitions and instructions",
   "sched.clash":"Another separate slot is at the same time. If these classes are taught together, join them as a group (Class hub → Join classes); otherwise this is a timetable clash.",
   /* ux-redesign */
   "stu.badRecs":"Damaged records in the list are not shown, but they are kept as they are — back up your data before any change.",
@@ -653,6 +657,10 @@ ar:{
   "ls.eqNoGame":"لم تُوجد لعبة تناسب المعدات المتاحة — لم تُضَف لعبة. يمكن اختيار لعبة من صفحة الألعاب.",
   "ls.eqTopic":"يتطلّب هذا الموضوع معدات غير مُعلَّمة كمتاحة",
   "ls.eqGame":"اللعبة المختارة تتطلّب معدات غير مُعلَّمة كمتاحة",
+  "ls.eqVariant":"النشاط المختار يتطلّب معدات غير مُعلَّمة كمتاحة",
+  "ls.timeShort":"يصف النشاط دقائق أقل من الوقت المخصّص (الموصوف / المخصّص) — أضيفوا جولات أو اختاروا نشاطًا أطول",
+  "ls.timeOver":"يصف النشاط دقائق أكثر من الوقت المخصّص (الموصوف / المخصّص) — قلّلوا الجولات أو اختاروا نشاطًا أقصر",
+  "ls.transit":"الانتقالات والتعليمات",
   "sched.clash":"توجد حصة منفصلة أخرى في الوقت نفسه. إذا كانت الصفوف تتعلّم معًا فاربطوها كمجموعة (مركز الصف ← ربط الصفوف)؛ وإلا فهذا تعارض في الجدول.",
   /* ux-redesign */
   "stu.badRecs":"سجلات تالفة في القائمة لا تُعرض، لكنها محفوظة كما هي — انسخوا البيانات احتياطيًا قبل أي تغيير.",
@@ -1213,6 +1221,10 @@ ru:{
   "ls.eqNoGame":"Не найдено игры под доступный инвентарь — игра не добавлена. Можно выбрать игру на странице игр.",
   "ls.eqTopic":"Для темы нужен инвентарь, не отмеченный как доступный",
   "ls.eqGame":"Для выбранной игры нужен инвентарь, не отмеченный как доступный",
+  "ls.eqVariant":"Для выбранного задания нужен инвентарь, не отмеченный как доступный",
+  "ls.timeShort":"Задание описывает меньше минут, чем выделено (описано / выделено) — добавьте круги или выберите более длинное задание",
+  "ls.timeOver":"Задание описывает больше минут, чем выделено (описано / выделено) — сократите круги или выберите более короткое задание",
+  "ls.transit":"Переходы и объяснения",
   "sched.clash":"В это же время есть ещё один отдельный урок. Если классы занимаются вместе, объедините их в группу (Центр класса → Объединить классы); иначе это накладка в расписании.",
   /* ux-redesign */
   "stu.badRecs":"Повреждённые записи в списке не показаны, но сохранены как есть — сделайте резервную копию перед любыми изменениями.",
@@ -1766,6 +1778,10 @@ es:{
   "ls.eqNoGame":"Ningún juego se ajusta al material disponible: no se ha añadido juego. Puedes elegir uno en la página de juegos.",
   "ls.eqTopic":"El tema requiere material no marcado como disponible",
   "ls.eqGame":"El juego elegido requiere material no marcado como disponible",
+  "ls.eqVariant":"La actividad elegida requiere material no marcado como disponible",
+  "ls.timeShort":"La actividad describe menos minutos de los asignados (descritos / asignados): añade rondas o elige una actividad más larga",
+  "ls.timeOver":"La actividad describe más minutos de los asignados (descritos / asignados): recorta rondas o elige una actividad más corta",
+  "ls.transit":"Transiciones e instrucciones",
   "sched.clash":"A la misma hora hay otra franja separada. Si estos grupos tienen clase juntos, únelos como grupo (Centro del grupo → Unir grupos); si no, es un conflicto de horario.",
   /* ux-redesign */
   "stu.badRecs":"Los registros dañados de la lista no se muestran, pero se conservan tal cual: haz una copia de seguridad antes de cualquier cambio.",

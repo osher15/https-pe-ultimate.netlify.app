@@ -11,7 +11,7 @@
    יוצרת מטמון חדש והישן נמחק — במקום שגרסה ישנה תישאר תקועה על
    מכשיר בלי שאיש יידע.
    ============================================================ */
-const CACHE_VERSION = "42f933de";
+const CACHE_VERSION = "b1261bf3";
 const CACHE = "peultimate-" + CACHE_VERSION;
 
 const SHELL = [
@@ -22,7 +22,7 @@ const SHELL = [
   "./icon-512.png",
   "./icon-maskable-512.png",
   "./apple-touch-icon.png",
-  "./hm-styles.css?v=ffe3a4d2",
+  "./hm-styles.css?v=09a4178a",
   "./hm-fonts.css?v=a70ca9ac",
   "./fonts/heebo-hebrew-wght-normal.woff2",
   "./fonts/heebo-latin-wght-normal.woff2",
@@ -34,17 +34,17 @@ const SHELL = [
   "./fonts/share-tech-mono-latin-400-normal.woff2",
   "./hm-brand.js?v=4f30e0e9",
   "./hm-native.js?v=6c53d8bd",
-  "./hm-data.js?v=fe7203ad",
+  "./hm-data.js?v=8c8e8a7d",
   "./hm-terms.js?v=b2ee46d0",
   "./hm-texts.js?v=07c4963b",
-  "./hm-i18n.js?v=b76dfc7f",
+  "./hm-i18n.js?v=16d6c266",
   "./hm-app.js?v=571aaa16",
   "./hm-qr.js?v=82eb96ad",
   "./hm-howto.js?v=cc1c5bf0",
   "./hm-know.js?v=72244783",
   "./hm-tools.js?v=0baf385d",
   "./hm-plans.js?v=20cf74cb",
-  "./hm-lesson.js?v=a6ad94de",
+  "./hm-lesson.js?v=a2cc10c1",
   "./hm-build.js?v=931b1d83",
   "./hm-tests.js?v=3eb1035d",
   "./hm-new.js?v=18f9d58a",
