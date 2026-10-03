@@ -2069,6 +2069,16 @@ function bkStat(){
     : "אין עדיין נתונים במכשיר.";
 }
 async function bkApply(snap){
+  // New assessment configuration is checked before the restore clears any key.
+  if(snap.data&&Object.prototype.hasOwnProperty.call(snap.data,"assessment.policies")){
+    try{
+      const value=JSON.parse(snap.data["assessment.policies"]);
+      const incoming={get:(key,fallback)=>snap.data[key]==null?fallback:JSON.parse(snap.data[key])};
+      const periods=incoming.get("grades.periods",["רבעון 1"]);
+      const check=window.HMAssessment.validateEnvelope(value,window.FT.tests().filter(d=>d.id!=="beep"),incoming);
+      if(!check.ok||!Array.isArray(periods)||value.policies.some(p=>!periods.includes(p.period)))throw new Error("invalid");
+    }catch(e){throw new Error(t("as.corrupt","לא ניתן לקרוא את הדרישות השמורות או שגרסתן אינה נתמכת. שחזר גיבוי תקין לפני עריכה."));}
+  }
   const be=STORE||MEMFALLBACK;
   /* מוחקים רק את המפתחות שלנו — מפתחות של אתרים אחרים באותו דומיין
      אינם שלנו למחוק, וגם דגלים שהאפליקציה תכתוב מחדש בעצמה. */

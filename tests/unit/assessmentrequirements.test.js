@@ -1,7 +1,7 @@
 "use strict";
 const {test}=require("node:test");
 const assert=require("node:assert/strict");
-const A=require("../../assessment-data.js");
+const A=require("../../hm-assessment-data.js");
 const D=require("../../hm-data.js");
 const cid="c:ט:3",other="c:י:1";
 const defs=[{id:"push",dir:"high"},{id:"agility",dir:"low"},{id:"situp",dir:"high"}];
@@ -140,7 +140,7 @@ test("invalid policy produces an error without a partial completion result",()=>
 test("browser export uses the same existing HMDATA dependency and scoring",()=>{
   const vm=require("node:vm"),fs=require("node:fs");
   const context={window:{HMDATA:D}};
-  vm.runInNewContext(fs.readFileSync(require.resolve("../../assessment-data.js"),"utf8"),context);
+  vm.runInNewContext(fs.readFileSync(require.resolve("../../hm-assessment-data.js"),"utf8"),context);
   assert.equal(context.window.HMAssessment.score(35,"high",rule),95);
   assert.equal(context.window.HMAssessment.studentAssessment([row(0)],student,policy(),defs).complete,true);
 });

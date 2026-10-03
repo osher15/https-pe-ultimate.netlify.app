@@ -14,10 +14,10 @@ This branch depends on draft PR #25. Review/merge #25 first, then retarget this 
 | Existing exports | Fitness and grading CSV, student reports | Extend existing exports after screen/report semantics agree |
 | Combined classes | HMDATA group/student scope helpers | Select each pupil's real-class policy, not a group-wide replacement |
 
-## Phase 1 — implemented, pure and not activated
-Files: assessment-data.js and tests/unit/assessmentrequirements.test.js. The module depends on existing HMDATA. It does not access DOM, storage, a server or native APIs. It is deliberately outside the app boot/build list until the UI and persistence flow are reviewed. A standalone module avoids editing shared hm-data.js while Claude's pending branch remains unmerged.
+## Phase 1 — calculation foundation (PR #26)
+Phase 1 files were assessment-data.js and tests/unit/assessmentrequirements.test.js. Phase 2 renames/registers the module as hm-assessment-data.js and adds hm-assessment.js. The module depends on existing HMDATA. It does not access DOM, storage, a server or native APIs. It was outside the app boot/build list in PR #26; the editor PR registers it for configuration. Period-aware reports are the next phase. A standalone module avoids editing shared hm-data.js while Claude's pending branch remains unmerged.
 
-Input is an in-memory policy: cid, period, from, to, tests, optional exemptions. This is an API contract, not an installed storage key or migration.
+Input is an in-memory policy: cid, period, from, to, tests, optional exemptions. Phase 2 persists policies in assessment.policies as {version:1, policies:[...]}; no global schema migration.
 
 ```js
 const policy = {
@@ -44,13 +44,13 @@ Public API: validDate(date), validatePolicy(policy, catalog, optionalReadStore),
 - Combined views call this API per pupil with that pupil's own class policy. Group IDs cannot own a replacement requirement policy.
 - Invalid policy returns errors without a misleading partial/complete result.
 
-## Phase 2 — configuration and safe persistence (next Codex slice)
-Reserve bounded sections in hm-tests.js/hm-new.js plus translation keys and build registration. Reconcile PR #25 and Claude's pending branch before integrating shared files.
-1. Reuse current class and period selectors, plus grades.periodRanges. Decide whether dates remain a live shared reference or a snapshot; changes must be explicit. Rename/delete period must update requirements transactionally or stop with a recoverable error.
-2. Editor chooses required tests and optional targets/step/points/rounding/bounds. Preview concrete examples before save. Do not silently treat ft.idxTests as saved teacher requirements.
-3. Store reviewed versioned configuration keyed by stable cid + existing period, with validated import and rollback on failed writes. Choose the actual key only in this phase after checking backup/native snapshot allowlists. Never rename or mutate measurements/manual grades to save configuration.
-4. Handle missing policy, class/period rename/delete, backup/restore, quota/blocked storage, cleared data and older backups. Preserve draft edits on failure; tell the teacher whether saving succeeded.
-5. All five languages; English new-install default; existing language preserved; narrow phone and PC layout.
+## Phase 2 — configuration and safe persistence (implemented in the editor PR)
+See docs/handoffs/2026-10-03-assessment-editor.md for evidence and file reservations.
+1. Reuse class/grade-period labels. Dates are explicit snapshots seeded from grades.periodRanges; changes do not affect attendance calculations. Period deletion is blocked until requirements are removed. Existing UI has no rename command.
+2. Choose required tests and optional target/step/points/rounding/min/max. Preview concrete values before save; global ft.idxTests is not silently treated as saved requirements.
+3. Versioned assessment.policies is saved with one validated atomic LS.set. Failed writes keep the draft open; a stale editor cannot overwrite an external change. Measurements and manual grades stay untouched.
+4. Existing full backup/native mirror cover every namespaced key. Imported assessment configuration is validated at bkApply entry before any writes; corrupt/unsupported local envelopes are not overwritten. Older backups remain supported. Claude's pending general restore rollback work remains separate.
+5. Five languages and narrow-phone/PC layouts. English new-install default and existing preferences are preserved. Closing or switching context asks before discarding unsaved changes through the existing in-app modal.
 
 ## Phase 3 — report and export (next focused Codex slice)
 Show chosen period/date basis, required tests, best/date/history, missing reason and explicit exemptions in pupil and class views. Default quick view; details optional. Show unresolved/invalid-data warnings without identifying records by display name.

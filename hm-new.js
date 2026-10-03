@@ -535,6 +535,7 @@ window.STU=(function(){
     periods.push(n); savePeriods(periods); grPeriod=n; renderGrades();
   }
   function delPeriod(){
+    if(window.ASSESSMENT&&!window.ASSESSMENT.canDeletePeriod(grPeriod))return;
     const periods=loadPeriods();
     if(periods.length<=1){H().toast("חייבת להישאר לפחות תקופה אחת");return;}
     const back=H().snap(["grades.periods","grades.examCols","stu.list","grades.periodRanges"]), was=grPeriod;
