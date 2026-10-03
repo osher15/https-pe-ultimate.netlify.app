@@ -2,8 +2,8 @@
 Date: 2026-10-03
 Owner: Codex
 Baseline: main 3ce07edcff2c64292b95e3060b363b3e1ca0174d
-Branch: codex/questionnaire-action-plan-2026-10-03 (remote branch created)
-Status: GitHub access restored; Issues #13–#24 published; draft PR preparation in progress.
+Branch: codex/questionnaire-action-plan-2026-10-03 (published in draft PR #25)
+Status: GitHub access restored; Issues #13–#24 published; draft PR #25 published; final CI/review pending.
 
 ## Changes
 - Unified old work plan, actual pending Claude work and Q39–Q50 decisions in docs/ACTION_PLAN_2026-10-03.md.
@@ -47,9 +47,9 @@ Physical-device tests, APK upgrade preservation, Apple owner testing, native-spe
 No pupil data was sent to a production service; all automated fixtures are synthetic.
 
 ## Publication update
-The earlier GitHub 403 blocker was resolved on 2026-10-03 after the owner installed/configured repository access. The dedicated remote branch was created, existing Issues #13–#18 rewritten and #19–#24 created. CLI git push still lacks credentials; publish through the authorized GitHub connector.
+The earlier GitHub 403 blocker was resolved on 2026-10-03 after the owner installed/configured repository access. The dedicated remote branch was created, existing Issues #13–#18 rewritten and #19–#24 created. CLI git push lacks credentials. The connector published source/docs; a temporary branch-scoped GitHub workflow generated outputs. Remote outputs were compared against the locally validated candidate and match exactly. The temporary workflow is removed from the final candidate.
 Main remains 3ce07ed; no merge/deploy/store upload. Full CI remains required before owner merge.
 
 ## Next action
-Publish the candidate as a draft PR, verify CI, then owner reviews/merges. Claude reads the corrected plan and live Issues before taking reserved follow-up tasks.
+Draft PR: https://github.com/osher15/https-pe-ultimate.netlify.app/pull/25. Verify final CI, then owner reviews/merges. Claude reads the corrected plan and live Issues before taking reserved follow-up tasks.
 Do not merge the old coordination branch's generic React/store templates.

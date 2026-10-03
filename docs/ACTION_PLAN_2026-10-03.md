@@ -1,6 +1,6 @@
 # PE Ultimate — execution plan
 Date: 2026-10-03
-Status: GitHub access restored; Issues #13–#18 rewritten and #19–#24 created on 2026-10-03. Codex changes prepared for a draft PR; owner merge/deploy remains pending.
+Status: GitHub access restored; Issues #13–#18 rewritten and #19–#24 created on 2026-10-03. Codex changes published in draft PR #25; owner merge/deploy remains pending.
 Repository: `osher15/https-pe-ultimate.netlify.app` only.
 Baseline: `main` at `3ce07edcff2c64292b95e3060b363b3e1ca0174d`.
 Replaces the execution priorities in the 2026-09-30 work plan and the remaining-work list in `ccr-4ae97033-rci9j0:docs/HANDOFF_2026-10-01.md`. Preserve their historical evidence, not their unchecked status as current truth.
