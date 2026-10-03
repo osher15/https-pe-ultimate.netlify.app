@@ -172,11 +172,33 @@ window.STU=(function(){
     /* הביפ מוצג בסעיף משלו (עם VO₂max) — לא פעמיים */
     const rows=prof?prof.tests.filter(t=>t.best&&t.testId!=="beep"):[];
     const n=rows.reduce((a,t)=>a+t.list.length,0);
-    return `<h4 class="stu-sec">📋 מבחני כושר <span class="hint">(${n})</span></h4>`+(rows.length
-      ?`<div class="tblwrap"><table class="tbl" id="stu-fitTbl"><thead><tr><th>מבחן</th><th>⭐ שיא</th><th>מדידות</th><th>נמדד לאחרונה</th></tr></thead><tbody>
+    return `<h4 class="stu-sec"><span data-i18n="stu.fitTitle">📋 מבחני כושר</span> <span class="hint">(${n})</span></h4>`+(rows.length
+      ?`<div class="tblwrap"><table class="tbl" id="stu-fitTbl"><thead><tr><th>מבחן</th><th data-i18n="stu.fitBest">⭐ שיא</th><th>מדידות</th><th>נמדד לאחרונה</th></tr></thead><tbody>
         ${rows.map(t=>`<tr data-t="${esc(t.testId)}"><td>${esc(t.def.em||"")} ${esc(t.def.name)}</td><td class="mono">${esc(String(t.best.val))} <span class="u">${esc(t.def.unit||"")}</span></td><td class="mono">${t.list.length}</td><td class="mono">${esc(t.dates[t.dates.length-1]||"")}</td></tr>`).join("")}
       </tbody></table></div>`
       :'<div class="empty-state" id="stu-fitEmpty">אין עדיין מדידות כושר לתלמיד הזה.</div>');
+  }
+  function missingSection(s){
+    const {esc}=H(), ft=window.FT;
+    // Keep the source fallback in the DOM so the existing i18n observer can
+    // restore it when switching back to Hebrew while this profile stays open.
+    const label=(key,he)=>`<span data-i18n="${key}">${esc(he)}</span>`;
+    const cid=cidOf(s);
+    let missing=null;
+    if(cid&&ft&&ft.progress&&ft.tests){
+      try{
+        const defs=new Map(ft.tests().map(t=>[t.id,t]));
+        missing=ft.progress.missing(s,{cid}).filter(id=>id!=="beep"&&defs.has(id)).map(id=>defs.get(id));
+      }catch(e){ missing=null; }
+    }
+    return `<section id="stu-missing" style="margin:12px 0">
+      <h4 class="stu-sec">${label("stu.missingTitle","מה חסר לתלמיד — מבחני כושר")}${missing?` <span class="hint">(${missing.length})</span>`:""}</h4>
+      ${!cid?`<div class="hint">${label("stu.missingNoClass","שייך את התלמיד לכיתה כדי לראות אילו מבחנים חסרים.")}</div>`
+        :missing===null?`<div class="hint">${label("stu.missingUnavailable","לא ניתן להציג כרגע את המבחנים החסרים.")}</div>`
+        :`<div class="hint">${label("stu.missingBasis","לפי מבחנים שנרשמו בכיתה ובחירת המבחנים למדד הכושר; לא ציון סופי.")}</div>
+          ${missing.length?`<div class="row" style="margin-top:6px;flex-wrap:wrap">${missing.map(t=>`<span class="pill" data-missing-test="${esc(t.id)}">${esc(t.em||"")} ${esc(t.name)}</span>`).join(" ")}</div>`
+            :`<div class="hint" style="margin-top:6px">${label("stu.missingNone","אין מבחני כושר חסרים לפי הבחירה הנוכחית.")}</div>`}`}
+    </section>`;
   }
   function profile(id){
     const {$, $$, esc, modal, toast, dlCSV}=H();
@@ -199,8 +221,9 @@ window.STU=(function(){
         <span class="catpill" style="background:${zoneColor(lt.zone)}">${esc(lt.zone||"")}</span>
         ${tr?`<span class="pill" style="color:${tr>0?"#8fd96b":"#ff6b81"}">${tr>0?"▲ מגמת שיפור":"▼ מגמת ירידה"}</span>`:""}
       </div>`:""}
+      ${missingSection(s)}
       ${fitSection(s)}
-      <h4 class="stu-sec">🫁 ביפ טסט — סבולת לב-ריאה (VO₂max)</h4>
+      <h4 class="stu-sec" data-i18n="stu.beepTitle">🫁 ביפ טסט — סבולת לב-ריאה (VO₂max)</h4>
       <div class="card" style="padding:10px;margin:10px 0">${chart(s)}</div>
       ${s.tests.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>תאריך</th><th>מבחן</th><th>מרחק</th><th>שלב</th><th>VO₂max</th><th>אזור</th><th></th></tr></thead><tbody>
         ${s.tests.map((t,i)=>`<tr><td class="mono">${t.d}</td><td>${esc(t.type)}</td><td class="mono">${t.dist} מ׳</td><td class="mono">${t.level||"—"}</td><td class="mono">${t.vo2?t.vo2.toFixed(1):"—"}</td><td><span class="catpill" style="background:${zoneColor(t.zone)}">${esc(t.zone||"")}</span></td><td><button class="x tdel" data-i="${i}">✕</button></td></tr>`).join("")}
@@ -212,6 +235,10 @@ window.STU=(function(){
           <button class="btn sm stop" id="stu-fDel">🗑 מחק תלמיד</button>
         </div>
       </div>`;
+    if(window.I18N){
+      window.I18N.applyDom($("#stu-mBody"));
+      window.I18N.applyTerms($("#stu-mBody"));
+    }
     modal("stu-modal");
     $("#stu-fSave").addEventListener("click",()=>{
       s.cls=$("#stu-fCls").value.trim();

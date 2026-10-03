@@ -131,6 +131,11 @@ async function openApp(browser,seed,APP){
      ולא על מכשיר ריק. */
   await page.addInitScript(s=>{
     try{
+      // Seed once per test tab. Reloading must read the application's actual
+      // saved state, including deletions, instead of restoring the fixtures.
+      // The marker is outside the app namespace and survives app-data clearing.
+      if(sessionStorage.getItem("__peultimate_test_seeded"))return;
+      sessionStorage.setItem("__peultimate_test_seeded","1");
       /* __fresh — התקנה חדשה באמת: אף מפתח של האפליקציה, גם לא hx.leadDone
          (בחירת השפה הראשונה תלויה בזה). __fakefs — קובץ העותק של גרסת
          החנות, כאילו נשאר מהתקנה קודמת. בטעינה מחדש לא נוגעים בכלום. */
@@ -176,14 +181,14 @@ async function run(suites){
   for(const suite of suites){
     console.log("\n— "+suite.title+" —");
     for(const t of suite.tests){
-      let env=null;
+      let env=null, deadline=null;
       try{
         env=await openApp(browser,t.seed,APP);
         /* גבול זמן לכל בדיקה. בלעדיו בדיקה אחת שנתקעת — למשל על
            פעולת IndexedDB שנחסמה — משתקת את כל ההרצה בלי לומר
            איזו בדיקה אשמה. */
         await Promise.race([t.fn(env.page,env),
-          new Promise((_,rej)=>setTimeout(()=>rej(new Error("חריגה מ-60 שניות")),60000))]);
+          new Promise((_,rej)=>{ deadline=setTimeout(()=>rej(new Error("חריגה מ-60 שניות")),60000); })]);
         /* שגיאת JS במסך היא כישלון, גם אם כל האסרציות עברו */
         const allow=t.allow||suite.allow;
         const errs=allow?env.errs.filter(e=>!allow.test(e)):env.errs;
@@ -191,7 +196,7 @@ async function run(suites){
         pass++; console.log("  ok  #"+(pass+fail)+" — "+t.name);
       }catch(e){
         fail++; console.log("  FAIL #"+(pass+fail)+" — "+t.name+"\n    "+String(e.message||e).split("\n").join("\n    "));
-      }finally{ if(env)await env.ctx.close().catch(()=>{}); }
+      }finally{ clearTimeout(deadline); if(env)await env.ctx.close().catch(()=>{}); }
     }
   }
   await browser.close();
