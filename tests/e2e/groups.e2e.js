@@ -11,7 +11,7 @@
    בכיתה שלו, והמדידה נשארת שלה. ברגע שזה יישבר — היסטוריית התלמיד
    תיקרע לשניים בלי שאיש יראה.
    ============================================================ */
-const {check,eq,ok,atToday}=require("./harness.js");
+const {check,eq,ok}=require("./harness.js");
 const D=require("../../hm-data.js");
 
 const CLS={
@@ -30,9 +30,11 @@ const STU=[
 const ROSTER={"ז1":[{id:"a",name:"דן אבירם",sex:"boys"}],
               "ז3":[{id:"b",name:"רון לוי",sex:"boys"}],
               "ח1":[{id:"c",name:"עדי כהן",sex:"girls"},{id:"d",name:"נועה שרון",sex:"girls"}]};
+// Keep the editor, day view and fixtures on a school day even on Saturday.
+const NOW="2026-10-05T07:00:00";
 const base={"ft.classes":CLS,"stu.list":STU,"ft.roster":ROSTER,"pf.guideSeen":true,
-  "schema.version":D.SCHEMA_VERSION,__now:atToday("07:00")};
-const DAY=()=>D.dayOfISO(new Date().toISOString().slice(0,10));
+  "schema.version":D.SCHEMA_VERSION,__now:NOW};
+const DAY=()=>D.dayOfISO(NOW.slice(0,10));
 
 const openGroups=async page=>{
   await page.evaluate(()=>window.HM.openGroups());

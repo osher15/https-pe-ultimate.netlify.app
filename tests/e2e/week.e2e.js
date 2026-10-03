@@ -12,14 +12,16 @@
    שאינו שיעור — פרטני, שהייה, ישיבה — נשמר כהקשר ולא מתחזה
    לשיעור שאפשר לפתוח ולמדוד בו.
    ============================================================ */
-const {check,eq,ok,atToday}=require("./harness.js");
+const {check,eq,ok}=require("./harness.js");
 const D=require("../../hm-data.js");
 
 /* שעון קבוע: בלעדיו הבדיקות האלה עוברות בבוקר ונכשלות אחרי הצהריים,
    כי «הבא» ו«הסתיים» תלויים בשעה שבה ההרצה יצאה לדרך. */
-const NOW=atToday("07:30");
+// The timetable has Sunday-Friday cells. Keep both Node and browser on the
+// same school day rather than selecting a nonexistent Saturday cell in CI.
+const NOW="2026-10-05T07:30:00";
 const base={"pf.guideSeen":true,"schema.version":D.SCHEMA_VERSION,__now:NOW};
-const DAY=()=>D.dayOfISO(new Date().toISOString().slice(0,10));
+const DAY=()=>D.dayOfISO(NOW.slice(0,10));
 const openGrid=async page=>{
   await page.evaluate(()=>window.HM.openSched());
   await page.waitForTimeout(300);
