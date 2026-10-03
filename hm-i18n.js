@@ -37,6 +37,14 @@ const DICT={
 he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שבמרקאפ עצמו */
 
 en:{
+  "stu.fitTitle":"📋 Fitness tests",
+  "stu.fitBest":"⭐ Personal best",
+  "stu.beepTitle":"🫁 Beep test — cardiorespiratory endurance (VO₂max)",
+  "stu.missingTitle":"Missing fitness tests",
+  "stu.missingNoClass":"Assign this student to a class to see missing tests.",
+  "stu.missingUnavailable":"Missing tests are currently unavailable.",
+  "stu.missingBasis":"Based on the class’s recorded tests and the fitness-index selection; not a final grade.",
+  "stu.missingNone":"No missing fitness tests for the current selection.",
   "ab.termsLink":"Terms of use ↗",
   "ab.leadSnoozed":"Skipped. A reminder will appear on ",
   "ab.leadLegacy":"Details were sent from an earlier version, without delivery confirmation. You can send them again.",
@@ -593,6 +601,14 @@ en:{
 },
 
 ar:{
+  "stu.fitTitle":"📋 اختبارات اللياقة البدنية",
+  "stu.fitBest":"⭐ أفضل نتيجة شخصية",
+  "stu.beepTitle":"🫁 اختبار الجري المتدرج — التحمل القلبي التنفسي (VO₂max)",
+  "stu.missingTitle":"اختبارات اللياقة البدنية الناقصة",
+  "stu.missingNoClass":"أضف الطالب إلى صف لعرض الاختبارات الناقصة.",
+  "stu.missingUnavailable":"لا يمكن عرض الاختبارات الناقصة حاليًا.",
+  "stu.missingBasis":"استنادًا إلى الاختبارات المسجلة للصف والاختبارات المختارة لمؤشر اللياقة؛ هذه ليست درجة نهائية.",
+  "stu.missingNone":"لا توجد اختبارات لياقة بدنية ناقصة وفق الاختيار الحالي.",
   "ab.termsLink":"شروط الاستخدام ↗",
   "ab.leadSnoozed":"تم التخطي. سيظهر تذكير في ",
   "ab.leadLegacy":"أُرسلت البيانات من إصدار سابق دون تأكيد استلام. يمكنك إرسالها مجددًا.",
@@ -1153,6 +1169,14 @@ ar:{
 },
 
 ru:{
+  "stu.fitTitle":"📋 Тесты физической подготовки",
+  "stu.fitBest":"⭐ Личный рекорд",
+  "stu.beepTitle":"🫁 Челночный тест — кардиореспираторная выносливость (VO₂max)",
+  "stu.missingTitle":"Недостающие тесты физической подготовки",
+  "stu.missingNoClass":"Добавьте ученика в класс, чтобы увидеть недостающие тесты.",
+  "stu.missingUnavailable":"Список недостающих тестов сейчас недоступен.",
+  "stu.missingBasis":"На основе тестов, записанных в классе, и тестов, выбранных для индекса физической подготовки; это не итоговая оценка.",
+  "stu.missingNone":"По текущему набору недостающих тестов физической подготовки нет.",
   "ab.termsLink":"Условия использования ↗",
   "ab.leadSnoozed":"Пропущено. Напоминание появится ",
   "ab.leadLegacy":"Данные отправлены из прежней версии без подтверждения получения. Можно отправить снова.",
@@ -1706,6 +1730,14 @@ ru:{
 },
 
 es:{
+  "stu.fitTitle":"📋 Pruebas de condición física",
+  "stu.fitBest":"⭐ Mejor marca personal",
+  "stu.beepTitle":"🫁 Test de ida y vuelta — resistencia cardiorrespiratoria (VO₂max)",
+  "stu.missingTitle":"Pruebas de condición física pendientes",
+  "stu.missingNoClass":"Asigna al estudiante a un grupo para ver las pruebas pendientes.",
+  "stu.missingUnavailable":"Las pruebas pendientes no están disponibles en este momento.",
+  "stu.missingBasis":"Según las pruebas registradas del grupo y las seleccionadas para el índice de condición física; no es una nota final.",
+  "stu.missingNone":"No hay pruebas de condición física pendientes para la selección actual.",
   "ab.termsLink":"Términos de uso ↗",
   "ab.leadSnoozed":"Omitido. El recordatorio aparecerá el ",
   "ab.leadLegacy":"Los datos se enviaron desde una versión anterior, sin confirmación de recepción. Puedes enviarlos de nuevo.",

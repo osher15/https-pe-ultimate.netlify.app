@@ -1,7 +1,7 @@
 # Student assessment requirements — phased implementation
 Date: 2026-10-03. Issue: #23. Owner: Codex. Claude reviews integration.
-Phase 1 branch: codex/assessment-foundation-2026-10-03, based on main 3ce07ed.
-This branch is independent of draft PR #25; it does not merge or replace it.
+Phase 1 branch: codex/assessment-foundation-2026-10-03, stacked on PR #25 head 0bc2c85.
+This branch depends on draft PR #25. Review/merge #25 first, then retarget this PR to main; its focused diff contains only four assessment files. No PR is auto-merged.
 
 ## Existing behavior audited
 | Area | Current path | Consequence |
@@ -61,5 +61,5 @@ Owner reported existing installed Android working on 2026-10-03. This report doe
 Use the existing short pilot checklist: start, attendance, measurement, reload, pupil missing view, grade/export, recovery. Day attendance exemptions and personal pupil export need their own reviewed semantics/access flow; no account/authentication is assumed.
 
 ## Phase 1 evidence and limits
-32 assessment-specific tests passed; complete main-based unit suite 587/587 passed. Browser export contract checked in Node VM with the real HMDATA dependency. Build repeated and generated Hamegrash.html/index.html/sw.js remain byte-identical to main. No app UI or native code changed, so prior UI/device tests are not claimed as testing an activated assessment feature.
+32 assessment-specific tests passed; complete stacked-branch unit suite 587/587 passed. Browser export contract checked in Node VM with the real HMDATA dependency. Build repeated and generated Hamegrash.html/index.html/sw.js remain byte-identical to PR #25. No app UI or native code changed, so prior UI/device tests are not claimed as testing an activated assessment feature.
 Content imports remain held. No merge, production deployment, store upload or communications to Claude performed.
