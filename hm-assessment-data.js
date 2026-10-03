@@ -1,6 +1,5 @@
 "use strict";
-// Phase 1 only: pure assessment calculations. Not registered in the app yet.
-// The UI/persistence phase must load this after hm-data.js and validate before writes.
+// Pure assessment calculations and configuration validation. Load after hm-data.js.
 (function(factory){
   if(typeof module==="object"&&module.exports)module.exports=factory(require("./hm-data.js"));
   else if(typeof window!=="undefined")window.HMAssessment=factory(window.HMDATA);
@@ -109,5 +108,21 @@
       unidentifiedRows:scope.filter(r=>!text(r.sid)&&policy.tests.some(t=>t.id===r.test)).length,
       invalidDateRows:(rows||[]).filter(r=>r&&r.sid===sid&&D.rowInClass(r,policy.cid)&&!date(r.d)&&policy.tests.some(t=>t.id===r.test)).length};
   }
-  return {validDate:date,validatePolicy,score,studentAssessment};
+  function validateEnvelope(value,defs,store){
+    if(!value||value.version!==1||!Array.isArray(value.policies))return {ok:false,errors:["configuration-version"]};
+    const errors=[],seen=new Set();
+    value.policies.forEach((p,i)=>{
+      validatePolicy(p,defs,store).errors.forEach(e=>errors.push(i+":"+e));
+      if(p){const key=JSON.stringify([p.cid,p.period]);if(seen.has(key))errors.push(i+":duplicate-policy");seen.add(key);}
+    });
+    return {ok:!errors.length,errors};
+  }
+  function updateEnvelope(value,policy,defs,store){
+    const check=validateEnvelope(value,defs,store);
+    if(!check.ok)return check;
+    const valid=validatePolicy(policy,defs,store);if(!valid.ok)return valid;
+    const next={version:1,policies:value.policies.filter(p=>p.cid!==policy.cid||p.period!==policy.period).concat([policy])};
+    return {ok:true,errors:[],value:next};
+  }
+  return {validDate:date,validatePolicy,score,studentAssessment,validateEnvelope,updateEnvelope};
 });

@@ -15,16 +15,17 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="f3867e11">
+<meta name="hm-build" content="1ca4f68c">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
 <link rel="stylesheet" href="hm-styles.css?v=ffe3a4d2">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-native.js?v=6c53d8bd"></script>
 <script src="hm-data.js?v=fe7203ad"></script>
+<script src="hm-assessment-data.js?v=016c9c1c"></script>
 <script src="hm-terms.js?v=b2ee46d0"></script>
 <script src="hm-texts.js?v=07c4963b"></script>
-<script src="hm-i18n.js?v=4984ce48"></script>
-<script src="hm-app.js?v=b468eee2"></script>
+<script src="hm-i18n.js?v=41a4778a"></script>
+<script src="hm-app.js?v=2ecf64a4"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
 <script src="hm-know.js?v=72244783"></script>
@@ -34,8 +35,9 @@
 <script src="hm-plans.js?v=20cf74cb"></script>
 <script src="hm-lesson.js?v=a6ad94de"></script>
 <script src="hm-build.js?v=931b1d83"></script>
-<script src="hm-tests.js?v=3eb1035d"></script>
-<script src="hm-new.js?v=2a14496a"></script>
+<script src="hm-tests.js?v=991846d3"></script>
+<script src="hm-new.js?v=98d96d84"></script>
+<script src="hm-assessment.js?v=0458d70e"></script>
 <script src="hm-live.js?v=16d0ab27"></script>
 <script src="hm-hub.js?v=1e6ba46b"></script>
 </helmet>
@@ -899,6 +901,7 @@
         <div class="field" style="width:170px"><label>תקופת הערכה</label><select id="gr-period"></select></div>
         <button class="btn sm" id="gr-periodAdd" style="margin-top:18px">+ תקופה</button>
         <button class="btn sm ghost" id="gr-periodDel" style="margin-top:18px">🗑 מחק תקופה</button>
+        <button class="btn sm ghost" data-assessment-open style="margin-top:18px" data-i18n="as.title">מבחני חובה ויעדים</button>
         <div class="field" style="width:150px"><label>כיתה</label><select id="gr-classSel"></select></div>
         <button class="btn sm" id="gr-examAdd" style="margin-top:18px">+ עמודת מבחן</button>
         <button class="btn sm ghost" id="gr-csv" style="margin-top:18px">⬇ CSV</button>

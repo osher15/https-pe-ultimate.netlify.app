@@ -8,6 +8,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Plan, real workflow, board replacement bodies | Codex | AGENTS.md, COLLABORATION.md, docs/ACTION_PLAN_2026-10-03.md, docs/GITHUB_TASKS_2026-10-03.md, docs/handoffs/ |
 | Fixture persistence and regressions | Codex | tests/e2e/harness.js, persistenceharness.e2e.js, week.e2e.js/groups.e2e.js school-day fixtures, run.js (registration only) |
 | Pupil missing-summary | Codex | hm-new.js student profile, studentmissing.e2e.js, hm-i18n.js stu.missing*, stu.fitTitle, stu.fitBest and stu.beepTitle keys only |
+| Assessment requirements editor | Codex | hm-assessment-data.js/hm-assessment.js; hm-tests.js coverage button; hm-new.js period-delete guard; hm-app.js restore entry validation only; as.* translations; build/script registration and assessment tests |
 | Pending October 1 improvements | Claude authored, Codex review | ccr-4ae97033-rci9j0; do not duplicate or overwrite |
 | Timing/equipment completion | Claude next | hm-lesson.js, hm-build.js, hm-know.js; reserve shared helper/translation sections first |
 | Native packaging | Claude | native/, native workflow/docs; check current reservations first |

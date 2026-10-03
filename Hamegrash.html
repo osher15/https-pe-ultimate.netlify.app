@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="f3867e11">
+<meta name="hm-build" content="1ca4f68c">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -2778,6 +2778,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
         <div class="field" style="width:170px"><label>תקופת הערכה</label><select id="gr-period"></select></div>
         <button class="btn sm" id="gr-periodAdd" style="margin-top:18px">+ תקופה</button>
         <button class="btn sm ghost" id="gr-periodDel" style="margin-top:18px">🗑 מחק תקופה</button>
+        <button class="btn sm ghost" data-assessment-open style="margin-top:18px" data-i18n="as.title">מבחני חובה ויעדים</button>
         <div class="field" style="width:150px"><label>כיתה</label><select id="gr-classSel"></select></div>
         <button class="btn sm" id="gr-examAdd" style="margin-top:18px">+ עמודת מבחן</button>
         <button class="btn sm ghost" id="gr-csv" style="margin-top:18px">⬇ CSV</button>
@@ -6916,6 +6917,136 @@ return {
   BK_APP:BK_APP, BK_V:BK_V, IDB_BUDGET:IDB_BUDGET,
   buildSnapshot:buildSnapshot, planMedia:planMedia, validateBackup:validateBackup, planRestore:planRestore
 };
+});
+
+;
+"use strict";
+// Pure assessment calculations and configuration validation. Load after hm-data.js.
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory(require("./hm-data.js"));
+  else if(typeof window!=="undefined")window.HMAssessment=factory(window.HMDATA);
+})(function(D){
+  const finite=n=>typeof n==="number"&&Number.isFinite(n);
+  const text=s=>typeof s==="string"&&s.trim().length>0;
+  function date(s){
+    if(typeof s!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(s))return false;
+    const d=new Date(s+"T00:00:00Z");
+    return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===s;
+  }
+  function ruleErrors(rule){
+    if(!rule||typeof rule!=="object"||Array.isArray(rule))return ["rule-object"];
+    const errors=[];
+    if(!finite(rule.target)||rule.target<0)errors.push("rule-target");
+    if(!finite(rule.step)||rule.step<=0)errors.push("rule-step");
+    if(!finite(rule.points)||rule.points<=0)errors.push("rule-points");
+    if(!["floor","ceil","linear"].includes(rule.rounding))errors.push("rule-rounding");
+    if(!finite(rule.min)||!finite(rule.max)||rule.min<0||rule.max>100||rule.min>rule.max)errors.push("rule-bounds");
+    return errors;
+  }
+  function validatePolicy(policy,defs,store){
+    const errors=[];
+    if(!policy||typeof policy!=="object"||Array.isArray(policy))return {ok:false,errors:["policy-object"]};
+    // Requirements belong to a real class; combined views resolve each member's policy.
+    const registered=store&&D.classOf(store,policy.cid);
+    const canonical=D.cidParts(policy.cid)||
+      (typeof policy.cid==="string"&&policy.cid.startsWith("cn:")&&D.classId(policy.cid.slice(3))===policy.cid);
+    if(!D.isCid(policy.cid)||D.isGroupId(policy.cid)||D.isGroupRec(registered)||!(registered||canonical))errors.push("class-id");
+    if(!text(policy.period)||policy.period.length>80)errors.push("period");
+    if(!date(policy.from))errors.push("from-date");
+    if(!date(policy.to))errors.push("to-date");
+    if(date(policy.from)&&date(policy.to)&&policy.from>policy.to)errors.push("date-order");
+    const catalog=new Map((defs||[]).filter(t=>t&&text(t.id)).map(t=>[t.id,t]));
+    const seen=new Set();
+    if(!Array.isArray(policy.tests)||!policy.tests.length)errors.push("required-tests");
+    else policy.tests.forEach((entry,i)=>{
+      const prefix="tests["+i+"].", def=entry&&catalog.get(entry.id);
+      if(!def)errors.push(prefix+"unknown-test");
+      else if(!["high","low"].includes(def.dir))errors.push(prefix+"direction");
+      if(entry&&seen.has(entry.id))errors.push(prefix+"duplicate-test");
+      if(entry)seen.add(entry.id);
+      if(entry&&entry.rule!=null){
+        ruleErrors(entry.rule).forEach(e=>errors.push(prefix+e));
+        if(def&&def.dir==="low"&&entry.rule.target===0)errors.push(prefix+"rule-target");
+      }
+    });
+    if(policy.exemptions!=null&&!Array.isArray(policy.exemptions))errors.push("exemptions");
+    else {
+      const exemptions=new Set();
+      (policy.exemptions||[]).forEach((e,i)=>{
+        const prefix="exemptions["+i+"].";
+        if(!e||!text(e.sid))errors.push(prefix+"student-id");
+        if(!e||!seen.has(e.test))errors.push(prefix+"required-test");
+        if(!e||!text(e.reason)||e.reason.length>500)errors.push(prefix+"reason");
+        if(e){
+          const key=JSON.stringify([e.sid,e.test]);
+          if(exemptions.has(key))errors.push(prefix+"duplicate");
+          exemptions.add(key);
+        }
+      });
+    }
+    return {ok:!errors.length,errors};
+  }
+  // A target earns max; only a shortfall incurs points. Rounding is explicit.
+  function score(value,dir,rule){
+    if(!["high","low"].includes(dir)||!D.isValidMeasurement({val:value},dir)||ruleErrors(rule).length||
+      (dir==="low"&&rule.target===0))return null;
+    const deficit=Math.max(0,dir==="low"?value-rule.target:rule.target-value);
+    let blocks=deficit/rule.step;
+    // Decimal inputs such as 10.3 - 10 must not turn exactly 3 blocks into 4.
+    const near=Math.round(blocks);
+    if(Math.abs(blocks-near)<=Number.EPSILON*32*Math.max(1,Math.abs(blocks)))blocks=near;
+    if(rule.rounding==="floor")blocks=Math.floor(blocks);
+    if(rule.rounding==="ceil")blocks=Math.ceil(blocks);
+    const rounded=Math.round(Math.max(rule.min,Math.min(rule.max,rule.max-blocks*rule.points))*100)/100;
+    return Math.max(rule.min,Math.min(rule.max,rounded));
+  }
+  function studentAssessment(rows,student,policy,defs,store){
+    const check=validatePolicy(policy,defs,store), sid=D.studentKey(student);
+    if(!text(sid))check.errors.push("student-id");
+    if(check.ok&&D.cidOfStudent(student,store)!==policy.cid)check.errors.push("student-class");
+    if(check.errors.length)return {ok:false,errors:check.errors};
+    const catalog=new Map(defs.filter(t=>t&&text(t.id)).map(t=>[t.id,t]));
+    const scope=(rows||[]).filter(r=>r&&D.rowInClass(r,policy.cid)&&date(r.d)&&r.d>=policy.from&&r.d<=policy.to);
+    // No name-only attribution in a new assessment. Legacy records remain untouched.
+    const identifiable=scope.filter(r=>text(r.sid));
+    const tests=policy.tests.map(entry=>{
+      const def=catalog.get(entry.id);
+      const exempt=(policy.exemptions||[]).find(e=>e.sid===sid&&e.test===entry.id);
+      const p=D.progress(identifiable,student,entry.id,def.dir,{cid:policy.cid});
+      return {
+        testId:entry.id,dir:def.dir,status:exempt?"exempt":p.best?"measured":"missing",
+        reason:exempt?exempt.reason:p.best?null:p.invalid?"invalid-results":"no-result-in-period",
+        history:D.measurementsOf(identifiable,student,entry.id,{cid:policy.cid}),
+        validCount:p.count,invalidCount:p.invalid,best:p.best,latest:p.latest,
+        suggestedScore:!exempt&&p.best&&entry.rule?score(p.best.val,def.dir,entry.rule):null
+      };
+    });
+    const missing=tests.filter(t=>t.status==="missing").map(t=>t.testId);
+    return {ok:true,errors:[],studentId:sid,cid:policy.cid,period:policy.period,
+      from:policy.from,to:policy.to,tests,missing,
+      exempt:tests.filter(t=>t.status==="exempt").map(t=>t.testId),
+      complete:missing.length===0,
+      // Configuration/measurement issues must be visible, never counted as zero.
+      unidentifiedRows:scope.filter(r=>!text(r.sid)&&policy.tests.some(t=>t.id===r.test)).length,
+      invalidDateRows:(rows||[]).filter(r=>r&&r.sid===sid&&D.rowInClass(r,policy.cid)&&!date(r.d)&&policy.tests.some(t=>t.id===r.test)).length};
+  }
+  function validateEnvelope(value,defs,store){
+    if(!value||value.version!==1||!Array.isArray(value.policies))return {ok:false,errors:["configuration-version"]};
+    const errors=[],seen=new Set();
+    value.policies.forEach((p,i)=>{
+      validatePolicy(p,defs,store).errors.forEach(e=>errors.push(i+":"+e));
+      if(p){const key=JSON.stringify([p.cid,p.period]);if(seen.has(key))errors.push(i+":duplicate-policy");seen.add(key);}
+    });
+    return {ok:!errors.length,errors};
+  }
+  function updateEnvelope(value,policy,defs,store){
+    const check=validateEnvelope(value,defs,store);
+    if(!check.ok)return check;
+    const valid=validatePolicy(policy,defs,store);if(!valid.ok)return valid;
+    const next={version:1,policies:value.policies.filter(p=>p.cid!==policy.cid||p.period!==policy.period).concat([policy])};
+    return {ok:true,errors:[],value:next};
+  }
+  return {validDate:date,validatePolicy,score,studentAssessment,validateEnvelope,updateEnvelope};
 });
 
 ;
@@ -12876,6 +13007,40 @@ const DICT={
 he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שבמרקאפ עצמו */
 
 en:{
+  "as.title":"Assessment requirements",
+  "as.close":"Close",
+  "as.intro":"Choose required tests for this class and period. Optional scores are suggestions; manual grades remain unchanged.",
+  "as.class":"Class",
+  "as.period":"Assessment period",
+  "as.from":"From",
+  "as.to":"To",
+  "as.dates":"These dates are a saved snapshot. Changing attendance dates later will not change these requirements.",
+  "as.useRule":"Set a target scoring rule",
+  "as.higher":"Higher results are better. Results at or above the target earn the maximum.",
+  "as.lower":"Lower times are better. Results at or below the target earn the maximum.",
+  "as.target":"Target",
+  "as.step":"Result step",
+  "as.points":"Points per step",
+  "as.min":"Minimum score",
+  "as.max":"Maximum score",
+  "as.rounding":"Shortfall rounding",
+  "as.choose":"Choose rounding",
+  "as.ceil":"Each begun step",
+  "as.floor":"Only complete steps",
+  "as.linear":"Fractional steps",
+  "as.preview":"Score preview",
+  "as.ruleHint":"Enter a valid target, step, points, bounds and rounding to preview.",
+  "as.save":"Save requirements",
+  "as.delete":"Remove requirements",
+  "as.deleteConfirm":"Remove these requirements? Measurements and grades will remain.",
+  "as.discard":"Discard unsaved changes?",
+  "as.saved":"Requirements saved",
+  "as.failed":"Saving failed. Your draft is still open; retry or make a backup.",
+  "as.invalid":"Choose at least one test and check dates, rules and exemptions.",
+  "as.corrupt":"Saved requirements cannot be read or are from an unsupported version. Restore a valid backup before editing.",
+  "as.conflict":"Requirements or periods changed elsewhere. Reopen this editor before saving.",
+  "as.periodBlocked":"Remove saved requirements for this period before deleting it.",
+  "as.noClasses":"Add a class or pupil before configuring requirements.",
   "stu.fitTitle":"📋 Fitness tests",
   "stu.fitBest":"⭐ Personal best",
   "stu.beepTitle":"🫁 Beep test — cardiorespiratory endurance (VO₂max)",
@@ -13440,6 +13605,40 @@ en:{
 },
 
 ar:{
+  "as.title":"الاختبارات المطلوبة والأهداف",
+  "as.close":"إغلاق",
+  "as.intro":"اختر الاختبارات المطلوبة لهذا الصف والفترة. الدرجات المحسوبة مقترحات فقط؛ لا تتغير الدرجات اليدوية.",
+  "as.class":"الصف",
+  "as.period":"فترة التقييم",
+  "as.from":"من تاريخ",
+  "as.to":"إلى تاريخ",
+  "as.dates":"تُحفظ هذه التواريخ كنسخة مستقلة. تغيير تواريخ الحضور لاحقًا لا يغيّر هذه المتطلبات.",
+  "as.useRule":"تحديد قاعدة درجات حسب الهدف",
+  "as.higher":"النتيجة الأعلى أفضل. النتيجة التي تبلغ الهدف أو تتجاوزه تحصل على الدرجة القصوى.",
+  "as.lower":"الزمن الأقل أفضل. النتيجة التي تبلغ الهدف أو تقل عنه تحصل على الدرجة القصوى.",
+  "as.target":"الهدف",
+  "as.step":"مقدار الخطوة في النتيجة",
+  "as.points":"النقاط لكل خطوة",
+  "as.min":"الدرجة الدنيا",
+  "as.max":"الدرجة القصوى",
+  "as.rounding":"تقريب الفرق عن الهدف",
+  "as.choose":"اختر طريقة التقريب",
+  "as.ceil":"كل خطوة بدأت",
+  "as.floor":"الخطوات الكاملة فقط",
+  "as.linear":"أجزاء الخطوات",
+  "as.preview":"معاينة الدرجات",
+  "as.ruleHint":"أدخل هدفًا وخطوة ونقاطًا وحدودًا وطريقة تقريب صالحة للمعاينة.",
+  "as.save":"حفظ المتطلبات",
+  "as.delete":"إزالة المتطلبات",
+  "as.deleteConfirm":"إزالة هذه المتطلبات؟ ستبقى القياسات والدرجات.",
+  "as.discard":"تجاهل التغييرات غير المحفوظة؟",
+  "as.saved":"تم حفظ المتطلبات",
+  "as.failed":"تعذر الحفظ. المسودة ما زالت مفتوحة؛ أعد المحاولة أو أنشئ نسخة احتياطية.",
+  "as.invalid":"اختر اختبارًا واحدًا على الأقل وتحقق من التواريخ وقواعد الدرجات والإعفاءات.",
+  "as.corrupt":"تعذر قراءة المتطلبات المحفوظة أو أن إصدارها غير مدعوم. استعد نسخة احتياطية صالحة قبل التعديل.",
+  "as.conflict":"تغيرت المتطلبات أو الفترات في مكان آخر. أعد فتح المحرر قبل الحفظ.",
+  "as.periodBlocked":"أزل المتطلبات المحفوظة لهذه الفترة قبل حذفها.",
+  "as.noClasses":"أضف صفًا أو طالبًا قبل إعداد المتطلبات.",
   "stu.fitTitle":"📋 اختبارات اللياقة البدنية",
   "stu.fitBest":"⭐ أفضل نتيجة شخصية",
   "stu.beepTitle":"🫁 اختبار الجري المتدرج — التحمل القلبي التنفسي (VO₂max)",
@@ -14008,6 +14207,40 @@ ar:{
 },
 
 ru:{
+  "as.title":"Обязательные тесты и цели",
+  "as.close":"Закрыть",
+  "as.intro":"Выберите обязательные тесты для класса и периода. Расчётные оценки — только рекомендации; введённые вручную оценки не меняются.",
+  "as.class":"Класс",
+  "as.period":"Период оценивания",
+  "as.from":"С даты",
+  "as.to":"По дату",
+  "as.dates":"Эти даты сохраняются отдельно. Последующее изменение дат посещаемости не изменит эти требования.",
+  "as.useRule":"Задать правило оценки по цели",
+  "as.higher":"Чем выше результат, тем лучше. Достижение или превышение цели даёт максимальную оценку.",
+  "as.lower":"Чем меньше время, тем лучше. Достижение цели или меньшее время даёт максимальную оценку.",
+  "as.target":"Цель",
+  "as.step":"Шаг результата",
+  "as.points":"Баллы за шаг",
+  "as.min":"Минимальная оценка",
+  "as.max":"Максимальная оценка",
+  "as.rounding":"Округление отклонения от цели",
+  "as.choose":"Выберите округление",
+  "as.ceil":"Каждый начатый шаг",
+  "as.floor":"Только полные шаги",
+  "as.linear":"Доли шага",
+  "as.preview":"Пример оценки",
+  "as.ruleHint":"Введите допустимые цель, шаг, баллы, границы и округление для просмотра.",
+  "as.save":"Сохранить требования",
+  "as.delete":"Удалить требования",
+  "as.deleteConfirm":"Удалить эти требования? Измерения и оценки сохранятся.",
+  "as.discard":"Отменить несохранённые изменения?",
+  "as.saved":"Требования сохранены",
+  "as.failed":"Не удалось сохранить. Черновик остаётся открытым; повторите попытку или создайте резервную копию.",
+  "as.invalid":"Выберите хотя бы один тест и проверьте даты, правила оценивания и освобождения.",
+  "as.corrupt":"Не удалось прочитать сохранённые требования или их версия не поддерживается. Восстановите корректную резервную копию перед редактированием.",
+  "as.conflict":"Требования или периоды изменились в другом месте. Откройте редактор заново перед сохранением.",
+  "as.periodBlocked":"Удалите сохранённые требования периода перед удалением самого периода.",
+  "as.noClasses":"Добавьте класс или ученика перед настройкой требований.",
   "stu.fitTitle":"📋 Тесты физической подготовки",
   "stu.fitBest":"⭐ Личный рекорд",
   "stu.beepTitle":"🫁 Челночный тест — кардиореспираторная выносливость (VO₂max)",
@@ -14569,6 +14802,40 @@ ru:{
 },
 
 es:{
+  "as.title":"Pruebas obligatorias y objetivos",
+  "as.close":"Cerrar",
+  "as.intro":"Selecciona las pruebas obligatorias para este grupo y período. Las notas calculadas son sugerencias; las notas manuales no cambian.",
+  "as.class":"Grupo",
+  "as.period":"Período de evaluación",
+  "as.from":"Desde",
+  "as.to":"Hasta",
+  "as.dates":"Estas fechas se guardan como una copia independiente. Cambiar después las fechas de asistencia no cambiará estos requisitos.",
+  "as.useRule":"Definir una regla de nota por objetivo",
+  "as.higher":"Un resultado mayor es mejor. Alcanzar o superar el objetivo da la nota máxima.",
+  "as.lower":"Un tiempo menor es mejor. Alcanzar el objetivo o bajar de él da la nota máxima.",
+  "as.target":"Objetivo",
+  "as.step":"Paso del resultado",
+  "as.points":"Puntos por paso",
+  "as.min":"Nota mínima",
+  "as.max":"Nota máxima",
+  "as.rounding":"Redondeo de la diferencia",
+  "as.choose":"Elige el redondeo",
+  "as.ceil":"Cada paso iniciado",
+  "as.floor":"Solo pasos completos",
+  "as.linear":"Fracciones de paso",
+  "as.preview":"Vista previa de nota",
+  "as.ruleHint":"Introduce un objetivo, paso, puntos, límites y redondeo válidos para la vista previa.",
+  "as.save":"Guardar requisitos",
+  "as.delete":"Eliminar requisitos",
+  "as.deleteConfirm":"¿Eliminar estos requisitos? Se conservarán las mediciones y las notas.",
+  "as.discard":"¿Descartar los cambios sin guardar?",
+  "as.saved":"Requisitos guardados",
+  "as.failed":"No se pudo guardar. El borrador sigue abierto; vuelve a intentarlo o crea una copia de seguridad.",
+  "as.invalid":"Selecciona al menos una prueba y revisa las fechas, las reglas de nota y las exenciones.",
+  "as.corrupt":"No se pueden leer los requisitos guardados o su versión no es compatible. Restaura una copia de seguridad válida antes de editar.",
+  "as.conflict":"Los requisitos o períodos cambiaron en otro lugar. Abre de nuevo el editor antes de guardar.",
+  "as.periodBlocked":"Elimina los requisitos guardados de este período antes de eliminarlo.",
+  "as.noClasses":"Añade un grupo o estudiante antes de configurar requisitos.",
   "stu.fitTitle":"📋 Pruebas de condición física",
   "stu.fitBest":"⭐ Mejor marca personal",
   "stu.beepTitle":"🫁 Test de ida y vuelta — resistencia cardiorrespiratoria (VO₂max)",
@@ -17597,6 +17864,16 @@ function bkStat(){
     : "אין עדיין נתונים במכשיר.";
 }
 async function bkApply(snap){
+  // New assessment configuration is checked before the restore clears any key.
+  if(snap.data&&Object.prototype.hasOwnProperty.call(snap.data,"assessment.policies")){
+    try{
+      const value=JSON.parse(snap.data["assessment.policies"]);
+      const incoming={get:(key,fallback)=>snap.data[key]==null?fallback:JSON.parse(snap.data[key])};
+      const periods=incoming.get("grades.periods",["רבעון 1"]);
+      const check=window.HMAssessment.validateEnvelope(value,window.FT.tests().filter(d=>d.id!=="beep"),incoming);
+      if(!check.ok||!Array.isArray(periods)||value.policies.some(p=>!periods.includes(p.period)))throw new Error("invalid");
+    }catch(e){throw new Error(t("as.corrupt","לא ניתן לקרוא את הדרישות השמורות או שגרסתן אינה נתמכת. שחזר גיבוי תקין לפני עריכה."));}
+  }
   const be=STORE||MEMFALLBACK;
   /* מוחקים רק את המפתחות שלנו — מפתחות של אתרים אחרים באותו דומיין
      אינם שלנו למחוק, וגם דגלים שהאפליקציה תכתוב מחדש בעצמה. */
@@ -27486,6 +27763,7 @@ window.FT=(function(){
     $("#ft-cov").innerHTML=`
       <div class="card">
         <h2><span class="dot"></span> מה חסר לכיתה — ${esc(disp(c))}</h2>
+        ${!isG(c)?`<button class="btn sm ghost" data-assessment-open data-cid="${esc(cidOf(c))}" data-i18n="as.title">מבחני חובה ויעדים</button>`:""}
         <div class="hint">כל תלמיד מול כל מבחן שהכיתה כבר נמדדה בו — ✓ הושלם, ✕ עדיין חסר.
           מבחן שאף אחד בכיתה עדיין לא ניגש אליו לא מופיע כאן.</div>
         ${cov.tests.length&&total?`<div class="ft-idxsum">
@@ -29030,6 +29308,7 @@ window.STU=(function(){
     periods.push(n); savePeriods(periods); grPeriod=n; renderGrades();
   }
   function delPeriod(){
+    if(window.ASSESSMENT&&!window.ASSESSMENT.canDeletePeriod(grPeriod))return;
     const periods=loadPeriods();
     if(periods.length<=1){H().toast("חייבת להישאר לפחות תקופה אחת");return;}
     const back=H().snap(["grades.periods","grades.examCols","stu.list","grades.periodRanges"]), was=grPeriod;
@@ -29916,6 +30195,151 @@ window.HMBootNew=function(){
   /* students count on home band */
   const sc=$("#qsStu"); if(sc)sc.textContent=window.STU.count();
 };
+})();
+
+;
+"use strict";
+// Teacher configuration only; calculating a suggestion never writes a grade.
+window.ASSESSMENT=(()=>{
+  const HE={"as.title": "מבחני חובה ויעדים", "as.close": "סגירה", "as.intro": "בחר מבחני חובה לכיתה ולתקופה. הציונים המחושבים הם הצעה בלבד; ציונים ידניים לא משתנים.", "as.class": "כיתה", "as.period": "תקופת הערכה", "as.from": "מתאריך", "as.to": "עד תאריך", "as.dates": "התאריכים נשמרים כאן כעותק. שינוי טווח הנוכחות בהמשך לא ישנה את הדרישות האלה.", "as.useRule": "הגדר כלל ניקוד לפי יעד", "as.higher": "תוצאה גבוהה יותר טובה יותר. תוצאה ביעד או מעליו מקבלת את הציון המרבי.", "as.lower": "זמן נמוך יותר טוב יותר. תוצאה ביעד או מתחתיו מקבלת את הציון המרבי.", "as.target": "יעד", "as.step": "גודל מדרגה בתוצאה", "as.points": "נקודות לכל מדרגה", "as.min": "ציון מזערי", "as.max": "ציון מרבי", "as.rounding": "עיגול הפער מהיעד", "as.choose": "בחר אופן עיגול", "as.ceil": "כל מדרגה שהתחילה", "as.floor": "מדרגות שלמות בלבד", "as.linear": "חלקי מדרגות", "as.preview": "תצוגת ניקוד", "as.ruleHint": "הזן יעד, מדרגה, נקודות, גבולות ועיגול תקינים לתצוגה מקדימה.", "as.save": "שמור דרישות", "as.delete": "הסר דרישות", "as.deleteConfirm": "להסיר את הדרישות? המדידות והציונים יישארו.", "as.discard": "לוותר על שינויים שלא נשמרו?", "as.saved": "הדרישות נשמרו", "as.failed": "השמירה נכשלה. הטיוטה עדיין פתוחה; נסה שוב או צור גיבוי.", "as.invalid": "בחר לפחות מבחן אחד ובדוק תאריכים, כללי ניקוד ופטורים.", "as.corrupt": "לא ניתן לקרוא את הדרישות השמורות או שגרסתן אינה נתמכת. שחזר גיבוי תקין לפני עריכה.", "as.conflict": "הדרישות או התקופות השתנו במקום אחר. פתח מחדש לפני שמירה.", "as.periodBlocked": "הסר תחילה את הדרישות השמורות לתקופה לפני מחיקתה.", "as.noClasses": "הוסף כיתה או תלמיד לפני הגדרת דרישות."};
+  const KEY="assessment.policies",D=window.HMDATA,A=window.HMAssessment;
+  const H=()=>window.HM, t=key=>H().t("as."+key,HE["as."+key]||key), esc=s=>H().esc(String(s??""));
+  const defs=()=>window.FT.tests().filter(d=>d.id!=="beep");
+  function read(){
+    const before=H().LS.health().fails_n;
+    const value=H().LS.get(KEY,null);
+    if(H().LS.health().fails_n!==before)return {ok:false};
+    const envelope=value===null?{version:1,policies:[]}:value;
+    return {...A.validateEnvelope(envelope,defs(),H().LS),value:envelope};
+  }
+  function canDeletePeriod(period){
+    const config=read();
+    if(!config.ok){H().toast(t("corrupt"));return false;}
+    if(config.value.policies.some(p=>p.period===period)){H().toast(t("periodBlocked"));return false;}
+    return true;
+  }
+  function open(cid,period){
+    const config=read();
+    let classes=Object.values(D.realClasses(H().LS));
+    // Imported pupils may have a stable class before the registry is populated.
+    for(const s of H().LS.get("stu.list",[])){
+      const id=D.cidOfStudent(s,H().LS);
+      if(id&&!D.isGroupId(id)&&!classes.some(c=>c.id===id))classes.push({id,name:s.cls||id});
+    }
+    if(!classes.length){H().toast(t("noClasses"));return;}
+    if(!classes.some(c=>c.id===cid))cid=classes[0].id;
+    let periods=H().LS.get("grades.periods",null);
+    if(!Array.isArray(periods)||!periods.length)periods=["רבעון 1"];
+    if(!periods.includes(period))period=periods[0];
+    let snapshot=JSON.stringify(config.value),dirty=false;
+    let old=document.getElementById("as-modal");if(old)old.remove();
+    const el=document.createElement("div");el.id="as-modal";el.className="modal";
+    el.innerHTML=`<div class="box" style="max-width:760px">
+      <h3>${esc(t("title"))}<button type="button" class="x" id="as-close" aria-label="${esc(t("close"))}">✕</button></h3>
+      <div class="hint">${esc(t("intro"))}</div>
+      <div class="row" style="margin-top:12px;flex-wrap:wrap">
+        <div class="field" style="flex:1;min-width:130px"><label for="as-class">${esc(t("class"))}</label><select id="as-class">${classes.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("")}</select></div>
+        <div class="field" style="flex:1;min-width:130px"><label for="as-period">${esc(t("period"))}</label><select id="as-period">${periods.map(p=>`<option value="${esc(p)}">${esc((window.I18N&&window.I18N.term(p))||p)}</option>`).join("")}</select></div>
+      </div>
+      <form id="as-form"><div id="as-fields"></div>
+        <div id="as-error" role="alert" style="color:var(--stop);margin:12px 0"></div>
+        <div class="row" style="flex-wrap:wrap"><button type="submit" class="btn acc" id="as-save">${esc(t("save"))}</button>
+        <button type="button" class="btn ghost" id="as-delete">${esc(t("delete"))}</button></div>
+      </form></div>`;
+    document.body.appendChild(el);
+    const $=s=>el.querySelector(s);
+    $("#as-class").value=cid;$("#as-period").value=period;
+    const current=()=>({cid:$("#as-class").value,period:$("#as-period").value});
+    const error=key=>{$("#as-error").textContent=t(key);};
+    function render(){
+      const c=current(),latest=read();
+      if(!latest.ok){$("#as-fields").innerHTML="";$("#as-save").disabled=true;$("#as-delete").disabled=true;error("corrupt");return;}
+      snapshot=JSON.stringify(latest.value);
+      const policy=latest.value.policies.find(p=>p.cid===c.cid&&p.period===c.period);
+      const range=policy||(H().LS.get("grades.periodRanges",{})||{})[c.period]||{};
+      $("#as-fields").innerHTML=`<div class="row" style="flex-wrap:wrap;margin-top:12px">
+        <div class="field" style="flex:1;min-width:130px"><label for="as-from">${esc(t("from"))}</label><input type="date" id="as-from" required value="${esc(range.from||"")}"></div>
+        <div class="field" style="flex:1;min-width:130px"><label for="as-to">${esc(t("to"))}</label><input type="date" id="as-to" required value="${esc(range.to||"")}"></div></div>
+        <p class="hint">${esc(t("dates"))}</p>
+        ${defs().map(d=>{
+          const entry=policy?.tests.find(e=>e.id===d.id),r=entry?.rule;
+          return `<section class="card as-test" data-test="${esc(d.id)}" style="padding:12px;margin-top:8px">
+            <label><input type="checkbox" class="as-required" ${entry?"checked":""}> ${esc((window.I18N&&window.I18N.term(d.name))||d.name)}</label>
+            <label style="display:block;margin-top:8px"><input type="checkbox" class="as-rule" ${r?"checked":""}> ${esc(t("useRule"))}</label>
+            <div class="as-ruleFields" ${r?"":"hidden"} style="margin-top:10px">
+              <div class="hint">${esc(t(d.dir==="low"?"lower":"higher"))}</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">${["target","step","points","min","max"].map(k=>`<label style="flex:1;min-width:85px">${esc(t(k))}<input class="as-${k}" type="number" step="any" value="${esc(r?.[k]??(k==="min"?0:k==="max"?100:""))}" style="width:100%;box-sizing:border-box"></label>`).join("")}</div>
+              <label style="display:block;margin-top:8px">${esc(t("rounding"))}<select class="as-rounding"><option value="">${esc(t("choose"))}</option>${["ceil","floor","linear"].map(k=>`<option value="${k}" ${r?.rounding===k?"selected":""}>${esc(t(k))}</option>`).join("")}</select></label>
+              <div class="hint as-preview" style="margin-top:8px" aria-live="polite"></div>
+            </div></section>`;
+        }).join("")}`;
+      $("#as-save").disabled=false;$("#as-delete").disabled=!policy;$("#as-error").textContent="";
+      dirty=false;
+      for(const row of el.querySelectorAll(".as-test"))refresh(row);
+      function refresh(row){
+        const enabled=row.querySelector(".as-rule").checked;
+        row.querySelector(".as-ruleFields").hidden=!enabled;
+        for(const input of row.querySelectorAll(".as-ruleFields input,.as-rounding"))input.disabled=!enabled;
+        if(!enabled)return;
+        const rule=getRule(row),d=defs().find(d=>d.id===row.dataset.test);
+        const sample=[rule.target,rule.target+(d.dir==="low"?1:-1)*rule.step];
+        row.querySelector(".as-preview").textContent=sample.every(Number.isFinite)&&sample.every(v=>A.score(v,d.dir,rule)!==null)
+          ?t("preview")+": "+sample.map(v=>v+" → "+A.score(v,d.dir,rule)).join(" · "):t("ruleHint");
+      }
+      $("#as-fields").oninput=e=>{dirty=true;const row=e.target.closest(".as-test");if(row)refresh(row);};
+      $("#as-fields").onchange=e=>{dirty=true;const row=e.target.closest(".as-test");if(row)refresh(row);};
+    }
+    function getRule(row){
+      const rule={};for(const k of ["target","step","points","min","max"]){const v=row.querySelector(".as-"+k).value;rule[k]=v.trim()===""?NaN:Number(v);}
+      rule.rounding=row.querySelector(".as-rounding").value;return rule;
+    }
+    function unchanged(){
+      const latest=read();
+      if(!latest.ok){error("corrupt");return null;}
+      if(JSON.stringify(latest.value)!==snapshot){error("conflict");return null;}
+      return latest.value;
+    }
+    function persist(value){
+      if(H().LS.health().backend!=="localStorage"||!H().LS.set(KEY,value)){error("failed");return false;}
+      const saved=read();
+      if(!saved.ok||JSON.stringify(saved.value)!==JSON.stringify(value)){error("failed");return false;}
+      snapshot=JSON.stringify(value);dirty=false;H().toast(t("saved"));H().modal("as-modal",false);return true;
+    }
+    $("#as-form").onsubmit=e=>{
+      e.preventDefault();const value=unchanged();if(!value)return;
+      const c=current();
+      const savedPeriods=H().LS.get("grades.periods",null);
+      if(!(Array.isArray(savedPeriods)&&savedPeriods.length?savedPeriods:["רבעון 1"]).includes(c.period)){error("conflict");return;}
+      const previous=value.policies.find(p=>p.cid===c.cid&&p.period===c.period);
+      const policy={...c,from:$("#as-from").value,to:$("#as-to").value,
+        tests:[...el.querySelectorAll(".as-test")].filter(row=>row.querySelector(".as-required").checked).map(row=>({id:row.dataset.test,...(row.querySelector(".as-rule").checked?{rule:getRule(row)}:{})})),
+        exemptions:previous?.exemptions||[]};
+      const next=A.updateEnvelope(value,policy,defs(),H().LS);
+      if(!next.ok){error("invalid");return;}
+      persist(next.value);
+    };
+    $("#as-delete").onclick=async()=>{
+      const value=unchanged();if(!value||!await H().ask({msg:t("deleteConfirm"),ok:t("delete")}))return;
+      if(!unchanged())return;
+      const c=current();persist({version:1,policies:value.policies.filter(p=>p.cid!==c.cid||p.period!==c.period)});
+    };
+    async function close(){if(!dirty||await H().ask({msg:t("discard"),ok:t("close")}))H().modal("as-modal",false);}
+    el.__onBack=close;
+    el.onclick=e=>{if(e.target===el)close();};
+    el.onkeydown=e=>{if(e.key==="Escape"){e.preventDefault();e.stopPropagation();close();}};
+    $("#as-close").onclick=close;
+    for(const id of ["as-class","as-period"]){
+      let prev=$("#"+id).value;
+      $("#"+id).onchange=async()=>{if(dirty&&!await H().ask({msg:t("discard"),ok:t("close")})){$("#"+id).value=prev;return;}prev=$("#"+id).value;render();};
+    }
+    render();H().modal("as-modal");
+  }
+  document.addEventListener("click",e=>{
+    const b=e.target.closest("[data-assessment-open]");if(!b)return;
+    const raw=b.dataset.cid||document.getElementById("gr-classSel")?.value;
+    open(D.resolveClassId(H().LS,raw)||raw,document.getElementById("gr-period")?.value);
+  });
+  return {open,canDeletePeriod,read,key:KEY};
 })();
 
 ;
