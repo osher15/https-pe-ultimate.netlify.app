@@ -15,10 +15,10 @@ Base/prerequisite: PR #26 head 0f1e6f5; PR #25 precedes it. No production merge.
 
 ## Verification
 - npm test: 590/590.
-- New editor/backup import/quota/native mirror suite: 13/13; existing storage suite: 7/7 (20/20 together on final source), plus actual grading/coverage entry-button test 1/1. Final registered editor suite contains 14 cases.
+- Final registered editor suite: 14/14, including entry buttons, backup import, real storage quota failure, native mirror, draft protection and five languages. Existing storage suite: 7/7; it also passed together with the previous 13 editor cases (20/20).
 - Earlier relevant suites: backup/profile/native 31/31 combined; editor/attendance-grade/round3 28/28 before final import guard. Do not combine these into a claim of one full run.
 - Visual inspection at 390px found and corrected blank period labels: I18N.term returns null for already-English custom labels, so preserve the source label as fallback and explicit option value.
-- Full GitHub CI remains a publication check; exact results belong in the PR/Issue.
+- Generated outputs were built on GitHub and matched the local checkout byte for byte. The branch-scoped temporary build workflow was removed after synchronization. Full GitHub CI remains a publication check; exact results belong in the PR/Issue.
 
 ## Next
 Review/merge #25, then #26, then this focused editor PR in order. Next Codex slice connects the chosen requirements/period to pupil/class reports and CSV; missing/exempt values stay blank, and suggestions stay distinct from manual/final grades. Exemption editor and personal pupil export still need their own reviewed flows.
