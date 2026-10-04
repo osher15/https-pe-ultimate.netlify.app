@@ -361,6 +361,52 @@ window.STU=(function(){
       esc(H().t("gr.prov","זמני"))+'</small><div class="gr-miss"><span>'+esc(H().t("gr.missing","חסר"))+'</span>: '+
       r.missing.map(k=>'<span>'+esc(L[k])+'</span>').join(", ")+'</div>';
   }
+  const OV_HE={title:"ציון סופי של המורה",edit:"קבע ציון סופי",teacher:"נקבע בידי המורה",calculated:"ציון מחושב",note:"הערה (רשות)",save:"שמור ציון סופי",reset:"חזור לציון המחושב",cancel:"ביטול",intro:"קביעת ציון סופי אינה משלימה רכיבים חסרים ואינה משנה מדידות או ציונים לרכיבים.",invalid:"הזן ציון בין 0 ל־100 והערה של עד 500 תווים.",corrupt:"הציון הסופי השמור אינו תקין. הוא לא הוחל; בדוק אותו.",conflict:"הנתונים השתנו. סגור ופתח מחדש לפני שמירה.",failed:"השמירה נכשלה. הטיוטה נשארה; נסה שוב.",discard:"לסגור בלי לשמור את השינויים?",basis:"מצב החישוב",sid:"מזהה תלמיד",period:"תקופה"};
+  const OV_KEYS={"title": "gr.ovTitle", "edit": "gr.ovEdit", "teacher": "gr.ovTeacher", "calculated": "gr.ovCalculated", "note": "gr.ovNote", "save": "gr.ovSave", "reset": "gr.ovReset", "cancel": "gr.ovCancel", "intro": "gr.ovIntro", "invalid": "gr.ovInvalid", "corrupt": "gr.ovCorrupt", "conflict": "gr.ovConflict", "failed": "gr.ovFailed", "discard": "gr.ovDiscard", "basis": "gr.ovBasis", "sid": "gr.ovSid", "period": "gr.ovPeriod"};
+  const ovT=k=>H().t(OV_KEYS[k],OV_HE[k]);
+  function finalCell(s,r,L){
+    const esc=H().esc;
+    let out=gradeCell(r,L);
+    if(r.overridden){
+      const calc=Object.assign({},r,{value:r.calculatedValue,complete:r.calculatedComplete});
+      out+='<div><small>'+esc(ovT("teacher"))+'</small></div><details><summary>'+esc(ovT("calculated"))+'</summary>'+gradeCell(calc,L)+'</details>';
+    }
+    if(r.overrideInvalid)out+='<small role="alert">'+esc(ovT("corrupt"))+'</small>';
+    return out+'<button class="btn ghost" data-final-edit="'+esc(s.id)+'" style="font-size:12px;white-space:normal">'+esc(ovT("edit"))+'</button>';
+  }
+  function editFinal(sid){
+    if(typeof sid!=="string"||!sid.trim()){H().toast(ovT("conflict"));return;}
+    const ls=H().LS,initial=ls.get("stu.list",null),period=grPeriod,scope=grClsF;
+    if(!Array.isArray(initial))return;
+    const found=initial.filter(s=>s&&s.id===sid);
+    if(found.length!==1||!inF(found[0],scope)){H().toast(ovT("conflict"));return;}
+    const pupil=found[0],cid=cidOf(pupil),weights=loadWeights(),cols=examColsFor(period);
+    if((pupil.grades!=null&&(typeof pupil.grades!=="object"||Array.isArray(pupil.grades)))||(pupil.grades&&pupil.grades[period]!=null&&(typeof pupil.grades[period]!=="object"||Array.isArray(pupil.grades[period])))){H().toast(ovT("corrupt"));return;}
+    const old=(pupil.grades&&pupil.grades[period])||{},r=computeFinal(pupil,period,weights,cols);
+    const stamp=JSON.stringify({initial,periods:loadPeriods(),weights,cols,classes:ls.get("ft.classes",{})});
+    const esc=H().esc,el=document.createElement("div");document.getElementById("gr-overrideModal")?.remove();
+    el.id="gr-overrideModal";el.className="modal";
+    el.innerHTML=`<div class="box" style="max-width:520px"><h3>${esc(ovT("title"))}</h3><p><b>${esc(pupil.name)}</b> [${esc(sid)}] · ${esc(window.I18N.term(period)||period)}</p><p class="hint">${esc(ovT("intro"))}</p><p>${esc(ovT("calculated"))}: ${gradeCell(r.overridden?Object.assign({},r,{value:r.calculatedValue,complete:r.calculatedComplete}):r,loadLabels())}</p>${r.overrideInvalid?`<p role="alert">${esc(ovT("corrupt"))}</p>`:""}<form id="gr-overrideForm" novalidate><div class="field" style="margin-top:12px"><label for="gr-overrideValue">${esc(ovT("title"))} (0–100)</label><input id="gr-overrideValue" type="number" min="0" max="100" step="any" inputmode="decimal" style="min-height:44px;font-size:16px" required value="${r.overridden?esc(old.finalOverride.value):""}"></div><div class="field" style="margin-top:12px"><label for="gr-overrideNote">${esc(ovT("note"))}</label><textarea id="gr-overrideNote" maxlength="500" rows="3" style="width:100%;box-sizing:border-box;font-size:16px">${r.overridden?esc(old.finalOverride.note):""}</textarea></div><p id="gr-overrideError" role="alert"></p><div class="row" style="flex-wrap:wrap"><button class="btn" id="gr-overrideSave" type="submit">${esc(ovT("save"))}</button>${Object.prototype.hasOwnProperty.call(old,"finalOverride")?`<button class="btn ghost" id="gr-overrideReset" type="button">${esc(ovT("reset"))}</button>`:""}<button class="btn ghost" id="gr-overrideCancel" type="button">${esc(ovT("cancel"))}</button></div></form></div>`;
+    document.body.appendChild(el);const $=q=>el.querySelector(q),draft=()=>JSON.stringify([$("#gr-overrideValue").value,$("#gr-overrideNote").value]),start=draft();
+    const close=async()=>{if(draft()!==start&&!(await H().ask({msg:ovT("discard"),ok:ovT("cancel")})))return;H().modal(el.id,false);el.remove();};
+    el.__onBack=close;el.onclick=e=>{if(e.target===el)close();};el.onkeydown=e=>{if(e.key==="Escape"){e.preventDefault();e.stopPropagation();close();}};$("#gr-overrideCancel").onclick=close;
+    function write(remove){
+      const value=$("#gr-overrideValue").value,n=Number(value),note=$("#gr-overrideNote").value.trim();
+      const error=k=>$("#gr-overrideError").textContent=ovT(k);
+      if(!remove&&(value.trim()===""||!Number.isFinite(n)||n<0||n>100||note.length>500)){error("invalid");return;}
+      const fresh=ls.get("stu.list",null),matches=Array.isArray(fresh)?fresh.filter(s=>s&&s.id===sid):[];
+      const now=JSON.stringify({initial:fresh,periods:loadPeriods(),weights:loadWeights(),cols:examColsFor(period),classes:ls.get("ft.classes",{})});
+      if(now!==stamp||grPeriod!==period||grClsF!==scope||!loadPeriods().includes(period)||matches.length!==1||cidOf(matches[0])!==cid||!inF(matches[0],scope)){error("conflict");return;}
+      const next=JSON.parse(JSON.stringify(fresh)),target=next.find(s=>s&&s.id===sid);
+      if(!target.grades||typeof target.grades!=="object"||Array.isArray(target.grades))target.grades={};
+      const g=target.grades[period];if(!g||typeof g!=="object"||Array.isArray(g))target.grades[period]={exams:{}};
+      if(remove)delete target.grades[period].finalOverride;else target.grades[period].finalOverride={value:n,note};
+      if(!ls.set("stu.list",next)||JSON.stringify(ls.get("stu.list",null))!==JSON.stringify(next)){error("failed");return;}
+      H().modal(el.id,false);el.remove();renderGrades();
+    }
+    $("#gr-overrideForm").onsubmit=e=>{e.preventDefault();write(false);};const reset=$("#gr-overrideReset");if(reset)reset.onclick=()=>write(true);
+    H().modal(el.id);
+  }
   function renderWeightsHint(){
     const {$}=H(); const w=loadWeights();
     const L=loadLabels();
@@ -437,6 +483,9 @@ window.STU=(function(){
     if(!periods.includes(grPeriod))grPeriod=periods[0];
     $("#gr-period").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===grPeriod?"selected":""}>${esc(p)}</option>`).join("");
     renderWeightsHint();
+    let excel=$("#gr-xlsx");
+    if(!excel){excel=document.createElement("button");excel.id="gr-xlsx";excel.className="btn ghost";$("#gr-csv").after(excel);}
+    excel.textContent=H().t("ar.xlsx","ייצוא Excel (.xlsx)");excel.onclick=()=>exportGradesCsv("xlsx");
     const weights=loadWeights();
     const examCols=examColsFor(grPeriod);
     const view=list.filter(s=>inF(s,grClsF)).sort((a,b)=>a.name.localeCompare(b.name,"he"));
@@ -471,10 +520,11 @@ window.STU=(function(){
         ${show("team")?num("team"):""}
         ${show("know")?num("know"):""}
         ${num("bonus",weights.bonusMax??10)}
-        <td class="mono gr-final${r.complete?"":" prov"}">${gradeCell(r,L)}</td>
+        <td class="mono gr-final${r.complete?"":" prov"}">${finalCell(s,r,L)}</td>
       </tr>`;
     }).join("");
     $("#gr-table").innerHTML=head+"<tbody>"+body+"</tbody>";
+    $("#gr-table").onclick=e=>{const b=e.target.closest("[data-final-edit]");if(b)editFinal(b.dataset.finalEdit);};
     paintProvHint(view,weights,examCols);
     /* עדכון שורה בודדת בלבד (בלי לבנות מחדש את כל הטבלה) — כדי לא לאבד פוקוס/מעבר Tab
        באמצע הזנת ציונים רצופה בסגנון גיליון. */
@@ -486,7 +536,7 @@ window.STU=(function(){
       const monos=tr.querySelectorAll("td.mono");
       if(monos.length>1)monos[0].textContent=examsAvg!=null?examsAvg.toFixed(1):"—";
       const fc=cells[cells.length-1];
-      fc.innerHTML=gradeCell(r,L); fc.classList.toggle("prov",!r.complete);
+      fc.innerHTML=finalCell(s,r,L); fc.classList.toggle("prov",!r.complete);
       paintProvHint(view,weights,examCols);
     }
     $$("#gr-table [data-f]").forEach(inp=>inp.addEventListener("change",()=>{
@@ -547,7 +597,7 @@ window.STU=(function(){
     grPeriod=periods[0]; renderGrades();
     H().undo(`התקופה «${was}» נמחקה, עם הציונים שבה`,()=>{ back(); grPeriod=was; renderGrades(); },8000);
   }
-  function exportGradesCsv(){
+  function exportGradesCsv(type){
     const list=load().filter(s=>inF(s,grClsF)).sort((a,b)=>a.name.localeCompare(b.name,"he"));
     if(!list.length){H().toast("אין תלמידים");return;}
     const weights=loadWeights(), examCols=examColsFor(grPeriod), L=loadLabels();
@@ -555,17 +605,26 @@ window.STU=(function(){
     /* עמודת סטטוס מפורשת: מי שפותח את הקובץ באקסל רואה אם הציון סופי
        או זמני ומה חסר — בלי להסיק את זה מתאים ריקים. */
     const rows=[["שם","כיתה",L.part,...examCols,L.exams,L.improve,L.team,L.know,"בונוס",
-      tt("gr.csvGrade","ציון"),tt("gr.csvStatus","סטטוס"),tt("gr.csvMissing","רכיבים חסרים")]];
+      tt("gr.csvGrade","ציון"),tt("gr.csvStatus","סטטוס"),tt("gr.csvMissing","רכיבים חסרים"),ovT("calculated"),ovT("basis"),ovT("note"),ovT("sid"),ovT("period")]];
     const fx=v=>v!=null?v:"";
     list.forEach(s=>{
       const g=gradeOf(s,grPeriod), r=computeFinal(s,grPeriod,weights,examCols);
       rows.push([s.name,H().clsUI(s.cls||""),fx(g.part),...examCols.map(c=>fx(g.exams&&g.exams[c])),
         r.examsAvg!=null?r.examsAvg.toFixed(1):"",fx(g.improve),fx(g.team),fx(g.know),fx(g.bonus),
         r.value!=null?r.value.toFixed(1):"",
-        r.status===window.HMDATA.GRADE_FINAL?tt("gr.stFinal","סופי"):r.status===window.HMDATA.GRADE_PROV?tt("gr.prov","זמני"):"",
-        r.missing.map(k=>H().trUI(L[k])).join("; ")]);
+        r.overrideInvalid?ovT("corrupt"):r.overridden?ovT("teacher"):r.status===window.HMDATA.GRADE_FINAL?tt("gr.stFinal","סופי"):r.status===window.HMDATA.GRADE_PROV?tt("gr.prov","זמני"):"",
+        r.missing.map(k=>H().trUI(L[k])).join("; "),
+        (r.overridden?r.calculatedValue:r.value)??null,(r.overridden?r.calculatedValue:r.value)==null?"":(r.overridden?r.calculatedComplete:r.complete)?tt("gr.stFinal","סופי"):tt("gr.prov","זמני"),r.overridden?g.finalOverride.note:"",s.id,grPeriod]);
     });
-    H().dlCSV(tt("csv.grades","ציונים")+"_"+H().trUI(grPeriod)+".csv",rows);
+    if(type==="xlsx"){
+      try{
+        rows[0]=rows[0].map(H().trUI);
+        const excelRows=rows.map((row,i)=>i?row.map((v,j)=>[3+examCols.length,8+examCols.length].includes(j)?(v===""?null:Number(v)):v):row);
+        const bytes=window.HMXlsx.workbook([{name:"Grades",rows:excelRows}],{rtl:["he","ar"].includes(window.I18N.lang())});
+        const a=document.createElement("a"),url=URL.createObjectURL(new Blob([bytes],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
+        a.href=url;a.download="PE-Ultimate-grades.xlsx";a.click();setTimeout(()=>URL.revokeObjectURL(url),4000);
+      }catch(e){H().toast(H().t("ar.exportFailed","הייצוא נכשל. הנתונים לא השתנו; נסה שוב."));}
+    }else H().dlCSV(tt("csv.grades","ציונים")+"_"+H().trUI(grPeriod)+".csv",rows.map(row=>row.map(v=>typeof v==="string"&&/^[\s]*[=+@-]/.test(v)?"'"+v:v)));
   }
 
   /* ============================================================
