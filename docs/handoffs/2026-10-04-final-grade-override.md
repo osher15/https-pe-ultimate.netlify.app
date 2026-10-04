@@ -12,6 +12,7 @@ Weighted component-grade inputs and period selection already exist. gradeResult 
 - Existing full backup and native mirror carry nested grade decisions. Five languages and narrow-phone layout; reuse existing field styles and XLSX writer. No native/builder/restore-rollback implementation changed.
 
 ## Validation
+- CI follow-up: run 153 exposed an existing archiveNorm test comparing independent wall-clock timestamps. tests/unit/corrective.test.js now compares full archive content and separately validates both timestamps; no norm/product behavior changed.
 - npm test: 601/601 including four new gradeResult tests (provisional basis/immutability, legitimate zero/reset, malformed restored decisions, changed component basis).
 - Registered new browser suite: 9/9. Covers save/reload, component/history/other-pupil/period preservation, hub consistency, reset, invalid/empty values, dirty Escape/Back cancellation, actual localStorage quota failure, stale grade/class/ID/period/weights, corrupt restored state, actual Excel/CSV downloads, full backup restore and simulated iOS native mirror, five languages/390px.
 - Existing attendance-grade suite 7/7, audit29 12/12 and period-report/Excel suite 8/8 passed in related runs. CSV regression initially found an incompatible number-vs-formatted-string change; restored the original CSV format while keeping XLSX cells numeric, then reran audit29 (12/12) and new suite (9/9) successfully.
