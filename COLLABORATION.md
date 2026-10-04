@@ -15,6 +15,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Personal progress print | Codex | hm-assessment-student-report.js; report entry only; sp.* translations; focused tests/registration/outputs |
 | Excel template and paste preview | Codex | hm-assessment-paste.js; grid paste/template controls only; ap.* keys; focused tests/registration/outputs |
 | Dated assessment grid | Codex | hm-assessment-grid.js; report entry only; ag.* translations; registration, focused tests and outputs |
+| Field-to-PC acceptance | Codex | tests/e2e/fieldjourney.e2e.js and runner; current delivery map and field pilot docs. No product/native/builder changes. |
 | Backup rollback review | Codex reviewing Claude proposal | hm-backup-restore.js; hm-app.js restore/preview only; br.* translations; focused tests and outputs. Supersedes pending bkApply rollback hunk only; builder/native/privacy hunks remain Claude-owned. |
 | Pending October 1 improvements | Claude authored, Codex review | ccr-4ae97033-rci9j0; do not duplicate or overwrite |
 | Timing/equipment completion | Claude next | hm-lesson.js, hm-build.js, hm-know.js; reserve shared helper/translation sections first |
