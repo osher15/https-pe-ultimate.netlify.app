@@ -17,6 +17,7 @@ Base/prerequisite: PR #28 head 8f6469d; stacked after #25 -> #26 -> #27. Owner c
 - New browser cases cover required reason, save/reload, measured history/manual-grade preservation, removal restoring score, duplicate names with IDs, multi-pupil drafts, explicit test/exemption removal, actual localStorage quota failure, stale configuration, moved pupil/duplicated IDs, orphan preservation/removal, discard cancellation, direct report-to-editor entry, actual backup restore and XLSX/CSV downloads, simultaneous initial requirements/exemption setup, five languages and navigation not creating edits.
 - Independent openpyxl/zipfile/csv check opened actual browser downloads: selected pupil only, literal '=Medical reason' string in XLSX, CSV formula protection, blank best/score for exempt test and original measured value 35 in History. Automated file validation is not physical Excel/device acceptance.
 - Desktop and Hebrew phone screenshots inspected in a separate visual check (1/1). Repeated build hashes and git diff --check verified before publication.
+- GitHub generated app outputs matched the final local tree byte-for-byte; the branch-only build helper was removed before opening the PR. No workflow permission changes remain.
 - Prior PR #28 exact-head Tests run 144 and native builds run 12 completed successfully. Current PR exact-head CI is recorded in the PR/Issue; prior CI is not current-feature device evidence.
 
 ## Next / limits
