@@ -1,0 +1,30 @@
+name: Codex backup restore review candidate build
+on:
+  push:
+    branches: ["codex/backup-restore-review-2026-10-04"]
+permissions:
+  contents: write
+jobs:
+  build:
+    if: github.ref == 'refs/heads/codex/backup-restore-review-2026-10-04'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate and generate branch outputs
+        run: |
+          npm test
+          node build-standalone.js
+          git fetch origin codex/backup-restore-review-2026-10-04
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/codex/backup-restore-review-2026-10-04)"
+          git add -- Hamegrash.html index.html sw.js
+          if ! git diff --cached --quiet; then
+            git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "build: synchronize backup restore review outputs"
+            git push origin HEAD:codex/backup-restore-review-2026-10-04
+          fi
+      - name: Check deterministic output
+        run: |
+          node build-standalone.js
+          git diff --exit-code -- Hamegrash.html index.html sw.js

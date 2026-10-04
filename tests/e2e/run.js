@@ -1,6 +1,7 @@
 "use strict";
 const {run}=require("./harness.js");
 const suites=[
+  require("./backuprestore.e2e.js"),
   require("./assessmentexemptions.e2e.js"),
   require("./finaloverride.e2e.js"),
   require("./assessmentgrid.e2e.js"),

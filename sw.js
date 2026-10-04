@@ -11,7 +11,7 @@
    יוצרת מטמון חדש והישן נמחק — במקום שגרסה ישנה תישאר תקועה על
    מכשיר בלי שאיש יידע.
    ============================================================ */
-const CACHE_VERSION = "0d66356e";
+const CACHE_VERSION = "41dcb49b";
 const CACHE = "peultimate-" + CACHE_VERSION;
 
 const SHELL = [
@@ -34,12 +34,13 @@ const SHELL = [
   "./fonts/share-tech-mono-latin-400-normal.woff2",
   "./hm-brand.js?v=4f30e0e9",
   "./hm-native.js?v=6c53d8bd",
+  "./hm-backup-restore.js?v=f1a05be7",
   "./hm-data.js?v=f0d63b4b",
   "./hm-assessment-data.js?v=016c9c1c",
   "./hm-terms.js?v=b2ee46d0",
   "./hm-texts.js?v=07c4963b",
-  "./hm-i18n.js?v=b73c80aa",
-  "./hm-app.js?v=2ecf64a4",
+  "./hm-i18n.js?v=23d4962d",
+  "./hm-app.js?v=f883aca4",
   "./hm-qr.js?v=82eb96ad",
   "./hm-howto.js?v=cc1c5bf0",
   "./hm-know.js?v=72244783",

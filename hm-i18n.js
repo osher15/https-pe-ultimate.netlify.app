@@ -38,6 +38,10 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   "sp.open":"Printable pupil report",
+  "br.invalid":"Invalid backup file.",
+  "br.reverted":"Restore failed. Previous data was restored and verified. You can retry.",
+  "br.incomplete":"Restore failed and a complete rollback could not be verified. Save the recovery copy before closing this window.",
+  "br.recovery":"Save previous-data recovery copy (without videos)",
   "sp.title":"Personal progress report",
   "sp.choose":"Choose a pupil for the report",
   "sp.preview":"Preview",
@@ -766,6 +770,10 @@ en:{
 
 ar:{
   "sp.open":"تقرير طالب للطباعة",
+  "br.invalid":"ملف النسخة الاحتياطية غير صالح.",
+  "br.reverted":"فشلت الاستعادة. تمت إعادة البيانات السابقة والتحقق منها. يمكنك المحاولة مجدداً.",
+  "br.incomplete":"فشلت الاستعادة وتعذر التحقق من الإرجاع الكامل. احفظ نسخة الإنقاذ قبل إغلاق النافذة.",
+  "br.recovery":"احفظ نسخة إنقاذ البيانات السابقة (دون فيديوهات)",
   "sp.title":"تقرير التقدم الفردي",
   "sp.choose":"اختر طالباً للتقرير",
   "sp.preview":"معاينة",
@@ -1498,6 +1506,10 @@ ar:{
 
 ru:{
   "sp.open":"Отчёт ученика для печати",
+  "br.invalid":"Некорректный файл резервной копии.",
+  "br.reverted":"Восстановление не удалось. Прежние данные возвращены и проверены. Можно повторить попытку.",
+  "br.incomplete":"Восстановление не удалось; полный откат не подтверждён. Сохраните спасательную копию до закрытия окна.",
+  "br.recovery":"Сохранить прежние данные (без видео)",
   "sp.title":"Индивидуальный отчёт о прогрессе",
   "sp.choose":"Выберите ученика для отчёта",
   "sp.preview":"Предварительный просмотр",
@@ -2223,6 +2235,10 @@ ru:{
 
 es:{
   "sp.open":"Informe del alumno para imprimir",
+  "br.invalid":"Archivo de copia no válido.",
+  "br.reverted":"La restauración falló. Los datos anteriores se recuperaron y verificaron. Puedes reintentar.",
+  "br.incomplete":"La restauración falló y no se pudo verificar una recuperación completa. Guarda la copia de rescate antes de cerrar esta ventana.",
+  "br.recovery":"Guardar copia de rescate anterior (sin vídeos)",
   "sp.title":"Informe de progreso personal",
   "sp.choose":"Elige un alumno para el informe",
   "sp.preview":"Vista previa",
