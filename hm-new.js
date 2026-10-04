@@ -221,6 +221,7 @@ window.STU=(function(){
         <span class="catpill" style="background:${zoneColor(lt.zone)}">${esc(lt.zone||"")}</span>
         ${tr?`<span class="pill" style="color:${tr>0?"#8fd96b":"#ff6b81"}">${tr>0?"▲ מגמת שיפור":"▼ מגמת ירידה"}</span>`:""}
       </div>`:""}
+      <button class="btn sm ghost" data-assessment-report data-sid="${esc(s.id)}" data-i18n="ar.title">דוח הערכה לפי תקופה</button>
       ${missingSection(s)}
       ${fitSection(s)}
       <h4 class="stu-sec" data-i18n="stu.beepTitle">🫁 ביפ טסט — סבולת לב-ריאה (VO₂max)</h4>

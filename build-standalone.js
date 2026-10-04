@@ -105,7 +105,7 @@ const css=R("hm-styles.css");
   if(problems.length)throw new Error("index.html לא תקין:\n  · "+problems.join("\n  · "));
 })();
 /* חייב להישאר זהה לסדר תגי ה-script ב-index.html */
-const SCRIPTS=["hm-brand.js","hm-native.js","hm-data.js","hm-assessment-data.js","hm-terms.js","hm-texts.js","hm-i18n.js","hm-app.js","hm-qr.js","hm-howto.js","hm-know.js","hm-tools.js","hm-plans.js","hm-lesson.js","hm-build.js","hm-tests.js","hm-new.js","hm-assessment.js","hm-live.js","hm-hub.js"];
+const SCRIPTS=["hm-brand.js","hm-native.js","hm-data.js","hm-assessment-data.js","hm-terms.js","hm-texts.js","hm-i18n.js","hm-app.js","hm-qr.js","hm-howto.js","hm-know.js","hm-tools.js","hm-plans.js","hm-lesson.js","hm-build.js","hm-tests.js","hm-new.js","hm-assessment.js","hm-xlsx.js","hm-assessment-report.js","hm-live.js","hm-hub.js"];
 /* בדיקת שפיות: כל סקריפט שמופיע ב-index.html חייב להיכלל גם כאן */
 const inHtml=[...html.matchAll(/<script src="(hm-[\w-]+\.js)(?:\?v=[0-9a-f]+)?"><\/script>/g)].map(m=>m[1]);
 const missing=inHtml.filter(f=>!SCRIPTS.includes(f));
