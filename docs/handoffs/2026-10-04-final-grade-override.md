@@ -17,6 +17,7 @@ Weighted component-grade inputs and period selection already exist. gradeResult 
 - Existing attendance-grade suite 7/7, audit29 12/12 and period-report/Excel suite 8/8 passed in related runs. CSV regression initially found an incompatible number-vs-formatted-string change; restored the original CSV format while keeping XLSX cells numeric, then reran audit29 (12/12) and new suite (9/9) successfully.
 - Final styling checks: 3 selected new cases plus a screenshot check 4/4. Additional desktop/phone Back-cancellation visual check 1/1; screenshots inspected. Desktop/phone simulation is not device acceptance.
 - Independently opened actual /tmp/pe-final-grade.xlsx and CSV with openpyxl/zipfile/csv: numeric final 86 and calculated 62; missing pupil blank; '=Teacher note' literal string in XLSX and protected in CSV; stable ID/period and real-class export isolation; ZIP valid.
+- GitHub generated outputs matched the final local tree byte-for-byte. Branch-only build helper removed before PR creation; no workflow permission changes remain.
 - node build-standalone.js repeated: Hamegrash.html/index.html/sw.js hashes identical; git diff --check passed. Exact-head full GitHub CI recorded in PR/Issue. Prior #29 Tests run 149 and Native builds run 13 passed; these are prior-feature evidence.
 
 ## Next / limits
