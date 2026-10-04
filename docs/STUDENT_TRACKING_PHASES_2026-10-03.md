@@ -56,7 +56,12 @@ See docs/handoffs/2026-10-03-assessment-editor.md for evidence and file reservat
 Show chosen period/date basis, required tests, best/date/history, missing reason and explicit exemptions in pupil and class views. Default quick view; details optional. Show unresolved/invalid-data warnings without identifying records by display name.
 The read-only report opens from class coverage or the pupil profile. Separate real-class policies remain explicit; combined groups do not acquire an invented shared policy. Export both actual offline Excel (.xlsx, Assessment and History sheets) and CSV from the exact visible snapshot. The new assessment CSV protects formula-like text; existing unrelated CSV exports are unchanged. Include basis, raw best/unit/date, measured/missing/exempt status and suggested score separately. Missing/exempt values are blank, not zero. Preserve stable identities and escape spreadsheet formula-like text. Choose each member's real class for combined-class reporting. Automatic grade fill is separate and always preserves manual overrides unless explicitly changed by the teacher.
 
-## Phase 4 — field/Apple validation
+## Phase 4 — teacher period exemptions (implemented in the exemption PR)
+Reuse the existing requirements editor and assessment.policies exemptions with stable pupil/test IDs and a required reason. Pupil report editing carries the class/period/pupil context; a nearby save action avoids scrolling through the entire catalogue. Whole-period exemptions are explicit and distinct from attendance-day exemptions. Multi-pupil drafts, discard/stale-window/quota protection and current class-membership validation preserve data. Saved unavailable-pupil entries remain until explicit removal; removing their required test first is blocked. Reports and Excel/CSV show the reason with blank scores and retained raw history. See docs/handoffs/2026-10-04-assessment-exemptions.md.
+
+Next inspect the existing final-grade/override UI before connecting suggestions through an explicit teacher action; preserve manual overrides and reuse its storage model.
+
+## Phase 5 — field/Apple validation
 Owner reported existing installed Android working on 2026-10-03. This report does not identify the APK commit or prove an upgrade test/new feature build. Apple/iOS physical testing remains open under #13 (Claude packaging, owner Mac/devices). A successful unsigned simulator build is recorded separately.
 Use the existing short pilot checklist: start, attendance, measurement, reload, pupil missing view, grade/export, recovery. Day attendance exemptions and personal pupil export need their own reviewed semantics/access flow; no account/authentication is assumed.
 
