@@ -1901,9 +1901,21 @@ function gradeResult(g,weights,examCols){
   if(bonus)any=true;
   var value=any?Math.round(Math.min(100,total+bonus)*10)/10:null;
   var complete=any&&required>0&&!missing.length;
-  return {value:value,final:complete?value:null,complete:complete,
+  var result={value:value,final:complete?value:null,complete:complete,
     status:!any?GRADE_EMPTY:(complete?GRADE_FINAL:GRADE_PROV),
     missing:missing,examsAvg:examsAvg,bonus:bonus};
+  // A teacher's explicit period decision never changes the component calculation.
+  if(Object.prototype.hasOwnProperty.call(g,"finalOverride")){
+    var o=g.finalOverride;
+    if(o&&typeof o==="object"&&!Array.isArray(o)&&typeof o.value==="number"&&
+       isFinite(o.value)&&o.value>=0&&o.value<=100&&
+       typeof o.note==="string"&&o.note.length<=500){
+      result.calculatedValue=value; result.calculatedComplete=complete;
+      result.calculatedStatus=result.status; result.overridden=true;
+      result.value=o.value; result.final=o.value; result.complete=true; result.status=GRADE_FINAL;
+    }else result.overrideInvalid=true;
+  }
+  return result;
 }
 
 /* ============================================================
