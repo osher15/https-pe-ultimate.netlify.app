@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="0d66356e">
+<meta name="hm-build" content="41dcb49b">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -6933,6 +6933,69 @@ return {
 
 ;
 "use strict";
+// Synchronous storage replacement with a verified, in-memory recovery snapshot.
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory();
+  else window.HMBackupRestore=factory();
+})(function(){
+  const owns=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
+  function replace(be,prefix,skip,data){
+    const included=k=>k.startsWith(prefix)&&!owns(skip,k.slice(prefix.length));
+    function capture(){
+      const out=Object.create(null),length=be.length;
+      for(let i=0;i<length;i++){
+        const key=be.key(i);
+        if(typeof key!=="string")throw new Error("Storage enumeration failed");
+        if(!included(key))continue;
+        const value=be.getItem(key);
+        if(typeof value!=="string"||owns(out,key.slice(prefix.length)))throw new Error("Storage snapshot changed");
+        out[key.slice(prefix.length)]=value;
+      }
+      if(be.length!==length)throw new Error("Storage snapshot changed");
+      return out;
+    }
+    function equal(a,b){return Object.keys(a).length===Object.keys(b).length&&Object.keys(a).every(k=>owns(b,k)&&a[k]===b[k]);}
+    const incoming=Object.create(null);
+    if(!data||typeof data!=="object"||Array.isArray(data))throw new Error("Invalid backup data");
+    for(const key of Object.keys(data)){
+      if(typeof data[key]!=="string")throw new Error("Invalid backup value");
+      if(!owns(skip,key))incoming[key]=data[key];
+    }
+    // Any unreadable current value aborts before the first mutation.
+    const previous=capture();
+    if(!equal(previous,capture()))throw new Error("Storage snapshot changed");
+    const touched=new Set();
+    try{
+      // Write changed values first: a first-write quota error preserves old data.
+      for(const key of Object.keys(incoming))if(previous[key]!==incoming[key]){
+        touched.add(key);be.setItem(prefix+key,incoming[key]);
+        if(be.getItem(prefix+key)!==incoming[key])throw new Error("Storage write verification failed");
+      }
+      for(const key of Object.keys(previous))if(!owns(incoming,key)){
+        touched.add(key);be.removeItem(prefix+key);
+        if(be.getItem(prefix+key)!==null)throw new Error("Storage deletion verification failed");
+      }
+      if(!equal(incoming,capture()))throw new Error("Storage restore verification failed");
+      return {keys:Object.keys(incoming).length,failed:0};
+    }catch(error){
+      // Attempt every affected key, even if the backend rejects another one.
+      for(const key of touched){
+        try{
+          if(owns(previous,key)){
+            if(be.getItem(prefix+key)!==previous[key])be.setItem(prefix+key,previous[key]);
+          }else be.removeItem(prefix+key);
+        }catch(e){}
+      }
+      let rolledBack=false;
+      try{rolledBack=equal(previous,capture());}catch(e){}
+      return {keys:0,failed:1,rolledBack,recovery:previous,error};
+    }
+  }
+  return {replace};
+});
+
+;
+"use strict";
 // Pure assessment calculations and configuration validation. Load after hm-data.js.
 (function(factory){
   if(typeof module==="object"&&module.exports)module.exports=factory(require("./hm-data.js"));
@@ -13020,6 +13083,10 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   "sp.open":"Printable pupil report",
+  "br.invalid":"Invalid backup file.",
+  "br.reverted":"Restore failed. Previous data was restored and verified. You can retry.",
+  "br.incomplete":"Restore failed and a complete rollback could not be verified. Save the recovery copy before closing this window.",
+  "br.recovery":"Save previous-data recovery copy (without videos)",
   "sp.title":"Personal progress report",
   "sp.choose":"Choose a pupil for the report",
   "sp.preview":"Preview",
@@ -13748,6 +13815,10 @@ en:{
 
 ar:{
   "sp.open":"تقرير طالب للطباعة",
+  "br.invalid":"ملف النسخة الاحتياطية غير صالح.",
+  "br.reverted":"فشلت الاستعادة. تمت إعادة البيانات السابقة والتحقق منها. يمكنك المحاولة مجدداً.",
+  "br.incomplete":"فشلت الاستعادة وتعذر التحقق من الإرجاع الكامل. احفظ نسخة الإنقاذ قبل إغلاق النافذة.",
+  "br.recovery":"احفظ نسخة إنقاذ البيانات السابقة (دون فيديوهات)",
   "sp.title":"تقرير التقدم الفردي",
   "sp.choose":"اختر طالباً للتقرير",
   "sp.preview":"معاينة",
@@ -14480,6 +14551,10 @@ ar:{
 
 ru:{
   "sp.open":"Отчёт ученика для печати",
+  "br.invalid":"Некорректный файл резервной копии.",
+  "br.reverted":"Восстановление не удалось. Прежние данные возвращены и проверены. Можно повторить попытку.",
+  "br.incomplete":"Восстановление не удалось; полный откат не подтверждён. Сохраните спасательную копию до закрытия окна.",
+  "br.recovery":"Сохранить прежние данные (без видео)",
   "sp.title":"Индивидуальный отчёт о прогрессе",
   "sp.choose":"Выберите ученика для отчёта",
   "sp.preview":"Предварительный просмотр",
@@ -15205,6 +15280,10 @@ ru:{
 
 es:{
   "sp.open":"Informe del alumno para imprimir",
+  "br.invalid":"Archivo de copia no válido.",
+  "br.reverted":"La restauración falló. Los datos anteriores se recuperaron y verificaron. Puedes reintentar.",
+  "br.incomplete":"La restauración falló y no se pudo verificar una recuperación completa. Guarda la copia de rescate antes de cerrar esta ventana.",
+  "br.recovery":"Guardar copia de rescate anterior (sin vídeos)",
   "sp.title":"Informe de progreso personal",
   "sp.choose":"Elige un alumno para el informe",
   "sp.preview":"Vista previa",
@@ -18396,6 +18475,8 @@ function bkStat(){
     : "אין עדיין נתונים במכשיר.";
 }
 async function bkApply(snap){
+  const validation=DATA.validateBackup(snap);
+  if(!validation.ok||validation.kind!=="backup")throw new Error(t("br.invalid","קובץ הגיבוי אינו תקין."));
   // New assessment configuration is checked before the restore clears any key.
   if(snap.data&&Object.prototype.hasOwnProperty.call(snap.data,"assessment.policies")){
     try{
@@ -18406,15 +18487,11 @@ async function bkApply(snap){
       if(!check.ok||!Array.isArray(periods)||value.policies.some(p=>!periods.includes(p.period)))throw new Error("invalid");
     }catch(e){throw new Error(t("as.corrupt","לא ניתן לקרוא את הדרישות השמורות או שגרסתן אינה נתמכת. שחזר גיבוי תקין לפני עריכה."));}
   }
-  const be=STORE||MEMFALLBACK;
-  /* מוחקים רק את המפתחות שלנו — מפתחות של אתרים אחרים באותו דומיין
-     אינם שלנו למחוק, וגם דגלים שהאפליקציה תכתוב מחדש בעצמה. */
-  try{ bkKeys().forEach(k=>be.removeItem(BK_PREFIX+k)); }catch(e){}
-  let failed=0;
-  Object.keys(snap.data).forEach(k=>{
-    try{ be.setItem(BK_PREFIX+k,snap.data[k]); }
-    catch(e){ failed++; storageTrouble({code:DATA.classifyStorageError(e),error:e},"שחזור",k); }
-  });
+  const result=window.HMBackupRestore.replace(STORE||MEMFALLBACK,BK_PREFIX,BK_SKIP,snap.data);
+  if(result.failed){
+    storageTrouble({code:DATA.classifyStorageError(result.error),error:result.error},"שחזור","");
+    return {...result,media:{added:0,failed:0}};
+  }
   /* השיאים מתווספים ולא מוחקים: רשומה עם אותו מזהה נדרסת, אבל
      סרטון שקיים רק במכשיר ולא בקובץ נשאר במקומו. */
   let media={added:0,failed:0};
@@ -18424,7 +18501,7 @@ async function bkApply(snap){
   /* קובץ ישן נושא סכמה ישנה. ההסבה רצה עכשיו על מה ששוחזר, כדי
      שהמכשיר לא יישאר בגרסה שהאפליקציה כבר לא מכירה. */
   try{ runMigration(); }catch(e){}
-  return {keys:Object.keys(snap.data).length,failed,media};
+  return {...result,media};
 }
 function wireBackup(){
   if(!$("#set-bkExport"))return;
@@ -18744,6 +18821,7 @@ function bkErrMsg(code){
   return BK_ERRMSG[code]||"הקובץ אינו קובץ גיבוי תקין";
 }
 function bkPreview(snap){
+  const recovery=$("#bk-recovery");if(recovery)recovery.remove();
   const inFile=Object.keys(snap.data), here=bkKeys();
   const all=[...new Set(inFile.concat(here))].sort((a,b)=>{
     const ia=BK_LABELS[a]?0:1, ib=BK_LABELS[b]?0:1;
@@ -18780,6 +18858,18 @@ function bkPreview(snap){
     let r;
     try{ r=await bkApply(snap); }
     catch(e){ $("#bk-go").disabled=false; toast("השחזור נכשל: "+e.message); return; }
+    if(r.failed){
+      $("#bk-go").disabled=false;
+      const warning=$("#bk-warn");warning.style.display="block";
+      warning.textContent=r.rolledBack
+        ?t("br.reverted","השחזור נכשל. הנתונים הקודמים הוחזרו ונבדקו. אפשר לנסות שוב.")
+        :t("br.incomplete","השחזור נכשל ולא ניתן לאמת החזרה מלאה. שמור את עותק ההצלה לפני סגירת החלון.");
+      let recovery=$("#bk-recovery");
+      if(!recovery){recovery=document.createElement("button");recovery.id="bk-recovery";recovery.type="button";recovery.className="btn ghost";warning.after(recovery);}
+      recovery.textContent=t("br.recovery","שמור עותק הצלה של הנתונים הקודמים (ללא סרטונים)");
+      recovery.onclick=()=>bkSave(DATA.buildSnapshot({data:r.recovery,school:SET.school||"",schema:DATA.SCHEMA_VERSION}),false);
+      toast(warning.textContent);return;
+    }
     modal("bk-modal",false);
     /* מדווחים בדיוק מה נכנס. «שוחזר» סתמי הוא מה שאפשר למורה
        לחשוב שיש לו סרטונים שאין לו. */
