@@ -64,7 +64,10 @@ Existing weighted component grades remain editable and unchanged. The missing ga
 The class hub counts an explicit teacher decision as a final grade, including zero. Invalid restored decisions are visibly ignored and can be explicitly corrected/removed. Save checks stable identity, fresh roster, class/period, grade weights and columns, and preserves the open draft on storage failure or stale context. Grades Excel and CSV use the same rows, with separate decision/calculation/status/missing/note/ID/period columns. Full backup and the existing native mirror retain the nested decision. See docs/handoffs/2026-10-04-final-grade-override.md.
 No aggregate fitness-test suggestion is invented or automatically copied into weighted grading. A separate, reviewed teacher action would need explicit mapping/averaging rules. Editable component-grade desktop inputs already exist; assessment measurement-grid editing/import remains later work.
 
-## Phase 6 — field/Apple validation
+## Phase 6 — dated desktop measurement grid (implemented in the grid PR)
+Open a class or pupil period report and choose the measurement grid. Select a date within the saved period; enter only new attempts in blank cells. One validated append preserves every old attempt and all component/final grades. Stable pupil IDs distinguish duplicate names; whole-period exempt cells are disabled. Zero repetitions are valid, zero times and fractional counts are rejected. Stale context, damaged outer data or failed storage retain the draft without replacing history. Reports and both Excel/CSV immediately use the updated history. No import, old-attempt replacement, grade mapping or new data store is introduced. See docs/handoffs/2026-10-04-assessment-grid.md.
+
+## Phase 7 — field/Apple validation
 Owner reported existing installed Android working on 2026-10-03. This report does not identify the APK commit or prove an upgrade test/new feature build. Apple/iOS physical testing remains open under #13 (Claude packaging, owner Mac/devices). A successful unsigned simulator build is recorded separately.
 Use the existing short pilot checklist: start, attendance, measurement, reload, pupil missing view, grade/export, recovery. Day attendance exemptions and personal pupil export need their own reviewed semantics/access flow; no account/authentication is assumed.
 
