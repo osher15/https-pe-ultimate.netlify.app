@@ -17,7 +17,7 @@ Date: 2026-10-04. Issue #23. Base/prerequisite: PR #27 head 15c570f, following #
 - Existing editor + pupil missing + class coverage suites: 28/28 on this source. Separate visual capture check: 1/1; desktop and Hebrew 390px screenshots inspected.
 - Independent Python openpyxl 3.1.5 and zipfile opened actual browser-downloaded class/pupil workbooks without ZIP errors. Six class rows / three pupil rows; three class / two pupil history rows. Pupil IDs isolated. Class CSV rows equal XLSX rows, with blanks preserved. Independent sample confirmed Unicode, formula-like literal text, numeric zero, blank missing cells, RTL, frozen header and both sheet relationships. This is automated file-format evidence, not a physical Microsoft Excel/device acceptance claim.
 - node build-standalone.js twice: SHA-256 hashes of Hamegrash.html, index.html and sw.js identical. git diff --check passed.
-- Full exact-head GitHub CI is recorded in PR/Issue after publication. PR #27 prior exact-head test and native runs completed successfully; those results do not prove this new PR's native/device behavior.
+- Generated outputs built on GitHub matched the local source/build tree byte for byte. The temporary branch-scoped build workflow was removed after synchronization. Full exact-head GitHub CI is recorded in PR/Issue after publication. PR #27 prior exact-head test and native runs completed successfully; those results do not prove this new PR's native/device behavior.
 
 ## Integration / next
 Review/merge #25 -> #26 -> #27 -> report PR, retargeting each stacked PR after its prerequisite lands. Owner controls merge/deploy; none performed here. Content imports remain paused.
