@@ -155,7 +155,10 @@ window.ASSESSMENT=(()=>{
       if(exemptions.some(e=>!policy.tests.some(t=>t.id===e.test))){error("exRemovedTest");$("#as-ex-panel").open=true;return;}
       // Existing unavailable entries are retained; new exemptions require current membership.
       const fresh=H().LS.get("stu.list",[]),original=previous?.exemptions||[];
-      if(!Array.isArray(fresh)||exemptions.some(e=>!original.some(old=>old.sid===e.sid&&old.test===e.test)&&fresh.filter(s=>D.studentKey(s)===e.sid&&D.cidOfStudent(s,H().LS)===c.cid).length!==1)){error("conflict");return;}
+      if(!Array.isArray(fresh)||exemptions.some(e=>{
+        const count=fresh.filter(s=>D.studentKey(s)===e.sid&&D.cidOfStudent(s,H().LS)===c.cid).length;
+        return count>1||(!original.some(old=>old.sid===e.sid&&old.test===e.test)&&count!==1);
+      })){error("conflict");return;}
       const next=A.updateEnvelope(value,policy,defs(),H().LS);
       if(!next.ok){error("invalid");return;}
       persist(next.value);

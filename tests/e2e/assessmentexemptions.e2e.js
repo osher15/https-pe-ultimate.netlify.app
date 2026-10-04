@@ -56,6 +56,9 @@ module.exports={title:"Teacher period exemptions",tests:[
  check("new requirements and a reasoned exemption can be saved together without inventing a pupil",{...seed,"assessment.policies":{version:1,policies:[extra]}},async page=>{
   await open(page);eq(await exrow(page).count(),0);await page.locator("#as-from").fill("2026-09-01");await page.locator("#as-to").fill("2026-12-31");await page.locator('.as-test[data-test="push"] .as-required').check();await exempt(page,"Recovery");await page.locator("#as-save").click();eq((await policy(page)).exemptions,[{sid:"a",test:"push",reason:"Recovery"}]);eq((await envelope(page)).policies.find(p=>p.cid===other),extra);
  }),
+ check("existing exemptions cannot be edited when the pupil ID becomes duplicated",withEx([{sid:"a",test:"push",reason:"Original reason"}]),async page=>{
+  await open(page);await exrow(page).locator(".as-ex-reason").fill("New reason");await page.evaluate(()=>{const pupils=window.HM.LS.get("stu.list");pupils[1].id="a";window.HM.LS.set("stu.list",pupils);});await page.locator("#as-save").click();ok((await page.locator("#as-error").innerText()).includes("changed"));eq((await policy(page)).exemptions,[{sid:"a",test:"push",reason:"Original reason"}]);
+ }),
  check("pupil navigation alone is not a dirty edit; five languages fit a narrow phone",seed,async page=>{
   await page.setViewportSize({width:390,height:844});for(const lang of ["en","he","ar","ru","es"]){await page.evaluate(lang=>window.I18N.set(lang),lang);await open(page);ok(await page.locator("#as-ex-panel").isVisible());ok((await page.locator("#as-ex-panel").innerText()).includes("[a]"));ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2));await page.locator("#as-ex-pupil").selectOption("b");await page.locator("#as-close").click();ok(!(await page.locator("#askModal").isVisible()));}
  })
