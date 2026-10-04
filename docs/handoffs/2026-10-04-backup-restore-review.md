@@ -18,7 +18,7 @@ Failed local-data replacement does not import media or run migration. The previe
 - node build-standalone.js; repeat-build SHA-256 comparison and git diff --check passed.
 - Focused browser validation: 47/47 passed (7 new rollback + 10 existing backup/encryption/legacy/media + 7 storage + 14 assessment editor + 9 final override). Actual recovery download was parsed and compared to the pre-restore raw snapshot; the failed preview stayed open without reload, and retry succeeded.
 - Simulated iOS mirror rollback is included; physical Apple testing remains Issue #13. Owner previously reported installed Android works.
-- GitHub generated output comparison and full exact-head CI: pending publication.
+- GitHub branch-generated outputs matched the complete local tree. Temporary branch build helper removed before PR; full exact-head CI pending PR creation. #33 Tests 167 and Native 18 both completed successfully.
 
 ## Limits and handoff
 
