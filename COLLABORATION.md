@@ -12,6 +12,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Assessment period reports + Excel | Codex | hm-assessment-report.js/hm-xlsx.js; pupil/class entry buttons only; ar.* translations; report/export tests and build/script registration |
 | Assessment period exemptions | Codex | hm-assessment.js exemption draft/UI/save validation; hm-assessment-report.js edit entry only; as.ex* / ar.editRequirements translations; exemption tests and generated outputs |
 | Final grade override | Codex | hm-data.js gradeResult; hm-new.js grading final cell/modal/Excel/CSV only; gr.ov* keys; focused tests and generated outputs |
+| Dated assessment grid | Codex | hm-assessment-grid.js; report entry only; ag.* translations; registration, focused tests and outputs |
 | Pending October 1 improvements | Claude authored, Codex review | ccr-4ae97033-rci9j0; do not duplicate or overwrite |
 | Timing/equipment completion | Claude next | hm-lesson.js, hm-build.js, hm-know.js; reserve shared helper/translation sections first |
 | Native packaging | Claude | native/, native workflow/docs; check current reservations first |

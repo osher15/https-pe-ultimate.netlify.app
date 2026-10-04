@@ -3,6 +3,7 @@ const {run}=require("./harness.js");
 const suites=[
   require("./assessmentexemptions.e2e.js"),
   require("./finaloverride.e2e.js"),
+  require("./assessmentgrid.e2e.js"),
   require("./assessmentreport.e2e.js"),
   require("./assessmenteditor.e2e.js"),
   require("./persistenceharness.e2e.js"),
