@@ -71,12 +71,25 @@ test("2.4 הממצא מהביקורת: מעגל אירובי עם דילוגי �
   assert.deepEqual(D.variantEquipConflicts(circuit,["חבל"]),["חבל"]);
 });
 
-test("2.5 כיסוי: לכל וריאציה בקבוצת הכושר יש זמנים; לענפי כדור יש ציוד נדרש",()=>{
-  ["aerobic","strength","core","speed","flex"].forEach(id=>
-    variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok(v.t,id+": חסר t ב-"+v.n)));
+test("2.5 כיסוי: לכל 108 הוריאציות יש זמנים; r (אם יש) תקין; לענפי כדור יש ציוד נדרש",()=>{
+  assert.equal(variants.length,108);
+  variants.forEach(({topic,v})=>{
+    assert.ok(v.t,topic+": חסר t ב-"+v.n);
+    if(v.r){
+      assert.equal(v.r.length,v.d.length,v.n+": r באורך d");
+      v.r.forEach((x,i)=>{ assert.ok(x[0]>=1&&x[1]>=x[0],v.n+": טווח תקין בשלב "+i); assert.ok(v.t[i]>=x[0]&&v.t[i]<=x[1],v.n+": t בתוך r בשלב "+i); });
+    }
+  });
   const BALL={basket:"כדור סל",volley:"כדור עף",handball:"כדור יד",soccer:"כדור רגל"};
   Object.keys(BALL).forEach(id=>
-    variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes(BALL[id]),id+": חסר "+BALL[id]+" ב-"+v.n)));
+    variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes(BALL[id]),id+": חסר need ב-"+v.n)));
+});
+
+test("2.6 טווח זמן: ברוב הוריאציות הזמן הרגיל של שיעור (מ-18 עד 32 דק׳ לבלוק) נמצא בטווח היעיל",()=>{
+  [18,25,32].forEach(a=>{
+    const bad=variants.filter(({v})=>D.variantFit(v,a).status!=="exact");
+    assert.ok(bad.length<=variants.length*0.15,a+" דק׳: יותר מדי וריאציות מחוץ לטווח ("+bad.length+"): "+bad.slice(0,5).map(x=>x.v.n).join(" | "));
+  });
 });
 
 test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או» היא חלופה כמו «/»",()=>{

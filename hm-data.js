@@ -602,6 +602,7 @@ var TIME_PACE={fast:0.85,normal:1,slow:1.25};
 var TIME_TRANS={quick:0.5,normal:1,slow:1.5};
 var DEMO_RX=/הדגמ|הסבר|היכרות|מיפוי|הצגת|תדרוך/;
 var REST_RX=/תחנ|מעגל|טבט|טאבט|אינטרוו|סבב/;
+var REPEAT_RX=/סבב|תחנ|סטים|חזרות|טבט|טאבט/;   /* שלב שאפשר להוסיף לו סבבים — לכן הטווח שלו נמתח יותר */
 function timeOpts(o){
   o=o||{};
   return {pace:TIME_PACE[o.pace]?o.pace:"normal", trans:TIME_TRANS[o.trans]?o.trans:"normal", water:o.water!==false};
@@ -613,7 +614,8 @@ function stepRanges(v){
   var typ=[], lo=[], hi=[];
   t.forEach(function(x,i){
     var m=Math.max(1,Math.round(+x||0)), demo=DEMO_RX.test(String(d[i]||""));
-    var l=Math.max(1,Math.round(m*(demo?0.6:0.7))), h=Math.max(m+1,Math.round(m*(demo?1.6:(rest?1.8:1.7))));
+    var rep=!demo&&REPEAT_RX.test(String(d[i]||""));
+    var l=Math.max(1,Math.round(m*(demo?0.6:0.7))), h=Math.max(m+1,Math.round(m*(demo?1.6:(rep?2.2:(rest?1.8:1.7)))));
     var o=r[i];
     if(Array.isArray(o)&&o.length===2&&+o[0]>=1&&+o[1]>=+o[0]){ l=Math.round(+o[0]); h=Math.round(+o[1]); }
     typ.push(Math.min(Math.max(m,l),h)); lo.push(l); hi.push(h);
