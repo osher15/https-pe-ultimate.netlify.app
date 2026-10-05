@@ -8,19 +8,17 @@ Branch: `codex/lessonbank-validation-2026-10-05`.
 
 Added only `tests/unit/lessonbank.test.js` and this handoff. No product, content, native, translation, build or runner changes. Implements step 2 of `docs/LESSON_BANK_INTEGRATION_PLAN.md` using Node's built-in VM and test runner, with no dependencies. The existing unit-test glob discovers the new file automatically.
 
-The validator loads the bank header and every sport file. For each populated sport it requires all five languages, exactly ten records numbered 1–10, all required text/list fields and six sections. It checks positive numeric duration strings, Hebrew-letter contamination in other languages, and explicit section budgets against lesson duration with zero tolerance. Budgets are read from leading headings/labels only; ambiguous/range/unrecognized budgets are reported, not inferred from drill instructions. Additional checks cover missing fields, invalid metadata dates/statuses, multilingual headings, decimal minutes and ranges.
+The validator loads the bank header and every sport file. For each populated sport it requires all five languages, exactly ten records numbered 1–10, all required text/list fields and six sections. It checks positive numeric duration strings, Hebrew-letter contamination in other languages, and explicit section budgets against lesson duration with zero tolerance. Budgets are read from leading headings/labels only; ambiguous/range/unrecognized budgets are reported, not inferred from drill instructions. Additional checks cover missing fields, invalid review statuses, multilingual headings, decimal minutes and ranges.
 
-Future per-record provenance convention used by the test:
+## Owner clarification: original authorship
 
-```js
-source: { pageId: '<32 hexadecimal digits or UUID>', revisionDate: 'YYYY-MM-DD or ISO timestamp' },
-contentVersion: '<nonempty version>',
-reviewStatus: 'imported' // or teacher-reviewed / native-reviewed after actual review
-```
+The owner clarified that these are original project-authored plans developed from research, ideas and insights, not imported copies of external lesson plans. Codex's earlier requirement for an external source or individual Notion page/revision for each plan was incorrect and has been removed. It is not an acceptance blocker. This supersedes the earlier issue comments' per-record source requirement and the source gate proposed in the integration plan.
 
-This is a proposed concrete field shape for Claude's step 3; no content metadata has been invented or inserted. A global source/review declaration does not substitute for individual page/revision provenance.
+Research references may be documented separately when actually known; no references or authorship evidence are fabricated here. Notion is a working-content location, not evidence that a plan was copied from an outside source. This correction does not certify pedagogical quality or native-language review.
 
-When none of the three record metadata fields has landed, the provenance test is explicitly skipped with the missing count. Once any record supplies one of them, the test enforces coverage across all records automatically. To enforce the acceptance requirement immediately, run `LESSONBANK_REQUIRE_PROVENANCE=1 node --test tests/unit/lessonbank.test.js`; it currently fails as expected. A green default run therefore does **not** certify import provenance or release readiness.
+The optional editorial metadata check now requires only a nonempty contentVersion and a reviewStatus of draft, imported, teacher-reviewed or native-reviewed. An original plan may honestly remain draft until human review. If no record has either field, the metadata test is explicitly skipped; once any record has one, coverage is enforced automatically. LESSONBANK_REQUIRE_REVIEW_METADATA=1 is an opt-in editorial readiness check, not a mandatory external-source check.
+
+The results below are from the initial validator revision. The source requirement was subsequently corrected; the execution server disconnected during correction, so the changed tests could not be rerun in this turn. Product code remains unchanged.
 
 ## Verified results
 
@@ -28,7 +26,7 @@ When none of the three record metadata fields has landed, the provenance test is
 |---|---|
 | `npm test` | 666 total: 665 passed, 0 failed, 1 explicit provenance skip |
 | `node --test tests/unit/lessonbank.test.js` | 16 total: 15 passed, 1 provenance skip |
-| Strict provenance command above | Expected exit 1: 100/100 records lack per-record metadata |
+| Historical strict source command (removed) | Historical exit 1; no longer an external-source acceptance blocker |
 | Existing lesson-bank browser suite | 5/5 passed |
 | Existing manual-builder #19 browser suite | 7/7 passed |
 | `node build-standalone.js` twice | Successful; no diff in Hamegrash.html, index.html or sw.js |
@@ -45,7 +43,7 @@ Data coverage: basketball and football, 20 lesson families, 100 language records
 
 ## Remaining Claude-owned work / review findings
 
-1. Add real page ID, revision date, content version and review status to each language record. The present global `draft` banner is honest, but step 3's per-record source trail is missing.
+1. Editorial tracking enhancement: add content version and honest review status per record when useful. No individual external source link or Notion page/revision is required for these original plans. The global draft banner already communicates that human review remains pending.
 2. Load the remaining four sports through the deterministic import process described in the integration plan. No records were reconstructed or translated in this review.
 3. Implement the later planner acceptance flow if approved: the current bank UI only opens and prints records. It has no bank-to-editable-copy, assignment or live-lesson action. Existing archive/manual flows must stay intact.
 4. Review loading cost before full expansion. Current sport sources total 1,024,103 bytes; the generated standalone file is 5,369,861 bytes. Both sport scripts are included in build and service-worker resources; lazy sport loading is not implemented. Service-worker resource presence was inspected, but a fresh-cache disconnected bank acceptance test was not run.

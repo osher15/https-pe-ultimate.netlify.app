@@ -66,25 +66,12 @@ function sectionMinutes(text) {
   return null;
 }
 
-function provenanceErrors(lesson) {
+// Original project-authored plans do not require an external source per record.
+// This checks editorial metadata, not authorship or research citations.
+function reviewMetadataErrors(lesson) {
   const errors = [];
-  if (!lesson.source || typeof lesson.source !== 'object' || Array.isArray(lesson.source)) {
-    errors.push('source');
-  } else {
-    if (!/^[a-f\d]{32}$/i.test(String(lesson.source.pageId || '').replace(/-/g, ''))) {
-      errors.push('source.pageId');
-    }
-    const revision = lesson.source.revisionDate || '';
-    const day = revision.slice(0, 10);
-    const dayTime = Date.parse(day + 'T00:00:00Z');
-    if (!/^\d{4}-\d{2}-\d{2}(?:T.*)?$/.test(revision) ||
-        !Number.isFinite(Date.parse(revision)) || !Number.isFinite(dayTime) ||
-        new Date(dayTime).toISOString().slice(0, 10) !== day) {
-      errors.push('source.revisionDate');
-    }
-  }
   if (!nonempty(lesson.contentVersion)) errors.push('contentVersion');
-  if (!['imported', 'teacher-reviewed', 'native-reviewed'].includes(lesson.reviewStatus)) {
+  if (!['imported', 'draft', 'teacher-reviewed', 'native-reviewed'].includes(lesson.reviewStatus)) {
     errors.push('reviewStatus');
   }
   return errors;
@@ -144,32 +131,32 @@ test('explicit section budgets equal lesson duration (zero-minute tolerance)', t
   assert.deepEqual(mismatches, []);
 });
 
-const provenanceMissing = records.filter(({ row }) => provenanceErrors(row).length);
+const reviewMetadataMissing = records.filter(({ row }) => reviewMetadataErrors(row).length);
 // Step 3 belongs to Claude. Until its metadata lands, expose the gap as a skip.
-// CI/release review can enforce it immediately with LESSONBANK_REQUIRE_PROVENANCE=1.
+// CI/release review can enforce it immediately with LESSONBANK_REQUIRE_REVIEW_METADATA=1.
 const metadataStarted = records.some(({ row }) =>
-  ['source', 'contentVersion', 'reviewStatus'].some(field => Object.hasOwn(row, field)));
-test('every language record has page/revision/version/review provenance', {
-  skip: !metadataStarted && process.env.LESSONBANK_REQUIRE_PROVENANCE !== '1'
-    ? `Step 3 pending: ${provenanceMissing.length}/${records.length} records lack per-record provenance` : false
+  ['contentVersion', 'reviewStatus'].some(field => Object.hasOwn(row, field)));
+test('every language record has editorial version and review status', {
+  skip: !metadataStarted && process.env.LESSONBANK_REQUIRE_REVIEW_METADATA !== '1'
+    ? `Step 3 pending: ${reviewMetadataMissing.length}/${records.length} records lack per-record editorial metadata` : false
 }, () => {
   const errors = records.flatMap(({ sport, lang, row }) =>
-    provenanceErrors(row).map(field => `${sport}/${lang}/${row.n}:${field}`));
+    reviewMetadataErrors(row).map(field => `${sport}/${lang}/${row.n}:${field}`));
   assert.deepEqual(errors, []);
 });
 
-test('validator rejects incomplete records and unverified provenance', () => {
+test('validator rejects incomplete records and invalid editorial metadata', () => {
   const valid = structuredClone(records[0].row);
   assert.deepEqual(schemaErrors(valid), []);
   delete valid.sections.closing;
   valid.objectives = [''];
   valid.duration = '45 minutes';
   assert.deepEqual(schemaErrors(valid), ['objectives', 'sections.closing', 'duration.numericMinutes']);
-  assert.deepEqual(provenanceErrors({ reviewStatus: 'draft' }), ['source', 'contentVersion', 'reviewStatus']);
-  assert.deepEqual(provenanceErrors({ source: { pageId: 'a'.repeat(32), revisionDate: '2026-09-28' },
-    contentVersion: 'V2', reviewStatus: 'imported' }), []);
-  assert.deepEqual(provenanceErrors({ source: { pageId: 'a'.repeat(32), revisionDate: '2026-02-30' },
-    contentVersion: 'V2', reviewStatus: 'imported' }), ['source.revisionDate']);
+  assert.deepEqual(reviewMetadataErrors({ reviewStatus: 'draft' }), ['contentVersion']);
+  assert.deepEqual(reviewMetadataErrors({ contentVersion: 'V2', reviewStatus: 'draft' }), []);
+  assert.deepEqual(reviewMetadataErrors({ contentVersion: 'V2', reviewStatus: 'teacher-reviewed' }), []);
+  assert.deepEqual(reviewMetadataErrors({ contentVersion: 'V2', reviewStatus: 'unknown' }), ['reviewStatus']);
+
 });
 
 test('budget parsing recognizes five languages without guessing ranges or drill repeats', () => {
