@@ -915,6 +915,20 @@ const srcById=id=>SOURCES.find(s=>s.id===id);
 /* ---------- GAMES view ---------- */
 window.GAMES=(function(){
   let inited=false, cat="all", q="";
+  /* העדפות המורה: מועדפים, תצוגה קומפקטית ומסננים ידניים. הכול מקומי, ושום דבר לא נבחר אוטומטית. */
+  const LSK={fav:"gm.fav",compact:"gm.compact",flt:"gm.flt"};
+  const getFav=()=>{ const v=H().LS.get(LSK.fav,[]); return Array.isArray(v)?v.filter(x=>typeof x==="string"):[]; };
+  const isFav=id=>getFav().indexOf(id)>=0;
+  function toggleFav(id){
+    const f=getFav(), i=f.indexOf(id);
+    if(i>=0)f.splice(i,1); else f.push(id);
+    H().LS.set(LSK.fav,f); return i<0;
+  }
+  const isCompact=()=>H().LS.get(LSK.compact,false)===true;
+  const getFlt=()=>{ const v=H().LS.get(LSK.flt,null)||{};
+    return {age:v.age==="mid"||v.age==="high"?v.age:"",tmax:[10,15,20,30].indexOf(+v.tmax)>=0?+v.tmax:0,n:+v.n>0?Math.min(99,Math.round(+v.n)):0,noeq:v.noeq===true}; };
+  const metaCache={};
+  const metaOf=g=>metaCache[g.id]||(metaCache[g.id]=window.HMDATA.parseGameMeta(g));
   /* החיפוש רץ על הטקסט שבשפת הממשק (מה שהמורה רואה) וגם על הנוסח
      העברי — כך «Capture» מוצא את «Capture the flag» ו«דגל» עדיין עובד.
      הטקסט המתורגם נבנה פעם אחת לכל שפה ולכל משחק. */
@@ -928,24 +942,35 @@ window.GAMES=(function(){
     return (c[g.id]=window.HMDATA.foldSearch(parts.join(" ")+" "+parts.map(tr).join(" ")));
   }
   function list(){
-    return GAMES.filter(g=>(cat==="all"||g.cat===cat)&&window.HMDATA.searchMatch(hay(g),q));
+    const f=getFlt(), fav=getFav();
+    return GAMES.filter(g=>(cat==="all"||(cat==="fav"?fav.indexOf(g.id)>=0:g.cat===cat))&&window.HMDATA.searchMatch(hay(g),q)&&window.HMDATA.gameMatches(metaOf(g),f));
   }
   function render(){
     const {$, $$, esc}=H();
+    const favN=getFav().filter(id=>GAMES.some(g=>g.id===id)).length;
     $("#gm-cats").innerHTML=GCATS.map(([id,nm,em])=>{
       const n=id==="all"?GAMES.length:GAMES.filter(g=>g.cat===id).length;
-      return `<button data-gc="${id}" class="${id===cat?"on":""}">${em} ${nm} <span class="cnt">${n}</span></button>`;
+      return `<button data-gc="${id}" class="${id===cat?"on":""}">${em} ${nm} <span class="cnt">${n}</span></button>`
+        +(id==="all"?`<button data-gc="fav" class="${cat==="fav"?"on":""}">⭐ ${esc(H().t("gm.favs","מועדפים"))} <span class="cnt">${favN}</span></button>`:"");
     }).join("");
     $$("#gm-cats [data-gc]").forEach(b=>b.addEventListener("click",()=>{ cat=b.dataset.gc; render(); }));
-    const items=list();
-    $("#gm-count").textContent=items.length+" משחקים";
+    const items=list(), cmp=isCompact(), fav=getFav();
+    const f=getFlt(), filtered=!!(f.age||f.tmax||f.n||f.noeq);
+    $("#gm-count").textContent=items.length+" "+H().t("gm.countWord","משחקים")+(filtered?" · "+H().t("gm.filtered","מסונן"):"");
+    const cb=$("#gm-compact"); if(cb){ cb.setAttribute("aria-pressed",cmp?"true":"false"); cb.classList.toggle("acc",cmp); }
+    $("#gm-grid").classList.toggle("compact",cmp);
     $("#gm-grid").innerHTML=items.map(g=>`<div class="gm-card" data-g="${g.id}">
+      <button type="button" class="gm-fav${fav.indexOf(g.id)>=0?" on":""}" data-fav="${g.id}" aria-pressed="${fav.indexOf(g.id)>=0}" aria-label="${esc(H().t("gm.favToggle","מועדף"))}">${fav.indexOf(g.id)>=0?"★":"☆"}</button>
       <div class="hd"><span class="em">${g.em}</span><div><b>${esc(g.name)}</b>
         <span class="tag">${esc(catName(g.cat))}</span></div></div>
-      <div class="gl">${esc(g.goal)}</div>
-      <div class="meta"><span>👥 ${esc(g.who)}</span><span>📍 ${esc(g.space)}</span><span>⏱ ${esc(g.time)}</span></div>
-    </div>`).join("")||'<div class="empty-state"><div class="big">🔍</div>אין משחק שמתאים לסינון.</div>';
-    $$("#gm-grid .gm-card").forEach(c=>c.addEventListener("click",()=>open(c.dataset.g)));
+      ${cmp?`<div class="sf">⚠ ${esc(g.safe)}</div>`:`<div class="gl">${esc(g.goal)}</div>`}
+      <div class="meta"><span>👥 ${esc(g.who)}</span>${cmp?"":`<span>📍 ${esc(g.space)}</span>`}<span>⏱ ${esc(g.time)}</span></div>
+    </div>`).join("")||'<div class="empty-state"><div class="big">🔍</div>'+(cat==="fav"&&!filtered&&!q.trim()?esc(H().t("gm.noFavs","עוד אין מועדפים — לחצו על ☆ בכרטיס משחק.")):"אין משחק שמתאים לסינון.")+'</div>';
+    $$("#gm-grid .gm-card").forEach(c=>c.addEventListener("click",e=>{
+      const fb=e.target.closest("[data-fav]");
+      if(fb){ e.stopPropagation(); toggleFav(fb.dataset.fav); render(); return; }
+      open(c.dataset.g);
+    }));
   }
   function open(id){
     const {$, esc}=H(), g=GAMES.find(x=>x.id===id); if(!g)return;
@@ -959,15 +984,20 @@ window.GAMES=(function(){
         <span class="pill">🎒 ${esc(g.equip)}</span>
       </div>
       <div class="gm-sec"><h4>🎯 מטרת המשחק</h4><p>${esc(g.goal)}</p></div>
-      <div class="gm-sec"><h4>👤 למי זה מתאים</h4><p>${esc(g.fit)}</p></div>
-      <div class="gm-sec"><h4>📖 מהלך המשחק</h4><ol>${g.how.map(s=>"<li>"+esc(s)+"</li>").join("")}</ol></div>
-      <div class="gm-sec"><h4>🔀 וריאציות והתאמות</h4><ul>${g.vars.map(s=>"<li>"+esc(s)+"</li>").join("")}</ul></div>
+      ${(()=>{ const fit=`<div class="gm-sec"><h4>👤 למי זה מתאים</h4><p>${esc(g.fit)}</p></div>`;
+        const how=`<div class="gm-sec"><h4>📖 מהלך המשחק</h4><ol>${g.how.map(s=>"<li>"+esc(s)+"</li>").join("")}</ol></div>`;
+        const vars=`<div class="gm-sec"><h4>🔀 וריאציות והתאמות</h4><ul>${g.vars.map(s=>"<li>"+esc(s)+"</li>").join("")}</ul></div>`;
+        /* תצוגה קומפקטית: מהלך המשחק פתוח, ו«למי מתאים» והווריאציות מקופלים. הבטיחות תמיד גלויה. */
+        return isCompact()?how+`<details class="gm-more"><summary>${esc(H().t("gm.more","עוד: למי מתאים ווריאציות"))}</summary>${fit}${vars}</details>`:fit+how+vars; })()}
       <div class="gm-sec warn"><h4>⚠️ בטיחות</h4><p>${esc(g.safe)}</p></div>
       <a class="btn acc big" style="margin-top:6px;display:block;text-align:center;text-decoration:none"
          href="${ytUrl(g.yt)}" target="_blank" rel="noopener">▶ צפייה בהדגמה ביוטיוב</a>
       <div class="hint" style="margin-top:7px">הקישור פותח חיפוש יוטיוב לפי שם המשחק — כך הוא לא נשבר עם הזמן, ואפשר לבחור סרטון בעברית או באנגלית.</div>
-      <button class="btn sm" id="gm-toLesson" style="margin-top:11px">📋 קח למערך שיעור</button>`;
+      <button class="btn sm" id="gm-toLesson" style="margin-top:11px">📋 קח למערך שיעור</button>
+      <button class="btn sm ghost" id="gm-favBtn" style="margin-top:11px" aria-pressed="${isFav(g.id)}">${isFav(g.id)?"★ "+esc(H().t("gm.unfav","הסר ממועדפים")):"☆ "+esc(H().t("gm.fav","הוסף למועדפים"))}</button>`;
     H().modal("gm-modal");
+    const fbtn=$("#gm-favBtn");
+    if(fbtn)fbtn.addEventListener("click",()=>{ toggleFav(g.id); open(g.id); render(); });
     const b=$("#gm-toLesson");
     if(b)b.addEventListener("click",()=>{
       H().modal("gm-modal",false);
@@ -986,6 +1016,12 @@ window.GAMES=(function(){
     const {$}=H();
     /* חיפוש סורק את כל הקטגוריות — כדי שלא ״ייעלמו״ תוצאות בגלל סינון פעיל */
     $("#gm-search").addEventListener("input",e=>{ q=e.target.value; if(q.trim())cat="all"; render(); });
+    const cb=$("#gm-compact"); if(cb)cb.addEventListener("click",()=>{ H().LS.set(LSK.compact,!isCompact()); render(); });
+    const fl=()=>({age:$("#gm-fAge").value,tmax:+$("#gm-fTime").value||0,n:+$("#gm-fN").value||0,noeq:$("#gm-fNoEq").checked});
+    const paintFlt=()=>{ const f=getFlt(); $("#gm-fAge").value=f.age; $("#gm-fTime").value=String(f.tmax||0); $("#gm-fN").value=f.n||""; $("#gm-fNoEq").checked=f.noeq; };
+    ["gm-fAge","gm-fTime","gm-fN","gm-fNoEq"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("input",()=>{ H().LS.set(LSK.flt,fl()); render(); }); });
+    const clr=$("#gm-fClear"); if(clr)clr.addEventListener("click",()=>{ H().LS.set(LSK.flt,null); paintFlt(); render(); });
+    paintFlt();
     render();
   }
   return {init, all:()=>GAMES, byId:id=>GAMES.find(g=>g.id===id), byCat:c=>GAMES.filter(g=>g.cat===c), cats:GCATS, ytUrl};
