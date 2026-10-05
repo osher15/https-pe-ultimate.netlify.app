@@ -786,7 +786,8 @@ body.role-student .hx-mods,body.role-student .scoreband{display:none}
 .gm-fav{position:absolute;inset-block-start:6px;inset-inline-end:6px;min-width:44px;min-height:44px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
 .gm-fav.on{color:#f5c542}
 .gm-grid.compact{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
-.gm-card .sf{font-size:12px;color:var(--text);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* הערת הבטיחות מוצגת במלואה גם בתצוגה הקומפקטית — לא נחתכת בשורות (סקירת Codex R2) */
+.gm-card .sf{font-size:12px;color:var(--text);line-height:1.45;overflow-wrap:anywhere}
 .gm-flt{margin-top:10px}.gm-more{margin-top:8px}
 .gm-card .meta{display:flex;flex-wrap:wrap;gap:5px 10px;font-size:11px;color:var(--faint);
   border-top:1px solid var(--line);padding-top:8px;margin-top:auto}
@@ -1929,3 +1930,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 
 .ls-bank-draft{background:rgba(245,197,66,.12);border:1px solid rgba(245,197,66,.4);border-radius:10px;padding:8px 11px;margin:8px 0}
 .ls-bank-missing{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:8px 11px;margin:8px 0}
+
+.hx-prev{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.5}
+.hx-prev .lb{font-weight:700}
+.hx-prev .nt{color:var(--ink)}

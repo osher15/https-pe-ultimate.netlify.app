@@ -177,3 +177,23 @@ test("2.8 רשימת תיבות הציוד במחולל (index.html) זהה ל-E
   const vals=[...block.slice(0,block.indexOf("</div>")).matchAll(/<input type="checkbox" value="([^"]+)"/g)].map(m=>m[1]);
   assert.deepEqual(vals,D.EQUIP_CHOICES.map(c=>c[0]));
 });
+
+/* סקירת Codex R1: דקות מוקצות עשרוניות או לא תקינות לא תוקעות את המתאם */
+test("2.9 variantFit / mainWindow: non-integer or invalid allocations terminate and stay in range",()=>{
+  const {execFileSync}=require("node:child_process");
+  const code=`const H=require(${JSON.stringify(require("node:path").join(__dirname,"../../hm-data.js"))});
+    const out=[];
+    [10.5,10.49,25.5,30.5,"20",1e9,NaN,Infinity,-3,0,"abc",null,undefined].forEach(a=>{
+      const r=H.variantFit({d:["work"],t:[10]},a);
+      if(r.known){ const s=r.fitted.reduce((x,y)=>x+y,0)+r.overhead+r.gap; out.push([String(a),r.status,s,Number.isInteger(s)]); }
+      else out.push([String(a),"unknown"]);
+      H.mainWindow("stations",3,a);
+    });
+    console.log(JSON.stringify(out));`;
+  /* תהליך נפרד עם מגבלת זמן: אם הלולאה חוזרת לתקוע, הבדיקה נכשלת ולא נתקעת */
+  const out=JSON.parse(execFileSync(process.execPath,["-e",code],{timeout:5000,encoding:"utf8"}));
+  out.forEach(r=>{ if(r[1]==="unknown")return; assert.ok(r[3],"integer total for "+r[0]); });
+  assert.equal(out.find(r=>r[0]==="NaN")[1],"unknown");
+  assert.equal(out.find(r=>r[0]==="Infinity")[1],"unknown");
+  assert.equal(out.find(r=>r[0]==="-3")[1],"unknown");
+});

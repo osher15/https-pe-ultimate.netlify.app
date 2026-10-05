@@ -1151,6 +1151,17 @@ function upRow(r,label){
     slotTopic(sl,"tp")+
     '<button class="btn sm ghost" data-slot="'+esc(sl.id)+'">▶ התחל</button></div>';
 }
+/* מה שרשמת בפעם האחרונה שהתקיים שיעור בכיתה הזאת — ליד «התחל», כדי שהשיעור לא יתחיל
+   מדף ריק. לפי cid בלבד (לא לפי שם), קריאה בלבד, ורק כשיש דירוג או הערה. */
+function prevLessonLine(cid){
+  if(!cid)return "";
+  let done; try{ done=SESSION.list({cid:cid,status:DATA.SESSION_DONE})[0]; }catch(e){ return ""; }
+  if(!done||(done.rating==null&&!done.note))return "";
+  const note=done.note?String(done.note):"";
+  return '<div class="hx-prev"><span class="lb">'+esc(t("last.prevClass","בפעם שעברה בכיתה הזאת"))+'</span> '+
+    (done.rating!=null?'<span class="pill">'+esc(RATING_LABEL[String(done.rating)]||"")+'</span> ':"")+
+    (note?'<span class="nt">“'+esc(note.length>90?note.slice(0,90)+"…":note)+'”</span>':"")+'</div>';
+}
 function focusCard(r,mode){
   const sl=r.slot, act=SESSION.active();
   const mine=act&&sl.cid&&act.cid===sl.cid;
@@ -1171,6 +1182,7 @@ function focusCard(r,mode){
     '<div class="when">'+esc(slotRange(sl))+'</div>'+
     (until?'<div class="until">מתחיל בעוד '+esc(until)+'</div>':"")+
     slotTopic(sl,"topic",true)+
+    (r.startable&&!mine?prevLessonLine(sl.cid):"")+
     (act1?'<div class="row" style="margin-top:11px">'+act1+'</div>':"")+
     '</div>';
 }
@@ -5661,6 +5673,7 @@ window.HMBoot=function(){
     try{ homeStats(); }catch(e){}
     try{ if($("#fieldTip"))paintFieldTip(); }catch(e){}
     try{ paintNavLive(); }catch(e){}
+    try{ paintHome(); }catch(e){}
     try{ if(window.HMBootNew&&$("#hx-date"))
       $("#hx-date").textContent=new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"}); }catch(e){}
     const mod=document.body.dataset.mod;

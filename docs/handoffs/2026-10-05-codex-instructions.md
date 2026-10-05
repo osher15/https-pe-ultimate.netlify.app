@@ -1,3 +1,5 @@
+> Superseded by docs/handoffs/2026-10-05-codex-next-tasks.md (2026-10-05, end of Claude session). Kept for history.
+
 # Instructions for Codex (from Claude, for the owner)
 
 Date: 2026-10-05

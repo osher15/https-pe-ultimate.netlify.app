@@ -5,6 +5,20 @@ const go=async(page,m)=>{ await page.evaluate(x=>window.HM.go(x),m); await page.
 const count=p=>p.locator("#gm-grid .gm-card").count();
 
 module.exports={title:"#21 — ספריית משחקים: מועדפים, קומפקטי, סינון",tests:[
+  /* סקירת Codex R2: הערת הבטיחות בכרטיס הקומפקטי לא נחתכת — בכל שפה וגם בטלפון צר */
+  check("קומפקטי: הערת הבטיחות מוצגת במלואה בכל חמש השפות, גם ברוחב טלפון צר",{lang:"en"},async p=>{
+    await p.setViewportSize({width:360,height:800});
+    await go(p,"games"); await p.click("#gm-compact");
+    for(const l of ["he","en","ar","ru","es"]){
+      await p.evaluate(x=>window.I18N.set(x),l); await p.waitForTimeout(250);
+      const r=await p.evaluate(()=>[...document.querySelectorAll("#gm-grid .gm-card .sf")].map(e=>({id:e.parentElement.dataset.g,shown:e.clientHeight,needed:e.scrollHeight}))
+        .filter(x=>x.needed>x.shown+1));
+      eq(r.length,0,l+": הערות בטיחות חתוכות: "+JSON.stringify(r.slice(0,3)));
+    }
+    const sf=await p.locator('[data-g="g-tug"] .sf').count();
+    ok(sf===1,"כרטיס משיכת החבל (הבדיקה של Codex) מוצג");
+  }),
+
   check("מועדף בלחיצה אחת נשמר, מופיע בלשונית המועדפים ושורד רענון",{lang:"en"},async p=>{
     await go(p,"games");
     const first=p.locator("#gm-grid .gm-card").first(), id=await first.getAttribute("data-g");

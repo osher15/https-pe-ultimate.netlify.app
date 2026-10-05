@@ -105,11 +105,31 @@ function loadExisting(root){
     vm.runInContext(fs.readFileSync(path.join(root,f),"utf8"),ctx,{filename:f}));
   return ctx.window.LESSONBANK;
 }
+/* מטא-נתוני עריכה לכל רשומה (contentVersion + reviewStatus). draft = טרם נסקר באדם;
+   רק אדם משנה ל-teacher-reviewed / native-reviewed. מקור הגרסה: meta.provenance.contentVersion. */
+const EDITORIAL={contentVersion:"V2",reviewStatus:"draft"};
+function stampLesson(x){ return Object.assign({},x,{contentVersion:x.contentVersion||EDITORIAL.contentVersion,
+  reviewStatus:x.reviewStatus||EDITORIAL.reviewStatus}); }
+function writeSport(root,sp,byLang){
+  let out='"use strict";\n/* ============================================================\n   PE Ultimate — מאגר מערכים בינלאומי: '+sp+'\n   10 מערכים מלאים בחמש שפות עצמאיות, מקור: Notion (ראו hm-lessonbank.js\n   לתיעוד מבנה השדות ולמדיניות התוכן — נטען כמות שהוא, ללא עריכה).\n   נוצר על ידי tools/notion-lessons-import.js — אין לערוך ידנית.\n   ============================================================ */\n(function(){\n  const LB=window.LESSONBANK=window.LESSONBANK||{sports:{}};\n  LB.sports.'+sp+'=LB.sports.'+sp+'||{};\n';
+  ["he","en","ar","ru","es"].forEach(l=>{
+    const arr=(byLang[l]||[]).map(stampLesson); if(arr.length!==10){ console.error("expected 10 lessons",sp,l,"got",arr.length); process.exit(1); }
+    out+='  LB.sports.'+sp+'.'+l+'='+JSON.stringify(arr,null,2)+';\n';
+  });
+  out+='})();\n';
+  fs.writeFileSync(path.join(root,"hm-lessonbank-"+sp+".js"),out); console.log("wrote hm-lessonbank-"+sp+".js");
+}
 module.exports={parsePage,walk,plain,textOf,listOf,SPORT_WORDS,SECTION_KEYS,FLOW_KEYS,LANGS,loadExisting};
 
 if(require.main===module){
   const args=process.argv.slice(2), dir=args[0];
-  if(!dir){ console.error("usage: node tools/notion-lessons-import.js <export-dir> --verify|--write <sport>..."); process.exit(2); }
+  if(dir==="--stamp"){   /* מוסיף contentVersion/reviewStatus לקבצים הקיימים בלי לגעת בתוכן */
+    const root0=path.join(__dirname,".."), LB0=loadExisting(root0);
+    args.slice(1).forEach(sp=>{ if(!LB0.sports[sp]){ console.error("unknown sport",sp); process.exit(1); }
+      writeSport(root0,sp,LB0.sports[sp]); });
+    process.exit(0);
+  }
+  if(!dir){ console.error("usage: node tools/notion-lessons-import.js <export-dir> --verify|--write <sport>...   |   node tools/notion-lessons-import.js --stamp <sport>..."); process.exit(2); }
   const root=path.join(__dirname,"..");
   const pages={}, skipped=[];
   walk(dir,[]).forEach(f=>{ const r=parsePage(fs.readFileSync(f,"utf8")); if(!r){ skipped.push(path.basename(f)); return; }
@@ -127,16 +147,9 @@ if(require.main===module){
   }
 
   if(args.includes("--write")){
-    const sports=args.slice(args.indexOf("--write")+1).filter(a=>!/^--/.test(a));
-    sports.forEach(sp=>{
-      const byLang=pages[sp]; if(!byLang){ console.error("no pages for",sp); process.exit(1); }
-      let out='"use strict";\n/* ============================================================\n   PE Ultimate — מאגר מערכים בינלאומי: '+sp+'\n   10 מערכים מלאים בחמש שפות עצמאיות, מקור: Notion (ראו hm-lessonbank.js\n   לתיעוד מבנה השדות ולמדיניות התוכן — נטען כמות שהוא, ללא עריכה).\n   נוצר על ידי tools/notion-lessons-import.js — אין לערוך ידנית.\n   ============================================================ */\n(function(){\n  const LB=window.LESSONBANK=window.LESSONBANK||{sports:{}};\n  LB.sports.'+sp+'=LB.sports.'+sp+'||{};\n';
-      ["he","en","ar","ru","es"].forEach(l=>{
-        const arr=byLang[l]||[]; if(arr.length!==10){ console.error("expected 10 lessons",sp,l,"got",arr.length); process.exit(1); }
-        out+='  LB.sports.'+sp+'.'+l+'='+JSON.stringify(arr,null,2).replace(/^/gm,"  ").trimStart()+';\n';
-      });
-      out+='})();\n';
-      fs.writeFileSync(path.join(root,"hm-lessonbank-"+sp+".js"),out); console.log("wrote hm-lessonbank-"+sp+".js");
+    args.slice(args.indexOf("--write")+1).filter(a=>!/^--/.test(a)).forEach(sp=>{
+      if(!pages[sp]){ console.error("no pages for",sp); process.exit(1); }
+      writeSport(root,sp,pages[sp]);
     });
   }
 }
