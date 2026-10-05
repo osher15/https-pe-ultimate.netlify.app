@@ -975,6 +975,19 @@ body[data-mod="tools"]{--acc:#818cf8;--accDim:rgba(129,140,248,.18)}
   padding:12px 14px;max-height:56vh;overflow:auto}
 .arc-item.builtin{border-inline-start:3px solid var(--acc)}
 
+/* מאגר מערכים בינלאומי (hm-lessonbank.js + renderBank* ב-hm-lesson.js) */
+.ls-bank{max-height:64vh;overflow:auto;padding-inline-end:4px}
+.ls-bank-sec{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:11px;
+  padding:11px 13px;margin-bottom:9px}
+.ls-bank-sec h4{margin:0 0 6px;font-size:13px;color:var(--acc)}
+.ls-bank-sec p{margin:0;font-size:13px;line-height:1.7;color:var(--ink);white-space:pre-wrap}
+.ls-bank-sec ul{margin:0;padding-inline-start:20px;font-size:13px;line-height:1.7;color:var(--ink)}
+.ls-bank-flow{display:grid;gap:8px}
+.ls-bank-flow .sub{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+.ls-bank-flow .sub b{display:block;color:var(--acc);font-size:12.5px;margin-bottom:3px}
+.ls-bank-flow .sub span{font-size:13px;line-height:1.65;white-space:pre-wrap}
+.ls-bank-meta{color:var(--muted);font-size:12px;margin-bottom:10px}
+
 /* ============================================================
    הבונה הידני של מערך השיעור (hm-build.js)
    ============================================================ */
