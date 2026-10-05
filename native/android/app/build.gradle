@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "app.netlify.peultimate"
+    namespace = "io.github.osher15.peultimate"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "app.netlify.peultimate"
+        applicationId "io.github.osher15.peultimate"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // בנייה ב-CI: מספר הריצה, כדי שכל APK חדש יותקן כעדכון מעל הקודם
