@@ -902,6 +902,8 @@ window.I18N_TERMS={
 "ספסלים":["Benches", "مقاعد", "Скамейки", "Bancos"],
 "ספציפי לענף":["Sport-specific", "خاص بالرياضة", "Специальная", "Específico del deporte"],
 "ספריית המערכים":["Plan library", "مكتبة الخطط", "Библиотека планов", "Biblioteca de planes"],
+"מאגר מערכים בינלאומי":["International lesson bank", "مخزون دروس دولي", "Международный банк уроков", "Banco internacional de sesiones"],
+"60 מערכי שיעור מלאים — 10 לכל ענף, בחמש שפות. מוצגים בשפה הפעילה של האפליקציה.":["60 full lesson plans — 10 per sport, in five languages. Shown in the app's active language.", "60 خطة درس كاملة — 10 لكل رياضة، بخمس لغات. تُعرض بلغة التطبيق الفعّالة.", "60 полных планов уроков — по 10 на вид спорта, на пяти языках. Показываются на активном языке приложения.", "60 planes de clase completos — 10 por deporte, en cinco idiomas. Se muestran en el idioma activo de la aplicación."],
 "ספריית תרגילים":["Exercise library", "مكتبة التمارين", "Библиотека упражнений", "Biblioteca de ejercicios"],
 "ספריית תרגילים · לחץ לפרטים והדגמה":["Exercise library · tap for details and demo", "مكتبة التمارين · اضغط للتفاصيل والعرض", "Библиотека упражнений · нажмите для деталей и показа", "Biblioteca de ejercicios · toca para ver detalles y demostración"],
 "ספרינט בית ספר — 7 מ׳/שנ׳":["School sprint — 7 m/s", "عدو مدرسي — 7 م/ث", "Школьный спринт — 7 м/с", "Sprint escolar — 7 m/s"],

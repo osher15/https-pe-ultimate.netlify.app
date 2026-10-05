@@ -38,6 +38,10 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "lb.hint":"{n} full lesson plans in five languages — shown in the app's active language.",
+  "lb.draft":"Draft: the plans are imported as written and have not yet had professional review, native-language editing or a field pilot. You may read and use them at your own judgment.",
+  "lb.missingLang":"This sport is not yet available in your language — shown in Hebrew.",
+  /* ux-redesign */
   "bw.eqTitle":"Available equipment",
   "bw.eqNot":"unavailable",
   "bw.eqHint":"An item that is not ticked shows ⚠ next to the exercise or warm-up that needs it. The same list is used by the quick generator.",
@@ -830,6 +834,10 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "lb.hint":"{n} خطة درس كاملة بخمس لغات — تُعرض بلغة التطبيق النشطة.",
+  "lb.draft":"مسودة: الخطط مستوردة كما كُتبت ولم تخضع بعد لمراجعة مهنية أو تحرير لغوي أو تجربة ميدانية. يمكنكم الاطلاع عليها واستخدامها بتقديركم.",
+  "lb.missingLang":"هذه الرياضة غير متوفرة بعد بلغتك — تُعرض بالعبرية.",
   /* ux-redesign */
   "bw.eqTitle":"الأدوات المتاحة",
   "bw.eqNot":"غير متاحة",
@@ -1628,6 +1636,10 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "lb.hint":"{n} полных планов уроков на пяти языках — показываются на активном языке приложения.",
+  "lb.draft":"Черновик: планы импортированы как написаны и ещё не прошли профессиональную проверку, редактуру носителем языка и пилот в классе. Можно читать и использовать на ваше усмотрение.",
+  "lb.missingLang":"Этот вид спорта пока недоступен на вашем языке — показан на иврите.",
+  /* ux-redesign */
   "bw.eqTitle":"Доступный инвентарь",
   "bw.eqNot":"недоступно",
   "bw.eqHint":"Неотмеченный предмет показывается с ⚠ рядом с упражнением или разминкой, которым он нужен. Тот же список использует быстрый генератор.",
@@ -2417,6 +2429,10 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "lb.hint":"{n} sesiones completas en cinco idiomas, mostradas en el idioma activo de la aplicación.",
+  "lb.draft":"Borrador: las sesiones se importan tal como se escribieron y aún no han pasado revisión profesional, edición por hablantes nativos ni piloto en el aula. Puedes consultarlas y usarlas bajo tu criterio.",
+  "lb.missingLang":"Este deporte aún no está disponible en tu idioma: se muestra en hebreo.",
   /* ux-redesign */
   "bw.eqTitle":"Material disponible",
   "bw.eqNot":"no disponibles",
