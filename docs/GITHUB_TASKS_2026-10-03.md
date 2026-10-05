@@ -1,3 +1,37 @@
+# GitHub task reconciliation — current October 5 update
+
+## Current delivery and next work — 2026-10-05
+
+Observed main: `3b5dbcc` (#40). Pending Claude candidate: `eb8f1ac` (per-sport lazy loading).
+This section supersedes earlier draft/merge-pending and lesson-bank hold statements in the historical inventory below.
+
+| Work | Current disposition | Next owner/action |
+|---|---|---|
+| Harness persistence and pupil missing summary (#17/#20) | Code incorporated in main | Preserve regressions and identity |
+| Tracking/requirements/periods/exemptions/grade override/exports/grid/paste/pupil document (#23) | Code incorporated; #26–#33 remain open PR records with heads ancestral to main | No duplicate merges; owner field acceptance |
+| Backup rollback review and field-to-PC script (#15/#16, #34/#35) | Code incorporated; #35 remains an open ancestral PR record | Physical file sharing/touch/upgrade and real lesson pilot |
+| Both builders' timing/equipment (#19) | Code incorporated; 7/7 browser checks passed on earlier 16e5623 | Claude fixes fractional-target fitter hang R1; approved protocol timings require care |
+| Game favorites, filters, compact view (#21) | Code incorporated | Claude fixes compact safety truncation R2; evaluate remaining teacher-copy/feedback flows individually |
+| Transfer (#22) | Backup verification/file workflow/design incorporated | Verification code alone is not transport; code/QR transport remains future work |
+| Original lesson bank (#24) | Hold lifted for 60 authored families; two sports/20 families/100 records incorporated via #40 | Claude loads four remaining sports deterministically; planner editing/assignment/live acceptance |
+| Sport lazy loading | Pending eb8f1ac, not assumed merged | Real precache/offline first-open/retry acceptance and cache/startup size review |
+| Native (#13) | Owner reports iPad install/open/save/restore/CSV/archive and corrected home layout | Whole-app clipping/orientations, iPhone, camera/audio/background/share/upgrade and store checks |
+| Component bank / payments (#14) | Separate component bank and payments deferred | No expansion, account, server, paid-key or payment work |
+
+Content clarification: the lesson plans are original project-authored work developed from research, ideas and insights, edited in Notion. No copied outside lesson, outside URL or individual Notion page/revision is required per plan. The prior source gate is withdrawn. Editorial version/review status is useful; retain honest draft status until actual review. Research references can be documented separately when known; do not fabricate citations. This does not certify the separate eleven archive documents.
+
+Latest automated evidence: corrected Codex validator carried onto eb8f1ac, `npm test` = 667 total / 666 passed / 0 failed / 1 explicit editorial metadata skip. Earlier 16e5623 bank/manual-builder browser checks passed 12/12 and repeat build had no generated diff. New offline/tablet browser checks were attempted but execution-server transport disconnected; no new browser, build or physical-device pass is claimed.
+
+Live Issues #13, #15–#24 (except deferred #14) have been reconciled without closures, merges or deployments. Full continuation evidence: `docs/handoffs/2026-10-05-continuation.md` on `codex/continuation-2026-10-05`. Keep Claude's product/content/native reservations.
+
+## Historical October 3 inventory and specifications
+
+The historical baseline, prior test evidence and task descriptions below are retained for traceability. Their old pending/hold statements are not current completion status.
+
+## Historical issue specifications (October 3)
+
+Live issue bodies now contain the reconciled statuses. The original specifications below are preserved as history; pending/hold/source-gate wording is superseded above.
+
 # GitHub task reconciliation — 2026-10-03
 
 Publication: GitHub access restored on 2026-10-03. Existing Issues #13–#18 were rewritten; new timing/missing/libraryux/transfer/tracker/contenthold tasks are #19/#20/#21/#22/#23/#24 respectively. This document preserves the specifications; use live Issues for current status.

@@ -1,24 +1,34 @@
 # PE Ultimate — execution plan
 Date: 2026-10-03
-Status (2026-10-04): draft PRs #25–#34 delivered; exact-head checks through #34 passed. Owner integration/merge/deploy and physical Apple testing remain pending. Current acceptance script: docs/FIELD_PILOT_2026-10-04.md.
+Status (2026-10-05): current delivery map reconciled below; owner/device acceptance remains separate.
 
-## Current delivery and integration map
+## Current delivery and next work — 2026-10-05
 
-| Slice | Draft PR | Current disposition |
+Observed main: `3b5dbcc` (#40). Pending Claude candidate: `eb8f1ac` (per-sport lazy loading).
+This section supersedes earlier draft/merge-pending and lesson-bank hold statements in the historical inventory below.
+
+| Work | Current disposition | Next owner/action |
 |---|---|---|
-| Harness persistence, pupil missing summary and workflow rules | #25 | Reviewed candidate; owner merge pending |
-| Requirements calculation/editor | #26–#27 | Configurable class/period policy with strict identity/date guards |
-| Report/actual Excel/CSV and period exemptions | #28–#29 | Offline exports and exemption editor |
-| Teacher final grades and Grades Excel/CSV | #30 | Explicit override with optional note; no automatic scoring fill |
-| Measurement grid and Excel-template paste | #31–#32 | Append-only dated measurements; reviewed draft then Save |
-| Isolated pupil print/HTML | #33 | Teacher-mediated single-pupil output |
-| Focused Claude rollback review | #34 | Verified replacement/rollback, retry/recovery; supersedes old rollback hunk only |
+| Harness persistence and pupil missing summary (#17/#20) | Code incorporated in main | Preserve regressions and identity |
+| Tracking/requirements/periods/exemptions/grade override/exports/grid/paste/pupil document (#23) | Code incorporated; #26–#33 remain open PR records with heads ancestral to main | No duplicate merges; owner field acceptance |
+| Backup rollback review and field-to-PC script (#15/#16, #34/#35) | Code incorporated; #35 remains an open ancestral PR record | Physical file sharing/touch/upgrade and real lesson pilot |
+| Both builders' timing/equipment (#19) | Code incorporated; 7/7 browser checks passed on earlier 16e5623 | Claude fixes fractional-target fitter hang R1; approved protocol timings require care |
+| Game favorites, filters, compact view (#21) | Code incorporated | Claude fixes compact safety truncation R2; evaluate remaining teacher-copy/feedback flows individually |
+| Transfer (#22) | Backup verification/file workflow/design incorporated | Verification code alone is not transport; code/QR transport remains future work |
+| Original lesson bank (#24) | Hold lifted for 60 authored families; two sports/20 families/100 records incorporated via #40 | Claude loads four remaining sports deterministically; planner editing/assignment/live acceptance |
+| Sport lazy loading | Pending eb8f1ac, not assumed merged | Real precache/offline first-open/retry acceptance and cache/startup size review |
+| Native (#13) | Owner reports iPad install/open/save/restore/CSV/archive and corrected home layout | Whole-app clipping/orientations, iPhone, camera/audio/background/share/upgrade and store checks |
+| Component bank / payments (#14) | Separate component bank and payments deferred | No expansion, account, server, paid-key or payment work |
 
-All are pending integration, not production features. Review sequentially #25 → #34, retarget each dependent PR after its prerequisite merges and rerun checks on the integrated head. #34 exact-head Tests 171 and Native 19 passed. These simulator/build results do not complete physical Apple acceptance.
+Content clarification: the lesson plans are original project-authored work developed from research, ideas and insights, edited in Notion. No copied outside lesson, outside URL or individual Notion page/revision is required per plan. The prior source gate is withdrawn. Editorial version/review status is useful; retain honest draft status until actual review. Research references can be documented separately when known; do not fabricate citations. This does not certify the separate eleven archive documents.
 
-Codex now runs the cross-module field-to-PC journey and prepares the field pilot (#16). Claude retains builder timing/equipment (#19), native packaging (#13), content preparation (#21) and transfer proposal (#22). Remaining score-to-grade mapping and arbitrary XLSX file import are separate scopes; the reviewed paste flow already exists. Content-bank import (#24) remains held. No additional modules are needed before pilot evidence is reviewed.
+Latest automated evidence: corrected Codex validator carried onto eb8f1ac, `npm test` = 667 total / 666 passed / 0 failed / 1 explicit editorial metadata skip. Earlier 16e5623 bank/manual-builder browser checks passed 12/12 and repeat build had no generated diff. New offline/tablet browser checks were attempted but execution-server transport disconnected; no new browser, build or physical-device pass is claimed.
 
-The inventory below records the October 3 inspection; its "next" statements are historical where superseded by this current map.
+Live Issues #13, #15–#24 (except deferred #14) have been reconciled without closures, merges or deployments. Full continuation evidence: `docs/handoffs/2026-10-05-continuation.md` on `codex/continuation-2026-10-05`. Keep Claude's product/content/native reservations.
+
+## Historical October 3 inventory and specifications
+
+The historical baseline, prior test evidence and task descriptions below are retained for traceability. Their old pending/hold statements are not current completion status.
 
 Repository: `osher15/https-pe-ultimate.netlify.app` only.
 Baseline: `main` at `3ce07edcff2c64292b95e3060b363b3e1ca0174d`.
@@ -38,7 +48,7 @@ No rewrite to React/TypeScript, internal marketplace, database service, required
 - Attendance assist stays non-destructive; teacher can override final grades.
 - Spreadsheet-like PC work and export; pupil view reveals only that pupil's data.
 - Offline-first, encrypted backup and simple device transfer, no required account; automatic sync later.
-- Import/expansion of international plans and the separate component bank remains PAUSED.
+- The owner lifted the hold for the 60 original lesson families on October 5. The separate component bank remains deferred. No external source per original plan is required.
 - Android installed and reported working by owner; physical acceptance script and update preservation still to be completed. Apple physical testing awaits owner's Mac/devices.
 
 ### Questionnaire Q39–Q50 (confirmed in this conversation)
