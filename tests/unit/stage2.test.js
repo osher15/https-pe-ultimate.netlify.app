@@ -50,7 +50,13 @@ test("2.2b גמישות: אותו תרגיל — כיתה איטית מקבלת 
   const withR=D.stepRanges({d:["a","b"],t:[10,10],r:[[8,25],[5,12]]});
   assert.deepEqual([withR.lo,withR.hi],[[8,5],[25,12]]);
   const t=D.timeOpts({pace:"nope",trans:"x"});
-  assert.deepEqual(t,{pace:"normal",trans:"normal",water:true},"ערך לא מוכר → ברירת מחדל");
+  assert.deepEqual(t,{pace:"normal",trans:"normal",water:true,weather:"normal"},"ערך לא מוכר → ברירת מחדל");
+  assert.equal(D.timeOpts({weather:"hot"}).weather,"hot");
+  assert.equal(D.timeOpts({weather:"snow"}).weather,"normal");
+  const hot=D.variantFit(v,30,{weather:"hot"}), norm=D.variantFit(v,30,{});
+  assert.ok(hot.overhead>=norm.overhead,"מזג אוויר חם — פסקת שתייה ארוכה יותר");
+  assert.ok(D.warmMinutes(45,"hot")<D.warmMinutes(45,"normal")&&D.warmMinutes(45,"normal")<D.warmMinutes(45,"cold"),"חם < רגיל < קר");
+  assert.ok(D.warmMinutes(30,"hot")>=5&&D.warmMinutes(90,"cold")<=12,"גבולות החימום");
 });
 
 test("2.3 שלמות הנתונים: t באורך d ובמספרים חיוביים; need רק מהרשימה הקבועה",()=>{

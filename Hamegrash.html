@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="a35bc0db">
+<meta name="hm-build" content="09cdeb9e">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -2970,6 +2970,8 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
         <div class="field" style="width:200px"><label data-i18n="ls.trans" data-i18n-he="מעברים בין שלבים ותחנות">מעברים בין שלבים ותחנות</label>
           <select id="ls-trans"><option value="quick" data-i18n="ls.transQuick" data-i18n-he="מהירים">מהירים</option><option value="normal" selected data-i18n="ls.transNormal" data-i18n-he="רגילים">רגילים</option><option value="slow" data-i18n="ls.transSlow" data-i18n-he="איטיים">איטיים</option></select></div>
       </div>
+      <div class="field" style="width:200px;margin-top:8px"><label data-i18n="ls.weather" data-i18n-he="מזג אוויר (מגרש חוץ)">מזג אוויר (מגרש חוץ)</label>
+        <select id="ls-weather"><option value="cold" data-i18n="ls.wxCold" data-i18n-he="קר — חימום ארוך יותר">קר — חימום ארוך יותר</option><option value="normal" selected data-i18n="ls.wxNormal" data-i18n-he="רגיל">רגיל</option><option value="hot" data-i18n="ls.wxHot" data-i18n-he="חם — חימום קצר יותר">חם — חימום קצר יותר</option></select></div>
       <label class="check" style="margin-top:8px"><input type="checkbox" id="ls-water" checked> <span data-i18n="ls.water" data-i18n-he="הפסקת שתייה בחלק העיקרי">הפסקת שתייה בחלק העיקרי</span></label>
     </details>
     <div class="row" style="margin-top:13px">
@@ -4798,6 +4800,13 @@ function variantEquipConflicts(v,unavailable){
     return un.indexOf(k)>=0;
   });
 }
+/* חימום לפי מזג אוויר (מגרש חוץ): חם — קצר יותר, קר — ארוך יותר; אף פעם לא מתחת ל-5 דק׳ */
+function warmMinutes(dur,weather){
+  var base=Math.max(7,Math.round(dur*0.18));
+  if(weather==="hot")return Math.max(5,Math.round(base*0.7));
+  if(weather==="cold")return Math.min(12,Math.round(base*1.3));
+  return base;
+}
 /* ---------- גמישות זמנים ----------
    לכל שלב בפעילות יש זמן אופייני (t) וטווח יעיל [lo,hi]. אותו תרגיל לוקח
    12 דקות בכיתה אחת ו-15 באחרת — הסברים, תיקונים, קצב — ולכן המחולל לא
@@ -4814,7 +4823,8 @@ var REST_RX=/תחנ|מעגל|טבט|טאבט|אינטרוו|סבב/;
 var REPEAT_RX=/סבב|תחנ|סטים|חזרות|טבט|טאבט/;   /* שלב שאפשר להוסיף לו סבבים — לכן הטווח שלו נמתח יותר */
 function timeOpts(o){
   o=o||{};
-  return {pace:TIME_PACE[o.pace]?o.pace:"normal", trans:TIME_TRANS[o.trans]?o.trans:"normal", water:o.water!==false};
+  return {pace:TIME_PACE[o.pace]?o.pace:"normal", trans:TIME_TRANS[o.trans]?o.trans:"normal", water:o.water!==false,
+    weather:o.weather==="cold"||o.weather==="hot"?o.weather:"normal"};
 }
 function stepRanges(v){
   var t=v&&asList(v.t), d=v&&v.d;
@@ -4834,7 +4844,7 @@ function stepRanges(v){
 function sumOf(a){ return a.reduce(function(x,y){ return x+y; },0); }
 function overheadFull(n,alloc,opts,rest){
   var trans=Math.max(0,n-1)*TIME_TRANS[opts.trans]*(rest?1.5:1);
-  var water=opts.water?(alloc>=30?2:(alloc>=15?1:0)):0;
+  var water=opts.water?(alloc>=30?2:(alloc>=15?1:0))+(opts.weather==="hot"&&alloc>=15?1:0):0;
   return Math.round(trans+water);
 }
 /* מפזר את הדקות שנשארו על השלבים: כל פעם שלב עם הכי הרבה מקום לזוז, בלי לצאת מהטווח */
@@ -7041,7 +7051,7 @@ return {
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
-  stepRanges:stepRanges, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  stepRanges:stepRanges, warmMinutes:warmMinutes, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,
@@ -13256,9 +13266,16 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "ls.weather":"Weather (outdoor field)",
+  "ls.wxCold":"Cold — longer warm-up",
+  "ls.wxNormal":"Normal",
+  "ls.wxHot":"Hot — shorter warm-up",
+  "ls.weatherHot":"Hot weather: shorter warm-up and a longer water break",
+  "ls.weatherCold":"Cold weather: a longer warm-up to raise heart rate and body temperature before effort",
+  /* ux-redesign */
   "ls.freePlay":"Light recreational game or free play",
   "ls.rangeFree":"Time beyond the activity's range goes to a light recreational game or free play",
-  "ls.shortLesson":"Short lesson: a short recommended warm-up and no game, so the main activity gets the time it needs",
+  "ls.shortLesson":"No time left for the game and the main activity: the warm-up at the start was shortened to a short standard warm-up (5 min)",
   /* ux-redesign */
   "ls.flex":"Flexible timing",
   "ls.flexHint":"The same drill takes less in one class and more in another. Each activity has an effective range, and the minutes are fitted inside it to the lesson time.",
@@ -14008,9 +14025,16 @@ en:{
 
 ar:{
   /* ux-redesign */
+  "ls.weather":"الطقس (ملعب خارجي)",
+  "ls.wxCold":"بارد — إحماء أطول",
+  "ls.wxNormal":"عادي",
+  "ls.wxHot":"حار — إحماء أقصر",
+  "ls.weatherHot":"طقس حار: إحماء أقصر واستراحة شرب أطول",
+  "ls.weatherCold":"طقس بارد: إحماء أطول لرفع النبض ودرجة حرارة الجسم قبل المجهود",
+  /* ux-redesign */
   "ls.freePlay":"لعبة ترفيهية خفيفة أو لعب حر",
   "ls.rangeFree":"الوقت الذي يزيد عن مدى النشاط يُخصَّص للعبة ترفيهية خفيفة أو لعب حر",
-  "ls.shortLesson":"درس قصير: إحماء قصير موصى به وبدون لعبة، ليحصل النشاط الرئيسي على الوقت الذي يحتاجه",
+  "ls.shortLesson":"لا يكفي الوقت للعبة والنشاط الرئيسي: قُصِّر الإحماء في بداية الدرس إلى إحماء قياسي قصير (5 دقائق)",
   /* ux-redesign */
   "ls.flex":"مرونة الوقت",
   "ls.flexHint":"التمرين نفسه يستغرق وقتًا أقل في صف وأكثر في آخر. لكل نشاط مدى فعّال، وتُلائَم الدقائق داخله مع وقت الدرس.",
@@ -14764,9 +14788,16 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "ls.weather":"Погода (открытая площадка)",
+  "ls.wxCold":"Холодно — разминка дольше",
+  "ls.wxNormal":"Обычная",
+  "ls.wxHot":"Жарко — разминка короче",
+  "ls.weatherHot":"Жаркая погода: разминка короче, перерыв на воду дольше",
+  "ls.weatherCold":"Холодная погода: более долгая разминка, чтобы поднять пульс и температуру тела перед нагрузкой",
+  /* ux-redesign */
   "ls.freePlay":"Лёгкая игра для отдыха или свободная игра",
   "ls.rangeFree":"Время сверх диапазона задания отдано лёгкой игре или свободной игре",
-  "ls.shortLesson":"Короткий урок: короткая рекомендуемая разминка и без игры, чтобы основному заданию хватило времени",
+  "ls.shortLesson":"Не хватает времени на игру и основное задание: разминка в начале урока сокращена до короткой стандартной (5 мин)",
   /* ux-redesign */
   "ls.flex":"Гибкость времени",
   "ls.flexHint":"Одно и то же упражнение в одном классе занимает меньше времени, в другом — больше. У каждого задания есть эффективный диапазон, и минуты подгоняются в нём под время урока.",
@@ -15513,9 +15544,16 @@ ru:{
 
 es:{
   /* ux-redesign */
+  "ls.weather":"Clima (campo al aire libre)",
+  "ls.wxCold":"Frío: calentamiento más largo",
+  "ls.wxNormal":"Normal",
+  "ls.wxHot":"Calor: calentamiento más corto",
+  "ls.weatherHot":"Calor: calentamiento más corto y pausa para beber más larga",
+  "ls.weatherCold":"Frío: calentamiento más largo para subir el pulso y la temperatura antes del esfuerzo",
+  /* ux-redesign */
   "ls.freePlay":"Juego recreativo ligero o juego libre",
   "ls.rangeFree":"El tiempo que excede el rango de la actividad se dedica a un juego recreativo ligero o juego libre",
-  "ls.shortLesson":"Clase corta: calentamiento breve recomendado y sin juego, para que la actividad principal tenga el tiempo que necesita",
+  "ls.shortLesson":"No hay tiempo suficiente para el juego y la actividad principal: el calentamiento inicial se acortó a un calentamiento estándar breve (5 min)",
   /* ux-redesign */
   "ls.flex":"Tiempos flexibles",
   "ls.flexHint":"El mismo ejercicio dura menos en una clase y más en otra. Cada actividad tiene un rango eficaz y los minutos se ajustan dentro de él al tiempo de la clase.",
@@ -24930,13 +24968,14 @@ window.LESSON=(function(){
   function readTimeOpts(){
     const {$}=H(), v=id=>{ const e=$("#"+id); return e?e.value:undefined; };
     const w=$("#ls-water");
-    return window.HMDATA.timeOpts({pace:v("ls-pace"),trans:v("ls-trans"),water:w?w.checked:true});
+    return window.HMDATA.timeOpts({pace:v("ls-pace"),trans:v("ls-trans"),water:w?w.checked:true,weather:v("ls-weather")});
   }
   function paintTimeOpts(){
     const {$}=H(), o=window.HMDATA.timeOpts(H().LS.get("ls.timeOpts",null));
     if($("#ls-pace"))$("#ls-pace").value=o.pace;
     if($("#ls-trans"))$("#ls-trans").value=o.trans;
     if($("#ls-water"))$("#ls-water").checked=o.water;
+    if($("#ls-weather"))$("#ls-weather").value=o.weather;
   }
   function readOpts(){
     const {$, $$}=H();
@@ -25004,19 +25043,22 @@ window.LESSON=(function(){
     if(!T){H().toast("בחר נושא");return;}
 
     /* חלוקת זמן */
-    let warmMin=Math.max(7,Math.round(o.dur*0.18));
+    /* מזג אוויר משפיע רק בחוץ: חם — חימום קצר יותר, קר — ארוך יותר */
+    const wx=o.place==="field"?o.time.weather:"normal";
+    let warmMin=window.HMDATA.warmMinutes(o.dur,wx);
     const coolMin=Math.max(5,Math.round(o.dur*0.11));
     let body=o.dur-warmMin-coolMin;
-    let gameMin=o.withGame?Math.max(6,Math.round(o.dur*0.16)):0;
-    /* שיעור קצר: אם עם חימום מלא ומשחק הפעילות העיקרית יורדת מ-18 דק׳, מחליפים
-       לחימום קצר מומלץ (5 דק׳) ומוותרים על המשחק — הדקות חוזרות לפעילות */
-    const shortLesson=body-gameMin<18&&o.place!=="class";
-    if(shortLesson){ warmMin=5; body=o.dur-warmMin-coolMin; gameMin=0; }
+    const gameMin=o.withGame?Math.max(6,Math.round(o.dur*0.16)):0;
+    /* אין מספיק זמן למשחק ולפעילות העיקרית (פחות מ-18 דק׳)? מקצרים את החימום
+       שבתחילת השיעור לחימום סטנדרטי קצר (5 דק׳, לא חימום שהוא משחק) — המשחק נשאר */
+    const shortLesson=body-gameMin<18&&warmMin>5&&o.place!=="class";
+    if(shortLesson){ warmMin=5; body=o.dur-warmMin-coolMin; }
+    const standardWarm=shortLesson||wx==="hot";
     const mainMin=Math.max(8,body-gameMin);
 
     const warm=o.place==="class"
       ? {n:"חימום במקום",d:"תנועה ליד השולחן: ג׳אמפינג ג׳ק, ברכיים גבוהות, סיבובי כתפיים, סקוואטים — 30/15 × 6 סבבים."}
-      : shortLesson?WARM[grade][grade==="mid"?1:0]
+      : standardWarm?WARM[grade][grade==="mid"?1:0]
       : pick(WARM[grade]);
     const cool=pick(COOL);
 
@@ -25042,7 +25084,7 @@ window.LESSON=(function(){
     const DT0=window.HMDATA, eqWarn=[];
     const clash=g=>g?DT0.equipConflicts(g.equip,o.noEq):[];
     let game=null;
-    if(o.withGame&&!shortLesson&&window.GAMES){
+    if(o.withGame&&window.GAMES){
       const picked=H().LS.get("ls.pickGame",null);
       const own=(T.games&&T.games.length)?T.games:[], generic=["g-flags","g-chain","g-relay"];
       const fits=ids=>ids.map(id=>window.GAMES.byId(id)).filter(g=>g&&!clash(g).length);
@@ -25055,7 +25097,9 @@ window.LESSON=(function(){
         if(gameMin&&mainPhases.length)mainPhases[mainPhases.length-1].min+=gameMin;
       }
     }
-    if(shortLesson&&o.withGame)eqWarn.push({k:"ls.shortLesson",items:[]});
+    if(shortLesson)eqWarn.push({k:"ls.shortLesson",items:[]});
+    if(wx==="hot")eqWarn.push({k:"ls.weatherHot",items:[]});
+    if(wx==="cold")eqWarn.push({k:"ls.weatherCold",items:[]});
     const needT=DT0.equipConflicts((T.eq||[]).join(", "),o.noEq);
     if(needT.length)eqWarn.push({k:"ls.eqTopic",items:needT});
     if(game&&clash(game).length)eqWarn.push({k:"ls.eqGame",items:clash(game)});
@@ -25527,7 +25571,9 @@ window.LESSON=(function(){
   const EQW={"ls.eqNoGame":"לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים.",
     "ls.eqTopic":"הנושא דורש ציוד שלא סומן כזמין","ls.eqGame":"המשחק שנבחר דורש ציוד שלא סומן כזמין",
     "ls.eqVariant":"הפעילות שנבחרה דורשת ציוד שלא סומן כזמין",
-    "ls.shortLesson":"שיעור קצר: חימום קצר מומלץ ובלי משחק, כדי שהפעילות העיקרית תקבל את הזמן שהיא צריכה",
+    "ls.shortLesson":"אין מספיק זמן למשחק ולפעילות העיקרית: החימום בתחילת השיעור קוצר לחימום סטנדרטי קצר (5 דק׳)",
+    "ls.weatherHot":"מזג אוויר חם: חימום קצר יותר ופסקת שתייה ארוכה יותר",
+    "ls.weatherCold":"מזג אוויר קר: חימום ארוך יותר כדי להעלות את הדופק והטמפרטורה לפני המאמץ",
     "ls.timeOver":"הזמן קצר מהטווח היעיל של הפעילות (טווח / מוקצות) — קצרו סבבים או בחרו פעילות קצרה יותר"};
   function eqWarnHtml(w){
     const {esc}=H();
@@ -25569,7 +25615,7 @@ window.LESSON=(function(){
       buildSubSelect();
     }));
     paintTimeOpts();
-    ["ls-pace","ls-trans","ls-water"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("change",()=>H().LS.set("ls.timeOpts",readTimeOpts())); });
+    ["ls-pace","ls-trans","ls-water","ls-weather"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("change",()=>H().LS.set("ls.timeOpts",readTimeOpts())); });
     $("#ls-gen").addEventListener("click",gen);
     $("#ls-again").addEventListener("click",gen);
     $("#ls-save").addEventListener("click",saveLib);

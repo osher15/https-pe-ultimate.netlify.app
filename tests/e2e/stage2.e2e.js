@@ -79,7 +79,7 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     const m=r.main[0];
     ok(m.t&&m.fit&&m.fit.min<=m.min,"המערך נבנה עם זמנים וטווח");
     const saved=await page.evaluate(()=>window.HM.LS.get("ls.timeOpts",null));
-    eq(saved,{pace:"slow",trans:"slow",water:false},"הבחירה נשמרת");
+    eq(saved,{pace:"slow",trans:"slow",water:false,weather:"normal"},"הבחירה נשמרת");
     await page.reload(); await page.waitForTimeout(600); await go(page,"lesson");
     eq(await page.inputValue("#ls-pace"),"slow","הבחירה חוזרת אחרי רענון");
     eq(await page.isChecked("#ls-water"),false);
@@ -104,17 +104,33 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     ok(/\d/.test(await page.textContent(row+" .pe-range")),"אזהרה רכה מוצגת");
   }),
 
-  check("שיעור קצר: חימום קצר מומלץ בלי משחק, והפעילות העיקרית מקבלת מינימום סביר",null,async page=>{
+  check("שיעור קצר: מקצרים את החימום שבתחילת השיעור, והמשחק נשאר",null,async page=>{
     await go(page,"lesson");
     await page.selectOption("#ls-focus","aerobic");
-    await page.fill("#ls-dur","30"); await page.check("#ls-optGame"); await page.click("#ls-gen"); await page.waitForTimeout(100);
-    const p=await page.evaluate(()=>{ const x=window.LESSON.current(); return {k:x.phases.map(f=>f.k),warm:x.phases[0].min,main:x.phases.find(f=>f.k==="main").min,total:x.phases.reduce((a,f)=>a+f.min,0),warns:(x.eqWarn||[]).map(w=>w.k)}; });
-    ok(p.k.indexOf("game")<0,"אין משחק בשיעור קצר: "+p.k);
-    eq(p.warm,5,"חימום קצר"); ok(p.main>=18,"הפעילות העיקרית: "+p.main); eq(p.total,30,"אורך השיעור נשמר");
+    await page.selectOption("#ls-place","hall");
+    await page.fill("#ls-dur","35"); await page.check("#ls-optGame"); await page.click("#ls-gen"); await page.waitForTimeout(100);
+    const p=await page.evaluate(()=>{ const x=window.LESSON.current(); return {k:x.phases.map(f=>f.k),warm:x.phases[0].min,main:x.phases.find(f=>f.k==="main").min,total:x.phases.reduce((a,f)=>a+f.min,0),warns:(x.eqWarn||[]).map(w=>w.k),wn:x.phases[0].n}; });
+    ok(p.k.indexOf("game")>=0,"המשחק נשאר: "+p.k);
+    eq(p.warm,5,"חימום קצר"); ok(p.main>=18,"הפעילות העיקרית: "+p.main); eq(p.total,35,"אורך השיעור נשמר");
     ok(p.warns.indexOf("ls.shortLesson")>=0,"ההודעה מוצגת");
-    await page.fill("#ls-dur","45"); await page.click("#ls-gen"); await page.waitForTimeout(100);
-    const q=await page.evaluate(()=>window.LESSON.current().phases.map(f=>f.k));
-    ok(q.indexOf("game")>=0,"בשיעור רגיל יש משחק: "+q);
+    ok(!/תופסת|קוביית|עצור וזוז|מספרים|מראה/.test(p.wn),"חימום סטנדרטי ולא חימום-משחק: "+p.wn);
+    await page.fill("#ls-dur","60"); await page.click("#ls-gen"); await page.waitForTimeout(100);
+    const q=await page.evaluate(()=>({k:window.LESSON.current().phases.map(f=>f.k),warm:window.LESSON.current().phases[0].min}));
+    ok(q.k.indexOf("game")>=0&&q.warm>5,"בשיעור ארוך חימום רגיל ומשחק: "+JSON.stringify(q));
+  }),
+
+  check("מזג אוויר: חם — חימום קצר יותר, קר — ארוך יותר; רק במגרש חוץ",null,async page=>{
+    await go(page,"lesson");
+    await page.evaluate(()=>{ document.querySelector(".ls-flex").open=true; });
+    await page.selectOption("#ls-focus","aerobic"); await page.fill("#ls-dur","60");
+    const warm=async(place,wx)=>{ await page.selectOption("#ls-place",place); await page.selectOption("#ls-weather",wx); await page.click("#ls-gen"); await page.waitForTimeout(100);
+      return page.evaluate(()=>({w:window.LESSON.current().phases[0].min,warns:(window.LESSON.current().eqWarn||[]).map(x=>x.k)})); };
+    const n=await warm("field","normal"), h=await warm("field","hot"), c=await warm("field","cold");
+    ok(h.w<n.w&&n.w<c.w,"חם < רגיל < קר: "+[h.w,n.w,c.w]);
+    ok(h.warns.indexOf("ls.weatherHot")>=0&&c.warns.indexOf("ls.weatherCold")>=0,"הודעה לפי מזג האוויר");
+    const inHall=await warm("hall","hot");
+    eq(inHall.w,n.w,"באולם מזג האוויר לא משפיע");
+    eq(await page.evaluate(()=>window.HM.LS.get("ls.timeOpts",null).weather),"hot","הבחירה נשמרת");
   }),
 
   check("זמן שנשאר מעבר לטווח: משחק פנאי קליל או חופשי, בלי אזהרה, והסכום מדויק",null,async page=>{

@@ -589,6 +589,13 @@ function variantEquipConflicts(v,unavailable){
     return un.indexOf(k)>=0;
   });
 }
+/* חימום לפי מזג אוויר (מגרש חוץ): חם — קצר יותר, קר — ארוך יותר; אף פעם לא מתחת ל-5 דק׳ */
+function warmMinutes(dur,weather){
+  var base=Math.max(7,Math.round(dur*0.18));
+  if(weather==="hot")return Math.max(5,Math.round(base*0.7));
+  if(weather==="cold")return Math.min(12,Math.round(base*1.3));
+  return base;
+}
 /* ---------- גמישות זמנים ----------
    לכל שלב בפעילות יש זמן אופייני (t) וטווח יעיל [lo,hi]. אותו תרגיל לוקח
    12 דקות בכיתה אחת ו-15 באחרת — הסברים, תיקונים, קצב — ולכן המחולל לא
@@ -605,7 +612,8 @@ var REST_RX=/תחנ|מעגל|טבט|טאבט|אינטרוו|סבב/;
 var REPEAT_RX=/סבב|תחנ|סטים|חזרות|טבט|טאבט/;   /* שלב שאפשר להוסיף לו סבבים — לכן הטווח שלו נמתח יותר */
 function timeOpts(o){
   o=o||{};
-  return {pace:TIME_PACE[o.pace]?o.pace:"normal", trans:TIME_TRANS[o.trans]?o.trans:"normal", water:o.water!==false};
+  return {pace:TIME_PACE[o.pace]?o.pace:"normal", trans:TIME_TRANS[o.trans]?o.trans:"normal", water:o.water!==false,
+    weather:o.weather==="cold"||o.weather==="hot"?o.weather:"normal"};
 }
 function stepRanges(v){
   var t=v&&asList(v.t), d=v&&v.d;
@@ -625,7 +633,7 @@ function stepRanges(v){
 function sumOf(a){ return a.reduce(function(x,y){ return x+y; },0); }
 function overheadFull(n,alloc,opts,rest){
   var trans=Math.max(0,n-1)*TIME_TRANS[opts.trans]*(rest?1.5:1);
-  var water=opts.water?(alloc>=30?2:(alloc>=15?1:0)):0;
+  var water=opts.water?(alloc>=30?2:(alloc>=15?1:0))+(opts.weather==="hot"&&alloc>=15?1:0):0;
   return Math.round(trans+water);
 }
 /* מפזר את הדקות שנשארו על השלבים: כל פעם שלב עם הכי הרבה מקום לזוז, בלי לצאת מהטווח */
@@ -2832,7 +2840,7 @@ return {
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
-  stepRanges:stepRanges, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  stepRanges:stepRanges, warmMinutes:warmMinutes, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,

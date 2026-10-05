@@ -343,13 +343,14 @@ window.LESSON=(function(){
   function readTimeOpts(){
     const {$}=H(), v=id=>{ const e=$("#"+id); return e?e.value:undefined; };
     const w=$("#ls-water");
-    return window.HMDATA.timeOpts({pace:v("ls-pace"),trans:v("ls-trans"),water:w?w.checked:true});
+    return window.HMDATA.timeOpts({pace:v("ls-pace"),trans:v("ls-trans"),water:w?w.checked:true,weather:v("ls-weather")});
   }
   function paintTimeOpts(){
     const {$}=H(), o=window.HMDATA.timeOpts(H().LS.get("ls.timeOpts",null));
     if($("#ls-pace"))$("#ls-pace").value=o.pace;
     if($("#ls-trans"))$("#ls-trans").value=o.trans;
     if($("#ls-water"))$("#ls-water").checked=o.water;
+    if($("#ls-weather"))$("#ls-weather").value=o.weather;
   }
   function readOpts(){
     const {$, $$}=H();
@@ -417,19 +418,22 @@ window.LESSON=(function(){
     if(!T){H().toast("בחר נושא");return;}
 
     /* חלוקת זמן */
-    let warmMin=Math.max(7,Math.round(o.dur*0.18));
+    /* מזג אוויר משפיע רק בחוץ: חם — חימום קצר יותר, קר — ארוך יותר */
+    const wx=o.place==="field"?o.time.weather:"normal";
+    let warmMin=window.HMDATA.warmMinutes(o.dur,wx);
     const coolMin=Math.max(5,Math.round(o.dur*0.11));
     let body=o.dur-warmMin-coolMin;
-    let gameMin=o.withGame?Math.max(6,Math.round(o.dur*0.16)):0;
-    /* שיעור קצר: אם עם חימום מלא ומשחק הפעילות העיקרית יורדת מ-18 דק׳, מחליפים
-       לחימום קצר מומלץ (5 דק׳) ומוותרים על המשחק — הדקות חוזרות לפעילות */
-    const shortLesson=body-gameMin<18&&o.place!=="class";
-    if(shortLesson){ warmMin=5; body=o.dur-warmMin-coolMin; gameMin=0; }
+    const gameMin=o.withGame?Math.max(6,Math.round(o.dur*0.16)):0;
+    /* אין מספיק זמן למשחק ולפעילות העיקרית (פחות מ-18 דק׳)? מקצרים את החימום
+       שבתחילת השיעור לחימום סטנדרטי קצר (5 דק׳, לא חימום שהוא משחק) — המשחק נשאר */
+    const shortLesson=body-gameMin<18&&warmMin>5&&o.place!=="class";
+    if(shortLesson){ warmMin=5; body=o.dur-warmMin-coolMin; }
+    const standardWarm=shortLesson||wx==="hot";
     const mainMin=Math.max(8,body-gameMin);
 
     const warm=o.place==="class"
       ? {n:"חימום במקום",d:"תנועה ליד השולחן: ג׳אמפינג ג׳ק, ברכיים גבוהות, סיבובי כתפיים, סקוואטים — 30/15 × 6 סבבים."}
-      : shortLesson?WARM[grade][grade==="mid"?1:0]
+      : standardWarm?WARM[grade][grade==="mid"?1:0]
       : pick(WARM[grade]);
     const cool=pick(COOL);
 
@@ -455,7 +459,7 @@ window.LESSON=(function(){
     const DT0=window.HMDATA, eqWarn=[];
     const clash=g=>g?DT0.equipConflicts(g.equip,o.noEq):[];
     let game=null;
-    if(o.withGame&&!shortLesson&&window.GAMES){
+    if(o.withGame&&window.GAMES){
       const picked=H().LS.get("ls.pickGame",null);
       const own=(T.games&&T.games.length)?T.games:[], generic=["g-flags","g-chain","g-relay"];
       const fits=ids=>ids.map(id=>window.GAMES.byId(id)).filter(g=>g&&!clash(g).length);
@@ -468,7 +472,9 @@ window.LESSON=(function(){
         if(gameMin&&mainPhases.length)mainPhases[mainPhases.length-1].min+=gameMin;
       }
     }
-    if(shortLesson&&o.withGame)eqWarn.push({k:"ls.shortLesson",items:[]});
+    if(shortLesson)eqWarn.push({k:"ls.shortLesson",items:[]});
+    if(wx==="hot")eqWarn.push({k:"ls.weatherHot",items:[]});
+    if(wx==="cold")eqWarn.push({k:"ls.weatherCold",items:[]});
     const needT=DT0.equipConflicts((T.eq||[]).join(", "),o.noEq);
     if(needT.length)eqWarn.push({k:"ls.eqTopic",items:needT});
     if(game&&clash(game).length)eqWarn.push({k:"ls.eqGame",items:clash(game)});
@@ -940,7 +946,9 @@ window.LESSON=(function(){
   const EQW={"ls.eqNoGame":"לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים.",
     "ls.eqTopic":"הנושא דורש ציוד שלא סומן כזמין","ls.eqGame":"המשחק שנבחר דורש ציוד שלא סומן כזמין",
     "ls.eqVariant":"הפעילות שנבחרה דורשת ציוד שלא סומן כזמין",
-    "ls.shortLesson":"שיעור קצר: חימום קצר מומלץ ובלי משחק, כדי שהפעילות העיקרית תקבל את הזמן שהיא צריכה",
+    "ls.shortLesson":"אין מספיק זמן למשחק ולפעילות העיקרית: החימום בתחילת השיעור קוצר לחימום סטנדרטי קצר (5 דק׳)",
+    "ls.weatherHot":"מזג אוויר חם: חימום קצר יותר ופסקת שתייה ארוכה יותר",
+    "ls.weatherCold":"מזג אוויר קר: חימום ארוך יותר כדי להעלות את הדופק והטמפרטורה לפני המאמץ",
     "ls.timeOver":"הזמן קצר מהטווח היעיל של הפעילות (טווח / מוקצות) — קצרו סבבים או בחרו פעילות קצרה יותר"};
   function eqWarnHtml(w){
     const {esc}=H();
@@ -982,7 +990,7 @@ window.LESSON=(function(){
       buildSubSelect();
     }));
     paintTimeOpts();
-    ["ls-pace","ls-trans","ls-water"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("change",()=>H().LS.set("ls.timeOpts",readTimeOpts())); });
+    ["ls-pace","ls-trans","ls-water","ls-weather"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("change",()=>H().LS.set("ls.timeOpts",readTimeOpts())); });
     $("#ls-gen").addEventListener("click",gen);
     $("#ls-again").addEventListener("click",gen);
     $("#ls-save").addEventListener("click",saveLib);

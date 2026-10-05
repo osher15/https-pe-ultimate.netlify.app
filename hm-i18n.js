@@ -38,9 +38,16 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "ls.weather":"Weather (outdoor field)",
+  "ls.wxCold":"Cold — longer warm-up",
+  "ls.wxNormal":"Normal",
+  "ls.wxHot":"Hot — shorter warm-up",
+  "ls.weatherHot":"Hot weather: shorter warm-up and a longer water break",
+  "ls.weatherCold":"Cold weather: a longer warm-up to raise heart rate and body temperature before effort",
+  /* ux-redesign */
   "ls.freePlay":"Light recreational game or free play",
   "ls.rangeFree":"Time beyond the activity's range goes to a light recreational game or free play",
-  "ls.shortLesson":"Short lesson: a short recommended warm-up and no game, so the main activity gets the time it needs",
+  "ls.shortLesson":"No time left for the game and the main activity: the warm-up at the start was shortened to a short standard warm-up (5 min)",
   /* ux-redesign */
   "ls.flex":"Flexible timing",
   "ls.flexHint":"The same drill takes less in one class and more in another. Each activity has an effective range, and the minutes are fitted inside it to the lesson time.",
@@ -790,9 +797,16 @@ en:{
 
 ar:{
   /* ux-redesign */
+  "ls.weather":"الطقس (ملعب خارجي)",
+  "ls.wxCold":"بارد — إحماء أطول",
+  "ls.wxNormal":"عادي",
+  "ls.wxHot":"حار — إحماء أقصر",
+  "ls.weatherHot":"طقس حار: إحماء أقصر واستراحة شرب أطول",
+  "ls.weatherCold":"طقس بارد: إحماء أطول لرفع النبض ودرجة حرارة الجسم قبل المجهود",
+  /* ux-redesign */
   "ls.freePlay":"لعبة ترفيهية خفيفة أو لعب حر",
   "ls.rangeFree":"الوقت الذي يزيد عن مدى النشاط يُخصَّص للعبة ترفيهية خفيفة أو لعب حر",
-  "ls.shortLesson":"درس قصير: إحماء قصير موصى به وبدون لعبة، ليحصل النشاط الرئيسي على الوقت الذي يحتاجه",
+  "ls.shortLesson":"لا يكفي الوقت للعبة والنشاط الرئيسي: قُصِّر الإحماء في بداية الدرس إلى إحماء قياسي قصير (5 دقائق)",
   /* ux-redesign */
   "ls.flex":"مرونة الوقت",
   "ls.flexHint":"التمرين نفسه يستغرق وقتًا أقل في صف وأكثر في آخر. لكل نشاط مدى فعّال، وتُلائَم الدقائق داخله مع وقت الدرس.",
@@ -1546,9 +1560,16 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "ls.weather":"Погода (открытая площадка)",
+  "ls.wxCold":"Холодно — разминка дольше",
+  "ls.wxNormal":"Обычная",
+  "ls.wxHot":"Жарко — разминка короче",
+  "ls.weatherHot":"Жаркая погода: разминка короче, перерыв на воду дольше",
+  "ls.weatherCold":"Холодная погода: более долгая разминка, чтобы поднять пульс и температуру тела перед нагрузкой",
+  /* ux-redesign */
   "ls.freePlay":"Лёгкая игра для отдыха или свободная игра",
   "ls.rangeFree":"Время сверх диапазона задания отдано лёгкой игре или свободной игре",
-  "ls.shortLesson":"Короткий урок: короткая рекомендуемая разминка и без игры, чтобы основному заданию хватило времени",
+  "ls.shortLesson":"Не хватает времени на игру и основное задание: разминка в начале урока сокращена до короткой стандартной (5 мин)",
   /* ux-redesign */
   "ls.flex":"Гибкость времени",
   "ls.flexHint":"Одно и то же упражнение в одном классе занимает меньше времени, в другом — больше. У каждого задания есть эффективный диапазон, и минуты подгоняются в нём под время урока.",
@@ -2295,9 +2316,16 @@ ru:{
 
 es:{
   /* ux-redesign */
+  "ls.weather":"Clima (campo al aire libre)",
+  "ls.wxCold":"Frío: calentamiento más largo",
+  "ls.wxNormal":"Normal",
+  "ls.wxHot":"Calor: calentamiento más corto",
+  "ls.weatherHot":"Calor: calentamiento más corto y pausa para beber más larga",
+  "ls.weatherCold":"Frío: calentamiento más largo para subir el pulso y la temperatura antes del esfuerzo",
+  /* ux-redesign */
   "ls.freePlay":"Juego recreativo ligero o juego libre",
   "ls.rangeFree":"El tiempo que excede el rango de la actividad se dedica a un juego recreativo ligero o juego libre",
-  "ls.shortLesson":"Clase corta: calentamiento breve recomendado y sin juego, para que la actividad principal tenga el tiempo que necesita",
+  "ls.shortLesson":"No hay tiempo suficiente para el juego y la actividad principal: el calentamiento inicial se acortó a un calentamiento estándar breve (5 min)",
   /* ux-redesign */
   "ls.flex":"Tiempos flexibles",
   "ls.flexHint":"El mismo ejercicio dura menos en una clase y más en otra. Cada actividad tiene un rango eficaz y los minutos se ajustan dentro de él al tiempo de la clase.",
