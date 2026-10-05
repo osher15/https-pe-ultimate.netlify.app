@@ -356,7 +356,7 @@ window.LESSON=(function(){
     const {$, $$}=H();
     return {
       topic:$("#ls-focus").value,
-      dur:Math.max(20,+$("#ls-dur").value||45),
+      dur:(function(v){ v=Math.round(+v); return isFinite(v)?Math.min(240,Math.max(20,v)):45; })($("#ls-dur").value),
       cls:$("#ls-class").value.trim(),
       size:+$("#ls-size").value||30,
       place:$("#ls-place").value,

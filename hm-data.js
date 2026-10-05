@@ -638,7 +638,9 @@ function overheadFull(n,alloc,opts,rest){
 }
 /* מפזר את הדקות שנשארו על השלבים: כל פעם שלב עם הכי הרבה מקום לזוז, בלי לצאת מהטווח */
 function spreadMinutes(typ,lo,hi,target){
-  var cur=typ.slice(), diff=target-sumOf(cur), i, best, room, bi;
+  /* חוזה: דקות שלמות. יעד עשרוני (למשל 10.5) לא מגיע לאפס בצעדים של דקה אחת ותקע את הלולאה */
+  var cur=typ.slice(), diff=Math.round(target)-sumOf(cur), i, best, room, bi;
+  if(!isFinite(diff))return cur;
   while(diff!==0){
     bi=-1; best=-1;
     for(i=0;i<cur.length;i++){
@@ -652,7 +654,10 @@ function spreadMinutes(typ,lo,hi,target){
 }
 /* status: exact (הזמן בתוך הטווח היעיל — הדקות מותאמות במדויק) |
    short (הזמן ארוך מהטווח — צריך עוד סבבים) | over (קצר מהטווח) */
+/* דקות מוקצות: מספר סופי וחיובי, מעוגל לדקה שלמה. קלט עשרוני, ‎Infinity או NaN לא נכנסים למודל */
+function wholeMinutes(x){ x=+x; return (isFinite(x)&&x>0)?Math.max(1,Math.round(x)):0; }
 function fitSteps(sr,alloc,opts){
+  alloc=wholeMinutes(alloc);
   if(!sr||!(alloc>0))return {known:false};
   var o=timeOpts(opts), pace=TIME_PACE[o.pace], n=sr.typ.length;
   var typ=sr.typ.map(function(x,i){ return Math.min(Math.max(Math.round(x*pace),sr.lo[i]),sr.hi[i]); });
@@ -666,6 +671,7 @@ function fitSteps(sr,alloc,opts){
 }
 function variantFit(v,alloc,opts){
   var sr=stepRanges(v);
+  alloc=wholeMinutes(alloc);
   if(!sr||!(alloc>0))return {known:false};
   var f=fitSteps(sr,alloc,opts); f.sr=sr; return f;
 }
@@ -688,6 +694,7 @@ var MAIN_FMT_RANGE={stations:{per:[2,6]},circuit:{per:[2,4]},sets:{per:[3,8]},pa
 function mainWindow(fmt,n,alloc,opts){
   var r=MAIN_FMT_RANGE[fmt]||MAIN_FMT_RANGE.stations, o=timeOpts(opts), k=Math.max(1,+n||1);
   var lo=r.block?r.block[0]:r.per[0]*k, hi=r.block?r.block[1]:r.per[1]*k;
+  alloc=wholeMinutes(alloc);
   if(!(alloc>0))return {known:false};
   var oh=overheadFull(r.block?1:k,alloc,o,fmt==="stations"||fmt==="circuit"), avail=alloc-oh;
   if(avail<lo){ oh=Math.max(0,alloc-lo); avail=alloc-oh; }
