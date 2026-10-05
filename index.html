@@ -15,26 +15,26 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="41dcb49b">
+<meta name="hm-build" content="5d56fead">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
-<link rel="stylesheet" href="hm-styles.css?v=ffe3a4d2">
+<link rel="stylesheet" href="hm-styles.css?v=09a4178a">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-native.js?v=6c53d8bd"></script>
 <script src="hm-backup-restore.js?v=f1a05be7"></script>
-<script src="hm-data.js?v=f0d63b4b"></script>
+<script src="hm-data.js?v=1aa05ea2"></script>
 <script src="hm-assessment-data.js?v=016c9c1c"></script>
-<script src="hm-terms.js?v=b2ee46d0"></script>
-<script src="hm-texts.js?v=07c4963b"></script>
-<script src="hm-i18n.js?v=23d4962d"></script>
+<script src="hm-terms.js?v=58b70a63"></script>
+<script src="hm-texts.js?v=0e0a2539"></script>
+<script src="hm-i18n.js?v=75be1103"></script>
 <script src="hm-app.js?v=f883aca4"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
-<script src="hm-know.js?v=72244783"></script>
+<script src="hm-know.js?v=a7ad18d5"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="hm-tools.js?v=0baf385d"></script>
 <script src="hm-plans.js?v=20cf74cb"></script>
-<script src="hm-lesson.js?v=a6ad94de"></script>
+<script src="hm-lesson.js?v=68ea50ea"></script>
 <script src="hm-build.js?v=931b1d83"></script>
 <script src="hm-tests.js?v=03154066"></script>
 <script src="hm-new.js?v=0f791e96"></script>
@@ -1065,7 +1065,13 @@
     </div>
     <div class="field" style="margin-top:11px"><label>ציוד זמין</label>
       <div class="ls-eq" id="ls-eq">
-        <label class="check"><input type="checkbox" value="כדורים" checked> כדורים</label>
+        <label class="check"><input type="checkbox" value="כדור סל" checked> כדור סל</label>
+        <label class="check"><input type="checkbox" value="כדור רגל" checked> כדור רגל</label>
+        <label class="check"><input type="checkbox" value="כדור עף" checked> כדור עף</label>
+        <label class="check"><input type="checkbox" value="כדור יד" checked> כדור יד</label>
+        <label class="check"><input type="checkbox" value="כדור ספוג" checked> כדור ספוג</label>
+        <label class="check"><input type="checkbox" value="כדור גומי" checked> כדור גומי</label>
+        <label class="check"><input type="checkbox" value="כדור רך" checked> כדור רך</label>
         <label class="check"><input type="checkbox" value="קונוסים" checked> קונוסים</label>
         <label class="check"><input type="checkbox" value="מזרנים"> מזרנים</label>
         <label class="check"><input type="checkbox" value="חישוקים"> חישוקים</label>
@@ -1073,7 +1079,11 @@
         <label class="check"><input type="checkbox" value="חבל"> חבלים</label>
         <label class="check"><input type="checkbox" value="רמקול"> רמקול</label>
         <label class="check"><input type="checkbox" value="וסטים"> וסטים</label>
+        <label class="check"><input type="checkbox" value="חבל עבה"> חבל עבה (משיכה/טיפוס)</label>
+        <label class="check"><input type="checkbox" value="צלחת מעופפת"> צלחת מעופפת (פריזבי)</label>
+        <label class="check"><input type="checkbox" value="ציוד אחר" id="ls-eqOtherOn"> ציוד אחר</label>
       </div>
+      <input type="text" id="ls-eqOther" maxlength="80" autocomplete="off" style="margin-top:8px" placeholder="מה עוד יש לך? (אפשר להקליד)">
     </div>
     <div class="row" style="margin-top:11px">
       <label class="check"><input type="checkbox" id="ls-optGame" checked> לשלב משחק מדף המשחקים</label>
@@ -1622,7 +1632,7 @@
   <p class="ab-p" data-i18n="ab.p">ערכת שטח למורה לחינוך גופני: מבחני כושר, ביפ טסט, פוטו־פיניש מהמצלמה, מערכי שיעור,
     לוח שיאים, כלי כיתה וציונים — הכול במסך אחד, ונתוני התלמידים נשמרים במכשיר.</p>
   <div class="ab-sec"><b data-i18n="ab.privT">🔒 פרטיות</b>
-    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>אין באפליקציה חשבון משתמש, ונתוני התלמידים לא נשלחים למפעיל.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — האתר מוגש מ-Netlify, שרושמת יומני שרת רגילים (כתובת IP, פרטי דפדפן, הכתובת שנטענה), והדפדפן מבקש גופנים מ-Google Fonts (כתובת IP ופרטי דפדפן, בלי נתוני תלמידים); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (Netlify Forms); (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול מהמכשיר — לכן יש גיבוי.</p>
+    <p class="ab-p" data-i18n="ab.priv">נתוני התלמידים — רשימות, נוכחות, ציונים ומדידות — נשמרים במכשיר הזה (localStorage ו-IndexedDB). <b>אין באפליקציה חשבון משתמש, ונתוני התלמידים לא נשלחים למפעיל.</b> מה שכן יוצא מהמכשיר: (1) בכל טעינה — האתר מוגש מ-Netlify, שרושמת יומני שרת רגילים (כתובת IP, פרטי דפדפן, הכתובת שנטענה); (2) פרטי הקשר שלך — רק אם בחרת למסור אותם — לטופס הייעודי של PE Ultimate אצל מפעיל האפליקציה (Netlify Forms); (3) רק אם הגדרת זאת: סנכרון שיאים ל-Google Sheet שלך (שם תלמיד, ענף, תוצאה, סטטוס) וגיבוי מוצפן ל-Google Drive שלך; (4) קישורים חיצוניים (YouTube, מקורות, טופס העלאת סרטון) נפתחים רק כשלוחצים עליהם. ייצוא CSV וגיבוי לקובץ הם תמיד פעולה יזומה שלך. מחיקת נתוני האתר בדפדפן מוחקת הכול מהמכשיר — לכן יש גיבוי.</p>
     <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a>
       · <a href="terms.html" target="_blank" rel="noopener" data-i18n="ab.termsLink">תנאי שימוש ↗</a></p></div>
   <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
