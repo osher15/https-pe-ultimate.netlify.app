@@ -107,16 +107,14 @@ module.exports={title:"שלב 30 — אנגלית כברירת מחדל והדג
     eq(await page.evaluate(()=>window.HM.LS.get("hx.demoLang",null)),"he");
   }),
 
-  check("הדגמה עברית ישנה בממשק אנגלי: «טען מחדש באנגלית» מחליף רק את רשומות ההדגמה",Object.assign({lang:"en","hx.demo":true,
+  check("הדגמה עברית ישנה בממשק אנגלי: מתחלפת אוטומטית לאנגלית, ורק רשומות ההדגמה מוחלפות",Object.assign({lang:"en","hx.demo":true,
     "stu.list":[{id:"demo0",name:"דן אבירם",cls:"ט׳3",cid:"c:ט:3",sex:"boys",age:14,tests:[]},
                 {id:"demo1",name:"איתי כהן",cls:"ט׳3",cid:"c:ט:3",sex:"boys",age:14,tests:[]},
                 {id:"r1",name:"Real Student",cls:"ז׳1",cid:"c:ז:1",sex:"girls",age:12,tests:[]}],
     "ft.results":[{id:"dm0",ts:1,d:"2026-09-01",cls:"ט׳3",cid:"c:ט:3",test:"push",name:"דן אבירם",sid:"demo0",gradeKey:"ט",sex:"boys",val:20,unit:"חזרות"},
                   {id:"x9",ts:2,d:"2026-09-02",cls:"ז׳1",cid:"c:ז:1",test:"push",name:"Real Student",sid:"r1",gradeKey:"ז",sex:"girls",val:11,unit:"חזרות"}]},V),async page=>{
-    ok(await page.evaluate(()=>getComputedStyle(document.getElementById("demoReload")).display!=="none"),"הכפתור מוצג");
-    eq(await page.evaluate(()=>document.getElementById("demoReload").textContent),"↻ Reload the demo in English");
-    await page.click("#demoReload"); await page.waitForTimeout(200);
-    await page.click("#ask-ok"); await page.waitForTimeout(150);
+    await page.waitForTimeout(700);   /* הסנכרון האוטומטי מחליף את שמות ההדגמה */
+    ok(await page.evaluate(()=>document.getElementById("demoReload").hidden),"אין צורך בכפתור — ההדגמה כבר באנגלית");
     const st=await page.evaluate(()=>window.HM.LS.get("stu.list",[]));
     const res=await page.evaluate(()=>window.HM.LS.get("ft.results",[]));
     eq(st.find(s=>s.id==="r1"),{id:"r1",name:"Real Student",cls:"ז׳1",cid:"c:ז:1",sex:"girls",age:12,tests:[]},"התלמיד האמיתי לא נגע");

@@ -38,6 +38,17 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "ft.cardTitle":"Student card",
+  "ft.repOne":"One rep",
+  "ft.repFive":"Five reps",
+  "ft.repCount":"Rep count",
+  "ft.repMinusOne":"Minus one",
+  "ft.repMinusFive":"Minus five",
+  /* ux-redesign */
+  "ui.demoHasData":"This device already has data — the demo will not run on top of it",
+  "ui.demoHasDataQ":"This device already has real data.\n\nDemo mode adds an invented class, so it only runs on an empty device — to keep it from mixing with real students.\n\nTo see the demo: back up your data (Settings → Backup), clear it, and start the demo. Then restore.",
+  "ui.demoGotIt":"Got it",
+  /* ux-redesign */
   "lb.loading":"Loading…",
   "lb.loadFail":"This sport cannot be loaded right now (check your connection and try again).",
   /* ux-redesign */
@@ -837,6 +848,17 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "ft.cardTitle":"بطاقة الطالب",
+  "ft.repOne":"تكرار واحد",
+  "ft.repFive":"خمسة تكرارات",
+  "ft.repCount":"عدد التكرارات",
+  "ft.repMinusOne":"ناقص واحد",
+  "ft.repMinusFive":"ناقص خمسة",
+  /* ux-redesign */
+  "ui.demoHasData":"في الجهاز بيانات بالفعل — لن يعمل العرض التوضيحي فوقها",
+  "ui.demoHasDataQ":"في هذا الجهاز بيانات حقيقية بالفعل.\n\nيضيف وضع العرض التوضيحي صفًا مُختلقًا، لذلك يعمل فقط على جهاز فارغ — حتى لا يختلط بطلاب حقيقيين.\n\nلرؤية العرض: انسخ بياناتك احتياطيًا (الإعدادات ← النسخ الاحتياطي)، ثم امسحها وشغّل العرض. بعد ذلك استعدها.",
+  "ui.demoGotIt":"فهمت",
   /* ux-redesign */
   "lb.loading":"جارٍ التحميل…",
   "lb.loadFail":"تعذّر تحميل هذه الرياضة الآن (تحقق من الاتصال وحاول مجددًا).",
@@ -1642,6 +1664,17 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "ft.cardTitle":"Карточка ученика",
+  "ft.repOne":"Одно повторение",
+  "ft.repFive":"Пять повторений",
+  "ft.repCount":"Количество повторений",
+  "ft.repMinusOne":"Минус один",
+  "ft.repMinusFive":"Минус пять",
+  /* ux-redesign */
+  "ui.demoHasData":"На устройстве уже есть данные — демонстрация не будет запущена поверх них",
+  "ui.demoHasDataQ":"На этом устройстве уже есть реальные данные.\n\nДемо-режим добавляет вымышленный класс, поэтому работает только на пустом устройстве — чтобы не смешиваться с настоящими учениками.\n\nЧтобы посмотреть демо: сделайте резервную копию (Настройки → Резервная копия), очистите данные и запустите демо. Затем восстановите.",
+  "ui.demoGotIt":"Понятно",
+  /* ux-redesign */
   "lb.loading":"Загрузка…",
   "lb.loadFail":"Не удаётся загрузить этот вид спорта (проверьте подключение и повторите).",
   /* ux-redesign */
@@ -2438,6 +2471,17 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "ft.cardTitle":"Ficha del alumno",
+  "ft.repOne":"Una repetición",
+  "ft.repFive":"Cinco repeticiones",
+  "ft.repCount":"Número de repeticiones",
+  "ft.repMinusOne":"Menos uno",
+  "ft.repMinusFive":"Menos cinco",
+  /* ux-redesign */
+  "ui.demoHasData":"Este dispositivo ya tiene datos: la demostración no se ejecutará encima de ellos",
+  "ui.demoHasDataQ":"Este dispositivo ya tiene datos reales.\n\nEl modo demostración añade una clase inventada, por eso solo funciona en un dispositivo vacío, para que no se mezcle con alumnos reales.\n\nPara ver la demostración: haz una copia de seguridad (Ajustes → Copia de seguridad), borra los datos y activa la demostración. Después restaura.",
+  "ui.demoGotIt":"Entendido",
   /* ux-redesign */
   "lb.loading":"Cargando…",
   "lb.loadFail":"No se puede cargar este deporte ahora (revisa la conexión e inténtalo de nuevo).",
