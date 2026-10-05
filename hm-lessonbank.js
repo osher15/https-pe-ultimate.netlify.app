@@ -39,6 +39,11 @@
    ============================================================ */
 window.LESSONBANK = window.LESSONBANK || { sports: {} };
 window.LESSONBANK.meta = {
+  /* ענפים שיש להם קובץ נתונים. הקובץ נטען לפי דרישה (LESSONBANK.load) — בטעינה הראשונה של
+     האפליקציה נטען רק הקובץ הזה, ולא כל שישה הענפים (כ-0.5 MB לענף). בגרסת הקובץ הבודד
+     כולם כלולים מראש. ענף חדש מתווסף כאן, בקובץ שלו, ובתג data-lb ב-index.html. */
+  available: ["basketball", "football", "handball", "volleyball", "athletics", "fitness"],
+  lessonsPerSport: 10,
   /* מקור וסטטוס הסקירה של התוכן. התוכן נטען כפי שנכתב ב-Notion; לא נערך בייבוא.
      reviewStatus: draft = טרם נסקר באדם; imported = נטען ללא בדיקה נוספת; teacher-reviewed / native-reviewed
      יסומנו רק אחרי שאדם סקר. מתעדכן ידנית עם כל סבב ייבוא. */
@@ -46,7 +51,7 @@ window.LESSONBANK.meta = {
     source: "Notion — מאגר מערכי שיעור ספורט / סדרת מערכים לבית הספר",
     sourcePageId: "3df128d0e2178140b549dd1a82642096",
     contentVersion: "V2, תיקוני Notion עד 2026-09-28",
-    importedFrom: "feat/international-lesson-bank (2026-09-29)",
+    importedFrom: "basketball, football: feat/international-lesson-bank (2026-09-29); handball, volleyball, athletics, fitness: Notion export via tools/notion-lessons-import.js (2026-10-05)",
     reviewStatus: "draft"
   },
   langs: ["he", "en", "ar", "ru", "es"],
@@ -60,3 +65,25 @@ window.LESSONBANK.meta = {
     fitness:    { he: "כושר",   en: "Fitness",    ar: "اللياقة",    ru: "Фитнес",    es: "Condición física" }
   }
 };
+
+/* טעינה לפי דרישה של קובץ ענף. מחזיר הבטחה; אם הענף כבר נטען (הקובץ הבודד) — מיידי.
+   כתובת הקובץ (עם חותמת גרסה) יושבת בתג <script type="text/plain" data-lb="..."> ב-index.html,
+   ולכן אותה חותמת נכנסת גם לרשימת המטמון המוקדם של ה-service worker — וזה עובד גם בלי רשת. */
+(function(){
+  const LB=window.LESSONBANK, pending={};
+  LB.load=function(sport){
+    if(LB.sports&&LB.sports[sport])return Promise.resolve();
+    if(pending[sport])return pending[sport];
+    const tag=document.querySelector('script[data-lb="'+sport+'"]');
+    if(!tag||!tag.dataset.src)return Promise.reject(new Error("no source for "+sport));
+    pending[sport]=new Promise(function(resolve,reject){
+      const s=document.createElement("script");
+      s.src=tag.dataset.src;
+      s.onload=function(){ (LB.sports&&LB.sports[sport])?resolve():reject(new Error("empty "+sport)); };
+      s.onerror=function(){ delete pending[sport]; reject(new Error("load failed "+sport)); };
+      document.head.appendChild(s);
+    });
+    pending[sport].catch(function(){ delete pending[sport]; });
+    return pending[sport];
+  };
+})();

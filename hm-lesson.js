@@ -920,7 +920,8 @@ window.LESSON=(function(){
   function bankSports(){
     const LB=window.LESSONBANK;
     if(!LB||!LB.sports)return [];
-    return (LB.meta&&LB.meta.sportOrder||Object.keys(LB.sports)).filter(s=>LB.sports[s]);
+    const avail=(LB.meta&&LB.meta.available)||[];
+    return (LB.meta&&LB.meta.sportOrder||Object.keys(LB.sports)).filter(s=>LB.sports[s]||avail.indexOf(s)>=0);
   }
   function bankLessons(sport){
     const LB=window.LESSONBANK;
@@ -963,11 +964,21 @@ window.LESSON=(function(){
     const {$, esc}=H();
     const list=$("#ls-bankList"), count=$("#ls-bankCount");
     if(!list||!curBankSport)return;
+    /* ענף שעוד לא נטען (טעינה לפי דרישה): מציגים «טוען…» וקוראים שוב כשהקובץ הגיע */
+    if(!(window.LESSONBANK.sports&&window.LESSONBANK.sports[curBankSport])){
+      const sp=curBankSport;
+      count.textContent=H().t("lb.loading","טוען…");
+      list.innerHTML="";
+      window.LESSONBANK.load(sp).then(()=>{ if(curBankSport===sp)renderBankList(); })
+        .catch(()=>{ if(curBankSport===sp){ count.textContent=""; list.innerHTML=`<div class="hint ls-bank-missing">${H().esc(H().t("lb.loadFail","לא ניתן לטעון את הענף כרגע (בדקו חיבור לאינטרנט ונסו שוב)."))}</div>`; } });
+      return;
+    }
     const lessons=bankLessons(curBankSport);
     count.textContent=lessons.length+" "+bankL().listCount;
     const hint=$("#ls-bankHint");
     if(hint){
-      const total=bankSports().reduce((a,sp)=>a+((window.LESSONBANK.sports[sp].he||[]).length),0);
+      const per=(window.LESSONBANK.meta&&window.LESSONBANK.meta.lessonsPerSport)||10;
+      const total=bankSports().length*per;
       hint.innerHTML=H().esc(H().t("lb.hint","{n} מערכי שיעור מלאים בחמש שפות — מוצגים בשפה הפעילה של האפליקציה.").replace("{n}",total))
         +bankStatusHtml()
         +(bankLangMissing(curBankSport)?`<div class="hint ls-bank-missing">${H().esc(H().t("lb.missingLang","הענף הזה עדיין לא זמין בשפה שבחרת — מוצג בעברית."))}</div>`:"");

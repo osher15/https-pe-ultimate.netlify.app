@@ -28,7 +28,7 @@ Update (manual builder, #19 remainder): hm-build.js now shares the equipment ava
 Unresolved issues and dependencies:
 - docs/TIMING_DRAFT_REVIEW.md: timing tables are drafts from reading the text only; teacher approval pending. Some step texts contain explicit minutes that do not change when minutes are fitted.
 - Manual builder: per-step times for builder items are not modeled (window is per work format); free-text "other equipment" is not shared with the builder.
-- #21 remaining: authored easier/harder adaptations beside each drill (needs reviewed content in five languages; not claimed for every item), personal collections, personal edited copies, export/import of plans, quick rating near Start. Content import (#24) stays on hold.
+- #21 remaining: authored easier/harder adaptations beside each drill (needs reviewed content in five languages; not claimed for every item), personal collections, personal edited copies, export/import of plans, quick rating near Start. Content import (#24): hold lifted; see docs/handoffs/2026-10-05-lessonbank-import.md.
 - #22 remaining: pairing transport (see design doc section 4).
 - #13: native packaging untouched.
 
