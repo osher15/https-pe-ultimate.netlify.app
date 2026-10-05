@@ -1,6 +1,7 @@
 "use strict";
 const {run}=require("./harness.js");
 const suites=[
+  require("./fieldjourney.e2e.js"),
   require("./backuprestore.e2e.js"),
   require("./assessmentexemptions.e2e.js"),
   require("./finaloverride.e2e.js"),
@@ -54,7 +55,9 @@ const suites=[
   require("./audit29.e2e.js"),
   require("./round3.e2e.js"),
   require("./native.e2e.js"),
-  require("./lang30.e2e.js")
+  require("./lang30.e2e.js"),
+  require("./stage1.e2e.js"),
+  require("./stage2.e2e.js")
 ];
 run(suites).then(fail=>process.exit(fail?1:0))
   .catch(e=>{ console.error(e); process.exit(1); });

@@ -273,6 +273,10 @@ en:{
   "ls.eqNoGame":"No game fits the available equipment — no game was added. You can pick a game on the Games page.",
   "ls.eqTopic":"This topic needs equipment not marked as available",
   "ls.eqGame":"The chosen game needs equipment not marked as available",
+  "ls.eqVariant":"The chosen activity needs equipment not marked as available",
+  "ls.timeShort":"The activity describes fewer minutes than allotted (described / allotted) — add rounds or pick a longer activity",
+  "ls.timeOver":"The activity describes more minutes than allotted (described / allotted) — trim rounds or pick a shorter activity",
+  "ls.transit":"Transitions and instructions",
   "sched.clash":"Another separate slot is at the same time. If these classes are taught together, join them as a group (Class hub → Join classes); otherwise this is a timetable clash.",
   /* ux-redesign */
   "stu.badRecs":"Damaged records in the list are not shown, but they are kept as they are — back up your data before any change.",
@@ -759,7 +763,7 @@ en:{
   /* --- אודות --- */
   "ab.p":"A field kit for PE teachers: fitness tests, beep test, camera photo-finish, lesson plans, records board, class tools and grades — all on one screen, with student data kept on the device.",
   "ab.privT":"🔒 Privacy",
-  "ab.priv":"Student data — rosters, attendance, grades and measurements — is stored on this device (localStorage and IndexedDB). <b>The app has no user accounts, and student data is not sent to the operator.</b> What does leave the device: (1) on every load — the site is served by Netlify, which keeps standard server logs (IP address, browser details, the requested URL), and the browser requests fonts from Google Fonts (IP address and browser details, no student data); (2) your contact details — only if you choose to give them — to PE Ultimate's dedicated form with the app's operator (Netlify Forms); (3) only if you set it up: records sync to your own Google Sheet (student name, event, result, status) and an encrypted backup to your own Google Drive; (4) external links (YouTube, sources, a video-upload form) open only when you tap them. CSV export and file backup are always your own action. Clearing the site's data in the browser deletes everything on the device — that's why there's a backup.",
+  "ab.priv":"Student data — rosters, attendance, grades and measurements — is stored on this device (localStorage and IndexedDB). <b>The app has no user accounts, and student data is not sent to the operator.</b> What does leave the device: (1) on every load — the site is served by Netlify, which keeps standard server logs (IP address, browser details, the requested URL); (2) your contact details — only if you choose to give them — to PE Ultimate's dedicated form with the app's operator (Netlify Forms); (3) only if you set it up: records sync to your own Google Sheet (student name, event, result, status) and an encrypted backup to your own Google Drive; (4) external links (YouTube, sources, a video-upload form) open only when you tap them. CSV export and file backup are always your own action. Clearing the site's data in the browser deletes everything on the device — that's why there's a backup.",
   "ab.srcT":"📚 Professional sources",
   "ab.src":"Léger protocol (beep test) · FITNESSGRAM® norms by The Cooper Institute · «PE badge — standards for assessing student achievement», Israeli Ministry of Education, Pedagogical Secretariat · the physical education curriculum. School norms are the teacher's data and are stored on the device.",
   "ab.builtT":"🛠 Built with",
@@ -1005,6 +1009,10 @@ ar:{
   "ls.eqNoGame":"لم تُوجد لعبة تناسب المعدات المتاحة — لم تُضَف لعبة. يمكن اختيار لعبة من صفحة الألعاب.",
   "ls.eqTopic":"يتطلّب هذا الموضوع معدات غير مُعلَّمة كمتاحة",
   "ls.eqGame":"اللعبة المختارة تتطلّب معدات غير مُعلَّمة كمتاحة",
+  "ls.eqVariant":"النشاط المختار يتطلّب معدات غير مُعلَّمة كمتاحة",
+  "ls.timeShort":"يصف النشاط دقائق أقل من الوقت المخصّص (الموصوف / المخصّص) — أضيفوا جولات أو اختاروا نشاطًا أطول",
+  "ls.timeOver":"يصف النشاط دقائق أكثر من الوقت المخصّص (الموصوف / المخصّص) — قلّلوا الجولات أو اختاروا نشاطًا أقصر",
+  "ls.transit":"الانتقالات والتعليمات",
   "sched.clash":"توجد حصة منفصلة أخرى في الوقت نفسه. إذا كانت الصفوف تتعلّم معًا فاربطوها كمجموعة (مركز الصف ← ربط الصفوف)؛ وإلا فهذا تعارض في الجدول.",
   /* ux-redesign */
   "stu.badRecs":"سجلات تالفة في القائمة لا تُعرض، لكنها محفوظة كما هي — انسخوا البيانات احتياطيًا قبل أي تغيير.",
@@ -1495,7 +1503,7 @@ ar:{
   /* --- אודות --- */
   "ab.p":"عُدّة ميدانية لمعلّم التربية البدنية: اختبارات اللياقة، اختبار البيب، التصوير عند خط النهاية بالكاميرا، خطط الدروس، لوحة الأرقام القياسية، أدوات الصف والعلامات — كل ذلك في شاشة واحدة، وبيانات الطلاب محفوظة على الجهاز.",
   "ab.privT":"🔒 الخصوصية",
-  "ab.priv":"بيانات الطلاب — القوائم والحضور والعلامات والقياسات — محفوظة على هذا الجهاز (localStorage وIndexedDB). <b>لا توجد في التطبيق حسابات مستخدمين، ولا تُرسل بيانات الطلاب إلى المشغّل.</b> ما يخرج فعلًا من الجهاز: (1) عند كل تحميل — يُقدَّم الموقع من Netlify، التي تحتفظ بسجلات خادم عادية (عنوان IP، بيانات المتصفح، العنوان المطلوب)، ويطلب المتصفح الخطوط من Google Fonts (عنوان IP وبيانات المتصفح، دون بيانات طلاب)؛ (2) بيانات التواصل الخاصة بك — فقط إن اخترت تقديمها — إلى النموذج المخصّص لـ PE Ultimate لدى مشغّل التطبيق (Netlify Forms)؛ (3) فقط إن أعددت ذلك: مزامنة الأرقام القياسية مع Google Sheet الخاص بك (اسم الطالب، الفعالية، النتيجة، الحالة) ونسخة احتياطية مشفّرة إلى Google Drive الخاص بك؛ (4) الروابط الخارجية (YouTube، المصادر، نموذج رفع الفيديو) تُفتح فقط عند النقر. تصدير CSV والنسخ الاحتياطي إلى ملف دائمًا بمبادرة منك. مسح بيانات الموقع في المتصفح يحذف كل شيء من الجهاز — ولهذا توجد النسخة الاحتياطية.",
+  "ab.priv":"بيانات الطلاب — القوائم والحضور والعلامات والقياسات — محفوظة على هذا الجهاز (localStorage وIndexedDB). <b>لا توجد في التطبيق حسابات مستخدمين، ولا تُرسل بيانات الطلاب إلى المشغّل.</b> ما يخرج فعلًا من الجهاز: (1) عند كل تحميل — يُقدَّم الموقع من Netlify، التي تحتفظ بسجلات خادم عادية (عنوان IP، بيانات المتصفح، العنوان المطلوب)؛ (2) بيانات التواصل الخاصة بك — فقط إن اخترت تقديمها — إلى النموذج المخصّص لـ PE Ultimate لدى مشغّل التطبيق (Netlify Forms)؛ (3) فقط إن أعددت ذلك: مزامنة الأرقام القياسية مع Google Sheet الخاص بك (اسم الطالب، الفعالية، النتيجة، الحالة) ونسخة احتياطية مشفّرة إلى Google Drive الخاص بك؛ (4) الروابط الخارجية (YouTube، المصادر، نموذج رفع الفيديو) تُفتح فقط عند النقر. تصدير CSV والنسخ الاحتياطي إلى ملف دائمًا بمبادرة منك. مسح بيانات الموقع في المتصفح يحذف كل شيء من الجهاز — ولهذا توجد النسخة الاحتياطية.",
   "ab.srcT":"📚 مصادر مهنية",
   "ab.src":"بروتوكول Léger (اختبار البيب) · معايير FITNESSGRAM® من Cooper Institute · «شارة التربية البدنية — معايير تقييم تحصيل الطلاب»، وزارة التربية والتعليم الإسرائيلية، السكرتارية التربوية · منهاج التربية البدنية. المعايير المدرسية بيانات المعلّم وتُحفظ على الجهاز.",
   "ab.builtT":"🛠 بُني باستخدام",
@@ -1741,6 +1749,10 @@ ru:{
   "ls.eqNoGame":"Не найдено игры под доступный инвентарь — игра не добавлена. Можно выбрать игру на странице игр.",
   "ls.eqTopic":"Для темы нужен инвентарь, не отмеченный как доступный",
   "ls.eqGame":"Для выбранной игры нужен инвентарь, не отмеченный как доступный",
+  "ls.eqVariant":"Для выбранного задания нужен инвентарь, не отмеченный как доступный",
+  "ls.timeShort":"Задание описывает меньше минут, чем выделено (описано / выделено) — добавьте круги или выберите более длинное задание",
+  "ls.timeOver":"Задание описывает больше минут, чем выделено (описано / выделено) — сократите круги или выберите более короткое задание",
+  "ls.transit":"Переходы и объяснения",
   "sched.clash":"В это же время есть ещё один отдельный урок. Если классы занимаются вместе, объедините их в группу (Центр класса → Объединить классы); иначе это накладка в расписании.",
   /* ux-redesign */
   "stu.badRecs":"Повреждённые записи в списке не показаны, но сохранены как есть — сделайте резервную копию перед любыми изменениями.",
@@ -2224,7 +2236,7 @@ ru:{
   /* --- אודות --- */
   "ab.p":"Полевой набор для учителя физкультуры: тесты физподготовки, бип-тест, фотофиниш с камеры, планы уроков, таблица рекордов, инструменты для класса и оценки — всё на одном экране, а данные учеников хранятся на устройстве.",
   "ab.privT":"🔒 Конфиденциальность",
-  "ab.priv":"Данные учеников — списки, посещаемость, оценки и измерения — хранятся на этом устройстве (localStorage и IndexedDB). <b>В приложении нет учётных записей, и данные учеников не передаются оператору.</b> Что всё же покидает устройство: (1) при каждой загрузке — сайт отдаётся с Netlify, где ведутся обычные журналы сервера (IP-адрес, данные браузера, запрошенный адрес), а браузер запрашивает шрифты у Google Fonts (IP-адрес и данные браузера, без данных учеников); (2) ваши контактные данные — только если вы решили их оставить — в отдельную форму PE Ultimate у оператора приложения (Netlify Forms); (3) только если вы это настроили: синхронизация рекордов в вашу Google-таблицу (имя ученика, дисциплина, результат, статус) и зашифрованная копия на ваш Google Диск; (4) внешние ссылки (YouTube, источники, форма загрузки видео) открываются только по нажатию. Экспорт CSV и копия в файл — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё на устройстве — поэтому есть резервная копия.",
+  "ab.priv":"Данные учеников — списки, посещаемость, оценки и измерения — хранятся на этом устройстве (localStorage и IndexedDB). <b>В приложении нет учётных записей, и данные учеников не передаются оператору.</b> Что всё же покидает устройство: (1) при каждой загрузке — сайт отдаётся с Netlify, где ведутся обычные журналы сервера (IP-адрес, данные браузера, запрошенный адрес); (2) ваши контактные данные — только если вы решили их оставить — в отдельную форму PE Ultimate у оператора приложения (Netlify Forms); (3) только если вы это настроили: синхронизация рекордов в вашу Google-таблицу (имя ученика, дисциплина, результат, статус) и зашифрованная копия на ваш Google Диск; (4) внешние ссылки (YouTube, источники, форма загрузки видео) открываются только по нажатию. Экспорт CSV и копия в файл — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё на устройстве — поэтому есть резервная копия.",
   "ab.srcT":"📚 Профессиональные источники",
   "ab.src":"Протокол Léger (бип-тест) · нормы FITNESSGRAM® от Cooper Institute · «Значок по физкультуре — стандарты оценки достижений учащихся», Министерство образования Израиля, Педагогический секретариат · учебная программа по физической культуре. Школьные нормы — данные учителя и хранятся на устройстве.",
   "ab.builtT":"🛠 Сделано с помощью",
@@ -2470,6 +2482,10 @@ es:{
   "ls.eqNoGame":"Ningún juego se ajusta al material disponible: no se ha añadido juego. Puedes elegir uno en la página de juegos.",
   "ls.eqTopic":"El tema requiere material no marcado como disponible",
   "ls.eqGame":"El juego elegido requiere material no marcado como disponible",
+  "ls.eqVariant":"La actividad elegida requiere material no marcado como disponible",
+  "ls.timeShort":"La actividad describe menos minutos de los asignados (descritos / asignados): añade rondas o elige una actividad más larga",
+  "ls.timeOver":"La actividad describe más minutos de los asignados (descritos / asignados): recorta rondas o elige una actividad más corta",
+  "ls.transit":"Transiciones e instrucciones",
   "sched.clash":"A la misma hora hay otra franja separada. Si estos grupos tienen clase juntos, únelos como grupo (Centro del grupo → Unir grupos); si no, es un conflicto de horario.",
   /* ux-redesign */
   "stu.badRecs":"Los registros dañados de la lista no se muestran, pero se conservan tal cual: haz una copia de seguridad antes de cualquier cambio.",
@@ -2991,7 +3007,7 @@ es:{
   /* --- אודות --- */
   "ab.p":"Un kit de campo para docentes de Educación Física: pruebas de condición física, test de la bip, foto-finish con la cámara, planes de sesión, tabla de récords, herramientas de aula y calificaciones, todo en una sola pantalla y con los datos del alumnado guardados en el dispositivo.",
   "ab.privT":"🔒 Privacidad",
-  "ab.priv":"Los datos del alumnado — listas, asistencia, notas y mediciones — se guardan en este dispositivo (localStorage e IndexedDB). <b>La app no tiene cuentas de usuario y los datos del alumnado no se envían al operador.</b> Lo que sí sale del dispositivo: (1) en cada carga, el sitio se sirve desde Netlify, que guarda registros de servidor habituales (dirección IP, datos del navegador, la dirección solicitada), y el navegador pide fuentes a Google Fonts (dirección IP y datos del navegador, sin datos del alumnado); (2) tus datos de contacto, solo si decides darlos, al formulario propio de PE Ultimate del operador de la app (Netlify Forms); (3) solo si lo configuras: sincronización de récords con tu propia hoja de Google (nombre del alumno, prueba, resultado, estado) y una copia cifrada en tu propio Google Drive; (4) los enlaces externos (YouTube, fuentes, un formulario de subida de vídeo) solo se abren al pulsarlos. La exportación CSV y la copia en archivo son siempre una acción tuya. Borrar los datos del sitio en el navegador elimina todo lo del dispositivo; por eso existe la copia de seguridad.",
+  "ab.priv":"Los datos del alumnado — listas, asistencia, notas y mediciones — se guardan en este dispositivo (localStorage e IndexedDB). <b>La app no tiene cuentas de usuario y los datos del alumnado no se envían al operador.</b> Lo que sí sale del dispositivo: (1) en cada carga, el sitio se sirve desde Netlify, que guarda registros de servidor habituales (dirección IP, datos del navegador, la dirección solicitada); (2) tus datos de contacto, solo si decides darlos, al formulario propio de PE Ultimate del operador de la app (Netlify Forms); (3) solo si lo configuras: sincronización de récords con tu propia hoja de Google (nombre del alumno, prueba, resultado, estado) y una copia cifrada en tu propio Google Drive; (4) los enlaces externos (YouTube, fuentes, un formulario de subida de vídeo) solo se abren al pulsarlos. La exportación CSV y la copia en archivo son siempre una acción tuya. Borrar los datos del sitio en el navegador elimina todo lo del dispositivo; por eso existe la copia de seguridad.",
   "ab.srcT":"📚 Fuentes profesionales",
   "ab.src":"Protocolo de Léger (test de la bip) · baremos FITNESSGRAM® de The Cooper Institute · «Insignia de Educación Física — estándares para evaluar el rendimiento del alumnado», Ministerio de Educación de Israel, Secretaría Pedagógica · el currículo de Educación Física. Los baremos del centro son datos del docente y se guardan en el dispositivo.",
   "ab.builtT":"🛠 Hecho con",
