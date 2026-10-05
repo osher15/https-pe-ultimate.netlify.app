@@ -2069,15 +2069,23 @@ function bkStat(){
     : "אין עדיין נתונים במכשיר.";
 }
 async function bkApply(snap){
-  const be=STORE||MEMFALLBACK;
-  /* מוחקים רק את המפתחות שלנו — מפתחות של אתרים אחרים באותו דומיין
-     אינם שלנו למחוק, וגם דגלים שהאפליקציה תכתוב מחדש בעצמה. */
-  try{ bkKeys().forEach(k=>be.removeItem(BK_PREFIX+k)); }catch(e){}
-  let failed=0;
-  Object.keys(snap.data).forEach(k=>{
-    try{ be.setItem(BK_PREFIX+k,snap.data[k]); }
-    catch(e){ failed++; storageTrouble({code:DATA.classifyStorageError(e),error:e},"שחזור",k); }
-  });
+  const validation=DATA.validateBackup(snap);
+  if(!validation.ok||validation.kind!=="backup")throw new Error(t("br.invalid","קובץ הגיבוי אינו תקין."));
+  // New assessment configuration is checked before the restore clears any key.
+  if(snap.data&&Object.prototype.hasOwnProperty.call(snap.data,"assessment.policies")){
+    try{
+      const value=JSON.parse(snap.data["assessment.policies"]);
+      const incoming={get:(key,fallback)=>snap.data[key]==null?fallback:JSON.parse(snap.data[key])};
+      const periods=incoming.get("grades.periods",["רבעון 1"]);
+      const check=window.HMAssessment.validateEnvelope(value,window.FT.tests().filter(d=>d.id!=="beep"),incoming);
+      if(!check.ok||!Array.isArray(periods)||value.policies.some(p=>!periods.includes(p.period)))throw new Error("invalid");
+    }catch(e){throw new Error(t("as.corrupt","לא ניתן לקרוא את הדרישות השמורות או שגרסתן אינה נתמכת. שחזר גיבוי תקין לפני עריכה."));}
+  }
+  const result=window.HMBackupRestore.replace(STORE||MEMFALLBACK,BK_PREFIX,BK_SKIP,snap.data);
+  if(result.failed){
+    storageTrouble({code:DATA.classifyStorageError(result.error),error:result.error},"שחזור","");
+    return {...result,media:{added:0,failed:0}};
+  }
   /* השיאים מתווספים ולא מוחקים: רשומה עם אותו מזהה נדרסת, אבל
      סרטון שקיים רק במכשיר ולא בקובץ נשאר במקומו. */
   let media={added:0,failed:0};
@@ -2087,7 +2095,7 @@ async function bkApply(snap){
   /* קובץ ישן נושא סכמה ישנה. ההסבה רצה עכשיו על מה ששוחזר, כדי
      שהמכשיר לא יישאר בגרסה שהאפליקציה כבר לא מכירה. */
   try{ runMigration(); }catch(e){}
-  return {keys:Object.keys(snap.data).length,failed,media};
+  return {...result,media};
 }
 function wireBackup(){
   if(!$("#set-bkExport"))return;
@@ -2407,6 +2415,7 @@ function bkErrMsg(code){
   return BK_ERRMSG[code]||"הקובץ אינו קובץ גיבוי תקין";
 }
 function bkPreview(snap){
+  const recovery=$("#bk-recovery");if(recovery)recovery.remove();
   const inFile=Object.keys(snap.data), here=bkKeys();
   const all=[...new Set(inFile.concat(here))].sort((a,b)=>{
     const ia=BK_LABELS[a]?0:1, ib=BK_LABELS[b]?0:1;
@@ -2443,6 +2452,18 @@ function bkPreview(snap){
     let r;
     try{ r=await bkApply(snap); }
     catch(e){ $("#bk-go").disabled=false; toast("השחזור נכשל: "+e.message); return; }
+    if(r.failed){
+      $("#bk-go").disabled=false;
+      const warning=$("#bk-warn");warning.style.display="block";
+      warning.textContent=r.rolledBack
+        ?t("br.reverted","השחזור נכשל. הנתונים הקודמים הוחזרו ונבדקו. אפשר לנסות שוב.")
+        :t("br.incomplete","השחזור נכשל ולא ניתן לאמת החזרה מלאה. שמור את עותק ההצלה לפני סגירת החלון.");
+      let recovery=$("#bk-recovery");
+      if(!recovery){recovery=document.createElement("button");recovery.id="bk-recovery";recovery.type="button";recovery.className="btn ghost";warning.after(recovery);}
+      recovery.textContent=t("br.recovery","שמור עותק הצלה של הנתונים הקודמים (ללא סרטונים)");
+      recovery.onclick=()=>bkSave(DATA.buildSnapshot({data:r.recovery,school:SET.school||"",schema:DATA.SCHEMA_VERSION}),false);
+      toast(warning.textContent);return;
+    }
     modal("bk-modal",false);
     /* מדווחים בדיוק מה נכנס. «שוחזר» סתמי הוא מה שאפשר למורה
        לחשוב שיש לו סרטונים שאין לו. */

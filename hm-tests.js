@@ -1688,6 +1688,7 @@ window.FT=(function(){
     $("#ft-cov").innerHTML=`
       <div class="card">
         <h2><span class="dot"></span> מה חסר לכיתה — ${esc(disp(c))}</h2>
+        ${!isG(c)?`<button class="btn sm ghost" data-assessment-report data-cid="${esc(cidOf(c))}" data-i18n="ar.title">דוח הערכה לפי תקופה</button><button class="btn sm ghost" data-assessment-open data-cid="${esc(cidOf(c))}" data-i18n="as.title">מבחני חובה ויעדים</button>`:""}
         <div class="hint">כל תלמיד מול כל מבחן שהכיתה כבר נמדדה בו — ✓ הושלם, ✕ עדיין חסר.
           מבחן שאף אחד בכיתה עדיין לא ניגש אליו לא מופיע כאן.</div>
         ${cov.tests.length&&total?`<div class="ft-idxsum">

@@ -155,8 +155,16 @@ test("טבלה בלי שם גרסה אינה נכנסת לארכיון",()=>{
   assert.deepEqual(D.archiveNorm({},{version:"",table:T26}),{},
     "אין שם — אין דרך להפנות אליה");
   assert.deepEqual(D.archiveNorm({},null),{});
-  assert.deepEqual(D.archiveNorm(null,{version:"א",table:{}}),
-    D.archiveNorm({},{version:"א",table:{}}));
+  const absent=D.archiveNorm(null,{version:"א",table:{}});
+  const empty=D.archiveNorm({},{version:"א",table:{}});
+  // Independent calls may cross a millisecond; compare content and validate each timestamp.
+  for(const archive of [absent,empty]){
+    assert.deepEqual(Object.keys(archive),["א"]);
+    assert.ok(Number.isFinite(Date.parse(archive["א"].at)),"valid archive timestamp");
+  }
+  const {at:absentAt,...absentContent}=absent["א"];
+  const {at:emptyAt,...emptyContent}=empty["א"];
+  assert.deepEqual(absentContent,emptyContent);
 });
 
 test("שמירה חוזרת של אותה גרסה דורסת אותה בלבד",()=>{

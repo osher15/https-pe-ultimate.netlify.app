@@ -1,6 +1,16 @@
 "use strict";
 const {run}=require("./harness.js");
 const suites=[
+  require("./backuprestore.e2e.js"),
+  require("./assessmentexemptions.e2e.js"),
+  require("./finaloverride.e2e.js"),
+  require("./assessmentgrid.e2e.js"),
+  require("./assessmentpaste.e2e.js"),
+  require("./studentreport.e2e.js"),
+  require("./assessmentreport.e2e.js"),
+  require("./assessmenteditor.e2e.js"),
+  require("./persistenceharness.e2e.js"),
+  require("./studentmissing.e2e.js"),
   require("./identity.e2e.js"),
   require("./storage.e2e.js"),
   require("./backup.e2e.js"),

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="de9315b2">
+<meta name="hm-build" content="41dcb49b">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -2778,6 +2778,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
         <div class="field" style="width:170px"><label>תקופת הערכה</label><select id="gr-period"></select></div>
         <button class="btn sm" id="gr-periodAdd" style="margin-top:18px">+ תקופה</button>
         <button class="btn sm ghost" id="gr-periodDel" style="margin-top:18px">🗑 מחק תקופה</button>
+        <button class="btn sm ghost" data-assessment-open style="margin-top:18px" data-i18n="as.title">מבחני חובה ויעדים</button>
         <div class="field" style="width:150px"><label>כיתה</label><select id="gr-classSel"></select></div>
         <button class="btn sm" id="gr-examAdd" style="margin-top:18px">+ עמודת מבחן</button>
         <button class="btn sm ghost" id="gr-csv" style="margin-top:18px">⬇ CSV</button>
@@ -6087,9 +6088,21 @@ function gradeResult(g,weights,examCols){
   if(bonus)any=true;
   var value=any?Math.round(Math.min(100,total+bonus)*10)/10:null;
   var complete=any&&required>0&&!missing.length;
-  return {value:value,final:complete?value:null,complete:complete,
+  var result={value:value,final:complete?value:null,complete:complete,
     status:!any?GRADE_EMPTY:(complete?GRADE_FINAL:GRADE_PROV),
     missing:missing,examsAvg:examsAvg,bonus:bonus};
+  // A teacher's explicit period decision never changes the component calculation.
+  if(Object.prototype.hasOwnProperty.call(g,"finalOverride")){
+    var o=g.finalOverride;
+    if(o&&typeof o==="object"&&!Array.isArray(o)&&typeof o.value==="number"&&
+       isFinite(o.value)&&o.value>=0&&o.value<=100&&
+       typeof o.note==="string"&&o.note.length<=500){
+      result.calculatedValue=value; result.calculatedComplete=complete;
+      result.calculatedStatus=result.status; result.overridden=true;
+      result.value=o.value; result.final=o.value; result.complete=true; result.status=GRADE_FINAL;
+    }else result.overrideInvalid=true;
+  }
+  return result;
 }
 
 /* ============================================================
@@ -6916,6 +6929,199 @@ return {
   BK_APP:BK_APP, BK_V:BK_V, IDB_BUDGET:IDB_BUDGET,
   buildSnapshot:buildSnapshot, planMedia:planMedia, validateBackup:validateBackup, planRestore:planRestore
 };
+});
+
+;
+"use strict";
+// Synchronous storage replacement with a verified, in-memory recovery snapshot.
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory();
+  else window.HMBackupRestore=factory();
+})(function(){
+  const owns=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
+  function replace(be,prefix,skip,data){
+    const included=k=>k.startsWith(prefix)&&!owns(skip,k.slice(prefix.length));
+    function capture(){
+      const out=Object.create(null),length=be.length;
+      for(let i=0;i<length;i++){
+        const key=be.key(i);
+        if(typeof key!=="string")throw new Error("Storage enumeration failed");
+        if(!included(key))continue;
+        const value=be.getItem(key);
+        if(typeof value!=="string"||owns(out,key.slice(prefix.length)))throw new Error("Storage snapshot changed");
+        out[key.slice(prefix.length)]=value;
+      }
+      if(be.length!==length)throw new Error("Storage snapshot changed");
+      return out;
+    }
+    function equal(a,b){return Object.keys(a).length===Object.keys(b).length&&Object.keys(a).every(k=>owns(b,k)&&a[k]===b[k]);}
+    const incoming=Object.create(null);
+    if(!data||typeof data!=="object"||Array.isArray(data))throw new Error("Invalid backup data");
+    for(const key of Object.keys(data)){
+      if(typeof data[key]!=="string")throw new Error("Invalid backup value");
+      if(!owns(skip,key))incoming[key]=data[key];
+    }
+    // Any unreadable current value aborts before the first mutation.
+    const previous=capture();
+    if(!equal(previous,capture()))throw new Error("Storage snapshot changed");
+    const touched=new Set();
+    try{
+      // Write changed values first: a first-write quota error preserves old data.
+      for(const key of Object.keys(incoming))if(previous[key]!==incoming[key]){
+        touched.add(key);be.setItem(prefix+key,incoming[key]);
+        if(be.getItem(prefix+key)!==incoming[key])throw new Error("Storage write verification failed");
+      }
+      for(const key of Object.keys(previous))if(!owns(incoming,key)){
+        touched.add(key);be.removeItem(prefix+key);
+        if(be.getItem(prefix+key)!==null)throw new Error("Storage deletion verification failed");
+      }
+      if(!equal(incoming,capture()))throw new Error("Storage restore verification failed");
+      return {keys:Object.keys(incoming).length,failed:0};
+    }catch(error){
+      // Attempt every affected key, even if the backend rejects another one.
+      for(const key of touched){
+        try{
+          if(owns(previous,key)){
+            if(be.getItem(prefix+key)!==previous[key])be.setItem(prefix+key,previous[key]);
+          }else be.removeItem(prefix+key);
+        }catch(e){}
+      }
+      let rolledBack=false;
+      try{rolledBack=equal(previous,capture());}catch(e){}
+      return {keys:0,failed:1,rolledBack,recovery:previous,error};
+    }
+  }
+  return {replace};
+});
+
+;
+"use strict";
+// Pure assessment calculations and configuration validation. Load after hm-data.js.
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory(require("./hm-data.js"));
+  else if(typeof window!=="undefined")window.HMAssessment=factory(window.HMDATA);
+})(function(D){
+  const finite=n=>typeof n==="number"&&Number.isFinite(n);
+  const text=s=>typeof s==="string"&&s.trim().length>0;
+  function date(s){
+    if(typeof s!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(s))return false;
+    const d=new Date(s+"T00:00:00Z");
+    return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===s;
+  }
+  function ruleErrors(rule){
+    if(!rule||typeof rule!=="object"||Array.isArray(rule))return ["rule-object"];
+    const errors=[];
+    if(!finite(rule.target)||rule.target<0)errors.push("rule-target");
+    if(!finite(rule.step)||rule.step<=0)errors.push("rule-step");
+    if(!finite(rule.points)||rule.points<=0)errors.push("rule-points");
+    if(!["floor","ceil","linear"].includes(rule.rounding))errors.push("rule-rounding");
+    if(!finite(rule.min)||!finite(rule.max)||rule.min<0||rule.max>100||rule.min>rule.max)errors.push("rule-bounds");
+    return errors;
+  }
+  function validatePolicy(policy,defs,store){
+    const errors=[];
+    if(!policy||typeof policy!=="object"||Array.isArray(policy))return {ok:false,errors:["policy-object"]};
+    // Requirements belong to a real class; combined views resolve each member's policy.
+    const registered=store&&D.classOf(store,policy.cid);
+    const canonical=D.cidParts(policy.cid)||
+      (typeof policy.cid==="string"&&policy.cid.startsWith("cn:")&&D.classId(policy.cid.slice(3))===policy.cid);
+    if(!D.isCid(policy.cid)||D.isGroupId(policy.cid)||D.isGroupRec(registered)||!(registered||canonical))errors.push("class-id");
+    if(!text(policy.period)||policy.period.length>80)errors.push("period");
+    if(!date(policy.from))errors.push("from-date");
+    if(!date(policy.to))errors.push("to-date");
+    if(date(policy.from)&&date(policy.to)&&policy.from>policy.to)errors.push("date-order");
+    const catalog=new Map((defs||[]).filter(t=>t&&text(t.id)).map(t=>[t.id,t]));
+    const seen=new Set();
+    if(!Array.isArray(policy.tests)||!policy.tests.length)errors.push("required-tests");
+    else policy.tests.forEach((entry,i)=>{
+      const prefix="tests["+i+"].", def=entry&&catalog.get(entry.id);
+      if(!def)errors.push(prefix+"unknown-test");
+      else if(!["high","low"].includes(def.dir))errors.push(prefix+"direction");
+      if(entry&&seen.has(entry.id))errors.push(prefix+"duplicate-test");
+      if(entry)seen.add(entry.id);
+      if(entry&&entry.rule!=null){
+        ruleErrors(entry.rule).forEach(e=>errors.push(prefix+e));
+        if(def&&def.dir==="low"&&entry.rule.target===0)errors.push(prefix+"rule-target");
+      }
+    });
+    if(policy.exemptions!=null&&!Array.isArray(policy.exemptions))errors.push("exemptions");
+    else {
+      const exemptions=new Set();
+      (policy.exemptions||[]).forEach((e,i)=>{
+        const prefix="exemptions["+i+"].";
+        if(!e||!text(e.sid))errors.push(prefix+"student-id");
+        if(!e||!seen.has(e.test))errors.push(prefix+"required-test");
+        if(!e||!text(e.reason)||e.reason.length>500)errors.push(prefix+"reason");
+        if(e){
+          const key=JSON.stringify([e.sid,e.test]);
+          if(exemptions.has(key))errors.push(prefix+"duplicate");
+          exemptions.add(key);
+        }
+      });
+    }
+    return {ok:!errors.length,errors};
+  }
+  // A target earns max; only a shortfall incurs points. Rounding is explicit.
+  function score(value,dir,rule){
+    if(!["high","low"].includes(dir)||!D.isValidMeasurement({val:value},dir)||ruleErrors(rule).length||
+      (dir==="low"&&rule.target===0))return null;
+    const deficit=Math.max(0,dir==="low"?value-rule.target:rule.target-value);
+    let blocks=deficit/rule.step;
+    // Decimal inputs such as 10.3 - 10 must not turn exactly 3 blocks into 4.
+    const near=Math.round(blocks);
+    if(Math.abs(blocks-near)<=Number.EPSILON*32*Math.max(1,Math.abs(blocks)))blocks=near;
+    if(rule.rounding==="floor")blocks=Math.floor(blocks);
+    if(rule.rounding==="ceil")blocks=Math.ceil(blocks);
+    const rounded=Math.round(Math.max(rule.min,Math.min(rule.max,rule.max-blocks*rule.points))*100)/100;
+    return Math.max(rule.min,Math.min(rule.max,rounded));
+  }
+  function studentAssessment(rows,student,policy,defs,store){
+    const check=validatePolicy(policy,defs,store), sid=D.studentKey(student);
+    if(!text(sid))check.errors.push("student-id");
+    if(check.ok&&D.cidOfStudent(student,store)!==policy.cid)check.errors.push("student-class");
+    if(check.errors.length)return {ok:false,errors:check.errors};
+    const catalog=new Map(defs.filter(t=>t&&text(t.id)).map(t=>[t.id,t]));
+    const scope=(rows||[]).filter(r=>r&&D.rowInClass(r,policy.cid)&&date(r.d)&&r.d>=policy.from&&r.d<=policy.to);
+    // No name-only attribution in a new assessment. Legacy records remain untouched.
+    const identifiable=scope.filter(r=>text(r.sid));
+    const tests=policy.tests.map(entry=>{
+      const def=catalog.get(entry.id);
+      const exempt=(policy.exemptions||[]).find(e=>e.sid===sid&&e.test===entry.id);
+      const p=D.progress(identifiable,student,entry.id,def.dir,{cid:policy.cid});
+      return {
+        testId:entry.id,dir:def.dir,status:exempt?"exempt":p.best?"measured":"missing",
+        reason:exempt?exempt.reason:p.best?null:p.invalid?"invalid-results":"no-result-in-period",
+        history:D.measurementsOf(identifiable,student,entry.id,{cid:policy.cid}),
+        validCount:p.count,invalidCount:p.invalid,best:p.best,latest:p.latest,
+        suggestedScore:!exempt&&p.best&&entry.rule?score(p.best.val,def.dir,entry.rule):null
+      };
+    });
+    const missing=tests.filter(t=>t.status==="missing").map(t=>t.testId);
+    return {ok:true,errors:[],studentId:sid,cid:policy.cid,period:policy.period,
+      from:policy.from,to:policy.to,tests,missing,
+      exempt:tests.filter(t=>t.status==="exempt").map(t=>t.testId),
+      complete:missing.length===0,
+      // Configuration/measurement issues must be visible, never counted as zero.
+      unidentifiedRows:scope.filter(r=>!text(r.sid)&&policy.tests.some(t=>t.id===r.test)).length,
+      invalidDateRows:(rows||[]).filter(r=>r&&r.sid===sid&&D.rowInClass(r,policy.cid)&&!date(r.d)&&policy.tests.some(t=>t.id===r.test)).length};
+  }
+  function validateEnvelope(value,defs,store){
+    if(!value||value.version!==1||!Array.isArray(value.policies))return {ok:false,errors:["configuration-version"]};
+    const errors=[],seen=new Set();
+    value.policies.forEach((p,i)=>{
+      validatePolicy(p,defs,store).errors.forEach(e=>errors.push(i+":"+e));
+      if(p){const key=JSON.stringify([p.cid,p.period]);if(seen.has(key))errors.push(i+":duplicate-policy");seen.add(key);}
+    });
+    return {ok:!errors.length,errors};
+  }
+  function updateEnvelope(value,policy,defs,store){
+    const check=validateEnvelope(value,defs,store);
+    if(!check.ok)return check;
+    const valid=validatePolicy(policy,defs,store);if(!valid.ok)return valid;
+    const next={version:1,policies:value.policies.filter(p=>p.cid!==policy.cid||p.period!==policy.period).concat([policy])};
+    return {ok:true,errors:[],value:next};
+  }
+  return {validDate:date,validatePolicy,score,studentAssessment,validateEnvelope,updateEnvelope};
 });
 
 ;
@@ -12876,6 +13082,182 @@ const DICT={
 he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שבמרקאפ עצמו */
 
 en:{
+  "sp.open":"Printable pupil report",
+  "br.invalid":"Invalid backup file.",
+  "br.reverted":"Restore failed. Previous data was restored and verified. You can retry.",
+  "br.incomplete":"Restore failed and a complete rollback could not be verified. Save the recovery copy before closing this window.",
+  "br.recovery":"Save previous-data recovery copy (without videos)",
+  "sp.title":"Personal progress report",
+  "sp.choose":"Choose a pupil for the report",
+  "sp.preview":"Preview",
+  "sp.history":"Include measurement history",
+  "sp.print":"Print / save as PDF",
+  "sp.html":"Download HTML report",
+  "sp.close":"Close",
+  "sp.intro":"Choose a pupil and review the report before saving or printing. This is a local copy for individual delivery; the app sends nothing.",
+  "sp.basis":"Based on the required tests and period dates. This report shows measurements and missing tests, without grades or private teacher notes.",
+  "sp.changed":"Data changed or the pupil identity is ambiguous. Close and reopen the period report.",
+  "sp.failed":"Printing or download failed. Data remain unchanged; retry or download HTML.",
+  "sp.noHistory":"No measurements in this period.",
+  "sp.previewLabel":"Personal report preview",
+  "sp.invalid":"Invalid measurement",
+  "ap.pending":"Review and fill the draft from the paste, or clear the pasted text, before saving.",
+  "ap.title":"Work with Excel",
+  "ap.intro":"Download the template, enter measurements in the Measurements sheet and copy the cells including the header. Paste here and review before filling the draft. Names are for reference only; sid identifies the pupil. Select the date above. Blank cells do not erase values.",
+  "ap.template":"Download Excel template (.xlsx)",
+  "ap.label":"Paste a table copied from Excel",
+  "ap.preview":"Review paste",
+  "ap.apply":"Fill measurement draft",
+  "ap.count":"Measurements: {0} · Pupils: {1}",
+  "ap.current":"Draft value",
+  "ap.new":"Pasted value",
+  "ap.replace":"Replace the displayed draft values? Previously saved measurements will remain.",
+  "ap.applied":"Measurements added to the draft. Review and select Save new measurements.",
+  "ap.changed":"The table, date or draft changed. Review the paste again.",
+  "ap.header":"The header must contain sid, name and the test IDs from the template, exactly once each.",
+  "ap.format":"Invalid table. Copy from the sheet with the header and blank columns; do not paste CSV file text.",
+  "ap.identity":"Pupil ID is not in this view. Check sid; do not match by name.",
+  "ap.duplicate":"The same pupil ID appears in more than one row.",
+  "ap.number":"Invalid value. Enter a number only; decimal point or comma is supported, without formulae or thousands separators.",
+  "ap.empty":"No new measurements in the paste.",
+  "ap.exempt":"The paste contains a measurement for a pupil with a period exemption for that test.",
+  "ap.size":"Table too large. Paste up to 2,000 measurements at a time.",
+  "ap.row":"Row {0}",
+  "ap.exportFailed":"Template download failed. Data and draft remain unchanged.",
+  "ap.more":"Showing the first 100 measurements; the action includes all validated measurements.",
+  "ag.title":"Enter measurements in a table",
+  "ag.open":"Enter measurements in a table",
+  "ag.intro":"Each entered value adds a new attempt on the date you choose. Blank cells are ignored; previous measurements and grades stay unchanged.",
+  "ag.date":"Measurement date",
+  "ag.new":"New measurement",
+  "ag.best":"Best in period",
+  "ag.student":"Pupil",
+  "ag.save":"Save new measurements",
+  "ag.close":"Close",
+  "ag.discard":"Close without saving the measurements?",
+  "ag.conflict":"Data changed. Close and reopen before saving.",
+  "ag.invalid":"Cannot save. Check the data and requirements.",
+  "ag.identity":"The pupil identity is ambiguous or the pupil moved to another class.",
+  "ag.dateError":"Choose a valid date within the period.",
+  "ag.value":"Enter a nonnegative result with up to two decimal places. Repetitions must be whole numbers; times must be greater than zero.",
+  "ag.exempt":"Exempt — entry disabled here",
+  "ag.empty":"No new measurements entered.",
+  "ag.failed":"Save failed. Your entries remain in the draft; try again.",
+  "ag.saved":"New measurements saved: {0}",
+  "gr.ovTitle":"Teacher final grade",
+  "gr.ovEdit":"Set final grade",
+  "gr.ovTeacher":"Set by teacher",
+  "gr.ovCalculated":"Calculated grade",
+  "gr.ovNote":"Note (optional)",
+  "gr.ovSave":"Save final grade",
+  "gr.ovReset":"Return to calculated grade",
+  "gr.ovCancel":"Cancel",
+  "gr.ovIntro":"Setting a final grade does not complete missing components or change measurements or component grades.",
+  "gr.ovInvalid":"Enter a grade from 0 to 100 and a note up to 500 characters.",
+  "gr.ovCorrupt":"The saved final grade is invalid and was not applied. Please review it.",
+  "gr.ovConflict":"Data changed. Close and reopen before saving.",
+  "gr.ovFailed":"Save failed. Your draft remains; try again.",
+  "gr.ovDiscard":"Close without saving changes?",
+  "gr.ovBasis":"Calculation status",
+  "gr.ovSid":"Pupil ID",
+  "gr.ovPeriod":"Period",
+  "as.exSave":"Save requirements and exemptions",
+  "as.exTitle":"Period exemptions",
+  "as.exScope":"An exemption applies to one pupil and test for the whole selected period and dates. A reason is required; this is not an attendance exemption for one day. Measurements and manual grades are preserved.",
+  "as.exPupil":"Pupil",
+  "as.exChoose":"Choose a pupil by name and ID",
+  "as.exUnavailable":"Pupil not in this class",
+  "as.exUnavailableHint":"This pupil is not in the current roster. Saved exemptions remain; you can explicitly remove them, but cannot add new ones here.",
+  "as.exNoPupils":"No pupils in this class. Add a pupil before setting an exemption.",
+  "as.exReason":"Exemption reason (required)",
+  "as.exNoTests":"Choose a required test first to set an exemption.",
+  "as.exReasonRequired":"Write a reason for each checked exemption before saving.",
+  "as.exRemovedTest":"Remove the saved exemption before removing its required test. Pupil measurements remain.",
+  "ar.editRequirements":"Edit requirements and exemptions",
+  "ar.reportDetails":"All report details",
+  "ar.title":"Period assessment report",
+  "ar.close":"Close",
+  "ar.class":"Class",
+  "ar.period":"Period",
+  "ar.intro":"Based on saved required tests and dates. Suggested scores are not final grades and do not change manual grades.",
+  "ar.noPolicy":"No required tests configured for this class and period. Set requirements to create a report.",
+  "ar.configure":"Set requirements",
+  "ar.error":"Cannot create a valid report. Check requirements and pupil identities.",
+  "ar.empty":"No pupils in this class.",
+  "ar.student":"Pupil",
+  "ar.sid":"Pupil ID",
+  "ar.cid":"Class ID",
+  "ar.from":"From",
+  "ar.to":"To",
+  "ar.test":"Test",
+  "ar.testId":"Test ID",
+  "ar.unit":"Unit",
+  "ar.status":"Status",
+  "ar.reason":"Reason",
+  "ar.best":"Best result in period",
+  "ar.date":"Result date",
+  "ar.count":"Valid measurements",
+  "ar.invalid":"Invalid measurements",
+  "ar.score":"Suggested score only",
+  "ar.measured":"Measured",
+  "ar.missing":"Missing",
+  "ar.exempt":"Exempt",
+  "ar.noResult":"No result in period",
+  "ar.invalidResults":"Only invalid results",
+  "ar.history":"Measurement history in period",
+  "ar.details":"Show history",
+  "ar.value":"Result",
+  "ar.missingCount":"Missing tests",
+  "ar.complete":"Requirements complete",
+  "ar.incomplete":"Requirements incomplete",
+  "ar.warning":"Some measurements were excluded: missing pupil ID, invalid date or invalid result. Check the original records.",
+  "ar.exportFailed":"Export failed. Data is unchanged; try again.",
+  "ar.xlsx":"Export Excel (.xlsx)",
+  "ar.csv":"Export CSV",
+  "ar.historyCsv":"History CSV",
+  "ar.rule":"Scoring rule",
+  "as.title":"Assessment requirements",
+  "as.close":"Close",
+  "as.intro":"Choose required tests for this class and period. Optional scores are suggestions; manual grades remain unchanged.",
+  "as.class":"Class",
+  "as.period":"Assessment period",
+  "as.from":"From",
+  "as.to":"To",
+  "as.dates":"These dates are a saved snapshot. Changing attendance dates later will not change these requirements.",
+  "as.useRule":"Set a target scoring rule",
+  "as.higher":"Higher results are better. Results at or above the target earn the maximum.",
+  "as.lower":"Lower times are better. Results at or below the target earn the maximum.",
+  "as.target":"Target",
+  "as.step":"Result step",
+  "as.points":"Points per step",
+  "as.min":"Minimum score",
+  "as.max":"Maximum score",
+  "as.rounding":"Shortfall rounding",
+  "as.choose":"Choose rounding",
+  "as.ceil":"Each begun step",
+  "as.floor":"Only complete steps",
+  "as.linear":"Fractional steps",
+  "as.preview":"Score preview",
+  "as.ruleHint":"Enter a valid target, step, points, bounds and rounding to preview.",
+  "as.save":"Save requirements",
+  "as.delete":"Remove requirements",
+  "as.deleteConfirm":"Remove these requirements? Measurements and grades will remain.",
+  "as.discard":"Discard unsaved changes?",
+  "as.saved":"Requirements saved",
+  "as.failed":"Saving failed. Your draft is still open; retry or make a backup.",
+  "as.invalid":"Choose at least one test and check dates, rules and exemptions.",
+  "as.corrupt":"Saved requirements cannot be read or are from an unsupported version. Restore a valid backup before editing.",
+  "as.conflict":"Requirements or periods changed elsewhere. Reopen this editor before saving.",
+  "as.periodBlocked":"Remove saved requirements for this period before deleting it.",
+  "as.noClasses":"Add a class or pupil before configuring requirements.",
+  "stu.fitTitle":"📋 Fitness tests",
+  "stu.fitBest":"⭐ Personal best",
+  "stu.beepTitle":"🫁 Beep test — cardiorespiratory endurance (VO₂max)",
+  "stu.missingTitle":"Missing fitness tests",
+  "stu.missingNoClass":"Assign this student to a class to see missing tests.",
+  "stu.missingUnavailable":"Missing tests are currently unavailable.",
+  "stu.missingBasis":"Based on the class’s recorded tests and the fitness-index selection; not a final grade.",
+  "stu.missingNone":"No missing fitness tests for the current selection.",
   "ab.termsLink":"Terms of use ↗",
   "ab.leadSnoozed":"Skipped. A reminder will appear on ",
   "ab.leadLegacy":"Details were sent from an earlier version, without delivery confirmation. You can send them again.",
@@ -13432,6 +13814,182 @@ en:{
 },
 
 ar:{
+  "sp.open":"تقرير طالب للطباعة",
+  "br.invalid":"ملف النسخة الاحتياطية غير صالح.",
+  "br.reverted":"فشلت الاستعادة. تمت إعادة البيانات السابقة والتحقق منها. يمكنك المحاولة مجدداً.",
+  "br.incomplete":"فشلت الاستعادة وتعذر التحقق من الإرجاع الكامل. احفظ نسخة الإنقاذ قبل إغلاق النافذة.",
+  "br.recovery":"احفظ نسخة إنقاذ البيانات السابقة (دون فيديوهات)",
+  "sp.title":"تقرير التقدم الفردي",
+  "sp.choose":"اختر طالباً للتقرير",
+  "sp.preview":"معاينة",
+  "sp.history":"تضمين سجل القياسات",
+  "sp.print":"طباعة / حفظ بصيغة PDF",
+  "sp.html":"تنزيل تقرير HTML",
+  "sp.close":"إغلاق",
+  "sp.intro":"اختر طالباً وراجع التقرير قبل حفظه أو طباعته. هذه نسخة محلية لتسليمها بشكل فردي؛ لا يرسل التطبيق أي شيء.",
+  "sp.basis":"وفقاً للاختبارات المطلوبة وتواريخ الفترة. يعرض هذا التقرير القياسات والاختبارات الناقصة، دون درجات أو ملاحظات خاصة بالمعلم.",
+  "sp.changed":"تغيّرت البيانات أو أن هوية الطالب غير واضحة. أغلق تقرير الفترة وافتحه مجدداً.",
+  "sp.failed":"تعذّرت الطباعة أو التنزيل. لم تتغير البيانات؛ حاول مجدداً أو نزّل HTML.",
+  "sp.noHistory":"لا توجد قياسات في هذه الفترة.",
+  "sp.previewLabel":"معاينة التقرير الفردي",
+  "sp.invalid":"قياس غير صالح",
+  "ap.pending":"راجع البيانات الملصقة وعبّئ المسودة منها، أو امسح النص الملصق، قبل الحفظ.",
+  "ap.title":"العمل باستخدام Excel",
+  "ap.intro":"نزّل القالب، وأدخل القياسات في ورقة Measurements، ثم انسخ الخلايا مع صف العناوين. الصقها هنا وراجعها قبل تعبئة المسودة. الأسماء للمرجع فقط؛ يحدد sid الطالب. اختر التاريخ أعلاه. الخلايا الفارغة لا تمسح القيم.",
+  "ap.template":"تنزيل قالب Excel (.xlsx)",
+  "ap.label":"الصق جدولاً منسوخاً من Excel",
+  "ap.preview":"مراجعة البيانات الملصقة",
+  "ap.apply":"تعبئة مسودة القياسات",
+  "ap.count":"القياسات: {0} · الطلاب: {1}",
+  "ap.current":"القيمة في المسودة",
+  "ap.new":"القيمة الملصقة",
+  "ap.replace":"هل تريد استبدال القيم المعروضة في المسودة؟ ستبقى القياسات المحفوظة سابقاً.",
+  "ap.applied":"أُضيفت القياسات إلى المسودة. راجعها واختر حفظ قياسات جديدة.",
+  "ap.changed":"تغيّر الجدول أو التاريخ أو المسودة. راجع البيانات الملصقة مجدداً.",
+  "ap.header":"يجب أن تتضمن العناوين sid وname ومعرّفات الاختبارات من القالب، مرة واحدة لكل منها.",
+  "ap.format":"جدول غير صالح. انسخ من الورقة مع العناوين والأعمدة الفارغة؛ لا تلصق نص ملف CSV.",
+  "ap.identity":"معرّف الطالب غير موجود في هذا العرض. تحقق من sid؛ لا تطابق حسب الاسم.",
+  "ap.duplicate":"معرّف الطالب نفسه موجود في أكثر من صف.",
+  "ap.number":"قيمة غير صالحة. أدخل رقماً فقط؛ يمكن استخدام نقطة أو فاصلة عشرية، دون صيغ أو فواصل آلاف.",
+  "ap.empty":"لا توجد قياسات جديدة في البيانات الملصقة.",
+  "ap.exempt":"تحتوي البيانات الملصقة على قياس لطالب معفى من هذا الاختبار خلال الفترة.",
+  "ap.size":"الجدول كبير جداً. الصق حتى 2,000 قياس في كل مرة.",
+  "ap.row":"الصف {0}",
+  "ap.exportFailed":"تعذّر تنزيل القالب. لم تتغير البيانات أو المسودة.",
+  "ap.more":"تُعرض أول 100 قياس؛ يشمل الإجراء جميع القياسات التي تم التحقق منها.",
+  "ag.title":"إدخال القياسات في جدول",
+  "ag.open":"إدخال القياسات في جدول",
+  "ag.intro":"تُضاف كل قيمة كتجربة جديدة في التاريخ الذي تختاره. تُتجاهل الخلايا الفارغة؛ تبقى القياسات السابقة والدرجات دون تغيير.",
+  "ag.date":"تاريخ القياس",
+  "ag.new":"قياس جديد",
+  "ag.best":"أفضل نتيجة في الفترة",
+  "ag.student":"الطالب",
+  "ag.save":"حفظ القياسات الجديدة",
+  "ag.close":"إغلاق",
+  "ag.discard":"هل تريد الإغلاق دون حفظ القياسات؟",
+  "ag.conflict":"تغيّرت البيانات. أغلق النافذة وافتحها مجددًا قبل الحفظ.",
+  "ag.invalid":"تعذّر الحفظ. تحقق من البيانات والمتطلبات.",
+  "ag.identity":"هوية الطالب غير واضحة أو انتقل الطالب إلى صف آخر.",
+  "ag.dateError":"اختر تاريخًا صالحًا ضمن الفترة.",
+  "ag.value":"أدخل نتيجة غير سالبة بمنزلتين عشريتين كحد أقصى. التكرارات أعداد صحيحة؛ يجب أن يكون الزمن أكبر من صفر.",
+  "ag.exempt":"معفى — الإدخال معطّل هنا",
+  "ag.empty":"لم تُدخل قياسات جديدة.",
+  "ag.failed":"فشل الحفظ. بقيت القيم في المسودة؛ حاول مجددًا.",
+  "ag.saved":"القياسات الجديدة المحفوظة: {0}",
+  "gr.ovTitle":"الدرجة النهائية التي يحددها المعلم",
+  "gr.ovEdit":"تحديد الدرجة النهائية",
+  "gr.ovTeacher":"حددها المعلم",
+  "gr.ovCalculated":"الدرجة المحسوبة",
+  "gr.ovNote":"ملاحظة (اختيارية)",
+  "gr.ovSave":"حفظ الدرجة النهائية",
+  "gr.ovReset":"العودة إلى الدرجة المحسوبة",
+  "gr.ovCancel":"إلغاء",
+  "gr.ovIntro":"تحديد درجة نهائية لا يُكمل العناصر الناقصة ولا يغيّر القياسات أو درجات العناصر.",
+  "gr.ovInvalid":"أدخل درجة من 0 إلى 100 وملاحظة لا تتجاوز 500 حرف.",
+  "gr.ovCorrupt":"الدرجة النهائية المحفوظة غير صالحة ولم تُطبّق. يرجى مراجعتها.",
+  "gr.ovConflict":"تغيّرت البيانات. أغلق النافذة وافتحها مجددًا قبل الحفظ.",
+  "gr.ovFailed":"فشل الحفظ. بقيت المسودة؛ حاول مجددًا.",
+  "gr.ovDiscard":"هل تريد الإغلاق دون حفظ التغييرات؟",
+  "gr.ovBasis":"حالة الحساب",
+  "gr.ovSid":"معرّف الطالب",
+  "gr.ovPeriod":"الفترة",
+  "as.exSave":"حفظ المتطلبات والإعفاءات",
+  "as.exTitle":"إعفاءات الفترة",
+  "as.exScope":"ينطبق الإعفاء على طالب واختبار محددين طوال الفترة والتواريخ المختارة. يجب ذكر السبب؛ هذا ليس إعفاء من الحضور ليوم واحد. تُحفظ القياسات والدرجات اليدوية.",
+  "as.exPupil":"الطالب",
+  "as.exChoose":"اختر الطالب بالاسم والمعرّف",
+  "as.exUnavailable":"طالب خارج هذا الصف",
+  "as.exUnavailableHint":"الطالب ليس في القائمة الحالية. تبقى الإعفاءات المحفوظة؛ يمكنك إزالتها صراحة، لكن لا يمكنك إضافة إعفاءات جديدة هنا.",
+  "as.exNoPupils":"لا يوجد طلاب في هذا الصف. أضف طالباً قبل تحديد إعفاء.",
+  "as.exReason":"سبب الإعفاء (مطلوب)",
+  "as.exNoTests":"اختر اختباراً مطلوباً أولاً لتحديد إعفاء.",
+  "as.exReasonRequired":"اكتب سبباً لكل إعفاء محدد قبل الحفظ.",
+  "as.exRemovedTest":"أزل الإعفاء المحفوظ قبل إزالة الاختبار المطلوب. تبقى قياسات الطالب.",
+  "ar.editRequirements":"تعديل المتطلبات والإعفاءات",
+  "ar.reportDetails":"جميع تفاصيل التقرير",
+  "ar.title":"تقرير التقييم حسب الفترة",
+  "ar.close":"إغلاق",
+  "ar.class":"الصف",
+  "ar.period":"الفترة",
+  "ar.intro":"وفق الاختبارات المطلوبة والتواريخ المحفوظة. الدرجات المقترحة ليست نهائية ولا تغيّر الدرجات اليدوية.",
+  "ar.noPolicy":"لم تُحدّد اختبارات مطلوبة لهذا الصف وهذه الفترة. حدّد المتطلبات لإنشاء تقرير.",
+  "ar.configure":"تحديد المتطلبات",
+  "ar.error":"تعذّر إنشاء تقرير صحيح. تحقّق من المتطلبات ومعرّفات الطلاب.",
+  "ar.empty":"لا يوجد طلاب في هذا الصف.",
+  "ar.student":"الطالب",
+  "ar.sid":"معرّف الطالب",
+  "ar.cid":"معرّف الصف",
+  "ar.from":"من تاريخ",
+  "ar.to":"إلى تاريخ",
+  "ar.test":"الاختبار",
+  "ar.testId":"معرّف الاختبار",
+  "ar.unit":"الوحدة",
+  "ar.status":"الحالة",
+  "ar.reason":"السبب",
+  "ar.best":"أفضل نتيجة في الفترة",
+  "ar.date":"تاريخ النتيجة",
+  "ar.count":"قياسات صحيحة",
+  "ar.invalid":"قياسات غير صحيحة",
+  "ar.score":"درجة مقترحة فقط",
+  "ar.measured":"تم القياس",
+  "ar.missing":"ناقص",
+  "ar.exempt":"معفى",
+  "ar.noResult":"لا توجد نتيجة في الفترة",
+  "ar.invalidResults":"نتائج غير صحيحة فقط",
+  "ar.history":"سجل القياسات في الفترة",
+  "ar.details":"عرض السجل",
+  "ar.value":"النتيجة",
+  "ar.missingCount":"الاختبارات الناقصة",
+  "ar.complete":"اكتملت المتطلبات",
+  "ar.incomplete":"لم تكتمل المتطلبات",
+  "ar.warning":"استُبعدت بعض القياسات بسبب غياب معرّف الطالب أو تاريخ أو نتيجة غير صحيحة. تحقّق من السجلات الأصلية.",
+  "ar.exportFailed":"فشل التصدير. لم تتغيّر البيانات؛ حاول مجدداً.",
+  "ar.xlsx":"تصدير Excel (.xlsx)",
+  "ar.csv":"تصدير CSV",
+  "ar.historyCsv":"سجل CSV",
+  "ar.rule":"قاعدة احتساب الدرجة",
+  "as.title":"الاختبارات المطلوبة والأهداف",
+  "as.close":"إغلاق",
+  "as.intro":"اختر الاختبارات المطلوبة لهذا الصف والفترة. الدرجات المحسوبة مقترحات فقط؛ لا تتغير الدرجات اليدوية.",
+  "as.class":"الصف",
+  "as.period":"فترة التقييم",
+  "as.from":"من تاريخ",
+  "as.to":"إلى تاريخ",
+  "as.dates":"تُحفظ هذه التواريخ كنسخة مستقلة. تغيير تواريخ الحضور لاحقًا لا يغيّر هذه المتطلبات.",
+  "as.useRule":"تحديد قاعدة درجات حسب الهدف",
+  "as.higher":"النتيجة الأعلى أفضل. النتيجة التي تبلغ الهدف أو تتجاوزه تحصل على الدرجة القصوى.",
+  "as.lower":"الزمن الأقل أفضل. النتيجة التي تبلغ الهدف أو تقل عنه تحصل على الدرجة القصوى.",
+  "as.target":"الهدف",
+  "as.step":"مقدار الخطوة في النتيجة",
+  "as.points":"النقاط لكل خطوة",
+  "as.min":"الدرجة الدنيا",
+  "as.max":"الدرجة القصوى",
+  "as.rounding":"تقريب الفرق عن الهدف",
+  "as.choose":"اختر طريقة التقريب",
+  "as.ceil":"كل خطوة بدأت",
+  "as.floor":"الخطوات الكاملة فقط",
+  "as.linear":"أجزاء الخطوات",
+  "as.preview":"معاينة الدرجات",
+  "as.ruleHint":"أدخل هدفًا وخطوة ونقاطًا وحدودًا وطريقة تقريب صالحة للمعاينة.",
+  "as.save":"حفظ المتطلبات",
+  "as.delete":"إزالة المتطلبات",
+  "as.deleteConfirm":"إزالة هذه المتطلبات؟ ستبقى القياسات والدرجات.",
+  "as.discard":"تجاهل التغييرات غير المحفوظة؟",
+  "as.saved":"تم حفظ المتطلبات",
+  "as.failed":"تعذر الحفظ. المسودة ما زالت مفتوحة؛ أعد المحاولة أو أنشئ نسخة احتياطية.",
+  "as.invalid":"اختر اختبارًا واحدًا على الأقل وتحقق من التواريخ وقواعد الدرجات والإعفاءات.",
+  "as.corrupt":"تعذر قراءة المتطلبات المحفوظة أو أن إصدارها غير مدعوم. استعد نسخة احتياطية صالحة قبل التعديل.",
+  "as.conflict":"تغيرت المتطلبات أو الفترات في مكان آخر. أعد فتح المحرر قبل الحفظ.",
+  "as.periodBlocked":"أزل المتطلبات المحفوظة لهذه الفترة قبل حذفها.",
+  "as.noClasses":"أضف صفًا أو طالبًا قبل إعداد المتطلبات.",
+  "stu.fitTitle":"📋 اختبارات اللياقة البدنية",
+  "stu.fitBest":"⭐ أفضل نتيجة شخصية",
+  "stu.beepTitle":"🫁 اختبار الجري المتدرج — التحمل القلبي التنفسي (VO₂max)",
+  "stu.missingTitle":"اختبارات اللياقة البدنية الناقصة",
+  "stu.missingNoClass":"أضف الطالب إلى صف لعرض الاختبارات الناقصة.",
+  "stu.missingUnavailable":"لا يمكن عرض الاختبارات الناقصة حاليًا.",
+  "stu.missingBasis":"استنادًا إلى الاختبارات المسجلة للصف والاختبارات المختارة لمؤشر اللياقة؛ هذه ليست درجة نهائية.",
+  "stu.missingNone":"لا توجد اختبارات لياقة بدنية ناقصة وفق الاختيار الحالي.",
   "ab.termsLink":"شروط الاستخدام ↗",
   "ab.leadSnoozed":"تم التخطي. سيظهر تذكير في ",
   "ab.leadLegacy":"أُرسلت البيانات من إصدار سابق دون تأكيد استلام. يمكنك إرسالها مجددًا.",
@@ -13992,6 +14550,182 @@ ar:{
 },
 
 ru:{
+  "sp.open":"Отчёт ученика для печати",
+  "br.invalid":"Некорректный файл резервной копии.",
+  "br.reverted":"Восстановление не удалось. Прежние данные возвращены и проверены. Можно повторить попытку.",
+  "br.incomplete":"Восстановление не удалось; полный откат не подтверждён. Сохраните спасательную копию до закрытия окна.",
+  "br.recovery":"Сохранить прежние данные (без видео)",
+  "sp.title":"Индивидуальный отчёт о прогрессе",
+  "sp.choose":"Выберите ученика для отчёта",
+  "sp.preview":"Предварительный просмотр",
+  "sp.history":"Включить историю результатов",
+  "sp.print":"Печать / сохранить в PDF",
+  "sp.html":"Скачать отчёт HTML",
+  "sp.close":"Закрыть",
+  "sp.intro":"Выберите ученика и проверьте отчёт перед сохранением или печатью. Это локальная копия для индивидуальной передачи; приложение ничего не отправляет.",
+  "sp.basis":"По обязательным тестам и датам периода. Отчёт содержит результаты и недостающие тесты, без оценок и личных заметок учителя.",
+  "sp.changed":"Данные изменились или личность ученика неоднозначна. Закройте и заново откройте отчёт за период.",
+  "sp.failed":"Не удалось напечатать или скачать отчёт. Данные не изменены; повторите попытку или скачайте HTML.",
+  "sp.noHistory":"За этот период нет результатов.",
+  "sp.previewLabel":"Предварительный просмотр индивидуального отчёта",
+  "sp.invalid":"Некорректный результат",
+  "ap.pending":"Перед сохранением проверьте вставленные данные и заполните ими черновик или очистите поле вставки.",
+  "ap.title":"Работа с Excel",
+  "ap.intro":"Скачайте шаблон, введите результаты на листе Measurements и скопируйте ячейки вместе с заголовком. Вставьте их здесь и проверьте перед заполнением черновика. Имена приведены для справки; sid определяет ученика. Выберите дату выше. Пустые ячейки не удаляют значения.",
+  "ap.template":"Скачать шаблон Excel (.xlsx)",
+  "ap.label":"Вставьте таблицу, скопированную из Excel",
+  "ap.preview":"Проверить вставленные данные",
+  "ap.apply":"Заполнить черновик результатов",
+  "ap.count":"Результаты: {0} · Ученики: {1}",
+  "ap.current":"Значение в черновике",
+  "ap.new":"Вставленное значение",
+  "ap.replace":"Заменить показанные значения в черновике? Ранее сохранённые результаты останутся.",
+  "ap.applied":"Результаты добавлены в черновик. Проверьте их и нажмите «Сохранить новые результаты».",
+  "ap.changed":"Таблица, дата или черновик изменились. Проверьте вставленные данные заново.",
+  "ap.header":"Заголовок должен содержать sid, name и идентификаторы тестов из шаблона, каждый ровно один раз.",
+  "ap.format":"Некорректная таблица. Копируйте с листа вместе с заголовком и пустыми столбцами; не вставляйте текст файла CSV.",
+  "ap.identity":"Идентификатора ученика нет в этом представлении. Проверьте sid; не сопоставляйте по имени.",
+  "ap.duplicate":"Один идентификатор ученика встречается в нескольких строках.",
+  "ap.number":"Некорректное значение. Введите только число; допустима десятичная точка или запятая, без формул и разделителей тысяч.",
+  "ap.empty":"Во вставленных данных нет новых результатов.",
+  "ap.exempt":"Вставленные данные содержат результат ученика, освобождённого от этого теста на выбранный период.",
+  "ap.size":"Таблица слишком большая. Вставляйте не более 2 000 результатов за раз.",
+  "ap.row":"Строка {0}",
+  "ap.exportFailed":"Не удалось скачать шаблон. Данные и черновик не изменены.",
+  "ap.more":"Показаны первые 100 результатов; действие включает все проверенные результаты.",
+  "ag.title":"Ввод результатов в таблице",
+  "ag.open":"Ввести результаты в таблице",
+  "ag.intro":"Каждое введённое значение добавляет новую попытку на выбранную дату. Пустые ячейки пропускаются; прежние результаты и оценки не меняются.",
+  "ag.date":"Дата измерения",
+  "ag.new":"Новый результат",
+  "ag.best":"Лучший за период",
+  "ag.student":"Ученик",
+  "ag.save":"Сохранить новые результаты",
+  "ag.close":"Закрыть",
+  "ag.discard":"Закрыть без сохранения результатов?",
+  "ag.conflict":"Данные изменились. Закройте и снова откройте окно перед сохранением.",
+  "ag.invalid":"Не удалось сохранить. Проверьте данные и требования.",
+  "ag.identity":"Личность ученика неоднозначна или ученик перешёл в другой класс.",
+  "ag.dateError":"Выберите допустимую дату в пределах периода.",
+  "ag.value":"Введите неотрицательный результат с не более чем двумя знаками после запятой. Число повторений целое; время больше нуля.",
+  "ag.exempt":"Освобождён — ввод недоступен",
+  "ag.empty":"Новые результаты не введены.",
+  "ag.failed":"Не удалось сохранить. Введённые значения остались в черновике; повторите попытку.",
+  "ag.saved":"Новых результатов сохранено: {0}",
+  "gr.ovTitle":"Итоговая оценка учителя",
+  "gr.ovEdit":"Задать итоговую оценку",
+  "gr.ovTeacher":"Выставлена учителем",
+  "gr.ovCalculated":"Расчётная оценка",
+  "gr.ovNote":"Комментарий (необязательно)",
+  "gr.ovSave":"Сохранить итоговую оценку",
+  "gr.ovReset":"Вернуться к расчётной оценке",
+  "gr.ovCancel":"Отмена",
+  "gr.ovIntro":"Итоговая оценка не заполняет недостающие компоненты и не меняет результаты измерений или оценки компонентов.",
+  "gr.ovInvalid":"Введите оценку от 0 до 100 и комментарий до 500 символов.",
+  "gr.ovCorrupt":"Сохранённая итоговая оценка некорректна и не применена. Проверьте её.",
+  "gr.ovConflict":"Данные изменились. Закройте и снова откройте окно перед сохранением.",
+  "gr.ovFailed":"Не удалось сохранить. Черновик сохранён в окне; повторите попытку.",
+  "gr.ovDiscard":"Закрыть без сохранения изменений?",
+  "gr.ovBasis":"Статус расчёта",
+  "gr.ovSid":"ID ученика",
+  "gr.ovPeriod":"Период",
+  "as.exSave":"Сохранить требования и освобождения",
+  "as.exTitle":"Освобождения за период",
+  "as.exScope":"Освобождение относится к одному ученику и тесту на весь выбранный период и даты. Причина обязательна; это не освобождение от посещения на один день. Измерения и ручные оценки сохраняются.",
+  "as.exPupil":"Ученик",
+  "as.exChoose":"Выберите ученика по имени и ID",
+  "as.exUnavailable":"Ученик не в этом классе",
+  "as.exUnavailableHint":"Ученика нет в текущем списке. Сохранённые освобождения остаются; их можно явно удалить, но нельзя добавить новые здесь.",
+  "as.exNoPupils":"В классе нет учеников. Добавьте ученика перед назначением освобождения.",
+  "as.exReason":"Причина освобождения (обязательно)",
+  "as.exNoTests":"Сначала выберите обязательный тест для освобождения.",
+  "as.exReasonRequired":"Укажите причину каждого отмеченного освобождения перед сохранением.",
+  "as.exRemovedTest":"Удалите сохранённое освобождение перед удалением обязательного теста. Измерения ученика сохраняются.",
+  "ar.editRequirements":"Изменить требования и освобождения",
+  "ar.reportDetails":"Все сведения отчёта",
+  "ar.title":"Отчёт об оценивании за период",
+  "ar.close":"Закрыть",
+  "ar.class":"Класс",
+  "ar.period":"Период",
+  "ar.intro":"По сохранённым обязательным тестам и датам. Предлагаемые баллы не являются итоговыми оценками и не меняют ручные оценки.",
+  "ar.noPolicy":"Для этого класса и периода не заданы обязательные тесты. Задайте требования для отчёта.",
+  "ar.configure":"Задать требования",
+  "ar.error":"Не удалось создать корректный отчёт. Проверьте требования и идентификаторы учеников.",
+  "ar.empty":"В классе нет учеников.",
+  "ar.student":"Ученик",
+  "ar.sid":"ID ученика",
+  "ar.cid":"ID класса",
+  "ar.from":"С даты",
+  "ar.to":"По дату",
+  "ar.test":"Тест",
+  "ar.testId":"ID теста",
+  "ar.unit":"Единица",
+  "ar.status":"Статус",
+  "ar.reason":"Причина",
+  "ar.best":"Лучший результат за период",
+  "ar.date":"Дата результата",
+  "ar.count":"Корректные измерения",
+  "ar.invalid":"Некорректные измерения",
+  "ar.score":"Только предлагаемый балл",
+  "ar.measured":"Измерено",
+  "ar.missing":"Нет результата",
+  "ar.exempt":"Освобождён",
+  "ar.noResult":"Нет результата за период",
+  "ar.invalidResults":"Только некорректные результаты",
+  "ar.history":"История измерений за период",
+  "ar.details":"Показать историю",
+  "ar.value":"Результат",
+  "ar.missingCount":"Недостающие тесты",
+  "ar.complete":"Требования выполнены",
+  "ar.incomplete":"Требования не выполнены",
+  "ar.warning":"Некоторые измерения исключены: отсутствует ID ученика, неверная дата или результат. Проверьте исходные записи.",
+  "ar.exportFailed":"Ошибка экспорта. Данные не изменены; повторите попытку.",
+  "ar.xlsx":"Экспорт Excel (.xlsx)",
+  "ar.csv":"Экспорт CSV",
+  "ar.historyCsv":"История CSV",
+  "ar.rule":"Правило начисления баллов",
+  "as.title":"Обязательные тесты и цели",
+  "as.close":"Закрыть",
+  "as.intro":"Выберите обязательные тесты для класса и периода. Расчётные оценки — только рекомендации; введённые вручную оценки не меняются.",
+  "as.class":"Класс",
+  "as.period":"Период оценивания",
+  "as.from":"С даты",
+  "as.to":"По дату",
+  "as.dates":"Эти даты сохраняются отдельно. Последующее изменение дат посещаемости не изменит эти требования.",
+  "as.useRule":"Задать правило оценки по цели",
+  "as.higher":"Чем выше результат, тем лучше. Достижение или превышение цели даёт максимальную оценку.",
+  "as.lower":"Чем меньше время, тем лучше. Достижение цели или меньшее время даёт максимальную оценку.",
+  "as.target":"Цель",
+  "as.step":"Шаг результата",
+  "as.points":"Баллы за шаг",
+  "as.min":"Минимальная оценка",
+  "as.max":"Максимальная оценка",
+  "as.rounding":"Округление отклонения от цели",
+  "as.choose":"Выберите округление",
+  "as.ceil":"Каждый начатый шаг",
+  "as.floor":"Только полные шаги",
+  "as.linear":"Доли шага",
+  "as.preview":"Пример оценки",
+  "as.ruleHint":"Введите допустимые цель, шаг, баллы, границы и округление для просмотра.",
+  "as.save":"Сохранить требования",
+  "as.delete":"Удалить требования",
+  "as.deleteConfirm":"Удалить эти требования? Измерения и оценки сохранятся.",
+  "as.discard":"Отменить несохранённые изменения?",
+  "as.saved":"Требования сохранены",
+  "as.failed":"Не удалось сохранить. Черновик остаётся открытым; повторите попытку или создайте резервную копию.",
+  "as.invalid":"Выберите хотя бы один тест и проверьте даты, правила оценивания и освобождения.",
+  "as.corrupt":"Не удалось прочитать сохранённые требования или их версия не поддерживается. Восстановите корректную резервную копию перед редактированием.",
+  "as.conflict":"Требования или периоды изменились в другом месте. Откройте редактор заново перед сохранением.",
+  "as.periodBlocked":"Удалите сохранённые требования периода перед удалением самого периода.",
+  "as.noClasses":"Добавьте класс или ученика перед настройкой требований.",
+  "stu.fitTitle":"📋 Тесты физической подготовки",
+  "stu.fitBest":"⭐ Личный рекорд",
+  "stu.beepTitle":"🫁 Челночный тест — кардиореспираторная выносливость (VO₂max)",
+  "stu.missingTitle":"Недостающие тесты физической подготовки",
+  "stu.missingNoClass":"Добавьте ученика в класс, чтобы увидеть недостающие тесты.",
+  "stu.missingUnavailable":"Список недостающих тестов сейчас недоступен.",
+  "stu.missingBasis":"На основе тестов, записанных в классе, и тестов, выбранных для индекса физической подготовки; это не итоговая оценка.",
+  "stu.missingNone":"По текущему набору недостающих тестов физической подготовки нет.",
   "ab.termsLink":"Условия использования ↗",
   "ab.leadSnoozed":"Пропущено. Напоминание появится ",
   "ab.leadLegacy":"Данные отправлены из прежней версии без подтверждения получения. Можно отправить снова.",
@@ -14545,6 +15279,182 @@ ru:{
 },
 
 es:{
+  "sp.open":"Informe del alumno para imprimir",
+  "br.invalid":"Archivo de copia no válido.",
+  "br.reverted":"La restauración falló. Los datos anteriores se recuperaron y verificaron. Puedes reintentar.",
+  "br.incomplete":"La restauración falló y no se pudo verificar una recuperación completa. Guarda la copia de rescate antes de cerrar esta ventana.",
+  "br.recovery":"Guardar copia de rescate anterior (sin vídeos)",
+  "sp.title":"Informe de progreso personal",
+  "sp.choose":"Elige un alumno para el informe",
+  "sp.preview":"Vista previa",
+  "sp.history":"Incluir historial de mediciones",
+  "sp.print":"Imprimir / guardar como PDF",
+  "sp.html":"Descargar informe HTML",
+  "sp.close":"Cerrar",
+  "sp.intro":"Elige un alumno y revisa el informe antes de guardarlo o imprimirlo. Es una copia local para entrega individual; la aplicación no envía nada.",
+  "sp.basis":"Según las pruebas obligatorias y las fechas del periodo. El informe muestra mediciones y pruebas pendientes, sin notas ni comentarios privados del docente.",
+  "sp.changed":"Los datos han cambiado o la identidad del alumno es ambigua. Cierra y vuelve a abrir el informe del periodo.",
+  "sp.failed":"No se pudo imprimir o descargar. Los datos no han cambiado; inténtalo de nuevo o descarga HTML.",
+  "sp.noHistory":"No hay mediciones en este periodo.",
+  "sp.previewLabel":"Vista previa del informe personal",
+  "sp.invalid":"Medición no válida",
+  "ap.pending":"Antes de guardar, revisa y rellena el borrador con los datos pegados o borra el texto pegado.",
+  "ap.title":"Trabajar con Excel",
+  "ap.intro":"Descarga la plantilla, introduce mediciones en la hoja Measurements y copia las celdas, incluida la cabecera. Pégalas aquí y revísalas antes de rellenar el borrador. Los nombres son solo una referencia; sid identifica al alumno. Selecciona la fecha arriba. Las celdas vacías no borran valores.",
+  "ap.template":"Descargar plantilla Excel (.xlsx)",
+  "ap.label":"Pega una tabla copiada de Excel",
+  "ap.preview":"Revisar datos pegados",
+  "ap.apply":"Rellenar el borrador de mediciones",
+  "ap.count":"Mediciones: {0} · Alumnos: {1}",
+  "ap.current":"Valor del borrador",
+  "ap.new":"Valor pegado",
+  "ap.replace":"¿Sustituir los valores mostrados en el borrador? Se conservarán las mediciones guardadas anteriormente.",
+  "ap.applied":"Mediciones añadidas al borrador. Revísalas y selecciona Guardar nuevas mediciones.",
+  "ap.changed":"La tabla, la fecha o el borrador han cambiado. Revisa de nuevo los datos pegados.",
+  "ap.header":"La cabecera debe incluir sid, name y los identificadores de las pruebas de la plantilla, una sola vez cada uno.",
+  "ap.format":"Tabla no válida. Copia desde la hoja con la cabecera y las columnas vacías; no pegues el texto de un archivo CSV.",
+  "ap.identity":"El identificador del alumno no está en esta vista. Comprueba sid; no lo relaciones por nombre.",
+  "ap.duplicate":"El mismo identificador de alumno aparece en más de una fila.",
+  "ap.number":"Valor no válido. Introduce solo un número; se admite punto o coma decimal, sin fórmulas ni separadores de miles.",
+  "ap.empty":"Los datos pegados no contienen mediciones nuevas.",
+  "ap.exempt":"Los datos pegados contienen una medición de un alumno exento de esa prueba durante el periodo.",
+  "ap.size":"Tabla demasiado grande. Pega hasta 2.000 mediciones cada vez.",
+  "ap.row":"Fila {0}",
+  "ap.exportFailed":"No se pudo descargar la plantilla. Los datos y el borrador no han cambiado.",
+  "ap.more":"Se muestran las primeras 100 mediciones; la acción incluye todas las mediciones validadas.",
+  "ag.title":"Introducir mediciones en una tabla",
+  "ag.open":"Introducir mediciones en una tabla",
+  "ag.intro":"Cada valor añade un nuevo intento en la fecha elegida. Las celdas vacías se omiten; las mediciones anteriores y las calificaciones no cambian.",
+  "ag.date":"Fecha de medición",
+  "ag.new":"Nueva medición",
+  "ag.best":"Mejor del periodo",
+  "ag.student":"Alumno",
+  "ag.save":"Guardar nuevas mediciones",
+  "ag.close":"Cerrar",
+  "ag.discard":"¿Cerrar sin guardar las mediciones?",
+  "ag.conflict":"Los datos han cambiado. Cierra y vuelve a abrir antes de guardar.",
+  "ag.invalid":"No se pudo guardar. Revisa los datos y los requisitos.",
+  "ag.identity":"La identidad del alumno es ambigua o ha cambiado de clase.",
+  "ag.dateError":"Elige una fecha válida dentro del periodo.",
+  "ag.value":"Introduce un resultado no negativo con hasta dos decimales. Las repeticiones deben ser enteras; los tiempos, mayores que cero.",
+  "ag.exempt":"Exento — entrada desactivada aquí",
+  "ag.empty":"No se han introducido nuevas mediciones.",
+  "ag.failed":"No se pudo guardar. Los valores siguen en el borrador; vuelve a intentarlo.",
+  "ag.saved":"Nuevas mediciones guardadas: {0}",
+  "gr.ovTitle":"Calificación final del docente",
+  "gr.ovEdit":"Establecer calificación final",
+  "gr.ovTeacher":"Establecida por el docente",
+  "gr.ovCalculated":"Calificación calculada",
+  "gr.ovNote":"Nota (opcional)",
+  "gr.ovSave":"Guardar calificación final",
+  "gr.ovReset":"Volver a la calificación calculada",
+  "gr.ovCancel":"Cancelar",
+  "gr.ovIntro":"Establecer una calificación final no completa los componentes pendientes ni cambia las mediciones o sus calificaciones.",
+  "gr.ovInvalid":"Introduce una calificación de 0 a 100 y una nota de hasta 500 caracteres.",
+  "gr.ovCorrupt":"La calificación final guardada no es válida y no se ha aplicado. Revísala.",
+  "gr.ovConflict":"Los datos han cambiado. Cierra y vuelve a abrir antes de guardar.",
+  "gr.ovFailed":"No se pudo guardar. El borrador sigue disponible; vuelve a intentarlo.",
+  "gr.ovDiscard":"¿Cerrar sin guardar los cambios?",
+  "gr.ovBasis":"Estado del cálculo",
+  "gr.ovSid":"ID del alumno",
+  "gr.ovPeriod":"Periodo",
+  "as.exSave":"Guardar requisitos y exenciones",
+  "as.exTitle":"Exenciones del periodo",
+  "as.exScope":"La exención se aplica a un estudiante y una prueba durante todo el periodo y las fechas seleccionadas. Se requiere un motivo; no es una exención de asistencia de un día. Se conservan las mediciones y notas manuales.",
+  "as.exPupil":"Estudiante",
+  "as.exChoose":"Elige al estudiante por nombre e ID",
+  "as.exUnavailable":"Estudiante fuera de esta clase",
+  "as.exUnavailableHint":"El estudiante no está en la lista actual. Se conservan las exenciones guardadas; puedes eliminarlas expresamente, pero no añadir otras aquí.",
+  "as.exNoPupils":"No hay alumnado en esta clase. Añade un estudiante antes de definir una exención.",
+  "as.exReason":"Motivo de la exención (obligatorio)",
+  "as.exNoTests":"Elige primero una prueba obligatoria para definir una exención.",
+  "as.exReasonRequired":"Escribe un motivo para cada exención marcada antes de guardar.",
+  "as.exRemovedTest":"Elimina la exención guardada antes de eliminar su prueba obligatoria. Se conservan las mediciones.",
+  "ar.editRequirements":"Editar requisitos y exenciones",
+  "ar.reportDetails":"Todos los detalles del informe",
+  "ar.title":"Informe de evaluación por periodo",
+  "ar.close":"Cerrar",
+  "ar.class":"Clase",
+  "ar.period":"Periodo",
+  "ar.intro":"Según las pruebas obligatorias y las fechas guardadas. Las puntuaciones sugeridas no son notas finales ni cambian las notas manuales.",
+  "ar.noPolicy":"No hay pruebas obligatorias para esta clase y periodo. Define los requisitos para crear un informe.",
+  "ar.configure":"Definir requisitos",
+  "ar.error":"No se puede crear un informe válido. Revisa los requisitos y los identificadores del alumnado.",
+  "ar.empty":"No hay alumnado en esta clase.",
+  "ar.student":"Estudiante",
+  "ar.sid":"ID del estudiante",
+  "ar.cid":"ID de clase",
+  "ar.from":"Desde",
+  "ar.to":"Hasta",
+  "ar.test":"Prueba",
+  "ar.testId":"ID de prueba",
+  "ar.unit":"Unidad",
+  "ar.status":"Estado",
+  "ar.reason":"Motivo",
+  "ar.best":"Mejor resultado del periodo",
+  "ar.date":"Fecha del resultado",
+  "ar.count":"Mediciones válidas",
+  "ar.invalid":"Mediciones no válidas",
+  "ar.score":"Solo puntuación sugerida",
+  "ar.measured":"Medido",
+  "ar.missing":"Pendiente",
+  "ar.exempt":"Exento",
+  "ar.noResult":"Sin resultado en el periodo",
+  "ar.invalidResults":"Solo resultados no válidos",
+  "ar.history":"Historial de mediciones del periodo",
+  "ar.details":"Mostrar historial",
+  "ar.value":"Resultado",
+  "ar.missingCount":"Pruebas pendientes",
+  "ar.complete":"Requisitos completos",
+  "ar.incomplete":"Requisitos incompletos",
+  "ar.warning":"Se excluyeron mediciones por falta de ID del estudiante, fecha o resultado no válido. Revisa los registros originales.",
+  "ar.exportFailed":"Error de exportación. Los datos no cambiaron; inténtalo de nuevo.",
+  "ar.xlsx":"Exportar Excel (.xlsx)",
+  "ar.csv":"Exportar CSV",
+  "ar.historyCsv":"Historial CSV",
+  "ar.rule":"Regla de puntuación",
+  "as.title":"Pruebas obligatorias y objetivos",
+  "as.close":"Cerrar",
+  "as.intro":"Selecciona las pruebas obligatorias para este grupo y período. Las notas calculadas son sugerencias; las notas manuales no cambian.",
+  "as.class":"Grupo",
+  "as.period":"Período de evaluación",
+  "as.from":"Desde",
+  "as.to":"Hasta",
+  "as.dates":"Estas fechas se guardan como una copia independiente. Cambiar después las fechas de asistencia no cambiará estos requisitos.",
+  "as.useRule":"Definir una regla de nota por objetivo",
+  "as.higher":"Un resultado mayor es mejor. Alcanzar o superar el objetivo da la nota máxima.",
+  "as.lower":"Un tiempo menor es mejor. Alcanzar el objetivo o bajar de él da la nota máxima.",
+  "as.target":"Objetivo",
+  "as.step":"Paso del resultado",
+  "as.points":"Puntos por paso",
+  "as.min":"Nota mínima",
+  "as.max":"Nota máxima",
+  "as.rounding":"Redondeo de la diferencia",
+  "as.choose":"Elige el redondeo",
+  "as.ceil":"Cada paso iniciado",
+  "as.floor":"Solo pasos completos",
+  "as.linear":"Fracciones de paso",
+  "as.preview":"Vista previa de nota",
+  "as.ruleHint":"Introduce un objetivo, paso, puntos, límites y redondeo válidos para la vista previa.",
+  "as.save":"Guardar requisitos",
+  "as.delete":"Eliminar requisitos",
+  "as.deleteConfirm":"¿Eliminar estos requisitos? Se conservarán las mediciones y las notas.",
+  "as.discard":"¿Descartar los cambios sin guardar?",
+  "as.saved":"Requisitos guardados",
+  "as.failed":"No se pudo guardar. El borrador sigue abierto; vuelve a intentarlo o crea una copia de seguridad.",
+  "as.invalid":"Selecciona al menos una prueba y revisa las fechas, las reglas de nota y las exenciones.",
+  "as.corrupt":"No se pueden leer los requisitos guardados o su versión no es compatible. Restaura una copia de seguridad válida antes de editar.",
+  "as.conflict":"Los requisitos o períodos cambiaron en otro lugar. Abre de nuevo el editor antes de guardar.",
+  "as.periodBlocked":"Elimina los requisitos guardados de este período antes de eliminarlo.",
+  "as.noClasses":"Añade un grupo o estudiante antes de configurar requisitos.",
+  "stu.fitTitle":"📋 Pruebas de condición física",
+  "stu.fitBest":"⭐ Mejor marca personal",
+  "stu.beepTitle":"🫁 Test de ida y vuelta — resistencia cardiorrespiratoria (VO₂max)",
+  "stu.missingTitle":"Pruebas de condición física pendientes",
+  "stu.missingNoClass":"Asigna al estudiante a un grupo para ver las pruebas pendientes.",
+  "stu.missingUnavailable":"Las pruebas pendientes no están disponibles en este momento.",
+  "stu.missingBasis":"Según las pruebas registradas del grupo y las seleccionadas para el índice de condición física; no es una nota final.",
+  "stu.missingNone":"No hay pruebas de condición física pendientes para la selección actual.",
   "ab.termsLink":"Términos de uso ↗",
   "ab.leadSnoozed":"Omitido. El recordatorio aparecerá el ",
   "ab.leadLegacy":"Los datos se enviaron desde una versión anterior, sin confirmación de recepción. Puedes enviarlos de nuevo.",
@@ -17565,15 +18475,23 @@ function bkStat(){
     : "אין עדיין נתונים במכשיר.";
 }
 async function bkApply(snap){
-  const be=STORE||MEMFALLBACK;
-  /* מוחקים רק את המפתחות שלנו — מפתחות של אתרים אחרים באותו דומיין
-     אינם שלנו למחוק, וגם דגלים שהאפליקציה תכתוב מחדש בעצמה. */
-  try{ bkKeys().forEach(k=>be.removeItem(BK_PREFIX+k)); }catch(e){}
-  let failed=0;
-  Object.keys(snap.data).forEach(k=>{
-    try{ be.setItem(BK_PREFIX+k,snap.data[k]); }
-    catch(e){ failed++; storageTrouble({code:DATA.classifyStorageError(e),error:e},"שחזור",k); }
-  });
+  const validation=DATA.validateBackup(snap);
+  if(!validation.ok||validation.kind!=="backup")throw new Error(t("br.invalid","קובץ הגיבוי אינו תקין."));
+  // New assessment configuration is checked before the restore clears any key.
+  if(snap.data&&Object.prototype.hasOwnProperty.call(snap.data,"assessment.policies")){
+    try{
+      const value=JSON.parse(snap.data["assessment.policies"]);
+      const incoming={get:(key,fallback)=>snap.data[key]==null?fallback:JSON.parse(snap.data[key])};
+      const periods=incoming.get("grades.periods",["רבעון 1"]);
+      const check=window.HMAssessment.validateEnvelope(value,window.FT.tests().filter(d=>d.id!=="beep"),incoming);
+      if(!check.ok||!Array.isArray(periods)||value.policies.some(p=>!periods.includes(p.period)))throw new Error("invalid");
+    }catch(e){throw new Error(t("as.corrupt","לא ניתן לקרוא את הדרישות השמורות או שגרסתן אינה נתמכת. שחזר גיבוי תקין לפני עריכה."));}
+  }
+  const result=window.HMBackupRestore.replace(STORE||MEMFALLBACK,BK_PREFIX,BK_SKIP,snap.data);
+  if(result.failed){
+    storageTrouble({code:DATA.classifyStorageError(result.error),error:result.error},"שחזור","");
+    return {...result,media:{added:0,failed:0}};
+  }
   /* השיאים מתווספים ולא מוחקים: רשומה עם אותו מזהה נדרסת, אבל
      סרטון שקיים רק במכשיר ולא בקובץ נשאר במקומו. */
   let media={added:0,failed:0};
@@ -17583,7 +18501,7 @@ async function bkApply(snap){
   /* קובץ ישן נושא סכמה ישנה. ההסבה רצה עכשיו על מה ששוחזר, כדי
      שהמכשיר לא יישאר בגרסה שהאפליקציה כבר לא מכירה. */
   try{ runMigration(); }catch(e){}
-  return {keys:Object.keys(snap.data).length,failed,media};
+  return {...result,media};
 }
 function wireBackup(){
   if(!$("#set-bkExport"))return;
@@ -17903,6 +18821,7 @@ function bkErrMsg(code){
   return BK_ERRMSG[code]||"הקובץ אינו קובץ גיבוי תקין";
 }
 function bkPreview(snap){
+  const recovery=$("#bk-recovery");if(recovery)recovery.remove();
   const inFile=Object.keys(snap.data), here=bkKeys();
   const all=[...new Set(inFile.concat(here))].sort((a,b)=>{
     const ia=BK_LABELS[a]?0:1, ib=BK_LABELS[b]?0:1;
@@ -17939,6 +18858,18 @@ function bkPreview(snap){
     let r;
     try{ r=await bkApply(snap); }
     catch(e){ $("#bk-go").disabled=false; toast("השחזור נכשל: "+e.message); return; }
+    if(r.failed){
+      $("#bk-go").disabled=false;
+      const warning=$("#bk-warn");warning.style.display="block";
+      warning.textContent=r.rolledBack
+        ?t("br.reverted","השחזור נכשל. הנתונים הקודמים הוחזרו ונבדקו. אפשר לנסות שוב.")
+        :t("br.incomplete","השחזור נכשל ולא ניתן לאמת החזרה מלאה. שמור את עותק ההצלה לפני סגירת החלון.");
+      let recovery=$("#bk-recovery");
+      if(!recovery){recovery=document.createElement("button");recovery.id="bk-recovery";recovery.type="button";recovery.className="btn ghost";warning.after(recovery);}
+      recovery.textContent=t("br.recovery","שמור עותק הצלה של הנתונים הקודמים (ללא סרטונים)");
+      recovery.onclick=()=>bkSave(DATA.buildSnapshot({data:r.recovery,school:SET.school||"",schema:DATA.SCHEMA_VERSION}),false);
+      toast(warning.textContent);return;
+    }
     modal("bk-modal",false);
     /* מדווחים בדיוק מה נכנס. «שוחזר» סתמי הוא מה שאפשר למורה
        לחשוב שיש לו סרטונים שאין לו. */
@@ -27454,6 +28385,7 @@ window.FT=(function(){
     $("#ft-cov").innerHTML=`
       <div class="card">
         <h2><span class="dot"></span> מה חסר לכיתה — ${esc(disp(c))}</h2>
+        ${!isG(c)?`<button class="btn sm ghost" data-assessment-report data-cid="${esc(cidOf(c))}" data-i18n="ar.title">דוח הערכה לפי תקופה</button><button class="btn sm ghost" data-assessment-open data-cid="${esc(cidOf(c))}" data-i18n="as.title">מבחני חובה ויעדים</button>`:""}
         <div class="hint">כל תלמיד מול כל מבחן שהכיתה כבר נמדדה בו — ✓ הושלם, ✕ עדיין חסר.
           מבחן שאף אחד בכיתה עדיין לא ניגש אליו לא מופיע כאן.</div>
         ${cov.tests.length&&total?`<div class="ft-idxsum">
@@ -28635,11 +29567,33 @@ window.STU=(function(){
     /* הביפ מוצג בסעיף משלו (עם VO₂max) — לא פעמיים */
     const rows=prof?prof.tests.filter(t=>t.best&&t.testId!=="beep"):[];
     const n=rows.reduce((a,t)=>a+t.list.length,0);
-    return `<h4 class="stu-sec">📋 מבחני כושר <span class="hint">(${n})</span></h4>`+(rows.length
-      ?`<div class="tblwrap"><table class="tbl" id="stu-fitTbl"><thead><tr><th>מבחן</th><th>⭐ שיא</th><th>מדידות</th><th>נמדד לאחרונה</th></tr></thead><tbody>
+    return `<h4 class="stu-sec"><span data-i18n="stu.fitTitle">📋 מבחני כושר</span> <span class="hint">(${n})</span></h4>`+(rows.length
+      ?`<div class="tblwrap"><table class="tbl" id="stu-fitTbl"><thead><tr><th>מבחן</th><th data-i18n="stu.fitBest">⭐ שיא</th><th>מדידות</th><th>נמדד לאחרונה</th></tr></thead><tbody>
         ${rows.map(t=>`<tr data-t="${esc(t.testId)}"><td>${esc(t.def.em||"")} ${esc(t.def.name)}</td><td class="mono">${esc(String(t.best.val))} <span class="u">${esc(t.def.unit||"")}</span></td><td class="mono">${t.list.length}</td><td class="mono">${esc(t.dates[t.dates.length-1]||"")}</td></tr>`).join("")}
       </tbody></table></div>`
       :'<div class="empty-state" id="stu-fitEmpty">אין עדיין מדידות כושר לתלמיד הזה.</div>');
+  }
+  function missingSection(s){
+    const {esc}=H(), ft=window.FT;
+    // Keep the source fallback in the DOM so the existing i18n observer can
+    // restore it when switching back to Hebrew while this profile stays open.
+    const label=(key,he)=>`<span data-i18n="${key}">${esc(he)}</span>`;
+    const cid=cidOf(s);
+    let missing=null;
+    if(cid&&ft&&ft.progress&&ft.tests){
+      try{
+        const defs=new Map(ft.tests().map(t=>[t.id,t]));
+        missing=ft.progress.missing(s,{cid}).filter(id=>id!=="beep"&&defs.has(id)).map(id=>defs.get(id));
+      }catch(e){ missing=null; }
+    }
+    return `<section id="stu-missing" style="margin:12px 0">
+      <h4 class="stu-sec">${label("stu.missingTitle","מה חסר לתלמיד — מבחני כושר")}${missing?` <span class="hint">(${missing.length})</span>`:""}</h4>
+      ${!cid?`<div class="hint">${label("stu.missingNoClass","שייך את התלמיד לכיתה כדי לראות אילו מבחנים חסרים.")}</div>`
+        :missing===null?`<div class="hint">${label("stu.missingUnavailable","לא ניתן להציג כרגע את המבחנים החסרים.")}</div>`
+        :`<div class="hint">${label("stu.missingBasis","לפי מבחנים שנרשמו בכיתה ובחירת המבחנים למדד הכושר; לא ציון סופי.")}</div>
+          ${missing.length?`<div class="row" style="margin-top:6px;flex-wrap:wrap">${missing.map(t=>`<span class="pill" data-missing-test="${esc(t.id)}">${esc(t.em||"")} ${esc(t.name)}</span>`).join(" ")}</div>`
+            :`<div class="hint" style="margin-top:6px">${label("stu.missingNone","אין מבחני כושר חסרים לפי הבחירה הנוכחית.")}</div>`}`}
+    </section>`;
   }
   function profile(id){
     const {$, $$, esc, modal, toast, dlCSV}=H();
@@ -28662,8 +29616,10 @@ window.STU=(function(){
         <span class="catpill" style="background:${zoneColor(lt.zone)}">${esc(lt.zone||"")}</span>
         ${tr?`<span class="pill" style="color:${tr>0?"#8fd96b":"#ff6b81"}">${tr>0?"▲ מגמת שיפור":"▼ מגמת ירידה"}</span>`:""}
       </div>`:""}
+      <button class="btn sm ghost" data-assessment-report data-sid="${esc(s.id)}" data-i18n="ar.title">דוח הערכה לפי תקופה</button>
+      ${missingSection(s)}
       ${fitSection(s)}
-      <h4 class="stu-sec">🫁 ביפ טסט — סבולת לב-ריאה (VO₂max)</h4>
+      <h4 class="stu-sec" data-i18n="stu.beepTitle">🫁 ביפ טסט — סבולת לב-ריאה (VO₂max)</h4>
       <div class="card" style="padding:10px;margin:10px 0">${chart(s)}</div>
       ${s.tests.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>תאריך</th><th>מבחן</th><th>מרחק</th><th>שלב</th><th>VO₂max</th><th>אזור</th><th></th></tr></thead><tbody>
         ${s.tests.map((t,i)=>`<tr><td class="mono">${t.d}</td><td>${esc(t.type)}</td><td class="mono">${t.dist} מ׳</td><td class="mono">${t.level||"—"}</td><td class="mono">${t.vo2?t.vo2.toFixed(1):"—"}</td><td><span class="catpill" style="background:${zoneColor(t.zone)}">${esc(t.zone||"")}</span></td><td><button class="x tdel" data-i="${i}">✕</button></td></tr>`).join("")}
@@ -28675,6 +29631,10 @@ window.STU=(function(){
           <button class="btn sm stop" id="stu-fDel">🗑 מחק תלמיד</button>
         </div>
       </div>`;
+    if(window.I18N){
+      window.I18N.applyDom($("#stu-mBody"));
+      window.I18N.applyTerms($("#stu-mBody"));
+    }
     modal("stu-modal");
     $("#stu-fSave").addEventListener("click",()=>{
       s.cls=$("#stu-fCls").value.trim();
@@ -28796,6 +29756,52 @@ window.STU=(function(){
       esc(H().t("gr.prov","זמני"))+'</small><div class="gr-miss"><span>'+esc(H().t("gr.missing","חסר"))+'</span>: '+
       r.missing.map(k=>'<span>'+esc(L[k])+'</span>').join(", ")+'</div>';
   }
+  const OV_HE={title:"ציון סופי של המורה",edit:"קבע ציון סופי",teacher:"נקבע בידי המורה",calculated:"ציון מחושב",note:"הערה (רשות)",save:"שמור ציון סופי",reset:"חזור לציון המחושב",cancel:"ביטול",intro:"קביעת ציון סופי אינה משלימה רכיבים חסרים ואינה משנה מדידות או ציונים לרכיבים.",invalid:"הזן ציון בין 0 ל־100 והערה של עד 500 תווים.",corrupt:"הציון הסופי השמור אינו תקין. הוא לא הוחל; בדוק אותו.",conflict:"הנתונים השתנו. סגור ופתח מחדש לפני שמירה.",failed:"השמירה נכשלה. הטיוטה נשארה; נסה שוב.",discard:"לסגור בלי לשמור את השינויים?",basis:"מצב החישוב",sid:"מזהה תלמיד",period:"תקופה"};
+  const OV_KEYS={"title": "gr.ovTitle", "edit": "gr.ovEdit", "teacher": "gr.ovTeacher", "calculated": "gr.ovCalculated", "note": "gr.ovNote", "save": "gr.ovSave", "reset": "gr.ovReset", "cancel": "gr.ovCancel", "intro": "gr.ovIntro", "invalid": "gr.ovInvalid", "corrupt": "gr.ovCorrupt", "conflict": "gr.ovConflict", "failed": "gr.ovFailed", "discard": "gr.ovDiscard", "basis": "gr.ovBasis", "sid": "gr.ovSid", "period": "gr.ovPeriod"};
+  const ovT=k=>H().t(OV_KEYS[k],OV_HE[k]);
+  function finalCell(s,r,L){
+    const esc=H().esc;
+    let out=gradeCell(r,L);
+    if(r.overridden){
+      const calc=Object.assign({},r,{value:r.calculatedValue,complete:r.calculatedComplete});
+      out+='<div><small>'+esc(ovT("teacher"))+'</small></div><details><summary>'+esc(ovT("calculated"))+'</summary>'+gradeCell(calc,L)+'</details>';
+    }
+    if(r.overrideInvalid)out+='<small role="alert">'+esc(ovT("corrupt"))+'</small>';
+    return out+'<button class="btn ghost" data-final-edit="'+esc(s.id)+'" style="font-size:12px;white-space:normal">'+esc(ovT("edit"))+'</button>';
+  }
+  function editFinal(sid){
+    if(typeof sid!=="string"||!sid.trim()){H().toast(ovT("conflict"));return;}
+    const ls=H().LS,initial=ls.get("stu.list",null),period=grPeriod,scope=grClsF;
+    if(!Array.isArray(initial))return;
+    const found=initial.filter(s=>s&&s.id===sid);
+    if(found.length!==1||!inF(found[0],scope)){H().toast(ovT("conflict"));return;}
+    const pupil=found[0],cid=cidOf(pupil),weights=loadWeights(),cols=examColsFor(period);
+    if((pupil.grades!=null&&(typeof pupil.grades!=="object"||Array.isArray(pupil.grades)))||(pupil.grades&&pupil.grades[period]!=null&&(typeof pupil.grades[period]!=="object"||Array.isArray(pupil.grades[period])))){H().toast(ovT("corrupt"));return;}
+    const old=(pupil.grades&&pupil.grades[period])||{},r=computeFinal(pupil,period,weights,cols);
+    const stamp=JSON.stringify({initial,periods:loadPeriods(),weights,cols,classes:ls.get("ft.classes",{})});
+    const esc=H().esc,el=document.createElement("div");document.getElementById("gr-overrideModal")?.remove();
+    el.id="gr-overrideModal";el.className="modal";
+    el.innerHTML=`<div class="box" style="max-width:520px"><h3>${esc(ovT("title"))}</h3><p><b>${esc(pupil.name)}</b> [${esc(sid)}] · ${esc(window.I18N.term(period)||period)}</p><p class="hint">${esc(ovT("intro"))}</p><p>${esc(ovT("calculated"))}: ${gradeCell(r.overridden?Object.assign({},r,{value:r.calculatedValue,complete:r.calculatedComplete}):r,loadLabels())}</p>${r.overrideInvalid?`<p role="alert">${esc(ovT("corrupt"))}</p>`:""}<form id="gr-overrideForm" novalidate><div class="field" style="margin-top:12px"><label for="gr-overrideValue">${esc(ovT("title"))} (0–100)</label><input id="gr-overrideValue" type="number" min="0" max="100" step="any" inputmode="decimal" style="min-height:44px;font-size:16px" required value="${r.overridden?esc(old.finalOverride.value):""}"></div><div class="field" style="margin-top:12px"><label for="gr-overrideNote">${esc(ovT("note"))}</label><textarea id="gr-overrideNote" maxlength="500" rows="3" style="width:100%;box-sizing:border-box;font-size:16px">${r.overridden?esc(old.finalOverride.note):""}</textarea></div><p id="gr-overrideError" role="alert"></p><div class="row" style="flex-wrap:wrap"><button class="btn" id="gr-overrideSave" type="submit">${esc(ovT("save"))}</button>${Object.prototype.hasOwnProperty.call(old,"finalOverride")?`<button class="btn ghost" id="gr-overrideReset" type="button">${esc(ovT("reset"))}</button>`:""}<button class="btn ghost" id="gr-overrideCancel" type="button">${esc(ovT("cancel"))}</button></div></form></div>`;
+    document.body.appendChild(el);const $=q=>el.querySelector(q),draft=()=>JSON.stringify([$("#gr-overrideValue").value,$("#gr-overrideNote").value]),start=draft();
+    const close=async()=>{if(draft()!==start&&!(await H().ask({msg:ovT("discard"),ok:ovT("cancel")})))return;H().modal(el.id,false);el.remove();};
+    el.__onBack=close;el.onclick=e=>{if(e.target===el)close();};el.onkeydown=e=>{if(e.key==="Escape"){e.preventDefault();e.stopPropagation();close();}};$("#gr-overrideCancel").onclick=close;
+    function write(remove){
+      const value=$("#gr-overrideValue").value,n=Number(value),note=$("#gr-overrideNote").value.trim();
+      const error=k=>$("#gr-overrideError").textContent=ovT(k);
+      if(!remove&&(value.trim()===""||!Number.isFinite(n)||n<0||n>100||note.length>500)){error("invalid");return;}
+      const fresh=ls.get("stu.list",null),matches=Array.isArray(fresh)?fresh.filter(s=>s&&s.id===sid):[];
+      const now=JSON.stringify({initial:fresh,periods:loadPeriods(),weights:loadWeights(),cols:examColsFor(period),classes:ls.get("ft.classes",{})});
+      if(now!==stamp||grPeriod!==period||grClsF!==scope||!loadPeriods().includes(period)||matches.length!==1||cidOf(matches[0])!==cid||!inF(matches[0],scope)){error("conflict");return;}
+      const next=JSON.parse(JSON.stringify(fresh)),target=next.find(s=>s&&s.id===sid);
+      if(!target.grades||typeof target.grades!=="object"||Array.isArray(target.grades))target.grades={};
+      const g=target.grades[period];if(!g||typeof g!=="object"||Array.isArray(g))target.grades[period]={exams:{}};
+      if(remove)delete target.grades[period].finalOverride;else target.grades[period].finalOverride={value:n,note};
+      if(!ls.set("stu.list",next)||JSON.stringify(ls.get("stu.list",null))!==JSON.stringify(next)){error("failed");return;}
+      H().modal(el.id,false);el.remove();renderGrades();
+    }
+    $("#gr-overrideForm").onsubmit=e=>{e.preventDefault();write(false);};const reset=$("#gr-overrideReset");if(reset)reset.onclick=()=>write(true);
+    H().modal(el.id);
+  }
   function renderWeightsHint(){
     const {$}=H(); const w=loadWeights();
     const L=loadLabels();
@@ -28872,6 +29878,9 @@ window.STU=(function(){
     if(!periods.includes(grPeriod))grPeriod=periods[0];
     $("#gr-period").innerHTML=periods.map(p=>`<option value="${esc(p)}" ${p===grPeriod?"selected":""}>${esc(p)}</option>`).join("");
     renderWeightsHint();
+    let excel=$("#gr-xlsx");
+    if(!excel){excel=document.createElement("button");excel.id="gr-xlsx";excel.className="btn ghost";$("#gr-csv").after(excel);}
+    excel.textContent=H().t("ar.xlsx","ייצוא Excel (.xlsx)");excel.onclick=()=>exportGradesCsv("xlsx");
     const weights=loadWeights();
     const examCols=examColsFor(grPeriod);
     const view=list.filter(s=>inF(s,grClsF)).sort((a,b)=>a.name.localeCompare(b.name,"he"));
@@ -28906,10 +29915,11 @@ window.STU=(function(){
         ${show("team")?num("team"):""}
         ${show("know")?num("know"):""}
         ${num("bonus",weights.bonusMax??10)}
-        <td class="mono gr-final${r.complete?"":" prov"}">${gradeCell(r,L)}</td>
+        <td class="mono gr-final${r.complete?"":" prov"}">${finalCell(s,r,L)}</td>
       </tr>`;
     }).join("");
     $("#gr-table").innerHTML=head+"<tbody>"+body+"</tbody>";
+    $("#gr-table").onclick=e=>{const b=e.target.closest("[data-final-edit]");if(b)editFinal(b.dataset.finalEdit);};
     paintProvHint(view,weights,examCols);
     /* עדכון שורה בודדת בלבד (בלי לבנות מחדש את כל הטבלה) — כדי לא לאבד פוקוס/מעבר Tab
        באמצע הזנת ציונים רצופה בסגנון גיליון. */
@@ -28921,7 +29931,7 @@ window.STU=(function(){
       const monos=tr.querySelectorAll("td.mono");
       if(monos.length>1)monos[0].textContent=examsAvg!=null?examsAvg.toFixed(1):"—";
       const fc=cells[cells.length-1];
-      fc.innerHTML=gradeCell(r,L); fc.classList.toggle("prov",!r.complete);
+      fc.innerHTML=finalCell(s,r,L); fc.classList.toggle("prov",!r.complete);
       paintProvHint(view,weights,examCols);
     }
     $$("#gr-table [data-f]").forEach(inp=>inp.addEventListener("change",()=>{
@@ -28971,6 +29981,7 @@ window.STU=(function(){
     periods.push(n); savePeriods(periods); grPeriod=n; renderGrades();
   }
   function delPeriod(){
+    if(window.ASSESSMENT&&!window.ASSESSMENT.canDeletePeriod(grPeriod))return;
     const periods=loadPeriods();
     if(periods.length<=1){H().toast("חייבת להישאר לפחות תקופה אחת");return;}
     const back=H().snap(["grades.periods","grades.examCols","stu.list","grades.periodRanges"]), was=grPeriod;
@@ -28981,7 +29992,7 @@ window.STU=(function(){
     grPeriod=periods[0]; renderGrades();
     H().undo(`התקופה «${was}» נמחקה, עם הציונים שבה`,()=>{ back(); grPeriod=was; renderGrades(); },8000);
   }
-  function exportGradesCsv(){
+  function exportGradesCsv(type){
     const list=load().filter(s=>inF(s,grClsF)).sort((a,b)=>a.name.localeCompare(b.name,"he"));
     if(!list.length){H().toast("אין תלמידים");return;}
     const weights=loadWeights(), examCols=examColsFor(grPeriod), L=loadLabels();
@@ -28989,17 +30000,26 @@ window.STU=(function(){
     /* עמודת סטטוס מפורשת: מי שפותח את הקובץ באקסל רואה אם הציון סופי
        או זמני ומה חסר — בלי להסיק את זה מתאים ריקים. */
     const rows=[["שם","כיתה",L.part,...examCols,L.exams,L.improve,L.team,L.know,"בונוס",
-      tt("gr.csvGrade","ציון"),tt("gr.csvStatus","סטטוס"),tt("gr.csvMissing","רכיבים חסרים")]];
+      tt("gr.csvGrade","ציון"),tt("gr.csvStatus","סטטוס"),tt("gr.csvMissing","רכיבים חסרים"),ovT("calculated"),ovT("basis"),ovT("note"),ovT("sid"),ovT("period")]];
     const fx=v=>v!=null?v:"";
     list.forEach(s=>{
       const g=gradeOf(s,grPeriod), r=computeFinal(s,grPeriod,weights,examCols);
       rows.push([s.name,H().clsUI(s.cls||""),fx(g.part),...examCols.map(c=>fx(g.exams&&g.exams[c])),
         r.examsAvg!=null?r.examsAvg.toFixed(1):"",fx(g.improve),fx(g.team),fx(g.know),fx(g.bonus),
         r.value!=null?r.value.toFixed(1):"",
-        r.status===window.HMDATA.GRADE_FINAL?tt("gr.stFinal","סופי"):r.status===window.HMDATA.GRADE_PROV?tt("gr.prov","זמני"):"",
-        r.missing.map(k=>H().trUI(L[k])).join("; ")]);
+        r.overrideInvalid?ovT("corrupt"):r.overridden?ovT("teacher"):r.status===window.HMDATA.GRADE_FINAL?tt("gr.stFinal","סופי"):r.status===window.HMDATA.GRADE_PROV?tt("gr.prov","זמני"):"",
+        r.missing.map(k=>H().trUI(L[k])).join("; "),
+        (r.overridden?r.calculatedValue:r.value)??null,(r.overridden?r.calculatedValue:r.value)==null?"":(r.overridden?r.calculatedComplete:r.complete)?tt("gr.stFinal","סופי"):tt("gr.prov","זמני"),r.overridden?g.finalOverride.note:"",s.id,grPeriod]);
     });
-    H().dlCSV(tt("csv.grades","ציונים")+"_"+H().trUI(grPeriod)+".csv",rows);
+    if(type==="xlsx"){
+      try{
+        rows[0]=rows[0].map(H().trUI);
+        const excelRows=rows.map((row,i)=>i?row.map((v,j)=>[3+examCols.length,8+examCols.length].includes(j)?(v===""?null:Number(v)):v):row);
+        const bytes=window.HMXlsx.workbook([{name:"Grades",rows:excelRows}],{rtl:["he","ar"].includes(window.I18N.lang())});
+        const a=document.createElement("a"),url=URL.createObjectURL(new Blob([bytes],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
+        a.href=url;a.download="PE-Ultimate-grades.xlsx";a.click();setTimeout(()=>URL.revokeObjectURL(url),4000);
+      }catch(e){H().toast(H().t("ar.exportFailed","הייצוא נכשל. הנתונים לא השתנו; נסה שוב."));}
+    }else H().dlCSV(tt("csv.grades","ציונים")+"_"+H().trUI(grPeriod)+".csv",rows.map(row=>row.map(v=>typeof v==="string"&&/^[\s]*[=+@-]/.test(v)?"'"+v:v)));
   }
 
   /* ============================================================
@@ -29858,6 +30878,589 @@ window.HMBootNew=function(){
   const sc=$("#qsStu"); if(sc)sc.textContent=window.STU.count();
 };
 })();
+
+;
+"use strict";
+// Teacher configuration only; calculating a suggestion never writes a grade.
+window.ASSESSMENT=(()=>{
+  const HE={"as.title": "מבחני חובה ויעדים", "as.close": "סגירה", "as.intro": "בחר מבחני חובה לכיתה ולתקופה. הציונים המחושבים הם הצעה בלבד; ציונים ידניים לא משתנים.", "as.class": "כיתה", "as.period": "תקופת הערכה", "as.from": "מתאריך", "as.to": "עד תאריך", "as.dates": "התאריכים נשמרים כאן כעותק. שינוי טווח הנוכחות בהמשך לא ישנה את הדרישות האלה.", "as.useRule": "הגדר כלל ניקוד לפי יעד", "as.higher": "תוצאה גבוהה יותר טובה יותר. תוצאה ביעד או מעליו מקבלת את הציון המרבי.", "as.lower": "זמן נמוך יותר טוב יותר. תוצאה ביעד או מתחתיו מקבלת את הציון המרבי.", "as.target": "יעד", "as.step": "גודל מדרגה בתוצאה", "as.points": "נקודות לכל מדרגה", "as.min": "ציון מזערי", "as.max": "ציון מרבי", "as.rounding": "עיגול הפער מהיעד", "as.choose": "בחר אופן עיגול", "as.ceil": "כל מדרגה שהתחילה", "as.floor": "מדרגות שלמות בלבד", "as.linear": "חלקי מדרגות", "as.preview": "תצוגת ניקוד", "as.ruleHint": "הזן יעד, מדרגה, נקודות, גבולות ועיגול תקינים לתצוגה מקדימה.", "as.save": "שמור דרישות", "as.delete": "הסר דרישות", "as.deleteConfirm": "להסיר את הדרישות? המדידות והציונים יישארו.", "as.discard": "לוותר על שינויים שלא נשמרו?", "as.saved": "הדרישות נשמרו", "as.failed": "השמירה נכשלה. הטיוטה עדיין פתוחה; נסה שוב או צור גיבוי.", "as.invalid": "בחר לפחות מבחן אחד ובדוק תאריכים, כללי ניקוד ופטורים.", "as.corrupt": "לא ניתן לקרוא את הדרישות השמורות או שגרסתן אינה נתמכת. שחזר גיבוי תקין לפני עריכה.", "as.conflict": "הדרישות או התקופות השתנו במקום אחר. פתח מחדש לפני שמירה.", "as.periodBlocked": "הסר תחילה את הדרישות השמורות לתקופה לפני מחיקתה.", "as.noClasses": "הוסף כיתה או תלמיד לפני הגדרת דרישות."};
+  Object.assign(HE,{"as.exSave":"שמור דרישות ופטורים", "as.exTitle": "פטורים לתקופה", "as.exScope": "פטור חל על מבחן של תלמיד בכל התקופה והתאריכים שנבחרו. נדרשת סיבה; זה אינו פטור נוכחות ליום מסוים. מדידות וציונים ידניים נשמרים.", "as.exPupil": "תלמיד", "as.exChoose": "בחר תלמיד לפי השם והמזהה", "as.exUnavailable": "תלמיד שאינו בכיתה", "as.exUnavailableHint": "התלמיד אינו ברשימה הנוכחית. פטורים שמורים נשארים; אפשר להסיר אותם במפורש, אך אי אפשר להוסיף חדשים כאן.", "as.exNoPupils": "אין תלמידים בכיתה. הוסף תלמיד לפני הגדרת פטור.", "as.exReason": "סיבת הפטור (חובה)", "as.exNoTests": "בחר קודם מבחן חובה כדי להגדיר פטור.", "as.exReasonRequired": "כתוב סיבה לכל פטור שסומן לפני השמירה.", "as.exRemovedTest": "הסר את הפטור השמור לפני הסרת מבחן החובה. מדידות התלמיד יישארו."});
+  const KEY="assessment.policies",D=window.HMDATA,A=window.HMAssessment;
+  const H=()=>window.HM, t=key=>H().t("as."+key,HE["as."+key]||key), esc=s=>H().esc(String(s??""));
+  const defs=()=>window.FT.tests().filter(d=>d.id!=="beep");
+  function read(){
+    const before=H().LS.health().fails_n;
+    const value=H().LS.get(KEY,null);
+    if(H().LS.health().fails_n!==before)return {ok:false};
+    const envelope=value===null?{version:1,policies:[]}:value;
+    return {...A.validateEnvelope(envelope,defs(),H().LS),value:envelope};
+  }
+  function canDeletePeriod(period){
+    const config=read();
+    if(!config.ok){H().toast(t("corrupt"));return false;}
+    if(config.value.policies.some(p=>p.period===period)){H().toast(t("periodBlocked"));return false;}
+    return true;
+  }
+  function open(cid,period,selectSid){
+    const config=read();
+    let classes=Object.values(D.realClasses(H().LS));
+    // Imported pupils may have a stable class before the registry is populated.
+    for(const s of H().LS.get("stu.list",[])){
+      const id=D.cidOfStudent(s,H().LS);
+      if(id&&!D.isGroupId(id)&&!classes.some(c=>c.id===id))classes.push({id,name:s.cls||id});
+    }
+    if(!classes.length){H().toast(t("noClasses"));return;}
+    if(!classes.some(c=>c.id===cid))cid=classes[0].id;
+    let periods=H().LS.get("grades.periods",null);
+    if(!Array.isArray(periods)||!periods.length)periods=["רבעון 1"];
+    if(!periods.includes(period))period=periods[0];
+    let snapshot=JSON.stringify(config.value),dirty=false,exemptions=[];
+    let old=document.getElementById("as-modal");if(old)old.remove();
+    const el=document.createElement("div");el.id="as-modal";el.className="modal";
+    el.innerHTML=`<div class="box" style="max-width:760px">
+      <h3>${esc(t("title"))}<button type="button" class="x" id="as-close" aria-label="${esc(t("close"))}">✕</button></h3>
+      <div class="hint">${esc(t("intro"))}</div>
+      <div class="row" style="margin-top:12px;flex-wrap:wrap">
+        <div class="field" style="flex:1;min-width:130px"><label for="as-class">${esc(t("class"))}</label><select id="as-class">${classes.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("")}</select></div>
+        <div class="field" style="flex:1;min-width:130px"><label for="as-period">${esc(t("period"))}</label><select id="as-period">${periods.map(p=>`<option value="${esc(p)}">${esc((window.I18N&&window.I18N.term(p))||p)}</option>`).join("")}</select></div>
+      </div>
+      <form id="as-form"><div id="as-fields"></div>
+        <div id="as-error" role="alert" style="color:var(--stop);margin:12px 0"></div>
+        <div class="row" style="flex-wrap:wrap"><button type="submit" class="btn acc" id="as-save">${esc(t("save"))}</button>
+        <button type="button" class="btn ghost" id="as-delete">${esc(t("delete"))}</button></div>
+      </form></div>`;
+    document.body.appendChild(el);
+    const $=s=>el.querySelector(s);
+    $("#as-class").value=cid;$("#as-period").value=period;
+    const current=()=>({cid:$("#as-class").value,period:$("#as-period").value});
+    const error=key=>{$("#as-error").textContent=t(key);};
+    function render(){
+      const c=current(),latest=read();
+      if(!latest.ok){$("#as-fields").innerHTML="";$("#as-save").disabled=true;$("#as-delete").disabled=true;error("corrupt");return;}
+      snapshot=JSON.stringify(latest.value);
+      const policy=latest.value.policies.find(p=>p.cid===c.cid&&p.period===c.period);
+      exemptions=JSON.parse(JSON.stringify(policy?.exemptions||[]));
+      const range=policy||(H().LS.get("grades.periodRanges",{})||{})[c.period]||{};
+      $("#as-fields").innerHTML=`<div class="row" style="flex-wrap:wrap;margin-top:12px">
+        <div class="field" style="flex:1;min-width:130px"><label for="as-from">${esc(t("from"))}</label><input type="date" id="as-from" required value="${esc(range.from||"")}"></div>
+        <div class="field" style="flex:1;min-width:130px"><label for="as-to">${esc(t("to"))}</label><input type="date" id="as-to" required value="${esc(range.to||"")}"></div></div>
+        <p class="hint">${esc(t("dates"))}</p>
+        <details id="as-ex-panel" class="card" style="padding:12px;margin:12px 0"><summary>${esc(t("exTitle"))} <span id="as-ex-count"></span></summary>
+          <p class="hint">${esc(t("exScope"))}</p><label for="as-ex-pupil">${esc(t("exPupil"))}</label><select id="as-ex-pupil" style="width:100%"></select><div id="as-ex-list"></div><button type="submit" class="btn acc" id="as-ex-save" style="margin-top:12px">${esc(t("exSave"))}</button>
+        </details>
+        ${defs().map(d=>{
+          const entry=policy?.tests.find(e=>e.id===d.id),r=entry?.rule;
+          return `<section class="card as-test" data-test="${esc(d.id)}" style="padding:12px;margin-top:8px">
+            <label><input type="checkbox" class="as-required" ${entry?"checked":""}> ${esc((window.I18N&&window.I18N.term(d.name))||d.name)}</label>
+            <label style="display:block;margin-top:8px"><input type="checkbox" class="as-rule" ${r?"checked":""}> ${esc(t("useRule"))}</label>
+            <div class="as-ruleFields" ${r?"":"hidden"} style="margin-top:10px">
+              <div class="hint">${esc(t(d.dir==="low"?"lower":"higher"))}</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">${["target","step","points","min","max"].map(k=>`<label style="flex:1;min-width:85px">${esc(t(k))}<input class="as-${k}" type="number" step="any" value="${esc(r?.[k]??(k==="min"?0:k==="max"?100:""))}" style="width:100%;box-sizing:border-box"></label>`).join("")}</div>
+              <label style="display:block;margin-top:8px">${esc(t("rounding"))}<select class="as-rounding"><option value="">${esc(t("choose"))}</option>${["ceil","floor","linear"].map(k=>`<option value="${k}" ${r?.rounding===k?"selected":""}>${esc(t(k))}</option>`).join("")}</select></label>
+              <div class="hint as-preview" style="margin-top:8px" aria-live="polite"></div>
+            </div></section>`;
+        }).join("")}`;
+      $("#as-save").disabled=false;$("#as-delete").disabled=!policy;$("#as-error").textContent="";
+      dirty=false;
+      for(const row of el.querySelectorAll(".as-test"))refresh(row);
+      function refresh(row){
+        const enabled=row.querySelector(".as-rule").checked;
+        row.querySelector(".as-ruleFields").hidden=!enabled;
+        for(const input of row.querySelectorAll(".as-ruleFields input,.as-rounding"))input.disabled=!enabled;
+        if(!enabled)return;
+        const rule=getRule(row),d=defs().find(d=>d.id===row.dataset.test);
+        const sample=[rule.target,rule.target+(d.dir==="low"?1:-1)*rule.step];
+        row.querySelector(".as-preview").textContent=sample.every(Number.isFinite)&&sample.every(v=>A.score(v,d.dir,rule)!==null)
+          ?t("preview")+": "+sample.map(v=>v+" → "+A.score(v,d.dir,rule)).join(" · "):t("ruleHint");
+      }
+      const roster=H().LS.get("stu.list",[]).filter(s=>D.cidOfStudent(s,H().LS)===c.cid);
+      const pupilMap=new Map(roster.filter(s=>typeof D.studentKey(s)==="string").map(s=>[D.studentKey(s),s]));
+      const pupilIds=[...new Set([...pupilMap.keys(),...exemptions.map(e=>e.sid)])];
+      $("#as-ex-pupil").innerHTML=`<option value="">${esc(t("exChoose"))}</option>${pupilIds.map(id=>`<option value="${esc(id)}">${esc(pupilMap.has(id)?pupilMap.get(id).name:t("exUnavailable"))} [${esc(id)}]</option>`).join("")}`;
+      function renderExemptions(){
+        $("#as-ex-count").textContent="("+exemptions.length+")";
+        const sid=$("#as-ex-pupil").value;
+        if(!sid){$("#as-ex-list").innerHTML=`<p class="hint">${esc(t(pupilIds.length?"exChoose":"exNoPupils"))}</p>`;return;}
+        const required=[...el.querySelectorAll(".as-test")].filter(row=>row.querySelector(".as-required").checked).map(row=>row.dataset.test);
+        const testIds=[...new Set([...required,...exemptions.filter(e=>e.sid===sid).map(e=>e.test)])];
+        $("#as-ex-list").innerHTML=(!pupilMap.has(sid)?`<p class="hint">${esc(t("exUnavailableHint"))}</p>`:"")+(testIds.length?testIds.map(id=>{
+          const entry=exemptions.find(e=>e.sid===sid&&e.test===id),def=defs().find(d=>d.id===id),isRequired=required.includes(id);
+          return `<div class="as-ex-row" data-test="${esc(id)}" data-sid="${esc(sid)}" style="margin-top:10px"><label><input type="checkbox" class="as-ex-check" ${entry?"checked":""} ${!entry&&(!pupilMap.has(sid)||!isRequired)?"disabled":""}> ${esc((window.I18N&&window.I18N.term(def.name))||def.name)}</label>
+            ${!isRequired?`<p class="hint">${esc(t("exRemovedTest"))}</p>`:""}<label style="display:block;margin-top:6px">${esc(t("exReason"))}<textarea class="as-ex-reason" maxlength="500" rows="2" style="width:100%;box-sizing:border-box" ${entry&&pupilMap.has(sid)?"":"disabled"}>${esc(entry?.reason||"")}</textarea></label></div>`;
+        }).join(""):`<p class="hint">${esc(t("exNoTests"))}</p>`);
+      }
+      function changeExemption(target){
+        const row=target.closest(".as-ex-row");if(!row)return;
+        const sid=row.dataset.sid,id=row.dataset.test;
+        if(target.classList.contains("as-ex-check")){
+          exemptions=exemptions.filter(e=>e.sid!==sid||e.test!==id);
+          if(target.checked)exemptions.push({sid,test:id,reason:""});
+          renderExemptions();
+        }else if(target.classList.contains("as-ex-reason")){
+          const entry=exemptions.find(e=>e.sid===sid&&e.test===id);if(entry)entry.reason=target.value;
+        }
+      }
+      $("#as-fields").oninput=e=>{if(e.target.id==="as-ex-pupil")return;dirty=true;if(e.target.classList.contains("as-ex-reason"))changeExemption(e.target);const row=e.target.closest(".as-test");if(row)refresh(row);};
+      $("#as-fields").onchange=e=>{
+        if(e.target.id==="as-ex-pupil"){renderExemptions();return;}
+        dirty=true;if(e.target.classList.contains("as-ex-reason")||e.target.classList.contains("as-ex-check"))changeExemption(e.target);
+        const row=e.target.closest(".as-test");if(row){refresh(row);if(e.target.classList.contains("as-required"))renderExemptions();}
+      };
+      renderExemptions();
+    }
+    function getRule(row){
+      const rule={};for(const k of ["target","step","points","min","max"]){const v=row.querySelector(".as-"+k).value;rule[k]=v.trim()===""?NaN:Number(v);}
+      rule.rounding=row.querySelector(".as-rounding").value;return rule;
+    }
+    function unchanged(){
+      const latest=read();
+      if(!latest.ok){error("corrupt");return null;}
+      if(JSON.stringify(latest.value)!==snapshot){error("conflict");return null;}
+      return latest.value;
+    }
+    function persist(value){
+      if(H().LS.health().backend!=="localStorage"||!H().LS.set(KEY,value)){error("failed");return false;}
+      const saved=read();
+      if(!saved.ok||JSON.stringify(saved.value)!==JSON.stringify(value)){error("failed");return false;}
+      snapshot=JSON.stringify(value);dirty=false;H().toast(t("saved"));H().modal("as-modal",false);return true;
+    }
+    $("#as-form").onsubmit=e=>{
+      e.preventDefault();const value=unchanged();if(!value)return;
+      const c=current();
+      const savedPeriods=H().LS.get("grades.periods",null);
+      if(!(Array.isArray(savedPeriods)&&savedPeriods.length?savedPeriods:["רבעון 1"]).includes(c.period)){error("conflict");return;}
+      const previous=value.policies.find(p=>p.cid===c.cid&&p.period===c.period);
+      const policy={...c,from:$("#as-from").value,to:$("#as-to").value,
+        tests:[...el.querySelectorAll(".as-test")].filter(row=>row.querySelector(".as-required").checked).map(row=>({id:row.dataset.test,...(row.querySelector(".as-rule").checked?{rule:getRule(row)}:{})})),
+        exemptions};
+      if(exemptions.some(e=>!e.reason.trim())){error("exReasonRequired");$("#as-ex-panel").open=true;return;}
+      if(exemptions.some(e=>!policy.tests.some(t=>t.id===e.test))){error("exRemovedTest");$("#as-ex-panel").open=true;return;}
+      // Existing unavailable entries are retained; new exemptions require current membership.
+      const fresh=H().LS.get("stu.list",[]),original=previous?.exemptions||[];
+      if(!Array.isArray(fresh)||exemptions.some(e=>{
+        const count=fresh.filter(s=>D.studentKey(s)===e.sid&&D.cidOfStudent(s,H().LS)===c.cid).length;
+        return count>1||(!original.some(old=>old.sid===e.sid&&old.test===e.test)&&count!==1);
+      })){error("conflict");return;}
+      const next=A.updateEnvelope(value,policy,defs(),H().LS);
+      if(!next.ok){error("invalid");return;}
+      persist(next.value);
+    };
+    $("#as-delete").onclick=async()=>{
+      const value=unchanged();if(!value||!await H().ask({msg:t("deleteConfirm"),ok:t("delete")}))return;
+      if(!unchanged())return;
+      const c=current();persist({version:1,policies:value.policies.filter(p=>p.cid!==c.cid||p.period!==c.period)});
+    };
+    async function close(){if(!dirty||await H().ask({msg:t("discard"),ok:t("close")}))H().modal("as-modal",false);}
+    el.__onBack=close;
+    el.onclick=e=>{if(e.target===el)close();};
+    el.onkeydown=e=>{if(e.key==="Escape"){e.preventDefault();e.stopPropagation();close();}};
+    $("#as-close").onclick=close;
+    for(const id of ["as-class","as-period"]){
+      let prev=$("#"+id).value;
+      $("#"+id).onchange=async()=>{if(dirty&&!await H().ask({msg:t("discard"),ok:t("close")})){$("#"+id).value=prev;return;}prev=$("#"+id).value;render();};
+    }
+    render();
+    if(selectSid&&$("#as-ex-pupil")&&[...$("#as-ex-pupil").options].some(o=>o.value===selectSid)){
+      $("#as-ex-panel").open=true;$("#as-ex-pupil").value=selectSid;$("#as-ex-pupil").dispatchEvent(new Event("change",{bubbles:true}));
+    }
+    H().modal("as-modal");
+  }
+  document.addEventListener("click",e=>{
+    const b=e.target.closest("[data-assessment-open]");if(!b)return;
+    const raw=b.dataset.cid||document.getElementById("gr-classSel")?.value;
+    open(D.resolveClassId(H().LS,raw)||raw,document.getElementById("gr-period")?.value);
+  });
+  return {open,canDeletePeriod,read,key:KEY};
+})();
+
+;
+"use strict";
+// Minimal offline SpreadsheetML package. Text is always literal, never a formula.
+// Format reference: learn.microsoft.com/office/open-xml/spreadsheet/structure-of-a-spreadsheetml-document
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory();
+  else window.HMXlsx=factory();
+})(function(){
+  const enc=new TextEncoder(),NS="http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+  const xml=s=>String(s??"").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");
+  function col(n){let s="";for(n++;n;n=Math.floor((n-1)/26))s=String.fromCharCode(65+(n-1)%26)+s;return s;}
+  const crcTable=Array.from({length:256},(_,n)=>{for(let k=0;k<8;k++)n=n&1?0xEDB88320^(n>>>1):n>>>1;return n>>>0;});
+  function crc(bytes){let n=0xFFFFFFFF;for(const b of bytes)n=crcTable[(n^b)&255]^(n>>>8);return (n^0xFFFFFFFF)>>>0;}
+  function header(size){const bytes=new Uint8Array(size),v=new DataView(bytes.buffer);return {bytes,u16:(at,n)=>v.setUint16(at,n,true),u32:(at,n)=>v.setUint32(at,n,true)};}
+  function concat(parts){const out=new Uint8Array(parts.reduce((n,p)=>n+p.length,0));let at=0;for(const p of parts){out.set(p,at);at+=p.length;}return out;}
+  // ZIP stored entries: no compression dependency or online download is required.
+  function zip(files){
+    const local=[],central=[];let offset=0;
+    for(const [path,content] of Object.entries(files)){
+      const name=enc.encode(path),data=enc.encode(content),sum=crc(data);
+      const h=header(30);h.u32(0,0x04034B50);h.u16(4,20);h.u16(6,0x800);h.u16(12,33);h.u32(14,sum);h.u32(18,data.length);h.u32(22,data.length);h.u16(26,name.length);
+      local.push(h.bytes,name,data);
+      const c=header(46);c.u32(0,0x02014B50);c.u16(4,20);c.u16(6,20);c.u16(8,0x800);c.u16(14,33);c.u32(16,sum);c.u32(20,data.length);c.u32(24,data.length);c.u16(28,name.length);c.u32(42,offset);central.push(c.bytes,name);
+      offset+=30+name.length+data.length;
+    }
+    const end=header(22),count=Object.keys(files).length;end.u32(0,0x06054B50);end.u16(8,count);end.u16(10,count);end.u32(12,central.reduce((n,p)=>n+p.length,0));end.u32(16,offset);
+    return concat([...local,...central,end.bytes]);
+  }
+  function worksheet(rows,rtl){
+    if(!Array.isArray(rows)||rows.length>1048576||rows.some(r=>!Array.isArray(r)||r.length>16384))throw new Error("worksheet-size");
+    const width=rows.reduce((n,r)=>Math.max(n,r.length),1),last=col(width-1)+Math.max(1,rows.length);
+    const data=rows.map((r,i)=>`<row r="${i+1}">${r.map((v,j)=>{
+      const ref=col(j)+(i+1),style=i===0?' s="1"':"";
+      if(v===null||v===undefined||v==="")return `<c r="${ref}"${style}/>`;
+      if(typeof v==="number"){if(!Number.isFinite(v))throw new Error("non-finite-number");return `<c r="${ref}"${style}><v>${v}</v></c>`;}
+      const text=String(v);if(text.length>32767)throw new Error("cell-too-long");
+      return `<c r="${ref}"${style} t="inlineStr"><is><t xml:space="preserve">${xml(text)}</t></is></c>`;
+    }).join("")}</row>`).join("");
+    return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="${NS}"><dimension ref="A1:${last}"/><sheetViews><sheetView workbookViewId="0" rightToLeft="${rtl?1:0}"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols><col min="1" max="${width}" width="22" customWidth="1"/></cols><sheetData>${data}</sheetData>${rows.length?`<autoFilter ref="A1:${last}"/>`:""}</worksheet>`;
+  }
+  function workbook(sheets,{rtl=false}={}){
+    if(!Array.isArray(sheets)||!sheets.length||sheets.length>20)throw new Error("sheets");
+    const names=new Set();for(const s of sheets){if(!s.name||s.name.length>31||/[\\/?*\[\]:]/.test(s.name)||/^'|'$/.test(s.name)||names.has(s.name.toLowerCase()))throw new Error("sheet-name");names.add(s.name.toLowerCase());}
+    const REL="http://schemas.openxmlformats.org/officeDocument/2006/relationships",PKG="http://schemas.openxmlformats.org/package/2006/relationships";
+    const files={
+      "[Content_Types].xml":`<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join("")}</Types>`,
+      "_rels/.rels":`<Relationships xmlns="${PKG}"><Relationship Id="rId1" Type="${REL}/officeDocument" Target="xl/workbook.xml"/></Relationships>`,
+      "xl/workbook.xml":`<workbook xmlns="${NS}" xmlns:r="${REL}"><bookViews><workbookView/></bookViews><sheets>${sheets.map((s,i)=>`<sheet name="${xml(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join("")}</sheets></workbook>`,
+      "xl/_rels/workbook.xml.rels":`<Relationships xmlns="${PKG}">${sheets.map((_,i)=>`<Relationship Id="rId${i+1}" Type="${REL}/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join("")}<Relationship Id="styles" Type="${REL}/styles" Target="styles.xml"/></Relationships>`,
+      "xl/styles.xml":`<styleSheet xmlns="${NS}"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`
+    };
+    sheets.forEach((s,i)=>files[`xl/worksheets/sheet${i+1}.xml`]=worksheet(s.rows,rtl));return zip(files);
+  }
+  function csv(rows){
+    const safe=v=>{let s=String(v??"");if(typeof v!=="number"&&/^[\s]*[=+\-@]|^[\t\r]/.test(s))s="'"+s;return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};
+    return "\uFEFF"+rows.map(r=>r.map(safe).join(",")).join("\r\n");
+  }
+  return {workbook,csv};
+});
+
+;
+"use strict";
+// Period reports are snapshots for the teacher. They never write pupil grades.
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory(require("./hm-data.js"),require("./hm-assessment-data.js"));
+  else window.ASSESSMENT_REPORT=factory(window.HMDATA,window.HMAssessment);
+})(function(D,A){
+  function snapshot(students,measurements,policy,defs,store,sid){
+    if(!Array.isArray(students)||!Array.isArray(measurements))return {ok:false,errors:["report-data"]};
+    const check=A.validatePolicy(policy,defs,store);if(!check.ok)return check;
+    let pupils=students.filter(s=>D.cidOfStudent(s,store)===policy.cid);
+    if(sid)pupils=pupils.filter(s=>D.studentKey(s)===sid);
+    const seen=new Set(),reports=[];
+    for(const s of pupils){
+      const id=D.studentKey(s);if(!id||seen.has(id))return {ok:false,errors:["student-identity"]};seen.add(id);
+      const report=A.studentAssessment(measurements,s,policy,defs,store);
+      if(!report.ok)return report;
+      reports.push({...report,name:s.name||""});
+    }
+    if(sid&&!reports.length)return {ok:false,errors:["student-not-in-class"]};
+    return {ok:true,policy,reports};
+  }
+  const HE={"ar.editRequirements":"ערוך דרישות ופטורים", "ar.title":"דוח הערכה לפי תקופה","ar.close":"סגירה","ar.class":"כיתה","ar.period":"תקופה","ar.intro":"לפי מבחני החובה והתאריכים שנשמרו. הצעות הניקוד אינן ציונים סופיים ואינן משנות ציונים ידניים.","ar.noPolicy":"לא הוגדרו מבחני חובה לכיתה ולתקופה האלה. הגדר דרישות כדי להפיק דוח.","ar.configure":"הגדר דרישות","ar.error":"לא ניתן להפיק דוח תקין. בדוק את הדרישות וזהויות התלמידים.","ar.empty":"אין תלמידים בכיתה.","ar.student":"תלמיד","ar.sid":"מזהה תלמיד","ar.cid":"מזהה כיתה","ar.from":"מתאריך","ar.to":"עד תאריך","ar.test":"מבחן","ar.testId":"מזהה מבחן","ar.unit":"יחידה","ar.status":"מצב","ar.reason":"סיבה","ar.best":"התוצאה הטובה בתקופה","ar.date":"תאריך התוצאה","ar.count":"מדידות תקינות","ar.invalid":"מדידות לא תקינות","ar.reportDetails":"כל פרטי הדוח", "ar.rule":"כלל הניקוד", "ar.score":"הצעת ניקוד בלבד","ar.measured":"נמדד","ar.missing":"חסר","ar.exempt":"פטור","ar.noResult":"אין תוצאה בתקופה","ar.invalidResults":"רק תוצאות לא תקינות","ar.history":"היסטוריית מדידות בתקופה","ar.details":"הצג היסטוריה","ar.value":"תוצאה","ar.missingCount":"מבחנים חסרים","ar.complete":"הושלמו הדרישות","ar.incomplete":"טרם הושלמו הדרישות","ar.warning":"קיימות מדידות שלא נכללו: ללא מזהה תלמיד, עם תאריך לא תקין או עם תוצאה לא תקינה. בדוק את הרשומות המקוריות.","ar.exportFailed":"הייצוא נכשל. הנתונים לא השתנו; נסה שוב.","ar.xlsx":"ייצוא Excel (.xlsx)","ar.csv":"ייצוא CSV","ar.historyCsv":"היסטוריה CSV"};
+  function open(cid,sid,period){
+    const H=window.HM,t=k=>H.t("ar."+k,HE["ar."+k]),esc=s=>H.esc(String(s??""));
+    const pupils=H.LS.get("stu.list",[]),defs=window.FT.tests().filter(d=>d.id!=="beep"),catalog=new Map(defs.map(d=>[d.id,d]));
+    if(!Array.isArray(pupils)){H.toast(t("error"));return;}
+    if(sid){const s=pupils.find(s=>D.studentKey(s)===sid);cid=s&&D.cidOfStudent(s,H.LS);}
+    let classes=Object.values(D.realClasses(H.LS));
+    for(const s of pupils){const id=D.cidOfStudent(s,H.LS);if(id&&!D.isGroupId(id)&&!classes.some(c=>c.id===id))classes.push({id,name:s.cls||id});}
+    if(sid)classes=classes.filter(c=>c.id===cid);
+    if(!classes.length){H.toast(t("error"));return;}
+    if(!classes.some(c=>c.id===cid))cid=classes[0].id;
+    let periods=H.LS.get("grades.periods",[]);if(!Array.isArray(periods)||!periods.length)periods=["רבעון 1"];
+    if(!periods.includes(period))period=periods[0];
+    document.getElementById("ar-modal")?.remove();
+    const el=document.createElement("div");el.id="ar-modal";el.className="modal";
+    el.innerHTML=`<div class="box" style="max-width:1200px"><h3>${esc(t("title"))}<button class="x" id="ar-close" aria-label="${esc(t("close"))}">✕</button></h3><p class="hint">${esc(t("intro"))}</p>
+      <div class="row" style="flex-wrap:wrap"><label style="display:flex;gap:6px;align-items:center">${esc(t("class"))}<select id="ar-class">${classes.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("")}</select></label>
+      <label style="display:flex;gap:6px;align-items:center">${esc(t("period"))}<select id="ar-period">${periods.map(p=>`<option value="${esc(p)}">${esc(window.I18N.term(p)||p)}</option>`).join("")}</select></label></div><div id="ar-content"></div></div>`;
+    document.body.appendChild(el);const $=s=>el.querySelector(s);$("#ar-class").value=cid;$("#ar-period").value=period;
+    const labelName=d=>window.I18N.term(d.name)||d.name;
+    const columns=["student","sid","class","cid","period","from","to","test","testId","unit","status","reason","best","date","count","invalid","score","rule"];
+    let rows=[],history=[],current=null;
+    const prefix=(r,policy)=>[r.name,r.studentId,classes.find(c=>c.id===policy.cid)?.name||policy.cid,policy.cid,window.I18N.term(policy.period)||policy.period,policy.from,policy.to];
+    function render(){
+      rows=[];history=[];current=null;
+      const config=window.ASSESSMENT.read(),c=$("#ar-class").value,p=$("#ar-period").value;
+      if(!config.ok){$("#ar-content").innerHTML=`<p role="alert">${esc(t("error"))}</p>`;return;}
+      const policy=config.value.policies.find(v=>v.cid===c&&v.period===p);
+      if(!policy){$("#ar-content").innerHTML=`<p id="ar-noPolicy">${esc(t("noPolicy"))}</p><button class="btn" id="ar-configure">${esc(t("configure"))}</button>`;$("#ar-configure").onclick=()=>{H.modal("ar-modal",false);window.ASSESSMENT.open(c,p);};return;}
+      const result=snapshot(H.LS.get("stu.list",[]),H.LS.get("ft.results",[]),policy,defs,H.LS,sid);
+      if(!result.ok){$("#ar-content").innerHTML=`<p role="alert">${esc(t("error"))}</p>`;return;}
+      current=result;
+      rows=[columns.map(t)];history=[[...columns.slice(0,10),"date","value","status"].map(t)];
+      for(const r of result.reports)for(const item of r.tests){
+        const d=catalog.get(item.testId),reason=item.reason==="no-result-in-period"?t("noResult"):item.reason==="invalid-results"?t("invalidResults"):item.reason||"";
+        rows.push([...prefix(r,policy),labelName(d),item.testId,window.I18N.term(d.unit)||d.unit||"",t(item.status),reason,item.status==="measured"?item.best.val:null,item.status==="measured"?item.best.d:null,item.validCount,item.invalidCount,item.suggestedScore,(()=>{const rule=policy.tests.find(v=>v.id===item.testId).rule;if(!rule)return "";const names={target:"יעד",step:"גודל מדרגה בתוצאה",points:"נקודות לכל מדרגה",min:"ציון מזערי",max:"ציון מרבי",rounding:"עיגול הפער מהיעד",ceil:"כל מדרגה שהתחילה",floor:"מדרגות שלמות בלבד",linear:"חלקי מדרגות"};return ["target","step","points","rounding","min","max"].map(k=>H.t("as."+k,names[k])+": "+(k==="rounding"?H.t("as."+rule[k],names[rule[k]]):rule[k])).join("; ");})()]);
+        for(const m of item.history){const valid=D.isValidMeasurement(m,item.dir);history.push([...prefix(r,policy),labelName(d),item.testId,window.I18N.term(d.unit)||d.unit||"",m.d,valid?m.val:null,valid?t("measured"):t("invalid")]);}
+      }
+      const table=(data,id)=>`<div class="tblwrap" style="max-width:100%;overflow:auto"><table class="tbl" id="${id}" style="white-space:nowrap"><thead><tr>${data[0].map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${data.slice(1).map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+      const warnings=result.reports.some(r=>r.unidentifiedRows||r.invalidDateRows||r.tests.some(v=>v.invalidCount));
+      $("#ar-content").innerHTML=`<p id="ar-range" dir="ltr">${esc(policy.from)} → ${esc(policy.to)}</p>
+        ${warnings?`<p role="status" class="bw-warn">${esc(t("warning"))}</p>`:""}
+        ${!result.reports.length?`<p>${esc(t("empty"))}</p>`:`<div id="ar-summary">${result.reports.map(r=>`<p><b>${esc(r.name)}</b> · ${esc(t("missingCount"))}: ${r.missing.length} · ${esc(t(r.complete?"complete":"incomplete"))}</p>`).join("")}</div>`}
+        <div class="row" style="flex-wrap:wrap;margin-bottom:12px"><button class="btn ghost" id="ar-studentPrint">${esc(H.t("sp.open","דוח אישי להדפסה"))}</button><button class="btn ghost" id="ar-grid">${esc(H.t("ag.open","הזן מדידות בטבלה"))}</button><button class="btn ghost" id="ar-editRequirements">${esc(t("editRequirements"))}</button><button class="btn" id="ar-xlsx">${esc(t("xlsx"))}</button><button class="btn ghost" id="ar-csv">${esc(t("csv"))}</button><button class="btn ghost" id="ar-historyCsv">${esc(t("historyCsv"))}</button></div>
+        ${table(rows.map(r=>[0,7,10,12,16].map(i=>r[i])),"ar-quick")}<details style="margin-top:12px"><summary>${esc(t("reportDetails"))}</summary>${table(rows,"ar-table")}</details><details style="margin-top:12px"><summary>${esc(t("details"))}</summary>${table(history,"ar-history")}</details><p id="ar-error" role="alert"></p>`;
+      $("#ar-studentPrint").onclick=()=>window.STUDENT_REPORT.open(current,sid,classes.find(v=>v.id===c)?.name||c);
+      $("#ar-grid").onclick=()=>{H.modal("ar-modal",false);window.ASSESSMENT_GRID.open(c,p,sid);};
+      $("#ar-editRequirements").onclick=()=>{H.modal("ar-modal",false);window.ASSESSMENT.open(c,p,sid);};
+      $("#ar-xlsx").onclick=()=>download("xlsx");$("#ar-csv").onclick=()=>download("csv");$("#ar-historyCsv").onclick=()=>download("history");
+    }
+    function download(type){
+      if(!current)return;
+      // Export exactly this visible snapshot, with stable IDs and explicit period dates.
+      try{
+        const lang=window.I18N.lang(),rtl=lang==="he"||lang==="ar";
+        const data=type==="xlsx"?window.HMXlsx.workbook([{name:"Assessment",rows},{name:"History",rows:history}],{rtl}):window.HMXlsx.csv(type==="history"?history:rows);
+        const blob=new Blob([data],{type:type==="xlsx"?"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":"text/csv;charset=utf-8"});
+        const a=document.createElement("a"),url=URL.createObjectURL(blob);a.href=url;a.download="PE-Ultimate-assessment"+(sid?"-student":"-class")+(type==="history"?"-history":"")+"."+(type==="xlsx"?"xlsx":"csv");a.click();setTimeout(()=>URL.revokeObjectURL(url),4000);
+      }catch(e){$("#ar-error").textContent=t("exportFailed");}
+    }
+    $("#ar-class").onchange=render;$("#ar-period").onchange=render;
+    $("#ar-close").onclick=()=>H.modal("ar-modal",false);render();H.modal("ar-modal");
+  }
+  if(typeof document!=="undefined")document.addEventListener("click",e=>{
+    const b=e.target.closest("[data-assessment-report]");if(!b)return;
+    open(b.dataset.cid,b.dataset.sid,document.getElementById("gr-period")?.value);
+  });
+  return {snapshot,open};
+});
+
+;
+"use strict";
+// Teacher-reviewed, single-pupil output. No roster, grades or private reasons in the document.
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory(require("./hm-data.js"),require("./hm-assessment-data.js"));
+  else window.STUDENT_REPORT=factory(window.HMDATA,window.HMAssessment);
+})(function(D,A){
+  function model(snapshot,sid){
+    const fail=()=>({ok:false});
+    if(!snapshot?.ok||typeof sid!=="string"||!sid||!Array.isArray(snapshot.reports))return fail();
+    const matches=snapshot.reports.filter(r=>r.studentId===sid),p=snapshot.policy;
+    if(matches.length!==1||!p||D.isGroupId(p.cid)||!A.validDate(p.from)||!A.validDate(p.to)||p.from>p.to)return fail();
+    const r=matches[0];if(!Array.isArray(r.tests)||r.cid!==p.cid||r.period!==p.period)return fail();
+    const within=m=>m&&m.sid===sid&&A.validDate(m.d)&&m.d>=p.from&&m.d<=p.to&&(!m.cid||m.cid===p.cid);
+    const tests=[];
+    for(const item of r.tests){
+      if(!["measured","missing","exempt"].includes(item.status)||!Array.isArray(item.history))return fail();
+      if(item.status==="measured"&&(!within(item.best)||!D.isValidMeasurement(item.best,item.dir)))return fail();
+      tests.push({id:item.testId,status:item.status,value:item.status==="measured"?item.best.val:null,date:item.status==="measured"?item.best.d:null,
+        history:item.history.filter(within).map(m=>({date:m.d,value:D.isValidMeasurement(m,item.dir)?m.val:null,status:D.isValidMeasurement(m,item.dir)?"measured":"invalid"}))});
+    }
+    return {ok:true,value:{sid,name:String(r.name??""),cid:p.cid,period:p.period,from:p.from,to:p.to,missing:tests.filter(t=>t.status==="missing").length,
+      warning:!!(r.unidentifiedRows||r.invalidDateRows||r.tests.some(t=>t.invalidCount)),tests}};
+  }
+  const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  function documentHtml(m,{lang="en",className="",periodName="",labels={},catalog=[],history=false}={}){
+    if(!m?.ok)throw new Error("student-report");
+    const v=m.value,rtl=lang==="he"||lang==="ar",l=k=>esc(labels[k]||k),defs=new Map(catalog.map(d=>[d.id,d]));
+    const testName=id=>esc(defs.get(id)?.name||id),unit=id=>esc(defs.get(id)?.unit||"");
+    const table=(head,body)=>`<table><thead><tr>${head.map(k=>`<th>${l(k)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table>`;
+    const rows=v.tests.map(t=>`<tr><td>${testName(t.id)}</td><td>${l(t.status)}</td><td>${t.value===null?"—":esc(t.value)}</td><td>${unit(t.id)}</td><td><bdi>${esc(t.date||"—")}</bdi></td></tr>`).join("");
+    const attempts=v.tests.flatMap(t=>t.history.map(h=>`<tr><td>${testName(t.id)}</td><td><bdi>${esc(h.date)}</bdi></td><td>${h.value===null?"—":esc(h.value)}</td><td>${unit(t.id)}</td><td>${l(h.status)}</td></tr>`)).join("");
+    return `<!doctype html><html lang="${["he","en","ar","ru","es"].includes(lang)?lang:"en"}" dir="${rtl?"rtl":"ltr"}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'none'; base-uri 'none'; form-action 'none'"><title>PE Ultimate — ${l("title")}</title><style>@page{size:A4;margin:14mm}*{box-sizing:border-box}body{margin:0;padding:20px;font:14px Arial,Helvetica,sans-serif;line-height:1.5;color:#18212b;background:white;overflow-wrap:anywhere}h1{font-size:22px;margin:0 0 12px}h2{font-size:17px;margin:24px 0 8px}p{margin:8px 0}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px;border:1px solid #aeb5bf;text-align:start}th{background:#eff3f6}th:nth-child(2),td:nth-child(2),th:nth-child(4),td:nth-child(4){white-space:nowrap}thead{display:table-header-group}tr{break-inside:avoid}.note{font-size:12px;color:#455161}@media print{body{padding:0}h2{break-after:avoid}}</style></head><body data-pupil-id="${esc(v.sid)}"><h1>${l("title")}</h1><p><strong>${esc(v.name)}</strong> · ${l("sid")}: <bdi>${esc(v.sid)}</bdi></p><p>${l("class")}: ${esc(className||v.cid)} · ${l("period")}: ${esc(periodName||v.period)}</p><p><bdi>${esc(v.from)} → ${esc(v.to)}</bdi></p><p class="note">${l("basis")}</p><p>${l("summaryMissing")}: ${v.missing}</p>${v.warning?`<p class="note">${l("warning")}</p>`:""}${table(["test","status","best","unit","date"],rows)}${history?`<h2>${l("history")}</h2>${attempts?table(["test","date","value","unit","status"],attempts):`<p>${l("noHistory")}</p>`}`:""}<p class="note">PE Ultimate</p></body></html>`;
+  }
+  const HE={"sp.open":"דוח אישי להדפסה","sp.title":"דוח התקדמות אישי","sp.choose":"בחר תלמיד לדוח","sp.preview":"תצוגה מקדימה","sp.history":"כלול היסטוריית מדידות","sp.print":"הדפס / שמור כ־PDF","sp.html":"הורד דוח HTML","sp.close":"סגירה","sp.intro":"בחר תלמיד ובדוק את הדוח לפני שמירה או הדפסה. זהו עותק מקומי למסירה אישית; לא נשלח דבר מהאפליקציה.","sp.basis":"לפי מבחני החובה ותאריכי התקופה. הדוח מציג מדידות וחוסרים, ללא ציונים או הערות פרטיות של המורה.","sp.changed":"הנתונים השתנו או שזהות התלמיד אינה חד־משמעית. סגור ופתח מחדש את דוח התקופה.","sp.failed":"ההדפסה או ההורדה נכשלה. הנתונים לא השתנו; אפשר לנסות שוב או להוריד HTML.","sp.noHistory":"אין מדידות בתקופה.","sp.previewLabel":"תצוגה מקדימה של הדוח האישי","sp.invalid":"מדידה לא תקינה"};
+  function open(snapshot,sid,className){
+    const H=window.HM,ls=H.LS,t=k=>H.t("sp."+k,HE["sp."+k]),read=()=>({students:ls.get("stu.list",[]),results:ls.get("ft.results",[]),config:window.ASSESSMENT.read(),classes:ls.get("ft.classes",{})});
+    const initial=read(),defs=window.FT.tests().filter(d=>d.id!=="beep"),policy=initial.config.value?.policies.find(p=>p.cid===snapshot.policy.cid&&p.period===snapshot.policy.period);
+    if(!initial.config.ok||JSON.stringify(policy)!==JSON.stringify(snapshot.policy)||!Array.isArray(initial.students)){H.toast(t("changed"));return;}
+    const fresh=window.ASSESSMENT_REPORT.snapshot(initial.students,initial.results,policy,defs,ls,sid);
+    if(JSON.stringify(fresh)!==JSON.stringify(snapshot)){H.toast(t("changed"));return;}
+    const stamp=JSON.stringify(initial),valid=selected=>JSON.stringify(read())===stamp&&initial.students.filter(s=>D.studentKey(s)===selected).length===1;
+    document.getElementById("sp-modal")?.remove();const el=window.document.createElement("div");el.id="sp-modal";el.className="modal";
+    el.innerHTML=`<div class="box" style="max-width:1000px"><h3>${esc(t("title"))}</h3><p class="hint">${esc(t("intro"))}</p><div class="field"><label for="sp-pupil">${esc(t("choose"))}</label><select id="sp-pupil"><option value="">${esc(t("choose"))}</option>${snapshot.reports.map(r=>`<option value="${esc(r.studentId)}">${esc(r.name)} [${esc(r.studentId)}]</option>`).join("")}</select></div><label style="display:flex;gap:8px;margin:12px 0"><input type="checkbox" id="sp-history">${esc(t("history"))}</label><iframe id="sp-preview" title="${esc(t("previewLabel"))}" sandbox="allow-same-origin allow-modals" style="display:none;width:100%;height:460px;border:1px solid #aaa;background:white"></iframe><p id="sp-error" role="alert"></p><div class="row" style="flex-wrap:wrap"><button class="btn" id="sp-print" disabled>${esc(t("print"))}</button><button class="btn ghost" id="sp-html" disabled>${esc(t("html"))}</button><button class="btn ghost" id="sp-close">${esc(t("close"))}</button></div></div>`;
+    window.document.body.appendChild(el);const $=q=>el.querySelector(q);let html="",selected="",ready=false,generation=0;
+    const fail=()=>{$("#sp-error").textContent=t("changed");html="";ready=false;$("#sp-print").disabled=true;$("#sp-html").disabled=true;$("#sp-preview").style.display="none";$("#sp-preview").srcdoc="";};
+    function render(){
+      const ticket=++generation;selected=$("#sp-pupil").value;ready=false;$("#sp-print").disabled=true;$("#sp-html").disabled=true;$("#sp-error").textContent="";
+      if(!selected){html="";$("#sp-preview").style.display="none";$("#sp-preview").srcdoc="";return;}
+      if(!valid(selected)){fail();return;}const m=model(snapshot,selected);if(!m.ok){fail();return;}
+      const fallback={sid:"מזהה תלמיד",class:"כיתה",period:"תקופה",missing:"מבחנים חסרים",test:"מבחן",status:"מצב",best:"התוצאה הטובה בתקופה",unit:"יחידה",date:"תאריך התוצאה",value:"תוצאה",measured:"נמדד",missingStatus:"חסר",exempt:"פטור",warning:"קיימות מדידות שלא נכללו בדוח; יש לבדוק את הרשומות המקוריות."};
+      const labels={title:t("title"),basis:t("basis"),history:H.t("ar.history","היסטוריית מדידות בתקופה"),noHistory:t("noHistory"),invalid:t("invalid")};
+      for(const k of Object.keys(fallback))labels[k]=H.t("ar."+(k==="missing"?"missingCount":k==="missingStatus"?"missing":k),fallback[k]);
+      labels.missingCount=labels.missing;labels.missing=labels.missingStatus;
+      // Document summary and cell status use separate labels.
+      labels.summaryMissing=labels.missingCount;
+      html=documentHtml(m,{lang:window.I18N.lang(),className,periodName:window.I18N.term(policy.period)||policy.period,labels,catalog:defs.map(d=>({...d,name:window.I18N.term(d.name)||d.name,unit:window.I18N.term(d.unit)||d.unit})),history:$("#sp-history").checked});
+      const frame=$("#sp-preview");frame.onload=()=>{if(ticket!==generation||!html||frame.contentDocument?.body?.dataset.pupilId!==selected)return;ready=true;$("#sp-print").disabled=false;$("#sp-html").disabled=false;};frame.style.display="block";frame.srcdoc=html;
+    }
+    $("#sp-pupil").onchange=render;$("#sp-history").onchange=render;
+    $("#sp-print").onclick=()=>{if(!html||!ready)return;if(!valid(selected)){fail();return;}try{$("#sp-preview").contentWindow.focus();$("#sp-preview").contentWindow.print();}catch(e){$("#sp-error").textContent=t("failed");}};
+    $("#sp-html").onclick=()=>{if(!html||!ready)return;if(!valid(selected)){fail();return;}try{const url=URL.createObjectURL(new Blob([html],{type:"text/html;charset=utf-8"})),a=window.document.createElement("a");a.href=url;a.download="PE-Ultimate-pupil-progress.html";a.click();setTimeout(()=>URL.revokeObjectURL(url),4000);}catch(e){$("#sp-error").textContent=t("failed");}};
+    const close=()=>{generation++;H.modal(el.id,false);el.remove();};el.__onBack=close;el.onclick=e=>{if(e.target===el)close();};$("#sp-close").onclick=close;el.onkeydown=e=>{if(e.key==="Escape"){e.preventDefault();e.stopPropagation();close();}};
+    if(sid)$("#sp-pupil").value=sid;render();H.modal(el.id);
+  }
+  return {model,documentHtml,open};
+});
+
+;
+"use strict";
+// Spreadsheet paste is validated before it reaches the measurement draft.
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory();
+  else window.ASSESSMENT_PASTE=factory();
+})(function(){
+  function template(reports,tests){
+    return [["sid","name",...tests],...reports.map(r=>[r.studentId,r.name,...tests.map(()=>"")])];
+  }
+  function cells(text){
+    if(typeof text!=="string"||text.length>1048576)return {ok:false,error:"size"};
+    text=text.replace(/^\uFEFF/,"").replace(/\r\n?/g,"\n");
+    const rows=[],row=[];let value="",quoted=false,closed=false;
+    for(let i=0;i<=text.length;i++){
+      const c=i===text.length?null:text[i];
+      if(quoted){
+        if(c===null)return {ok:false,error:"format"};
+        if(c==='"'){if(text[i+1]==='"'){value+='"';i++;}else {quoted=false;closed=true;}}
+        else value+=c;
+        continue;
+      }
+      if(c==='"'&&!value&&!closed){quoted=true;continue;}
+      if(c===null||c==='\t'||c==='\n'){
+        row.push(value);value="";closed=false;
+        if(row.length>100)return {ok:false,error:"size"};
+        if(c!=='\t'){rows.push(row.splice(0));if(rows.length>10000)return {ok:false,error:"size"};}
+      }else {if(closed||c==='"')return {ok:false,error:"format"};value+=c;}
+    }
+    while(rows.length&&rows[rows.length-1].every(v=>!v.trim()))rows.pop();
+    return {ok:true,rows};
+  }
+  function parse(text,reports,tests){
+    const decoded=cells(text);if(!decoded.ok)return decoded;
+    const rows=decoded.rows,fail=(error,row,column)=>({ok:false,error,row,column});
+    if(!rows.length)return fail("empty");
+    const header=rows[0].map(v=>v.trim()),expected=["sid","name",...tests];
+    if(header.length!==expected.length||new Set(header).size!==header.length||expected.some(k=>!header.includes(k)))return fail("header",1);
+    const pupils=new Map();
+    for(const r of reports){if(typeof r.studentId!=="string"||!r.studentId||pupils.has(r.studentId))return fail("identity");pupils.set(r.studentId,r);}
+    const seen=new Set(),entries=[];const idAt=header.indexOf("sid");
+    for(let i=1;i<rows.length;i++){
+      const row=rows[i];if(row.every(v=>!v.trim()))continue;
+      if(row.length!==header.length)return fail("format",i+1);
+      // IDs are exact text. Leading zeroes/spaces must not be silently reassigned.
+      const sid=row[idAt],pupil=pupils.get(sid);
+      if(!pupil)return fail("identity",i+1,"sid");
+      if(seen.has(sid))return fail("duplicate",i+1,"sid");seen.add(sid);
+      for(const test of tests){
+        const raw=row[header.indexOf(test)].trim();if(!raw)continue;
+        if(pupil.tests.find(v=>v.testId===test)?.status==="exempt")return fail("exempt",i+1,test);
+        // Decimal comma is supported; formulae, thousands separators and exponents are not guessed.
+        if(!/^-?\d+(?:[.,]\d{1,2})?$/.test(raw))return fail("number",i+1,test);
+        const value=Number(raw.replace(",","."));if(!Number.isFinite(value))return fail("number",i+1,test);
+        entries.push({sid,test,value});if(entries.length>2000)return fail("size",i+1,test);
+      }
+    }
+    if(!entries.length)return fail("empty");
+    return {ok:true,entries,pupils:new Set(entries.map(e=>e.sid)).size};
+  }
+  return {template,parse};
+});
+
+;
+"use strict";
+// Append dated measurements to the existing history; never edit an old attempt or grade.
+(function(factory){
+  if(typeof module==="object"&&module.exports)module.exports=factory(require("./hm-data.js"),require("./hm-assessment-data.js"));
+  else window.ASSESSMENT_GRID=factory(window.HMDATA,window.HMAssessment);
+})(function(D,A){
+  function append(students,measurements,policy,defs,store,batch){
+    const fail=error=>({ok:false,error});
+    if(!Array.isArray(students)||!Array.isArray(measurements))return fail("invalid");
+    if(!A.validatePolicy(policy,defs,store).ok)return fail("invalid");
+    if(!batch||!A.validDate(batch.date)||batch.date<policy.from||batch.date>policy.to)return fail("date");
+    if(!Array.isArray(batch.entries)||!batch.entries.length)return fail("empty");
+    const ids=batch.ids;
+    if(!Array.isArray(ids)||ids.length!==batch.entries.length||new Set(ids).size!==ids.length||ids.some(id=>typeof id!=="string"||!id||measurements.some(r=>r&&r.id===id))||!Number.isFinite(batch.ts))return fail("invalid");
+    const catalog=new Map(defs.map(d=>[d.id,d])),seen=new Set(),added=[];
+    for(const [i,e] of batch.entries.entries()){
+      if(!e||typeof e.sid!=="string"||!e.sid.trim())return fail("identity");
+      const same=students.filter(s=>D.studentKey(s)===e.sid),key=JSON.stringify([e.sid,e.test]);
+      if(same.length!==1||D.cidOfStudent(same[0],store)!==policy.cid)return fail("identity");
+      if(seen.has(key))return fail("invalid");seen.add(key);
+      const def=catalog.get(e.test);
+      if(!def||!policy.tests.some(t=>t.id===e.test))return fail("invalid");
+      if((policy.exemptions||[]).some(x=>x.sid===e.sid&&x.test===e.test))return fail("exempt");
+      if(typeof e.value!=="number"||!D.isValidMeasurement({val:e.value},def.dir)||
+        (def.kind==="count"&&!Number.isInteger(e.value))||Math.abs(e.value*100-Math.round(e.value*100))>1e-7)return fail("value");
+      const s=same[0];
+      added.push({id:ids[i],ts:batch.ts,d:batch.date,cls:D.classLabel(store,policy.cid)||s.cls||policy.cid,cid:policy.cid,
+        test:e.test,name:String(s.name??""),sid:e.sid,gradeKey:D.cidParts(policy.cid)?.grade||"",sex:s.sex||null,
+        normVer:String(batch.normVer||""),sessionId:null,val:e.value,unit:def.unit||"",src:"assessment-grid"});
+    }
+    return {ok:true,rows:measurements.concat(added),added:added.length};
+  }
+  const AP={"ap.pending":"בדוק והכנס את ההדבקה לטיוטה, או נקה את שדה ההדבקה, לפני שמירה.","ap.title":"עבודה עם Excel","ap.intro":"הורד תבנית, מלא מדידות בגיליון Measurements והעתק את התאים כולל הכותרת. הדבק כאן ובדוק לפני הכנסת המדידות לטיוטה. שמות הם לעיון בלבד; sid הוא מזהה התלמיד. התאריך נבחר למעלה. תאים ריקים לא מוחקים ערכים.","ap.template":"הורד תבנית Excel (.xlsx)","ap.label":"הדבק טבלה שהועתקה מ־Excel","ap.preview":"בדוק הדבקה","ap.apply":"הכנס לטיוטת המדידות","ap.count":"מדידות: {0} · תלמידים: {1}","ap.current":"ערך בטיוטה","ap.new":"ערך מההדבקה","ap.replace":"להחליף את הערכים המוצגים בטיוטה? מדידות שנשמרו בעבר לא ישתנו.","ap.applied":"המדידות הוכנסו לטיוטה. בדוק ולחץ על שמירת מדידות חדשות.","ap.changed":"הטבלה, התאריך או הטיוטה השתנו. בדוק את ההדבקה מחדש.","ap.header":"הכותרת חייבת לכלול sid, name ואת מזהי המבחנים מהתבנית, פעם אחת כל אחד.","ap.format":"טבלה לא תקינה. העתק מהגיליון כולל הכותרת והעמודות הריקות; אין להדביק קובץ CSV כטקסט.","ap.identity":"מזהה תלמיד לא קיים בתצוגה הנוכחית. בדוק את sid; אל תתאים לפי שם.","ap.duplicate":"אותו מזהה תלמיד מופיע ביותר משורה אחת.","ap.number":"ערך לא תקין. הזן מספר בלבד; אפשר נקודה או פסיק עשרוני, בלי נוסחאות או מפרידי אלפים.","ap.empty":"אין בהדבקה מדידות חדשות.","ap.exempt":"ההדבקה מכילה מדידה במבחן שהוגדר בו פטור לתלמיד.","ap.size":"הטבלה גדולה מדי. הדבק עד 2,000 מדידות בכל פעם.","ap.row":"שורה {0}","ap.exportFailed":"הורדת התבנית נכשלה. הנתונים והטיוטה לא השתנו.","ap.more":"מוצגות 100 המדידות הראשונות; הפעולה כוללת את כל המדידות שאושרו."};
+  const HE={"ag.title":"הזנת מדידות בטבלה","ag.open":"הזן מדידות בטבלה","ag.intro":"כל ערך שתזין יתווסף כניסיון חדש בתאריך שבחרת. תאים ריקים לא נשמרים; המדידות הקודמות והציונים אינם משתנים.","ag.date":"תאריך המדידה","ag.new":"מדידה חדשה","ag.best":"הטוב בתקופה","ag.student":"תלמיד","ag.save":"שמור מדידות חדשות","ag.close":"סגירה","ag.discard":"לסגור בלי לשמור את המדידות?","ag.conflict":"הנתונים השתנו. סגור ופתח מחדש לפני שמירה.","ag.invalid":"לא ניתן לשמור. בדוק את הנתונים והדרישות.","ag.identity":"זהות התלמיד אינה חד־משמעית או שהתלמיד עבר כיתה.","ag.dateError":"בחר תאריך תקין בתוך התקופה.","ag.value":"הזן תוצאה לא שלילית עם עד שתי ספרות אחרי הנקודה. חזרות במספר שלם; זמן חייב להיות גדול מאפס.","ag.exempt":"פטור — לא ניתן להזין כאן","ag.empty":"לא הוזנו מדידות חדשות.","ag.failed":"השמירה נכשלה. המדידות שהזנת נשארו בטיוטה; נסה שוב.","ag.saved":"נשמרו מדידות חדשות: {0}"};
+  function open(cid,period,sid){
+    const H=window.HM,ls=H.LS,t=k=>H.t("ag."+k,HE["ag."+k]),pt=k=>H.t("ap."+k,AP["ap."+k]),esc=v=>H.esc(String(v??""));
+    const read=()=>({students:ls.get("stu.list",[]),measurements:ls.get("ft.results",[]),config:window.ASSESSMENT.read(),classes:ls.get("ft.classes",{}),norms:ls.get("ft.norms",{})});
+    const initial=read(),defs=window.FT.tests().filter(d=>d.id!=="beep");
+    if(!initial.config.ok){H.toast(t("invalid"));return;}
+    const policy=initial.config.value.policies.find(p=>p.cid===cid&&p.period===period);
+    if(!policy){H.toast(t("invalid"));return;}
+    const result=window.ASSESSMENT_REPORT.snapshot(initial.students,initial.measurements,policy,defs,ls,sid);
+    if(!result.ok){H.toast(t("identity"));return;}
+    // Reject globally ambiguous IDs before allowing a draft, including another real class.
+    if(result.reports.some(r=>initial.students.filter(s=>D.studentKey(s)===r.studentId).length!==1)){H.toast(t("identity"));return;}
+    const stamp=JSON.stringify(initial),catalog=new Map(defs.map(d=>[d.id,d])),today=new Date().toISOString().slice(0,10);
+    document.getElementById("ag-modal")?.remove();const el=document.createElement("div");el.id="ag-modal";el.className="modal";
+    el.innerHTML=`<div class="box" style="max-width:1200px"><h3>${esc(t("title"))}</h3><p>${esc(D.classLabel(ls,cid)||cid)} · ${esc(window.I18N.term(period)||period)}</p><p class="hint">${esc(t("intro"))}</p><form id="ag-form" novalidate><div class="field" style="max-width:260px;margin-bottom:12px"><label for="ag-date">${esc(t("date"))} (${esc(policy.from)} → ${esc(policy.to)})</label><input id="ag-date" type="date" min="${policy.from}" max="${policy.to}" value="${today>=policy.from&&today<=policy.to?today:""}" required></div><div class="tblwrap" style="max-width:100%;overflow:auto"><table class="tbl" id="ag-table"><thead><tr><th>${esc(t("student"))}</th>${policy.tests.map(p=>{const d=catalog.get(p.id);return `<th>${esc(window.I18N.term(d.name)||d.name)} (${esc(window.I18N.term(d.unit)||d.unit)})<br><small>${esc(t("new"))}</small></th>`;}).join("")}</tr></thead><tbody>${result.reports.map(r=>`<tr data-sid="${esc(r.studentId)}"><td><b>${esc(r.name)}</b><br><small>[${esc(r.studentId)}]</small></td>${r.tests.map(item=>{const d=catalog.get(item.testId);return `<td><input class="gr-in" data-test="${esc(item.testId)}" type="number" min="${d.dir==="low"?"0.01":"0"}" step="${d.kind==="count"?"1":"0.01"}" inputmode="decimal" style="width:100px;min-height:44px;font-size:16px" aria-label="${esc(r.name)} [${esc(r.studentId)}] ${esc(window.I18N.term(d.name)||d.name)}" ${item.status==="exempt"?`disabled title="${esc(item.reason)}"`:""}><br><small>${esc(item.status==="exempt"?t("exempt"):t("best")+": "+(item.best?.val??"—"))}</small></td>`;}).join("")}</tr>`).join("")}</tbody></table></div><details id="ap-section" style="margin-top:16px"><summary>${esc(pt("title"))}</summary><p class="hint">${esc(pt("intro"))}</p><button class="btn ghost" id="ap-template" type="button">${esc(pt("template"))}</button><div class="field" style="margin-top:12px"><label for="ap-text">${esc(pt("label"))}</label><textarea id="ap-text" rows="5" style="width:100%;font-size:16px" dir="ltr" maxlength="1048576" spellcheck="false"></textarea></div><button class="btn ghost" id="ap-preview" type="button">${esc(pt("preview"))}</button><p id="ap-error" role="alert"></p><div id="ap-result"></div><button class="btn" id="ap-apply" type="button" style="display:none">${esc(pt("apply"))}</button></details><p id="ag-error" role="alert"></p><div class="row" style="flex-wrap:wrap;margin-top:12px"><button class="btn" id="ag-save" type="submit">${esc(t("save"))}</button><button class="btn ghost" id="ag-close" type="button">${esc(t("close"))}</button></div></form></div>`;
+    document.body.appendChild(el);const $=q=>el.querySelector(q),inputs=[...el.querySelectorAll("[data-test]")];
+    const draft=()=>JSON.stringify([$("#ag-date").value,inputs.map(i=>i.value),$("#ap-text").value]),start=draft();
+    function finish(){H.modal(el.id,false);el.remove();window.ASSESSMENT_REPORT.open(cid,sid,period);}
+    async function close(){if(draft()===start||await H.ask({msg:t("discard"),ok:t("close")}))finish();}
+    el.__onBack=close;el.onclick=e=>{if(e.target===el)close();};el.onkeydown=e=>{if(e.key==="Escape"){e.preventDefault();e.stopPropagation();close();}};$("#ag-close").onclick=close;
+    const tests=policy.tests.map(p=>p.id),P=window.ASSESSMENT_PASTE;let preview=null;
+    const pasteStamp=()=>JSON.stringify([$("#ap-text").value,$("#ag-date").value,inputs.map(i=>i.value)]);
+    const clearPreview=()=>{preview=null;$("#ap-result").textContent="";$("#ap-apply").style.display="none";};
+    const pasteError=(k,row,column)=>{$("#ap-error").textContent=pt(k)+(row?" · "+pt("row").replace("{0}",row):"")+(column?" · "+column:"");};
+    const verify=entries=>{
+      const fresh=read();if(JSON.stringify(fresh)!==stamp)return {ok:false,error:"conflict"};
+      return append(fresh.students,fresh.measurements,policy,defs,ls,{date:$("#ag-date").value,entries,ids:entries.map(()=>D.uid("preview")),ts:Date.now(),normVer:fresh.norms?.version});
+    };
+    $("#ap-text").oninput=()=>{clearPreview();$("#ap-error").textContent="";};
+    $("#ap-template").onclick=()=>{
+      try{
+        if(JSON.stringify(read())!==stamp){$("#ap-error").textContent=t("conflict");return;}
+        const data=window.HMXlsx.workbook([{name:"Measurements",rows:P.template(result.reports,tests)},{name:"Context",rows:[["Class ID","Period","From","To"],[cid,period,policy.from,policy.to]]},{name:"Tests",rows:[["Test ID","Test","Unit"],...tests.map(id=>{const d=catalog.get(id);return [id,window.I18N.term(d.name)||d.name,window.I18N.term(d.unit)||d.unit];})]},{name:"Exemptions",rows:[["sid","Test ID","Reason"],...result.reports.flatMap(r=>r.tests.filter(v=>v.status==="exempt").map(v=>[r.studentId,v.testId,v.reason]))]}],{rtl:false});
+        const blob=new Blob([data],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="PE-Ultimate-measurement-template.xlsx";a.click();setTimeout(()=>URL.revokeObjectURL(url),4000);
+      }catch(e){pasteError("exportFailed");}
+    };
+    $("#ap-preview").onclick=()=>{
+      clearPreview();$("#ap-error").textContent="";
+      const parsed=P.parse($("#ap-text").value,result.reports,tests);
+      if(!parsed.ok){pasteError(parsed.error,parsed.row,parsed.column);return;}
+      const checked=verify(parsed.entries);if(!checked.ok){$("#ap-error").textContent=t(checked.error==="date"?"dateError":checked.error);return;}
+      preview={...parsed,stamp:pasteStamp()};
+      const pupils=new Map(result.reports.map(r=>[r.studentId,r]));
+      const target=e=>inputs.find(i=>i.closest("tr").dataset.sid===e.sid&&i.dataset.test===e.test);
+      $("#ap-result").innerHTML=`<p role="status">${esc(pt("count").replace("{0}",parsed.entries.length).replace("{1}",parsed.pupils))}</p><p><bdi>${esc(cid)}</bdi> · ${esc(window.I18N.term(period)||period)} · <bdi>${esc($("#ag-date").value)}</bdi></p><div class="tblwrap" style="max-width:100%;overflow:auto"><table class="tbl" id="ap-table"><thead><tr><th>${esc(t("student"))}</th><th>${esc(H.t("ar.test","מבחן"))}</th><th>${esc(pt("current"))}</th><th>${esc(pt("new"))}</th></tr></thead><tbody>${parsed.entries.slice(0,100).map(e=>`<tr><td>${esc(pupils.get(e.sid).name)} [${esc(e.sid)}]</td><td>${esc(window.I18N.term(catalog.get(e.test).name)||catalog.get(e.test).name)} (${esc(window.I18N.term(catalog.get(e.test).unit)||catalog.get(e.test).unit)})</td><td>${esc(target(e).value||"—")}</td><td>${esc(e.value)}</td></tr>`).join("")}</tbody></table></div>${parsed.entries.length>100?`<p>${esc(pt("more"))}</p>`:""}`;
+      $("#ap-apply").style.display="";
+    };
+    $("#ap-apply").onclick=async()=>{
+      const candidate=preview;if(!candidate)return;
+      if(candidate.stamp!==pasteStamp()){clearPreview();pasteError("changed");return;}
+      const targets=candidate.entries.map(e=>({entry:e,input:inputs.find(i=>i.closest("tr").dataset.sid===e.sid&&i.dataset.test===e.test)}));
+      if(targets.some(v=>!v.input||v.input.disabled)){clearPreview();pasteError("changed");return;}
+      if(targets.some(v=>v.input.value!==""&&Number(v.input.value)!==v.entry.value)&&!(await H.ask({msg:pt("replace"),ok:pt("apply")})))return;
+      if(preview!==candidate||candidate.stamp!==pasteStamp()){clearPreview();pasteError("changed");return;}
+      const checked=verify(candidate.entries);if(!checked.ok){$("#ap-error").textContent=t(checked.error==="date"?"dateError":checked.error);return;}
+      targets.forEach(v=>v.input.value=String(v.entry.value));$("#ap-text").value="";clearPreview();$("#ap-error").textContent="";H.toast(pt("applied"));
+    };
+    $("#ag-form").onsubmit=e=>{
+      e.preventDefault();if($("#ap-text").value.trim()){pasteError("pending");$("#ap-section").open=true;return;}const error=k=>$("#ag-error").textContent=t(k),fresh=read();
+      if(JSON.stringify(fresh)!==stamp){error("conflict");return;}
+      if(inputs.some(i=>!i.disabled&&i.validity.badInput)){error("value");return;}
+      const entries=inputs.filter(i=>!i.disabled&&i.value.trim()!=="").map(i=>({sid:i.closest("tr").dataset.sid,test:i.dataset.test,value:Number(i.value)}));
+      const next=append(fresh.students,fresh.measurements,policy,defs,ls,{date:$("#ag-date").value,entries,ids:entries.map(()=>D.uid("f")),ts:Date.now(),normVer:fresh.norms?.version});
+      if(!next.ok){error(next.error==="date"?"dateError":next.error);return;}
+      if(!ls.set("ft.results",next.rows)||JSON.stringify(ls.get("ft.results",null))!==JSON.stringify(next.rows)){error("failed");return;}
+      finish();H.toast(t("saved").replace("{0}",next.added));
+    };
+    H.modal(el.id);
+  }
+  return {append,open};
+});
 
 ;
 "use strict";
