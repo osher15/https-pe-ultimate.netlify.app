@@ -1898,3 +1898,11 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 #hmn-doc .hmn-bar{display:flex;gap:8px;justify-content:space-between;background:var(--panel,#0b1220);
   padding:8px 12px;padding-top:calc(8px + var(--safe-area-inset-top,env(safe-area-inset-top)))}
 #hmn-doc iframe{flex:1;border:0;width:100%;background:#fff;padding-bottom:var(--safe-area-inset-bottom,env(safe-area-inset-bottom))}
+
+/* iOS Safari/WKWebView zooms the page when a field with a font-size under 16px
+   gets focus, and does not always zoom back on blur — the "document gets bigger"
+   report from the tablet. Applies only to WebKit touch devices (iPhone/iPad). */
+@supports (-webkit-touch-callout:none){
+  input,select,textarea{font-size:16px !important}
+  html{-webkit-text-size-adjust:100%}
+}
