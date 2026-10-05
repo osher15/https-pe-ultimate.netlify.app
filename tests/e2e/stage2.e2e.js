@@ -8,7 +8,7 @@ const build=async(page,topic,grade,dur)=>{
   await page.fill("#ls-dur",String(dur));
   await page.click("#ls-gen"); await page.waitForTimeout(80);
   return page.evaluate(()=>{ const p=window.LESSON.current();
-    return {eqWarn:(p.eqWarn||[]).map(w=>w.k),main:p.phases.filter(x=>x.k==="main").map(x=>({n:x.n,min:x.min,t:x.t||null,tr:x.tr||0,fit:x.fit||null}))}; });
+    return {eqWarn:(p.eqWarn||[]).map(w=>w.k),main:p.phases.filter(x=>x.k==="main").map(x=>({n:x.n,min:x.min,t:x.t||null,tr:x.tr||0,fit:x.fit||null,free:x.free||0}))}; });
 };
 
 module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tests:[
@@ -50,7 +50,7 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
             const sum=m.t.reduce((a,x)=>a+x,0);
             const id=topic+"/"+grade+"/"+dur+" «"+m.n+"» "+m.min+" דק׳ מול "+sum;
             if(m.fit.status==="exact")eq(sum+m.tr,m.min,id+" + תקורה "+m.tr);
-            if(m.fit.status==="short")ok(r.eqWarn.indexOf("ls.timeShort")>=0,id+": אין אזהרת «קצר מדי»");
+            if(m.fit.status==="short")eq(sum+m.tr+m.free,m.min,id+": העודף הופך למשחק פנאי ("+m.free+")");
             if(m.fit.status==="over")ok(r.eqWarn.indexOf("ls.timeOver")>=0,id+": אין אזהרת «ארוך מדי»");
             checkedN++;
           });
@@ -102,6 +102,31 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     eq(ph.min,90,"חריגה מותרת — לא חוסם");
     eq(ph.fit.status,"short");
     ok(/\d/.test(await page.textContent(row+" .pe-range")),"אזהרה רכה מוצגת");
+  }),
+
+  check("שיעור קצר: חימום קצר מומלץ בלי משחק, והפעילות העיקרית מקבלת מינימום סביר",null,async page=>{
+    await go(page,"lesson");
+    await page.selectOption("#ls-focus","aerobic");
+    await page.fill("#ls-dur","30"); await page.check("#ls-optGame"); await page.click("#ls-gen"); await page.waitForTimeout(100);
+    const p=await page.evaluate(()=>{ const x=window.LESSON.current(); return {k:x.phases.map(f=>f.k),warm:x.phases[0].min,main:x.phases.find(f=>f.k==="main").min,total:x.phases.reduce((a,f)=>a+f.min,0),warns:(x.eqWarn||[]).map(w=>w.k)}; });
+    ok(p.k.indexOf("game")<0,"אין משחק בשיעור קצר: "+p.k);
+    eq(p.warm,5,"חימום קצר"); ok(p.main>=18,"הפעילות העיקרית: "+p.main); eq(p.total,30,"אורך השיעור נשמר");
+    ok(p.warns.indexOf("ls.shortLesson")>=0,"ההודעה מוצגת");
+    await page.fill("#ls-dur","45"); await page.click("#ls-gen"); await page.waitForTimeout(100);
+    const q=await page.evaluate(()=>window.LESSON.current().phases.map(f=>f.k));
+    ok(q.indexOf("game")>=0,"בשיעור רגיל יש משחק: "+q);
+  }),
+
+  check("זמן שנשאר מעבר לטווח: משחק פנאי קליל או חופשי, בלי אזהרה, והסכום מדויק",null,async page=>{
+    await go(page,"lesson");
+    let seen=0;
+    for(const topic of ["flex","core","speed"]){
+      const r=await build(page,topic,"mid",90);
+      r.main.forEach(m=>{ eq(m.t.reduce((a,x)=>a+x,0)+m.tr+m.free,m.min,topic+": שלבים + תקורה + משחק פנאי = הדקות"); if(m.free>0)seen++; });
+    }
+    ok(seen>0,"בשיעור ארוך נשאר זמן למשחק פנאי באחת הפעילויות");
+    const html=await page.textContent("#ls-planCard");
+    ok(/משחק פנאי קליל או משחק חופשי|free play/i.test(html),"השורה מוצגת בתוכנית");
   }),
 
   check("ציוד אחר: התיבות החדשות קיימות, הקלדה מסמנת «ציוד אחר» והטקסט נכנס לרשימת הציוד של המערך",null,async page=>{

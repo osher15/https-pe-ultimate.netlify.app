@@ -38,6 +38,10 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "ls.freePlay":"Light recreational game or free play",
+  "ls.rangeFree":"Time beyond the activity's range goes to a light recreational game or free play",
+  "ls.shortLesson":"Short lesson: a short recommended warm-up and no game, so the main activity gets the time it needs",
+  /* ux-redesign */
   "ls.flex":"Flexible timing",
   "ls.flexHint":"The same drill takes less in one class and more in another. Each activity has an effective range, and the minutes are fitted inside it to the lesson time.",
   "ls.pace":"Class pace (explanations and corrections)",
@@ -287,7 +291,6 @@ en:{
   "ls.eqTopic":"This topic needs equipment not marked as available",
   "ls.eqGame":"The chosen game needs equipment not marked as available",
   "ls.eqVariant":"The chosen activity needs equipment not marked as available",
-  "ls.timeShort":"The time is longer than this activity's effective range (range / allotted) — add rounds or pick a longer activity",
   "ls.timeOver":"The time is shorter than this activity's effective range (range / allotted) — trim rounds or pick a shorter activity",
   "ls.transit":"Transitions, instructions, corrections and water",
   "sched.clash":"Another separate slot is at the same time. If these classes are taught together, join them as a group (Class hub → Join classes); otherwise this is a timetable clash.",
@@ -787,6 +790,10 @@ en:{
 
 ar:{
   /* ux-redesign */
+  "ls.freePlay":"لعبة ترفيهية خفيفة أو لعب حر",
+  "ls.rangeFree":"الوقت الذي يزيد عن مدى النشاط يُخصَّص للعبة ترفيهية خفيفة أو لعب حر",
+  "ls.shortLesson":"درس قصير: إحماء قصير موصى به وبدون لعبة، ليحصل النشاط الرئيسي على الوقت الذي يحتاجه",
+  /* ux-redesign */
   "ls.flex":"مرونة الوقت",
   "ls.flexHint":"التمرين نفسه يستغرق وقتًا أقل في صف وأكثر في آخر. لكل نشاط مدى فعّال، وتُلائَم الدقائق داخله مع وقت الدرس.",
   "ls.pace":"وتيرة الصف (الشرح والتصحيح)",
@@ -1036,7 +1043,6 @@ ar:{
   "ls.eqTopic":"يتطلّب هذا الموضوع معدات غير مُعلَّمة كمتاحة",
   "ls.eqGame":"اللعبة المختارة تتطلّب معدات غير مُعلَّمة كمتاحة",
   "ls.eqVariant":"النشاط المختار يتطلّب معدات غير مُعلَّمة كمتاحة",
-  "ls.timeShort":"الوقت أطول من المدى الفعّال لهذا النشاط (المدى / المخصّص) — أضيفوا جولات أو اختاروا نشاطًا أطول",
   "ls.timeOver":"الوقت أقصر من المدى الفعّال لهذا النشاط (المدى / المخصّص) — قلّلوا الجولات أو اختاروا نشاطًا أقصر",
   "ls.transit":"الانتقالات والتعليمات والتصحيحات والشرب",
   "sched.clash":"توجد حصة منفصلة أخرى في الوقت نفسه. إذا كانت الصفوف تتعلّم معًا فاربطوها كمجموعة (مركز الصف ← ربط الصفوف)؛ وإلا فهذا تعارض في الجدول.",
@@ -1540,6 +1546,10 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "ls.freePlay":"Лёгкая игра для отдыха или свободная игра",
+  "ls.rangeFree":"Время сверх диапазона задания отдано лёгкой игре или свободной игре",
+  "ls.shortLesson":"Короткий урок: короткая рекомендуемая разминка и без игры, чтобы основному заданию хватило времени",
+  /* ux-redesign */
   "ls.flex":"Гибкость времени",
   "ls.flexHint":"Одно и то же упражнение в одном классе занимает меньше времени, в другом — больше. У каждого задания есть эффективный диапазон, и минуты подгоняются в нём под время урока.",
   "ls.pace":"Темп класса (объяснения и коррекции)",
@@ -1789,7 +1799,6 @@ ru:{
   "ls.eqTopic":"Для темы нужен инвентарь, не отмеченный как доступный",
   "ls.eqGame":"Для выбранной игры нужен инвентарь, не отмеченный как доступный",
   "ls.eqVariant":"Для выбранного задания нужен инвентарь, не отмеченный как доступный",
-  "ls.timeShort":"Время дольше эффективного диапазона задания (диапазон / выделено) — добавьте круги или выберите более длинное задание",
   "ls.timeOver":"Время короче эффективного диапазона задания (диапазон / выделено) — сократите круги или выберите более короткое задание",
   "ls.transit":"Переходы, объяснения, коррекции и вода",
   "sched.clash":"В это же время есть ещё один отдельный урок. Если классы занимаются вместе, объедините их в группу (Центр класса → Объединить классы); иначе это накладка в расписании.",
@@ -2286,6 +2295,10 @@ ru:{
 
 es:{
   /* ux-redesign */
+  "ls.freePlay":"Juego recreativo ligero o juego libre",
+  "ls.rangeFree":"El tiempo que excede el rango de la actividad se dedica a un juego recreativo ligero o juego libre",
+  "ls.shortLesson":"Clase corta: calentamiento breve recomendado y sin juego, para que la actividad principal tenga el tiempo que necesita",
+  /* ux-redesign */
   "ls.flex":"Tiempos flexibles",
   "ls.flexHint":"El mismo ejercicio dura menos en una clase y más en otra. Cada actividad tiene un rango eficaz y los minutos se ajustan dentro de él al tiempo de la clase.",
   "ls.pace":"Ritmo de la clase (explicaciones y correcciones)",
@@ -2535,7 +2548,6 @@ es:{
   "ls.eqTopic":"El tema requiere material no marcado como disponible",
   "ls.eqGame":"El juego elegido requiere material no marcado como disponible",
   "ls.eqVariant":"La actividad elegida requiere material no marcado como disponible",
-  "ls.timeShort":"El tiempo supera el rango eficaz de la actividad (rango / asignado): añade rondas o elige una actividad más larga",
   "ls.timeOver":"El tiempo es menor que el rango eficaz de la actividad (rango / asignado): recorta rondas o elige una actividad más corta",
   "ls.transit":"Transiciones, instrucciones, correcciones y agua",
   "sched.clash":"A la misma hora hay otra franja separada. Si estos grupos tienen clase juntos, únelos como grupo (Centro del grupo → Unir grupos); si no, es un conflicto de horario.",

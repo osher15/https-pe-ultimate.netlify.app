@@ -407,6 +407,9 @@ window.LESSON=(function(){
     p.t=f.fitted.slice(); p.sr=f.sr||p.sr; p.to=window.HMDATA.timeOpts(time||p.to);
     p.fit={base:f.base,min:f.min,max:f.max,status:f.status};
     if(f.overhead>0)p.tr=f.overhead; else delete p.tr;
+    /* הזמן שנשאר מעבר לטווח של הפעילות לא נעלם ולא נהפך לאזהרה:
+       הוא מוקדש למשחק פנאי קליל או משחק חופשי, כדי שהשיעור לא ייתקע */
+    if(f.status==="short"&&f.gap>0)p.free=f.gap; else delete p.free;
   }
   function gen(){
     const {$}=H(), o=readOpts(), T=topicById(o.topic);
@@ -414,14 +417,19 @@ window.LESSON=(function(){
     if(!T){H().toast("בחר נושא");return;}
 
     /* חלוקת זמן */
-    const warmMin=Math.max(7,Math.round(o.dur*0.18));
+    let warmMin=Math.max(7,Math.round(o.dur*0.18));
     const coolMin=Math.max(5,Math.round(o.dur*0.11));
     let body=o.dur-warmMin-coolMin;
-    const gameMin=o.withGame?Math.max(6,Math.round(o.dur*0.16)):0;
+    let gameMin=o.withGame?Math.max(6,Math.round(o.dur*0.16)):0;
+    /* שיעור קצר: אם עם חימום מלא ומשחק הפעילות העיקרית יורדת מ-18 דק׳, מחליפים
+       לחימום קצר מומלץ (5 דק׳) ומוותרים על המשחק — הדקות חוזרות לפעילות */
+    const shortLesson=body-gameMin<18&&o.place!=="class";
+    if(shortLesson){ warmMin=5; body=o.dur-warmMin-coolMin; gameMin=0; }
     const mainMin=Math.max(8,body-gameMin);
 
     const warm=o.place==="class"
       ? {n:"חימום במקום",d:"תנועה ליד השולחן: ג׳אמפינג ג׳ק, ברכיים גבוהות, סיבובי כתפיים, סקוואטים — 30/15 × 6 סבבים."}
+      : shortLesson?WARM[grade][grade==="mid"?1:0]
       : pick(WARM[grade]);
     const cool=pick(COOL);
 
@@ -447,7 +455,7 @@ window.LESSON=(function(){
     const DT0=window.HMDATA, eqWarn=[];
     const clash=g=>g?DT0.equipConflicts(g.equip,o.noEq):[];
     let game=null;
-    if(o.withGame&&window.GAMES){
+    if(o.withGame&&!shortLesson&&window.GAMES){
       const picked=H().LS.get("ls.pickGame",null);
       const own=(T.games&&T.games.length)?T.games:[], generic=["g-flags","g-chain","g-relay"];
       const fits=ids=>ids.map(id=>window.GAMES.byId(id)).filter(g=>g&&!clash(g).length);
@@ -460,6 +468,7 @@ window.LESSON=(function(){
         if(gameMin&&mainPhases.length)mainPhases[mainPhases.length-1].min+=gameMin;
       }
     }
+    if(shortLesson&&o.withGame)eqWarn.push({k:"ls.shortLesson",items:[]});
     const needT=DT0.equipConflicts((T.eq||[]).join(", "),o.noEq);
     if(needT.length)eqWarn.push({k:"ls.eqTopic",items:needT});
     if(game&&clash(game).length)eqWarn.push({k:"ls.eqGame",items:clash(game)});
@@ -472,7 +481,6 @@ window.LESSON=(function(){
       const f=DT0.variantFit(v,p.min,o.time);
       if(!f.known)return;
       applyFit(p,f,o.time);
-      if(f.status==="short")eqWarn.push({k:"ls.timeShort",items:[f.min+"–"+f.max+" / "+p.min]});
       if(f.status==="over")eqWarn.push({k:"ls.timeOver",items:[f.min+"–"+f.max+" / "+p.min]});
     });
 
@@ -508,7 +516,8 @@ window.LESSON=(function(){
     const {esc}=H(), u=H().t("ui.min","דק׳");
     const timed=Array.isArray(p.t)&&p.t.length===p.d.length, sr=timed&&p.sr&&p.sr.lo&&p.sr.lo.length===p.d.length?p.sr:null;
     return p.d.map((st,i)=>"<li>"+esc(st)+(timed?` <span class="ls-tm">· ${p.t[i]} ${u}${sr&&sr.lo[i]!==sr.hi[i]?` <small>(${sr.lo[i]}–${sr.hi[i]})</small>`:""}</span>`:"")+"</li>").join("")+
-      (p.tr?`<li class="ls-tr">${esc(H().t("ls.transit","מעברים, הסברים, תיקונים ושתייה"))} <span class="ls-tm">· ${p.tr} ${u}</span></li>`:"");
+      (p.tr?`<li class="ls-tr">${esc(H().t("ls.transit","מעברים, הסברים, תיקונים ושתייה"))} <span class="ls-tm">· ${p.tr} ${u}</span></li>`:"")+
+      (p.free?`<li class="ls-tr">${esc(H().t("ls.freePlay","משחק פנאי קליל או משחק חופשי"))} <span class="ls-tm">· ${p.free} ${u}</span></li>`:"");
   }
   const placeName=p=>({field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"}[p]||p);
 
@@ -931,7 +940,7 @@ window.LESSON=(function(){
   const EQW={"ls.eqNoGame":"לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים.",
     "ls.eqTopic":"הנושא דורש ציוד שלא סומן כזמין","ls.eqGame":"המשחק שנבחר דורש ציוד שלא סומן כזמין",
     "ls.eqVariant":"הפעילות שנבחרה דורשת ציוד שלא סומן כזמין",
-    "ls.timeShort":"הזמן ארוך מהטווח היעיל של הפעילות (טווח / מוקצות) — הוסיפו סבבים או בחרו פעילות ארוכה יותר",
+    "ls.shortLesson":"שיעור קצר: חימום קצר מומלץ ובלי משחק, כדי שהפעילות העיקרית תקבל את הזמן שהיא צריכה",
     "ls.timeOver":"הזמן קצר מהטווח היעיל של הפעילות (טווח / מוקצות) — קצרו סבבים או בחרו פעילות קצרה יותר"};
   function eqWarnHtml(w){
     const {esc}=H();
@@ -1093,7 +1102,8 @@ window.LESSON=(function(){
     if(!f||!f.known)return "";
     const t=H().t, rg=f.min+"–"+f.max+" "+t("ui.min","דק׳");
     return f.status==="exact"?t("ls.range","טווח יעיל לפעילות")+": "+rg
-      :t(f.status==="short"?"ls.timeShort":"ls.timeOver",EQW[f.status==="short"?"ls.timeShort":"ls.timeOver"])+" ("+rg+")";
+      :f.status==="short"?t("ls.rangeFree","הזמן מעבר לטווח הפעילות מוקדש למשחק פנאי קליל או משחק חופשי")+" ("+rg+")"
+      :t("ls.timeOver",EQW["ls.timeOver"])+" ("+rg+")";
   }
   function onPlanInput(e){
     const el=e.target, row=el.closest("[data-pi]"); if(!row||!plan)return;
@@ -1101,10 +1111,10 @@ window.LESSON=(function(){
     if(el.dataset.pf==="n")p.n=el.value;
     else if(el.dataset.pf==="min"){ p.min=Math.max(1,Math.round(+el.value||1));
       const f=p.sr?window.HMDATA.fitSteps(p.sr,p.min,p.to):null;
-      if(f&&f.known)applyFit(p,f,p.to); else { delete p.tr; delete p.fit; }
+      if(f&&f.known)applyFit(p,f,p.to); else { delete p.tr; delete p.fit; delete p.free; }
       const hint=row.querySelector(".pe-range"); if(hint)hint.textContent=rangeHint(p);
       const tot=H().$("#ls-peTotal"); if(tot)tot.textContent=plan.phases.reduce((a,x)=>a+(+x.min||0),0); }
-    else if(el.dataset.pf==="d"){ delete p.t; delete p.tr; delete p.fit; p.d=Array.isArray(p.d)?el.value.split("\n").map(x=>x.trim()).filter(Boolean):el.value; }
+    else if(el.dataset.pf==="d"){ delete p.t; delete p.tr; delete p.fit; delete p.free; p.d=Array.isArray(p.d)?el.value.split("\n").map(x=>x.trim()).filter(Boolean):el.value; }
   }
   /* «קח למערך» ממאגר המשחקים: יש מערך על המסך — המשחק נכנס אליו, לפני
      שלב הסיום. אין — הוא ממתין למערך הבא, כמו קודם. */
