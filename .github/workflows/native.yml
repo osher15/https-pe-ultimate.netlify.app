@@ -43,6 +43,8 @@ jobs:
         run: |
           node build-web.js
           npx cap sync android
+      - name: תווית גרסה
+        run: echo "PE_VERSION_NAME=1.0-$(grep -o 'name="hm-build" content="[0-9a-f]*"' index.html | grep -o '[0-9a-f]\{8\}')" >> "$GITHUB_ENV"
       - name: בניית APK
         working-directory: native/android
         run: ./gradlew assembleDebug --no-daemon --stacktrace
@@ -63,6 +65,48 @@ jobs:
           name: pe-ultimate-android-debug
           path: pe-ultimate-debug-*.apk
           retention-days: 30
+
+  android-release-bundle:
+    # הכנה להעלאה ל-Google Play: AAB של release, בלי חתימה. אין כאן מפתח העלאה ואין העלאה.
+    # רץ רק ידנית (workflow_dispatch) או אחרי מיזוג ל-main, כדי לא לבזבז דקות CI בכל PR.
+    name: Android — AAB לשחרור (לא חתום, בלי העלאה)
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: התקנת Capacitor
+        working-directory: native
+        run: npm ci
+      - name: העתקת האתר ל-www וסנכרון
+        working-directory: native
+        run: |
+          node build-web.js
+          npx cap sync android
+      - name: תווית גרסה
+        run: echo "PE_VERSION_NAME=1.0-$(grep -o 'name="hm-build" content="[0-9a-f]*"' index.html | grep -o '[0-9a-f]\{8\}')" >> "$GITHUB_ENV"
+      - name: בניית AAB
+        working-directory: native/android
+        run: ./gradlew bundleRelease --no-daemon --stacktrace
+      - name: שם הקובץ עם הגרסה והבדיקה שאינו חתום
+        run: |
+          B=$(grep -o 'name="hm-build" content="[0-9a-f]*"' index.html | grep -o '[0-9a-f]\{8\}')
+          mv native/android/app/build/outputs/bundle/release/app-release.aab "pe-ultimate-release-UNSIGNED-$B-${GITHUB_SHA::7}.aab"
+          ls -la pe-ultimate-release-UNSIGNED-*.aab
+          # AAB חתום מכיל META-INF/*.RSA|*.SF|*.EC; כאן לא אמור להיות כזה.
+          if unzip -l pe-ultimate-release-UNSIGNED-*.aab | grep -Eq 'META-INF/.*\.(RSA|DSA|EC|SF)$'; then
+            echo "::error::ה-AAB נחתם, אבל כאן אין מפתח חתימה"; exit 1; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pe-ultimate-android-release-unsigned
+          path: pe-ultimate-release-UNSIGNED-*.aab
+          retention-days: 14
 
   ios:
     name: iOS — קומפילציה (סימולטור, בלי חתימה)

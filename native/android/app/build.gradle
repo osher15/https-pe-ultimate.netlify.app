@@ -9,7 +9,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         // בנייה ב-CI: מספר הריצה, כדי שכל APK חדש יותקן כעדכון מעל הקודם
         versionCode Integer.parseInt(System.getenv("GITHUB_RUN_NUMBER") ?: "1")
-        versionName "1.0"
+        // תווית גרסה קריאה (למשל 1.0-ab12cd34) מ-CI; מקומית נשאר 1.0. versionCode נשאר מספר הריצה.
+        versionName System.getenv("PE_VERSION_NAME") ?: "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
