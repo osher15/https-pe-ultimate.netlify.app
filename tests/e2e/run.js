@@ -39,6 +39,7 @@ const suites=[
   require("./update.e2e.js"),
   require("./today.e2e.js"),
   require("./lessonend.e2e.js"),
+  require("./prevlesson21.e2e.js"),
   require("./week.e2e.js"),
   require("./groups.e2e.js"),
   require("./focus.e2e.js"),

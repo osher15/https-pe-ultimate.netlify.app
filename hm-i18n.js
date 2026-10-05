@@ -38,6 +38,8 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "last.prevClass":"Last time in this class",
+  /* ux-redesign */
   "lb.loading":"Loading…",
   "lb.loadFail":"This sport cannot be loaded right now (check your connection and try again).",
   /* ux-redesign */
@@ -837,6 +839,8 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "last.prevClass":"في المرة الماضية مع هذا الصف",
   /* ux-redesign */
   "lb.loading":"جارٍ التحميل…",
   "lb.loadFail":"تعذّر تحميل هذه الرياضة الآن (تحقق من الاتصال وحاول مجددًا).",
@@ -1642,6 +1646,8 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "last.prevClass":"В прошлый раз в этом классе",
+  /* ux-redesign */
   "lb.loading":"Загрузка…",
   "lb.loadFail":"Не удаётся загрузить этот вид спорта (проверьте подключение и повторите).",
   /* ux-redesign */
@@ -2438,6 +2444,8 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "last.prevClass":"La última vez con esta clase",
   /* ux-redesign */
   "lb.loading":"Cargando…",
   "lb.loadFail":"No se puede cargar este deporte ahora (revisa la conexión e inténtalo de nuevo).",

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="4f3c032f">
+<meta name="hm-build" content="99b67dbd">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -1953,6 +1953,10 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 
 .ls-bank-draft{background:rgba(245,197,66,.12);border:1px solid rgba(245,197,66,.4);border-radius:10px;padding:8px 11px;margin:8px 0}
 .ls-bank-missing{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:8px 11px;margin:8px 0}
+
+.hx-prev{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.5}
+.hx-prev .lb{font-weight:700}
+.hx-prev .nt{color:var(--ink)}
 
 </style>
 </head>
@@ -13394,6 +13398,8 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "last.prevClass":"Last time in this class",
+  /* ux-redesign */
   "lb.loading":"Loading…",
   "lb.loadFail":"This sport cannot be loaded right now (check your connection and try again).",
   /* ux-redesign */
@@ -14193,6 +14199,8 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "last.prevClass":"في المرة الماضية مع هذا الصف",
   /* ux-redesign */
   "lb.loading":"جارٍ التحميل…",
   "lb.loadFail":"تعذّر تحميل هذه الرياضة الآن (تحقق من الاتصال وحاول مجددًا).",
@@ -14998,6 +15006,8 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "last.prevClass":"В прошлый раз в этом классе",
+  /* ux-redesign */
   "lb.loading":"Загрузка…",
   "lb.loadFail":"Не удаётся загрузить этот вид спорта (проверьте подключение и повторите).",
   /* ux-redesign */
@@ -15794,6 +15804,8 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "last.prevClass":"La última vez con esta clase",
   /* ux-redesign */
   "lb.loading":"Cargando…",
   "lb.loadFail":"No se puede cargar este deporte ahora (revisa la conexión e inténtalo de nuevo).",
@@ -18140,6 +18152,17 @@ function upRow(r,label){
     slotTopic(sl,"tp")+
     '<button class="btn sm ghost" data-slot="'+esc(sl.id)+'">▶ התחל</button></div>';
 }
+/* מה שרשמת בפעם האחרונה שהתקיים שיעור בכיתה הזאת — ליד «התחל», כדי שהשיעור לא יתחיל
+   מדף ריק. לפי cid בלבד (לא לפי שם), קריאה בלבד, ורק כשיש דירוג או הערה. */
+function prevLessonLine(cid){
+  if(!cid)return "";
+  let done; try{ done=SESSION.list({cid:cid,status:DATA.SESSION_DONE})[0]; }catch(e){ return ""; }
+  if(!done||(done.rating==null&&!done.note))return "";
+  const note=done.note?String(done.note):"";
+  return '<div class="hx-prev"><span class="lb">'+esc(t("last.prevClass","בפעם שעברה בכיתה הזאת"))+'</span> '+
+    (done.rating!=null?'<span class="pill">'+esc(RATING_LABEL[String(done.rating)]||"")+'</span> ':"")+
+    (note?'<span class="nt">“'+esc(note.length>90?note.slice(0,90)+"…":note)+'”</span>':"")+'</div>';
+}
 function focusCard(r,mode){
   const sl=r.slot, act=SESSION.active();
   const mine=act&&sl.cid&&act.cid===sl.cid;
@@ -18160,6 +18183,7 @@ function focusCard(r,mode){
     '<div class="when">'+esc(slotRange(sl))+'</div>'+
     (until?'<div class="until">מתחיל בעוד '+esc(until)+'</div>':"")+
     slotTopic(sl,"topic",true)+
+    (r.startable&&!mine?prevLessonLine(sl.cid):"")+
     (act1?'<div class="row" style="margin-top:11px">'+act1+'</div>':"")+
     '</div>';
 }
@@ -22650,6 +22674,7 @@ window.HMBoot=function(){
     try{ homeStats(); }catch(e){}
     try{ if($("#fieldTip"))paintFieldTip(); }catch(e){}
     try{ paintNavLive(); }catch(e){}
+    try{ paintHome(); }catch(e){}
     try{ if(window.HMBootNew&&$("#hx-date"))
       $("#hx-date").textContent=new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"}); }catch(e){}
     const mod=document.body.dataset.mod;
