@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="3830a6c4">
+<meta name="hm-build" content="fef5ac8e">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -13394,6 +13394,9 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "lb.loading":"Loading…",
+  "lb.loadFail":"This sport cannot be loaded right now (check your connection and try again).",
+  /* ux-redesign */
   "lb.hint":"{n} full lesson plans in five languages — shown in the app's active language.",
   "lb.draft":"Draft: the plans are imported as written and have not yet had professional review, native-language editing or a field pilot. You may read and use them at your own judgment.",
   "lb.missingLang":"This sport is not yet available in your language — shown in Hebrew.",
@@ -14190,6 +14193,9 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "lb.loading":"جارٍ التحميل…",
+  "lb.loadFail":"تعذّر تحميل هذه الرياضة الآن (تحقق من الاتصال وحاول مجددًا).",
   /* ux-redesign */
   "lb.hint":"{n} خطة درس كاملة بخمس لغات — تُعرض بلغة التطبيق النشطة.",
   "lb.draft":"مسودة: الخطط مستوردة كما كُتبت ولم تخضع بعد لمراجعة مهنية أو تحرير لغوي أو تجربة ميدانية. يمكنكم الاطلاع عليها واستخدامها بتقديركم.",
@@ -14992,6 +14998,9 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "lb.loading":"Загрузка…",
+  "lb.loadFail":"Не удаётся загрузить этот вид спорта (проверьте подключение и повторите).",
+  /* ux-redesign */
   "lb.hint":"{n} полных планов уроков на пяти языках — показываются на активном языке приложения.",
   "lb.draft":"Черновик: планы импортированы как написаны и ещё не прошли профессиональную проверку, редактуру носителем языка и пилот в классе. Можно читать и использовать на ваше усмотрение.",
   "lb.missingLang":"Этот вид спорта пока недоступен на вашем языке — показан на иврите.",
@@ -15785,6 +15794,9 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "lb.loading":"Cargando…",
+  "lb.loadFail":"No se puede cargar este deporte ahora (revisa la conexión e inténtalo de nuevo).",
   /* ux-redesign */
   "lb.hint":"{n} sesiones completas en cinco idiomas, mostradas en el idioma activo de la aplicación.",
   "lb.draft":"Borrador: las sesiones se importan tal como se escribieron y aún no han pasado revisión profesional, edición por hablantes nativos ni piloto en el aula. Puedes consultarlas y usarlas bajo tu criterio.",
@@ -24998,6 +25010,11 @@ window.LESSONDOCS=[
    ============================================================ */
 window.LESSONBANK = window.LESSONBANK || { sports: {} };
 window.LESSONBANK.meta = {
+  /* ענפים שיש להם קובץ נתונים. הקובץ נטען לפי דרישה (LESSONBANK.load) — בטעינה הראשונה של
+     האפליקציה נטען רק הקובץ הזה, ולא כל שישה הענפים (כ-0.5 MB לענף). בגרסת הקובץ הבודד
+     כולם כלולים מראש. ענף חדש מתווסף כאן, בקובץ שלו, ובתג data-lb ב-index.html. */
+  available: ["basketball", "football"],
+  lessonsPerSport: 10,
   /* מקור וסטטוס הסקירה של התוכן. התוכן נטען כפי שנכתב ב-Notion; לא נערך בייבוא.
      reviewStatus: draft = טרם נסקר באדם; imported = נטען ללא בדיקה נוספת; teacher-reviewed / native-reviewed
      יסומנו רק אחרי שאדם סקר. מתעדכן ידנית עם כל סבב ייבוא. */
@@ -25019,6 +25036,28 @@ window.LESSONBANK.meta = {
     fitness:    { he: "כושר",   en: "Fitness",    ar: "اللياقة",    ru: "Фитнес",    es: "Condición física" }
   }
 };
+
+/* טעינה לפי דרישה של קובץ ענף. מחזיר הבטחה; אם הענף כבר נטען (הקובץ הבודד) — מיידי.
+   כתובת הקובץ (עם חותמת גרסה) יושבת בתג <script type="text/plain" data-lb="..."> ב-index.html,
+   ולכן אותה חותמת נכנסת גם לרשימת המטמון המוקדם של ה-service worker — וזה עובד גם בלי רשת. */
+(function(){
+  const LB=window.LESSONBANK, pending={};
+  LB.load=function(sport){
+    if(LB.sports&&LB.sports[sport])return Promise.resolve();
+    if(pending[sport])return pending[sport];
+    const tag=document.querySelector('script[data-lb="'+sport+'"]');
+    if(!tag||!tag.dataset.src)return Promise.reject(new Error("no source for "+sport));
+    pending[sport]=new Promise(function(resolve,reject){
+      const s=document.createElement("script");
+      s.src=tag.dataset.src;
+      s.onload=function(){ (LB.sports&&LB.sports[sport])?resolve():reject(new Error("empty "+sport)); };
+      s.onerror=function(){ delete pending[sport]; reject(new Error("load failed "+sport)); };
+      document.head.appendChild(s);
+    });
+    pending[sport].catch(function(){ delete pending[sport]; });
+    return pending[sport];
+  };
+})();
 
 ;
 "use strict";
@@ -32267,7 +32306,8 @@ window.LESSON=(function(){
   function bankSports(){
     const LB=window.LESSONBANK;
     if(!LB||!LB.sports)return [];
-    return (LB.meta&&LB.meta.sportOrder||Object.keys(LB.sports)).filter(s=>LB.sports[s]);
+    const avail=(LB.meta&&LB.meta.available)||[];
+    return (LB.meta&&LB.meta.sportOrder||Object.keys(LB.sports)).filter(s=>LB.sports[s]||avail.indexOf(s)>=0);
   }
   function bankLessons(sport){
     const LB=window.LESSONBANK;
@@ -32310,11 +32350,21 @@ window.LESSON=(function(){
     const {$, esc}=H();
     const list=$("#ls-bankList"), count=$("#ls-bankCount");
     if(!list||!curBankSport)return;
+    /* ענף שעוד לא נטען (טעינה לפי דרישה): מציגים «טוען…» וקוראים שוב כשהקובץ הגיע */
+    if(!(window.LESSONBANK.sports&&window.LESSONBANK.sports[curBankSport])){
+      const sp=curBankSport;
+      count.textContent=H().t("lb.loading","טוען…");
+      list.innerHTML="";
+      window.LESSONBANK.load(sp).then(()=>{ if(curBankSport===sp)renderBankList(); })
+        .catch(()=>{ if(curBankSport===sp){ count.textContent=""; list.innerHTML=`<div class="hint ls-bank-missing">${H().esc(H().t("lb.loadFail","לא ניתן לטעון את הענף כרגע (בדקו חיבור לאינטרנט ונסו שוב)."))}</div>`; } });
+      return;
+    }
     const lessons=bankLessons(curBankSport);
     count.textContent=lessons.length+" "+bankL().listCount;
     const hint=$("#ls-bankHint");
     if(hint){
-      const total=bankSports().reduce((a,sp)=>a+((window.LESSONBANK.sports[sp].he||[]).length),0);
+      const per=(window.LESSONBANK.meta&&window.LESSONBANK.meta.lessonsPerSport)||10;
+      const total=bankSports().length*per;
       hint.innerHTML=H().esc(H().t("lb.hint","{n} מערכי שיעור מלאים בחמש שפות — מוצגים בשפה הפעילה של האפליקציה.").replace("{n}",total))
         +bankStatusHtml()
         +(bankLangMissing(curBankSport)?`<div class="hint ls-bank-missing">${H().esc(H().t("lb.missingLang","הענף הזה עדיין לא זמין בשפה שבחרת — מוצג בעברית."))}</div>`:"");

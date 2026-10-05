@@ -38,6 +38,9 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "lb.loading":"Loading…",
+  "lb.loadFail":"This sport cannot be loaded right now (check your connection and try again).",
+  /* ux-redesign */
   "lb.hint":"{n} full lesson plans in five languages — shown in the app's active language.",
   "lb.draft":"Draft: the plans are imported as written and have not yet had professional review, native-language editing or a field pilot. You may read and use them at your own judgment.",
   "lb.missingLang":"This sport is not yet available in your language — shown in Hebrew.",
@@ -834,6 +837,9 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "lb.loading":"جارٍ التحميل…",
+  "lb.loadFail":"تعذّر تحميل هذه الرياضة الآن (تحقق من الاتصال وحاول مجددًا).",
   /* ux-redesign */
   "lb.hint":"{n} خطة درس كاملة بخمس لغات — تُعرض بلغة التطبيق النشطة.",
   "lb.draft":"مسودة: الخطط مستوردة كما كُتبت ولم تخضع بعد لمراجعة مهنية أو تحرير لغوي أو تجربة ميدانية. يمكنكم الاطلاع عليها واستخدامها بتقديركم.",
@@ -1636,6 +1642,9 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "lb.loading":"Загрузка…",
+  "lb.loadFail":"Не удаётся загрузить этот вид спорта (проверьте подключение и повторите).",
+  /* ux-redesign */
   "lb.hint":"{n} полных планов уроков на пяти языках — показываются на активном языке приложения.",
   "lb.draft":"Черновик: планы импортированы как написаны и ещё не прошли профессиональную проверку, редактуру носителем языка и пилот в классе. Можно читать и использовать на ваше усмотрение.",
   "lb.missingLang":"Этот вид спорта пока недоступен на вашем языке — показан на иврите.",
@@ -2429,6 +2438,9 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "lb.loading":"Cargando…",
+  "lb.loadFail":"No se puede cargar este deporte ahora (revisa la conexión e inténtalo de nuevo).",
   /* ux-redesign */
   "lb.hint":"{n} sesiones completas en cinco idiomas, mostradas en el idioma activo de la aplicación.",
   "lb.draft":"Borrador: las sesiones se importan tal como se escribieron y aún no han pasado revisión profesional, edición por hablantes nativos ni piloto en el aula. Puedes consultarlas y usarlas bajo tu criterio.",

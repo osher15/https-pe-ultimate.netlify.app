@@ -78,4 +78,17 @@ module.exports={title:"מאגר מערכים בינלאומי",tests:[
     ok(await page.locator("#ls-bankHint .ls-bank-missing").count()===1,"הודעת שפה חסרה");
     ok(await page.locator("#ls-bankList [data-bopen]").count()>=1,"המערכים מוצגים בעברית");
   }),
+  check("index.html (לא הקובץ הבודד): הענף נטען רק כשבוחרים בו",seed,async page=>{
+    await page.goto(new URL("index.html",page.url()).href); await page.waitForTimeout(1500);
+    eq(await page.evaluate(()=>Object.keys(window.LESSONBANK.sports)),[],"בפתיחת האפליקציה אף ענף לא נטען");
+    await go(page);
+    ok(await page.locator("#ls-bankSports button").count()>=2,"כפתורי הענפים מוצגים כבר בלי הנתונים");
+    await page.waitForFunction(()=>window.LESSONBANK.sports.basketball||window.LESSONBANK.sports.football,{timeout:8000});
+    const loaded=await page.evaluate(()=>Object.keys(window.LESSONBANK.sports));
+    eq(loaded.length,1,"נטען רק הענף הראשון: "+loaded);
+    const other=(await page.evaluate(()=>window.LESSONBANK.meta.available)).find(s=>s!==loaded[0]);
+    await page.locator('#ls-bankSports button[data-bsport="'+other+'"]').click();
+    await page.waitForFunction(o=>window.LESSONBANK.sports[o],other,{timeout:8000});
+    ok(await page.locator("#ls-bankList [data-bopen]").count()===10,"עשרה מערכים בענף השני");
+  }),
 ]};
