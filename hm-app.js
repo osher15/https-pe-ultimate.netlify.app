@@ -2032,13 +2032,29 @@ function bkAskPass(mode){
     setTimeout(()=>$("#bk-pass1").focus(),120);
   });
 }
+/* קוד אימות קצר לקובץ: 8 ספרות הקסה ראשונות של SHA-256 על תוכן הקובץ בדיוק.
+   מוצג ביצירת הקובץ ובתצוגה המקדימה של השחזור — מורה שמעביר קובץ למכשיר אחר
+   רואה שזה אותו קובץ ולא גרסה ישנה או קובץ אחר. זה זיהוי ולא הצפנה, ולא אימות זהות. */
+async function bkFingerprint(text){
+  try{
+    if(!(window.crypto&&crypto.subtle))return "";
+    const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(String(text))));
+    const hex=Array.from(h.slice(0,4),b=>b.toString(16).padStart(2,"0")).join("").toUpperCase();
+    return hex.slice(0,4)+"-"+hex.slice(4);
+  }catch(e){ return ""; }
+}
+function bkFpNote(fp){ return fp?(" · "+t("bk.fp","קוד אימות")+" "+fp):""; }
+/* שומר סינכרונית (כדי שההורדה תישאר בתוך הקשה של המשתמש) ומחזיר הבטחה לקוד האימות */
 function bkSave(obj,enc){
-  const blob=new Blob([JSON.stringify(obj)],{type:"application/json"});
+  const text=JSON.stringify(obj);
+  const fpPromise=bkFingerprint(text);
+  const blob=new Blob([text],{type:"application/json"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
   a.download=bkFileName().replace(/\.json$/, enc?"-מוצפן.hmg":".json");
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  return fpPromise;
 }
 
 /* גיבוי מהיר וסינכרוני — מסלול ההצלה.
@@ -2110,9 +2126,9 @@ function wireBackup(){
     const omitNote=snap.idb&&snap.idb.omitted&&snap.idb.omitted.length
       ? (" · "+snap.idb.omitted.length+" סרטונים לא נכנסו (גדולים מדי)"):"";
     if(!$("#set-bkEnc").checked){
-      bkSave(snap,false);
+      const fp=await bkSave(snap,false);
       LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); bkStat();
-      toast("✓ גובו "+Object.keys(snap.data).length+" קבוצות נתונים"+mediaNote+omitNote+" · הקובץ אינו מוצפן");
+      toast("✓ גובו "+Object.keys(snap.data).length+" קבוצות נתונים"+mediaNote+omitNote+" · הקובץ אינו מוצפן"+bkFpNote(fp));
       return;
     }
     if(!(window.crypto&&crypto.subtle)){ toast("הדפדפן הזה לא תומך בהצפנה — הסר את הסימון"); return; }
@@ -2120,9 +2136,9 @@ function wireBackup(){
     toast("מצפין…");
     try{
       const enc=await bkEncrypt(snap,pass);
-      bkSave(enc,true);
+      const fp=await bkSave(enc,true);
       LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); bkStat();
-      toast("🔐 גובה מוצפן"+mediaNote+omitNote+" — בלי הסיסמה אי אפשר לפתוח");
+      toast("🔐 גובה מוצפן"+mediaNote+omitNote+" — בלי הסיסמה אי אפשר לפתוח"+bkFpNote(fp));
     }catch(err){ toast("ההצפנה נכשלה: "+err.message); }
   });
   $("#set-bkImport").addEventListener("click",()=>$("#set-bkFile").click());
@@ -2130,9 +2146,10 @@ function wireBackup(){
     const f=e.target.files[0]; e.target.value="";
     if(!f)return;
     const r=new FileReader();
-    r.onload=()=>{
+    r.onload=async()=>{
       let snap;
       try{ snap=JSON.parse(r.result); }catch(err){ toast("הקובץ אינו קובץ גיבוי תקין"); return; }
+      const fp=await bkFingerprint(r.result);
       /* קובץ שיאים ישן מלוח המורה — ממזגים לשיאים, בלי לגעת בשאר */
       if(REC.isLegacyFile&&REC.isLegacyFile(snap)){
         (async()=>{
@@ -2159,7 +2176,7 @@ function wireBackup(){
               const inner=await bkDecrypt(snap,pass);
               const iv=DATA.validateBackup(inner);
               if(!iv.ok){ toast("הקובץ פוענח אבל תוכנו אינו גיבוי — "+bkErrMsg(iv.errors[0])); return; }
-              bkPreview(inner); return;
+              bkPreview(inner,fp); return;
             }catch(err){
               toast(tryN<3?t("bk.passWrongLeft","סיסמה שגויה — נותרו {n} ניסיונות").replace("{n}",3-tryN)
                           :t("bk.passWrongFinal","סיסמה שגויה. הקובץ לא נפתח."));
@@ -2169,7 +2186,7 @@ function wireBackup(){
         return;
       }
       if(v.warnings.length){ try{ console.warn("[גיבוי] אזהרות:",v.warnings); }catch(e){} }
-      bkPreview(snap);
+      bkPreview(snap,fp);
     };
     r.onerror=()=>toast("לא הצלחתי לקרוא את הקובץ");
     r.readAsText(f);
@@ -2414,7 +2431,7 @@ function bkErrMsg(code){
     return "הקובץ פגום בקטע «"+code.slice(17)+"»";
   return BK_ERRMSG[code]||"הקובץ אינו קובץ גיבוי תקין";
 }
-function bkPreview(snap){
+function bkPreview(snap,fp){
   const recovery=$("#bk-recovery");if(recovery)recovery.remove();
   const inFile=Object.keys(snap.data), here=bkKeys();
   const all=[...new Set(inFile.concat(here))].sort((a,b)=>{
@@ -2427,7 +2444,8 @@ function bkPreview(snap){
     (snap.school?"<span>בית ספר: "+esc(snap.school)+"</span>":"")+
     "<span>"+inFile.length+" קבוצות נתונים</span>"+
     (plan.media?"<span>"+plan.media+" שיאים</span>":"")+
-    (snap.v<DATA.BK_V?"<span>גיבוי בפורמט ישן</span>":"");
+    (snap.v<DATA.BK_V?"<span>גיבוי בפורמט ישן</span>":"")+
+    (fp?'<span id="bk-fp" title="'+esc(t("bk.fpHint","אותו קוד מוצג ביצירת הקובץ. אם הוא שונה — זה לא אותו קובץ."))+'">'+esc(t("bk.fp","קוד אימות"))+": <b>"+esc(fp)+"</b></span>":"");
   $("#bk-diff").innerHTML=all.map(k=>{
     const fv=snap.data[k]!=null?bkCount(snap.data[k]):"—";
     const hv=here.includes(k)?bkCount((STORE||MEMFALLBACK).getItem(BK_PREFIX+k)):"—";

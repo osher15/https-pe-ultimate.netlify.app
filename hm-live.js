@@ -41,7 +41,7 @@ function slim(p){
   /* הנושא והגרסאות נשמרים כדי שהדירוג בסיום ילמד את מחולל המערכים */
   return {id:p.id||null,title:p.title||"",topic:p.topic||null,grade:p.grade||null,
     variants:p.mainVariants||[],subs:p.mainSubs||[],
-    phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:Array.isArray(x.d)?x.d.join(" · "):String(x.d||"")}))};
+    phases:p.phases.map(x=>({n:String(x.n||""),min:+x.min||0,d:(Array.isArray(x.d)?x.d.join(" · "):String(x.d||""))+(x.free?" · "+t("ls.freePlay","משחק פנאי קליל או משחק חופשי")+" ("+x.free+")":"")}))};
 }
 function attachPlan(p){
   const a=active(), sp=slim(p); if(!a||!sp)return false;

@@ -21,18 +21,42 @@ test("2.1 variantEquipConflicts: רק פריטים שנדרשים ואינם ז�
   assert.deepEqual(D.variantEquipConflicts(v,["לא-ציוד"]),[],"ערך שאינו ברשימה הקבועה מתעלמים ממנו");
 });
 
-test("2.2 variantFit: כל הסטטוסים, והפער נרשם כמעברים רק כשהוא קטן",()=>{
-  const v={d:["a","b","c"],t:[5,10,5]};                  /* 20 */
-  assert.deepEqual(D.variantFit(v,20),{known:true,base:20,gap:0,status:"exact",transit:0});
-  assert.equal(D.variantFit(v,23).status,"transit");     /* פער 3 ≤ max(3, 15%) */
-  assert.equal(D.variantFit(v,23).transit,3,"הפער כולו הופך לשורת מעברים");
-  assert.equal(D.variantFit(v,30).status,"short");
-  assert.equal(D.variantFit(v,30).transit,0,"פער גדול אינו מוסתר כ«מעברים»");
-  assert.equal(D.variantFit(v,18).status,"tight");
+test("2.2 variantFit: טווח יעיל — הדקות מותאמות בתוכו והסכום תמיד מוסבר",()=>{
+  const v={n:"מעגל תחנות",d:["שלב 1 — הדגמה","b","c","d","e"],t:[6,4,3,12,3]};
+  [20,25,30,36,45].forEach(a=>{
+    const f=D.variantFit(v,a);
+    assert.equal(f.status,"exact","בתוך הטווח "+a);
+    assert.equal(f.fitted.reduce((x,y)=>x+y,0)+f.overhead,a,"שלבים + תקורה = הזמן שהוקצה ("+a+")");
+    f.fitted.forEach((m,i)=>assert.ok(m>=f.sr.lo[i]&&m<=f.sr.hi[i],"שלב "+i+" בתוך הטווח שלו"));
+  });
+  assert.equal(D.variantFit(v,200).status,"short","הרבה מעבר לטווח — צריך עוד סבבים, לא «מעברים»");
+  assert.equal(D.variantFit(v,200).gap>0,true);
   assert.equal(D.variantFit(v,10).status,"over");
   assert.equal(D.variantFit({d:["a"]},20).known,false,"בלי t — לא יודעים");
   assert.equal(D.variantFit({d:["a","b"],t:[5]},20).known,false,"t לא באורך d — לא סומכים עליו");
   assert.equal(D.variantFit(v,0).known,false);
+});
+
+test("2.2b גמישות: אותו תרגיל — כיתה איטית מקבלת יותר, התקורה מתכווצת ראשונה, ו-r קובע טווח",()=>{
+  const v={n:"מעגל תחנות",d:["שלב 1 — הדגמה","b","c"],t:[4,8,3]};            /* 15 אופייני */
+  const sum=f=>f.fitted.reduce((a,b)=>a+b,0);
+  const fast=D.variantFit(v,24,{pace:"fast",water:false}), slow=D.variantFit(v,24,{pace:"slow",water:false});
+  assert.ok(sum(slow)>=sum(fast),"אותו זמן, אבל קצב איטי לא מקבל פחות דקות עבודה מקצב מהיר");
+  const quick=D.variantFit(v,20,{trans:"quick",water:false}), slowT=D.variantFit(v,20,{trans:"slow",water:false});
+  assert.ok(slowT.overhead>=quick.overhead,"מעברים איטיים — יותר תקורה");
+  const tight=D.variantFit(v,D.stepRanges(v).lo.reduce((a,b)=>a+b,0)+1);
+  assert.equal(tight.status,"exact","כשצפוף, התקורה מתכווצת לפני שהשלבים נדחסים מתחת למינימום");
+  assert.ok(tight.overhead<=1);
+  const withR=D.stepRanges({d:["a","b"],t:[10,10],r:[[8,25],[5,12]]});
+  assert.deepEqual([withR.lo,withR.hi],[[8,5],[25,12]]);
+  const t=D.timeOpts({pace:"nope",trans:"x"});
+  assert.deepEqual(t,{pace:"normal",trans:"normal",water:true,weather:"normal"},"ערך לא מוכר → ברירת מחדל");
+  assert.equal(D.timeOpts({weather:"hot"}).weather,"hot");
+  assert.equal(D.timeOpts({weather:"snow"}).weather,"normal");
+  const hot=D.variantFit(v,30,{weather:"hot"}), norm=D.variantFit(v,30,{});
+  assert.ok(hot.overhead>=norm.overhead,"מזג אוויר חם — פסקת שתייה ארוכה יותר");
+  assert.ok(D.warmMinutes(45,"hot")<D.warmMinutes(45,"normal")&&D.warmMinutes(45,"normal")<D.warmMinutes(45,"cold"),"חם < רגיל < קר");
+  assert.ok(D.warmMinutes(30,"hot")>=5&&D.warmMinutes(90,"cold")<=12,"גבולות החימום");
 });
 
 test("2.3 שלמות הנתונים: t באורך d ובמספרים חיוביים; need רק מהרשימה הקבועה",()=>{
@@ -53,12 +77,25 @@ test("2.4 הממצא מהביקורת: מעגל אירובי עם דילוגי �
   assert.deepEqual(D.variantEquipConflicts(circuit,["חבל"]),["חבל"]);
 });
 
-test("2.5 כיסוי: לכל וריאציה בקבוצת הכושר יש זמנים; לענפי כדור יש ציוד נדרש",()=>{
-  ["aerobic","strength","core","speed","flex"].forEach(id=>
-    variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok(v.t,id+": חסר t ב-"+v.n)));
+test("2.5 כיסוי: לכל 108 הוריאציות יש זמנים; r (אם יש) תקין; לענפי כדור יש ציוד נדרש",()=>{
+  assert.equal(variants.length,108);
+  variants.forEach(({topic,v})=>{
+    assert.ok(v.t,topic+": חסר t ב-"+v.n);
+    if(v.r){
+      assert.equal(v.r.length,v.d.length,v.n+": r באורך d");
+      v.r.forEach((x,i)=>{ assert.ok(x[0]>=1&&x[1]>=x[0],v.n+": טווח תקין בשלב "+i); assert.ok(v.t[i]>=x[0]&&v.t[i]<=x[1],v.n+": t בתוך r בשלב "+i); });
+    }
+  });
   const BALL={basket:"כדור סל",volley:"כדור עף",handball:"כדור יד",soccer:"כדור רגל"};
   Object.keys(BALL).forEach(id=>
-    variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes(BALL[id]),id+": חסר "+BALL[id]+" ב-"+v.n)));
+    variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes(BALL[id]),id+": חסר need ב-"+v.n)));
+});
+
+test("2.6 טווח זמן: ברוב הוריאציות הזמן הרגיל של שיעור (מ-18 עד 32 דק׳ לבלוק) נמצא בטווח היעיל",()=>{
+  [18,25,32].forEach(a=>{
+    const bad=variants.filter(({v})=>D.variantFit(v,a).status!=="exact");
+    assert.ok(bad.length<=variants.length*0.15,a+" דק׳: יותר מדי וריאציות מחוץ לטווח ("+bad.length+"): "+bad.slice(0,5).map(x=>x.v.n).join(" | "));
+  });
 });
 
 test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או» היא חלופה כמו «/»",()=>{

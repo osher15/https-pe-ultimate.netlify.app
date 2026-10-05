@@ -15,18 +15,18 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="5d56fead">
+<meta name="hm-build" content="d80361b7">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
 <link rel="stylesheet" href="hm-styles.css?v=09a4178a">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-native.js?v=6c53d8bd"></script>
 <script src="hm-backup-restore.js?v=f1a05be7"></script>
-<script src="hm-data.js?v=1aa05ea2"></script>
+<script src="hm-data.js?v=ca7c1352"></script>
 <script src="hm-assessment-data.js?v=016c9c1c"></script>
 <script src="hm-terms.js?v=58b70a63"></script>
 <script src="hm-texts.js?v=0e0a2539"></script>
-<script src="hm-i18n.js?v=75be1103"></script>
-<script src="hm-app.js?v=f883aca4"></script>
+<script src="hm-i18n.js?v=5b726859"></script>
+<script src="hm-app.js?v=39b249ca"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
 <script src="hm-know.js?v=a7ad18d5"></script>
@@ -34,7 +34,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="hm-tools.js?v=0baf385d"></script>
 <script src="hm-plans.js?v=20cf74cb"></script>
-<script src="hm-lesson.js?v=68ea50ea"></script>
+<script src="hm-lesson.js?v=a64a88b8"></script>
 <script src="hm-build.js?v=931b1d83"></script>
 <script src="hm-tests.js?v=03154066"></script>
 <script src="hm-new.js?v=0f791e96"></script>
@@ -44,7 +44,7 @@
 <script src="hm-assessment-student-report.js?v=79f38133"></script>
 <script src="hm-assessment-paste.js?v=d23810e0"></script>
 <script src="hm-assessment-grid.js?v=e1b3a456"></script>
-<script src="hm-live.js?v=16d0ab27"></script>
+<script src="hm-live.js?v=c4f246ca"></script>
 <script src="hm-hub.js?v=1e6ba46b"></script>
 </helmet>
 <div class="app" dir="rtl">
@@ -1089,6 +1089,18 @@
       <label class="check"><input type="checkbox" id="ls-optGame" checked> לשלב משחק מדף המשחקים</label>
       <label class="check"><input type="checkbox" id="ls-optMeasure"> לשלב מדידה (ביפ / פוטו־פיניש)</label>
     </div>
+    <details class="ls-flex" style="margin-top:11px"><summary data-i18n="ls.flex" data-i18n-he="גמישות זמנים">גמישות זמנים</summary>
+      <div class="hint" style="margin:6px 0" data-i18n="ls.flexHint" data-i18n-he="אותו תרגיל לוקח פחות בכיתה אחת ויותר באחרת. כל פעילות מוגדרת בטווח יעיל, והדקות מותאמות בתוכו לזמן השיעור.">אותו תרגיל לוקח פחות בכיתה אחת ויותר באחרת. כל פעילות מוגדרת בטווח יעיל, והדקות מותאמות בתוכו לזמן השיעור.</div>
+      <div class="row">
+        <div class="field" style="width:200px"><label data-i18n="ls.pace" data-i18n-he="קצב הכיתה (הסברים ותיקונים)">קצב הכיתה (הסברים ותיקונים)</label>
+          <select id="ls-pace"><option value="fast" data-i18n="ls.paceFast" data-i18n-he="מהיר">מהיר</option><option value="normal" selected data-i18n="ls.paceNormal" data-i18n-he="רגיל">רגיל</option><option value="slow" data-i18n="ls.paceSlow" data-i18n-he="איטי — יותר הסברים">איטי — יותר הסברים</option></select></div>
+        <div class="field" style="width:200px"><label data-i18n="ls.trans" data-i18n-he="מעברים בין שלבים ותחנות">מעברים בין שלבים ותחנות</label>
+          <select id="ls-trans"><option value="quick" data-i18n="ls.transQuick" data-i18n-he="מהירים">מהירים</option><option value="normal" selected data-i18n="ls.transNormal" data-i18n-he="רגילים">רגילים</option><option value="slow" data-i18n="ls.transSlow" data-i18n-he="איטיים">איטיים</option></select></div>
+      </div>
+      <div class="field" style="width:200px;margin-top:8px"><label data-i18n="ls.weather" data-i18n-he="מזג אוויר (מגרש חוץ)">מזג אוויר (מגרש חוץ)</label>
+        <select id="ls-weather"><option value="cold" data-i18n="ls.wxCold" data-i18n-he="קר — חימום ארוך יותר">קר — חימום ארוך יותר</option><option value="normal" selected data-i18n="ls.wxNormal" data-i18n-he="רגיל">רגיל</option><option value="hot" data-i18n="ls.wxHot" data-i18n-he="חם — חימום קצר יותר">חם — חימום קצר יותר</option></select></div>
+      <label class="check" style="margin-top:8px"><input type="checkbox" id="ls-water" checked> <span data-i18n="ls.water" data-i18n-he="הפסקת שתייה בחלק העיקרי">הפסקת שתייה בחלק העיקרי</span></label>
+    </details>
     <div class="row" style="margin-top:13px">
       <button class="btn acc grow" id="ls-gen">⚡ בנה מערך בשניות</button>
       <button class="btn ghost" id="ls-again" title="גרסה אחרת לאותו נושא">🎲 גרסה אחרת</button>
@@ -1816,6 +1828,7 @@
         <li data-i18n="bk.how2">הגדרות ← גיבוי וסנכרון ← «⬆ שחזר מקובץ», ובוחרים את קובץ הגיבוי.</li>
         <li data-i18n="bk.how3">קובץ מוצפן — מקלידים את הסיסמה שנבחרה בגיבוי. בלי הסיסמה אי אפשר לפתוח אותו.</li>
         <li data-i18n="bk.how4">לפני השחזור מוצג מה ייכנס ומה יוחלף. שום דבר לא נכתב עד שמאשרים, וקובץ פגום נדחה לפני שנוגעים בנתונים.</li>
+        <li data-i18n="bk.how5">בתצוגה המקדימה מופיע «קוד אימות». הוא זהה לקוד שהוצג כשהקובץ נוצר — אם הוא שונה, זה לא אותו קובץ ואין להמשיך.</li>
       </ol></details>
     <details class="bk-adv" style="margin-top:12px"><summary data-i18n="bk.advT">⚙️ מתקדם: גיבוי ישיר לגוגל דרייב (דורש הגדרה טכנית)</summary>
     <b>☁️ גיבוי לגוגל דרייב (מתקדם, רשות)</b>

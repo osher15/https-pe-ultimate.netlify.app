@@ -8,7 +8,7 @@ const build=async(page,topic,grade,dur)=>{
   await page.fill("#ls-dur",String(dur));
   await page.click("#ls-gen"); await page.waitForTimeout(80);
   return page.evaluate(()=>{ const p=window.LESSON.current();
-    return {eqWarn:(p.eqWarn||[]).map(w=>w.k),main:p.phases.filter(x=>x.k==="main").map(x=>({n:x.n,min:x.min,t:x.t||null,tr:x.tr||0,fit:x.fit||null}))}; });
+    return {eqWarn:(p.eqWarn||[]).map(w=>w.k),main:p.phases.filter(x=>x.k==="main").map(x=>({n:x.n,min:x.min,t:x.t||null,tr:x.tr||0,fit:x.fit||null,free:x.free||0}))}; });
 };
 
 module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tests:[
@@ -49,9 +49,8 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
             ok(m.t&&m.fit,topic+"/"+grade+"/"+dur+": חסרים זמנים ב-"+m.n);
             const sum=m.t.reduce((a,x)=>a+x,0);
             const id=topic+"/"+grade+"/"+dur+" «"+m.n+"» "+m.min+" דק׳ מול "+sum;
-            if(m.fit.status==="exact")eq(sum,m.min,id);
-            if(m.fit.status==="transit")eq(sum+m.tr,m.min,id+" + מעברים "+m.tr);
-            if(m.fit.status==="short")ok(r.eqWarn.indexOf("ls.timeShort")>=0,id+": אין אזהרת «קצר מדי»");
+            if(m.fit.status==="exact")eq(sum+m.tr,m.min,id+" + תקורה "+m.tr);
+            if(m.fit.status==="short")eq(sum+m.tr+m.free,m.min,id+": העודף הופך למשחק פנאי ("+m.free+")");
             if(m.fit.status==="over")ok(r.eqWarn.indexOf("ls.timeOver")>=0,id+": אין אזהרת «ארוך מדי»");
             checkedN++;
           });
@@ -71,6 +70,81 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     ok(!after.t&&!after.tr&&!after.fit,"הזמנים נמחקו אחרי עריכת שלבים: "+JSON.stringify(after.t));
     ok(after.d.indexOf("שורה שהמורה הוסיף")>=0,"והעריכה עצמה נשמרה");
   }),
+  check("גמישות זמנים: קצב כיתה איטי ומעברים איטיים נשמרים, והדקות נשארות בטווח היעיל ומוסברות",null,async page=>{
+    await go(page,"lesson");
+    await page.evaluate(()=>{ document.querySelector(".ls-flex").open=true; });
+    await page.selectOption("#ls-pace","slow"); await page.selectOption("#ls-trans","slow");
+    await page.uncheck("#ls-water");
+    const r=await build(page,"strength","mid",45);
+    const m=r.main[0];
+    ok(m.t&&m.fit&&m.fit.min<=m.min,"המערך נבנה עם זמנים וטווח");
+    const saved=await page.evaluate(()=>window.HM.LS.get("ls.timeOpts",null));
+    eq(saved,{pace:"slow",trans:"slow",water:false,weather:"normal"},"הבחירה נשמרת");
+    await page.reload(); await page.waitForTimeout(600); await go(page,"lesson");
+    eq(await page.inputValue("#ls-pace"),"slow","הבחירה חוזרת אחרי רענון");
+    eq(await page.isChecked("#ls-water"),false);
+  }),
+
+  check("עריכת הדקות של שלב מחשבת מחדש את שלבי הפעילות בתוך הטווח, ומסמנת חריגה בלי לחסום",null,async page=>{
+    await go(page,"lesson");
+    await build(page,"strength","mid",45);
+    await page.click('#ls-planCard [data-pe="toggle"]'); await page.waitForTimeout(200);
+    const idx=await page.evaluate(()=>window.LESSON.current().phases.findIndex(x=>x.k==="main"));
+    const row=`#ls-planCard .pe-row[data-pi="${idx}"]`;
+    const set=async v=>{ await page.fill(row+' [data-pf="min"]',String(v)); await page.dispatchEvent(row+' [data-pf="min"]',"input"); };
+    await set(22);
+    let ph=await page.evaluate(i=>window.LESSON.current().phases[i],idx);
+    ok(ph.t&&ph.fit&&ph.fit.status==="exact","מחושב מחדש, לא נמחק: "+JSON.stringify(ph.fit));
+    eq(ph.t.reduce((a,b)=>a+b,0)+(ph.tr||0),22,"שלבים + תקורה = הדקות החדשות");
+    ok(/\d+–\d+/.test(await page.textContent(row+" .pe-range")),"טווח יעיל מוצג");
+    await set(90);
+    ph=await page.evaluate(i=>window.LESSON.current().phases[i],idx);
+    eq(ph.min,90,"חריגה מותרת — לא חוסם");
+    eq(ph.fit.status,"short");
+    ok(/\d/.test(await page.textContent(row+" .pe-range")),"אזהרה רכה מוצגת");
+  }),
+
+  check("שיעור קצר: מקצרים את החימום שבתחילת השיעור, והמשחק נשאר",null,async page=>{
+    await go(page,"lesson");
+    await page.selectOption("#ls-focus","aerobic");
+    await page.selectOption("#ls-place","hall");
+    await page.fill("#ls-dur","35"); await page.check("#ls-optGame"); await page.click("#ls-gen"); await page.waitForTimeout(100);
+    const p=await page.evaluate(()=>{ const x=window.LESSON.current(); return {k:x.phases.map(f=>f.k),warm:x.phases[0].min,main:x.phases.find(f=>f.k==="main").min,total:x.phases.reduce((a,f)=>a+f.min,0),warns:(x.eqWarn||[]).map(w=>w.k),wn:x.phases[0].n}; });
+    ok(p.k.indexOf("game")>=0,"המשחק נשאר: "+p.k);
+    eq(p.warm,5,"חימום קצר"); ok(p.main>=18,"הפעילות העיקרית: "+p.main); eq(p.total,35,"אורך השיעור נשמר");
+    ok(p.warns.indexOf("ls.shortLesson")>=0,"ההודעה מוצגת");
+    ok(!/תופסת|קוביית|עצור וזוז|מספרים|מראה/.test(p.wn),"חימום סטנדרטי ולא חימום-משחק: "+p.wn);
+    await page.fill("#ls-dur","60"); await page.click("#ls-gen"); await page.waitForTimeout(100);
+    const q=await page.evaluate(()=>({k:window.LESSON.current().phases.map(f=>f.k),warm:window.LESSON.current().phases[0].min}));
+    ok(q.k.indexOf("game")>=0&&q.warm>5,"בשיעור ארוך חימום רגיל ומשחק: "+JSON.stringify(q));
+  }),
+
+  check("מזג אוויר: חם — חימום קצר יותר, קר — ארוך יותר; רק במגרש חוץ",null,async page=>{
+    await go(page,"lesson");
+    await page.evaluate(()=>{ document.querySelector(".ls-flex").open=true; });
+    await page.selectOption("#ls-focus","aerobic"); await page.fill("#ls-dur","60");
+    const warm=async(place,wx)=>{ await page.selectOption("#ls-place",place); await page.selectOption("#ls-weather",wx); await page.click("#ls-gen"); await page.waitForTimeout(100);
+      return page.evaluate(()=>({w:window.LESSON.current().phases[0].min,warns:(window.LESSON.current().eqWarn||[]).map(x=>x.k)})); };
+    const n=await warm("field","normal"), h=await warm("field","hot"), c=await warm("field","cold");
+    ok(h.w<n.w&&n.w<c.w,"חם < רגיל < קר: "+[h.w,n.w,c.w]);
+    ok(h.warns.indexOf("ls.weatherHot")>=0&&c.warns.indexOf("ls.weatherCold")>=0,"הודעה לפי מזג האוויר");
+    const inHall=await warm("hall","hot");
+    eq(inHall.w,n.w,"באולם מזג האוויר לא משפיע");
+    eq(await page.evaluate(()=>window.HM.LS.get("ls.timeOpts",null).weather),"hot","הבחירה נשמרת");
+  }),
+
+  check("זמן שנשאר מעבר לטווח: משחק פנאי קליל או חופשי, בלי אזהרה, והסכום מדויק",null,async page=>{
+    await go(page,"lesson");
+    let seen=0;
+    for(const topic of ["flex","core","speed"]){
+      const r=await build(page,topic,"mid",90);
+      r.main.forEach(m=>{ eq(m.t.reduce((a,x)=>a+x,0)+m.tr+m.free,m.min,topic+": שלבים + תקורה + משחק פנאי = הדקות"); if(m.free>0)seen++; });
+    }
+    ok(seen>0,"בשיעור ארוך נשאר זמן למשחק פנאי באחת הפעילויות");
+    const html=await page.textContent("#ls-planCard");
+    ok(/משחק פנאי קליל או משחק חופשי|free play/i.test(html),"השורה מוצגת בתוכנית");
+  }),
+
   check("ציוד אחר: התיבות החדשות קיימות, הקלדה מסמנת «ציוד אחר» והטקסט נכנס לרשימת הציוד של המערך",null,async page=>{
     await go(page,"lesson");
     const vals=await page.$$eval("#ls-eq input",e=>e.map(x=>x.value));

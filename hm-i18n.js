@@ -37,6 +37,34 @@ const DICT={
 he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שבמרקאפ עצמו */
 
 en:{
+  /* ux-redesign */
+  "bk.fp":"Verification code",
+  "bk.fpHint":"The same code is shown when the file is created. If it differs, it is not the same file.",
+  "bk.how5":"The preview shows a \"verification code\". It matches the code shown when the file was created — if it differs, it is not the same file; do not continue.",
+  /* ux-redesign */
+  "ls.weather":"Weather (outdoor field)",
+  "ls.wxCold":"Cold — longer warm-up",
+  "ls.wxNormal":"Normal",
+  "ls.wxHot":"Hot — shorter warm-up",
+  "ls.weatherHot":"Hot weather: shorter warm-up and a longer water break",
+  "ls.weatherCold":"Cold weather: a longer warm-up to raise heart rate and body temperature before effort",
+  /* ux-redesign */
+  "ls.freePlay":"Light recreational game or free play",
+  "ls.rangeFree":"Time beyond the activity's range goes to a light recreational game or free play",
+  "ls.shortLesson":"No time left for the game and the main activity: the warm-up at the start was shortened to a short standard warm-up (5 min)",
+  /* ux-redesign */
+  "ls.flex":"Flexible timing",
+  "ls.flexHint":"The same drill takes less in one class and more in another. Each activity has an effective range, and the minutes are fitted inside it to the lesson time.",
+  "ls.pace":"Class pace (explanations and corrections)",
+  "ls.paceFast":"Fast",
+  "ls.paceNormal":"Normal",
+  "ls.paceSlow":"Slow — more explaining",
+  "ls.trans":"Transitions between steps and stations",
+  "ls.transQuick":"Quick",
+  "ls.transNormal":"Normal",
+  "ls.transSlow":"Slow",
+  "ls.water":"Water break in the main part",
+  "ls.range":"Effective range for the activity",
   "sp.open":"Printable pupil report",
   "br.invalid":"Invalid backup file.",
   "br.reverted":"Restore failed. Previous data was restored and verified. You can retry.",
@@ -274,9 +302,8 @@ en:{
   "ls.eqTopic":"This topic needs equipment not marked as available",
   "ls.eqGame":"The chosen game needs equipment not marked as available",
   "ls.eqVariant":"The chosen activity needs equipment not marked as available",
-  "ls.timeShort":"The activity describes fewer minutes than allotted (described / allotted) — add rounds or pick a longer activity",
-  "ls.timeOver":"The activity describes more minutes than allotted (described / allotted) — trim rounds or pick a shorter activity",
-  "ls.transit":"Transitions and instructions",
+  "ls.timeOver":"The time is shorter than this activity's effective range (range / allotted) — trim rounds or pick a shorter activity",
+  "ls.transit":"Transitions, instructions, corrections and water",
   "sched.clash":"Another separate slot is at the same time. If these classes are taught together, join them as a group (Class hub → Join classes); otherwise this is a timetable clash.",
   /* ux-redesign */
   "stu.badRecs":"Damaged records in the list are not shown, but they are kept as they are — back up your data before any change.",
@@ -773,6 +800,34 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "bk.fp":"رمز التحقق",
+  "bk.fpHint":"يظهر الرمز نفسه عند إنشاء الملف. إذا اختلف فهذا ليس الملف نفسه.",
+  "bk.how5":"تظهر في المعاينة «رمز التحقق». هو نفسه الذي ظهر عند إنشاء الملف — إذا اختلف فهذا ليس الملف نفسه ولا تتابع.",
+  /* ux-redesign */
+  "ls.weather":"الطقس (ملعب خارجي)",
+  "ls.wxCold":"بارد — إحماء أطول",
+  "ls.wxNormal":"عادي",
+  "ls.wxHot":"حار — إحماء أقصر",
+  "ls.weatherHot":"طقس حار: إحماء أقصر واستراحة شرب أطول",
+  "ls.weatherCold":"طقس بارد: إحماء أطول لرفع النبض ودرجة حرارة الجسم قبل المجهود",
+  /* ux-redesign */
+  "ls.freePlay":"لعبة ترفيهية خفيفة أو لعب حر",
+  "ls.rangeFree":"الوقت الذي يزيد عن مدى النشاط يُخصَّص للعبة ترفيهية خفيفة أو لعب حر",
+  "ls.shortLesson":"لا يكفي الوقت للعبة والنشاط الرئيسي: قُصِّر الإحماء في بداية الدرس إلى إحماء قياسي قصير (5 دقائق)",
+  /* ux-redesign */
+  "ls.flex":"مرونة الوقت",
+  "ls.flexHint":"التمرين نفسه يستغرق وقتًا أقل في صف وأكثر في آخر. لكل نشاط مدى فعّال، وتُلائَم الدقائق داخله مع وقت الدرس.",
+  "ls.pace":"وتيرة الصف (الشرح والتصحيح)",
+  "ls.paceFast":"سريع",
+  "ls.paceNormal":"عادي",
+  "ls.paceSlow":"بطيء — شرح أكثر",
+  "ls.trans":"الانتقال بين المراحل والمحطات",
+  "ls.transQuick":"سريعة",
+  "ls.transNormal":"عادية",
+  "ls.transSlow":"بطيئة",
+  "ls.water":"استراحة شرب في الجزء الرئيسي",
+  "ls.range":"المدى الفعّال للنشاط",
   "sp.open":"تقرير طالب للطباعة",
   "br.invalid":"ملف النسخة الاحتياطية غير صالح.",
   "br.reverted":"فشلت الاستعادة. تمت إعادة البيانات السابقة والتحقق منها. يمكنك المحاولة مجدداً.",
@@ -1010,9 +1065,8 @@ ar:{
   "ls.eqTopic":"يتطلّب هذا الموضوع معدات غير مُعلَّمة كمتاحة",
   "ls.eqGame":"اللعبة المختارة تتطلّب معدات غير مُعلَّمة كمتاحة",
   "ls.eqVariant":"النشاط المختار يتطلّب معدات غير مُعلَّمة كمتاحة",
-  "ls.timeShort":"يصف النشاط دقائق أقل من الوقت المخصّص (الموصوف / المخصّص) — أضيفوا جولات أو اختاروا نشاطًا أطول",
-  "ls.timeOver":"يصف النشاط دقائق أكثر من الوقت المخصّص (الموصوف / المخصّص) — قلّلوا الجولات أو اختاروا نشاطًا أقصر",
-  "ls.transit":"الانتقالات والتعليمات",
+  "ls.timeOver":"الوقت أقصر من المدى الفعّال لهذا النشاط (المدى / المخصّص) — قلّلوا الجولات أو اختاروا نشاطًا أقصر",
+  "ls.transit":"الانتقالات والتعليمات والتصحيحات والشرب",
   "sched.clash":"توجد حصة منفصلة أخرى في الوقت نفسه. إذا كانت الصفوف تتعلّم معًا فاربطوها كمجموعة (مركز الصف ← ربط الصفوف)؛ وإلا فهذا تعارض في الجدول.",
   /* ux-redesign */
   "stu.badRecs":"سجلات تالفة في القائمة لا تُعرض، لكنها محفوظة كما هي — انسخوا البيانات احتياطيًا قبل أي تغيير.",
@@ -1513,6 +1567,34 @@ ar:{
 },
 
 ru:{
+  /* ux-redesign */
+  "bk.fp":"Код проверки",
+  "bk.fpHint":"Тот же код показывается при создании файла. Если он отличается — это другой файл.",
+  "bk.how5":"В предпросмотре показан «код проверки». Он совпадает с кодом при создании файла — если нет, это другой файл, продолжать нельзя.",
+  /* ux-redesign */
+  "ls.weather":"Погода (открытая площадка)",
+  "ls.wxCold":"Холодно — разминка дольше",
+  "ls.wxNormal":"Обычная",
+  "ls.wxHot":"Жарко — разминка короче",
+  "ls.weatherHot":"Жаркая погода: разминка короче, перерыв на воду дольше",
+  "ls.weatherCold":"Холодная погода: более долгая разминка, чтобы поднять пульс и температуру тела перед нагрузкой",
+  /* ux-redesign */
+  "ls.freePlay":"Лёгкая игра для отдыха или свободная игра",
+  "ls.rangeFree":"Время сверх диапазона задания отдано лёгкой игре или свободной игре",
+  "ls.shortLesson":"Не хватает времени на игру и основное задание: разминка в начале урока сокращена до короткой стандартной (5 мин)",
+  /* ux-redesign */
+  "ls.flex":"Гибкость времени",
+  "ls.flexHint":"Одно и то же упражнение в одном классе занимает меньше времени, в другом — больше. У каждого задания есть эффективный диапазон, и минуты подгоняются в нём под время урока.",
+  "ls.pace":"Темп класса (объяснения и коррекции)",
+  "ls.paceFast":"Быстрый",
+  "ls.paceNormal":"Обычный",
+  "ls.paceSlow":"Медленный — больше объяснений",
+  "ls.trans":"Переходы между шагами и станциями",
+  "ls.transQuick":"Быстрые",
+  "ls.transNormal":"Обычные",
+  "ls.transSlow":"Медленные",
+  "ls.water":"Перерыв на воду в основной части",
+  "ls.range":"Эффективный диапазон задания",
   "sp.open":"Отчёт ученика для печати",
   "br.invalid":"Некорректный файл резервной копии.",
   "br.reverted":"Восстановление не удалось. Прежние данные возвращены и проверены. Можно повторить попытку.",
@@ -1750,9 +1832,8 @@ ru:{
   "ls.eqTopic":"Для темы нужен инвентарь, не отмеченный как доступный",
   "ls.eqGame":"Для выбранной игры нужен инвентарь, не отмеченный как доступный",
   "ls.eqVariant":"Для выбранного задания нужен инвентарь, не отмеченный как доступный",
-  "ls.timeShort":"Задание описывает меньше минут, чем выделено (описано / выделено) — добавьте круги или выберите более длинное задание",
-  "ls.timeOver":"Задание описывает больше минут, чем выделено (описано / выделено) — сократите круги или выберите более короткое задание",
-  "ls.transit":"Переходы и объяснения",
+  "ls.timeOver":"Время короче эффективного диапазона задания (диапазон / выделено) — сократите круги или выберите более короткое задание",
+  "ls.transit":"Переходы, объяснения, коррекции и вода",
   "sched.clash":"В это же время есть ещё один отдельный урок. Если классы занимаются вместе, объедините их в группу (Центр класса → Объединить классы); иначе это накладка в расписании.",
   /* ux-redesign */
   "stu.badRecs":"Повреждённые записи в списке не показаны, но сохранены как есть — сделайте резервную копию перед любыми изменениями.",
@@ -2246,6 +2327,34 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "bk.fp":"Código de verificación",
+  "bk.fpHint":"El mismo código se muestra al crear el archivo. Si es distinto, no es el mismo archivo.",
+  "bk.how5":"La vista previa muestra un «código de verificación». Coincide con el que se mostró al crear el archivo; si difiere, no es el mismo archivo y no debes continuar.",
+  /* ux-redesign */
+  "ls.weather":"Clima (campo al aire libre)",
+  "ls.wxCold":"Frío: calentamiento más largo",
+  "ls.wxNormal":"Normal",
+  "ls.wxHot":"Calor: calentamiento más corto",
+  "ls.weatherHot":"Calor: calentamiento más corto y pausa para beber más larga",
+  "ls.weatherCold":"Frío: calentamiento más largo para subir el pulso y la temperatura antes del esfuerzo",
+  /* ux-redesign */
+  "ls.freePlay":"Juego recreativo ligero o juego libre",
+  "ls.rangeFree":"El tiempo que excede el rango de la actividad se dedica a un juego recreativo ligero o juego libre",
+  "ls.shortLesson":"No hay tiempo suficiente para el juego y la actividad principal: el calentamiento inicial se acortó a un calentamiento estándar breve (5 min)",
+  /* ux-redesign */
+  "ls.flex":"Tiempos flexibles",
+  "ls.flexHint":"El mismo ejercicio dura menos en una clase y más en otra. Cada actividad tiene un rango eficaz y los minutos se ajustan dentro de él al tiempo de la clase.",
+  "ls.pace":"Ritmo de la clase (explicaciones y correcciones)",
+  "ls.paceFast":"Rápido",
+  "ls.paceNormal":"Normal",
+  "ls.paceSlow":"Lento: más explicaciones",
+  "ls.trans":"Transiciones entre pasos y estaciones",
+  "ls.transQuick":"Rápidas",
+  "ls.transNormal":"Normales",
+  "ls.transSlow":"Lentas",
+  "ls.water":"Pausa para beber en la parte principal",
+  "ls.range":"Rango eficaz de la actividad",
   "sp.open":"Informe del alumno para imprimir",
   "br.invalid":"Archivo de copia no válido.",
   "br.reverted":"La restauración falló. Los datos anteriores se recuperaron y verificaron. Puedes reintentar.",
@@ -2483,9 +2592,8 @@ es:{
   "ls.eqTopic":"El tema requiere material no marcado como disponible",
   "ls.eqGame":"El juego elegido requiere material no marcado como disponible",
   "ls.eqVariant":"La actividad elegida requiere material no marcado como disponible",
-  "ls.timeShort":"La actividad describe menos minutos de los asignados (descritos / asignados): añade rondas o elige una actividad más larga",
-  "ls.timeOver":"La actividad describe más minutos de los asignados (descritos / asignados): recorta rondas o elige una actividad más corta",
-  "ls.transit":"Transiciones e instrucciones",
+  "ls.timeOver":"El tiempo es menor que el rango eficaz de la actividad (rango / asignado): recorta rondas o elige una actividad más corta",
+  "ls.transit":"Transiciones, instrucciones, correcciones y agua",
   "sched.clash":"A la misma hora hay otra franja separada. Si estos grupos tienen clase juntos, únelos como grupo (Centro del grupo → Unir grupos); si no, es un conflicto de horario.",
   /* ux-redesign */
   "stu.badRecs":"Los registros dañados de la lista no se muestran, pero se conservan tal cual: haz una copia de seguridad antes de cualquier cambio.",
