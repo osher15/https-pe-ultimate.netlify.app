@@ -1397,12 +1397,25 @@ window.HMBootNew=function(){
       rl.textContent=want==="he"?H0.t("ui.demoReloadHe","↻ טען את ההדגמה מחדש בעברית")
         :H0.t("ui.demoReloadEn","↻ טען את ההדגמה מחדש באנגלית"); }
   }
-  document.addEventListener("i18n:change",paintDemoBar);
+  /* ההדגמה היא נתונים מומצאים בלבד (מזהים demoN ו-dmN) — לכן כשהשפה משתנה
+     מחליפים את שמות ההדגמה לשפה החדשה אוטומטית, בלי כפתור. נתונים אמיתיים
+     ושאר הרשומות לא נוגעים. המסך הנוכחי מצויר מחדש מהנתונים החדשים,
+     בלי טעינת דף — כדי לא לקטוע שיעור או הקלדה. */
+  function syncDemoLang(){
+    if(!demoOn()||demoLang()===demoLangFor())return;
+    seedDemo(demoLangFor());
+    paintDemoBar();
+    const mod=document.body.dataset.mod;
+    /* רק מסכי נתונים שמציגים שמות תלמידים; מסכים אחרים מציירים את עצמם כבר באירוע השפה */
+    if(["ft","cls","stu","tools","rec"].includes(mod))
+      setTimeout(()=>{ if(document.body.dataset.mod===mod){ try{ H0.go(mod); }catch(e){} } },0);
+  }
+  document.addEventListener("i18n:change",()=>{ paintDemoBar(); setTimeout(syncDemoLang,0); });
   const demoBtn=$("#lock-demo");
   if(demoBtn)demoBtn.addEventListener("click",()=>{
     if(hasRealData()&&!demoOn()){
-      toast("יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם");
-      H0.ask({msg:"במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.",alert:true,ok:"הבנתי"});
+      toast(H0.t("ui.demoHasData","יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם"));
+      H0.ask({msg:H0.t("ui.demoHasDataQ","במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר."),alert:true,ok:H0.t("ui.demoGotIt","הבנתי")});
       return;
     }
     if(!demoOn())seedDemo(demoLangFor());
@@ -1426,6 +1439,7 @@ window.HMBootNew=function(){
     clearDemo(); toast(H0.t("ui.demoCleared","נתוני ההדגמה נמחקו")); setTimeout(()=>location.reload(),600);
   });
   paintDemoBar();
+  syncDemoLang();
 
   /* מעבר למצב תלמיד מתוך האפליקציה (מוסרים את המכשיר לכיתה) */
   const handBtn=$("#rec-handBtn");

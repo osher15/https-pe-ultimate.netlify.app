@@ -650,7 +650,7 @@ window.FT=(function(){
         delta=`<span class="dl ${imp?"up":"down"}">${imp?"▲":"▼"} ${fmtVal(T,Math.abs(r.val-pv.val))}</span>`;
       }
       return `<div class="ft-row${r?" done":""}" data-n="${esc(k)}" data-nm="${esc(s.name)}">
-        <div class="nm" data-card="${esc(k)}" title="כרטיס התלמיד">${esc(s.name)}${
+        <div class="nm" data-card="${esc(k)}" title="${esc(H().t("ft.cardTitle","כרטיס התלמיד"))}">${esc(s.name)}${
           isG(c)&&s.cls?`<span class="ccls">${esc(disp(s.cls))}</span>`:""}${
           all.length?`<span class="pv">${
             bst?`⭐ הטוב: ${fmtVal(T,bst.val)}`:""}${all.length>1?` · ${all.length} ניסיונות`:""}</span>`:""}</div>
@@ -666,14 +666,14 @@ window.FT=(function(){
              במקום ללחוץ שישים פעם. type=text ולא number: number מחזיר
              מחרוזת ריקה באמצע הקלדה, וזה כבר עלה לנו פעם בשדה אחר. */
           ? `<div class="ft-step">
-               <button class="plus" data-inc="${esc(k)}" aria-label="חזרה אחת">+</button>
-               <button class="by5" data-inc5="${esc(k)}" aria-label="חמש חזרות">+5</button>
+               <button class="plus" data-inc="${esc(k)}" aria-label="${esc(H().t("ft.repOne","חזרה אחת"))}">+</button>
+               <button class="by5" data-inc5="${esc(k)}" aria-label="${esc(H().t("ft.repFive","חמש חזרות"))}">+5</button>
                <input class="cnt" type="text" inputmode="numeric" dir="ltr"
-                 data-cnt="${esc(k)}" aria-label="מספר חזרות"
+                 data-cnt="${esc(k)}" aria-label="${esc(H().t("ft.repCount","מספר חזרות"))}"
                  value="${pendingNew[k]?"":(Math.round((openAttempt(c,T.id,s)||{}).val||0)||"")}"
                  placeholder="0">
-               <button data-dec="${esc(k)}" aria-label="פחות אחת">−</button>
-               <button class="by5" data-dec5="${esc(k)}" aria-label="פחות חמש">−5</button>
+               <button data-dec="${esc(k)}" aria-label="${esc(H().t("ft.repMinusOne","פחות אחת"))}">−</button>
+               <button class="by5" data-dec5="${esc(k)}" aria-label="${esc(H().t("ft.repMinusFive","פחות חמש"))}">−5</button>
              </div>`
           : `<input class="ft-num" type="number" inputmode="decimal" step="0.1" min="0"
                data-val="${esc(k)}" value="${pendingNew[k]?"":((openAttempt(c,T.id,s)||{}).val??"")}" placeholder="${esc(T.unit)}">`}

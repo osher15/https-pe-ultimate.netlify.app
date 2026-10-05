@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="4f3c032f">
+<meta name="hm-build" content="afa4bdb1">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -38,6 +38,8 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
+/* מניעת גלישה אופקית של כל הדף בנגיעה (גם בטלפון); רצועות עם גלילה משלהן ממשיכות לעבוד */
+html{overflow-x:hidden;overscroll-behavior-x:none}
 body{font-family:'Heebo',sans-serif;color:var(--ink);background:var(--bg);min-height:100vh;overflow-x:hidden;
   background:var(--bgimg)}
 /* הרקע מוגדר על body (ולא על :root) כדי ש-var(--accDim) יתעדכן לפי המודול הפעיל */
@@ -13394,6 +13396,17 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "ft.cardTitle":"Student card",
+  "ft.repOne":"One rep",
+  "ft.repFive":"Five reps",
+  "ft.repCount":"Rep count",
+  "ft.repMinusOne":"Minus one",
+  "ft.repMinusFive":"Minus five",
+  /* ux-redesign */
+  "ui.demoHasData":"This device already has data — the demo will not run on top of it",
+  "ui.demoHasDataQ":"This device already has real data.\n\nDemo mode adds an invented class, so it only runs on an empty device — to keep it from mixing with real students.\n\nTo see the demo: back up your data (Settings → Backup), clear it, and start the demo. Then restore.",
+  "ui.demoGotIt":"Got it",
+  /* ux-redesign */
   "lb.loading":"Loading…",
   "lb.loadFail":"This sport cannot be loaded right now (check your connection and try again).",
   /* ux-redesign */
@@ -14193,6 +14206,17 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "ft.cardTitle":"بطاقة الطالب",
+  "ft.repOne":"تكرار واحد",
+  "ft.repFive":"خمسة تكرارات",
+  "ft.repCount":"عدد التكرارات",
+  "ft.repMinusOne":"ناقص واحد",
+  "ft.repMinusFive":"ناقص خمسة",
+  /* ux-redesign */
+  "ui.demoHasData":"في الجهاز بيانات بالفعل — لن يعمل العرض التوضيحي فوقها",
+  "ui.demoHasDataQ":"في هذا الجهاز بيانات حقيقية بالفعل.\n\nيضيف وضع العرض التوضيحي صفًا مُختلقًا، لذلك يعمل فقط على جهاز فارغ — حتى لا يختلط بطلاب حقيقيين.\n\nلرؤية العرض: انسخ بياناتك احتياطيًا (الإعدادات ← النسخ الاحتياطي)، ثم امسحها وشغّل العرض. بعد ذلك استعدها.",
+  "ui.demoGotIt":"فهمت",
   /* ux-redesign */
   "lb.loading":"جارٍ التحميل…",
   "lb.loadFail":"تعذّر تحميل هذه الرياضة الآن (تحقق من الاتصال وحاول مجددًا).",
@@ -14998,6 +15022,17 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "ft.cardTitle":"Карточка ученика",
+  "ft.repOne":"Одно повторение",
+  "ft.repFive":"Пять повторений",
+  "ft.repCount":"Количество повторений",
+  "ft.repMinusOne":"Минус один",
+  "ft.repMinusFive":"Минус пять",
+  /* ux-redesign */
+  "ui.demoHasData":"На устройстве уже есть данные — демонстрация не будет запущена поверх них",
+  "ui.demoHasDataQ":"На этом устройстве уже есть реальные данные.\n\nДемо-режим добавляет вымышленный класс, поэтому работает только на пустом устройстве — чтобы не смешиваться с настоящими учениками.\n\nЧтобы посмотреть демо: сделайте резервную копию (Настройки → Резервная копия), очистите данные и запустите демо. Затем восстановите.",
+  "ui.demoGotIt":"Понятно",
+  /* ux-redesign */
   "lb.loading":"Загрузка…",
   "lb.loadFail":"Не удаётся загрузить этот вид спорта (проверьте подключение и повторите).",
   /* ux-redesign */
@@ -15794,6 +15829,17 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "ft.cardTitle":"Ficha del alumno",
+  "ft.repOne":"Una repetición",
+  "ft.repFive":"Cinco repeticiones",
+  "ft.repCount":"Número de repeticiones",
+  "ft.repMinusOne":"Menos uno",
+  "ft.repMinusFive":"Menos cinco",
+  /* ux-redesign */
+  "ui.demoHasData":"Este dispositivo ya tiene datos: la demostración no se ejecutará encima de ellos",
+  "ui.demoHasDataQ":"Este dispositivo ya tiene datos reales.\n\nEl modo demostración añade una clase inventada, por eso solo funciona en un dispositivo vacío, para que no se mezcle con alumnos reales.\n\nPara ver la demostración: haz una copia de seguridad (Ajustes → Copia de seguridad), borra los datos y activa la demostración. Después restaura.",
+  "ui.demoGotIt":"Entendido",
   /* ux-redesign */
   "lb.loading":"Cargando…",
   "lb.loadFail":"No se puede cargar este deporte ahora (revisa la conexión e inténtalo de nuevo).",
@@ -47072,7 +47118,7 @@ window.FT=(function(){
         delta=`<span class="dl ${imp?"up":"down"}">${imp?"▲":"▼"} ${fmtVal(T,Math.abs(r.val-pv.val))}</span>`;
       }
       return `<div class="ft-row${r?" done":""}" data-n="${esc(k)}" data-nm="${esc(s.name)}">
-        <div class="nm" data-card="${esc(k)}" title="כרטיס התלמיד">${esc(s.name)}${
+        <div class="nm" data-card="${esc(k)}" title="${esc(H().t("ft.cardTitle","כרטיס התלמיד"))}">${esc(s.name)}${
           isG(c)&&s.cls?`<span class="ccls">${esc(disp(s.cls))}</span>`:""}${
           all.length?`<span class="pv">${
             bst?`⭐ הטוב: ${fmtVal(T,bst.val)}`:""}${all.length>1?` · ${all.length} ניסיונות`:""}</span>`:""}</div>
@@ -47088,14 +47134,14 @@ window.FT=(function(){
              במקום ללחוץ שישים פעם. type=text ולא number: number מחזיר
              מחרוזת ריקה באמצע הקלדה, וזה כבר עלה לנו פעם בשדה אחר. */
           ? `<div class="ft-step">
-               <button class="plus" data-inc="${esc(k)}" aria-label="חזרה אחת">+</button>
-               <button class="by5" data-inc5="${esc(k)}" aria-label="חמש חזרות">+5</button>
+               <button class="plus" data-inc="${esc(k)}" aria-label="${esc(H().t("ft.repOne","חזרה אחת"))}">+</button>
+               <button class="by5" data-inc5="${esc(k)}" aria-label="${esc(H().t("ft.repFive","חמש חזרות"))}">+5</button>
                <input class="cnt" type="text" inputmode="numeric" dir="ltr"
-                 data-cnt="${esc(k)}" aria-label="מספר חזרות"
+                 data-cnt="${esc(k)}" aria-label="${esc(H().t("ft.repCount","מספר חזרות"))}"
                  value="${pendingNew[k]?"":(Math.round((openAttempt(c,T.id,s)||{}).val||0)||"")}"
                  placeholder="0">
-               <button data-dec="${esc(k)}" aria-label="פחות אחת">−</button>
-               <button class="by5" data-dec5="${esc(k)}" aria-label="פחות חמש">−5</button>
+               <button data-dec="${esc(k)}" aria-label="${esc(H().t("ft.repMinusOne","פחות אחת"))}">−</button>
+               <button class="by5" data-dec5="${esc(k)}" aria-label="${esc(H().t("ft.repMinusFive","פחות חמש"))}">−5</button>
              </div>`
           : `<input class="ft-num" type="number" inputmode="decimal" step="0.1" min="0"
                data-val="${esc(k)}" value="${pendingNew[k]?"":((openAttempt(c,T.id,s)||{}).val??"")}" placeholder="${esc(T.unit)}">`}
@@ -50517,12 +50563,25 @@ window.HMBootNew=function(){
       rl.textContent=want==="he"?H0.t("ui.demoReloadHe","↻ טען את ההדגמה מחדש בעברית")
         :H0.t("ui.demoReloadEn","↻ טען את ההדגמה מחדש באנגלית"); }
   }
-  document.addEventListener("i18n:change",paintDemoBar);
+  /* ההדגמה היא נתונים מומצאים בלבד (מזהים demoN ו-dmN) — לכן כשהשפה משתנה
+     מחליפים את שמות ההדגמה לשפה החדשה אוטומטית, בלי כפתור. נתונים אמיתיים
+     ושאר הרשומות לא נוגעים. המסך הנוכחי מצויר מחדש מהנתונים החדשים,
+     בלי טעינת דף — כדי לא לקטוע שיעור או הקלדה. */
+  function syncDemoLang(){
+    if(!demoOn()||demoLang()===demoLangFor())return;
+    seedDemo(demoLangFor());
+    paintDemoBar();
+    const mod=document.body.dataset.mod;
+    /* רק מסכי נתונים שמציגים שמות תלמידים; מסכים אחרים מציירים את עצמם כבר באירוע השפה */
+    if(["ft","cls","stu","tools","rec"].includes(mod))
+      setTimeout(()=>{ if(document.body.dataset.mod===mod){ try{ H0.go(mod); }catch(e){} } },0);
+  }
+  document.addEventListener("i18n:change",()=>{ paintDemoBar(); setTimeout(syncDemoLang,0); });
   const demoBtn=$("#lock-demo");
   if(demoBtn)demoBtn.addEventListener("click",()=>{
     if(hasRealData()&&!demoOn()){
-      toast("יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם");
-      H0.ask({msg:"במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.",alert:true,ok:"הבנתי"});
+      toast(H0.t("ui.demoHasData","יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם"));
+      H0.ask({msg:H0.t("ui.demoHasDataQ","במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר."),alert:true,ok:H0.t("ui.demoGotIt","הבנתי")});
       return;
     }
     if(!demoOn())seedDemo(demoLangFor());
@@ -50546,6 +50605,7 @@ window.HMBootNew=function(){
     clearDemo(); toast(H0.t("ui.demoCleared","נתוני ההדגמה נמחקו")); setTimeout(()=>location.reload(),600);
   });
   paintDemoBar();
+  syncDemoLang();
 
   /* מעבר למצב תלמיד מתוך האפליקציה (מוסרים את המכשיר לכיתה) */
   const handBtn=$("#rec-handBtn");
