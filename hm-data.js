@@ -669,6 +669,40 @@ function variantFit(v,alloc,opts){
   if(!sr||!(alloc>0))return {known:false};
   var f=fitSteps(sr,alloc,opts); f.sr=sr; return f;
 }
+/* ---------- ציוד זמין ושיקולי זמן משותפים לבונה הידני ולמחולל ----------
+   רשימת תיבות הציוד (אותה רשימה כמו במחולל המהיר, נבדקת מול index.html),
+   והחלון היעיל של החלק העיקרי בבונה הידני לפי מבנה העבודה ומספר התרגילים.
+   כל המספרים כאן טיוטה פדגוגית — ראו docs/TIMING_DRAFT_REVIEW.md. */
+var EQUIP_CHOICES=[["כדור סל","כדור סל"],["כדור רגל","כדור רגל"],["כדור עף","כדור עף"],["כדור יד","כדור יד"],
+  ["כדור ספוג","כדור ספוג"],["כדור גומי","כדור גומי"],["כדור רך","כדור רך"],["קונוסים","קונוסים"],["מזרנים","מזרנים"],
+  ["חישוקים","חישוקים"],["רשת","רשת"],["חבל","חבלים"],["רמקול","רמקול"],["וסטים","וסטים"],
+  ["חבל עבה","חבל עבה (משיכה/טיפוס)"],["צלחת מעופפת","צלחת מעופפת (פריזבי)"],["ציוד אחר","ציוד אחר"]];
+var DEFAULT_EQ_AVAIL=["כדור סל","כדור רגל","כדור עף","כדור יד","כדור ספוג","כדור גומי","כדור רך","קונוסים"];
+function eqAvailList(saved){
+  var ok=EQUIP_CHOICES.map(function(c){ return c[0]; });
+  return Array.isArray(saved)?saved.filter(function(x){ return ok.indexOf(x)>=0; }):DEFAULT_EQ_AVAIL.slice();
+}
+/* כמה דקות אפשר לתת לחלק העיקרי בכל מבנה. per — לכל תרגיל; block — לכל הבלוק (מעגל/AMRAP/EMOM). */
+var MAIN_FMT_RANGE={stations:{per:[2,6]},circuit:{per:[2,4]},sets:{per:[3,8]},pairs:{per:[3,6]},
+  amrap:{block:[6,20]},emom:{block:[6,20]},free:{per:[2,8]}};
+function mainWindow(fmt,n,alloc,opts){
+  var r=MAIN_FMT_RANGE[fmt]||MAIN_FMT_RANGE.stations, o=timeOpts(opts), k=Math.max(1,+n||1);
+  var lo=r.block?r.block[0]:r.per[0]*k, hi=r.block?r.block[1]:r.per[1]*k;
+  if(!(alloc>0))return {known:false};
+  var oh=overheadFull(r.block?1:k,alloc,o,fmt==="stations"||fmt==="circuit"), avail=alloc-oh;
+  if(avail<lo){ oh=Math.max(0,alloc-lo); avail=alloc-oh; }
+  var st="exact", free=0, gap=0;
+  if(avail>hi){ st="short"; free=avail-hi; }
+  else if(avail<lo){ st="over"; gap=lo-avail; }
+  return {known:true,lo:lo,hi:hi,overhead:oh,status:st,free:free,gap:gap};
+}
+/* חימום מומלץ בבונה הידני: לפי מזג אוויר (בחוץ בלבד); ואם החלק העיקרי היה יורד מ-18 דק׳ — 5 דק׳.
+   זו המלצה בלבד: המורה מחליט אם להחיל. */
+function recommendWarm(dur,weather,place,finMin){
+  var wx=place==="field"?weather:"normal", base=warmMinutes(dur,wx);
+  var short=dur-base-(+finMin||0)<18&&base>5&&place!=="class";
+  return {min:short?5:base,short:short,weather:wx};
+}
 /* ---------- ספריית המשחקים: מטא־נתונים לסינון ידני ----------
    הנתונים נשארים כפי שהם — כך שהמורה רואה, והטקסט המתורגם לא משתנה. הסינון
    קורא את השכבות, מספר המשתתפים והזמן מתוך השדות הקיימים. סינון הוא תמיד
@@ -2868,7 +2902,7 @@ return {
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
-  stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,

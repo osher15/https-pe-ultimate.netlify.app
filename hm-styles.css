@@ -1906,3 +1906,10 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
   input,select,textarea{font-size:16px !important}
   html{-webkit-text-size-adjust:100%}
 }
+
+/* builder: equipment/timing panels and the missing-equipment pill */
+.pill.warn{background:rgba(245,197,66,.16);border-color:rgba(245,197,66,.5);color:var(--text)}
+.bw-opt{margin-top:11px}
+.bw-opt summary{cursor:pointer;font-weight:600}
+.bw-opt .cnt{opacity:.7;font-size:12px;margin-inline-start:6px}
+.bw-rec{display:flex;gap:8px;align-items:center;flex-wrap:wrap}

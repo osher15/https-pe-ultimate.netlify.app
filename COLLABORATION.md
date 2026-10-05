@@ -20,6 +20,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Pending October 1 improvements | Claude authored, Codex review | ccr-4ae97033-rci9j0; do not duplicate or overwrite |
 | Timing/equipment completion | Claude next | hm-lesson.js, hm-build.js, hm-know.js; reserve shared helper/translation sections first |
 | Flexible timing, weather warm-up, short lessons (#19) | Claude | hm-data.js timing helpers; hm-lesson.js generator/plan editing; hm-live.js free-play line; TOPICS t/r data; index.html timing panel; ls.* keys. Handoff: docs/handoffs/2026-10-05-timing-transfer-library.md |
+| Manual builder timing/equipment agreement (#19) | Claude | hm-build.js; hm-data.js EQUIP_CHOICES/mainWindow/recommendWarm; hm-lesson.js ls.eqAvail sharing; bw.* keys; builder19 tests |
 | Backup verification code + transfer design (#22) | Claude | hm-app.js bkSave/bkFingerprint/bkPreview; bk.* keys; docs/DEVICE_TRANSFER_DESIGN.md |
 | Games library favorites, compact view, manual filters (#21) | Claude | hm-know.js games view; hm-data.js parseGameMeta/gameMatches; index.html games filter panel; hm-styles.css .gm-*; gm.* keys; library21 tests |
 | Native packaging | Claude | native/, native workflow/docs; check current reservations first |

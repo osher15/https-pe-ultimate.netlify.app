@@ -38,6 +38,17 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "bw.eqTitle":"Available equipment",
+  "bw.eqNot":"unavailable",
+  "bw.eqHint":"An item that is not ticked shows ⚠ next to the exercise or warm-up that needs it. The same list is used by the quick generator.",
+  "bw.eqMissing":"Missing",
+  "bw.eqMissingTip":"Equipment not marked as available",
+  "bw.warmRec":"Recommended for the weather and time: {n} min",
+  "bw.warmRecShort":"Not enough time for the main part — a short {n}-min warm-up is recommended",
+  "bw.apply":"Apply",
+  "bw.window":"Effective range for the main part",
+  "bw.windowOver":"The time is shorter than the effective range — you can continue; consider a shorter warm-up or a longer lesson",
+  /* ux-redesign */
   "gm.filters":"Manual filter",
   "gm.fAge":"Grade level",
   "gm.any":"Any",
@@ -819,6 +830,17 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "bw.eqTitle":"الأدوات المتاحة",
+  "bw.eqNot":"غير متاحة",
+  "bw.eqHint":"العنصر غير المحدد يظهر مع ⚠ بجانب التمرين أو الإحماء الذي يحتاجه. القائمة نفسها يستخدمها المولّد السريع.",
+  "bw.eqMissing":"ناقص",
+  "bw.eqMissingTip":"أدوات لم تُحدَّد كمتاحة",
+  "bw.warmRec":"موصى به حسب الطقس والوقت: {n} د",
+  "bw.warmRecShort":"لا يكفي الوقت للجزء الرئيسي — يوصى بإحماء قصير {n} د",
+  "bw.apply":"تطبيق",
+  "bw.window":"المدى الفعّال للجزء الرئيسي",
+  "bw.windowOver":"الوقت أقصر من المدى الفعّال — يمكنك المتابعة؛ يُفضّل إحماء أقصر أو درس أطول",
   /* ux-redesign */
   "gm.filters":"تصفية يدوية",
   "gm.fAge":"المرحلة",
@@ -1606,6 +1628,17 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "bw.eqTitle":"Доступный инвентарь",
+  "bw.eqNot":"недоступно",
+  "bw.eqHint":"Неотмеченный предмет показывается с ⚠ рядом с упражнением или разминкой, которым он нужен. Тот же список использует быстрый генератор.",
+  "bw.eqMissing":"Нет",
+  "bw.eqMissingTip":"Инвентарь не отмечен как доступный",
+  "bw.warmRec":"Рекомендуется по погоде и времени: {n} мин",
+  "bw.warmRecShort":"Не хватает времени на основную часть — рекомендуется короткая разминка {n} мин",
+  "bw.apply":"Применить",
+  "bw.window":"Эффективный диапазон основной части",
+  "bw.windowOver":"Время короче эффективного диапазона — можно продолжать; стоит сократить разминку или удлинить урок",
+  /* ux-redesign */
   "gm.filters":"Ручной фильтр",
   "gm.fAge":"Класс",
   "gm.any":"Любой",
@@ -2384,6 +2417,17 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "bw.eqTitle":"Material disponible",
+  "bw.eqNot":"no disponibles",
+  "bw.eqHint":"Un elemento sin marcar muestra ⚠ junto al ejercicio o calentamiento que lo necesita. La misma lista la usa el generador rápido.",
+  "bw.eqMissing":"Falta",
+  "bw.eqMissingTip":"Material no marcado como disponible",
+  "bw.warmRec":"Recomendado según el clima y el tiempo: {n} min",
+  "bw.warmRecShort":"No hay tiempo suficiente para la parte principal: se recomienda un calentamiento breve de {n} min",
+  "bw.apply":"Aplicar",
+  "bw.window":"Rango eficaz de la parte principal",
+  "bw.windowOver":"El tiempo es menor que el rango eficaz: puedes continuar; considera un calentamiento más corto o una clase más larga",
   /* ux-redesign */
   "gm.filters":"Filtro manual",
   "gm.fAge":"Nivel",
