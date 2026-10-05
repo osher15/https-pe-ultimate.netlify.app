@@ -23,9 +23,11 @@ Validation commands and results (local):
 CI / emulation / physical-device evidence:
 - CI for #36/#37 passed unit and browser tests; native builds were still queued at merge time. No physical-device evidence; Android/iOS acceptance remains an owner task.
 
+Update (manual builder, #19 remainder): hm-build.js now shares the equipment availability (ls.eqAvail) and time options (ls.timeOpts) with the quick generator; cards, summary and the built plan show a "missing equipment" warning (never blocking); the main part shows an effective window per work format with leftover time as free play; the opening warm-up recommendation (weather, short lesson) is applied only on click; "pick for me" prefers drills whose equipment is available. Tests: unit 2.7/2.8, builder19.e2e.js (7). Format ranges are drafts, listed in docs/TIMING_DRAFT_REVIEW.md.
+
 Unresolved issues and dependencies:
 - docs/TIMING_DRAFT_REVIEW.md: timing tables are drafts from reading the text only; teacher approval pending. Some step texts contain explicit minutes that do not change when minutes are fitted.
-- hm-build.js (manual builder) still uses fixed times (#19 remainder).
+- Manual builder: per-step times for builder items are not modeled (window is per work format); free-text "other equipment" is not shared with the builder.
 - #21 remaining: authored easier/harder adaptations beside each drill (needs reviewed content in five languages; not claimed for every item), personal collections, personal edited copies, export/import of plans, quick rating near Start. Content import (#24) stays on hold.
 - #22 remaining: pairing transport (see design doc section 4).
 - #13: native packaging untouched.

@@ -834,6 +834,13 @@ window.LBUILD=(function(){
     finKind:"game",finId:"f-free",finMin:10,note:""};
   let st=Object.assign({},DEF);
 
+  /* ציוד זמין וגמישות זמנים משותפים עם המחולל המהיר (אותם מפתחות אחסון) */
+  const DT=()=>window.HMDATA, TT=(k,d)=>H().t(k,d);
+  const eqAvail=()=>DT().eqAvailList(H().LS.get("ls.eqAvail",null));
+  const noEq=()=>DT().EQUIP_CHOICES.map(c=>c[0]).filter(k=>eqAvail().indexOf(k)<0);
+  const timeO=()=>DT().timeOpts(H().LS.get("ls.timeOpts",null));
+  const conflictsOf=item=>item&&item.eq&&item.eq.length?DT().equipConflicts(item.eq.join(", "),noEq()):[];
+  const eqPill=item=>{ const c=conflictsOf(item); return c.length?`<span class="pill warn" title="${H().esc(TT("bw.eqMissingTip","ציוד שלא סומן כזמין"))}">⚠ ${H().esc(TT("bw.eqMissing","חסר"))}: ${c.map(x=>H().esc(x)).join(", ")}</span>`:""; };
   const saveSt=()=>H().LS.set("lb.state",st);
   const loadSt=()=>{ st=Object.assign({},DEF,H().LS.get("lb.state",{})); if(!Array.isArray(st.picks))st.picks=[]; };
 
@@ -891,7 +898,27 @@ window.LBUILD=(function(){
         <select id="bw-place">${Object.entries(PLACE_NAME).map(([k,v])=>
           `<option value="${k}"${st.place===k?" selected":""}>${v}</option>`).join("")}</select></div>
     </div>
-    <div class="hint" style="margin-top:10px">השכבה והמקום מסננים את כל האפשרויות בשלבים הבאים — כך שלא תוצע לך תופסת שדה כששיעור מתקיים בכיתה.</div>`;
+    <div class="hint" style="margin-top:10px">השכבה והמקום מסננים את כל האפשרויות בשלבים הבאים — כך שלא תוצע לך תופסת שדה כששיעור מתקיים בכיתה.</div>
+    ${eqPanel()}${timePanel()}`;
+  }
+  /* ציוד זמין: אותה רשימה כמו במחולל המהיר. מה שלא סומן מופיע עם ⚠ ליד הפריט שדורש אותו — בלי לחסום. */
+  function eqPanel(){
+    const av=eqAvail(), miss=DT().EQUIP_CHOICES.length-av.length;
+    return `<details class="bw-opt" id="bw-eqBox"><summary>${H().esc(TT("bw.eqTitle","ציוד זמין"))} <span class="cnt">${miss?miss+" "+H().esc(TT("bw.eqNot","לא זמינים")):""}</span></summary>
+      <div class="hint" style="margin:6px 0">${H().esc(TT("bw.eqHint","פריט שלא סומן מופיע עם ⚠ ליד התרגיל או החימום שדורשים אותו. אותה רשימה משמשת גם את המחולל המהיר."))}</div>
+      <div class="ls-eq" id="bw-eq">${DT().EQUIP_CHOICES.map(([v,l])=>`<label class="check"><input type="checkbox" value="${H().esc(v)}"${av.indexOf(v)>=0?" checked":""}> ${H().esc(l)}</label>`).join("")}</div></details>`;
+  }
+  /* גמישות זמנים: אותם בחירות כמו במחולל (ls.timeOpts) */
+  function timePanel(){
+    const o=timeO(), sel=(id,val,opts)=>`<select id="${id}">${opts.map(([v,k,d])=>`<option value="${v}"${val===v?" selected":""}>${H().esc(TT(k,d))}</option>`).join("")}</select>`;
+    return `<details class="bw-opt" id="bw-timeBox"><summary>${H().esc(TT("ls.flex","גמישות זמנים"))}</summary>
+      <div class="hint" style="margin:6px 0">${H().esc(TT("ls.flexHint","אותו תרגיל לוקח פחות בכיתה אחת ויותר באחרת. כל פעילות מוגדרת בטווח יעיל, והדקות מותאמות בתוכו לזמן השיעור."))}</div>
+      <div class="bw-grid">
+        <div class="field"><label>${H().esc(TT("ls.pace","קצב הכיתה (הסברים ותיקונים)"))}</label>${sel("bw-pace",o.pace,[["fast","ls.paceFast","מהיר"],["normal","ls.paceNormal","רגיל"],["slow","ls.paceSlow","איטי — יותר הסברים"]])}</div>
+        <div class="field"><label>${H().esc(TT("ls.trans","מעברים בין שלבים ותחנות"))}</label>${sel("bw-trans",o.trans,[["quick","ls.transQuick","מהירים"],["normal","ls.transNormal","רגילים"],["slow","ls.transSlow","איטיים"]])}</div>
+        <div class="field"><label>${H().esc(TT("ls.weather","מזג אוויר (מגרש חוץ)"))}</label>${sel("bw-weather",o.weather,[["cold","ls.wxCold","קר — חימום ארוך יותר"],["normal","ls.wxNormal","רגיל"],["hot","ls.wxHot","חם — חימום קצר יותר"]])}</div>
+      </div>
+      <label class="check" style="margin-top:8px"><input type="checkbox" id="bw-water"${o.water?" checked":""}> ${H().esc(TT("ls.water","הפסקת שתייה בחלק העיקרי"))}</label></details>`;
   }
 
   function stepWarm(){
@@ -912,10 +939,31 @@ window.LBUILD=(function(){
           ${w.sport?`<span class="pill">${esc(w.sport)}</span>`:""}
           <div class="sb">${esc(w.why)}</div>
           <div class="mt"><span class="pill">⏱ ${w.min} דק׳</span>${
-            (w.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||'<span class="pill">בלי ציוד</span>'}</div>
+            (w.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||'<span class="pill">בלי ציוד</span>'}${eqPill(w)}</div>
         </div>`).join("")||'<div class="empty-state"><div class="big">🤔</div>אין חימום שמתאים לשכבה ולמקום שבחרת — נסה לשנות מקום בשלב 1.</div>'}</div>
       <div class="field" style="margin-top:12px;max-width:230px"><label>אורך החימום · <b>${st.wuMin}</b> דק׳</label>
-        <input type="range" id="bw-wuMin" min="5" max="20" value="${st.wuMin}"></div>`;
+        <input type="range" id="bw-wuMin" min="5" max="20" value="${st.wuMin}"></div>
+      ${warmRecHtml()}`;
+  }
+
+  /* המלצה בלבד, על פי מזג האוויר (בחוץ) והזמן שנשאר לחלק העיקרי. המורה מחליט אם להחיל. */
+  function warmRecHtml(){
+    const rec=DT().recommendWarm(st.dur,timeO().weather,st.place,st.finMin);
+    if(rec.min===+st.wuMin)return "";
+    const txt=rec.short
+      ? TT("bw.warmRecShort","אין מספיק זמן לחלק העיקרי — מומלץ חימום קצר של {n} דק׳").replace("{n}",rec.min)
+      : TT("bw.warmRec","מומלץ לפי מזג האוויר והזמן: {n} דק׳").replace("{n}",rec.min);
+    return `<div class="hint bw-rec" id="bw-wuRec" style="margin-top:8px">${H().esc(txt)} <button class="btn sm" id="bw-wuApply" data-n="${rec.min}">${H().esc(TT("bw.apply","החל"))}</button></div>`;
+  }
+  /* חלון זמן יעיל לחלק העיקרי: הזמן שנשאר מעבר לטווח הופך למשחק פנאי, מתחת לטווח — הערה רכה */
+  function windowHtml(){
+    const w=DT().mainWindow(st.fmt,Math.max(1,st.picks.length||st.count),mainMin(),timeO());
+    if(!w.known)return "";
+    const E=H().esc, u=TT("ui.min","דק׳");
+    let t=`${E(TT("bw.window","טווח יעיל לחלק העיקרי"))}: <b>${w.lo}–${w.hi}</b> ${E(u)}${w.overhead?` · ${E(TT("ls.transit","מעברים, הסברים, תיקונים ושתייה"))}: ${w.overhead} ${E(u)}`:""}`;
+    if(w.status==="short")t+=`<br>${E(TT("ls.freePlay","משחק פנאי קליל או משחק חופשי"))}: <b>${w.free}</b> ${E(u)}`;
+    if(w.status==="over")t+=`<br>${E(TT("bw.windowOver","הזמן קצר מהטווח היעיל — אפשר להמשיך; כדאי לקצר את החימום או להגדיל את זמן השיעור"))}`;
+    return `<div class="hint bw-win" id="bw-win" data-st="${w.status}" style="margin:6px 0">${t}</div>`;
   }
 
   function stepMain(){
@@ -936,6 +984,7 @@ window.LBUILD=(function(){
             `<option value="${f.id}"${st.fmt===f.id?" selected":""}>${f.em} ${f.name}</option>`).join("")}</select></div>
       </div>
       <div class="bw-note">${esc(F.d)}<br><b>${esc(F.fmt(Math.max(1,st.picks.length||st.count),mm))}</b></div>
+      ${windowHtml()}
       <div class="row" style="margin:11px 0 6px;justify-content:space-between">
         <div class="hint">נבחרו <b>${st.picks.length}</b> מתוך ${st.count} · ${mm} דק׳ לחלק העיקרי</div>
         <div class="row" style="gap:7px">
@@ -956,7 +1005,7 @@ window.LBUILD=(function(){
           <div class="sb">${esc(d.cue)}</div>
           <div class="mt"><span class="pill acc">${esc(d.dose[st.level]||"")}</span>
             <span class="pill">${esc(d.mus)}</span>
-            ${(d.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||'<span class="pill">בלי ציוד</span>'}</div>
+            ${(d.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||'<span class="pill">בלי ציוד</span>'}${eqPill(d)}</div>
         </div>`;}).join("")||'<div class="empty-state"><div class="big">🔍</div>אין תרגילים בקטגוריה הזו ברמה שבחרת — נסה רמה אחרת.</div>'}</div>`;
   }
 
@@ -974,7 +1023,7 @@ window.LBUILD=(function(){
           <div class="hd"><span class="em">${f.em}</span><b>${esc(f.name)}</b></div>
           <div class="sb">${esc(f.why)}</div>
           <div class="mt"><span class="pill">⏱ ${f.min} דק׳</span>${
-            (f.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||'<span class="pill">בלי ציוד</span>'}</div>
+            (f.eq||[]).map(e=>`<span class="pill">${esc(e)}</span>`).join("")||'<span class="pill">בלי ציוד</span>'}${eqPill(f)}</div>
         </div>`).join("")||'<div class="empty-state"><div class="big">🤔</div>אין חלק סופי שמתאים לשכבה ולמקום — נסה לשנות מקום בשלב 1.</div>'}</div>
       <div class="field" style="margin-top:12px;max-width:230px"><label>אורך החלק הסופי · <b>${st.finMin}</b> דק׳</label>
         <input type="range" id="bw-finMin" min="5" max="25" value="${st.finMin}"></div>`;
@@ -1008,6 +1057,7 @@ window.LBUILD=(function(){
       <div class="field" style="margin-top:12px"><label>הערה אישית למערך (רשות)</label>
         <textarea id="bw-note" rows="2" placeholder="למשל: לשים לב שדנה חוזרת מפציעה — תפקיד שיפוט בחלק הסופי">${esc(st.note)}</textarea></div>
 
+      ${summaryEqHtml(W,F,picks)}${windowHtml()}
       ${missing.length?`<div class="bw-warn">חסר עדיין: ${missing.join(" · ")}</div>`:""}
       <button class="btn acc big" id="bw-build" style="margin-top:13px"${missing.length?" disabled":""}>✅ בנה את המערך</button>
       <div class="row" style="margin-top:10px;gap:8px">
@@ -1017,6 +1067,14 @@ window.LBUILD=(function(){
       <div id="bw-tplList" style="margin-top:10px"></div>`;
   }
 
+  /* אזהרת ציוד בסיכום: אילו פריטים נדרשים ולא סומנו כזמינים, ובאיזה חלק */
+  function summaryEqHtml(W,F,picks){
+    const rows=[["🔥",W],["💪",null],["🎮",F]];
+    const items=[[W&&W.name,W],...picks.map(d=>[d.name,d]),[F&&F.name,F]].filter(x=>x[1]);
+    const bad=items.map(([n,it])=>[n,conflictsOf(it)]).filter(x=>x[1].length);
+    if(!bad.length)return "";
+    return `<div class="bw-warn" id="bw-eqWarn">⚠ ${H().esc(TT("ls.eqVariant","הפעילות שנבחרה דורשת ציוד שלא סומן כזמין"))}: ${bad.map(([n,c])=>H().esc(n)+" ("+c.map(x=>H().esc(x)).join(", ")+")").join(" · ")}</div>`;
+  }
   function render(){
     const {$, $$}=H();
     const box=$("#bw-body"); if(!box)return;
@@ -1041,6 +1099,13 @@ window.LBUILD=(function(){
     on("#bw-cls","input",e=>{st.cls=e.target.value;saveSt();});
     on("#bw-size","change",e=>{st.size=+e.target.value||30;saveSt();});
     on("#bw-place","change",e=>{st.place=e.target.value;fixSelections();render();});
+    $$("#bw-eq input").forEach(i=>i.addEventListener("change",()=>{
+      H().LS.set("ls.eqAvail",$$("#bw-eq input:checked").map(x=>x.value));
+      const box=$("#bw-eqBox"); if(box){ const cnt=box.querySelector(".cnt"); const miss=DT().EQUIP_CHOICES.length-$$("#bw-eq input:checked").length; if(cnt)cnt.textContent=miss?miss+" "+TT("bw.eqNot","לא זמינים"):""; }
+    }));
+    const saveTime=()=>H().LS.set("ls.timeOpts",DT().timeOpts({pace:($("#bw-pace")||{}).value,trans:($("#bw-trans")||{}).value,
+      weather:($("#bw-weather")||{}).value,water:$("#bw-water")?$("#bw-water").checked:true}));
+    ["#bw-pace","#bw-trans","#bw-weather","#bw-water"].forEach(sel=>on(sel,"change",saveTime));
 
     /* שלב 2 */
     $$("#bw-wuType button").forEach(b=>b.addEventListener("click",()=>{
@@ -1049,6 +1114,7 @@ window.LBUILD=(function(){
     $$("#bw-body [data-wu]").forEach(c=>c.addEventListener("click",()=>{
       st.wuId=c.dataset.wu; st.wuMin=wuById(st.wuId).min; balance(); render();}));
     on("#bw-wuMin","input",e=>{st.wuMin=+e.target.value;balance();render();});
+    on("#bw-wuApply","click",e=>{ st.wuMin=+e.currentTarget.dataset.n; balance(); render(); });
 
     /* שלב 3 */
     $$("#bw-cats [data-cat]").forEach(b=>b.addEventListener("click",()=>{st.cat=b.dataset.cat;render();}));
@@ -1057,9 +1123,13 @@ window.LBUILD=(function(){
     on("#bw-count","input",e=>{st.count=+e.target.value; st.picks=st.picks.slice(0,st.count); render();});
     on("#bw-fmt","change",e=>{st.fmt=e.target.value;render();});
     on("#bw-auto","click",()=>{
-      const pool=drillList().filter(d=>!st.picks.includes(d.id));
-      while(st.picks.length<st.count&&pool.length)
-        st.picks.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0].id);
+      /* «בחר לי» מעדיף תרגילים שהציוד שלהם זמין; רק כשאין מספיק — משלים מהשאר (עם ⚠) */
+      const all=drillList().filter(d=>!st.picks.includes(d.id));
+      const pool=all.filter(d=>!conflictsOf(d).length), rest=all.filter(d=>conflictsOf(d).length);
+      while(st.picks.length<st.count&&(pool.length||rest.length)){
+        const src=pool.length?pool:rest;
+        st.picks.push(src.splice(Math.floor(Math.random()*src.length),1)[0].id);
+      }
       render(); H().toast("🎲 נבחרו תרגילים — אפשר להחליף כל אחד מהם");});
     on("#bw-clear","click",()=>{st.picks=[];render();});
     $$("#bw-body [data-un]").forEach(b=>b.addEventListener("click",e=>{
@@ -1228,14 +1298,22 @@ window.LBUILD=(function(){
       k:F.kind==="calm"?"cool":"game", sub:(FINAL_KINDS.find(k=>k[0]===F.kind)||[])[1],
       d:F.steps.concat(F.vars?["וריאציות: "+F.vars.join(" · ")]:[])});
 
-    /* --- ציוד מצטבר --- */
+    /* --- זמן: תקורה ועודף (משחק פנאי) על החלק העיקרי, כמו במחולל --- */
+    const win=DT().mainWindow(st.fmt,picks.length,mm,timeO());
+    if(win.known){
+      const lastMain=phases.filter(x=>x.k==="main").slice(-1)[0];
+      if(lastMain){ if(win.overhead>0)lastMain.tr=win.overhead; if(win.status==="short"&&win.free>0)lastMain.free=win.free; }
+    }
+    /* --- ציוד מצטבר, ואזהרה על מה שלא סומן כזמין --- */
     const eq=[...new Set([].concat(W.eq||[],F.eq||[],...picks.map(d=>d.eq||[])))];
+    const eqMiss=[...new Set([].concat(conflictsOf(W),conflictsOf(F),...picks.map(conflictsOf)))];
 
     const plan={
       grade:st.grade, topic:"custom-"+st.cat, title:merged.title+" — מערך בהרכבה אישית",
       em:info.em, group:info.g+" · בונה ידני",
       cls:st.cls, size:st.size, place:st.place, date:today(),
-      goals:merged.goals, eq:eq.length?eq:["בלי ציוד"], std:merged.std, phases,
+      goals:merged.goals, eq:eq.length?eq:["בלי ציוד"], eqAvail:eqAvail(), eqNo:noEq(),
+      eqWarn:eqMiss.length?[{k:"ls.eqVariant",items:eqMiss}]:[], std:merged.std, phases,
       assess:merged.assess,
       diff:{low:picks.map(d=>d.name+": "+d.easy).join(" · "),
             high:picks.map(d=>d.name+": "+d.hard).join(" · "),
@@ -1282,6 +1360,11 @@ window.LBUILD=(function(){
     $$("#ls-modeTabs [data-lm]").forEach(b=>b.addEventListener("click",()=>{
       $$("#ls-modeTabs [data-lm]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
       const man=b.dataset.lm==="manual";
+      if(man)render();   /* הציוד והזמנים משותפים עם המחולל — מציירים מחדש להצגת המצב העדכני */
+      else{   /* חוזרים למחולל המהיר — מציגים את רשימת הציוד המשותפת, גם אם שונתה בבונה */
+        const saved=H().LS.get("ls.eqAvail",null);
+        if(Array.isArray(saved)){ const av=eqAvail(); $$("#ls-eq input").forEach(i=>{ i.checked=av.indexOf(i.value)>=0; }); }
+      }
       $("#ls-fastWrap").style.display=man?"none":"";
       $("#ls-manWrap").style.display=man?"":"none";
       H().LS.set("ls.mode",b.dataset.lm);

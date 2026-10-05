@@ -152,3 +152,28 @@ test("2.10 סוגי כדורים נפרדים: כדור ספציפי נחסם ר
   assert.deepEqual(D.variantEquipConflicts({need:["כדורים"]},D.BALL_TYPES),["כדורים"]);
   assert.ok(D.BALL_TYPES.every(b=>D.EQUIP_KEYS[b]),"כל סוג כדור רשום כפריט");
 });
+
+test("2.7 בונה ידני: חלון זמן יעיל, חימום מומלץ ורשימת ציוד משותפת",()=>{
+  const w=D.mainWindow("stations",4,25);
+  assert.equal(w.status,"exact"); assert.deepEqual([w.lo,w.hi],[8,24]);
+  const long=D.mainWindow("stations",4,70);
+  assert.equal(long.status,"short"); assert.ok(long.free>0,"עודף ← משחק פנאי");
+  assert.equal(long.hi+long.overhead+long.free,70,"הסכום מוסבר");
+  assert.equal(D.mainWindow("sets",6,10).status,"over");
+  assert.equal(D.mainWindow("amrap",3,15).status,"exact","בלוק אחד — לא תלוי במספר התרגילים");
+  assert.equal(D.mainWindow("nope",3,25).known,true,"מבנה לא מוכר נופל לתחנות");
+  assert.equal(D.mainWindow("sets",3,0).known,false);
+  const hot=D.recommendWarm(45,"hot","field",10), norm=D.recommendWarm(45,"hot","hall",10);
+  assert.ok(hot.min<norm.min,"מזג אוויר משפיע רק בחוץ");
+  assert.equal(D.recommendWarm(30,"normal","hall",10).min,5,"שיעור קצר ← 5 דק׳");
+  assert.equal(D.recommendWarm(30,"normal","hall",10).short,true);
+  assert.deepEqual(D.eqAvailList(null),D.DEFAULT_EQ_AVAIL);
+  assert.deepEqual(D.eqAvailList(["כדור סל","לא-ציוד"]),["כדור סל"],"פריט לא מוכר מסונן");
+});
+
+test("2.8 רשימת תיבות הציוד במחולל (index.html) זהה ל-EQUIP_CHOICES",()=>{
+  const html=fs.readFileSync(path.join(__dirname,"../../index.html"),"utf8");
+  const block=html.slice(html.indexOf('id="ls-eq"'));
+  const vals=[...block.slice(0,block.indexOf("</div>")).matchAll(/<input type="checkbox" value="([^"]+)"/g)].map(m=>m[1]);
+  assert.deepEqual(vals,D.EQUIP_CHOICES.map(c=>c[0]));
+});

@@ -989,6 +989,10 @@ window.LESSON=(function(){
       $$("#ls-gradeSeg button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); grade=b.dataset.g;
       buildSubSelect();
     }));
+    /* ציוד זמין נשמר ומשותף עם הבונה הידני (ls.eqAvail) */
+    const savedEq=H().LS.get("ls.eqAvail",null);
+    if(Array.isArray(savedEq)){ const av=window.HMDATA.eqAvailList(savedEq); $$("#ls-eq input").forEach(i=>{ i.checked=av.indexOf(i.value)>=0; }); }
+    $$("#ls-eq input").forEach(i=>i.addEventListener("change",()=>H().LS.set("ls.eqAvail",$$("#ls-eq input:checked").map(x=>x.value))));
     paintTimeOpts();
     ["ls-pace","ls-trans","ls-water","ls-weather"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("change",()=>H().LS.set("ls.timeOpts",readTimeOpts())); });
     $("#ls-gen").addEventListener("click",gen);
