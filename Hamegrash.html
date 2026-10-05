@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="5d56fead">
+<meta name="hm-build" content="d2de9e18">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -2962,6 +2962,16 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
       <label class="check"><input type="checkbox" id="ls-optGame" checked> לשלב משחק מדף המשחקים</label>
       <label class="check"><input type="checkbox" id="ls-optMeasure"> לשלב מדידה (ביפ / פוטו־פיניש)</label>
     </div>
+    <details class="ls-flex" style="margin-top:11px"><summary data-i18n="ls.flex" data-i18n-he="גמישות זמנים">גמישות זמנים</summary>
+      <div class="hint" style="margin:6px 0" data-i18n="ls.flexHint" data-i18n-he="אותו תרגיל לוקח פחות בכיתה אחת ויותר באחרת. כל פעילות מוגדרת בטווח יעיל, והדקות מותאמות בתוכו לזמן השיעור.">אותו תרגיל לוקח פחות בכיתה אחת ויותר באחרת. כל פעילות מוגדרת בטווח יעיל, והדקות מותאמות בתוכו לזמן השיעור.</div>
+      <div class="row">
+        <div class="field" style="width:200px"><label data-i18n="ls.pace" data-i18n-he="קצב הכיתה (הסברים ותיקונים)">קצב הכיתה (הסברים ותיקונים)</label>
+          <select id="ls-pace"><option value="fast" data-i18n="ls.paceFast" data-i18n-he="מהיר">מהיר</option><option value="normal" selected data-i18n="ls.paceNormal" data-i18n-he="רגיל">רגיל</option><option value="slow" data-i18n="ls.paceSlow" data-i18n-he="איטי — יותר הסברים">איטי — יותר הסברים</option></select></div>
+        <div class="field" style="width:200px"><label data-i18n="ls.trans" data-i18n-he="מעברים בין שלבים ותחנות">מעברים בין שלבים ותחנות</label>
+          <select id="ls-trans"><option value="quick" data-i18n="ls.transQuick" data-i18n-he="מהירים">מהירים</option><option value="normal" selected data-i18n="ls.transNormal" data-i18n-he="רגילים">רגילים</option><option value="slow" data-i18n="ls.transSlow" data-i18n-he="איטיים">איטיים</option></select></div>
+      </div>
+      <label class="check" style="margin-top:8px"><input type="checkbox" id="ls-water" checked> <span data-i18n="ls.water" data-i18n-he="הפסקת שתייה בחלק העיקרי">הפסקת שתייה בחלק העיקרי</span></label>
+    </details>
     <div class="row" style="margin-top:13px">
       <button class="btn acc grow" id="ls-gen">⚡ בנה מערך בשניות</button>
       <button class="btn ghost" id="ls-again" title="גרסה אחרת לאותו נושא">🎲 גרסה אחרת</button>
@@ -4788,18 +4798,75 @@ function variantEquipConflicts(v,unavailable){
     return un.indexOf(k)>=0;
   });
 }
-/* status: exact | transit (הפער קטן — נרשם כמעברים והסברים) |
-   short (הפעילות קצרה מהזמן — צריך להוסיף סבבים) | tight (ארוכה מעט) |
-   over (ארוכה בהרבה מהזמן שהוקצה) */
-function variantFit(v,alloc){
+/* ---------- גמישות זמנים ----------
+   לכל שלב בפעילות יש זמן אופייני (t) וטווח יעיל [lo,hi]. אותו תרגיל לוקח
+   12 דקות בכיתה אחת ו-15 באחרת — הסברים, תיקונים, קצב — ולכן המחולל לא
+   מחייב מספר אחד אלא מתאים את הדקות בתוך הטווח לזמן שהוקצה.
+   הטווח נגזר מ-t לפי סוג השלב (הדגמה/הסבר קצרים וגמישים יותר, עבודה
+   ובמיוחד תחנות ומעגלים נמתחים יותר); וריאציה יכולה לקבוע טווח משלה
+   בשדה r: [[lo,hi],…]. מעבר לשלבים עצמם יש תקורה: מעברים בין שלבים (בתחנות
+   גם סיבוב וזמן מנוחה), והפסקת שתייה. המורה קובע קצב כיתה, אורך מעברים
+   ושתייה; התקורה מתכווצת ראשונה כשהזמן צפוף, לפני שהשלבים נדחסים. */
+var TIME_PACE={fast:0.85,normal:1,slow:1.25};
+var TIME_TRANS={quick:0.5,normal:1,slow:1.5};
+var DEMO_RX=/הדגמ|הסבר|היכרות|מיפוי|הצגת|תדרוך/;
+var REST_RX=/תחנ|מעגל|טבט|טאבט|אינטרוו|סבב/;
+function timeOpts(o){
+  o=o||{};
+  return {pace:TIME_PACE[o.pace]?o.pace:"normal", trans:TIME_TRANS[o.trans]?o.trans:"normal", water:o.water!==false};
+}
+function stepRanges(v){
   var t=v&&asList(v.t), d=v&&v.d;
-  if(!t||!t.length||!Array.isArray(d)||t.length!==d.length||!(alloc>0))return {known:false};
-  var base=t.reduce(function(a,x){ return a+(+x||0); },0), gap=alloc-base;
-  var tol=Math.max(3,Math.round(alloc*0.15)), st;
-  if(gap===0)st="exact";
-  else if(gap>0)st=gap<=tol?"transit":"short";
-  else st=-gap<=tol?"tight":"over";
-  return {known:true,base:base,gap:gap,status:st,transit:st==="transit"?gap:0};
+  if(!t||!t.length||!Array.isArray(d)||t.length!==d.length)return null;
+  var rest=REST_RX.test(String(v.n||""))||REST_RX.test(String(v.sub||"")), r=asList(v.r);
+  var typ=[], lo=[], hi=[];
+  t.forEach(function(x,i){
+    var m=Math.max(1,Math.round(+x||0)), demo=DEMO_RX.test(String(d[i]||""));
+    var l=Math.max(1,Math.round(m*(demo?0.6:0.7))), h=Math.max(m+1,Math.round(m*(demo?1.6:(rest?1.8:1.7))));
+    var o=r[i];
+    if(Array.isArray(o)&&o.length===2&&+o[0]>=1&&+o[1]>=+o[0]){ l=Math.round(+o[0]); h=Math.round(+o[1]); }
+    typ.push(Math.min(Math.max(m,l),h)); lo.push(l); hi.push(h);
+  });
+  return {typ:typ,lo:lo,hi:hi,rest:rest};
+}
+function sumOf(a){ return a.reduce(function(x,y){ return x+y; },0); }
+function overheadFull(n,alloc,opts,rest){
+  var trans=Math.max(0,n-1)*TIME_TRANS[opts.trans]*(rest?1.5:1);
+  var water=opts.water?(alloc>=30?2:(alloc>=15?1:0)):0;
+  return Math.round(trans+water);
+}
+/* מפזר את הדקות שנשארו על השלבים: כל פעם שלב עם הכי הרבה מקום לזוז, בלי לצאת מהטווח */
+function spreadMinutes(typ,lo,hi,target){
+  var cur=typ.slice(), diff=target-sumOf(cur), i, best, room, bi;
+  while(diff!==0){
+    bi=-1; best=-1;
+    for(i=0;i<cur.length;i++){
+      room=diff>0?(hi[i]-cur[i])/hi[i]:(cur[i]-lo[i])/cur[i];
+      if((diff>0?hi[i]-cur[i]:cur[i]-lo[i])>0&&room>best){ best=room; bi=i; }
+    }
+    if(bi<0)break;
+    cur[bi]+=diff>0?1:-1; diff+=diff>0?-1:1;
+  }
+  return cur;
+}
+/* status: exact (הזמן בתוך הטווח היעיל — הדקות מותאמות במדויק) |
+   short (הזמן ארוך מהטווח — צריך עוד סבבים) | over (קצר מהטווח) */
+function fitSteps(sr,alloc,opts){
+  if(!sr||!(alloc>0))return {known:false};
+  var o=timeOpts(opts), pace=TIME_PACE[o.pace], n=sr.typ.length;
+  var typ=sr.typ.map(function(x,i){ return Math.min(Math.max(Math.round(x*pace),sr.lo[i]),sr.hi[i]); });
+  var sumLo=sumOf(sr.lo), sumHi=sumOf(sr.hi), oh=overheadFull(n,alloc,o,sr.rest), avail=alloc-oh;
+  if(avail<sumLo){ oh=Math.max(0,alloc-sumLo); avail=alloc-oh; }
+  var st, gap=0, fitted;
+  if(avail>sumHi){ st="short"; gap=avail-sumHi; fitted=sr.hi.slice(); }
+  else if(avail<sumLo){ st="over"; gap=sumLo-avail; fitted=sr.lo.slice(); }
+  else{ st="exact"; fitted=spreadMinutes(typ,sr.lo,sr.hi,avail); }
+  return {known:true,base:sumOf(sr.typ),min:sumLo,max:sumHi,fitted:fitted,overhead:oh,transit:oh,gap:gap,status:st};
+}
+function variantFit(v,alloc,opts){
+  var sr=stepRanges(v);
+  if(!sr||!(alloc>0))return {known:false};
+  var f=fitSteps(sr,alloc,opts); f.sr=sr; return f;
 }
 /* איחוד רשימות ציוד בלי כפילויות (לפי קיפול — «קונוסים» פעם אחת) */
 function mergeEquip(){
@@ -6972,6 +7039,7 @@ return {
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
+  stepRanges:stepRanges, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,
@@ -13185,6 +13253,19 @@ const DICT={
 he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שבמרקאפ עצמו */
 
 en:{
+  /* ux-redesign */
+  "ls.flex":"Flexible timing",
+  "ls.flexHint":"The same drill takes less in one class and more in another. Each activity has an effective range, and the minutes are fitted inside it to the lesson time.",
+  "ls.pace":"Class pace (explanations and corrections)",
+  "ls.paceFast":"Fast",
+  "ls.paceNormal":"Normal",
+  "ls.paceSlow":"Slow — more explaining",
+  "ls.trans":"Transitions between steps and stations",
+  "ls.transQuick":"Quick",
+  "ls.transNormal":"Normal",
+  "ls.transSlow":"Slow",
+  "ls.water":"Water break in the main part",
+  "ls.range":"Effective range for the activity",
   "sp.open":"Printable pupil report",
   "br.invalid":"Invalid backup file.",
   "br.reverted":"Restore failed. Previous data was restored and verified. You can retry.",
@@ -13422,9 +13503,9 @@ en:{
   "ls.eqTopic":"This topic needs equipment not marked as available",
   "ls.eqGame":"The chosen game needs equipment not marked as available",
   "ls.eqVariant":"The chosen activity needs equipment not marked as available",
-  "ls.timeShort":"The activity describes fewer minutes than allotted (described / allotted) — add rounds or pick a longer activity",
-  "ls.timeOver":"The activity describes more minutes than allotted (described / allotted) — trim rounds or pick a shorter activity",
-  "ls.transit":"Transitions and instructions",
+  "ls.timeShort":"The time is longer than this activity's effective range (range / allotted) — add rounds or pick a longer activity",
+  "ls.timeOver":"The time is shorter than this activity's effective range (range / allotted) — trim rounds or pick a shorter activity",
+  "ls.transit":"Transitions, instructions, corrections and water",
   "sched.clash":"Another separate slot is at the same time. If these classes are taught together, join them as a group (Class hub → Join classes); otherwise this is a timetable clash.",
   /* ux-redesign */
   "stu.badRecs":"Damaged records in the list are not shown, but they are kept as they are — back up your data before any change.",
@@ -13921,6 +14002,19 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "ls.flex":"مرونة الوقت",
+  "ls.flexHint":"التمرين نفسه يستغرق وقتًا أقل في صف وأكثر في آخر. لكل نشاط مدى فعّال، وتُلائَم الدقائق داخله مع وقت الدرس.",
+  "ls.pace":"وتيرة الصف (الشرح والتصحيح)",
+  "ls.paceFast":"سريع",
+  "ls.paceNormal":"عادي",
+  "ls.paceSlow":"بطيء — شرح أكثر",
+  "ls.trans":"الانتقال بين المراحل والمحطات",
+  "ls.transQuick":"سريعة",
+  "ls.transNormal":"عادية",
+  "ls.transSlow":"بطيئة",
+  "ls.water":"استراحة شرب في الجزء الرئيسي",
+  "ls.range":"المدى الفعّال للنشاط",
   "sp.open":"تقرير طالب للطباعة",
   "br.invalid":"ملف النسخة الاحتياطية غير صالح.",
   "br.reverted":"فشلت الاستعادة. تمت إعادة البيانات السابقة والتحقق منها. يمكنك المحاولة مجدداً.",
@@ -14158,9 +14252,9 @@ ar:{
   "ls.eqTopic":"يتطلّب هذا الموضوع معدات غير مُعلَّمة كمتاحة",
   "ls.eqGame":"اللعبة المختارة تتطلّب معدات غير مُعلَّمة كمتاحة",
   "ls.eqVariant":"النشاط المختار يتطلّب معدات غير مُعلَّمة كمتاحة",
-  "ls.timeShort":"يصف النشاط دقائق أقل من الوقت المخصّص (الموصوف / المخصّص) — أضيفوا جولات أو اختاروا نشاطًا أطول",
-  "ls.timeOver":"يصف النشاط دقائق أكثر من الوقت المخصّص (الموصوف / المخصّص) — قلّلوا الجولات أو اختاروا نشاطًا أقصر",
-  "ls.transit":"الانتقالات والتعليمات",
+  "ls.timeShort":"الوقت أطول من المدى الفعّال لهذا النشاط (المدى / المخصّص) — أضيفوا جولات أو اختاروا نشاطًا أطول",
+  "ls.timeOver":"الوقت أقصر من المدى الفعّال لهذا النشاط (المدى / المخصّص) — قلّلوا الجولات أو اختاروا نشاطًا أقصر",
+  "ls.transit":"الانتقالات والتعليمات والتصحيحات والشرب",
   "sched.clash":"توجد حصة منفصلة أخرى في الوقت نفسه. إذا كانت الصفوف تتعلّم معًا فاربطوها كمجموعة (مركز الصف ← ربط الصفوف)؛ وإلا فهذا تعارض في الجدول.",
   /* ux-redesign */
   "stu.badRecs":"سجلات تالفة في القائمة لا تُعرض، لكنها محفوظة كما هي — انسخوا البيانات احتياطيًا قبل أي تغيير.",
@@ -14661,6 +14755,19 @@ ar:{
 },
 
 ru:{
+  /* ux-redesign */
+  "ls.flex":"Гибкость времени",
+  "ls.flexHint":"Одно и то же упражнение в одном классе занимает меньше времени, в другом — больше. У каждого задания есть эффективный диапазон, и минуты подгоняются в нём под время урока.",
+  "ls.pace":"Темп класса (объяснения и коррекции)",
+  "ls.paceFast":"Быстрый",
+  "ls.paceNormal":"Обычный",
+  "ls.paceSlow":"Медленный — больше объяснений",
+  "ls.trans":"Переходы между шагами и станциями",
+  "ls.transQuick":"Быстрые",
+  "ls.transNormal":"Обычные",
+  "ls.transSlow":"Медленные",
+  "ls.water":"Перерыв на воду в основной части",
+  "ls.range":"Эффективный диапазон задания",
   "sp.open":"Отчёт ученика для печати",
   "br.invalid":"Некорректный файл резервной копии.",
   "br.reverted":"Восстановление не удалось. Прежние данные возвращены и проверены. Можно повторить попытку.",
@@ -14898,9 +15005,9 @@ ru:{
   "ls.eqTopic":"Для темы нужен инвентарь, не отмеченный как доступный",
   "ls.eqGame":"Для выбранной игры нужен инвентарь, не отмеченный как доступный",
   "ls.eqVariant":"Для выбранного задания нужен инвентарь, не отмеченный как доступный",
-  "ls.timeShort":"Задание описывает меньше минут, чем выделено (описано / выделено) — добавьте круги или выберите более длинное задание",
-  "ls.timeOver":"Задание описывает больше минут, чем выделено (описано / выделено) — сократите круги или выберите более короткое задание",
-  "ls.transit":"Переходы и объяснения",
+  "ls.timeShort":"Время дольше эффективного диапазона задания (диапазон / выделено) — добавьте круги или выберите более длинное задание",
+  "ls.timeOver":"Время короче эффективного диапазона задания (диапазон / выделено) — сократите круги или выберите более короткое задание",
+  "ls.transit":"Переходы, объяснения, коррекции и вода",
   "sched.clash":"В это же время есть ещё один отдельный урок. Если классы занимаются вместе, объедините их в группу (Центр класса → Объединить классы); иначе это накладка в расписании.",
   /* ux-redesign */
   "stu.badRecs":"Повреждённые записи в списке не показаны, но сохранены как есть — сделайте резервную копию перед любыми изменениями.",
@@ -15394,6 +15501,19 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "ls.flex":"Tiempos flexibles",
+  "ls.flexHint":"El mismo ejercicio dura menos en una clase y más en otra. Cada actividad tiene un rango eficaz y los minutos se ajustan dentro de él al tiempo de la clase.",
+  "ls.pace":"Ritmo de la clase (explicaciones y correcciones)",
+  "ls.paceFast":"Rápido",
+  "ls.paceNormal":"Normal",
+  "ls.paceSlow":"Lento: más explicaciones",
+  "ls.trans":"Transiciones entre pasos y estaciones",
+  "ls.transQuick":"Rápidas",
+  "ls.transNormal":"Normales",
+  "ls.transSlow":"Lentas",
+  "ls.water":"Pausa para beber en la parte principal",
+  "ls.range":"Rango eficaz de la actividad",
   "sp.open":"Informe del alumno para imprimir",
   "br.invalid":"Archivo de copia no válido.",
   "br.reverted":"La restauración falló. Los datos anteriores se recuperaron y verificaron. Puedes reintentar.",
@@ -15631,9 +15751,9 @@ es:{
   "ls.eqTopic":"El tema requiere material no marcado como disponible",
   "ls.eqGame":"El juego elegido requiere material no marcado como disponible",
   "ls.eqVariant":"La actividad elegida requiere material no marcado como disponible",
-  "ls.timeShort":"La actividad describe menos minutos de los asignados (descritos / asignados): añade rondas o elige una actividad más larga",
-  "ls.timeOver":"La actividad describe más minutos de los asignados (descritos / asignados): recorta rondas o elige una actividad más corta",
-  "ls.transit":"Transiciones e instrucciones",
+  "ls.timeShort":"El tiempo supera el rango eficaz de la actividad (rango / asignado): añade rondas o elige una actividad más larga",
+  "ls.timeOver":"El tiempo es menor que el rango eficaz de la actividad (rango / asignado): recorta rondas o elige una actividad más corta",
+  "ls.transit":"Transiciones, instrucciones, correcciones y agua",
   "sched.clash":"A la misma hora hay otra franja separada. Si estos grupos tienen clase juntos, únelos como grupo (Centro del grupo → Unir grupos); si no, es un conflicto de horario.",
   /* ux-redesign */
   "stu.badRecs":"Los registros dañados de la lista no se muestran, pero se conservan tal cual: haz una copia de seguridad antes de cualquier cambio.",
@@ -24793,6 +24913,17 @@ window.LESSON=(function(){
   let inited=false, grade="mid", plan=null, run={on:false,i:0,t0:0,raf:0};
   const topicById=id=>TOPICS.find(t=>t.id===id);
 
+  function readTimeOpts(){
+    const {$}=H(), v=id=>{ const e=$("#"+id); return e?e.value:undefined; };
+    const w=$("#ls-water");
+    return window.HMDATA.timeOpts({pace:v("ls-pace"),trans:v("ls-trans"),water:w?w.checked:true});
+  }
+  function paintTimeOpts(){
+    const {$}=H(), o=window.HMDATA.timeOpts(H().LS.get("ls.timeOpts",null));
+    if($("#ls-pace"))$("#ls-pace").value=o.pace;
+    if($("#ls-trans"))$("#ls-trans").value=o.trans;
+    if($("#ls-water"))$("#ls-water").checked=o.water;
+  }
   function readOpts(){
     const {$, $$}=H();
     return {
@@ -24808,7 +24939,9 @@ window.LESSON=(function(){
       noEq:$$("#ls-eq input").filter(i=>!i.checked).map(i=>i.value),
       /* ציוד שהמורה הקליד בעצמו: נספר כזמין ונכנס לרשימת הציוד של המערך */
       other:($("#ls-eqOther")?$("#ls-eqOther").value.trim():""),
-      subs:$$("#ls-subs input:checked").map(i=>i.value)
+      subs:$$("#ls-subs input:checked").map(i=>i.value),
+      /* גמישות זמנים: קצב הכיתה, אורך מעברים והפסקת שתייה. נשמר להמשך. */
+      time:readTimeOpts()
     };
   }
 
@@ -24828,7 +24961,7 @@ window.LESSON=(function(){
     const pool=fits.length?fits:list;
     const recent=(H().LS.get("ls.recentVariants",{})[recKey(topicId,g)])||[];
     const scored=pool.map(v=>{
-      const f=c.alloc?DT.variantFit(v,c.alloc):{known:false};
+      const f=c.alloc?DT.variantFit(v,c.alloc,c.time):{known:false};
       const fitPen=f.known?Math.min(Math.abs(f.gap),20)*0.2:1;
       return {v,w:feedbackScore(topicId,g,v.n)*2-(recent.includes(v.n)?5:0)+Math.random()*1.5-fitPen};
     });
@@ -24841,8 +24974,16 @@ window.LESSON=(function(){
     H().LS.set("ls.recentVariants",all);
   }
 
+  /* דקות כל שלב מותאמות בתוך הטווח היעיל; הטווח וההגדרות נשמרים בשלב כדי
+     שעריכת הדקות הכוללות תחשב מחדש ולא תמחק את ההסבר */
+  function applyFit(p,f,time){
+    p.t=f.fitted.slice(); p.sr=f.sr||p.sr; p.to=window.HMDATA.timeOpts(time||p.to);
+    p.fit={base:f.base,min:f.min,max:f.max,status:f.status};
+    if(f.overhead>0)p.tr=f.overhead; else delete p.tr;
+  }
   function gen(){
     const {$}=H(), o=readOpts(), T=topicById(o.topic);
+    H().LS.set("ls.timeOpts",o.time);
     if(!T){H().toast("בחר נושא");return;}
 
     /* חלוקת זמן */
@@ -24861,7 +25002,7 @@ window.LESSON=(function(){
     const pool=T.main[grade]||T.main.mid;
     const chosenSubs=o.subs.filter(s=>pool.some(v=>v.sub===s));
     let mainBlocks;
-    const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/(chosenSubs.length||1))};
+    const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/(chosenSubs.length||1)),time:o.time};
     if(chosenSubs.length){
       mainBlocks=chosenSubs.map(s=>pickVariant(pool.filter(v=>v.sub===s),T.id,grade,pickCtx));
     }else{
@@ -24901,12 +25042,11 @@ window.LESSON=(function(){
       const v=mainBlocks[i];
       const miss=DT0.variantEquipConflicts(v,o.noEq);
       if(miss.length)eqWarn.push({k:"ls.eqVariant",items:miss});
-      const f=DT0.variantFit(v,p.min);
+      const f=DT0.variantFit(v,p.min,o.time);
       if(!f.known)return;
-      p.t=v.t.slice(); p.fit={base:f.base,status:f.status};
-      if(f.transit)p.tr=f.transit;
-      if(f.status==="short")eqWarn.push({k:"ls.timeShort",items:[f.base+" / "+p.min]});
-      if(f.status==="over")eqWarn.push({k:"ls.timeOver",items:[f.base+" / "+p.min]});
+      applyFit(p,f,o.time);
+      if(f.status==="short")eqWarn.push({k:"ls.timeShort",items:[f.min+"–"+f.max+" / "+p.min]});
+      if(f.status==="over")eqWarn.push({k:"ls.timeOver",items:[f.min+"–"+f.max+" / "+p.min]});
     });
 
     const phases=[{n:"חימום: "+warm.n,min:warmMin,d:warm.d,k:"warm"},...mainPhases];
@@ -24939,9 +25079,9 @@ window.LESSON=(function(){
   /* שלבי פעילות עם הדקות של כל שלב (אם ידועות) ושורת מעברים מפורשת */
   function stepsHtml(p){
     const {esc}=H(), u=H().t("ui.min","דק׳");
-    const timed=Array.isArray(p.t)&&p.t.length===p.d.length;
-    return p.d.map((st,i)=>"<li>"+esc(st)+(timed?` <span class="ls-tm">· ${p.t[i]} ${u}</span>`:"")+"</li>").join("")+
-      (p.tr?`<li class="ls-tr">${esc(H().t("ls.transit","מעברים והסברים"))} <span class="ls-tm">· ${p.tr} ${u}</span></li>`:"");
+    const timed=Array.isArray(p.t)&&p.t.length===p.d.length, sr=timed&&p.sr&&p.sr.lo&&p.sr.lo.length===p.d.length?p.sr:null;
+    return p.d.map((st,i)=>"<li>"+esc(st)+(timed?` <span class="ls-tm">· ${p.t[i]} ${u}${sr&&sr.lo[i]!==sr.hi[i]?` <small>(${sr.lo[i]}–${sr.hi[i]})</small>`:""}</span>`:"")+"</li>").join("")+
+      (p.tr?`<li class="ls-tr">${esc(H().t("ls.transit","מעברים, הסברים, תיקונים ושתייה"))} <span class="ls-tm">· ${p.tr} ${u}</span></li>`:"");
   }
   const placeName=p=>({field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"}[p]||p);
 
@@ -25067,6 +25207,7 @@ window.LESSON=(function(){
       ${editPh?`<div class="pe-list">${plan.phases.map((p,i)=>`<div class="pe-row" data-pi="${i}">
           <div class="row" style="gap:6px"><input class="grow" data-pf="n" value="${esc(p.n)}" aria-label="שם השלב">
             <input type="number" data-pf="min" value="${p.min}" min="1" style="width:74px" aria-label="דקות"></div>
+          <div class="hint pe-range" data-pr="${i}">${rangeHint(p)}</div>
           <textarea data-pf="d" rows="2" aria-label="תיאור">${esc(Array.isArray(p.d)?p.d.join("\n"):(p.d||""))}</textarea>
           <div class="row" style="gap:6px"><button class="btn sm ghost" data-pe="up" aria-label="למעלה">↑</button>
             <button class="btn sm ghost" data-pe="down" aria-label="למטה">↓</button>
@@ -25363,8 +25504,8 @@ window.LESSON=(function(){
   const EQW={"ls.eqNoGame":"לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים.",
     "ls.eqTopic":"הנושא דורש ציוד שלא סומן כזמין","ls.eqGame":"המשחק שנבחר דורש ציוד שלא סומן כזמין",
     "ls.eqVariant":"הפעילות שנבחרה דורשת ציוד שלא סומן כזמין",
-    "ls.timeShort":"הפעילות מתארת פחות דקות מהזמן שהוקצה (מתוארות / מוקצות) — הוסיפו סבבים או בחרו פעילות ארוכה יותר",
-    "ls.timeOver":"הפעילות מתארת יותר דקות מהזמן שהוקצה (מתוארות / מוקצות) — קצרו סבבים או בחרו פעילות קצרה יותר"};
+    "ls.timeShort":"הזמן ארוך מהטווח היעיל של הפעילות (טווח / מוקצות) — הוסיפו סבבים או בחרו פעילות ארוכה יותר",
+    "ls.timeOver":"הזמן קצר מהטווח היעיל של הפעילות (טווח / מוקצות) — קצרו סבבים או בחרו פעילות קצרה יותר"};
   function eqWarnHtml(w){
     const {esc}=H();
     if(typeof w==="string")return esc(w);
@@ -25404,6 +25545,8 @@ window.LESSON=(function(){
       $$("#ls-gradeSeg button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); grade=b.dataset.g;
       buildSubSelect();
     }));
+    paintTimeOpts();
+    ["ls-pace","ls-trans","ls-water"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("change",()=>H().LS.set("ls.timeOpts",readTimeOpts())); });
     $("#ls-gen").addEventListener("click",gen);
     $("#ls-again").addEventListener("click",gen);
     $("#ls-save").addEventListener("click",saveLib);
@@ -25517,11 +25660,22 @@ window.LESSON=(function(){
     if(b.dataset.pe==="down"&&i<ph.length-1){ [ph[i+1],ph[i]]=[ph[i],ph[i+1]]; renderPlan(); return; }
     if(b.dataset.pe==="del"&&ph.length>1){ ph.splice(i,1); renderPlan(); return; }
   }
+  /* טווח יעיל לשלב: הודעה רכה, לא חוסמת — המורה יודע מה הכיתה שלו צריכה */
+  function rangeHint(p){
+    const f=p&&p.sr?window.HMDATA.fitSteps(p.sr,+p.min||0,p.to):null;
+    if(!f||!f.known)return "";
+    const t=H().t, rg=f.min+"–"+f.max+" "+t("ui.min","דק׳");
+    return f.status==="exact"?t("ls.range","טווח יעיל לפעילות")+": "+rg
+      :t(f.status==="short"?"ls.timeShort":"ls.timeOver",EQW[f.status==="short"?"ls.timeShort":"ls.timeOver"])+" ("+rg+")";
+  }
   function onPlanInput(e){
     const el=e.target, row=el.closest("[data-pi]"); if(!row||!plan)return;
     const p=plan.phases[+row.dataset.pi]; if(!p)return;
     if(el.dataset.pf==="n")p.n=el.value;
-    else if(el.dataset.pf==="min"){ p.min=Math.max(1,Math.round(+el.value||1)); delete p.tr; delete p.fit;
+    else if(el.dataset.pf==="min"){ p.min=Math.max(1,Math.round(+el.value||1));
+      const f=p.sr?window.HMDATA.fitSteps(p.sr,p.min,p.to):null;
+      if(f&&f.known)applyFit(p,f,p.to); else { delete p.tr; delete p.fit; }
+      const hint=row.querySelector(".pe-range"); if(hint)hint.textContent=rangeHint(p);
       const tot=H().$("#ls-peTotal"); if(tot)tot.textContent=plan.phases.reduce((a,x)=>a+(+x.min||0),0); }
     else if(el.dataset.pf==="d"){ delete p.t; delete p.tr; delete p.fit; p.d=Array.isArray(p.d)?el.value.split("\n").map(x=>x.trim()).filter(Boolean):el.value; }
   }

@@ -340,6 +340,17 @@ window.LESSON=(function(){
   let inited=false, grade="mid", plan=null, run={on:false,i:0,t0:0,raf:0};
   const topicById=id=>TOPICS.find(t=>t.id===id);
 
+  function readTimeOpts(){
+    const {$}=H(), v=id=>{ const e=$("#"+id); return e?e.value:undefined; };
+    const w=$("#ls-water");
+    return window.HMDATA.timeOpts({pace:v("ls-pace"),trans:v("ls-trans"),water:w?w.checked:true});
+  }
+  function paintTimeOpts(){
+    const {$}=H(), o=window.HMDATA.timeOpts(H().LS.get("ls.timeOpts",null));
+    if($("#ls-pace"))$("#ls-pace").value=o.pace;
+    if($("#ls-trans"))$("#ls-trans").value=o.trans;
+    if($("#ls-water"))$("#ls-water").checked=o.water;
+  }
   function readOpts(){
     const {$, $$}=H();
     return {
@@ -355,7 +366,9 @@ window.LESSON=(function(){
       noEq:$$("#ls-eq input").filter(i=>!i.checked).map(i=>i.value),
       /* ציוד שהמורה הקליד בעצמו: נספר כזמין ונכנס לרשימת הציוד של המערך */
       other:($("#ls-eqOther")?$("#ls-eqOther").value.trim():""),
-      subs:$$("#ls-subs input:checked").map(i=>i.value)
+      subs:$$("#ls-subs input:checked").map(i=>i.value),
+      /* גמישות זמנים: קצב הכיתה, אורך מעברים והפסקת שתייה. נשמר להמשך. */
+      time:readTimeOpts()
     };
   }
 
@@ -375,7 +388,7 @@ window.LESSON=(function(){
     const pool=fits.length?fits:list;
     const recent=(H().LS.get("ls.recentVariants",{})[recKey(topicId,g)])||[];
     const scored=pool.map(v=>{
-      const f=c.alloc?DT.variantFit(v,c.alloc):{known:false};
+      const f=c.alloc?DT.variantFit(v,c.alloc,c.time):{known:false};
       const fitPen=f.known?Math.min(Math.abs(f.gap),20)*0.2:1;
       return {v,w:feedbackScore(topicId,g,v.n)*2-(recent.includes(v.n)?5:0)+Math.random()*1.5-fitPen};
     });
@@ -388,8 +401,16 @@ window.LESSON=(function(){
     H().LS.set("ls.recentVariants",all);
   }
 
+  /* דקות כל שלב מותאמות בתוך הטווח היעיל; הטווח וההגדרות נשמרים בשלב כדי
+     שעריכת הדקות הכוללות תחשב מחדש ולא תמחק את ההסבר */
+  function applyFit(p,f,time){
+    p.t=f.fitted.slice(); p.sr=f.sr||p.sr; p.to=window.HMDATA.timeOpts(time||p.to);
+    p.fit={base:f.base,min:f.min,max:f.max,status:f.status};
+    if(f.overhead>0)p.tr=f.overhead; else delete p.tr;
+  }
   function gen(){
     const {$}=H(), o=readOpts(), T=topicById(o.topic);
+    H().LS.set("ls.timeOpts",o.time);
     if(!T){H().toast("בחר נושא");return;}
 
     /* חלוקת זמן */
@@ -408,7 +429,7 @@ window.LESSON=(function(){
     const pool=T.main[grade]||T.main.mid;
     const chosenSubs=o.subs.filter(s=>pool.some(v=>v.sub===s));
     let mainBlocks;
-    const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/(chosenSubs.length||1))};
+    const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/(chosenSubs.length||1)),time:o.time};
     if(chosenSubs.length){
       mainBlocks=chosenSubs.map(s=>pickVariant(pool.filter(v=>v.sub===s),T.id,grade,pickCtx));
     }else{
@@ -448,12 +469,11 @@ window.LESSON=(function(){
       const v=mainBlocks[i];
       const miss=DT0.variantEquipConflicts(v,o.noEq);
       if(miss.length)eqWarn.push({k:"ls.eqVariant",items:miss});
-      const f=DT0.variantFit(v,p.min);
+      const f=DT0.variantFit(v,p.min,o.time);
       if(!f.known)return;
-      p.t=v.t.slice(); p.fit={base:f.base,status:f.status};
-      if(f.transit)p.tr=f.transit;
-      if(f.status==="short")eqWarn.push({k:"ls.timeShort",items:[f.base+" / "+p.min]});
-      if(f.status==="over")eqWarn.push({k:"ls.timeOver",items:[f.base+" / "+p.min]});
+      applyFit(p,f,o.time);
+      if(f.status==="short")eqWarn.push({k:"ls.timeShort",items:[f.min+"–"+f.max+" / "+p.min]});
+      if(f.status==="over")eqWarn.push({k:"ls.timeOver",items:[f.min+"–"+f.max+" / "+p.min]});
     });
 
     const phases=[{n:"חימום: "+warm.n,min:warmMin,d:warm.d,k:"warm"},...mainPhases];
@@ -486,9 +506,9 @@ window.LESSON=(function(){
   /* שלבי פעילות עם הדקות של כל שלב (אם ידועות) ושורת מעברים מפורשת */
   function stepsHtml(p){
     const {esc}=H(), u=H().t("ui.min","דק׳");
-    const timed=Array.isArray(p.t)&&p.t.length===p.d.length;
-    return p.d.map((st,i)=>"<li>"+esc(st)+(timed?` <span class="ls-tm">· ${p.t[i]} ${u}</span>`:"")+"</li>").join("")+
-      (p.tr?`<li class="ls-tr">${esc(H().t("ls.transit","מעברים והסברים"))} <span class="ls-tm">· ${p.tr} ${u}</span></li>`:"");
+    const timed=Array.isArray(p.t)&&p.t.length===p.d.length, sr=timed&&p.sr&&p.sr.lo&&p.sr.lo.length===p.d.length?p.sr:null;
+    return p.d.map((st,i)=>"<li>"+esc(st)+(timed?` <span class="ls-tm">· ${p.t[i]} ${u}${sr&&sr.lo[i]!==sr.hi[i]?` <small>(${sr.lo[i]}–${sr.hi[i]})</small>`:""}</span>`:"")+"</li>").join("")+
+      (p.tr?`<li class="ls-tr">${esc(H().t("ls.transit","מעברים, הסברים, תיקונים ושתייה"))} <span class="ls-tm">· ${p.tr} ${u}</span></li>`:"");
   }
   const placeName=p=>({field:"מגרש חוץ",hall:"אולם",class:"כיתה",gym:"חדר כושר"}[p]||p);
 
@@ -614,6 +634,7 @@ window.LESSON=(function(){
       ${editPh?`<div class="pe-list">${plan.phases.map((p,i)=>`<div class="pe-row" data-pi="${i}">
           <div class="row" style="gap:6px"><input class="grow" data-pf="n" value="${esc(p.n)}" aria-label="שם השלב">
             <input type="number" data-pf="min" value="${p.min}" min="1" style="width:74px" aria-label="דקות"></div>
+          <div class="hint pe-range" data-pr="${i}">${rangeHint(p)}</div>
           <textarea data-pf="d" rows="2" aria-label="תיאור">${esc(Array.isArray(p.d)?p.d.join("\n"):(p.d||""))}</textarea>
           <div class="row" style="gap:6px"><button class="btn sm ghost" data-pe="up" aria-label="למעלה">↑</button>
             <button class="btn sm ghost" data-pe="down" aria-label="למטה">↓</button>
@@ -910,8 +931,8 @@ window.LESSON=(function(){
   const EQW={"ls.eqNoGame":"לא נמצא משחק שמתאים לציוד הזמין — לא שובץ משחק. אפשר לבחור משחק בדף המשחקים.",
     "ls.eqTopic":"הנושא דורש ציוד שלא סומן כזמין","ls.eqGame":"המשחק שנבחר דורש ציוד שלא סומן כזמין",
     "ls.eqVariant":"הפעילות שנבחרה דורשת ציוד שלא סומן כזמין",
-    "ls.timeShort":"הפעילות מתארת פחות דקות מהזמן שהוקצה (מתוארות / מוקצות) — הוסיפו סבבים או בחרו פעילות ארוכה יותר",
-    "ls.timeOver":"הפעילות מתארת יותר דקות מהזמן שהוקצה (מתוארות / מוקצות) — קצרו סבבים או בחרו פעילות קצרה יותר"};
+    "ls.timeShort":"הזמן ארוך מהטווח היעיל של הפעילות (טווח / מוקצות) — הוסיפו סבבים או בחרו פעילות ארוכה יותר",
+    "ls.timeOver":"הזמן קצר מהטווח היעיל של הפעילות (טווח / מוקצות) — קצרו סבבים או בחרו פעילות קצרה יותר"};
   function eqWarnHtml(w){
     const {esc}=H();
     if(typeof w==="string")return esc(w);
@@ -951,6 +972,8 @@ window.LESSON=(function(){
       $$("#ls-gradeSeg button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); grade=b.dataset.g;
       buildSubSelect();
     }));
+    paintTimeOpts();
+    ["ls-pace","ls-trans","ls-water"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("change",()=>H().LS.set("ls.timeOpts",readTimeOpts())); });
     $("#ls-gen").addEventListener("click",gen);
     $("#ls-again").addEventListener("click",gen);
     $("#ls-save").addEventListener("click",saveLib);
@@ -1064,11 +1087,22 @@ window.LESSON=(function(){
     if(b.dataset.pe==="down"&&i<ph.length-1){ [ph[i+1],ph[i]]=[ph[i],ph[i+1]]; renderPlan(); return; }
     if(b.dataset.pe==="del"&&ph.length>1){ ph.splice(i,1); renderPlan(); return; }
   }
+  /* טווח יעיל לשלב: הודעה רכה, לא חוסמת — המורה יודע מה הכיתה שלו צריכה */
+  function rangeHint(p){
+    const f=p&&p.sr?window.HMDATA.fitSteps(p.sr,+p.min||0,p.to):null;
+    if(!f||!f.known)return "";
+    const t=H().t, rg=f.min+"–"+f.max+" "+t("ui.min","דק׳");
+    return f.status==="exact"?t("ls.range","טווח יעיל לפעילות")+": "+rg
+      :t(f.status==="short"?"ls.timeShort":"ls.timeOver",EQW[f.status==="short"?"ls.timeShort":"ls.timeOver"])+" ("+rg+")";
+  }
   function onPlanInput(e){
     const el=e.target, row=el.closest("[data-pi]"); if(!row||!plan)return;
     const p=plan.phases[+row.dataset.pi]; if(!p)return;
     if(el.dataset.pf==="n")p.n=el.value;
-    else if(el.dataset.pf==="min"){ p.min=Math.max(1,Math.round(+el.value||1)); delete p.tr; delete p.fit;
+    else if(el.dataset.pf==="min"){ p.min=Math.max(1,Math.round(+el.value||1));
+      const f=p.sr?window.HMDATA.fitSteps(p.sr,p.min,p.to):null;
+      if(f&&f.known)applyFit(p,f,p.to); else { delete p.tr; delete p.fit; }
+      const hint=row.querySelector(".pe-range"); if(hint)hint.textContent=rangeHint(p);
       const tot=H().$("#ls-peTotal"); if(tot)tot.textContent=plan.phases.reduce((a,x)=>a+(+x.min||0),0); }
     else if(el.dataset.pf==="d"){ delete p.t; delete p.tr; delete p.fit; p.d=Array.isArray(p.d)?el.value.split("\n").map(x=>x.trim()).filter(Boolean):el.value; }
   }

@@ -589,18 +589,75 @@ function variantEquipConflicts(v,unavailable){
     return un.indexOf(k)>=0;
   });
 }
-/* status: exact | transit (הפער קטן — נרשם כמעברים והסברים) |
-   short (הפעילות קצרה מהזמן — צריך להוסיף סבבים) | tight (ארוכה מעט) |
-   over (ארוכה בהרבה מהזמן שהוקצה) */
-function variantFit(v,alloc){
+/* ---------- גמישות זמנים ----------
+   לכל שלב בפעילות יש זמן אופייני (t) וטווח יעיל [lo,hi]. אותו תרגיל לוקח
+   12 דקות בכיתה אחת ו-15 באחרת — הסברים, תיקונים, קצב — ולכן המחולל לא
+   מחייב מספר אחד אלא מתאים את הדקות בתוך הטווח לזמן שהוקצה.
+   הטווח נגזר מ-t לפי סוג השלב (הדגמה/הסבר קצרים וגמישים יותר, עבודה
+   ובמיוחד תחנות ומעגלים נמתחים יותר); וריאציה יכולה לקבוע טווח משלה
+   בשדה r: [[lo,hi],…]. מעבר לשלבים עצמם יש תקורה: מעברים בין שלבים (בתחנות
+   גם סיבוב וזמן מנוחה), והפסקת שתייה. המורה קובע קצב כיתה, אורך מעברים
+   ושתייה; התקורה מתכווצת ראשונה כשהזמן צפוף, לפני שהשלבים נדחסים. */
+var TIME_PACE={fast:0.85,normal:1,slow:1.25};
+var TIME_TRANS={quick:0.5,normal:1,slow:1.5};
+var DEMO_RX=/הדגמ|הסבר|היכרות|מיפוי|הצגת|תדרוך/;
+var REST_RX=/תחנ|מעגל|טבט|טאבט|אינטרוו|סבב/;
+function timeOpts(o){
+  o=o||{};
+  return {pace:TIME_PACE[o.pace]?o.pace:"normal", trans:TIME_TRANS[o.trans]?o.trans:"normal", water:o.water!==false};
+}
+function stepRanges(v){
   var t=v&&asList(v.t), d=v&&v.d;
-  if(!t||!t.length||!Array.isArray(d)||t.length!==d.length||!(alloc>0))return {known:false};
-  var base=t.reduce(function(a,x){ return a+(+x||0); },0), gap=alloc-base;
-  var tol=Math.max(3,Math.round(alloc*0.15)), st;
-  if(gap===0)st="exact";
-  else if(gap>0)st=gap<=tol?"transit":"short";
-  else st=-gap<=tol?"tight":"over";
-  return {known:true,base:base,gap:gap,status:st,transit:st==="transit"?gap:0};
+  if(!t||!t.length||!Array.isArray(d)||t.length!==d.length)return null;
+  var rest=REST_RX.test(String(v.n||""))||REST_RX.test(String(v.sub||"")), r=asList(v.r);
+  var typ=[], lo=[], hi=[];
+  t.forEach(function(x,i){
+    var m=Math.max(1,Math.round(+x||0)), demo=DEMO_RX.test(String(d[i]||""));
+    var l=Math.max(1,Math.round(m*(demo?0.6:0.7))), h=Math.max(m+1,Math.round(m*(demo?1.6:(rest?1.8:1.7))));
+    var o=r[i];
+    if(Array.isArray(o)&&o.length===2&&+o[0]>=1&&+o[1]>=+o[0]){ l=Math.round(+o[0]); h=Math.round(+o[1]); }
+    typ.push(Math.min(Math.max(m,l),h)); lo.push(l); hi.push(h);
+  });
+  return {typ:typ,lo:lo,hi:hi,rest:rest};
+}
+function sumOf(a){ return a.reduce(function(x,y){ return x+y; },0); }
+function overheadFull(n,alloc,opts,rest){
+  var trans=Math.max(0,n-1)*TIME_TRANS[opts.trans]*(rest?1.5:1);
+  var water=opts.water?(alloc>=30?2:(alloc>=15?1:0)):0;
+  return Math.round(trans+water);
+}
+/* מפזר את הדקות שנשארו על השלבים: כל פעם שלב עם הכי הרבה מקום לזוז, בלי לצאת מהטווח */
+function spreadMinutes(typ,lo,hi,target){
+  var cur=typ.slice(), diff=target-sumOf(cur), i, best, room, bi;
+  while(diff!==0){
+    bi=-1; best=-1;
+    for(i=0;i<cur.length;i++){
+      room=diff>0?(hi[i]-cur[i])/hi[i]:(cur[i]-lo[i])/cur[i];
+      if((diff>0?hi[i]-cur[i]:cur[i]-lo[i])>0&&room>best){ best=room; bi=i; }
+    }
+    if(bi<0)break;
+    cur[bi]+=diff>0?1:-1; diff+=diff>0?-1:1;
+  }
+  return cur;
+}
+/* status: exact (הזמן בתוך הטווח היעיל — הדקות מותאמות במדויק) |
+   short (הזמן ארוך מהטווח — צריך עוד סבבים) | over (קצר מהטווח) */
+function fitSteps(sr,alloc,opts){
+  if(!sr||!(alloc>0))return {known:false};
+  var o=timeOpts(opts), pace=TIME_PACE[o.pace], n=sr.typ.length;
+  var typ=sr.typ.map(function(x,i){ return Math.min(Math.max(Math.round(x*pace),sr.lo[i]),sr.hi[i]); });
+  var sumLo=sumOf(sr.lo), sumHi=sumOf(sr.hi), oh=overheadFull(n,alloc,o,sr.rest), avail=alloc-oh;
+  if(avail<sumLo){ oh=Math.max(0,alloc-sumLo); avail=alloc-oh; }
+  var st, gap=0, fitted;
+  if(avail>sumHi){ st="short"; gap=avail-sumHi; fitted=sr.hi.slice(); }
+  else if(avail<sumLo){ st="over"; gap=sumLo-avail; fitted=sr.lo.slice(); }
+  else{ st="exact"; fitted=spreadMinutes(typ,sr.lo,sr.hi,avail); }
+  return {known:true,base:sumOf(sr.typ),min:sumLo,max:sumHi,fitted:fitted,overhead:oh,transit:oh,gap:gap,status:st};
+}
+function variantFit(v,alloc,opts){
+  var sr=stepRanges(v);
+  if(!sr||!(alloc>0))return {known:false};
+  var f=fitSteps(sr,alloc,opts); f.sr=sr; return f;
 }
 /* איחוד רשימות ציוד בלי כפילויות (לפי קיפול — «קונוסים» פעם אחת) */
 function mergeEquip(){
@@ -2773,6 +2830,7 @@ return {
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
+  stepRanges:stepRanges, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,

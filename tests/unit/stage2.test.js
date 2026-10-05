@@ -21,18 +21,36 @@ test("2.1 variantEquipConflicts: רק פריטים שנדרשים ואינם ז�
   assert.deepEqual(D.variantEquipConflicts(v,["לא-ציוד"]),[],"ערך שאינו ברשימה הקבועה מתעלמים ממנו");
 });
 
-test("2.2 variantFit: כל הסטטוסים, והפער נרשם כמעברים רק כשהוא קטן",()=>{
-  const v={d:["a","b","c"],t:[5,10,5]};                  /* 20 */
-  assert.deepEqual(D.variantFit(v,20),{known:true,base:20,gap:0,status:"exact",transit:0});
-  assert.equal(D.variantFit(v,23).status,"transit");     /* פער 3 ≤ max(3, 15%) */
-  assert.equal(D.variantFit(v,23).transit,3,"הפער כולו הופך לשורת מעברים");
-  assert.equal(D.variantFit(v,30).status,"short");
-  assert.equal(D.variantFit(v,30).transit,0,"פער גדול אינו מוסתר כ«מעברים»");
-  assert.equal(D.variantFit(v,18).status,"tight");
+test("2.2 variantFit: טווח יעיל — הדקות מותאמות בתוכו והסכום תמיד מוסבר",()=>{
+  const v={n:"מעגל תחנות",d:["שלב 1 — הדגמה","b","c","d","e"],t:[6,4,3,12,3]};
+  [20,25,30,36,45].forEach(a=>{
+    const f=D.variantFit(v,a);
+    assert.equal(f.status,"exact","בתוך הטווח "+a);
+    assert.equal(f.fitted.reduce((x,y)=>x+y,0)+f.overhead,a,"שלבים + תקורה = הזמן שהוקצה ("+a+")");
+    f.fitted.forEach((m,i)=>assert.ok(m>=f.sr.lo[i]&&m<=f.sr.hi[i],"שלב "+i+" בתוך הטווח שלו"));
+  });
+  assert.equal(D.variantFit(v,200).status,"short","הרבה מעבר לטווח — צריך עוד סבבים, לא «מעברים»");
+  assert.equal(D.variantFit(v,200).gap>0,true);
   assert.equal(D.variantFit(v,10).status,"over");
   assert.equal(D.variantFit({d:["a"]},20).known,false,"בלי t — לא יודעים");
   assert.equal(D.variantFit({d:["a","b"],t:[5]},20).known,false,"t לא באורך d — לא סומכים עליו");
   assert.equal(D.variantFit(v,0).known,false);
+});
+
+test("2.2b גמישות: אותו תרגיל — כיתה איטית מקבלת יותר, התקורה מתכווצת ראשונה, ו-r קובע טווח",()=>{
+  const v={n:"מעגל תחנות",d:["שלב 1 — הדגמה","b","c"],t:[4,8,3]};            /* 15 אופייני */
+  const sum=f=>f.fitted.reduce((a,b)=>a+b,0);
+  const fast=D.variantFit(v,24,{pace:"fast",water:false}), slow=D.variantFit(v,24,{pace:"slow",water:false});
+  assert.ok(sum(slow)>=sum(fast),"אותו זמן, אבל קצב איטי לא מקבל פחות דקות עבודה מקצב מהיר");
+  const quick=D.variantFit(v,20,{trans:"quick",water:false}), slowT=D.variantFit(v,20,{trans:"slow",water:false});
+  assert.ok(slowT.overhead>=quick.overhead,"מעברים איטיים — יותר תקורה");
+  const tight=D.variantFit(v,D.stepRanges(v).lo.reduce((a,b)=>a+b,0)+1);
+  assert.equal(tight.status,"exact","כשצפוף, התקורה מתכווצת לפני שהשלבים נדחסים מתחת למינימום");
+  assert.ok(tight.overhead<=1);
+  const withR=D.stepRanges({d:["a","b"],t:[10,10],r:[[8,25],[5,12]]});
+  assert.deepEqual([withR.lo,withR.hi],[[8,5],[25,12]]);
+  const t=D.timeOpts({pace:"nope",trans:"x"});
+  assert.deepEqual(t,{pace:"normal",trans:"normal",water:true},"ערך לא מוכר → ברירת מחדל");
 });
 
 test("2.3 שלמות הנתונים: t באורך d ובמספרים חיוביים; need רק מהרשימה הקבועה",()=>{

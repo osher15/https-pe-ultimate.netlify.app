@@ -49,8 +49,7 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
             ok(m.t&&m.fit,topic+"/"+grade+"/"+dur+": חסרים זמנים ב-"+m.n);
             const sum=m.t.reduce((a,x)=>a+x,0);
             const id=topic+"/"+grade+"/"+dur+" «"+m.n+"» "+m.min+" דק׳ מול "+sum;
-            if(m.fit.status==="exact")eq(sum,m.min,id);
-            if(m.fit.status==="transit")eq(sum+m.tr,m.min,id+" + מעברים "+m.tr);
+            if(m.fit.status==="exact")eq(sum+m.tr,m.min,id+" + תקורה "+m.tr);
             if(m.fit.status==="short")ok(r.eqWarn.indexOf("ls.timeShort")>=0,id+": אין אזהרת «קצר מדי»");
             if(m.fit.status==="over")ok(r.eqWarn.indexOf("ls.timeOver")>=0,id+": אין אזהרת «ארוך מדי»");
             checkedN++;
@@ -71,6 +70,40 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     ok(!after.t&&!after.tr&&!after.fit,"הזמנים נמחקו אחרי עריכת שלבים: "+JSON.stringify(after.t));
     ok(after.d.indexOf("שורה שהמורה הוסיף")>=0,"והעריכה עצמה נשמרה");
   }),
+  check("גמישות זמנים: קצב כיתה איטי ומעברים איטיים נשמרים, והדקות נשארות בטווח היעיל ומוסברות",null,async page=>{
+    await go(page,"lesson");
+    await page.evaluate(()=>{ document.querySelector(".ls-flex").open=true; });
+    await page.selectOption("#ls-pace","slow"); await page.selectOption("#ls-trans","slow");
+    await page.uncheck("#ls-water");
+    const r=await build(page,"strength","mid",45);
+    const m=r.main[0];
+    ok(m.t&&m.fit&&m.fit.min<=m.min,"המערך נבנה עם זמנים וטווח");
+    const saved=await page.evaluate(()=>window.HM.LS.get("ls.timeOpts",null));
+    eq(saved,{pace:"slow",trans:"slow",water:false},"הבחירה נשמרת");
+    await page.reload(); await page.waitForTimeout(600); await go(page,"lesson");
+    eq(await page.inputValue("#ls-pace"),"slow","הבחירה חוזרת אחרי רענון");
+    eq(await page.isChecked("#ls-water"),false);
+  }),
+
+  check("עריכת הדקות של שלב מחשבת מחדש את שלבי הפעילות בתוך הטווח, ומסמנת חריגה בלי לחסום",null,async page=>{
+    await go(page,"lesson");
+    await build(page,"strength","mid",45);
+    await page.click('#ls-planCard [data-pe="toggle"]'); await page.waitForTimeout(200);
+    const idx=await page.evaluate(()=>window.LESSON.current().phases.findIndex(x=>x.k==="main"));
+    const row=`#ls-planCard .pe-row[data-pi="${idx}"]`;
+    const set=async v=>{ await page.fill(row+' [data-pf="min"]',String(v)); await page.dispatchEvent(row+' [data-pf="min"]',"input"); };
+    await set(22);
+    let ph=await page.evaluate(i=>window.LESSON.current().phases[i],idx);
+    ok(ph.t&&ph.fit&&ph.fit.status==="exact","מחושב מחדש, לא נמחק: "+JSON.stringify(ph.fit));
+    eq(ph.t.reduce((a,b)=>a+b,0)+(ph.tr||0),22,"שלבים + תקורה = הדקות החדשות");
+    ok(/\d+–\d+/.test(await page.textContent(row+" .pe-range")),"טווח יעיל מוצג");
+    await set(90);
+    ph=await page.evaluate(i=>window.LESSON.current().phases[i],idx);
+    eq(ph.min,90,"חריגה מותרת — לא חוסם");
+    eq(ph.fit.status,"short");
+    ok(/\d/.test(await page.textContent(row+" .pe-range")),"אזהרה רכה מוצגת");
+  }),
+
   check("ציוד אחר: התיבות החדשות קיימות, הקלדה מסמנת «ציוד אחר» והטקסט נכנס לרשימת הציוד של המערך",null,async page=>{
     await go(page,"lesson");
     const vals=await page.$$eval("#ls-eq input",e=>e.map(x=>x.value));
