@@ -5,6 +5,15 @@
   publish = "."
   command = "node tools/stamp-version.js"
 
+# חיסכון בקרדיטים: תצוגות מקדימות (PR) ופריסות ענפים לא נבנות — רק main מתפרסם.
+# הבדיקות רצות ב-GitHub Actions ובדפדפן מקומי, והאתר סטטי. כדי להחזיר תצוגות
+# מקדימות מוחקים את שני הבלוקים הבאים. exit 0 = דלג על הבנייה.
+[context.deploy-preview]
+  ignore = "exit 0"
+
+[context.branch-deploy]
+  ignore = "exit 0"
+
 [[headers]]
   for = "/version.json"
   [headers.values]
