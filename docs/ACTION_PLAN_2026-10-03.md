@@ -1,6 +1,25 @@
 # PE Ultimate — execution plan
 Date: 2026-10-03
-Status: GitHub access restored; Issues #13–#18 rewritten and #19–#24 created on 2026-10-03. Codex changes published in draft PR #25; owner merge/deploy remains pending.
+Status (2026-10-04): draft PRs #25–#34 delivered; exact-head checks through #34 passed. Owner integration/merge/deploy and physical Apple testing remain pending. Current acceptance script: docs/FIELD_PILOT_2026-10-04.md.
+
+## Current delivery and integration map
+
+| Slice | Draft PR | Current disposition |
+|---|---|---|
+| Harness persistence, pupil missing summary and workflow rules | #25 | Reviewed candidate; owner merge pending |
+| Requirements calculation/editor | #26–#27 | Configurable class/period policy with strict identity/date guards |
+| Report/actual Excel/CSV and period exemptions | #28–#29 | Offline exports and exemption editor |
+| Teacher final grades and Grades Excel/CSV | #30 | Explicit override with optional note; no automatic scoring fill |
+| Measurement grid and Excel-template paste | #31–#32 | Append-only dated measurements; reviewed draft then Save |
+| Isolated pupil print/HTML | #33 | Teacher-mediated single-pupil output |
+| Focused Claude rollback review | #34 | Verified replacement/rollback, retry/recovery; supersedes old rollback hunk only |
+
+All are pending integration, not production features. Review sequentially #25 → #34, retarget each dependent PR after its prerequisite merges and rerun checks on the integrated head. #34 exact-head Tests 171 and Native 19 passed. These simulator/build results do not complete physical Apple acceptance.
+
+Codex now runs the cross-module field-to-PC journey and prepares the field pilot (#16). Claude retains builder timing/equipment (#19), native packaging (#13), content preparation (#21) and transfer proposal (#22). Remaining score-to-grade mapping and arbitrary XLSX file import are separate scopes; the reviewed paste flow already exists. Content-bank import (#24) remains held. No additional modules are needed before pilot evidence is reviewed.
+
+The inventory below records the October 3 inspection; its "next" statements are historical where superseded by this current map.
+
 Repository: `osher15/https-pe-ultimate.netlify.app` only.
 Baseline: `main` at `3ce07edcff2c64292b95e3060b363b3e1ca0174d`.
 Replaces the execution priorities in the 2026-09-30 work plan and the remaining-work list in `ccr-4ae97033-rci9j0:docs/HANDOFF_2026-10-01.md`. Preserve their historical evidence, not their unchecked status as current truth.
@@ -160,7 +179,7 @@ Check whether the Codex patch has been applied and whether ccr-4ae97033-rci9j0 h
 Do not merge a historical branch wholesale, reopen completed fixes, change another repository or lift the content hold.
 Start Gate 2 after Gate 1 reliability review; reserve lesson-builder/source sections first.
 Use one focused branch/PR per slice, run relevant tests, rebuild generated files, and write a factual handoff with remaining work.
-Codex is implementing pupil missing-summary and harness persistence; do not independently duplicate these.
+Codex delivered the harness/pupil/assessment stack through #34. Do not duplicate those changes or reapply the old rollback hunk. Review the current map and FIELD_PILOT_2026-10-04.md; reserve timing/equipment/native sections before work.
 Owner remains merge/deploy coordinator.
 
 ## Sources
