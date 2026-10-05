@@ -38,6 +38,25 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "gm.filters":"Manual filter",
+  "gm.fAge":"Grade level",
+  "gm.any":"Any",
+  "gm.mid":"Middle school (7–9)",
+  "gm.high":"High school (10–12)",
+  "gm.fTime":"Up to (min)",
+  "gm.fN":"Pupils",
+  "gm.fNoEq":"No equipment only",
+  "gm.clear":"Clear filter",
+  "gm.compact":"☰ Compact view",
+  "gm.favs":"Favorites",
+  "gm.favToggle":"Favorite",
+  "gm.fav":"Add to favorites",
+  "gm.unfav":"Remove from favorites",
+  "gm.noFavs":"No favorites yet — tap ☆ on a game card.",
+  "gm.more":"More: who it suits and variations",
+  "gm.countWord":"games",
+  "gm.filtered":"filtered",
+  /* ux-redesign */
   "bk.fp":"Verification code",
   "bk.fpHint":"The same code is shown when the file is created. If it differs, it is not the same file.",
   "bk.how5":"The preview shows a \"verification code\". It matches the code shown when the file was created — if it differs, it is not the same file; do not continue.",
@@ -800,6 +819,25 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "gm.filters":"تصفية يدوية",
+  "gm.fAge":"المرحلة",
+  "gm.any":"الكل",
+  "gm.mid":"الإعدادية (7–9)",
+  "gm.high":"الثانوية (10–12)",
+  "gm.fTime":"المدة حتى",
+  "gm.fN":"عدد الطلاب",
+  "gm.fNoEq":"بدون أدوات فقط",
+  "gm.clear":"مسح التصفية",
+  "gm.compact":"☰ عرض مضغوط",
+  "gm.favs":"المفضلة",
+  "gm.favToggle":"مفضّل",
+  "gm.fav":"أضف إلى المفضلة",
+  "gm.unfav":"إزالة من المفضلة",
+  "gm.noFavs":"لا توجد مفضلة بعد — اضغطوا ☆ على بطاقة اللعبة.",
+  "gm.more":"المزيد: لمن يناسب والتنويعات",
+  "gm.countWord":"ألعاب",
+  "gm.filtered":"مُصفّى",
   /* ux-redesign */
   "bk.fp":"رمز التحقق",
   "bk.fpHint":"يظهر الرمز نفسه عند إنشاء الملف. إذا اختلف فهذا ليس الملف نفسه.",
@@ -1568,6 +1606,25 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "gm.filters":"Ручной фильтр",
+  "gm.fAge":"Класс",
+  "gm.any":"Любой",
+  "gm.mid":"Средняя школа (7–9)",
+  "gm.high":"Старшая школа (10–12)",
+  "gm.fTime":"Длительность до",
+  "gm.fN":"Число учеников",
+  "gm.fNoEq":"Только без инвентаря",
+  "gm.clear":"Сбросить фильтр",
+  "gm.compact":"☰ Компактный вид",
+  "gm.favs":"Избранное",
+  "gm.favToggle":"Избранное",
+  "gm.fav":"Добавить в избранное",
+  "gm.unfav":"Убрать из избранного",
+  "gm.noFavs":"Пока нет избранного — нажмите ☆ на карточке игры.",
+  "gm.more":"Ещё: кому подходит и варианты",
+  "gm.countWord":"игр",
+  "gm.filtered":"отфильтровано",
+  /* ux-redesign */
   "bk.fp":"Код проверки",
   "bk.fpHint":"Тот же код показывается при создании файла. Если он отличается — это другой файл.",
   "bk.how5":"В предпросмотре показан «код проверки». Он совпадает с кодом при создании файла — если нет, это другой файл, продолжать нельзя.",
@@ -2327,6 +2384,25 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "gm.filters":"Filtro manual",
+  "gm.fAge":"Nivel",
+  "gm.any":"Todos",
+  "gm.mid":"Secundaria (7–9)",
+  "gm.high":"Bachillerato (10–12)",
+  "gm.fTime":"Duración hasta",
+  "gm.fN":"Alumnos",
+  "gm.fNoEq":"Solo sin material",
+  "gm.clear":"Borrar filtro",
+  "gm.compact":"☰ Vista compacta",
+  "gm.favs":"Favoritos",
+  "gm.favToggle":"Favorito",
+  "gm.fav":"Añadir a favoritos",
+  "gm.unfav":"Quitar de favoritos",
+  "gm.noFavs":"Aún no hay favoritos: toca ☆ en una tarjeta de juego.",
+  "gm.more":"Más: para quién y variantes",
+  "gm.countWord":"juegos",
+  "gm.filtered":"filtrado",
   /* ux-redesign */
   "bk.fp":"Código de verificación",
   "bk.fpHint":"El mismo código se muestra al crear el archivo. Si es distinto, no es el mismo archivo.",

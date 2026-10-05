@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="d80361b7">
+<meta name="hm-build" content="994c13e8">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -806,6 +806,12 @@ body.role-student .hx-mods,body.role-student .scoreband{display:none}
 .gm-card .hd b{display:block;font-family:'Secular One',sans-serif;font-size:15px;line-height:1.3}
 .gm-card .tag{font-size:11px;color:var(--acc)}
 .gm-card .gl{font-size:12.5px;color:var(--muted);line-height:1.55}
+.gm-card{position:relative}
+.gm-fav{position:absolute;inset-block-start:6px;inset-inline-end:6px;min-width:44px;min-height:44px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+.gm-fav.on{color:#f5c542}
+.gm-grid.compact{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.gm-card .sf{font-size:12px;color:var(--text);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.gm-flt{margin-top:10px}.gm-more{margin-top:8px}
 .gm-card .meta{display:flex;flex-wrap:wrap;gap:5px 10px;font-size:11px;color:var(--faint);
   border-top:1px solid var(--line);padding-top:8px;margin-top:auto}
 
@@ -1916,6 +1922,14 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 #hmn-doc .hmn-bar{display:flex;gap:8px;justify-content:space-between;background:var(--panel,#0b1220);
   padding:8px 12px;padding-top:calc(8px + var(--safe-area-inset-top,env(safe-area-inset-top)))}
 #hmn-doc iframe{flex:1;border:0;width:100%;background:#fff;padding-bottom:var(--safe-area-inset-bottom,env(safe-area-inset-bottom))}
+
+/* iOS Safari/WKWebView zooms the page when a field with a font-size under 16px
+   gets focus, and does not always zoom back on blur — the "document gets bigger"
+   report from the tablet. Applies only to WebKit touch devices (iPhone/iPad). */
+@supports (-webkit-touch-callout:none){
+  input,select,textarea{font-size:16px !important}
+  html{-webkit-text-size-adjust:100%}
+}
 
 </style>
 </head>
@@ -3278,6 +3292,19 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
     <h2><span class="dot"></span> משחקים לשעות פנאי</h2>
     <div class="hint">כל משחק עם הסבר מלא, מטרה, למי הוא מתאים, וריאציות, דגשי בטיחות וקישור לצפייה. אפשר לקחת כל משחק ישירות למערך שיעור.</div>
     <div class="field" style="margin-top:11px"><label>חיפוש</label><input type="text" id="gm-search" placeholder="שם משחק, ציוד, מטרה…"></div>
+    <details class="gm-flt" id="gm-filters"><summary data-i18n="gm.filters" data-i18n-he="סינון ידני">סינון ידני</summary>
+      <div class="row" style="margin-top:8px">
+        <div class="field" style="width:150px"><label for="gm-fAge" data-i18n="gm.fAge" data-i18n-he="שכבה">שכבה</label>
+          <select id="gm-fAge"><option value="" data-i18n="gm.any" data-i18n-he="הכול">הכול</option><option value="mid" data-i18n="gm.mid" data-i18n-he="חטיבה (ז׳–ט׳)">חטיבה (ז׳–ט׳)</option><option value="high" data-i18n="gm.high" data-i18n-he="תיכון (י׳–י״ב)">תיכון (י׳–י״ב)</option></select></div>
+        <div class="field" style="width:150px"><label for="gm-fTime" data-i18n="gm.fTime" data-i18n-he="משך עד (דק׳)">משך עד (דק׳)</label>
+          <select id="gm-fTime"><option value="0" data-i18n="gm.any" data-i18n-he="הכול">הכול</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="30">30</option></select></div>
+        <div class="field" style="width:130px"><label for="gm-fN" data-i18n="gm.fN" data-i18n-he="מס׳ תלמידים">מס׳ תלמידים</label>
+          <input type="number" id="gm-fN" min="1" max="99" inputmode="numeric"></div>
+      </div>
+      <label class="check" style="margin-top:8px"><input type="checkbox" id="gm-fNoEq"> <span data-i18n="gm.fNoEq" data-i18n-he="בלי ציוד בלבד">בלי ציוד בלבד</span></label>
+      <button class="btn sm ghost" id="gm-fClear" style="margin-top:8px" data-i18n="gm.clear" data-i18n-he="נקה סינון">נקה סינון</button>
+    </details>
+    <div class="row" style="margin-top:8px"><button class="btn sm ghost" id="gm-compact" aria-pressed="false" data-i18n="gm.compact" data-i18n-he="☰ תצוגה קומפקטית">☰ תצוגה קומפקטית</button></div>
     <div id="gm-cats" class="gm-cats"></div>
     <div class="hint" id="gm-count" style="margin-top:8px"></div>
   </div>
@@ -4880,6 +4907,34 @@ function variantFit(v,alloc,opts){
   var sr=stepRanges(v);
   if(!sr||!(alloc>0))return {known:false};
   var f=fitSteps(sr,alloc,opts); f.sr=sr; return f;
+}
+/* ---------- ספריית המשחקים: מטא־נתונים לסינון ידני ----------
+   הנתונים נשארים כפי שהם — כך שהמורה רואה, והטקסט המתורגם לא משתנה. הסינון
+   קורא את השכבות, מספר המשתתפים והזמן מתוך השדות הקיימים. סינון הוא תמיד
+   בחירה ידנית של המורה, לא הצעה אוטומטית. */
+var GRADE_NUM={"א":1,"ב":2,"ג":3,"ד":4,"ה":5,"ו":6,"ז":7,"ח":8,"ט":9,"י":10,"יא":11,"יב":12};
+function gameGradeNum(s){ var k=String(s==null?"":s).replace(/[׳'"״]/g,"").trim(); return GRADE_NUM[k]||null; }
+function parseGameMeta(g){
+  var who=String(g&&g.who||"").split("·"), gr=(who[0]||"").split(/[–-]/), nums=/(\d+)\s*[–-]\s*(\d+)/.exec(who[1]||"");
+  var tm=/(\d+)\s*[–-]\s*(\d+)\s*דק/.exec(String(g&&g.time||"")), t1=/^\s*(\d+)\s*דק/.exec(String(g&&g.time||""));
+  return {
+    gFrom:gameGradeNum(gr[0]), gTo:gameGradeNum(gr[1]),
+    pMin:nums?+nums[1]:null, pMax:nums?+nums[2]:null,
+    tMin:tm?+tm[1]:(t1?+t1[1]:null), tMax:tm?+tm[2]:(t1?+t1[1]:null),   /* null = פתוח */
+    noEquip:/^\s*(ללא|אין)(\s|$)/.test(String(g&&g.equip||""))
+  };
+}
+/* f: {age:"mid"|"high"|"", tmax:דקות או 0, n:מספר תלמידים או 0, noeq:boolean}. שדה ריק — לא מסנן. */
+function gameMatches(meta,f){
+  f=f||{};
+  if(f.age){
+    var lo=f.age==="mid"?7:10, hi=f.age==="mid"?9:12;
+    if(meta.gFrom==null||meta.gTo==null||meta.gTo<lo||meta.gFrom>hi)return false;
+  }
+  if(+f.tmax>0&&meta.tMin!=null&&meta.tMin>+f.tmax)return false;      /* פתוח — מתאים לכל אורך */
+  if(+f.n>0&&meta.pMin!=null&&(+f.n<meta.pMin||+f.n>meta.pMax))return false;
+  if(f.noeq&&!meta.noEquip)return false;
+  return true;
 }
 /* איחוד רשימות ציוד בלי כפילויות (לפי קיפול — «קונוסים» פעם אחת) */
 function mergeEquip(){
@@ -7052,7 +7107,7 @@ return {
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
-  stepRanges:stepRanges, warmMinutes:warmMinutes, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,
@@ -13267,6 +13322,25 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "gm.filters":"Manual filter",
+  "gm.fAge":"Grade level",
+  "gm.any":"Any",
+  "gm.mid":"Middle school (7–9)",
+  "gm.high":"High school (10–12)",
+  "gm.fTime":"Up to (min)",
+  "gm.fN":"Pupils",
+  "gm.fNoEq":"No equipment only",
+  "gm.clear":"Clear filter",
+  "gm.compact":"☰ Compact view",
+  "gm.favs":"Favorites",
+  "gm.favToggle":"Favorite",
+  "gm.fav":"Add to favorites",
+  "gm.unfav":"Remove from favorites",
+  "gm.noFavs":"No favorites yet — tap ☆ on a game card.",
+  "gm.more":"More: who it suits and variations",
+  "gm.countWord":"games",
+  "gm.filtered":"filtered",
+  /* ux-redesign */
   "bk.fp":"Verification code",
   "bk.fpHint":"The same code is shown when the file is created. If it differs, it is not the same file.",
   "bk.how5":"The preview shows a \"verification code\". It matches the code shown when the file was created — if it differs, it is not the same file; do not continue.",
@@ -14029,6 +14103,25 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "gm.filters":"تصفية يدوية",
+  "gm.fAge":"المرحلة",
+  "gm.any":"الكل",
+  "gm.mid":"الإعدادية (7–9)",
+  "gm.high":"الثانوية (10–12)",
+  "gm.fTime":"المدة حتى",
+  "gm.fN":"عدد الطلاب",
+  "gm.fNoEq":"بدون أدوات فقط",
+  "gm.clear":"مسح التصفية",
+  "gm.compact":"☰ عرض مضغوط",
+  "gm.favs":"المفضلة",
+  "gm.favToggle":"مفضّل",
+  "gm.fav":"أضف إلى المفضلة",
+  "gm.unfav":"إزالة من المفضلة",
+  "gm.noFavs":"لا توجد مفضلة بعد — اضغطوا ☆ على بطاقة اللعبة.",
+  "gm.more":"المزيد: لمن يناسب والتنويعات",
+  "gm.countWord":"ألعاب",
+  "gm.filtered":"مُصفّى",
   /* ux-redesign */
   "bk.fp":"رمز التحقق",
   "bk.fpHint":"يظهر الرمز نفسه عند إنشاء الملف. إذا اختلف فهذا ليس الملف نفسه.",
@@ -14797,6 +14890,25 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "gm.filters":"Ручной фильтр",
+  "gm.fAge":"Класс",
+  "gm.any":"Любой",
+  "gm.mid":"Средняя школа (7–9)",
+  "gm.high":"Старшая школа (10–12)",
+  "gm.fTime":"Длительность до",
+  "gm.fN":"Число учеников",
+  "gm.fNoEq":"Только без инвентаря",
+  "gm.clear":"Сбросить фильтр",
+  "gm.compact":"☰ Компактный вид",
+  "gm.favs":"Избранное",
+  "gm.favToggle":"Избранное",
+  "gm.fav":"Добавить в избранное",
+  "gm.unfav":"Убрать из избранного",
+  "gm.noFavs":"Пока нет избранного — нажмите ☆ на карточке игры.",
+  "gm.more":"Ещё: кому подходит и варианты",
+  "gm.countWord":"игр",
+  "gm.filtered":"отфильтровано",
+  /* ux-redesign */
   "bk.fp":"Код проверки",
   "bk.fpHint":"Тот же код показывается при создании файла. Если он отличается — это другой файл.",
   "bk.how5":"В предпросмотре показан «код проверки». Он совпадает с кодом при создании файла — если нет, это другой файл, продолжать нельзя.",
@@ -15556,6 +15668,25 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "gm.filters":"Filtro manual",
+  "gm.fAge":"Nivel",
+  "gm.any":"Todos",
+  "gm.mid":"Secundaria (7–9)",
+  "gm.high":"Bachillerato (10–12)",
+  "gm.fTime":"Duración hasta",
+  "gm.fN":"Alumnos",
+  "gm.fNoEq":"Solo sin material",
+  "gm.clear":"Borrar filtro",
+  "gm.compact":"☰ Vista compacta",
+  "gm.favs":"Favoritos",
+  "gm.favToggle":"Favorito",
+  "gm.fav":"Añadir a favoritos",
+  "gm.unfav":"Quitar de favoritos",
+  "gm.noFavs":"Aún no hay favoritos: toca ☆ en una tarjeta de juego.",
+  "gm.more":"Más: para quién y variantes",
+  "gm.countWord":"juegos",
+  "gm.filtered":"filtrado",
   /* ux-redesign */
   "bk.fp":"Código de verificación",
   "bk.fpHint":"El mismo código se muestra al crear el archivo. Si es distinto, no es el mismo archivo.",
@@ -23882,6 +24013,20 @@ const srcById=id=>SOURCES.find(s=>s.id===id);
 /* ---------- GAMES view ---------- */
 window.GAMES=(function(){
   let inited=false, cat="all", q="";
+  /* העדפות המורה: מועדפים, תצוגה קומפקטית ומסננים ידניים. הכול מקומי, ושום דבר לא נבחר אוטומטית. */
+  const LSK={fav:"gm.fav",compact:"gm.compact",flt:"gm.flt"};
+  const getFav=()=>{ const v=H().LS.get(LSK.fav,[]); return Array.isArray(v)?v.filter(x=>typeof x==="string"):[]; };
+  const isFav=id=>getFav().indexOf(id)>=0;
+  function toggleFav(id){
+    const f=getFav(), i=f.indexOf(id);
+    if(i>=0)f.splice(i,1); else f.push(id);
+    H().LS.set(LSK.fav,f); return i<0;
+  }
+  const isCompact=()=>H().LS.get(LSK.compact,false)===true;
+  const getFlt=()=>{ const v=H().LS.get(LSK.flt,null)||{};
+    return {age:v.age==="mid"||v.age==="high"?v.age:"",tmax:[10,15,20,30].indexOf(+v.tmax)>=0?+v.tmax:0,n:+v.n>0?Math.min(99,Math.round(+v.n)):0,noeq:v.noeq===true}; };
+  const metaCache={};
+  const metaOf=g=>metaCache[g.id]||(metaCache[g.id]=window.HMDATA.parseGameMeta(g));
   /* החיפוש רץ על הטקסט שבשפת הממשק (מה שהמורה רואה) וגם על הנוסח
      העברי — כך «Capture» מוצא את «Capture the flag» ו«דגל» עדיין עובד.
      הטקסט המתורגם נבנה פעם אחת לכל שפה ולכל משחק. */
@@ -23895,24 +24040,35 @@ window.GAMES=(function(){
     return (c[g.id]=window.HMDATA.foldSearch(parts.join(" ")+" "+parts.map(tr).join(" ")));
   }
   function list(){
-    return GAMES.filter(g=>(cat==="all"||g.cat===cat)&&window.HMDATA.searchMatch(hay(g),q));
+    const f=getFlt(), fav=getFav();
+    return GAMES.filter(g=>(cat==="all"||(cat==="fav"?fav.indexOf(g.id)>=0:g.cat===cat))&&window.HMDATA.searchMatch(hay(g),q)&&window.HMDATA.gameMatches(metaOf(g),f));
   }
   function render(){
     const {$, $$, esc}=H();
+    const favN=getFav().filter(id=>GAMES.some(g=>g.id===id)).length;
     $("#gm-cats").innerHTML=GCATS.map(([id,nm,em])=>{
       const n=id==="all"?GAMES.length:GAMES.filter(g=>g.cat===id).length;
-      return `<button data-gc="${id}" class="${id===cat?"on":""}">${em} ${nm} <span class="cnt">${n}</span></button>`;
+      return `<button data-gc="${id}" class="${id===cat?"on":""}">${em} ${nm} <span class="cnt">${n}</span></button>`
+        +(id==="all"?`<button data-gc="fav" class="${cat==="fav"?"on":""}">⭐ ${esc(H().t("gm.favs","מועדפים"))} <span class="cnt">${favN}</span></button>`:"");
     }).join("");
     $$("#gm-cats [data-gc]").forEach(b=>b.addEventListener("click",()=>{ cat=b.dataset.gc; render(); }));
-    const items=list();
-    $("#gm-count").textContent=items.length+" משחקים";
+    const items=list(), cmp=isCompact(), fav=getFav();
+    const f=getFlt(), filtered=!!(f.age||f.tmax||f.n||f.noeq);
+    $("#gm-count").textContent=items.length+" "+H().t("gm.countWord","משחקים")+(filtered?" · "+H().t("gm.filtered","מסונן"):"");
+    const cb=$("#gm-compact"); if(cb){ cb.setAttribute("aria-pressed",cmp?"true":"false"); cb.classList.toggle("acc",cmp); }
+    $("#gm-grid").classList.toggle("compact",cmp);
     $("#gm-grid").innerHTML=items.map(g=>`<div class="gm-card" data-g="${g.id}">
+      <button type="button" class="gm-fav${fav.indexOf(g.id)>=0?" on":""}" data-fav="${g.id}" aria-pressed="${fav.indexOf(g.id)>=0}" aria-label="${esc(H().t("gm.favToggle","מועדף"))}">${fav.indexOf(g.id)>=0?"★":"☆"}</button>
       <div class="hd"><span class="em">${g.em}</span><div><b>${esc(g.name)}</b>
         <span class="tag">${esc(catName(g.cat))}</span></div></div>
-      <div class="gl">${esc(g.goal)}</div>
-      <div class="meta"><span>👥 ${esc(g.who)}</span><span>📍 ${esc(g.space)}</span><span>⏱ ${esc(g.time)}</span></div>
-    </div>`).join("")||'<div class="empty-state"><div class="big">🔍</div>אין משחק שמתאים לסינון.</div>';
-    $$("#gm-grid .gm-card").forEach(c=>c.addEventListener("click",()=>open(c.dataset.g)));
+      ${cmp?`<div class="sf">⚠ ${esc(g.safe)}</div>`:`<div class="gl">${esc(g.goal)}</div>`}
+      <div class="meta"><span>👥 ${esc(g.who)}</span>${cmp?"":`<span>📍 ${esc(g.space)}</span>`}<span>⏱ ${esc(g.time)}</span></div>
+    </div>`).join("")||'<div class="empty-state"><div class="big">🔍</div>'+(cat==="fav"&&!filtered&&!q.trim()?esc(H().t("gm.noFavs","עוד אין מועדפים — לחצו על ☆ בכרטיס משחק.")):"אין משחק שמתאים לסינון.")+'</div>';
+    $$("#gm-grid .gm-card").forEach(c=>c.addEventListener("click",e=>{
+      const fb=e.target.closest("[data-fav]");
+      if(fb){ e.stopPropagation(); toggleFav(fb.dataset.fav); render(); return; }
+      open(c.dataset.g);
+    }));
   }
   function open(id){
     const {$, esc}=H(), g=GAMES.find(x=>x.id===id); if(!g)return;
@@ -23926,15 +24082,20 @@ window.GAMES=(function(){
         <span class="pill">🎒 ${esc(g.equip)}</span>
       </div>
       <div class="gm-sec"><h4>🎯 מטרת המשחק</h4><p>${esc(g.goal)}</p></div>
-      <div class="gm-sec"><h4>👤 למי זה מתאים</h4><p>${esc(g.fit)}</p></div>
-      <div class="gm-sec"><h4>📖 מהלך המשחק</h4><ol>${g.how.map(s=>"<li>"+esc(s)+"</li>").join("")}</ol></div>
-      <div class="gm-sec"><h4>🔀 וריאציות והתאמות</h4><ul>${g.vars.map(s=>"<li>"+esc(s)+"</li>").join("")}</ul></div>
+      ${(()=>{ const fit=`<div class="gm-sec"><h4>👤 למי זה מתאים</h4><p>${esc(g.fit)}</p></div>`;
+        const how=`<div class="gm-sec"><h4>📖 מהלך המשחק</h4><ol>${g.how.map(s=>"<li>"+esc(s)+"</li>").join("")}</ol></div>`;
+        const vars=`<div class="gm-sec"><h4>🔀 וריאציות והתאמות</h4><ul>${g.vars.map(s=>"<li>"+esc(s)+"</li>").join("")}</ul></div>`;
+        /* תצוגה קומפקטית: מהלך המשחק פתוח, ו«למי מתאים» והווריאציות מקופלים. הבטיחות תמיד גלויה. */
+        return isCompact()?how+`<details class="gm-more"><summary>${esc(H().t("gm.more","עוד: למי מתאים ווריאציות"))}</summary>${fit}${vars}</details>`:fit+how+vars; })()}
       <div class="gm-sec warn"><h4>⚠️ בטיחות</h4><p>${esc(g.safe)}</p></div>
       <a class="btn acc big" style="margin-top:6px;display:block;text-align:center;text-decoration:none"
          href="${ytUrl(g.yt)}" target="_blank" rel="noopener">▶ צפייה בהדגמה ביוטיוב</a>
       <div class="hint" style="margin-top:7px">הקישור פותח חיפוש יוטיוב לפי שם המשחק — כך הוא לא נשבר עם הזמן, ואפשר לבחור סרטון בעברית או באנגלית.</div>
-      <button class="btn sm" id="gm-toLesson" style="margin-top:11px">📋 קח למערך שיעור</button>`;
+      <button class="btn sm" id="gm-toLesson" style="margin-top:11px">📋 קח למערך שיעור</button>
+      <button class="btn sm ghost" id="gm-favBtn" style="margin-top:11px" aria-pressed="${isFav(g.id)}">${isFav(g.id)?"★ "+esc(H().t("gm.unfav","הסר ממועדפים")):"☆ "+esc(H().t("gm.fav","הוסף למועדפים"))}</button>`;
     H().modal("gm-modal");
+    const fbtn=$("#gm-favBtn");
+    if(fbtn)fbtn.addEventListener("click",()=>{ toggleFav(g.id); open(g.id); render(); });
     const b=$("#gm-toLesson");
     if(b)b.addEventListener("click",()=>{
       H().modal("gm-modal",false);
@@ -23953,6 +24114,12 @@ window.GAMES=(function(){
     const {$}=H();
     /* חיפוש סורק את כל הקטגוריות — כדי שלא ״ייעלמו״ תוצאות בגלל סינון פעיל */
     $("#gm-search").addEventListener("input",e=>{ q=e.target.value; if(q.trim())cat="all"; render(); });
+    const cb=$("#gm-compact"); if(cb)cb.addEventListener("click",()=>{ H().LS.set(LSK.compact,!isCompact()); render(); });
+    const fl=()=>({age:$("#gm-fAge").value,tmax:+$("#gm-fTime").value||0,n:+$("#gm-fN").value||0,noeq:$("#gm-fNoEq").checked});
+    const paintFlt=()=>{ const f=getFlt(); $("#gm-fAge").value=f.age; $("#gm-fTime").value=String(f.tmax||0); $("#gm-fN").value=f.n||""; $("#gm-fNoEq").checked=f.noeq; };
+    ["gm-fAge","gm-fTime","gm-fN","gm-fNoEq"].forEach(id=>{ const e=$("#"+id); if(e)e.addEventListener("input",()=>{ H().LS.set(LSK.flt,fl()); render(); }); });
+    const clr=$("#gm-fClear"); if(clr)clr.addEventListener("click",()=>{ H().LS.set(LSK.flt,null); paintFlt(); render(); });
+    paintFlt();
     render();
   }
   return {init, all:()=>GAMES, byId:id=>GAMES.find(g=>g.id===id), byCat:c=>GAMES.filter(g=>g.cat===c), cats:GCATS, ytUrl};

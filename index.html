@@ -15,21 +15,21 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="d80361b7">
+<meta name="hm-build" content="994c13e8">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
-<link rel="stylesheet" href="hm-styles.css?v=09a4178a">
+<link rel="stylesheet" href="hm-styles.css?v=efdf0ec5">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-native.js?v=6c53d8bd"></script>
 <script src="hm-backup-restore.js?v=f1a05be7"></script>
-<script src="hm-data.js?v=ca7c1352"></script>
+<script src="hm-data.js?v=f1081719"></script>
 <script src="hm-assessment-data.js?v=016c9c1c"></script>
 <script src="hm-terms.js?v=58b70a63"></script>
 <script src="hm-texts.js?v=0e0a2539"></script>
-<script src="hm-i18n.js?v=5b726859"></script>
+<script src="hm-i18n.js?v=127d0f5c"></script>
 <script src="hm-app.js?v=39b249ca"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
-<script src="hm-know.js?v=a7ad18d5"></script>
+<script src="hm-know.js?v=cd2512e2"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="hm-tools.js?v=0baf385d"></script>
@@ -1405,6 +1405,19 @@
     <h2><span class="dot"></span> משחקים לשעות פנאי</h2>
     <div class="hint">כל משחק עם הסבר מלא, מטרה, למי הוא מתאים, וריאציות, דגשי בטיחות וקישור לצפייה. אפשר לקחת כל משחק ישירות למערך שיעור.</div>
     <div class="field" style="margin-top:11px"><label>חיפוש</label><input type="text" id="gm-search" placeholder="שם משחק, ציוד, מטרה…"></div>
+    <details class="gm-flt" id="gm-filters"><summary data-i18n="gm.filters" data-i18n-he="סינון ידני">סינון ידני</summary>
+      <div class="row" style="margin-top:8px">
+        <div class="field" style="width:150px"><label for="gm-fAge" data-i18n="gm.fAge" data-i18n-he="שכבה">שכבה</label>
+          <select id="gm-fAge"><option value="" data-i18n="gm.any" data-i18n-he="הכול">הכול</option><option value="mid" data-i18n="gm.mid" data-i18n-he="חטיבה (ז׳–ט׳)">חטיבה (ז׳–ט׳)</option><option value="high" data-i18n="gm.high" data-i18n-he="תיכון (י׳–י״ב)">תיכון (י׳–י״ב)</option></select></div>
+        <div class="field" style="width:150px"><label for="gm-fTime" data-i18n="gm.fTime" data-i18n-he="משך עד (דק׳)">משך עד (דק׳)</label>
+          <select id="gm-fTime"><option value="0" data-i18n="gm.any" data-i18n-he="הכול">הכול</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="30">30</option></select></div>
+        <div class="field" style="width:130px"><label for="gm-fN" data-i18n="gm.fN" data-i18n-he="מס׳ תלמידים">מס׳ תלמידים</label>
+          <input type="number" id="gm-fN" min="1" max="99" inputmode="numeric"></div>
+      </div>
+      <label class="check" style="margin-top:8px"><input type="checkbox" id="gm-fNoEq"> <span data-i18n="gm.fNoEq" data-i18n-he="בלי ציוד בלבד">בלי ציוד בלבד</span></label>
+      <button class="btn sm ghost" id="gm-fClear" style="margin-top:8px" data-i18n="gm.clear" data-i18n-he="נקה סינון">נקה סינון</button>
+    </details>
+    <div class="row" style="margin-top:8px"><button class="btn sm ghost" id="gm-compact" aria-pressed="false" data-i18n="gm.compact" data-i18n-he="☰ תצוגה קומפקטית">☰ תצוגה קומפקטית</button></div>
     <div id="gm-cats" class="gm-cats"></div>
     <div class="hint" id="gm-count" style="margin-top:8px"></div>
   </div>

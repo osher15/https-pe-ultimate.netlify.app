@@ -669,6 +669,34 @@ function variantFit(v,alloc,opts){
   if(!sr||!(alloc>0))return {known:false};
   var f=fitSteps(sr,alloc,opts); f.sr=sr; return f;
 }
+/* ---------- ספריית המשחקים: מטא־נתונים לסינון ידני ----------
+   הנתונים נשארים כפי שהם — כך שהמורה רואה, והטקסט המתורגם לא משתנה. הסינון
+   קורא את השכבות, מספר המשתתפים והזמן מתוך השדות הקיימים. סינון הוא תמיד
+   בחירה ידנית של המורה, לא הצעה אוטומטית. */
+var GRADE_NUM={"א":1,"ב":2,"ג":3,"ד":4,"ה":5,"ו":6,"ז":7,"ח":8,"ט":9,"י":10,"יא":11,"יב":12};
+function gameGradeNum(s){ var k=String(s==null?"":s).replace(/[׳'"״]/g,"").trim(); return GRADE_NUM[k]||null; }
+function parseGameMeta(g){
+  var who=String(g&&g.who||"").split("·"), gr=(who[0]||"").split(/[–-]/), nums=/(\d+)\s*[–-]\s*(\d+)/.exec(who[1]||"");
+  var tm=/(\d+)\s*[–-]\s*(\d+)\s*דק/.exec(String(g&&g.time||"")), t1=/^\s*(\d+)\s*דק/.exec(String(g&&g.time||""));
+  return {
+    gFrom:gameGradeNum(gr[0]), gTo:gameGradeNum(gr[1]),
+    pMin:nums?+nums[1]:null, pMax:nums?+nums[2]:null,
+    tMin:tm?+tm[1]:(t1?+t1[1]:null), tMax:tm?+tm[2]:(t1?+t1[1]:null),   /* null = פתוח */
+    noEquip:/^\s*(ללא|אין)(\s|$)/.test(String(g&&g.equip||""))
+  };
+}
+/* f: {age:"mid"|"high"|"", tmax:דקות או 0, n:מספר תלמידים או 0, noeq:boolean}. שדה ריק — לא מסנן. */
+function gameMatches(meta,f){
+  f=f||{};
+  if(f.age){
+    var lo=f.age==="mid"?7:10, hi=f.age==="mid"?9:12;
+    if(meta.gFrom==null||meta.gTo==null||meta.gTo<lo||meta.gFrom>hi)return false;
+  }
+  if(+f.tmax>0&&meta.tMin!=null&&meta.tMin>+f.tmax)return false;      /* פתוח — מתאים לכל אורך */
+  if(+f.n>0&&meta.pMin!=null&&(+f.n<meta.pMin||+f.n>meta.pMax))return false;
+  if(f.noeq&&!meta.noEquip)return false;
+  return true;
+}
 /* איחוד רשימות ציוד בלי כפילויות (לפי קיפול — «קונוסים» פעם אחת) */
 function mergeEquip(){
   var out=[], seen={};
@@ -2840,7 +2868,7 @@ return {
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
-  stepRanges:stepRanges, warmMinutes:warmMinutes, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,

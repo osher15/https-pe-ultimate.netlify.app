@@ -782,6 +782,12 @@ body.role-student .hx-mods,body.role-student .scoreband{display:none}
 .gm-card .hd b{display:block;font-family:'Secular One',sans-serif;font-size:15px;line-height:1.3}
 .gm-card .tag{font-size:11px;color:var(--acc)}
 .gm-card .gl{font-size:12.5px;color:var(--muted);line-height:1.55}
+.gm-card{position:relative}
+.gm-fav{position:absolute;inset-block-start:6px;inset-inline-end:6px;min-width:44px;min-height:44px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+.gm-fav.on{color:#f5c542}
+.gm-grid.compact{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.gm-card .sf{font-size:12px;color:var(--text);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.gm-flt{margin-top:10px}.gm-more{margin-top:8px}
 .gm-card .meta{display:flex;flex-wrap:wrap;gap:5px 10px;font-size:11px;color:var(--faint);
   border-top:1px solid var(--line);padding-top:8px;margin-top:auto}
 
@@ -1892,3 +1898,11 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 #hmn-doc .hmn-bar{display:flex;gap:8px;justify-content:space-between;background:var(--panel,#0b1220);
   padding:8px 12px;padding-top:calc(8px + var(--safe-area-inset-top,env(safe-area-inset-top)))}
 #hmn-doc iframe{flex:1;border:0;width:100%;background:#fff;padding-bottom:var(--safe-area-inset-bottom,env(safe-area-inset-bottom))}
+
+/* iOS Safari/WKWebView zooms the page when a field with a font-size under 16px
+   gets focus, and does not always zoom back on blur — the "document gets bigger"
+   report from the tablet. Applies only to WebKit touch devices (iPhone/iPad). */
+@supports (-webkit-touch-callout:none){
+  input,select,textarea{font-size:16px !important}
+  html{-webkit-text-size-adjust:100%}
+}
