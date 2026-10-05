@@ -39,6 +39,16 @@
    ============================================================ */
 window.LESSONBANK = window.LESSONBANK || { sports: {} };
 window.LESSONBANK.meta = {
+  /* מקור וסטטוס הסקירה של התוכן. התוכן נטען כפי שנכתב ב-Notion; לא נערך בייבוא.
+     reviewStatus: draft = טרם נסקר באדם; imported = נטען ללא בדיקה נוספת; teacher-reviewed / native-reviewed
+     יסומנו רק אחרי שאדם סקר. מתעדכן ידנית עם כל סבב ייבוא. */
+  provenance: {
+    source: "Notion — מאגר מערכי שיעור ספורט / סדרת מערכים לבית הספר",
+    sourcePageId: "3df128d0e2178140b549dd1a82642096",
+    contentVersion: "V2, תיקוני Notion עד 2026-09-28",
+    importedFrom: "feat/international-lesson-bank (2026-09-29)",
+    reviewStatus: "draft"
+  },
   langs: ["he", "en", "ar", "ru", "es"],
   sportOrder: ["basketball", "football", "handball", "volleyball", "athletics", "fitness"],
   sportLabel: {

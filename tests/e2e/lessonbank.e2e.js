@@ -56,6 +56,26 @@ module.exports={title:"מאגר מערכים בינלאומי",tests:[
       const n=await page.evaluate(()=>document.querySelectorAll("#ls-bankList [data-bopen]").length);
       ok(n>=1,s+": הרשימה ריקה אחרי מעבר ענף");
     }
-  })
-
+  }),
+  check("סטטוס טיוטה מוצג בכרטיס ובמערך, והתווית של תגיות אינה מזכירה מוצר אחר",seed,async page=>{
+    await go(page);
+    ok(await page.locator("#ls-bankHint .ls-bank-draft").count()===1,"באנר טיוטה בכרטיס");
+    eq(await page.evaluate(()=>window.LESSONBANK.meta.provenance.reviewStatus),"draft","סטטוס מקור");
+    for(const code of LANGS){
+      await switchLang(page,code); await go(page);
+      await page.locator("#ls-bankList [data-bopen]").first().click(); await page.waitForTimeout(150);
+      const body=await page.textContent("#ls-bankBody");
+      ok(!/\bPRO\b|המגרש PRO/.test(body),code+": אין אזכור של מוצר אחר");
+      ok(await page.locator("#ls-bankBody .ls-bank-draft").count()===1,code+": באנר טיוטה במערך");
+      await page.evaluate(()=>document.querySelector("#ls-bankModal").classList.remove("on"));
+    }
+  }),
+  check("ענף שחסר בשפה הפעילה: הודעה מפורשת וחזרה לעברית — לא בשקט",seed,async page=>{
+    await go(page);
+    await page.evaluate(()=>{ delete window.LESSONBANK.sports.basketball.ru; });
+    await switchLang(page,"ru"); await go(page);
+    await page.locator('#ls-bankSports button[data-bsport="basketball"]').click();
+    ok(await page.locator("#ls-bankHint .ls-bank-missing").count()===1,"הודעת שפה חסרה");
+    ok(await page.locator("#ls-bankList [data-bopen]").count()>=1,"המערכים מוצגים בעברית");
+  }),
 ]};

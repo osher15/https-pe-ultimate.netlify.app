@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="a0dd63eb">
+<meta name="hm-build" content="3830a6c4">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -1951,6 +1951,9 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 .bw-opt .cnt{opacity:.7;font-size:12px;margin-inline-start:6px}
 .bw-rec{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
+.ls-bank-draft{background:rgba(245,197,66,.12);border:1px solid rgba(245,197,66,.4);border-radius:10px;padding:8px 11px;margin:8px 0}
+.ls-bank-missing{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:8px 11px;margin:8px 0}
+
 </style>
 </head>
 <body>
@@ -3049,7 +3052,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
   </div>
   <div class="card" id="ls-bankCard" style="display:none">
     <h2><span class="dot"></span> מאגר מערכים בינלאומי</h2>
-    <div class="hint" style="margin:-4px 0 11px">60 מערכי שיעור מלאים — 10 לכל ענף, בחמש שפות. מוצגים בשפה הפעילה של האפליקציה.</div>
+    <div class="hint" id="ls-bankHint" style="margin:-4px 0 11px"></div>
     <div class="ft-seg" id="ls-bankSports"></div>
     <div class="hint" id="ls-bankCount" style="margin-top:10px"></div>
     <div id="ls-bankList" style="margin-top:6px"></div>
@@ -13391,6 +13394,10 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "lb.hint":"{n} full lesson plans in five languages — shown in the app's active language.",
+  "lb.draft":"Draft: the plans are imported as written and have not yet had professional review, native-language editing or a field pilot. You may read and use them at your own judgment.",
+  "lb.missingLang":"This sport is not yet available in your language — shown in Hebrew.",
+  /* ux-redesign */
   "bw.eqTitle":"Available equipment",
   "bw.eqNot":"unavailable",
   "bw.eqHint":"An item that is not ticked shows ⚠ next to the exercise or warm-up that needs it. The same list is used by the quick generator.",
@@ -14183,6 +14190,10 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "lb.hint":"{n} خطة درس كاملة بخمس لغات — تُعرض بلغة التطبيق النشطة.",
+  "lb.draft":"مسودة: الخطط مستوردة كما كُتبت ولم تخضع بعد لمراجعة مهنية أو تحرير لغوي أو تجربة ميدانية. يمكنكم الاطلاع عليها واستخدامها بتقديركم.",
+  "lb.missingLang":"هذه الرياضة غير متوفرة بعد بلغتك — تُعرض بالعبرية.",
   /* ux-redesign */
   "bw.eqTitle":"الأدوات المتاحة",
   "bw.eqNot":"غير متاحة",
@@ -14981,6 +14992,10 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "lb.hint":"{n} полных планов уроков на пяти языках — показываются на активном языке приложения.",
+  "lb.draft":"Черновик: планы импортированы как написаны и ещё не прошли профессиональную проверку, редактуру носителем языка и пилот в классе. Можно читать и использовать на ваше усмотрение.",
+  "lb.missingLang":"Этот вид спорта пока недоступен на вашем языке — показан на иврите.",
+  /* ux-redesign */
   "bw.eqTitle":"Доступный инвентарь",
   "bw.eqNot":"недоступно",
   "bw.eqHint":"Неотмеченный предмет показывается с ⚠ рядом с упражнением или разминкой, которым он нужен. Тот же список использует быстрый генератор.",
@@ -15770,6 +15785,10 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "lb.hint":"{n} sesiones completas en cinco idiomas, mostradas en el idioma activo de la aplicación.",
+  "lb.draft":"Borrador: las sesiones se importan tal como se escribieron y aún no han pasado revisión profesional, edición por hablantes nativos ni piloto en el aula. Puedes consultarlas y usarlas bajo tu criterio.",
+  "lb.missingLang":"Este deporte aún no está disponible en tu idioma: se muestra en hebreo.",
   /* ux-redesign */
   "bw.eqTitle":"Material disponible",
   "bw.eqNot":"no disponibles",
@@ -24979,6 +24998,16 @@ window.LESSONDOCS=[
    ============================================================ */
 window.LESSONBANK = window.LESSONBANK || { sports: {} };
 window.LESSONBANK.meta = {
+  /* מקור וסטטוס הסקירה של התוכן. התוכן נטען כפי שנכתב ב-Notion; לא נערך בייבוא.
+     reviewStatus: draft = טרם נסקר באדם; imported = נטען ללא בדיקה נוספת; teacher-reviewed / native-reviewed
+     יסומנו רק אחרי שאדם סקר. מתעדכן ידנית עם כל סבב ייבוא. */
+  provenance: {
+    source: "Notion — מאגר מערכי שיעור ספורט / סדרת מערכים לבית הספר",
+    sourcePageId: "3df128d0e2178140b549dd1a82642096",
+    contentVersion: "V2, תיקוני Notion עד 2026-09-28",
+    importedFrom: "feat/international-lesson-bank (2026-09-29)",
+    reviewStatus: "draft"
+  },
   langs: ["he", "en", "ar", "ru", "es"],
   sportOrder: ["basketball", "football", "handball", "volleyball", "athletics", "fitness"],
   sportLabel: {
@@ -32195,7 +32224,7 @@ window.LESSON=(function(){
       equipment:"ציוד ומרחב",safety:"בטיחות",flow:"מהלך השיעור",opening:"פתיחה",warmup:"חימום",
       mainA:"פעילות עיקרית א׳",mainB:"פעילות עיקרית ב׳",appliedGame:"משחק יישומי",closing:"סיכום",
       commonErrors:"טעויות נפוצות",teachingPoints:"דגשי הוראה",adaptations:"התאמות",assessment:"הערכה",
-      reflection:"רפלקציה",continuity:"המשכיות",bankLink:"חיבור למאגר המגרש PRO",systemData:"נתוני מערכת",
+      reflection:"רפלקציה",continuity:"המשכיות",bankLink:"תגיות ומילות מפתח",systemData:"נתוני מערכת",
       teacherSummary:"תקציר למורה",pedagogicalValue:"ערך פדגוגי",selfQualityCheck:"בדיקת איכות עצמית",
       pick:"בחר ענף",listCount:"מערכים בענף",open:"👁 פתח מערך"},
     en:{identity:"Unit identity",ageRange:"Age range",duration:"Duration (min)",purpose:"Overarching purpose",objectives:"Observable objectives",
@@ -32203,7 +32232,7 @@ window.LESSON=(function(){
       equipment:"Equipment & space",safety:"Safety",flow:"Lesson flow",opening:"Opening",warmup:"Warm-up",
       mainA:"Main activity A",mainB:"Main activity B",appliedGame:"Applied game",closing:"Closing",
       commonErrors:"Common errors",teachingPoints:"Teaching points",adaptations:"Adaptations",assessment:"Assessment",
-      reflection:"Reflection",continuity:"Continuity",bankLink:"PE Court PRO bank link",systemData:"System data",
+      reflection:"Reflection",continuity:"Continuity",bankLink:"Tags and keywords",systemData:"System data",
       teacherSummary:"Teacher summary",pedagogicalValue:"Pedagogical value",selfQualityCheck:"Self quality check",
       pick:"Pick a sport",listCount:"lessons in this sport",open:"👁 Open lesson"},
     ar:{identity:"هوية الوحدة",ageRange:"الفئة العمرية",duration:"المدة (دقيقة)",purpose:"الهدف العام",objectives:"أهداف تعلم قابلة للملاحظة",
@@ -32211,7 +32240,7 @@ window.LESSON=(function(){
       equipment:"المعدات والمساحة",safety:"السلامة",flow:"سير الدرس",opening:"الافتتاح",warmup:"الإحماء",
       mainA:"النشاط الرئيسي أ",mainB:"النشاط الرئيسي ب",appliedGame:"اللعبة التطبيقية",closing:"الختام",
       commonErrors:"الأخطاء الشائعة",teachingPoints:"نقاط التدريس",adaptations:"التكييفات",assessment:"التقويم",
-      reflection:"التأمل الذاتي",continuity:"الاستمرارية",bankLink:"الربط بمخزون الملعب PRO",systemData:"بيانات النظام",
+      reflection:"التأمل الذاتي",continuity:"الاستمرارية",bankLink:"الوسوم والكلمات المفتاحية",systemData:"بيانات النظام",
       teacherSummary:"ملخص للمعلم",pedagogicalValue:"القيمة التربوية",selfQualityCheck:"فحص الجودة الذاتي",
       pick:"اختر رياضة",listCount:"مواد في هذه الرياضة",open:"👁 افتح المادة"},
     ru:{identity:"Идентичность модуля",ageRange:"Возрастной диапазон",duration:"Длительность (мин)",purpose:"Главная цель",objectives:"Наблюдаемые цели обучения",
@@ -32219,7 +32248,7 @@ window.LESSON=(function(){
       equipment:"Оборудование и пространство",safety:"Безопасность",flow:"Ход урока",opening:"Вступление",warmup:"Разминка",
       mainA:"Основная деятельность А",mainB:"Основная деятельность Б",appliedGame:"Прикладная игра",closing:"Заключение",
       commonErrors:"Распространённые ошибки",teachingPoints:"Методические акценты",adaptations:"Адаптации",assessment:"Оценивание",
-      reflection:"Рефлексия",continuity:"Преемственность",bankLink:"Связь с банком Двор PRO",systemData:"Системные данные",
+      reflection:"Рефлексия",continuity:"Преемственность",bankLink:"Теги и ключевые слова",systemData:"Системные данные",
       teacherSummary:"Резюме для учителя",pedagogicalValue:"Педагогическая ценность",selfQualityCheck:"Самопроверка качества",
       pick:"Выберите вид спорта",listCount:"уроков в этом виде спорта",open:"👁 Открыть урок"},
     es:{identity:"Identidad de la unidad",ageRange:"Rango de edad",duration:"Duración (min)",purpose:"Propósito general",objectives:"Objetivos observables",
@@ -32227,7 +32256,7 @@ window.LESSON=(function(){
       equipment:"Equipamiento y espacio",safety:"Seguridad",flow:"Desarrollo de la clase",opening:"Apertura",warmup:"Calentamiento",
       mainA:"Actividad principal A",mainB:"Actividad principal B",appliedGame:"Juego aplicado",closing:"Cierre",
       commonErrors:"Errores comunes",teachingPoints:"Puntos clave de enseñanza",adaptations:"Adaptaciones",assessment:"Evaluación",
-      reflection:"Reflexión",continuity:"Continuidad",bankLink:"Enlace al banco Cancha PRO",systemData:"Datos del sistema",
+      reflection:"Reflexión",continuity:"Continuidad",bankLink:"Etiquetas y palabras clave",systemData:"Datos del sistema",
       teacherSummary:"Resumen para el docente",pedagogicalValue:"Valor pedagógico",selfQualityCheck:"Autocontrol de calidad",
       pick:"Elige un deporte",listCount:"clases en este deporte",open:"👁 Abrir clase"}
   };
@@ -32244,6 +32273,19 @@ window.LESSON=(function(){
     const LB=window.LESSONBANK;
     const bySport=LB&&LB.sports&&LB.sports[sport]; if(!bySport)return [];
     return bySport[bankLang()]||bySport.he||[];
+  }
+  /* שפה חסרה לענף: חוזרים לעברית, אבל אומרים את זה במפורש — לא בשקט */
+  function bankLangMissing(sport){
+    const LB=window.LESSONBANK, bySport=LB&&LB.sports&&LB.sports[sport];
+    return !!(bySport&&!bySport[bankLang()]&&bankLang()!=="he");
+  }
+  /* סטטוס התוכן: מיובא כמות שהוא, ושום דבר לא מסומן כנסקר בלי שאדם סקר אותו */
+  function bankStatusHtml(){
+    const LB=window.LESSONBANK, P=LB&&LB.meta&&LB.meta.provenance, st=(P&&P.reviewStatus)||"imported";
+    const msg=st==="draft"||st==="imported"
+      ?H().t("lb.draft","טיוטה: המערכים מיובאים כפי שנכתבו ועדיין לא עברו בדיקה מקצועית, עריכת שפת־אם ופיילוט בשטח. אפשר לעיין ולהשתמש בשיקול דעתכם.")
+      :"";
+    return msg?`<div class="hint ls-bank-draft" data-status="${H().esc(st)}">${H().esc(msg)}</div>`:"";
   }
   function bankSportLabel(sport){
     const LB=window.LESSONBANK;
@@ -32270,6 +32312,13 @@ window.LESSON=(function(){
     if(!list||!curBankSport)return;
     const lessons=bankLessons(curBankSport);
     count.textContent=lessons.length+" "+bankL().listCount;
+    const hint=$("#ls-bankHint");
+    if(hint){
+      const total=bankSports().reduce((a,sp)=>a+((window.LESSONBANK.sports[sp].he||[]).length),0);
+      hint.innerHTML=H().esc(H().t("lb.hint","{n} מערכי שיעור מלאים בחמש שפות — מוצגים בשפה הפעילה של האפליקציה.").replace("{n}",total))
+        +bankStatusHtml()
+        +(bankLangMissing(curBankSport)?`<div class="hint ls-bank-missing">${H().esc(H().t("lb.missingLang","הענף הזה עדיין לא זמין בשפה שבחרת — מוצג בעברית."))}</div>`:"");
+    }
     list.innerHTML=lessons.map(l=>
       `<div class="arc-item builtin"><div class="grow">
         <div class="ttl">📚 ${String(l.n).padStart(2,"0")} · ${esc(l.title)}</div>
@@ -32297,6 +32346,8 @@ window.LESSON=(function(){
     const flowHtml=`<div class="ls-bank-flow">`+["opening","warmup","mainA","mainB","appliedGame","closing"]
       .filter(k=>flow[k]).map(k=>`<div class="sub"><b>${esc(L[k])}</b><span>${esc(flow[k])}</span></div>`).join("")+`</div>`;
     $("#ls-bankBody").innerHTML=
+      bankStatusHtml()+
+      (bankLangMissing(sport)?`<div class="hint ls-bank-missing">${esc(H().t("lb.missingLang","הענף הזה עדיין לא זמין בשפה שבחרת — מוצג בעברית."))}</div>`:"")+
       `<div class="ls-bank-meta">${esc(meta)}</div>`+
       bankSec(L.identity,l.identity?`<p>${esc(l.identity)}</p>`:"")+
       bankSec(L.purpose,l.purpose?`<p>${esc(l.purpose)}</p>`:"")+
