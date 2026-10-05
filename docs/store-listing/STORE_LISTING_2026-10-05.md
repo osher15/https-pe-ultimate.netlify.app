@@ -2,7 +2,7 @@
 
 Status: **draft for the owner**. Nothing here is uploaded or published, and no app code was changed. Texts describe only what exists in the app today (see README.md and `docs/PE_ULTIMATE_PLAY_READINESS_2026-09-29.md`). Translations are drafts, not reviewed by native speakers (same status as the app itself).
 
-Google Play limits used: app name 30 characters, short description 80, full description 4000. Counts below were measured with a script.
+App name is **PE Ultimate App** in every language (a brand name, 15 characters, no keywords or emoji, which keeps it inside Play's naming rules). Google Play limits used: app name 30 characters, short description 80, full description 4000. Counts below were measured with a script.
 
 ## Before you paste anything
 
@@ -16,17 +16,17 @@ Google Play limits used: app name 30 characters, short description 80, full desc
 
 | Language | Name (≤30) | Short (≤80) | Full (≤4000) |
 |---|---|---|---|
-| English (default) | 27 | 72 | 1258 |
-| עברית | 29 | 65 | 953 |
-| العربية | 30 | 68 | 1057 |
-| Русский | 28 | 67 | 1308 |
-| Español | 22 | 80 | 1340 |
+| English (default) | 15 | 72 | 1258 |
+| עברית | 15 | 65 | 953 |
+| العربية | 15 | 68 | 1057 |
+| Русский | 15 | 67 | 1308 |
+| Español | 15 | 80 | 1340 |
 
 ## English (default) (`en`)
 
 **App name**
 
-PE Ultimate: PE Teacher Kit
+PE Ultimate App
 
 **Short description**
 
@@ -61,7 +61,7 @@ Fitness and VO₂max figures are estimates for education and teaching. They are 
 
 **App name**
 
-PE Ultimate: ערכת מורה לספורט
+PE Ultimate App
 
 **Short description**
 
@@ -96,7 +96,7 @@ PE Ultimate היא ערכת שטח למורים לחינוך גופני. הכו�
 
 **App name**
 
-PE Ultimate: أداة معلم الرياضة
+PE Ultimate App
 
 **Short description**
 
@@ -131,7 +131,7 @@ PE Ultimate أداة ميدانية لمعلمي التربية البدنية. 
 
 **App name**
 
-PE Ultimate: для физкультуры
+PE Ultimate App
 
 **Short description**
 
@@ -166,7 +166,7 @@ PE Ultimate — полевой набор для учителей физичес
 
 **App name**
 
-PE Ultimate: kit de EF
+PE Ultimate App
 
 **Short description**
 
@@ -206,7 +206,7 @@ Los datos de condición física y el VO₂max son estimaciones con fines educati
 | `icon-1024.png` | 1024×1024, opaque, no alpha | App Store icon base (iOS requires no transparency) |
 | `feature-graphic.svg` / `feature-graphic-1024x500.png` | 1024×500 | Play feature graphic |
 
-The new logo keeps the idea of the current icon (stopwatch with a check mark) and simplifies it: a white stopwatch on a blue gradient, speed lines, and a bold check. The shoe from the old icon is dropped because it did not read at small sizes.
+The new logo keeps the idea of the current icon (stopwatch with a check mark) and adds a basketball and a football (soccer ball) with color: a white stopwatch with a green check on a blue gradient, yellow speed lines, an orange basketball and a black-and-white football. The shoe from the old icon is dropped because it did not read at small sizes. The icon has no text, so it needs no translation.
 
 **Future only, not applied:** these files are not wired into the app. Replacing `icon-*.png`, `native/assets/*` and the manifest icons is a separate task that needs a fresh reservation on shared files and the owner's choice of logo. For the Android adaptive icon the foreground and background will have to be split into two layers (`native/assets/icon-foreground.png` / `icon-background.png`) with the stopwatch inside the central safe zone; that split was not done here.
 

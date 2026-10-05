@@ -1,26 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0B1220"/>
-      <stop offset="1" stop-color="#1B36A8"/>
-    </linearGradient>
-  </defs>
-  <rect width="1024" height="500" fill="url(#bg)"/>
-  <g transform="translate(60 50) scale(0.8)">
-    <g stroke="#FFFFFF" stroke-opacity=".85" stroke-width="16" stroke-linecap="round">
-      <line x1="62" y1="250" x2="104" y2="250"/>
-      <line x1="46" y1="296" x2="96" y2="296"/>
-      <line x1="62" y1="342" x2="104" y2="342"/>
-    </g>
-    <rect x="226" y="62" width="60" height="30" rx="10" fill="#FFFFFF"/>
-    <rect x="244" y="88" width="24" height="34" fill="#FFFFFF"/>
-    <rect x="352" y="130" width="44" height="22" rx="8" fill="#FFFFFF" transform="rotate(45 374 141)"/>
-    <circle cx="256" cy="290" r="160" fill="#FFFFFF"/>
-    <circle cx="256" cy="290" r="134" fill="#0B1220"/>
-    <circle cx="256" cy="290" r="116" fill="#EAF1FF"/>
-    <path d="M196 292 L242 338 L322 244" fill="none" stroke="#2457E6" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B1220"/><stop offset="1" stop-color="#1B36A8"/></linearGradient></defs><rect width="1024" height="500" fill="url(#bg)"/>
+<g transform="translate(40 -6) scale(.95)"><g stroke="#FFC83D" stroke-width="14" stroke-linecap="round">
+  <line x1="40" y1="190" x2="82" y2="190"/><line x1="28" y1="232" x2="78" y2="232"/><line x1="40" y1="274" x2="82" y2="274"/>
+</g><g transform="translate(256 235) scale(.82) translate(-256 -290)">
+  <rect x="226" y="62" width="60" height="30" rx="10" fill="#FFFFFF"/>
+  <rect x="244" y="88" width="24" height="34" fill="#FFFFFF"/>
+  <rect x="352" y="130" width="44" height="22" rx="8" fill="#FFC83D" transform="rotate(45 374 141)"/>
+  <circle cx="256" cy="290" r="160" fill="#FFFFFF"/>
+  <circle cx="256" cy="290" r="134" fill="#0B1220"/>
+  <circle cx="256" cy="290" r="116" fill="#EAF1FF"/>
+  <path d="M196 292 L242 338 L322 244" fill="none" stroke="#16A34A" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+</g><g>
+  <clipPath id="cb"><circle cx="150" cy="410" r="60"/></clipPath>
+  <circle cx="150" cy="410" r="60" fill="#F7841F"/>
+  <g clip-path="url(#cb)" fill="none" stroke="#0B1220" stroke-width="5" stroke-linecap="round">
+    <line x1="150" y1="350" x2="150" y2="470"/>
+    <line x1="90" y1="410" x2="210" y2="410"/>
+    <path d="M106 366 Q136 410 106 454"/>
+    <path d="M194 366 Q164 410 194 454"/>
   </g>
-  <text x="500" y="235" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-weight="700" font-size="80" fill="#FFFFFF">PE Ultimate</text>
-  <text x="504" y="295" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="36" fill="#BFD2FF">Field kit for PE teachers</text>
-  <text x="504" y="350" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#8FA9F0">Works offline · No account · 5 languages</text>
-</svg>
+  <circle cx="150" cy="410" r="60" fill="none" stroke="#0B1220" stroke-width="7"/>
+</g><g>
+  <clipPath id="cs"><circle cx="362" cy="410" r="60"/></clipPath>
+  <circle cx="362" cy="410" r="60" fill="#FFFFFF"/>
+  <g clip-path="url(#cs)" fill="#0B1220" stroke="#0B1220" stroke-width="3" stroke-linejoin="round">
+    <polygon points="362.0,389.0 382.0,403.5 374.3,427.0 349.7,427.0 342.0,403.5"/>
+    <line x1="362.0" y1="390.0" x2="362.0" y2="373.0" stroke-width="4"/>
+    <polygon points="362.0,368.0 343.0,354.2 350.2,331.8 373.8,331.8 381.0,354.2"/>
+    <line x1="381.0" y1="403.8" x2="397.2" y2="398.6" stroke-width="4"/>
+    <polygon points="401.9,397.0 409.2,374.7 432.7,374.7 440.0,397.0 421.0,410.8"/>
+    <line x1="373.8" y1="426.2" x2="383.7" y2="439.9" stroke-width="4"/>
+    <polygon points="386.7,444.0 410.2,444.0 417.5,466.3 398.4,480.2 379.4,466.3"/>
+    <line x1="350.2" y1="426.2" x2="340.3" y2="439.9" stroke-width="4"/>
+    <polygon points="337.3,444.0 344.6,466.3 325.6,480.2 306.5,466.3 313.8,444.0"/>
+    <line x1="343.0" y1="403.8" x2="326.8" y2="398.6" stroke-width="4"/>
+    <polygon points="322.1,397.0 303.0,410.8 284.0,397.0 291.3,374.7 314.8,374.7"/>
+  </g>
+  <circle cx="362" cy="410" r="60" fill="none" stroke="#0B1220" stroke-width="7"/>
+</g></g>
+<text x="520" y="230" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-weight="700" font-size="84" fill="#FFFFFF">PE Ultimate</text>
+<text x="524" y="292" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="36" fill="#FFC83D">Field kit for PE teachers</text>
+<text x="524" y="346" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="26" fill="#BFD2FF">Works offline · No account · 5 languages</text></svg>
