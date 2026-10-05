@@ -42,7 +42,7 @@ window.LESSONBANK.meta = {
   /* ענפים שיש להם קובץ נתונים. הקובץ נטען לפי דרישה (LESSONBANK.load) — בטעינה הראשונה של
      האפליקציה נטען רק הקובץ הזה, ולא כל שישה הענפים (כ-0.5 MB לענף). בגרסת הקובץ הבודד
      כולם כלולים מראש. ענף חדש מתווסף כאן, בקובץ שלו, ובתג data-lb ב-index.html. */
-  available: ["basketball", "football"],
+  available: ["basketball", "football", "handball", "volleyball", "athletics", "fitness"],
   lessonsPerSport: 10,
   /* מקור וסטטוס הסקירה של התוכן. התוכן נטען כפי שנכתב ב-Notion; לא נערך בייבוא.
      reviewStatus: draft = טרם נסקר באדם; imported = נטען ללא בדיקה נוספת; teacher-reviewed / native-reviewed
@@ -51,7 +51,7 @@ window.LESSONBANK.meta = {
     source: "Notion — מאגר מערכי שיעור ספורט / סדרת מערכים לבית הספר",
     sourcePageId: "3df128d0e2178140b549dd1a82642096",
     contentVersion: "V2, תיקוני Notion עד 2026-09-28",
-    importedFrom: "feat/international-lesson-bank (2026-09-29)",
+    importedFrom: "basketball, football: feat/international-lesson-bank (2026-09-29); handball, volleyball, athletics, fitness: Notion export via tools/notion-lessons-import.js (2026-10-05)",
     reviewStatus: "draft"
   },
   langs: ["he", "en", "ar", "ru", "es"],
