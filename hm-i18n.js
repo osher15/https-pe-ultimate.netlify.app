@@ -38,6 +38,10 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "bk.fp":"Verification code",
+  "bk.fpHint":"The same code is shown when the file is created. If it differs, it is not the same file.",
+  "bk.how5":"The preview shows a \"verification code\". It matches the code shown when the file was created — if it differs, it is not the same file; do not continue.",
+  /* ux-redesign */
   "ls.weather":"Weather (outdoor field)",
   "ls.wxCold":"Cold — longer warm-up",
   "ls.wxNormal":"Normal",
@@ -796,6 +800,10 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "bk.fp":"رمز التحقق",
+  "bk.fpHint":"يظهر الرمز نفسه عند إنشاء الملف. إذا اختلف فهذا ليس الملف نفسه.",
+  "bk.how5":"تظهر في المعاينة «رمز التحقق». هو نفسه الذي ظهر عند إنشاء الملف — إذا اختلف فهذا ليس الملف نفسه ولا تتابع.",
   /* ux-redesign */
   "ls.weather":"الطقس (ملعب خارجي)",
   "ls.wxCold":"بارد — إحماء أطول",
@@ -1560,6 +1568,10 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "bk.fp":"Код проверки",
+  "bk.fpHint":"Тот же код показывается при создании файла. Если он отличается — это другой файл.",
+  "bk.how5":"В предпросмотре показан «код проверки». Он совпадает с кодом при создании файла — если нет, это другой файл, продолжать нельзя.",
+  /* ux-redesign */
   "ls.weather":"Погода (открытая площадка)",
   "ls.wxCold":"Холодно — разминка дольше",
   "ls.wxNormal":"Обычная",
@@ -2315,6 +2327,10 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "bk.fp":"Código de verificación",
+  "bk.fpHint":"El mismo código se muestra al crear el archivo. Si es distinto, no es el mismo archivo.",
+  "bk.how5":"La vista previa muestra un «código de verificación». Coincide con el que se mostró al crear el archivo; si difiere, no es el mismo archivo y no debes continuar.",
   /* ux-redesign */
   "ls.weather":"Clima (campo al aire libre)",
   "ls.wxCold":"Frío: calentamiento más largo",
