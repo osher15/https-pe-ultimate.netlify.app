@@ -23,7 +23,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Manual builder timing/equipment agreement (#19) | Claude | hm-build.js; hm-data.js EQUIP_CHOICES/mainWindow/recommendWarm; hm-lesson.js ls.eqAvail sharing; bw.* keys; builder19 tests |
 | Backup verification code + transfer design (#22) | Claude | hm-app.js bkSave/bkFingerprint/bkPreview; bk.* keys; docs/DEVICE_TRANSFER_DESIGN.md |
 | Games library favorites, compact view, manual filters (#21) | Claude | hm-know.js games view; hm-data.js parseGameMeta/gameMatches; index.html games filter panel; hm-styles.css .gm-*; gm.* keys; library21 tests |
-| Native packaging | Claude | native/, native workflow/docs; check current reservations first |
+| Native packaging (#13) | Claude | .github/workflows/native.yml (release AAB job); native/android/app/build.gradle versionName; docs/NATIVE_RELEASE_CHECKLIST.md. Handoff: docs/handoffs/2026-10-05-native-release.md. No signing, upload or package-ID change |
 
 No blanket ownership of hm-data.js or all translation files: reserve bounded sections, rebase against accepted changes and rebuild outputs.
 When a file overlaps, serialize edits or agree distinct sections in the task record. A branch is not an automatic lock.
