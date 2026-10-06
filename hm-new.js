@@ -35,7 +35,7 @@ window.STU=(function(){
                    כיתה מוכרת מחזירה את המזהה הרשום גם אם שמה השתנה;
                    כיתה חדשה נרשמת; תווית ריקה → null (תלמיד בלי כיתה).
      ============================================================ */
-  const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v)};
+  const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v),raw:k=>H().LS.raw?H().LS.raw(k):undefined};
   const cidOf=s=>window.HMDATA.cidOfStudent(s,store);
   const cidFor=c=>window.HMDATA.resolveClassId(store,c,true);
   /* הכיתות שברשימה, לפי זהות: [{cid,name,n}] ממוין לפי שם. השם מגיע

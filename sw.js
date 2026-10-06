@@ -11,7 +11,7 @@
    יוצרת מטמון חדש והישן נמחק — במקום שגרסה ישנה תישאר תקועה על
    מכשיר בלי שאיש יידע.
    ============================================================ */
-const CACHE_VERSION = "afa4bdb1";
+const CACHE_VERSION = "cc07a94c";
 const CACHE = "peultimate-" + CACHE_VERSION;
 
 const SHELL = [
@@ -35,16 +35,16 @@ const SHELL = [
   "./hm-brand.js?v=4f30e0e9",
   "./hm-native.js?v=6c53d8bd",
   "./hm-backup-restore.js?v=f1a05be7",
-  "./hm-data.js?v=aafd8019",
+  "./hm-data.js?v=c4012573",
   "./hm-assessment-data.js?v=016c9c1c",
   "./hm-terms.js?v=0a0c7bd8",
   "./hm-texts.js?v=0e0a2539",
   "./hm-i18n.js?v=60620626",
-  "./hm-app.js?v=39b249ca",
+  "./hm-app.js?v=77e922a8",
   "./hm-qr.js?v=82eb96ad",
   "./hm-howto.js?v=cc1c5bf0",
   "./hm-know.js?v=cd2512e2",
-  "./hm-tools.js?v=0baf385d",
+  "./hm-tools.js?v=d6785f3d",
   "./hm-plans.js?v=20cf74cb",
   "./hm-lessonbank.js?v=b28c19df",
   "./hm-lessonbank-basketball.js?v=5a8850b9",
@@ -55,8 +55,8 @@ const SHELL = [
   "./hm-lessonbank-fitness.js?v=f40a69e2",
   "./hm-lesson.js?v=53e70384",
   "./hm-build.js?v=908876ec",
-  "./hm-tests.js?v=86bd740e",
-  "./hm-new.js?v=5086ff85",
+  "./hm-tests.js?v=94fb3a01",
+  "./hm-new.js?v=9c4c408e",
   "./hm-assessment.js?v=5fad1d30",
   "./hm-xlsx.js?v=3199b8b7",
   "./hm-assessment-report.js?v=394a2bae",

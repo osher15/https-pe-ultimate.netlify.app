@@ -17,7 +17,7 @@ const classesOf=l=>[...new Set(l.map(s=>s.cls).filter(Boolean))].sort();
    ברישום נשארת כיתה אחת. תלמיד בלי כיתה (cid:null) מופיע רק
    ב«כל הכיתות» — כמו קודם.
    ============================================================ */
-const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v)};
+const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v),raw:k=>H().LS.raw?H().LS.raw(k):undefined};
 const cidOf=s=>window.HMDATA.cidOfStudent(s,store);
 const cidOfLabel=c=>c?window.HMDATA.resolveClassId(store,c):null;
 /* כיתות שלומדות יחד (קבוצה, מזהה g:…): כל התלמידים של הכיתות החברות,

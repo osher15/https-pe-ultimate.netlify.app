@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="afa4bdb1">
+<meta name="hm-build" content="cc07a94c">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -4423,7 +4423,7 @@ function groupId(name,members,sids){
 }
 function isGroupRec(c){ return !!(c&&c.kind===GROUP_KIND); }
 function groupOf(store,gid){
-  var c=classes(store)[gid];
+  var c=classesRO(store)[gid];
   return isGroupRec(c)?c:null;
 }
 function listGroups(store){
@@ -5500,11 +5500,32 @@ function classes(store){
   var reg=store.get("ft.classes",null);
   return (reg&&typeof reg==="object"&&!Array.isArray(reg))?reg:{};
 }
-function classOf(store,cid){ return classes(store)[cid]||null; }
+/* Read-only view of the registry for hot lookups (classOf, groupOf,
+   findClass). Filtering N measurements by class used to read and parse
+   the registry once per row — ~12,000 parses to open one screen with a
+   full school year of data. When the store can return the raw stored
+   text (store.raw), the parsed registry is reused for as long as that
+   text is unchanged, so any write — through the app or not — is seen
+   on the next call. Callers must not mutate the returned objects; every
+   function that changes the registry keeps using classes(store), which
+   always returns a fresh copy. Stores without raw() (tests, previews of
+   a backup file) behave exactly as before. */
+var REG_MEMO={raw:null,value:null};
+function classesRO(store){
+  if(!store||typeof store.raw!=="function")return classes(store);
+  var raw;
+  try{ raw=store.raw("ft.classes"); }catch(e){ return classes(store); }
+  if(typeof raw!=="string")return classes(store);
+  if(raw===REG_MEMO.raw)return REG_MEMO.value;
+  var v=classes(store);
+  REG_MEMO={raw:raw,value:v};
+  return v;
+}
+function classOf(store,cid){ return classesRO(store)[cid]||null; }
 /* מוצא כיתה לפי תווית — קודם ברישום, ואם אין, לפי המזהה הנגזר */
 function findClass(store,raw){
   var id=classId(raw); if(!id)return null;
-  var reg=classes(store);
+  var reg=classesRO(store);
   if(reg[id])return reg[id];
   /* אולי הכיתה שונתה ולכן התווית כבר לא נגזרת למזהה שלה */
   var keys=Object.keys(reg);
@@ -17084,7 +17105,10 @@ const LS={
     storageTrouble(r,"כתיבה",k);
     return false;
   },
-  health(){ return Object.assign({},ST_HEALTH); }
+  health(){ return Object.assign({},ST_HEALTH); },
+  /* The stored text, unparsed — lets read-only lookups reuse a parse
+     while the text is unchanged (DATA.classesRO). undefined = unknown. */
+  raw(k){ try{ return (STORE||MEMFALLBACK).getItem(BRAND.ns+k); }catch(e){ return undefined; } }
 };
 
 /* ההודעה נשארת על המסך עד שמסירים אותה, ולא נעלמת כמו toast אחרי
@@ -17907,7 +17931,7 @@ function openSesHist(){ renderSesHist(null); modal("lsHistModal",true); }
    מצביעים על cid והשם מגיע דרכו. חוזה הרישום מתיר שתי כיתות באותו
    שם, ולכן כאן מזהירים ולא חוסמים.
    ============================================================ */
-const REGSTORE={get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)};
+const REGSTORE={get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v),raw:k=>LS.raw(k)};
 /* התווית שבה הכיתה נוצרה («ט׳3» עבור c:ט:3) — להבחנה בין שתי כיתות
    שנושאות היום אותו שם */
 function clsOrigin(cid){ const p=DATA.cidParts(cid); return p?DATA.clsName(p.grade,p.num):""; }
@@ -24403,7 +24427,7 @@ const classesOf=l=>[...new Set(l.map(s=>s.cls).filter(Boolean))].sort();
    ברישום נשארת כיתה אחת. תלמיד בלי כיתה (cid:null) מופיע רק
    ב«כל הכיתות» — כמו קודם.
    ============================================================ */
-const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v)};
+const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v),raw:k=>H().LS.raw?H().LS.raw(k):undefined};
 const cidOf=s=>window.HMDATA.cidOfStudent(s,store);
 const cidOfLabel=c=>c?window.HMDATA.resolveClassId(store,c):null;
 /* כיתות שלומדות יחד (קבוצה, מזהה g:…): כל התלמידים של הכיתות החברות,
@@ -46681,7 +46705,7 @@ window.FT=(function(){
     return r;
   }
   /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. */
-  const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
+  const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v),raw:k=>LS().raw?LS().raw(k):undefined};
   function registerCls(c){ try{ return DATA.registerClass(clsStore,c); }catch(e){ return null; } }
   /* תווית → זהות, דרך הרישום: כיתה ששמה שונה שומרת על המזהה שלה.
      כשהיא לא רשומה — נגזר מהתווית, כמו קודם. */
@@ -49201,7 +49225,7 @@ window.STU=(function(){
                    כיתה מוכרת מחזירה את המזהה הרשום גם אם שמה השתנה;
                    כיתה חדשה נרשמת; תווית ריקה → null (תלמיד בלי כיתה).
      ============================================================ */
-  const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v)};
+  const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v),raw:k=>H().LS.raw?H().LS.raw(k):undefined};
   const cidOf=s=>window.HMDATA.cidOfStudent(s,store);
   const cidFor=c=>window.HMDATA.resolveClassId(store,c,true);
   /* הכיתות שברשימה, לפי זהות: [{cid,name,n}] ממוין לפי שם. השם מגיע

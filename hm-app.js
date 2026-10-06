@@ -49,7 +49,10 @@ const LS={
     storageTrouble(r,"כתיבה",k);
     return false;
   },
-  health(){ return Object.assign({},ST_HEALTH); }
+  health(){ return Object.assign({},ST_HEALTH); },
+  /* The stored text, unparsed — lets read-only lookups reuse a parse
+     while the text is unchanged (DATA.classesRO). undefined = unknown. */
+  raw(k){ try{ return (STORE||MEMFALLBACK).getItem(BRAND.ns+k); }catch(e){ return undefined; } }
 };
 
 /* ההודעה נשארת על המסך עד שמסירים אותה, ולא נעלמת כמו toast אחרי
@@ -872,7 +875,7 @@ function openSesHist(){ renderSesHist(null); modal("lsHistModal",true); }
    מצביעים על cid והשם מגיע דרכו. חוזה הרישום מתיר שתי כיתות באותו
    שם, ולכן כאן מזהירים ולא חוסמים.
    ============================================================ */
-const REGSTORE={get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v)};
+const REGSTORE={get:(k,d)=>LS.get(k,d===undefined?null:d),set:(k,v)=>LS.set(k,v),raw:k=>LS.raw(k)};
 /* התווית שבה הכיתה נוצרה («ט׳3» עבור c:ט:3) — להבחנה בין שתי כיתות
    שנושאות היום אותו שם */
 function clsOrigin(cid){ const p=DATA.cidParts(cid); return p?DATA.clsName(p.grade,p.num):""; }

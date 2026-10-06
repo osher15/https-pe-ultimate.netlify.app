@@ -146,7 +146,7 @@ function groupId(name,members,sids){
 }
 function isGroupRec(c){ return !!(c&&c.kind===GROUP_KIND); }
 function groupOf(store,gid){
-  var c=classes(store)[gid];
+  var c=classesRO(store)[gid];
   return isGroupRec(c)?c:null;
 }
 function listGroups(store){
@@ -1223,11 +1223,32 @@ function classes(store){
   var reg=store.get("ft.classes",null);
   return (reg&&typeof reg==="object"&&!Array.isArray(reg))?reg:{};
 }
-function classOf(store,cid){ return classes(store)[cid]||null; }
+/* Read-only view of the registry for hot lookups (classOf, groupOf,
+   findClass). Filtering N measurements by class used to read and parse
+   the registry once per row — ~12,000 parses to open one screen with a
+   full school year of data. When the store can return the raw stored
+   text (store.raw), the parsed registry is reused for as long as that
+   text is unchanged, so any write — through the app or not — is seen
+   on the next call. Callers must not mutate the returned objects; every
+   function that changes the registry keeps using classes(store), which
+   always returns a fresh copy. Stores without raw() (tests, previews of
+   a backup file) behave exactly as before. */
+var REG_MEMO={raw:null,value:null};
+function classesRO(store){
+  if(!store||typeof store.raw!=="function")return classes(store);
+  var raw;
+  try{ raw=store.raw("ft.classes"); }catch(e){ return classes(store); }
+  if(typeof raw!=="string")return classes(store);
+  if(raw===REG_MEMO.raw)return REG_MEMO.value;
+  var v=classes(store);
+  REG_MEMO={raw:raw,value:v};
+  return v;
+}
+function classOf(store,cid){ return classesRO(store)[cid]||null; }
 /* מוצא כיתה לפי תווית — קודם ברישום, ואם אין, לפי המזהה הנגזר */
 function findClass(store,raw){
   var id=classId(raw); if(!id)return null;
-  var reg=classes(store);
+  var reg=classesRO(store);
   if(reg[id])return reg[id];
   /* אולי הכיתה שונתה ולכן התווית כבר לא נגזרת למזהה שלה */
   var keys=Object.keys(reg);

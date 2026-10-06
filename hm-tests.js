@@ -213,7 +213,7 @@ window.FT=(function(){
     return r;
   }
   /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. */
-  const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
+  const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v),raw:k=>LS().raw?LS().raw(k):undefined};
   function registerCls(c){ try{ return DATA.registerClass(clsStore,c); }catch(e){ return null; } }
   /* תווית → זהות, דרך הרישום: כיתה ששמה שונה שומרת על המזהה שלה.
      כשהיא לא רשומה — נגזר מהתווית, כמו קודם. */
