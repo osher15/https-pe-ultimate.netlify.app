@@ -38,6 +38,18 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "lm.back":"▶ Back to lesson",
+  "lm.active":"Active lesson",
+  "lm.students":"students",
+  "lm.changeCls":"Change class",
+  "lm.today":"today",
+  "lm.full":"full",
+  "lm.partial":"partial",
+  "lm.exempt":"exempt",
+  "lm.absent":"absent",
+  "lm.unmarked":"not marked",
+  "lm.change":"Change class or date",
+  /* ux-redesign */
   "ft.cardTitle":"Student card",
   "ft.repOne":"One rep",
   "ft.repFive":"Five reps",
@@ -848,6 +860,18 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "lm.back":"▶ العودة إلى الدرس",
+  "lm.active":"درس نشط",
+  "lm.students":"طلاب",
+  "lm.changeCls":"تغيير الصف",
+  "lm.today":"اليوم",
+  "lm.full":"كاملة",
+  "lm.partial":"جزئية",
+  "lm.exempt":"معفى",
+  "lm.absent":"غائبون",
+  "lm.unmarked":"لم يُسجَّلوا",
+  "lm.change":"تغيير الصف أو التاريخ",
   /* ux-redesign */
   "ft.cardTitle":"بطاقة الطالب",
   "ft.repOne":"تكرار واحد",
@@ -1664,6 +1688,18 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "lm.back":"▶ Назад к уроку",
+  "lm.active":"Идёт урок",
+  "lm.students":"учеников",
+  "lm.changeCls":"Сменить класс",
+  "lm.today":"сегодня",
+  "lm.full":"полное",
+  "lm.partial":"частичное",
+  "lm.exempt":"освобождён",
+  "lm.absent":"отсутствуют",
+  "lm.unmarked":"не отмечены",
+  "lm.change":"Сменить класс или дату",
+  /* ux-redesign */
   "ft.cardTitle":"Карточка ученика",
   "ft.repOne":"Одно повторение",
   "ft.repFive":"Пять повторений",
@@ -2471,6 +2507,18 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "lm.back":"▶ Volver a la clase",
+  "lm.active":"Clase en curso",
+  "lm.students":"alumnos",
+  "lm.changeCls":"Cambiar de grupo",
+  "lm.today":"hoy",
+  "lm.full":"completa",
+  "lm.partial":"parcial",
+  "lm.exempt":"exento",
+  "lm.absent":"ausentes",
+  "lm.unmarked":"sin marcar",
+  "lm.change":"Cambiar grupo o fecha",
   /* ux-redesign */
   "ft.cardTitle":"Ficha del alumno",
   "ft.repOne":"Una repetición",

@@ -204,6 +204,10 @@ window.TOOLS=(function(){
   const attKey=(d,c)=>d+"|"+(c||"all");
   const MARKS=[["p","מלאה","#34d399"],["h","חלקית","#fbbf24"],["e","פטור","#38bdf8"],["a","נעדר","#f87171"]];
   let attCls="", attDate=today();
+  /* מצב שיעור: התאריך, בורר הכיתה וחמשת ריבועי הסיכום מתקפלים לשורה
+     אחת, והרשימה עולה לראש המסך. «שנה» פותח אותם כרגיל. שיעור חדש
+     נפתח שוב מקופל. */
+  let attShowPick=false, attLessonId=null;
   /* הנוכחות: הבורר נושא את שם הכיתה (tools.att ממופתח תאריך|שם, וזה
      לא משתנה), אבל מי נחשב «בכיתה» נקבע לפי cid. */
   const attPool=()=>{ const cid=isGrp(attCls)?attCls:cidOfLabel(attCls); return students().filter(s=>inClass(s,cid)); };
@@ -224,18 +228,34 @@ window.TOOLS=(function(){
   }
   function renderAtt(){
     const {$, $$, esc}=H();
-    /* אומרים למורה למה המסך נפתח על הכיתה והתאריך האלה */
-    const ctx=$("#tl-attCtx"), a=lessonCtx();
-    if(ctx){
-      const on=!!(a&&(a.cid?(isGrp(attCls)?attCls:cidOfLabel(attCls))===a.cid:sameCls(attCls,a.clsSnapshot))&&attDate===a.date);
-      ctx.hidden=!on;
-      if(on)ctx.innerHTML="▶ <b>שיעור פעיל</b> · "+esc(a.clsSnapshot)+" · "+esc(a.date)+
-        " — הנוכחות נפתחה עליו. אפשר לשנות כיתה או תאריך.";
-    }
     const l=attPool();
     const all=ATT(), rec=marksOf(l,all);
     const cnt={p:0,h:0,e:0,a:0};
     l.forEach(s=>{ if(rec[s.id])cnt[rec[s.id]]=(cnt[rec[s.id]]||0)+1; });
+    /* אומרים למורה למה המסך נפתח על הכיתה והתאריך האלה */
+    const ctx=$("#tl-attCtx"), a=lessonCtx();
+    if(a&&a.id!==attLessonId){ attLessonId=a.id; attShowPick=false; }
+    const on=!!(a&&(a.cid?(isGrp(attCls)?attCls:cidOfLabel(attCls))===a.cid:sameCls(attCls,a.clsSnapshot))&&attDate===a.date);
+    const compact=on&&!attShowPick;
+    const sub=$("#tl-sub-att"); if(sub)sub.classList.toggle("tl-lessonMode",compact);
+    if(ctx){
+      ctx.hidden=!on;
+      if(compact){
+        const t=(k,he)=>H().t(k,he);
+        const unmarked=l.length-Object.keys(rec).length;
+        ctx.innerHTML="<span>▶ <b>"+esc(t("lm.active","שיעור פעיל"))+"</b> · "+esc(a.clsSnapshot)+" · "+
+          esc(attDate===today()?t("lm.today","היום"):attDate)+" — "+
+          (cnt.p||0)+" "+esc(t("lm.full","מלאה"))+
+          (cnt.h?" · "+cnt.h+" "+esc(t("lm.partial","חלקית")):"")+
+          (cnt.e?" · "+cnt.e+" "+esc(t("lm.exempt","פטור")):"")+
+          " · "+(cnt.a||0)+" "+esc(t("lm.absent","נעדרים"))+
+          (unmarked?" · "+unmarked+" "+esc(t("lm.unmarked","לא סומנו")):"")+"</span> "+
+          '<button class="btn sm ghost" id="tl-attChange">'+esc(t("lm.change","שנה כיתה או תאריך"))+"</button>";
+        const ch=$("#tl-attChange");
+        if(ch)ch.onclick=()=>{ attShowPick=true; renderAtt(); };
+      }else if(on)ctx.innerHTML="▶ <b>שיעור פעיל</b> · "+esc(a.clsSnapshot)+" · "+esc(a.date)+
+        " — הנוכחות נפתחה עליו. אפשר לשנות כיתה או תאריך.";
+    }
     $("#tl-attStats").innerHTML=MARKS.map(([k,nm,c])=>
       `<div class="qs"><div class="n" style="color:${c}">${cnt[k]||0}</div><div class="l">${nm}</div></div>`).join("")+
       `<div class="qs"><div class="n">${l.length-Object.keys(rec).length}</div><div class="l">לא סומן</div></div>`;

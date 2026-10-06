@@ -14,8 +14,10 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
-/* מניעת גלישה אופקית של כל הדף בנגיעה (גם בטלפון); רצועות עם גלילה משלהן ממשיכות לעבוד */
-html{overflow-x:hidden;overscroll-behavior-x:none}
+/* מניעת גלישה אופקית של כל הדף בנגיעה (מחווה צידית / משיכה של הדף); רצועות עם גלילה
+   משלהן ממשיכות לעבוד. בלי overflow על html: זה הופך את body למיכל גלילה ושובר את
+   position:sticky (הכותרת וסרגל השעון במבחנים). */
+html{overscroll-behavior-x:none}
 body{font-family:'Heebo',sans-serif;color:var(--ink);background:var(--bg);min-height:100vh;overflow-x:hidden;
   background:var(--bgimg)}
 /* הרקע מוגדר על body (ולא על :root) כדי ש-var(--accDim) יתעדכן לפי המודול הפעיל */
@@ -86,7 +88,7 @@ body[data-mod="nut"]{--acc:#4ade80;--accDim:rgba(74,222,128,.18)}
 .more-item .ic{font-size:19px;flex:none}
 .more-item .go{margin-inline-start:auto;color:var(--acc);font-size:16px;transform:scaleX(-1)}
 /* ---------- views ---------- */
-.view{display:none;animation:vin .22s ease}
+.view{display:none;animation:vin .12s ease}
 .view.on{display:block}
 @keyframes vin{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 .card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--r);
@@ -1931,3 +1933,26 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 
 .ls-bank-draft{background:rgba(245,197,66,.12);border:1px solid rgba(245,197,66,.4);border-radius:10px;padding:8px 11px;margin:8px 0}
 .ls-bank-missing{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:8px 11px;margin:8px 0}
+
+/* ===== מצב שיעור בכלים =====
+   כשהשיעור הפעיל הוא בכיתה שעל המסך, בוררי הכיתה מתקפלים לשורה אחת
+   («▶ שיעור פעיל · 7-1 · החלף כיתה») והתוכן עולה לראש המסך. */
+.ft-lessonRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px;padding:9px 12px;
+  border:1px solid var(--acc);border-radius:12px;background:color-mix(in srgb,var(--acc) 10%,transparent);font-size:14px}
+.ft-lessonRow[hidden]{display:none}
+.ft-lessonRow .grow{flex:1;min-width:160px}
+.ft-lessonRow b{color:var(--acc)}
+#ft-pick.ft-lessonMode > .card:first-child > .hint,
+#ft-pick.ft-lessonMode > .card:first-child > .field,
+#ft-pick.ft-lessonMode > .card:first-child > .ft-cls{display:none}
+#tl-sub-att.tl-lessonMode .row .field,
+#tl-sub-att.tl-lessonMode #tl-attStats{display:none}
+#tl-sub-att.tl-lessonMode .row .btn{margin-top:0!important}
+#tl-sub-att.tl-lessonMode #tl-attCtx{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--ink)}
+#tl-sub-att.tl-lessonMode #tl-attCtx span{flex:1;min-width:180px}
+#lsBarBack{font-weight:700}
+@media(max-width:560px){
+  #lsBar{flex-wrap:nowrap;gap:6px;padding:6px 8px}
+  #lsBar .lsb-lbl,#lsBar .lsb-plan{display:none}
+  #lsBar .btn.sm{padding-inline:9px;white-space:nowrap}
+}

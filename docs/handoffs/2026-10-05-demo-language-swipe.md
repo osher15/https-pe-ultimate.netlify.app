@@ -9,7 +9,7 @@ Changes and user behavior:
 - Switching the interface language while demo mode is on now replaces the demo students/results with names in the new language automatically (only ids demoN/dmN; other records untouched), and redraws the current data screen without a page reload. Before: a Hebrew demo stayed Hebrew in an English UI until a button was tapped. The old "reload demo" button now only appears if sync fails.
 - The "demo blocked, device has real data" toast and dialog were hard-coded Hebrew; now translated (5 languages).
 - Student-card title and +1/+5/-1/-5 rep-button aria labels were hard-coded Hebrew; now translated.
-- html{overflow-x:hidden;overscroll-behavior-x:none} to stop the whole page being dragged sideways. Nested scroll strips (tabs, tables) keep their own scrolling.
+- html{overflow-x:hidden;overscroll-behavior-x:none} to stop the whole page being dragged sideways. Nested scroll strips (tabs, tables) keep their own scrolling. CORRECTED 2026-10-06: overflow-x on html broke sticky elements; now only overscroll-behavior-x:none (see 2026-10-06-lesson-mode.md).
 Validation commands and results:
 - npm test 654/654. node build-standalone.js (generated files rebuilt).
 - Playwright (cloud Chromium, 430px): Hebrew demo then switch to English: 0 Hebrew text nodes across ft/cls/stu/tools/beep/photo/lesson/rec, join-classes dialog, add-students dialog, test screen (before: Hebrew student names and a mixed "חבר classes" button).

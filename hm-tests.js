@@ -173,7 +173,7 @@ const percentile=window.HMDATA.percentile;
    ============================================================ */
 window.FT=(function(){
   let inited=false;
-  let st={grade:"ז",num:1,gid:null,test:null,sort:"todo",tab:"tests"};
+  let st={grade:"ז",num:1,gid:null,test:null,sort:"todo",tab:"tests",showPick:false};
   let clk={on:false,t0:0,raf:0,paused:0};      /* השעון המשותף לכיתה */
   /* הקפות של המקצה הנוכחי: {שם: [זמן הקפה 1, 2, ...]}. חי בזיכרון בזמן
      המקצה; הזמן הסופי נשמר כרגיל, והפערים נשמרים איתו לצפייה מאוחרת. */
@@ -482,6 +482,24 @@ window.FT=(function(){
       gbox.innerHTML=DATA.listGroups(clsStore).map(g=>
         `<button data-gid="${esc(g.id)}" class="${st.gid===g.id?"on":""}">👥 ${esc(g.name)}</button>`).join("")+
         `<button data-join="1" class="ghost">🔗 ${esc(H().t("grp.joinBtn","חבר כיתות"))}</button>`;
+    }
+    /* מצב שיעור: השיעור הפעיל הוא בכיתה הזאת, ולכן אין מה לבחור.
+       בוררי השכבה והמספר מתקפלים לשורה אחת, והמבחנים עולים לראש
+       המסך. «החלף כיתה» פותח את הבוררים כמו תמיד. */
+    const act=H().session&&H().session.active?H().session.active():null;
+    const lessonMode=!!(act&&act.cid&&act.cid===cidOf(c))&&!st.showPick;
+    const pick=$("#ft-pick");
+    pick.classList.toggle("ft-lessonMode",lessonMode);
+    let lrow=$("#ft-lessonRow");
+    if(!lrow){
+      lrow=document.createElement("div"); lrow.id="ft-lessonRow"; lrow.className="ft-lessonRow";
+      const h2=pick.querySelector(".card h2"); if(h2)h2.after(lrow);
+    }
+    lrow.hidden=!lessonMode;
+    if(lessonMode){
+      lrow.innerHTML=`<div class="grow">▶ <b>${esc(H().t("lm.active","שיעור פעיל"))}</b> · ${esc(disp(c))} · ${rst.length} ${esc(H().t("lm.students","תלמידים"))}</div>`+
+        `<button class="btn sm ghost" id="ft-showPick">${esc(H().t("lm.changeCls","החלף כיתה"))}</button>`;
+      lrow.querySelector("#ft-showPick").onclick=()=>{ st.showPick=true; renderPicker(); };
     }
     $("#ft-clsName").textContent=(G?"👥 ":"")+disp(c);
     $("#ft-clsInfo").textContent=G
@@ -2418,7 +2436,7 @@ window.FT=(function(){
   function applyLessonCls(){
     const a=(H().session&&H().session.active())||null;
     if(!a||st.lessonId===a.id)return false;
-    st.lessonId=a.id;
+    st.lessonId=a.id; st.showPick=false;
     /* שיעור בקבוצה — המבחנים נפתחים על הקבוצה כולה */
     if(isG(a.cid)&&DATA.groupOf(clsStore,a.cid)){
       const changed=st.gid!==a.cid; st.gid=a.cid;

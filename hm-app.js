@@ -434,7 +434,7 @@ function go(mod,opts){
   if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init,cls:window.HUB&&window.HUB.init}[mod]; if(f)f(); }
   /* מבחני כושר וכלי כיתה נכנסים מחדש בכל ביקור: שיעור שנפתח מאז
      הביקור הקודם קובע את הכיתה, ולא רק בביקור הראשון ביום. */
-  else if(prev!==mod){ const re={ft:window.FT&&window.FT.init,tools:window.TOOLS&&window.TOOLS.init}[mod]; if(re)try{ re(); }catch(e){} }
+  else if(prev!==mod){ const re={ft:window.FT&&window.FT.init,tools:window.TOOLS&&window.TOOLS.init,stu:window.STU&&window.STU.init}[mod]; if(re)try{ re(); }catch(e){} }
   if(mod==="home"){ homeStats();
     /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
        המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
@@ -957,12 +957,17 @@ function paintSessionBar(){
   const a=SESSION.active();
   if(!a){ bar.hidden=true; return; }
   const t=document.getElementById("lsBarT");
-  if(t)t.innerHTML="▶ <b>שיעור פעיל</b> · "+esc(sesName(a))+
-    (a.planTitle?" · "+esc(a.planTitle):"");
+  /* בטלפון הפס נשאר שורה אחת: התווית «שיעור פעיל» ושם המערך מוסתרים,
+     כי כפתור «חזרה לשיעור» כבר אומר את זה */
+  if(t)t.innerHTML="▶ <span class=\"lsb-lbl\"><b>שיעור פעיל</b> · </span><b>"+esc(sesName(a))+"</b>"+
+    (a.planTitle?"<span class=\"lsb-plan\"> · "+esc(a.planTitle)+"</span>":"");
   bar.hidden=false;
 }
 function wireSessionBar(){
   const bar=document.getElementById("lsBar"); if(!bar)return;
+  /* מכל כלי שנפתח מתוך השיעור — הקשה אחת חזרה למסך השיעור */
+  const back=document.getElementById("lsBarBack");
+  if(back)back.addEventListener("click",()=>{ ac(); go("live"); });
   const hb=document.getElementById("lsBarHist");
   if(hb)hb.addEventListener("click",openSesHist);
   const end=document.getElementById("lsBarEnd");

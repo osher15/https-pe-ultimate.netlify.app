@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="cc07a94c">
+<meta name="hm-build" content="3eb00744">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -38,8 +38,10 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
-/* מניעת גלישה אופקית של כל הדף בנגיעה (גם בטלפון); רצועות עם גלילה משלהן ממשיכות לעבוד */
-html{overflow-x:hidden;overscroll-behavior-x:none}
+/* מניעת גלישה אופקית של כל הדף בנגיעה (מחווה צידית / משיכה של הדף); רצועות עם גלילה
+   משלהן ממשיכות לעבוד. בלי overflow על html: זה הופך את body למיכל גלילה ושובר את
+   position:sticky (הכותרת וסרגל השעון במבחנים). */
+html{overscroll-behavior-x:none}
 body{font-family:'Heebo',sans-serif;color:var(--ink);background:var(--bg);min-height:100vh;overflow-x:hidden;
   background:var(--bgimg)}
 /* הרקע מוגדר על body (ולא על :root) כדי ש-var(--accDim) יתעדכן לפי המודול הפעיל */
@@ -110,7 +112,7 @@ body[data-mod="nut"]{--acc:#4ade80;--accDim:rgba(74,222,128,.18)}
 .more-item .ic{font-size:19px;flex:none}
 .more-item .go{margin-inline-start:auto;color:var(--acc);font-size:16px;transform:scaleX(-1)}
 /* ---------- views ---------- */
-.view{display:none;animation:vin .22s ease}
+.view{display:none;animation:vin .12s ease}
 .view.on{display:block}
 @keyframes vin{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 .card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--r);
@@ -1956,6 +1958,29 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 .ls-bank-draft{background:rgba(245,197,66,.12);border:1px solid rgba(245,197,66,.4);border-radius:10px;padding:8px 11px;margin:8px 0}
 .ls-bank-missing{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:8px 11px;margin:8px 0}
 
+/* ===== מצב שיעור בכלים =====
+   כשהשיעור הפעיל הוא בכיתה שעל המסך, בוררי הכיתה מתקפלים לשורה אחת
+   («▶ שיעור פעיל · 7-1 · החלף כיתה») והתוכן עולה לראש המסך. */
+.ft-lessonRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px;padding:9px 12px;
+  border:1px solid var(--acc);border-radius:12px;background:color-mix(in srgb,var(--acc) 10%,transparent);font-size:14px}
+.ft-lessonRow[hidden]{display:none}
+.ft-lessonRow .grow{flex:1;min-width:160px}
+.ft-lessonRow b{color:var(--acc)}
+#ft-pick.ft-lessonMode > .card:first-child > .hint,
+#ft-pick.ft-lessonMode > .card:first-child > .field,
+#ft-pick.ft-lessonMode > .card:first-child > .ft-cls{display:none}
+#tl-sub-att.tl-lessonMode .row .field,
+#tl-sub-att.tl-lessonMode #tl-attStats{display:none}
+#tl-sub-att.tl-lessonMode .row .btn{margin-top:0!important}
+#tl-sub-att.tl-lessonMode #tl-attCtx{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--ink)}
+#tl-sub-att.tl-lessonMode #tl-attCtx span{flex:1;min-width:180px}
+#lsBarBack{font-weight:700}
+@media(max-width:560px){
+  #lsBar{flex-wrap:nowrap;gap:6px;padding:6px 8px}
+  #lsBar .lsb-lbl,#lsBar .lsb-plan{display:none}
+  #lsBar .btn.sm{padding-inline:9px;white-space:nowrap}
+}
+
 </style>
 </head>
 <body>
@@ -2010,6 +2035,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 </div>
 
 <div id="lsBar" hidden><span id="lsBarT"></span>
+  <button class="btn sm acc" id="lsBarBack" data-i18n="lm.back">▶ חזרה לשיעור</button>
   <button class="btn sm ghost" id="lsBarHist">📖 היסטוריה</button>
   <button class="btn sm ghost" id="lsBarEnd">סיים שיעור</button></div>
 </header>
@@ -13417,6 +13443,18 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "lm.back":"▶ Back to lesson",
+  "lm.active":"Active lesson",
+  "lm.students":"students",
+  "lm.changeCls":"Change class",
+  "lm.today":"today",
+  "lm.full":"full",
+  "lm.partial":"partial",
+  "lm.exempt":"exempt",
+  "lm.absent":"absent",
+  "lm.unmarked":"not marked",
+  "lm.change":"Change class or date",
+  /* ux-redesign */
   "ft.cardTitle":"Student card",
   "ft.repOne":"One rep",
   "ft.repFive":"Five reps",
@@ -14227,6 +14265,18 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "lm.back":"▶ العودة إلى الدرس",
+  "lm.active":"درس نشط",
+  "lm.students":"طلاب",
+  "lm.changeCls":"تغيير الصف",
+  "lm.today":"اليوم",
+  "lm.full":"كاملة",
+  "lm.partial":"جزئية",
+  "lm.exempt":"معفى",
+  "lm.absent":"غائبون",
+  "lm.unmarked":"لم يُسجَّلوا",
+  "lm.change":"تغيير الصف أو التاريخ",
   /* ux-redesign */
   "ft.cardTitle":"بطاقة الطالب",
   "ft.repOne":"تكرار واحد",
@@ -15043,6 +15093,18 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "lm.back":"▶ Назад к уроку",
+  "lm.active":"Идёт урок",
+  "lm.students":"учеников",
+  "lm.changeCls":"Сменить класс",
+  "lm.today":"сегодня",
+  "lm.full":"полное",
+  "lm.partial":"частичное",
+  "lm.exempt":"освобождён",
+  "lm.absent":"отсутствуют",
+  "lm.unmarked":"не отмечены",
+  "lm.change":"Сменить класс или дату",
+  /* ux-redesign */
   "ft.cardTitle":"Карточка ученика",
   "ft.repOne":"Одно повторение",
   "ft.repFive":"Пять повторений",
@@ -15850,6 +15912,18 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "lm.back":"▶ Volver a la clase",
+  "lm.active":"Clase en curso",
+  "lm.students":"alumnos",
+  "lm.changeCls":"Cambiar de grupo",
+  "lm.today":"hoy",
+  "lm.full":"completa",
+  "lm.partial":"parcial",
+  "lm.exempt":"exento",
+  "lm.absent":"ausentes",
+  "lm.unmarked":"sin marcar",
+  "lm.change":"Cambiar grupo o fecha",
   /* ux-redesign */
   "ft.cardTitle":"Ficha del alumno",
   "ft.repOne":"Una repetición",
@@ -17490,7 +17564,7 @@ function go(mod,opts){
   if(!inited[mod]){ inited[mod]=true; const f={beep:BT.init,photo:PF.init,rec:REC.init,fit:FIT.init,home:homeInit,stu:window.STU.init,lesson:window.LESSON.init,nut:window.NUT.init,games:window.GAMES&&window.GAMES.init,know:window.KNOW&&window.KNOW.init,tools:window.TOOLS&&window.TOOLS.init,ft:window.FT&&window.FT.init,live:window.LIVE&&window.LIVE.init,cls:window.HUB&&window.HUB.init}[mod]; if(f)f(); }
   /* מבחני כושר וכלי כיתה נכנסים מחדש בכל ביקור: שיעור שנפתח מאז
      הביקור הקודם קובע את הכיתה, ולא רק בביקור הראשון ביום. */
-  else if(prev!==mod){ const re={ft:window.FT&&window.FT.init,tools:window.TOOLS&&window.TOOLS.init}[mod]; if(re)try{ re(); }catch(e){} }
+  else if(prev!==mod){ const re={ft:window.FT&&window.FT.init,tools:window.TOOLS&&window.TOOLS.init,stu:window.STU&&window.STU.init}[mod]; if(re)try{ re(); }catch(e){} }
   if(mod==="home"){ homeStats();
     /* דף הבית קורא את מצב השיעור בכל כניסה. אין מנגנון אירועים בין
        המודולים, ולכן זו הנקודה שבה «התחלתי שיעור בכיתה אחרת» הופך
@@ -18013,12 +18087,17 @@ function paintSessionBar(){
   const a=SESSION.active();
   if(!a){ bar.hidden=true; return; }
   const t=document.getElementById("lsBarT");
-  if(t)t.innerHTML="▶ <b>שיעור פעיל</b> · "+esc(sesName(a))+
-    (a.planTitle?" · "+esc(a.planTitle):"");
+  /* בטלפון הפס נשאר שורה אחת: התווית «שיעור פעיל» ושם המערך מוסתרים,
+     כי כפתור «חזרה לשיעור» כבר אומר את זה */
+  if(t)t.innerHTML="▶ <span class=\"lsb-lbl\"><b>שיעור פעיל</b> · </span><b>"+esc(sesName(a))+"</b>"+
+    (a.planTitle?"<span class=\"lsb-plan\"> · "+esc(a.planTitle)+"</span>":"");
   bar.hidden=false;
 }
 function wireSessionBar(){
   const bar=document.getElementById("lsBar"); if(!bar)return;
+  /* מכל כלי שנפתח מתוך השיעור — הקשה אחת חזרה למסך השיעור */
+  const back=document.getElementById("lsBarBack");
+  if(back)back.addEventListener("click",()=>{ ac(); go("live"); });
   const hb=document.getElementById("lsBarHist");
   if(hb)hb.addEventListener("click",openSesHist);
   const end=document.getElementById("lsBarEnd");
@@ -24614,6 +24693,10 @@ window.TOOLS=(function(){
   const attKey=(d,c)=>d+"|"+(c||"all");
   const MARKS=[["p","מלאה","#34d399"],["h","חלקית","#fbbf24"],["e","פטור","#38bdf8"],["a","נעדר","#f87171"]];
   let attCls="", attDate=today();
+  /* מצב שיעור: התאריך, בורר הכיתה וחמשת ריבועי הסיכום מתקפלים לשורה
+     אחת, והרשימה עולה לראש המסך. «שנה» פותח אותם כרגיל. שיעור חדש
+     נפתח שוב מקופל. */
+  let attShowPick=false, attLessonId=null;
   /* הנוכחות: הבורר נושא את שם הכיתה (tools.att ממופתח תאריך|שם, וזה
      לא משתנה), אבל מי נחשב «בכיתה» נקבע לפי cid. */
   const attPool=()=>{ const cid=isGrp(attCls)?attCls:cidOfLabel(attCls); return students().filter(s=>inClass(s,cid)); };
@@ -24634,18 +24717,34 @@ window.TOOLS=(function(){
   }
   function renderAtt(){
     const {$, $$, esc}=H();
-    /* אומרים למורה למה המסך נפתח על הכיתה והתאריך האלה */
-    const ctx=$("#tl-attCtx"), a=lessonCtx();
-    if(ctx){
-      const on=!!(a&&(a.cid?(isGrp(attCls)?attCls:cidOfLabel(attCls))===a.cid:sameCls(attCls,a.clsSnapshot))&&attDate===a.date);
-      ctx.hidden=!on;
-      if(on)ctx.innerHTML="▶ <b>שיעור פעיל</b> · "+esc(a.clsSnapshot)+" · "+esc(a.date)+
-        " — הנוכחות נפתחה עליו. אפשר לשנות כיתה או תאריך.";
-    }
     const l=attPool();
     const all=ATT(), rec=marksOf(l,all);
     const cnt={p:0,h:0,e:0,a:0};
     l.forEach(s=>{ if(rec[s.id])cnt[rec[s.id]]=(cnt[rec[s.id]]||0)+1; });
+    /* אומרים למורה למה המסך נפתח על הכיתה והתאריך האלה */
+    const ctx=$("#tl-attCtx"), a=lessonCtx();
+    if(a&&a.id!==attLessonId){ attLessonId=a.id; attShowPick=false; }
+    const on=!!(a&&(a.cid?(isGrp(attCls)?attCls:cidOfLabel(attCls))===a.cid:sameCls(attCls,a.clsSnapshot))&&attDate===a.date);
+    const compact=on&&!attShowPick;
+    const sub=$("#tl-sub-att"); if(sub)sub.classList.toggle("tl-lessonMode",compact);
+    if(ctx){
+      ctx.hidden=!on;
+      if(compact){
+        const t=(k,he)=>H().t(k,he);
+        const unmarked=l.length-Object.keys(rec).length;
+        ctx.innerHTML="<span>▶ <b>"+esc(t("lm.active","שיעור פעיל"))+"</b> · "+esc(a.clsSnapshot)+" · "+
+          esc(attDate===today()?t("lm.today","היום"):attDate)+" — "+
+          (cnt.p||0)+" "+esc(t("lm.full","מלאה"))+
+          (cnt.h?" · "+cnt.h+" "+esc(t("lm.partial","חלקית")):"")+
+          (cnt.e?" · "+cnt.e+" "+esc(t("lm.exempt","פטור")):"")+
+          " · "+(cnt.a||0)+" "+esc(t("lm.absent","נעדרים"))+
+          (unmarked?" · "+unmarked+" "+esc(t("lm.unmarked","לא סומנו")):"")+"</span> "+
+          '<button class="btn sm ghost" id="tl-attChange">'+esc(t("lm.change","שנה כיתה או תאריך"))+"</button>";
+        const ch=$("#tl-attChange");
+        if(ch)ch.onclick=()=>{ attShowPick=true; renderAtt(); };
+      }else if(on)ctx.innerHTML="▶ <b>שיעור פעיל</b> · "+esc(a.clsSnapshot)+" · "+esc(a.date)+
+        " — הנוכחות נפתחה עליו. אפשר לשנות כיתה או תאריך.";
+    }
     $("#tl-attStats").innerHTML=MARKS.map(([k,nm,c])=>
       `<div class="qs"><div class="n" style="color:${c}">${cnt[k]||0}</div><div class="l">${nm}</div></div>`).join("")+
       `<div class="qs"><div class="n">${l.length-Object.keys(rec).length}</div><div class="l">לא סומן</div></div>`;
@@ -46665,7 +46764,7 @@ const percentile=window.HMDATA.percentile;
    ============================================================ */
 window.FT=(function(){
   let inited=false;
-  let st={grade:"ז",num:1,gid:null,test:null,sort:"todo",tab:"tests"};
+  let st={grade:"ז",num:1,gid:null,test:null,sort:"todo",tab:"tests",showPick:false};
   let clk={on:false,t0:0,raf:0,paused:0};      /* השעון המשותף לכיתה */
   /* הקפות של המקצה הנוכחי: {שם: [זמן הקפה 1, 2, ...]}. חי בזיכרון בזמן
      המקצה; הזמן הסופי נשמר כרגיל, והפערים נשמרים איתו לצפייה מאוחרת. */
@@ -46974,6 +47073,24 @@ window.FT=(function(){
       gbox.innerHTML=DATA.listGroups(clsStore).map(g=>
         `<button data-gid="${esc(g.id)}" class="${st.gid===g.id?"on":""}">👥 ${esc(g.name)}</button>`).join("")+
         `<button data-join="1" class="ghost">🔗 ${esc(H().t("grp.joinBtn","חבר כיתות"))}</button>`;
+    }
+    /* מצב שיעור: השיעור הפעיל הוא בכיתה הזאת, ולכן אין מה לבחור.
+       בוררי השכבה והמספר מתקפלים לשורה אחת, והמבחנים עולים לראש
+       המסך. «החלף כיתה» פותח את הבוררים כמו תמיד. */
+    const act=H().session&&H().session.active?H().session.active():null;
+    const lessonMode=!!(act&&act.cid&&act.cid===cidOf(c))&&!st.showPick;
+    const pick=$("#ft-pick");
+    pick.classList.toggle("ft-lessonMode",lessonMode);
+    let lrow=$("#ft-lessonRow");
+    if(!lrow){
+      lrow=document.createElement("div"); lrow.id="ft-lessonRow"; lrow.className="ft-lessonRow";
+      const h2=pick.querySelector(".card h2"); if(h2)h2.after(lrow);
+    }
+    lrow.hidden=!lessonMode;
+    if(lessonMode){
+      lrow.innerHTML=`<div class="grow">▶ <b>${esc(H().t("lm.active","שיעור פעיל"))}</b> · ${esc(disp(c))} · ${rst.length} ${esc(H().t("lm.students","תלמידים"))}</div>`+
+        `<button class="btn sm ghost" id="ft-showPick">${esc(H().t("lm.changeCls","החלף כיתה"))}</button>`;
+      lrow.querySelector("#ft-showPick").onclick=()=>{ st.showPick=true; renderPicker(); };
     }
     $("#ft-clsName").textContent=(G?"👥 ":"")+disp(c);
     $("#ft-clsInfo").textContent=G
@@ -48910,7 +49027,7 @@ window.FT=(function(){
   function applyLessonCls(){
     const a=(H().session&&H().session.active())||null;
     if(!a||st.lessonId===a.id)return false;
-    st.lessonId=a.id;
+    st.lessonId=a.id; st.showPick=false;
     /* שיעור בקבוצה — המבחנים נפתחים על הקבוצה כולה */
     if(isG(a.cid)&&DATA.groupOf(clsStore,a.cid)){
       const changed=st.gid!==a.cid; st.gid=a.cid;
@@ -49278,8 +49395,18 @@ window.STU=(function(){
     (Array.isArray(rs)?rs:[]).forEach(r=>{ if(r&&r.sid&&r.test!=="beep")m[r.sid]=(m[r.sid]||0)+1; });
     return m;
   }
+  /* מצב שיעור: בשיעור פעיל «התלמידים שלי» נפתח על כיתת השיעור ולא על
+     «כל הכיתות». פעם אחת לכל שיעור — בחירה של המורה אחר כך נשמרת. */
+  let lessonF=null;
+  function applyLessonFilter(list){
+    let a=null; try{ a=H().session&&H().session.active?H().session.active():null; }catch(e){}
+    if(!a||!a.cid||a.id===lessonF)return;
+    lessonF=a.id;
+    if(list.some(s=>inF(s,a.cid)))clsF=a.cid;
+  }
   function render(){
     const {$, $$, esc}=H(); const list=load();
+    applyLessonFilter(list);
     /* הבורר מציג שמות אבל נושא מזהים: הערך הוא cid, התווית היא השם. */
     const classes=classList(list);
     $("#stu-classSel").innerHTML=classOpts(list,classes,clsF);
@@ -50466,7 +50593,10 @@ window.HMBootNew=function(){
   const unlockTeacher=()=>{
     sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
-    $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
+    $("#lockOv").classList.remove("on");
+    /* באמצע שיעור המורה חוזר לשיעור — בלי הודעה שמכסה את התחתית */
+    const inLesson=(()=>{ try{ return !!(H0.session&&H0.session.active&&H0.session.active()); }catch(e){ return false; } })();
+    if(!inLesson)toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
     maybeRemindLead();
   };
   paintLeadLang();

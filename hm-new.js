@@ -88,8 +88,18 @@ window.STU=(function(){
     (Array.isArray(rs)?rs:[]).forEach(r=>{ if(r&&r.sid&&r.test!=="beep")m[r.sid]=(m[r.sid]||0)+1; });
     return m;
   }
+  /* מצב שיעור: בשיעור פעיל «התלמידים שלי» נפתח על כיתת השיעור ולא על
+     «כל הכיתות». פעם אחת לכל שיעור — בחירה של המורה אחר כך נשמרת. */
+  let lessonF=null;
+  function applyLessonFilter(list){
+    let a=null; try{ a=H().session&&H().session.active?H().session.active():null; }catch(e){}
+    if(!a||!a.cid||a.id===lessonF)return;
+    lessonF=a.id;
+    if(list.some(s=>inF(s,a.cid)))clsF=a.cid;
+  }
   function render(){
     const {$, $$, esc}=H(); const list=load();
+    applyLessonFilter(list);
     /* הבורר מציג שמות אבל נושא מזהים: הערך הוא cid, התווית היא השם. */
     const classes=classList(list);
     $("#stu-classSel").innerHTML=classOpts(list,classes,clsF);
@@ -1276,7 +1286,10 @@ window.HMBootNew=function(){
   const unlockTeacher=()=>{
     sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
-    $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
+    $("#lockOv").classList.remove("on");
+    /* באמצע שיעור המורה חוזר לשיעור — בלי הודעה שמכסה את התחתית */
+    const inLesson=(()=>{ try{ return !!(H0.session&&H0.session.active&&H0.session.active()); }catch(e){ return false; } })();
+    if(!inLesson)toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
     maybeRemindLead();
   };
   paintLeadLang();

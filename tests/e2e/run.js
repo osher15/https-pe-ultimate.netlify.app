@@ -62,7 +62,8 @@ const suites=[
   require("./stage1.e2e.js"),
   require("./stage2.e2e.js"),
   require("./lessonbank.e2e.js"),
-  require("./demolang.e2e.js")
+  require("./demolang.e2e.js"),
+  require("./lessonmode.e2e.js")
 ];
 run(suites).then(fail=>process.exit(fail?1:0))
   .catch(e=>{ console.error(e); process.exit(1); });
