@@ -21,7 +21,7 @@ Validation commands and results:
 - Playwright measurements (412x860 viewport, 8 classes / 240 students): during a lesson the first fitness test moved from y=792 to y=382 px; the first attendance row from ~830 to ~452 px; My Students in a lesson shows 30 cards instead of 240 (CPU x4: ~0.24 s -> ~0.14 s to paint).
 - Visual check in English and Hebrew (screenshots in the session, not committed).
 - Regression found and fixed while testing: the sideways-pan rule from 2026-10-05 (html{overflow-x:hidden}) made <body> a scroll container, so position:sticky stopped working (the app header scrolled away; field17 #3 "stopwatch bar visible without scrolling" failed on this branch, passes on main). The rule is now html{overscroll-behavior-x:none} only; field17 11/11 again, and lessonmode #1 asserts the header stays at the top after scrolling (verified to fail with the old rule).
-- Related e2e suites on the final build: recorded in a follow-up commit.
+- Related e2e suites on the final build (one run, no file changes during it): lessonmode, demolang, combined23, field17, groups, hub18, identity8, shell16, field20, session, teach, lead, today, nav, lang30, audit29, classes — 197/197 pass. The whole e2e set was not run in one go (cloud Chromium limit); CI runs it on the PR.
 
 CI / emulation / physical-device evidence:
 - Emulated phone viewport only. Not checked on a physical phone.
