@@ -20,7 +20,7 @@ Validation commands and results:
   - go(stu) unchanged (~300-550 ms to paint): its cost is drawing 240 student cards, not data.
 - npm test: 661/661 (7 new in regmemo.test.js: one parse for many lookups; rename/register/group changes visible; refused update not leaked; direct write seen; two stores never share; stores without raw unchanged).
 - node build-standalone.js rebuilt generated files.
-- e2e: classes, groups, combined23, audit29, identity, rename9, backuprestore, attendgrade12, fieldjourney started with this change; result recorded in a follow-up commit.
+- e2e with this change: classes, groups, combined23, audit29, identity, rename9, backuprestore, attendgrade12, fieldjourney — 86/86 pass. The full e2e set was not run in one go (cloud Chromium limit); CI runs it on the PR.
 
 CI / emulation / physical-device evidence:
 - Timings are from CPU-throttled desktop Chromium, not a phone. Real devices vary; the ratio, not the absolute numbers, is the evidence.
