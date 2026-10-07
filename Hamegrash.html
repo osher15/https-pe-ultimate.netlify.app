@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="428274c5">
+<meta name="hm-build" content="9e584260">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -1959,6 +1959,8 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 .hx-prev .lb{font-weight:700}
 .hx-prev .nt{color:var(--ink)}
 
+.ls-src{margin:8px 0 2px;font-size:12.5px;line-height:1.6}.ls-src .hint{display:inline}
+
 </style>
 </head>
 <body>
@@ -3033,6 +3035,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
         <button class="btn sm acc" id="ls-startLesson">▶ התחל שיעור</button>
         <button class="btn sm" id="ls-assignBtn" data-i18n="asg.btn">📌 שייך לשיעור</button>
         <button class="btn sm" id="ls-save">💾 שמור</button>
+        <button class="btn sm acc" id="ls-update" data-i18n="pc.update" style="display:none">🔄 עדכן את העותק שלי</button>
         <button class="btn sm ghost" id="ls-print">🖨 הדפס</button>
       </div>
     </div>
@@ -3388,6 +3391,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 <div class="modal" id="ls-bankModal"><div class="box">
   <h3><span id="ls-bankTitle"></span><button class="x" data-close="ls-bankModal">✕</button></h3>
   <div id="ls-bankBody" class="ls-bank"></div>
+  <button class="btn sm acc" id="ls-bankCopy" data-i18n="pc.bankCopy" style="margin-top:11px">📝 צור עותק אישי לעריכה</button>
   <button class="btn sm ghost" id="ls-bankPrint" style="margin-top:11px">🖨 הדפס</button>
 </div></div>
 
@@ -5018,6 +5022,59 @@ function recommendWarm(dur,weather,place,finMin){
   var wx=place==="field"?weather:"normal", base=warmMinutes(dur,wx);
   var short=dur-base-(+finMin||0)<18&&base>5&&place!=="class";
   return {min:short?5:base,short:short,weather:wx};
+}
+/* ---------- עותק אישי של מערך (ספריית המערכים ls.lib) ----------
+   רשומה: {id, plan, prev?, updated?}. plan.src אומר ממה העותק נגזר. שום פעולה כאן לא
+   נוגעת במקור: שמירה כעותק חדש מוסיפה רשומה, עדכון מחליף רק את הרשומה שהמורה בחר
+   (והגרסה הקודמת נשמרת פעם אחת), ושחזור מחזיר אותה. הפונקציות טהורות: לא קוראות
+   ולא כותבות אחסון והקלט לא משתנה. */
+var PLAN_LIB_MAX=60;
+function clonePlan(x){ return JSON.parse(JSON.stringify(x)); }
+function libSave(lib,plan,o){
+  o=o||{}; var l=Array.isArray(lib)?lib.filter(function(e){ return e&&(e.plan||e.doc); }):[];
+  if(!plan||!Array.isArray(plan.phases))return {ok:false,reason:"noplan",lib:l};
+  var now=o.now==null?Date.now():+o.now;
+  if(o.mode==="update"){
+    var i=-1; l.forEach(function(e,k){ if(i<0&&e.plan&&String(e.id)===String(o.libId))i=k; });
+    if(i<0)return {ok:false,reason:"missing",lib:l};
+    var out=l.slice(), old=out[i];
+    out[i]=Object.assign({},old,{plan:clonePlan(plan),prev:clonePlan(old.plan),updated:now});
+    return {ok:true,id:old.id,lib:out};
+  }
+  if(l.length>=PLAN_LIB_MAX)return {ok:false,reason:"limit",lib:l};
+  var id=now; while(l.some(function(e){ return String(e.id)===String(id); }))id++;
+  return {ok:true,id:id,lib:[{id:id,plan:clonePlan(plan)}].concat(l)};
+}
+function libUndo(lib,libId){
+  var l=Array.isArray(lib)?lib.slice():[], i=-1;
+  l.forEach(function(e,k){ if(i<0&&e&&e.plan&&String(e.id)===String(libId))i=k; });
+  if(i<0||!l[i].prev)return {ok:false,reason:"noprev",lib:l};
+  var e=l[i], now=e.plan;
+  l[i]=Object.assign({},e,{plan:e.prev,prev:now});
+  return {ok:true,id:e.id,lib:l};
+}
+/* מערך בנק שיעורים ← מערך ניתן לעריכה. הדקות נקראות מהשורה «משך: N דקות» בכל קטע; קטע בלי
+   משך מקבל 3 דק׳ וה-src מסמן timeGuess. o: {sport,lang,labels,newId,today,grade} */
+var BANK_FLOW=[["opening","warm"],["warmup","warm"],["mainA","main"],["mainB","main"],["appliedGame","game"],["closing","cool"]];
+function bankSectionMinutes(text){
+  var m=/(\d+)\s*(?:דק|min|دق|мин|minut)/i.exec(String(text||"").slice(0,120));
+  return m&&+m[1]>0&&+m[1]<=90?+m[1]:0;
+}
+function bankToPlan(l,o){
+  o=o||{}; if(!l||!l.sections)return null;
+  var L=o.labels||{}, guess=false, phases=[];
+  BANK_FLOW.forEach(function(f){
+    var t=l.sections[f[0]]; if(!t)return;
+    var mins=bankSectionMinutes(t); if(!mins){ mins=3; guess=true; }
+    phases.push({n:L[f[0]]||f[0],min:mins,d:String(t),k:f[1]});
+  });
+  if(!phases.length)return null;
+  var age=/(\d+)/.exec(String(l.ageRange||"")), grade=age&&+age[1]>=15?"high":"mid";
+  return {id:o.newId,grade:o.grade||grade,topic:"bank",title:l.title,em:"📚",group:o.groupLabel||"",cls:"",size:0,place:"",
+    date:o.today,goals:(l.objectives||[]).slice(),eq:l.equipment?[String(l.equipment)]:[],eqAvail:[],eqNo:[],eqWarn:[],std:[],phases:phases,
+    assess:l.assessment?[String(l.assessment)]:[],diff:{low:String(l.adaptations||""),high:"",ex:""},
+    safe:(l.safety||[]).join(" · "),cur:"",hw:String(l.continuity||""),note:"",measure:false,
+    src:{kind:"bank",id:o.sport+":"+l.n,title:l.title,v:l.contentVersion||"",status:l.reviewStatus||"",lang:o.lang||"",timeGuess:guess,at:o.today}};
 }
 /* ---------- ספריית המשחקים: מטא־נתונים לסינון ידני ----------
    הנתונים נשארים כפי שהם — כך שהמורה רואה, והטקסט המתורגם לא משתנה. הסינון
@@ -7219,6 +7276,7 @@ return {
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
   stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  libSave:libSave, libUndo:libUndo, bankToPlan:bankToPlan, bankSectionMinutes:bankSectionMinutes, PLAN_LIB_MAX:PLAN_LIB_MAX,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,
@@ -13435,6 +13493,26 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "pc.update":"🔄 Update my copy",
+  "pc.bankCopy":"📝 Create my editable copy",
+  "pc.undo":"↩ Previous version",
+  "pc.limit":"The library is full (60 plans) — delete an old plan or export a backup, then save again",
+  "pc.missing":"This copy is no longer in the library — save it as a new copy",
+  "pc.saveFail":"⚠ Saving failed — the plan stays on screen",
+  "pc.savedNew":"💾 Saved as a new personal copy",
+  "pc.updated":"🔄 My copy was updated — the previous version is kept",
+  "pc.noprev":"No previous version",
+  "pc.restored":"↩ Previous version restored",
+  "pc.bankNoFlow":"This lesson has no flow that can be turned into steps",
+  "pc.bankDone":"📝 Personal copy created — you can edit the steps",
+  "pc.kindBank":"Bank lesson",
+  "pc.kindCopy":"Personal copy",
+  "pc.draft":"Draft, not yet reviewed",
+  "pc.version":"Version",
+  "pc.basedOn":"Based on",
+  "pc.openOrig":"Open the original",
+  "pc.timeGuess":"Step minutes are an estimate — review the steps and adjust",
+  /* ux-redesign */
   "last.prevClass":"Last time in this class",
   /* ux-redesign */
   "lb.loading":"Loading…",
@@ -14236,6 +14314,26 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "pc.update":"🔄 حدّث نسختي",
+  "pc.bankCopy":"📝 أنشئ نسخة شخصية للتعديل",
+  "pc.undo":"↩ النسخة السابقة",
+  "pc.limit":"المكتبة ممتلئة (60 خطة) — احذف خطة قديمة أو صدّر نسخة احتياطية ثم احفظ مجددًا",
+  "pc.missing":"هذه النسخة لم تعد في المكتبة — احفظها كنسخة جديدة",
+  "pc.saveFail":"⚠ فشل الحفظ — تبقى الخطة على الشاشة",
+  "pc.savedNew":"💾 تم الحفظ كنسخة شخصية جديدة",
+  "pc.updated":"🔄 تم تحديث نسختي — النسخة السابقة محفوظة",
+  "pc.noprev":"لا توجد نسخة سابقة",
+  "pc.restored":"↩ تمت استعادة النسخة السابقة",
+  "pc.bankNoFlow":"لا يوجد في هذا الدرس مسار يمكن تحويله إلى مراحل",
+  "pc.bankDone":"📝 تم إنشاء نسخة شخصية — يمكنك تعديل المراحل",
+  "pc.kindBank":"درس من البنك",
+  "pc.kindCopy":"نسخة شخصية",
+  "pc.draft":"مسودة، لم تُراجَع بعد",
+  "pc.version":"الإصدار",
+  "pc.basedOn":"مبني على",
+  "pc.openOrig":"افتح الأصل",
+  "pc.timeGuess":"دقائق المراحل تقدير — راجع المراحل وعدّلها",
   /* ux-redesign */
   "last.prevClass":"في المرة الماضية مع هذا الصف",
   /* ux-redesign */
@@ -15043,6 +15141,26 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "pc.update":"🔄 Обновить мою копию",
+  "pc.bankCopy":"📝 Создать мою копию для правки",
+  "pc.undo":"↩ Предыдущая версия",
+  "pc.limit":"Библиотека заполнена (60 планов) — удалите старый план или сделайте резервную копию, затем сохраните снова",
+  "pc.missing":"Этой копии уже нет в библиотеке — сохраните её как новую",
+  "pc.saveFail":"⚠ Не удалось сохранить — план остаётся на экране",
+  "pc.savedNew":"💾 Сохранено как новая личная копия",
+  "pc.updated":"🔄 Моя копия обновлена — предыдущая версия сохранена",
+  "pc.noprev":"Предыдущей версии нет",
+  "pc.restored":"↩ Предыдущая версия восстановлена",
+  "pc.bankNoFlow":"В этом уроке нет хода, который можно превратить в этапы",
+  "pc.bankDone":"📝 Личная копия создана — этапы можно править",
+  "pc.kindBank":"Урок из банка",
+  "pc.kindCopy":"Личная копия",
+  "pc.draft":"Черновик, ещё не проверен",
+  "pc.version":"Версия",
+  "pc.basedOn":"Основано на",
+  "pc.openOrig":"Открыть оригинал",
+  "pc.timeGuess":"Минуты в этапах — оценка; проверьте этапы и поправьте",
+  /* ux-redesign */
   "last.prevClass":"В прошлый раз в этом классе",
   /* ux-redesign */
   "lb.loading":"Загрузка…",
@@ -15841,6 +15959,26 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "pc.update":"🔄 Actualizar mi copia",
+  "pc.bankCopy":"📝 Crear mi copia editable",
+  "pc.undo":"↩ Versión anterior",
+  "pc.limit":"La biblioteca está llena (60 planes): borra uno antiguo o exporta una copia de seguridad y vuelve a guardar",
+  "pc.missing":"Esta copia ya no está en la biblioteca: guárdala como copia nueva",
+  "pc.saveFail":"⚠ No se pudo guardar: el plan sigue en pantalla",
+  "pc.savedNew":"💾 Guardado como nueva copia personal",
+  "pc.updated":"🔄 Mi copia se actualizó: la versión anterior se conserva",
+  "pc.noprev":"No hay versión anterior",
+  "pc.restored":"↩ Versión anterior restaurada",
+  "pc.bankNoFlow":"Esta sesión no tiene un desarrollo que se pueda convertir en fases",
+  "pc.bankDone":"📝 Copia personal creada: puedes editar las fases",
+  "pc.kindBank":"Sesión del banco",
+  "pc.kindCopy":"Copia personal",
+  "pc.draft":"Borrador, aún sin revisar",
+  "pc.version":"Versión",
+  "pc.basedOn":"Basado en",
+  "pc.openOrig":"Abrir el original",
+  "pc.timeGuess":"Los minutos de las fases son una estimación: revisa las fases y ajústalos",
   /* ux-redesign */
   "last.prevClass":"La última vez con esta clase",
   /* ux-redesign */
@@ -44534,7 +44672,7 @@ const TOPICS=[
    המחולל
    ============================================================ */
 window.LESSON=(function(){
-  let inited=false, grade="mid", plan=null, run={on:false,i:0,t0:0,raf:0};
+  let inited=false, libId=null, grade="mid", plan=null, run={on:false,i:0,t0:0,raf:0};
   const topicById=id=>TOPICS.find(t=>t.id===id);
 
   function readTimeOpts(){
@@ -44711,7 +44849,7 @@ window.LESSON=(function(){
       assess:T.assess,diff:T.diff,safe:T.safe,cur:T.cur,hw:T.hw,note:T.note||"",
       measure:o.withMeasure,
       mainVariants:mainBlocks.map(v=>v.n),mainSubs:mainBlocks.map(v=>v.sub).filter(Boolean)};
-    editPh=false;
+    editPh=false; libId=null;
     if(H().LS.get("ls.target",null))asgOpen=true;
     renderPlan();
     H().toast(H().t("ls.ready","⚡ המערך מוכן — אפשר לערוך, לשייך לשיעור או לשמור"));
@@ -44814,6 +44952,17 @@ window.LESSON=(function(){
       out.push('<span class="pill acc">📌 '+H().esc((c?c.name:cid)+" · "+iso)+'</span>'); });
     return out.slice(0,3).join("");
   }
+  /* «מבוסס על»: ממה נגזר העותק האישי, ואם זה מערך מהבנק — גם גרסת התוכן וסטטוס העריכה */
+  function srcLineHtml(){
+    const sc=plan&&plan.src; if(!sc)return "";
+    const {esc}=H(), t=(k,d)=>H().t(k,d);
+    const kind=sc.kind==="bank"?t("pc.kindBank","מערך מהבנק"):t("pc.kindCopy","עותק אישי");
+    const st=sc.status==="draft"?t("pc.draft","טיוטה, טרם נבדק"):(sc.status||"");
+    const meta=[sc.v?t("pc.version","גרסה")+" "+sc.v:"",st].filter(Boolean).join(" · ");
+    return `<div class="ls-src"><b>${esc(t("pc.basedOn","מבוסס על"))}:</b> ${esc(sc.title||"")} <span class="pill">${esc(kind)}</span>${meta?` <span class="hint">${esc(meta)}</span>`:""}
+      ${sc.kind==="bank"?` <button class="btn sm ghost" data-bankopen="${esc(sc.id)}">${esc(t("pc.openOrig","פתח את המקור"))}</button>`:""}
+      ${sc.timeGuess?`<div class="hint">${esc(t("pc.timeGuess","הדקות בשלבים הן הערכה — כדאי לעבור על השלבים ולתקן"))}</div>`:""}</div>`;
+  }
   function renderPlan(){
     const {$, $$, esc}=H();
     if(!plan){$("#ls-planCard").style.display="none";return;}
@@ -44827,6 +44976,7 @@ window.LESSON=(function(){
         <div class="em">${plan.em}</div>
         <div><b>${esc(plan.title)}</b><div class="sb">${esc(plan.group)}</div></div>
       </div>
+      ${srcLineHtml()}
       <div class="row" style="margin:10px 0 12px;gap:6px;flex-wrap:wrap">
         ${asgPills()}
         <span class="pill acc">${plan.grade==="mid"?"חטיבה ז׳–ט׳":"תיכון י׳–י״ב"}</span>
@@ -44873,7 +45023,7 @@ window.LESSON=(function(){
 
       <div class="ls-sec"><h4>🪜 התאמות (מודל STEP)</h4>
         <div class="ls-diff"><b>מתקשה</b><span>${esc(plan.diff.low)}</span></div>
-        <div class="ls-diff"><b>מתקדם</b><span>${esc(plan.diff.high)}</span></div>
+        ${plan.diff.high?`<div class="ls-diff"><b>מתקדם</b><span>${esc(plan.diff.high)}</span></div>`:""}
         <div class="ls-diff"><b>פטור / מגבלה</b><span>${esc(plan.diff.ex||"תפקיד פעיל: שופט, מודד זמנים, רשם תוצאות או מצלם ללוח השיאים.")}</span></div></div>
 
       <div class="ls-sec"><h4>✅ על מה מסתכלים (הערכה מעצבת)</h4>
@@ -44888,6 +45038,14 @@ window.LESSON=(function(){
         <p>${esc(src.title)} — ${esc(src.org)}</p>
         <a class="btn sm acc" href="${src.url}" target="_blank" rel="noopener" style="margin-top:6px">↗ למקור הרשמי</a></div>`:""}`;
     renderFeedbackHist();
+    const ub=$("#ls-update");
+    if(ub)ub.style.display=(libId!=null&&H().LS.get("ls.lib",[]).some(e=>String(e.id)===String(libId)&&e.plan))?"":"none";
+    $$("#ls-planBody [data-bankopen]").forEach(b=>b.addEventListener("click",()=>{
+      const [sp,n]=b.dataset.bankopen.split(":");
+      curBankSport=sp;
+      window.LESSONBANK.load(sp).then(()=>{ renderBankSports(); openBankLesson(sp,+n); })
+        .catch(()=>H().toast(H().t("lb.loadFail","לא ניתן לטעון את הענף כרגע")));
+    }));
 
     $$("#ls-planBody [data-gopen]").forEach(b=>b.addEventListener("click",()=>{
       H().LS.set("gm.open",b.dataset.gopen); H().go("games");
@@ -44989,12 +45147,53 @@ window.LESSON=(function(){
     qtPaint();
   }
 
+  /* ---------- עותק אישי ----------
+     שמירה כעותק חדש לא דורסת כלום; «עדכן את העותק שלי» מחליף רק את הרשומה שממנה המערך נטען,
+     אחרי לחיצה מפורשת, והגרסה הקודמת נשמרת פעם אחת. ראו docs/PERSONAL_COPY_DESIGN_2026-10-07.md */
+  function pcFail(res){
+    H().toast(res.reason==="limit"?H().t("pc.limit","הספרייה מלאה (60 מערכים) — מחק מערך ישן או ייצא גיבוי, ואז שמור שוב")
+      :res.reason==="missing"?H().t("pc.missing","העותק הזה כבר לא בספרייה — שמור אותו כעותק חדש")
+      :H().t("pc.saveFail","⚠ השמירה נכשלה — המערך נשאר על המסך"));
+  }
   function saveLib(){
     if(!plan)return;
-    const lib=H().LS.get("ls.lib",[]);
     withId(plan);
-    lib.unshift({id:Date.now(),plan:JSON.parse(JSON.stringify(plan))});
-    H().LS.set("ls.lib",lib.slice(0,60)); renderLib(); H().toast("💾 נשמר לספריית המערכים");
+    let item=plan;
+    if(libId!=null){   /* נטען מהספרייה: «שמור» יוצר עותק חדש שזוכר ממה נגזר, לא כפילות אילמת */
+      item=JSON.parse(JSON.stringify(plan)); item.id=newPlanId();
+      item.src={kind:"copy",id:plan.id,title:plan.title,at:today()};
+    }
+    const res=window.HMDATA.libSave(H().LS.get("ls.lib",[]),item,{mode:"new"});
+    if(!res.ok){ pcFail(res); return; }
+    if(!H().LS.set("ls.lib",res.lib)){ pcFail({reason:"write"}); return; }
+    plan=item; libId=res.id; renderLib(); renderPlan(); H().toast(H().t("pc.savedNew","💾 נשמר כעותק אישי חדש"));
+  }
+  function updateCopy(){
+    if(!plan||libId==null)return;
+    const res=window.HMDATA.libSave(H().LS.get("ls.lib",[]),plan,{mode:"update",libId});
+    if(!res.ok){ pcFail(res); return; }
+    if(!H().LS.set("ls.lib",res.lib)){ pcFail({reason:"write"}); return; }
+    renderLib(); renderPlan(); H().toast(H().t("pc.updated","🔄 העותק שלי עודכן — הגרסה הקודמת נשמרה"));
+  }
+  function undoCopy(id){
+    const res=window.HMDATA.libUndo(H().LS.get("ls.lib",[]),id);
+    if(!res.ok){ H().toast(H().t("pc.noprev","אין גרסה קודמת")); return; }
+    if(!H().LS.set("ls.lib",res.lib)){ pcFail({reason:"write"}); return; }
+    if(String(libId)===String(id)){ const e=res.lib.find(x=>String(x.id)===String(id)); if(e)plan=JSON.parse(JSON.stringify(e.plan)); }
+    renderLib(); renderPlan(); H().toast(H().t("pc.restored","↩ הגרסה הקודמת שוחזרה"));
+  }
+  /* מערך מהבנק ← עותק אישי ניתן לעריכה; הרשומה בבנק לא משתנה */
+  function bankCopy(sport,n){
+    const l=bankLessons(sport).find(x=>x.n===n); if(!l)return;
+    const p=window.HMDATA.bankToPlan(l,{sport,lang:bankLang(),labels:bankL(),newId:newPlanId(),today:today(),groupLabel:bankSportLabel(sport)});
+    if(!p){ H().toast(H().t("pc.bankNoFlow","אין במערך הזה מהלך שאפשר להפוך לשלבים")); return; }
+    const res=window.HMDATA.libSave(H().LS.get("ls.lib",[]),p,{mode:"new"});
+    let saved=res.ok&&H().LS.set("ls.lib",res.lib);
+    plan=p; libId=saved?res.id:null; editPh=false;
+    H().modal("ls-bankModal",false);
+    renderLib(); renderPlan();
+    if(!saved)pcFail(res.ok?{reason:"write"}:res); else H().toast(H().t("pc.bankDone","📝 נוצר עותק אישי — אפשר לערוך את השלבים"));
+    const card=H().$("#ls-planCard"); if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
   }
   /* מערכים מובנים שמגיעים עם האפליקציה — קיימים בכל מכשיר, לא נמחקים */
   function builtIn(){
@@ -45024,11 +45223,12 @@ window.LESSON=(function(){
         <div class="sb">${e.plan.date} · ${e.plan.grade==="mid"?"חטיבה":"תיכון"} · ${e.plan.phases.reduce((a,p)=>a+p.min,0)} דק׳</div></div>
         <button class="btn sm" data-load="${e.id}">📂</button>
         <button class="btn sm ghost" data-dup="${e.id}" title="שכפל לעריכה">⧉</button>
+        ${e.prev?`<button class="btn sm ghost" data-undo="${e.id}" title="${esc(H().t("pc.undo","↩ גרסה קודמת"))}">↩</button>`:""}
         <button class="btn sm stop" data-del="${e.id}">✕</button></div>`;
     }).join("");
     $$("#ls-libList [data-load]").forEach(b=>b.addEventListener("click",()=>{
       const e=H().LS.get("ls.lib",[]).find(x=>x.id==b.dataset.load);
-      if(e){plan=withId(e.plan,e.id);renderPlan();H().toast("המערך נטען");window.scrollTo({top:0,behavior:"smooth"});}
+      if(e){plan=withId(e.plan,e.id);libId=e.id;editPh=false;renderPlan();H().toast("המערך נטען");window.scrollTo({top:0,behavior:"smooth"});}
     }));
     /* שכפול: מערך שעבד בכיתה אחת הוא נקודת פתיחה מצוינת לכיתה הבאה,
        אבל עריכה ישירה שלו מוחקת את המקור. השכפול יוצר עותק חדש עם
@@ -45038,18 +45238,23 @@ window.LESSON=(function(){
       const e=lib.find(x=>String(x.id)===String(b.dataset.dup));
       if(!e||!e.plan)return;
       const copy=JSON.parse(JSON.stringify(e.plan));
+      copy.src={kind:"copy",id:e.plan.id||("pl"+e.id),title:e.plan.title,at:today()};
       copy.id=newPlanId();
       copy.date=new Date().toISOString().slice(0,10);
       copy.title=/\(עותק/.test(copy.title||"")?copy.title:(copy.title||"מערך")+" (עותק)";
-      lib.unshift({id:Date.now(),plan:copy});
-      H().LS.set("ls.lib",lib.slice(0,60));
-      plan=copy; renderPlan(); renderLib();
+      const res=window.HMDATA.libSave(lib,copy,{mode:"new"});
+      if(!res.ok){ pcFail(res); return; }
+      if(!H().LS.set("ls.lib",res.lib)){ pcFail({reason:"write"}); return; }
+      plan=copy; libId=res.id; editPh=false; renderPlan(); renderLib();
       H().toast("⧉ שוכפל — המקור לא השתנה");
       const card=H().$("#ls-planCard"); if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
     }));
+    $$("#ls-libList [data-undo]").forEach(b=>b.addEventListener("click",()=>undoCopy(b.dataset.undo)));
     $$("#ls-libList [data-doc]").forEach(b=>b.addEventListener("click",()=>openDoc(b.dataset.doc)));
     $$("#ls-libList [data-del]").forEach(b=>b.addEventListener("click",()=>{
-      H().LS.set("ls.lib",H().LS.get("ls.lib",[]).filter(x=>x.id!=b.dataset.del)); renderLib();
+      H().LS.set("ls.lib",H().LS.get("ls.lib",[]).filter(x=>x.id!=b.dataset.del));
+      if(String(libId)===String(b.dataset.del))libId=null;
+      renderLib(); if(plan)renderPlan();
     }));
   }
 
@@ -45239,6 +45444,7 @@ window.LESSON=(function(){
       bankSec(L.systemData,l.systemData?`<p>${esc(l.systemData)}</p>`:"")+
       bankSec(L.selfQualityCheck,l.selfQualityCheck?`<p>${esc(l.selfQualityCheck)}</p>`:"");
     H().modal("ls-bankModal");
+    $("#ls-bankCopy").onclick=()=>bankCopy(sport,n);
     $("#ls-bankPrint").onclick=()=>{
       const w=window.open("","_blank");
       const dir=bankDir();
@@ -45388,6 +45594,7 @@ window.LESSON=(function(){
     $("#ls-gen").addEventListener("click",gen);
     $("#ls-again").addEventListener("click",gen);
     $("#ls-save").addEventListener("click",saveLib);
+    $("#ls-update").addEventListener("click",updateCopy);
     $("#ls-print").addEventListener("click",print);
     $("#ls-assignBtn").addEventListener("click",()=>{ asgOpen=!asgOpen; renderAssign(); });
     /* עריכת המהלך ופעולות השיוך — האזנה אחת לכל הכרטיס */

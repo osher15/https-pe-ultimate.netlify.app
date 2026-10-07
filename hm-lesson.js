@@ -337,7 +337,7 @@ const TOPICS=[
    המחולל
    ============================================================ */
 window.LESSON=(function(){
-  let inited=false, grade="mid", plan=null, run={on:false,i:0,t0:0,raf:0};
+  let inited=false, libId=null, grade="mid", plan=null, run={on:false,i:0,t0:0,raf:0};
   const topicById=id=>TOPICS.find(t=>t.id===id);
 
   function readTimeOpts(){
@@ -514,7 +514,7 @@ window.LESSON=(function(){
       assess:T.assess,diff:T.diff,safe:T.safe,cur:T.cur,hw:T.hw,note:T.note||"",
       measure:o.withMeasure,
       mainVariants:mainBlocks.map(v=>v.n),mainSubs:mainBlocks.map(v=>v.sub).filter(Boolean)};
-    editPh=false;
+    editPh=false; libId=null;
     if(H().LS.get("ls.target",null))asgOpen=true;
     renderPlan();
     H().toast(H().t("ls.ready","⚡ המערך מוכן — אפשר לערוך, לשייך לשיעור או לשמור"));
@@ -617,6 +617,17 @@ window.LESSON=(function(){
       out.push('<span class="pill acc">📌 '+H().esc((c?c.name:cid)+" · "+iso)+'</span>'); });
     return out.slice(0,3).join("");
   }
+  /* «מבוסס על»: ממה נגזר העותק האישי, ואם זה מערך מהבנק — גם גרסת התוכן וסטטוס העריכה */
+  function srcLineHtml(){
+    const sc=plan&&plan.src; if(!sc)return "";
+    const {esc}=H(), t=(k,d)=>H().t(k,d);
+    const kind=sc.kind==="bank"?t("pc.kindBank","מערך מהבנק"):t("pc.kindCopy","עותק אישי");
+    const st=sc.status==="draft"?t("pc.draft","טיוטה, טרם נבדק"):(sc.status||"");
+    const meta=[sc.v?t("pc.version","גרסה")+" "+sc.v:"",st].filter(Boolean).join(" · ");
+    return `<div class="ls-src"><b>${esc(t("pc.basedOn","מבוסס על"))}:</b> ${esc(sc.title||"")} <span class="pill">${esc(kind)}</span>${meta?` <span class="hint">${esc(meta)}</span>`:""}
+      ${sc.kind==="bank"?` <button class="btn sm ghost" data-bankopen="${esc(sc.id)}">${esc(t("pc.openOrig","פתח את המקור"))}</button>`:""}
+      ${sc.timeGuess?`<div class="hint">${esc(t("pc.timeGuess","הדקות בשלבים הן הערכה — כדאי לעבור על השלבים ולתקן"))}</div>`:""}</div>`;
+  }
   function renderPlan(){
     const {$, $$, esc}=H();
     if(!plan){$("#ls-planCard").style.display="none";return;}
@@ -630,6 +641,7 @@ window.LESSON=(function(){
         <div class="em">${plan.em}</div>
         <div><b>${esc(plan.title)}</b><div class="sb">${esc(plan.group)}</div></div>
       </div>
+      ${srcLineHtml()}
       <div class="row" style="margin:10px 0 12px;gap:6px;flex-wrap:wrap">
         ${asgPills()}
         <span class="pill acc">${plan.grade==="mid"?"חטיבה ז׳–ט׳":"תיכון י׳–י״ב"}</span>
@@ -676,7 +688,7 @@ window.LESSON=(function(){
 
       <div class="ls-sec"><h4>🪜 התאמות (מודל STEP)</h4>
         <div class="ls-diff"><b>מתקשה</b><span>${esc(plan.diff.low)}</span></div>
-        <div class="ls-diff"><b>מתקדם</b><span>${esc(plan.diff.high)}</span></div>
+        ${plan.diff.high?`<div class="ls-diff"><b>מתקדם</b><span>${esc(plan.diff.high)}</span></div>`:""}
         <div class="ls-diff"><b>פטור / מגבלה</b><span>${esc(plan.diff.ex||"תפקיד פעיל: שופט, מודד זמנים, רשם תוצאות או מצלם ללוח השיאים.")}</span></div></div>
 
       <div class="ls-sec"><h4>✅ על מה מסתכלים (הערכה מעצבת)</h4>
@@ -691,6 +703,14 @@ window.LESSON=(function(){
         <p>${esc(src.title)} — ${esc(src.org)}</p>
         <a class="btn sm acc" href="${src.url}" target="_blank" rel="noopener" style="margin-top:6px">↗ למקור הרשמי</a></div>`:""}`;
     renderFeedbackHist();
+    const ub=$("#ls-update");
+    if(ub)ub.style.display=(libId!=null&&H().LS.get("ls.lib",[]).some(e=>String(e.id)===String(libId)&&e.plan))?"":"none";
+    $$("#ls-planBody [data-bankopen]").forEach(b=>b.addEventListener("click",()=>{
+      const [sp,n]=b.dataset.bankopen.split(":");
+      curBankSport=sp;
+      window.LESSONBANK.load(sp).then(()=>{ renderBankSports(); openBankLesson(sp,+n); })
+        .catch(()=>H().toast(H().t("lb.loadFail","לא ניתן לטעון את הענף כרגע")));
+    }));
 
     $$("#ls-planBody [data-gopen]").forEach(b=>b.addEventListener("click",()=>{
       H().LS.set("gm.open",b.dataset.gopen); H().go("games");
@@ -792,12 +812,53 @@ window.LESSON=(function(){
     qtPaint();
   }
 
+  /* ---------- עותק אישי ----------
+     שמירה כעותק חדש לא דורסת כלום; «עדכן את העותק שלי» מחליף רק את הרשומה שממנה המערך נטען,
+     אחרי לחיצה מפורשת, והגרסה הקודמת נשמרת פעם אחת. ראו docs/PERSONAL_COPY_DESIGN_2026-10-07.md */
+  function pcFail(res){
+    H().toast(res.reason==="limit"?H().t("pc.limit","הספרייה מלאה (60 מערכים) — מחק מערך ישן או ייצא גיבוי, ואז שמור שוב")
+      :res.reason==="missing"?H().t("pc.missing","העותק הזה כבר לא בספרייה — שמור אותו כעותק חדש")
+      :H().t("pc.saveFail","⚠ השמירה נכשלה — המערך נשאר על המסך"));
+  }
   function saveLib(){
     if(!plan)return;
-    const lib=H().LS.get("ls.lib",[]);
     withId(plan);
-    lib.unshift({id:Date.now(),plan:JSON.parse(JSON.stringify(plan))});
-    H().LS.set("ls.lib",lib.slice(0,60)); renderLib(); H().toast("💾 נשמר לספריית המערכים");
+    let item=plan;
+    if(libId!=null){   /* נטען מהספרייה: «שמור» יוצר עותק חדש שזוכר ממה נגזר, לא כפילות אילמת */
+      item=JSON.parse(JSON.stringify(plan)); item.id=newPlanId();
+      item.src={kind:"copy",id:plan.id,title:plan.title,at:today()};
+    }
+    const res=window.HMDATA.libSave(H().LS.get("ls.lib",[]),item,{mode:"new"});
+    if(!res.ok){ pcFail(res); return; }
+    if(!H().LS.set("ls.lib",res.lib)){ pcFail({reason:"write"}); return; }
+    plan=item; libId=res.id; renderLib(); renderPlan(); H().toast(H().t("pc.savedNew","💾 נשמר כעותק אישי חדש"));
+  }
+  function updateCopy(){
+    if(!plan||libId==null)return;
+    const res=window.HMDATA.libSave(H().LS.get("ls.lib",[]),plan,{mode:"update",libId});
+    if(!res.ok){ pcFail(res); return; }
+    if(!H().LS.set("ls.lib",res.lib)){ pcFail({reason:"write"}); return; }
+    renderLib(); renderPlan(); H().toast(H().t("pc.updated","🔄 העותק שלי עודכן — הגרסה הקודמת נשמרה"));
+  }
+  function undoCopy(id){
+    const res=window.HMDATA.libUndo(H().LS.get("ls.lib",[]),id);
+    if(!res.ok){ H().toast(H().t("pc.noprev","אין גרסה קודמת")); return; }
+    if(!H().LS.set("ls.lib",res.lib)){ pcFail({reason:"write"}); return; }
+    if(String(libId)===String(id)){ const e=res.lib.find(x=>String(x.id)===String(id)); if(e)plan=JSON.parse(JSON.stringify(e.plan)); }
+    renderLib(); renderPlan(); H().toast(H().t("pc.restored","↩ הגרסה הקודמת שוחזרה"));
+  }
+  /* מערך מהבנק ← עותק אישי ניתן לעריכה; הרשומה בבנק לא משתנה */
+  function bankCopy(sport,n){
+    const l=bankLessons(sport).find(x=>x.n===n); if(!l)return;
+    const p=window.HMDATA.bankToPlan(l,{sport,lang:bankLang(),labels:bankL(),newId:newPlanId(),today:today(),groupLabel:bankSportLabel(sport)});
+    if(!p){ H().toast(H().t("pc.bankNoFlow","אין במערך הזה מהלך שאפשר להפוך לשלבים")); return; }
+    const res=window.HMDATA.libSave(H().LS.get("ls.lib",[]),p,{mode:"new"});
+    let saved=res.ok&&H().LS.set("ls.lib",res.lib);
+    plan=p; libId=saved?res.id:null; editPh=false;
+    H().modal("ls-bankModal",false);
+    renderLib(); renderPlan();
+    if(!saved)pcFail(res.ok?{reason:"write"}:res); else H().toast(H().t("pc.bankDone","📝 נוצר עותק אישי — אפשר לערוך את השלבים"));
+    const card=H().$("#ls-planCard"); if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
   }
   /* מערכים מובנים שמגיעים עם האפליקציה — קיימים בכל מכשיר, לא נמחקים */
   function builtIn(){
@@ -827,11 +888,12 @@ window.LESSON=(function(){
         <div class="sb">${e.plan.date} · ${e.plan.grade==="mid"?"חטיבה":"תיכון"} · ${e.plan.phases.reduce((a,p)=>a+p.min,0)} דק׳</div></div>
         <button class="btn sm" data-load="${e.id}">📂</button>
         <button class="btn sm ghost" data-dup="${e.id}" title="שכפל לעריכה">⧉</button>
+        ${e.prev?`<button class="btn sm ghost" data-undo="${e.id}" title="${esc(H().t("pc.undo","↩ גרסה קודמת"))}">↩</button>`:""}
         <button class="btn sm stop" data-del="${e.id}">✕</button></div>`;
     }).join("");
     $$("#ls-libList [data-load]").forEach(b=>b.addEventListener("click",()=>{
       const e=H().LS.get("ls.lib",[]).find(x=>x.id==b.dataset.load);
-      if(e){plan=withId(e.plan,e.id);renderPlan();H().toast("המערך נטען");window.scrollTo({top:0,behavior:"smooth"});}
+      if(e){plan=withId(e.plan,e.id);libId=e.id;editPh=false;renderPlan();H().toast("המערך נטען");window.scrollTo({top:0,behavior:"smooth"});}
     }));
     /* שכפול: מערך שעבד בכיתה אחת הוא נקודת פתיחה מצוינת לכיתה הבאה,
        אבל עריכה ישירה שלו מוחקת את המקור. השכפול יוצר עותק חדש עם
@@ -841,18 +903,23 @@ window.LESSON=(function(){
       const e=lib.find(x=>String(x.id)===String(b.dataset.dup));
       if(!e||!e.plan)return;
       const copy=JSON.parse(JSON.stringify(e.plan));
+      copy.src={kind:"copy",id:e.plan.id||("pl"+e.id),title:e.plan.title,at:today()};
       copy.id=newPlanId();
       copy.date=new Date().toISOString().slice(0,10);
       copy.title=/\(עותק/.test(copy.title||"")?copy.title:(copy.title||"מערך")+" (עותק)";
-      lib.unshift({id:Date.now(),plan:copy});
-      H().LS.set("ls.lib",lib.slice(0,60));
-      plan=copy; renderPlan(); renderLib();
+      const res=window.HMDATA.libSave(lib,copy,{mode:"new"});
+      if(!res.ok){ pcFail(res); return; }
+      if(!H().LS.set("ls.lib",res.lib)){ pcFail({reason:"write"}); return; }
+      plan=copy; libId=res.id; editPh=false; renderPlan(); renderLib();
       H().toast("⧉ שוכפל — המקור לא השתנה");
       const card=H().$("#ls-planCard"); if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
     }));
+    $$("#ls-libList [data-undo]").forEach(b=>b.addEventListener("click",()=>undoCopy(b.dataset.undo)));
     $$("#ls-libList [data-doc]").forEach(b=>b.addEventListener("click",()=>openDoc(b.dataset.doc)));
     $$("#ls-libList [data-del]").forEach(b=>b.addEventListener("click",()=>{
-      H().LS.set("ls.lib",H().LS.get("ls.lib",[]).filter(x=>x.id!=b.dataset.del)); renderLib();
+      H().LS.set("ls.lib",H().LS.get("ls.lib",[]).filter(x=>x.id!=b.dataset.del));
+      if(String(libId)===String(b.dataset.del))libId=null;
+      renderLib(); if(plan)renderPlan();
     }));
   }
 
@@ -1042,6 +1109,7 @@ window.LESSON=(function(){
       bankSec(L.systemData,l.systemData?`<p>${esc(l.systemData)}</p>`:"")+
       bankSec(L.selfQualityCheck,l.selfQualityCheck?`<p>${esc(l.selfQualityCheck)}</p>`:"");
     H().modal("ls-bankModal");
+    $("#ls-bankCopy").onclick=()=>bankCopy(sport,n);
     $("#ls-bankPrint").onclick=()=>{
       const w=window.open("","_blank");
       const dir=bankDir();
@@ -1191,6 +1259,7 @@ window.LESSON=(function(){
     $("#ls-gen").addEventListener("click",gen);
     $("#ls-again").addEventListener("click",gen);
     $("#ls-save").addEventListener("click",saveLib);
+    $("#ls-update").addEventListener("click",updateCopy);
     $("#ls-print").addEventListener("click",print);
     $("#ls-assignBtn").addEventListener("click",()=>{ asgOpen=!asgOpen; renderAssign(); });
     /* עריכת המהלך ופעולות השיוך — האזנה אחת לכל הכרטיס */

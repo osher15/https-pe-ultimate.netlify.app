@@ -27,6 +27,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Review of PR #43/#44, offline lazy-load probe, device test sheet, timing text proposal, #23 design notes | Codex | See docs/handoffs/2026-10-05-codex-next-tasks.md. Docs and tests only, no product files |
 | Native packaging (#13) | Claude | .github/workflows/native.yml (release AAB job); native/android/app/build.gradle versionName; docs/NATIVE_RELEASE_CHECKLIST.md. Handoff: docs/handoffs/2026-10-05-native-release.md. No signing, upload or package-ID change |
 | Narrower timing ranges, 8-min round floor, 45/50/60/90 lessons, transitions included in step times (#19) | Claude | hm-data.js stepRanges/fitSteps/warmMinutes/mainWindow/overheadFull; hm-lesson.js gen/duration presets; index.html #ls-dur. Handoff: docs/handoffs/2026-10-07-timing-ranges.md |
+| Personal editable copy of a lesson, bank-to-copy (#21 item 5, #24) | Claude | hm-lesson.js save/update/undo/bankCopy; hm-data.js libSave/libUndo/bankToPlan; index.html #ls-update/#ls-bankCopy; pc.* keys; .ls-src. Handoff: docs/handoffs/2026-10-07-personal-copy.md |
 
 No blanket ownership of hm-data.js or all translation files: reserve bounded sections, rebase against accepted changes and rebuild outputs.
 When a file overlaps, serialize edits or agree distinct sections in the task record. A branch is not an automatic lock.

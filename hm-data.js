@@ -738,6 +738,59 @@ function recommendWarm(dur,weather,place,finMin){
   var short=dur-base-(+finMin||0)<18&&base>5&&place!=="class";
   return {min:short?5:base,short:short,weather:wx};
 }
+/* ---------- עותק אישי של מערך (ספריית המערכים ls.lib) ----------
+   רשומה: {id, plan, prev?, updated?}. plan.src אומר ממה העותק נגזר. שום פעולה כאן לא
+   נוגעת במקור: שמירה כעותק חדש מוסיפה רשומה, עדכון מחליף רק את הרשומה שהמורה בחר
+   (והגרסה הקודמת נשמרת פעם אחת), ושחזור מחזיר אותה. הפונקציות טהורות: לא קוראות
+   ולא כותבות אחסון והקלט לא משתנה. */
+var PLAN_LIB_MAX=60;
+function clonePlan(x){ return JSON.parse(JSON.stringify(x)); }
+function libSave(lib,plan,o){
+  o=o||{}; var l=Array.isArray(lib)?lib.filter(function(e){ return e&&(e.plan||e.doc); }):[];
+  if(!plan||!Array.isArray(plan.phases))return {ok:false,reason:"noplan",lib:l};
+  var now=o.now==null?Date.now():+o.now;
+  if(o.mode==="update"){
+    var i=-1; l.forEach(function(e,k){ if(i<0&&e.plan&&String(e.id)===String(o.libId))i=k; });
+    if(i<0)return {ok:false,reason:"missing",lib:l};
+    var out=l.slice(), old=out[i];
+    out[i]=Object.assign({},old,{plan:clonePlan(plan),prev:clonePlan(old.plan),updated:now});
+    return {ok:true,id:old.id,lib:out};
+  }
+  if(l.length>=PLAN_LIB_MAX)return {ok:false,reason:"limit",lib:l};
+  var id=now; while(l.some(function(e){ return String(e.id)===String(id); }))id++;
+  return {ok:true,id:id,lib:[{id:id,plan:clonePlan(plan)}].concat(l)};
+}
+function libUndo(lib,libId){
+  var l=Array.isArray(lib)?lib.slice():[], i=-1;
+  l.forEach(function(e,k){ if(i<0&&e&&e.plan&&String(e.id)===String(libId))i=k; });
+  if(i<0||!l[i].prev)return {ok:false,reason:"noprev",lib:l};
+  var e=l[i], now=e.plan;
+  l[i]=Object.assign({},e,{plan:e.prev,prev:now});
+  return {ok:true,id:e.id,lib:l};
+}
+/* מערך בנק שיעורים ← מערך ניתן לעריכה. הדקות נקראות מהשורה «משך: N דקות» בכל קטע; קטע בלי
+   משך מקבל 3 דק׳ וה-src מסמן timeGuess. o: {sport,lang,labels,newId,today,grade} */
+var BANK_FLOW=[["opening","warm"],["warmup","warm"],["mainA","main"],["mainB","main"],["appliedGame","game"],["closing","cool"]];
+function bankSectionMinutes(text){
+  var m=/(\d+)\s*(?:דק|min|دق|мин|minut)/i.exec(String(text||"").slice(0,120));
+  return m&&+m[1]>0&&+m[1]<=90?+m[1]:0;
+}
+function bankToPlan(l,o){
+  o=o||{}; if(!l||!l.sections)return null;
+  var L=o.labels||{}, guess=false, phases=[];
+  BANK_FLOW.forEach(function(f){
+    var t=l.sections[f[0]]; if(!t)return;
+    var mins=bankSectionMinutes(t); if(!mins){ mins=3; guess=true; }
+    phases.push({n:L[f[0]]||f[0],min:mins,d:String(t),k:f[1]});
+  });
+  if(!phases.length)return null;
+  var age=/(\d+)/.exec(String(l.ageRange||"")), grade=age&&+age[1]>=15?"high":"mid";
+  return {id:o.newId,grade:o.grade||grade,topic:"bank",title:l.title,em:"📚",group:o.groupLabel||"",cls:"",size:0,place:"",
+    date:o.today,goals:(l.objectives||[]).slice(),eq:l.equipment?[String(l.equipment)]:[],eqAvail:[],eqNo:[],eqWarn:[],std:[],phases:phases,
+    assess:l.assessment?[String(l.assessment)]:[],diff:{low:String(l.adaptations||""),high:"",ex:""},
+    safe:(l.safety||[]).join(" · "),cur:"",hw:String(l.continuity||""),note:"",measure:false,
+    src:{kind:"bank",id:o.sport+":"+l.n,title:l.title,v:l.contentVersion||"",status:l.reviewStatus||"",lang:o.lang||"",timeGuess:guess,at:o.today}};
+}
 /* ---------- ספריית המשחקים: מטא־נתונים לסינון ידני ----------
    הנתונים נשארים כפי שהם — כך שהמורה רואה, והטקסט המתורגם לא משתנה. הסינון
    קורא את השכבות, מספר המשתתפים והזמן מתוך השדות הקיימים. סינון הוא תמיד
@@ -2938,6 +2991,7 @@ return {
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
   stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  libSave:libSave, libUndo:libUndo, bankToPlan:bankToPlan, bankSectionMinutes:bankSectionMinutes, PLAN_LIB_MAX:PLAN_LIB_MAX,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
   detectVersion:detectVersion, migrate:migrate,

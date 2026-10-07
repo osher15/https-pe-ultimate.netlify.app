@@ -1934,3 +1934,5 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 .hx-prev{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.5}
 .hx-prev .lb{font-weight:700}
 .hx-prev .nt{color:var(--ink)}
+
+.ls-src{margin:8px 0 2px;font-size:12.5px;line-height:1.6}.ls-src .hint{display:inline}

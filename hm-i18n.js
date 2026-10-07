@@ -38,6 +38,26 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "pc.update":"🔄 Update my copy",
+  "pc.bankCopy":"📝 Create my editable copy",
+  "pc.undo":"↩ Previous version",
+  "pc.limit":"The library is full (60 plans) — delete an old plan or export a backup, then save again",
+  "pc.missing":"This copy is no longer in the library — save it as a new copy",
+  "pc.saveFail":"⚠ Saving failed — the plan stays on screen",
+  "pc.savedNew":"💾 Saved as a new personal copy",
+  "pc.updated":"🔄 My copy was updated — the previous version is kept",
+  "pc.noprev":"No previous version",
+  "pc.restored":"↩ Previous version restored",
+  "pc.bankNoFlow":"This lesson has no flow that can be turned into steps",
+  "pc.bankDone":"📝 Personal copy created — you can edit the steps",
+  "pc.kindBank":"Bank lesson",
+  "pc.kindCopy":"Personal copy",
+  "pc.draft":"Draft, not yet reviewed",
+  "pc.version":"Version",
+  "pc.basedOn":"Based on",
+  "pc.openOrig":"Open the original",
+  "pc.timeGuess":"Step minutes are an estimate — review the steps and adjust",
+  /* ux-redesign */
   "last.prevClass":"Last time in this class",
   /* ux-redesign */
   "lb.loading":"Loading…",
@@ -839,6 +859,26 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "pc.update":"🔄 حدّث نسختي",
+  "pc.bankCopy":"📝 أنشئ نسخة شخصية للتعديل",
+  "pc.undo":"↩ النسخة السابقة",
+  "pc.limit":"المكتبة ممتلئة (60 خطة) — احذف خطة قديمة أو صدّر نسخة احتياطية ثم احفظ مجددًا",
+  "pc.missing":"هذه النسخة لم تعد في المكتبة — احفظها كنسخة جديدة",
+  "pc.saveFail":"⚠ فشل الحفظ — تبقى الخطة على الشاشة",
+  "pc.savedNew":"💾 تم الحفظ كنسخة شخصية جديدة",
+  "pc.updated":"🔄 تم تحديث نسختي — النسخة السابقة محفوظة",
+  "pc.noprev":"لا توجد نسخة سابقة",
+  "pc.restored":"↩ تمت استعادة النسخة السابقة",
+  "pc.bankNoFlow":"لا يوجد في هذا الدرس مسار يمكن تحويله إلى مراحل",
+  "pc.bankDone":"📝 تم إنشاء نسخة شخصية — يمكنك تعديل المراحل",
+  "pc.kindBank":"درس من البنك",
+  "pc.kindCopy":"نسخة شخصية",
+  "pc.draft":"مسودة، لم تُراجَع بعد",
+  "pc.version":"الإصدار",
+  "pc.basedOn":"مبني على",
+  "pc.openOrig":"افتح الأصل",
+  "pc.timeGuess":"دقائق المراحل تقدير — راجع المراحل وعدّلها",
   /* ux-redesign */
   "last.prevClass":"في المرة الماضية مع هذا الصف",
   /* ux-redesign */
@@ -1646,6 +1686,26 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "pc.update":"🔄 Обновить мою копию",
+  "pc.bankCopy":"📝 Создать мою копию для правки",
+  "pc.undo":"↩ Предыдущая версия",
+  "pc.limit":"Библиотека заполнена (60 планов) — удалите старый план или сделайте резервную копию, затем сохраните снова",
+  "pc.missing":"Этой копии уже нет в библиотеке — сохраните её как новую",
+  "pc.saveFail":"⚠ Не удалось сохранить — план остаётся на экране",
+  "pc.savedNew":"💾 Сохранено как новая личная копия",
+  "pc.updated":"🔄 Моя копия обновлена — предыдущая версия сохранена",
+  "pc.noprev":"Предыдущей версии нет",
+  "pc.restored":"↩ Предыдущая версия восстановлена",
+  "pc.bankNoFlow":"В этом уроке нет хода, который можно превратить в этапы",
+  "pc.bankDone":"📝 Личная копия создана — этапы можно править",
+  "pc.kindBank":"Урок из банка",
+  "pc.kindCopy":"Личная копия",
+  "pc.draft":"Черновик, ещё не проверен",
+  "pc.version":"Версия",
+  "pc.basedOn":"Основано на",
+  "pc.openOrig":"Открыть оригинал",
+  "pc.timeGuess":"Минуты в этапах — оценка; проверьте этапы и поправьте",
+  /* ux-redesign */
   "last.prevClass":"В прошлый раз в этом классе",
   /* ux-redesign */
   "lb.loading":"Загрузка…",
@@ -2444,6 +2504,26 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "pc.update":"🔄 Actualizar mi copia",
+  "pc.bankCopy":"📝 Crear mi copia editable",
+  "pc.undo":"↩ Versión anterior",
+  "pc.limit":"La biblioteca está llena (60 planes): borra uno antiguo o exporta una copia de seguridad y vuelve a guardar",
+  "pc.missing":"Esta copia ya no está en la biblioteca: guárdala como copia nueva",
+  "pc.saveFail":"⚠ No se pudo guardar: el plan sigue en pantalla",
+  "pc.savedNew":"💾 Guardado como nueva copia personal",
+  "pc.updated":"🔄 Mi copia se actualizó: la versión anterior se conserva",
+  "pc.noprev":"No hay versión anterior",
+  "pc.restored":"↩ Versión anterior restaurada",
+  "pc.bankNoFlow":"Esta sesión no tiene un desarrollo que se pueda convertir en fases",
+  "pc.bankDone":"📝 Copia personal creada: puedes editar las fases",
+  "pc.kindBank":"Sesión del banco",
+  "pc.kindCopy":"Copia personal",
+  "pc.draft":"Borrador, aún sin revisar",
+  "pc.version":"Versión",
+  "pc.basedOn":"Basado en",
+  "pc.openOrig":"Abrir el original",
+  "pc.timeGuess":"Los minutos de las fases son una estimación: revisa las fases y ajústalos",
   /* ux-redesign */
   "last.prevClass":"La última vez con esta clase",
   /* ux-redesign */
