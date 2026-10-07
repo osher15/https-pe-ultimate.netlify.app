@@ -1052,18 +1052,24 @@ window.GAMES=(function(){
     const tr=x=>{ try{ return L!=="he"&&window.I18N?window.I18N.tr(x):""; }catch(e){ return ""; } };
     return (c[g.id]=window.HMDATA.foldSearch(parts.join(" ")+" "+parts.map(tr).join(" ")));
   }
+  /* אוספים אישיים: משחקים שהמורה צירף לאוסף (col.list); אוסף שנמחק — חוזרים ל«הכול» */
+  const getCols=()=>window.HMDATA.normCollections(H().LS.get("col.list",[]));
+  const colGameIds=id=>{ const c=getCols().find(x=>x.id===id); return c?c.items.filter(i=>i.k==="g").map(i=>i.id):[]; };
   function list(){
     const f=getFlt(), fav=getFav();
-    return GAMES.filter(g=>(cat==="all"||(cat==="fav"?fav.indexOf(g.id)>=0:g.cat===cat))&&window.HMDATA.searchMatch(hay(g),q)&&window.HMDATA.gameMatches(metaOf(g),f));
+    const inCol=cat.indexOf("col:")===0?colGameIds(cat.slice(4)):null;
+    return GAMES.filter(g=>(cat==="all"||(inCol?inCol.indexOf(g.id)>=0:(cat==="fav"?fav.indexOf(g.id)>=0:g.cat===cat)))&&window.HMDATA.searchMatch(hay(g),q)&&window.HMDATA.gameMatches(metaOf(g),f));
   }
   function render(){
     const {$, $$, esc}=H();
     const favN=getFav().filter(id=>GAMES.some(g=>g.id===id)).length;
+    const cols=getCols().filter(c=>c.items.some(i=>i.k==="g"&&GAMES.some(g=>g.id===i.id)));
+    if(cat.indexOf("col:")===0&&!cols.some(c=>"col:"+c.id===cat))cat="all";
     $("#gm-cats").innerHTML=GCATS.map(([id,nm,em])=>{
       const n=id==="all"?GAMES.length:GAMES.filter(g=>g.cat===id).length;
       return `<button data-gc="${id}" class="${id===cat?"on":""}">${em} ${nm} <span class="cnt">${n}</span></button>`
         +(id==="all"?`<button data-gc="fav" class="${cat==="fav"?"on":""}">⭐ ${esc(H().t("gm.favs","מועדפים"))} <span class="cnt">${favN}</span></button>`:"");
-    }).join("");
+    }).join("")+cols.map(c=>`<button data-gc="col:${esc(c.id)}" class="${cat==="col:"+c.id?"on":""}">🗂 ${esc(c.name)} <span class="cnt">${c.items.filter(i=>i.k==="g"&&GAMES.some(g=>g.id===i.id)).length}</span></button>`).join("");
     $$("#gm-cats [data-gc]").forEach(b=>b.addEventListener("click",()=>{ cat=b.dataset.gc; render(); }));
     const items=list(), cmp=isCompact(), fav=getFav();
     const f=getFlt(), filtered=!!(f.age||f.tmax||f.n||f.noeq);
@@ -1140,12 +1146,15 @@ window.GAMES=(function(){
          href="${ytUrl(g.yt)}" target="_blank" rel="noopener">▶ צפייה בהדגמה ביוטיוב</a>
       <div class="hint" style="margin-top:7px">הקישור פותח חיפוש יוטיוב לפי שם המשחק — כך הוא לא נשבר עם הזמן, ואפשר לבחור סרטון בעברית או באנגלית.</div>
       <button class="btn sm" id="gm-toLesson" style="margin-top:11px">📋 קח למערך שיעור</button>
+      <button class="btn sm ghost" id="gm-colBtn" style="margin-top:11px">🗂 ${esc(H().t("col.add","הוסף לאוסף"))}</button>
       <button class="btn sm ghost" id="gm-favBtn" style="margin-top:11px" aria-pressed="${isFav(g.id)}">${isFav(g.id)?"★ "+esc(H().t("gm.unfav","הסר ממועדפים")):"☆ "+esc(H().t("gm.fav","הוסף למועדפים"))}</button>`;
     H().modal("gm-modal");
     paintMine(g.id);
     const mb=$("#gm-mineBtn"), mi=$("#gm-mineIn");
     if(mb)mb.addEventListener("click",()=>addMine(g.id));
     if(mi)mi.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); addMine(g.id); } });
+    const cbtn=$("#gm-colBtn");
+    if(cbtn)cbtn.addEventListener("click",()=>window.COLLECTIONS.pick({k:"g",id:g.id},g.name));
     const fbtn=$("#gm-favBtn");
     if(fbtn)fbtn.addEventListener("click",()=>{ toggleFav(g.id); open(g.id); render(); });
     const b=$("#gm-toLesson");
@@ -1163,6 +1172,7 @@ window.GAMES=(function(){
   }
   function init(){
     if(inited)return; inited=true;
+    document.addEventListener("col:change",()=>{ try{ render(); }catch(e){} });
     const {$}=H();
     /* חיפוש סורק את כל הקטגוריות — כדי שלא ״ייעלמו״ תוצאות בגלל סינון פעיל */
     $("#gm-search").addEventListener("input",e=>{ q=e.target.value; if(q.trim())cat="all"; render(); });

@@ -738,6 +738,64 @@ function recommendWarm(dur,weather,place,finMin){
   var short=dur-base-(+finMin||0)<18&&base>5&&place!=="class";
   return {min:short?5:base,short:short,weather:wx};
 }
+/* ---------- אוספים אישיים (המפתח col.list) ----------
+   אוסף = שם + רשימת הפניות {k,id} למשחק (g), למערך מהספרייה שלי (p) או למערך מהבנק (b,
+   «ענף:מספר»). האוסף מחזיק רק הפניות — לא מעתיק ולא משנה את הפריט. הפניה לפריט שנמחק נשארת
+   (מוצגת כ«לא זמין») עד שהמורה מסיר אותה. הפונקציות טהורות ולא משנות את הקלט. */
+var COL_MAX=20, COL_ITEMS=100, COL_NAME=40, COL_KINDS={g:1,p:1,b:1};
+function colName(x){ return String(x==null?"":x).replace(/\s+/g," ").trim().slice(0,COL_NAME); }
+function normCollections(v){
+  var out=[], ids={}, names={};
+  (Array.isArray(v)?v:[]).forEach(function(c){
+    if(!c||typeof c.id!=="string"||!c.id||ids[c.id]||out.length>=COL_MAX)return;
+    var n=colName(c.name); if(!n||names[foldSearch(n)])return;
+    var seen={}, items=[];
+    (Array.isArray(c.items)?c.items:[]).forEach(function(it){
+      if(!it||!COL_KINDS[it.k]||typeof it.id!=="string"||!it.id)return;
+      var key=it.k+"|"+it.id; if(seen[key]||items.length>=COL_ITEMS)return;
+      seen[key]=1; items.push({k:it.k,id:it.id});
+    });
+    ids[c.id]=1; names[foldSearch(n)]=1; out.push({id:c.id,name:n,items:items,at:typeof c.at==="string"?c.at:""});
+  });
+  return out;
+}
+function colAdd(list,name,o){
+  var l=normCollections(list), n=colName(name); o=o||{};
+  if(!n)return {ok:false,reason:"empty",list:l};
+  if(l.some(function(c){ return foldSearch(c.name)===foldSearch(n); }))return {ok:false,reason:"dup",list:l};
+  if(l.length>=COL_MAX)return {ok:false,reason:"limit",list:l};
+  var id="c"+(o.now==null?Date.now():+o.now).toString(36), k=0, base=id;
+  while(l.some(function(c){ return c.id===id; }))id=base+"-"+(++k);
+  return {ok:true,id:id,list:l.concat([{id:id,name:n,items:[],at:o.today||""}])};
+}
+function colRename(list,id,name){
+  var l=normCollections(list), n=colName(name), i=-1;
+  l.forEach(function(c,k){ if(c.id===id)i=k; });
+  if(i<0)return {ok:false,reason:"missing",list:l};
+  if(!n)return {ok:false,reason:"empty",list:l};
+  if(l.some(function(c,k){ return k!==i&&foldSearch(c.name)===foldSearch(n); }))return {ok:false,reason:"dup",list:l};
+  l[i]=Object.assign({},l[i],{name:n});
+  return {ok:true,list:l};
+}
+function colDelete(list,id){
+  var l=normCollections(list), out=l.filter(function(c){ return c.id!==id; });
+  return {ok:out.length!==l.length,reason:out.length===l.length?"missing":"",list:out};
+}
+/* מוסיף או מסיר פריט מאוסף. has — המצב אחרי הפעולה */
+function colToggle(list,id,item){
+  var l=normCollections(list), i=-1;
+  l.forEach(function(c,k){ if(c.id===id)i=k; });
+  if(i<0||!item||!COL_KINDS[item.k]||typeof item.id!=="string"||!item.id)return {ok:false,reason:"missing",list:l};
+  var items=l[i].items.slice(), j=-1;
+  items.forEach(function(x,k){ if(x.k===item.k&&x.id===item.id)j=k; });
+  if(j>=0){ items.splice(j,1); l[i]=Object.assign({},l[i],{items:items}); return {ok:true,has:false,list:l}; }
+  if(items.length>=COL_ITEMS)return {ok:false,reason:"limit",list:l};
+  items.push({k:item.k,id:item.id}); l[i]=Object.assign({},l[i],{items:items});
+  return {ok:true,has:true,list:l};
+}
+function colsOf(list,item){
+  return normCollections(list).filter(function(c){ return c.items.some(function(x){ return x.k===item.k&&x.id===item.id; }); }).map(function(c){ return c.id; });
+}
 /* ---------- עותק אישי של מערך (ספריית המערכים ls.lib) ----------
    רשומה: {id, plan, prev?, updated?}. plan.src אומר ממה העותק נגזר. שום פעולה כאן לא
    נוגעת במקור: שמירה כעותק חדש מוסיפה רשומה, עדכון מחליף רק את הרשומה שהמורה בחר
@@ -3029,6 +3087,7 @@ return {
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
   stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, normGameMine:normGameMine, addGameMine:addGameMine, delGameMine:delGameMine, MINE_MAX:MINE_MAX, MINE_PER_GAME:MINE_PER_GAME, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  normCollections:normCollections, colAdd:colAdd, colRename:colRename, colDelete:colDelete, colToggle:colToggle, colsOf:colsOf, COL_MAX:COL_MAX, COL_ITEMS:COL_ITEMS, COL_NAME:COL_NAME,
   libSave:libSave, libUndo:libUndo, bankToPlan:bankToPlan, bankSectionMinutes:bankSectionMinutes, PLAN_LIB_MAX:PLAN_LIB_MAX,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,

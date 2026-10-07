@@ -888,6 +888,7 @@ window.LESSON=(function(){
         <div class="sb">${e.plan.date} · ${e.plan.grade==="mid"?"חטיבה":"תיכון"} · ${e.plan.phases.reduce((a,p)=>a+p.min,0)} דק׳</div></div>
         <button class="btn sm" data-load="${e.id}">📂</button>
         <button class="btn sm ghost" data-dup="${e.id}" title="שכפל לעריכה">⧉</button>
+        <button class="btn sm ghost" data-col="${e.id}" title="${esc(H().t("col.add","🗂 הוסף לאוסף"))}" aria-label="${esc(H().t("col.add","🗂 הוסף לאוסף"))}">🗂</button>
         ${e.prev?`<button class="btn sm ghost" data-undo="${e.id}" title="${esc(H().t("pc.undo","↩ גרסה קודמת"))}">↩</button>`:""}
         <button class="btn sm stop" data-del="${e.id}">✕</button></div>`;
     }).join("");
@@ -913,6 +914,10 @@ window.LESSON=(function(){
       plan=copy; libId=res.id; editPh=false; renderPlan(); renderLib();
       H().toast("⧉ שוכפל — המקור לא השתנה");
       const card=H().$("#ls-planCard"); if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
+    }));
+    $$("#ls-libList [data-col]").forEach(b=>b.addEventListener("click",()=>{
+      const e=H().LS.get("ls.lib",[]).find(x=>String(x.id)===String(b.dataset.col)); if(!e||!e.plan)return;
+      window.COLLECTIONS.pick({k:"p",id:e.plan.id||("pl"+e.id)},e.plan.title);
     }));
     $$("#ls-libList [data-undo]").forEach(b=>b.addEventListener("click",()=>undoCopy(b.dataset.undo)));
     $$("#ls-libList [data-doc]").forEach(b=>b.addEventListener("click",()=>openDoc(b.dataset.doc)));
@@ -1110,6 +1115,7 @@ window.LESSON=(function(){
       bankSec(L.selfQualityCheck,l.selfQualityCheck?`<p>${esc(l.selfQualityCheck)}</p>`:"");
     H().modal("ls-bankModal");
     $("#ls-bankCopy").onclick=()=>bankCopy(sport,n);
+    $("#ls-bankCol").onclick=()=>window.COLLECTIONS.pick({k:"b",id:sport+":"+n},l.title);
     $("#ls-bankPrint").onclick=()=>{
       const w=window.open("","_blank");
       const dir=bankDir();
@@ -1212,6 +1218,24 @@ window.LESSON=(function(){
     const head='<span>'+esc(H().t(w.k,EQW[w.k]||""))+'</span>';
     return (w.items||[]).length?head+': '+w.items.map(i=>'<span>'+esc(i)+'</span>').join(", "):head;
   }
+  /* ---------- אוספים אישיים: איך כל סוג פריט נפתח ומה שמו ---------- */
+  function registerCollectionKinds(){
+    const C=window.COLLECTIONS; if(!C)return;
+    const entryOf=id=>H().LS.get("ls.lib",[]).find(e=>e.plan&&((e.plan.id||("pl"+e.id))===id));
+    C.register("p",{
+      title:id=>{ const e=entryOf(id); return e?e.plan.title:null; },
+      open:id=>{ const e=entryOf(id); if(!e)return; plan=withId(e.plan,e.id); libId=e.id; editPh=false; renderPlan();
+        const card=H().$("#ls-planCard"); if(card)card.scrollIntoView({behavior:"smooth",block:"start"}); }});
+    C.register("b",{
+      title:id=>{ const [sp,n]=id.split(":"); const l=window.LESSONBANK&&window.LESSONBANK.sports&&window.LESSONBANK.sports[sp]?bankLessons(sp).find(x=>x.n===+n):null;
+        return l?l.title:bankSportLabel(sp)+" · "+n; },
+      open:id=>{ const [sp,n]=id.split(":"); curBankSport=sp;
+        window.LESSONBANK.load(sp).then(()=>{ renderBankSports(); openBankLesson(sp,+n); }).catch(()=>H().toast(H().t("lb.loadFail","לא ניתן לטעון את הענף כרגע"))); }});
+    C.register("g",{
+      title:id=>{ const g=window.GAMES&&window.GAMES.byId(id); return g?g.name:null; },
+      open:id=>{ H().LS.set("gm.open",id); H().go("games");
+        setTimeout(()=>{ const c=document.querySelector('#gm-grid [data-g="'+id+'"]'); if(c)c.click(); },120); }});
+  }
   /* ---------- אתחול ---------- */
   function buildTopicSelect(){
     const {$}=H(); const groups=[...new Set(TOPICS.map(t=>t.g))];
@@ -1237,6 +1261,8 @@ window.LESSON=(function(){
        שהוא). בלי זה כפתורים שנבנו ב-t() — «✎ ערוך מהלך» — נשארו
        בשפה הקודמת עד לבנייה הבאה. */
     document.addEventListener("i18n:change",()=>{ try{ if(plan)renderPlan(); }catch(e){} });
+    registerCollectionKinds();
+    window.COLLECTIONS.init();
     buildTopicSelect();
     buildSubSelect();
     $("#ls-focus").addEventListener("change",buildSubSelect);

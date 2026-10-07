@@ -5,6 +5,7 @@ const suites=[
   require("./library21.e2e.js"),
   require("./gameadapt.e2e.js"),
   require("./personalcopy.e2e.js"),
+  require("./collections.e2e.js"),
   require("./builder19.e2e.js"),
   require("./fieldjourney.e2e.js"),
   require("./backuprestore.e2e.js"),

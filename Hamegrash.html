@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="a2c48f2f">
+<meta name="hm-build" content="6c0a39a7">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -1972,6 +1972,9 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 
 .ls-src{margin:8px 0 2px;font-size:12.5px;line-height:1.6}.ls-src .hint{display:inline}
 
+.col-pick{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}.col-row{display:flex;align-items:center;gap:8px;font-size:14px}.col-new{gap:6px;margin:8px 0;flex-wrap:nowrap}.col-new input{flex:1;min-width:0}.col-items{list-style:none;margin:6px 0 0;padding:0;font-size:13px}.col-items li{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px}.col-item .ttl input{font-size:14px;max-width:100%}
+.col-item{display:block}.col-hd{display:flex;align-items:center;gap:6px}.col-hd .ttl{flex:1;min-width:0}.col-items .col-t{flex:1;min-width:0;overflow-wrap:anywhere}
+
 </style>
 </head>
 <body>
@@ -3070,6 +3073,11 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
     <div id="ls-libList"></div>
     <div class="empty-state" id="ls-libEmpty"><div class="big">📚</div>עוד לא שמרת מערכים.<br>בנה מערך ולחץ «שמור» — הוא יחכה כאן לשיעור הבא.</div>
   </div>
+  <div class="card" id="ls-colCard">
+    <h2><span class="dot"></span> <span data-i18n="col.title">🗂 האוספים שלי</span></h2>
+    <div class="hint" id="ls-colCount" style="margin-top:-2px"></div>
+    <div id="ls-colList"></div>
+  </div>
   <div class="card" id="ls-bankCard" style="display:none">
     <h2><span class="dot"></span> מאגר מערכים בינלאומי</h2>
     <div class="hint" id="ls-bankHint" style="margin:-4px 0 11px"></div>
@@ -3402,8 +3410,14 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
 <div class="modal" id="ls-bankModal"><div class="box">
   <h3><span id="ls-bankTitle"></span><button class="x" data-close="ls-bankModal">✕</button></h3>
   <div id="ls-bankBody" class="ls-bank"></div>
+  <button class="btn sm ghost" id="ls-bankCol" data-i18n="col.add" style="margin-top:11px">🗂 הוסף לאוסף</button>
   <button class="btn sm acc" id="ls-bankCopy" data-i18n="pc.bankCopy" style="margin-top:11px">📝 צור עותק אישי לעריכה</button>
   <button class="btn sm ghost" id="ls-bankPrint" style="margin-top:11px">🖨 הדפס</button>
+</div></div>
+
+<div class="modal" id="col-modal"><div class="box">
+  <h3><span id="col-pickTitle"></span><button class="x" data-close="col-modal">✕</button></h3>
+  <div id="col-pickBody"></div>
 </div></div>
 
 <div class="modal" id="ls-docModal"><div class="box">
@@ -5033,6 +5047,64 @@ function recommendWarm(dur,weather,place,finMin){
   var wx=place==="field"?weather:"normal", base=warmMinutes(dur,wx);
   var short=dur-base-(+finMin||0)<18&&base>5&&place!=="class";
   return {min:short?5:base,short:short,weather:wx};
+}
+/* ---------- אוספים אישיים (המפתח col.list) ----------
+   אוסף = שם + רשימת הפניות {k,id} למשחק (g), למערך מהספרייה שלי (p) או למערך מהבנק (b,
+   «ענף:מספר»). האוסף מחזיק רק הפניות — לא מעתיק ולא משנה את הפריט. הפניה לפריט שנמחק נשארת
+   (מוצגת כ«לא זמין») עד שהמורה מסיר אותה. הפונקציות טהורות ולא משנות את הקלט. */
+var COL_MAX=20, COL_ITEMS=100, COL_NAME=40, COL_KINDS={g:1,p:1,b:1};
+function colName(x){ return String(x==null?"":x).replace(/\s+/g," ").trim().slice(0,COL_NAME); }
+function normCollections(v){
+  var out=[], ids={}, names={};
+  (Array.isArray(v)?v:[]).forEach(function(c){
+    if(!c||typeof c.id!=="string"||!c.id||ids[c.id]||out.length>=COL_MAX)return;
+    var n=colName(c.name); if(!n||names[foldSearch(n)])return;
+    var seen={}, items=[];
+    (Array.isArray(c.items)?c.items:[]).forEach(function(it){
+      if(!it||!COL_KINDS[it.k]||typeof it.id!=="string"||!it.id)return;
+      var key=it.k+"|"+it.id; if(seen[key]||items.length>=COL_ITEMS)return;
+      seen[key]=1; items.push({k:it.k,id:it.id});
+    });
+    ids[c.id]=1; names[foldSearch(n)]=1; out.push({id:c.id,name:n,items:items,at:typeof c.at==="string"?c.at:""});
+  });
+  return out;
+}
+function colAdd(list,name,o){
+  var l=normCollections(list), n=colName(name); o=o||{};
+  if(!n)return {ok:false,reason:"empty",list:l};
+  if(l.some(function(c){ return foldSearch(c.name)===foldSearch(n); }))return {ok:false,reason:"dup",list:l};
+  if(l.length>=COL_MAX)return {ok:false,reason:"limit",list:l};
+  var id="c"+(o.now==null?Date.now():+o.now).toString(36), k=0, base=id;
+  while(l.some(function(c){ return c.id===id; }))id=base+"-"+(++k);
+  return {ok:true,id:id,list:l.concat([{id:id,name:n,items:[],at:o.today||""}])};
+}
+function colRename(list,id,name){
+  var l=normCollections(list), n=colName(name), i=-1;
+  l.forEach(function(c,k){ if(c.id===id)i=k; });
+  if(i<0)return {ok:false,reason:"missing",list:l};
+  if(!n)return {ok:false,reason:"empty",list:l};
+  if(l.some(function(c,k){ return k!==i&&foldSearch(c.name)===foldSearch(n); }))return {ok:false,reason:"dup",list:l};
+  l[i]=Object.assign({},l[i],{name:n});
+  return {ok:true,list:l};
+}
+function colDelete(list,id){
+  var l=normCollections(list), out=l.filter(function(c){ return c.id!==id; });
+  return {ok:out.length!==l.length,reason:out.length===l.length?"missing":"",list:out};
+}
+/* מוסיף או מסיר פריט מאוסף. has — המצב אחרי הפעולה */
+function colToggle(list,id,item){
+  var l=normCollections(list), i=-1;
+  l.forEach(function(c,k){ if(c.id===id)i=k; });
+  if(i<0||!item||!COL_KINDS[item.k]||typeof item.id!=="string"||!item.id)return {ok:false,reason:"missing",list:l};
+  var items=l[i].items.slice(), j=-1;
+  items.forEach(function(x,k){ if(x.k===item.k&&x.id===item.id)j=k; });
+  if(j>=0){ items.splice(j,1); l[i]=Object.assign({},l[i],{items:items}); return {ok:true,has:false,list:l}; }
+  if(items.length>=COL_ITEMS)return {ok:false,reason:"limit",list:l};
+  items.push({k:item.k,id:item.id}); l[i]=Object.assign({},l[i],{items:items});
+  return {ok:true,has:true,list:l};
+}
+function colsOf(list,item){
+  return normCollections(list).filter(function(c){ return c.items.some(function(x){ return x.k===item.k&&x.id===item.id; }); }).map(function(c){ return c.id; });
 }
 /* ---------- עותק אישי של מערך (ספריית המערכים ls.lib) ----------
    רשומה: {id, plan, prev?, updated?}. plan.src אומר ממה העותק נגזר. שום פעולה כאן לא
@@ -7325,6 +7397,7 @@ return {
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
   stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, normGameMine:normGameMine, addGameMine:addGameMine, delGameMine:delGameMine, MINE_MAX:MINE_MAX, MINE_PER_GAME:MINE_PER_GAME, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  normCollections:normCollections, colAdd:colAdd, colRename:colRename, colDelete:colDelete, colToggle:colToggle, colsOf:colsOf, COL_MAX:COL_MAX, COL_ITEMS:COL_ITEMS, COL_NAME:COL_NAME,
   libSave:libSave, libUndo:libUndo, bankToPlan:bankToPlan, bankSectionMinutes:bankSectionMinutes, PLAN_LIB_MAX:PLAN_LIB_MAX,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,
@@ -13701,6 +13774,36 @@ he:{},   /* ריק בכוונה — עברית היא ברירת המחדל שב
 
 en:{
   /* ux-redesign */
+  "col.title":"🗂 My collections",
+  "col.add":"🗂 Add to collection",
+  "col.pickTitle":"Add to collection",
+  "col.newPh":"Name of a new collection",
+  "col.create":"Create and add",
+  "col.hint":"A collection is your own grouping of games and lesson plans (for example “Kadoreshet week”). It stores references only — it never changes or copies the items — and it is included in the backup.",
+  "col.none":"No collections yet — create one below.",
+  "col.empty":"The collection is empty",
+  "col.unavail":"Unavailable (deleted)",
+  "col.open":"Open",
+  "col.remove":"Remove from collection",
+  "col.rename":"Rename",
+  "col.sure":"Sure?",
+  "col.save":"Save",
+  "col.cancel":"Cancel",
+  "col.dup":"A collection with this name already exists",
+  "col.limitCols":"Up to 20 collections",
+  "col.limitItems":"A collection holds up to 100 items",
+  "col.needName":"Type a name for the collection",
+  "col.gone":"The collection no longer exists",
+  "col.saveFail":"⚠ Saving failed",
+  "col.added":"Added to the collection",
+  "col.removed":"Removed from the collection",
+  "col.created":"Collection created and item added",
+  "col.countWord":"collections",
+  "col.managerEmpty":"No collections yet. Add a game or a plan with the 🗂 button and you will see and manage them here.",
+  "col.kindG":"Game",
+  "col.kindP":"My plan",
+  "col.kindB":"Bank lesson",
+  /* ux-redesign */
   "pc.update":"🔄 Update my copy",
   "pc.bankCopy":"📝 Create my editable copy",
   "pc.undo":"↩ Previous version",
@@ -14530,6 +14633,36 @@ en:{
 },
 
 ar:{
+  /* ux-redesign */
+  "col.title":"🗂 مجموعاتي",
+  "col.add":"🗂 أضف إلى مجموعة",
+  "col.pickTitle":"الإضافة إلى مجموعة",
+  "col.newPh":"اسم مجموعة جديدة",
+  "col.create":"أنشئ وأضف",
+  "col.hint":"المجموعة تجميع خاص بك للألعاب والخطط (مثل «أسبوع الكرة الشبكية»). تحفظ مراجع فقط — لا تغيّر العناصر ولا تنسخها — وتدخل في النسخة الاحتياطية.",
+  "col.none":"لا توجد مجموعات بعد — أنشئ واحدة أدناه.",
+  "col.empty":"المجموعة فارغة",
+  "col.unavail":"غير متاح (محذوف)",
+  "col.open":"افتح",
+  "col.remove":"أزل من المجموعة",
+  "col.rename":"غيّر الاسم",
+  "col.sure":"متأكد؟",
+  "col.save":"احفظ",
+  "col.cancel":"إلغاء",
+  "col.dup":"توجد مجموعة بهذا الاسم",
+  "col.limitCols":"حتى 20 مجموعة",
+  "col.limitItems":"تتسع المجموعة حتى 100 عنصر",
+  "col.needName":"اكتب اسمًا للمجموعة",
+  "col.gone":"المجموعة لم تعد موجودة",
+  "col.saveFail":"⚠ فشل الحفظ",
+  "col.added":"أُضيف إلى المجموعة",
+  "col.removed":"أُزيل من المجموعة",
+  "col.created":"أُنشئت المجموعة وأُضيف العنصر",
+  "col.countWord":"مجموعات",
+  "col.managerEmpty":"لا توجد مجموعات بعد. أضف لعبة أو خطة بزر 🗂 وستراها وتديرها هنا.",
+  "col.kindG":"لعبة",
+  "col.kindP":"خطتي",
+  "col.kindB":"درس من البنك",
   /* ux-redesign */
   "pc.update":"🔄 حدّث نسختي",
   "pc.bankCopy":"📝 أنشئ نسخة شخصية للتعديل",
@@ -15365,6 +15498,36 @@ ar:{
 
 ru:{
   /* ux-redesign */
+  "col.title":"🗂 Мои подборки",
+  "col.add":"🗂 В подборку",
+  "col.pickTitle":"Добавить в подборку",
+  "col.newPh":"Название новой подборки",
+  "col.create":"Создать и добавить",
+  "col.hint":"Подборка — ваша группа игр и планов (например, «неделя волейбола»). Хранит только ссылки — не меняет и не копирует элементы — и входит в резервную копию.",
+  "col.none":"Подборок пока нет — создайте ниже.",
+  "col.empty":"Подборка пуста",
+  "col.unavail":"Недоступно (удалено)",
+  "col.open":"Открыть",
+  "col.remove":"Убрать из подборки",
+  "col.rename":"Переименовать",
+  "col.sure":"Точно?",
+  "col.save":"Сохранить",
+  "col.cancel":"Отмена",
+  "col.dup":"Подборка с таким названием уже есть",
+  "col.limitCols":"До 20 подборок",
+  "col.limitItems":"В подборке до 100 элементов",
+  "col.needName":"Введите название подборки",
+  "col.gone":"Подборки больше нет",
+  "col.saveFail":"⚠ Не удалось сохранить",
+  "col.added":"Добавлено в подборку",
+  "col.removed":"Убрано из подборки",
+  "col.created":"Подборка создана, элемент добавлен",
+  "col.countWord":"подборок",
+  "col.managerEmpty":"Подборок пока нет. Добавьте игру или план кнопкой 🗂 — они появятся здесь.",
+  "col.kindG":"Игра",
+  "col.kindP":"Мой план",
+  "col.kindB":"Урок из банка",
+  /* ux-redesign */
   "pc.update":"🔄 Обновить мою копию",
   "pc.bankCopy":"📝 Создать мою копию для правки",
   "pc.undo":"↩ Предыдущая версия",
@@ -16191,6 +16354,36 @@ ru:{
 },
 
 es:{
+  /* ux-redesign */
+  "col.title":"🗂 Mis colecciones",
+  "col.add":"🗂 Añadir a colección",
+  "col.pickTitle":"Añadir a una colección",
+  "col.newPh":"Nombre de la nueva colección",
+  "col.create":"Crear y añadir",
+  "col.hint":"Una colección es tu propia agrupación de juegos y planes (por ejemplo «semana de balón»). Solo guarda referencias: no cambia ni copia los elementos, y entra en la copia de seguridad.",
+  "col.none":"Aún no hay colecciones: crea una abajo.",
+  "col.empty":"La colección está vacía",
+  "col.unavail":"No disponible (eliminado)",
+  "col.open":"Abrir",
+  "col.remove":"Quitar de la colección",
+  "col.rename":"Renombrar",
+  "col.sure":"¿Seguro?",
+  "col.save":"Guardar",
+  "col.cancel":"Cancelar",
+  "col.dup":"Ya existe una colección con ese nombre",
+  "col.limitCols":"Hasta 20 colecciones",
+  "col.limitItems":"Una colección admite hasta 100 elementos",
+  "col.needName":"Escribe un nombre para la colección",
+  "col.gone":"La colección ya no existe",
+  "col.saveFail":"⚠ No se pudo guardar",
+  "col.added":"Añadido a la colección",
+  "col.removed":"Quitado de la colección",
+  "col.created":"Colección creada y elemento añadido",
+  "col.countWord":"colecciones",
+  "col.managerEmpty":"Aún no hay colecciones. Añade un juego o un plan con el botón 🗂 y los verás y gestionarás aquí.",
+  "col.kindG":"Juego",
+  "col.kindP":"Mi plan",
+  "col.kindB":"Sesión del banco",
   /* ux-redesign */
   "pc.update":"🔄 Actualizar mi copia",
   "pc.bankCopy":"📝 Crear mi copia editable",
@@ -19323,7 +19516,7 @@ const RATING_LABEL={"1":"👍 עבד מצוין","0":"😐 בינוני","-1":"�
    של המצב הנוכחי לפני הדריסה.
    ============================================================ */
 const BK_PREFIX=BRAND.ns;
-const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
+const BK_LABELS={"col.list":"אוספים אישיים","ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
   "rec.pass":"קוד המורה","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
@@ -24734,18 +24927,24 @@ window.GAMES=(function(){
     const tr=x=>{ try{ return L!=="he"&&window.I18N?window.I18N.tr(x):""; }catch(e){ return ""; } };
     return (c[g.id]=window.HMDATA.foldSearch(parts.join(" ")+" "+parts.map(tr).join(" ")));
   }
+  /* אוספים אישיים: משחקים שהמורה צירף לאוסף (col.list); אוסף שנמחק — חוזרים ל«הכול» */
+  const getCols=()=>window.HMDATA.normCollections(H().LS.get("col.list",[]));
+  const colGameIds=id=>{ const c=getCols().find(x=>x.id===id); return c?c.items.filter(i=>i.k==="g").map(i=>i.id):[]; };
   function list(){
     const f=getFlt(), fav=getFav();
-    return GAMES.filter(g=>(cat==="all"||(cat==="fav"?fav.indexOf(g.id)>=0:g.cat===cat))&&window.HMDATA.searchMatch(hay(g),q)&&window.HMDATA.gameMatches(metaOf(g),f));
+    const inCol=cat.indexOf("col:")===0?colGameIds(cat.slice(4)):null;
+    return GAMES.filter(g=>(cat==="all"||(inCol?inCol.indexOf(g.id)>=0:(cat==="fav"?fav.indexOf(g.id)>=0:g.cat===cat)))&&window.HMDATA.searchMatch(hay(g),q)&&window.HMDATA.gameMatches(metaOf(g),f));
   }
   function render(){
     const {$, $$, esc}=H();
     const favN=getFav().filter(id=>GAMES.some(g=>g.id===id)).length;
+    const cols=getCols().filter(c=>c.items.some(i=>i.k==="g"&&GAMES.some(g=>g.id===i.id)));
+    if(cat.indexOf("col:")===0&&!cols.some(c=>"col:"+c.id===cat))cat="all";
     $("#gm-cats").innerHTML=GCATS.map(([id,nm,em])=>{
       const n=id==="all"?GAMES.length:GAMES.filter(g=>g.cat===id).length;
       return `<button data-gc="${id}" class="${id===cat?"on":""}">${em} ${nm} <span class="cnt">${n}</span></button>`
         +(id==="all"?`<button data-gc="fav" class="${cat==="fav"?"on":""}">⭐ ${esc(H().t("gm.favs","מועדפים"))} <span class="cnt">${favN}</span></button>`:"");
-    }).join("");
+    }).join("")+cols.map(c=>`<button data-gc="col:${esc(c.id)}" class="${cat==="col:"+c.id?"on":""}">🗂 ${esc(c.name)} <span class="cnt">${c.items.filter(i=>i.k==="g"&&GAMES.some(g=>g.id===i.id)).length}</span></button>`).join("");
     $$("#gm-cats [data-gc]").forEach(b=>b.addEventListener("click",()=>{ cat=b.dataset.gc; render(); }));
     const items=list(), cmp=isCompact(), fav=getFav();
     const f=getFlt(), filtered=!!(f.age||f.tmax||f.n||f.noeq);
@@ -24822,12 +25021,15 @@ window.GAMES=(function(){
          href="${ytUrl(g.yt)}" target="_blank" rel="noopener">▶ צפייה בהדגמה ביוטיוב</a>
       <div class="hint" style="margin-top:7px">הקישור פותח חיפוש יוטיוב לפי שם המשחק — כך הוא לא נשבר עם הזמן, ואפשר לבחור סרטון בעברית או באנגלית.</div>
       <button class="btn sm" id="gm-toLesson" style="margin-top:11px">📋 קח למערך שיעור</button>
+      <button class="btn sm ghost" id="gm-colBtn" style="margin-top:11px">🗂 ${esc(H().t("col.add","הוסף לאוסף"))}</button>
       <button class="btn sm ghost" id="gm-favBtn" style="margin-top:11px" aria-pressed="${isFav(g.id)}">${isFav(g.id)?"★ "+esc(H().t("gm.unfav","הסר ממועדפים")):"☆ "+esc(H().t("gm.fav","הוסף למועדפים"))}</button>`;
     H().modal("gm-modal");
     paintMine(g.id);
     const mb=$("#gm-mineBtn"), mi=$("#gm-mineIn");
     if(mb)mb.addEventListener("click",()=>addMine(g.id));
     if(mi)mi.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); addMine(g.id); } });
+    const cbtn=$("#gm-colBtn");
+    if(cbtn)cbtn.addEventListener("click",()=>window.COLLECTIONS.pick({k:"g",id:g.id},g.name));
     const fbtn=$("#gm-favBtn");
     if(fbtn)fbtn.addEventListener("click",()=>{ toggleFav(g.id); open(g.id); render(); });
     const b=$("#gm-toLesson");
@@ -24845,6 +25047,7 @@ window.GAMES=(function(){
   }
   function init(){
     if(inited)return; inited=true;
+    document.addEventListener("col:change",()=>{ try{ render(); }catch(e){} });
     const {$}=H();
     /* חיפוש סורק את כל הקטגוריות — כדי שלא ״ייעלמו״ תוצאות בגלל סינון פעיל */
     $("#gm-search").addEventListener("input",e=>{ q=e.target.value; if(q.trim())cat="all"; render(); });
@@ -24925,6 +25128,124 @@ window.KNOW=(function(){
   }
   return {init, sources:()=>SOURCES, programs:()=>PROGRAMS, byId:srcById};
 })();
+})();
+
+;
+"use strict";
+/* ============================================================
+   אוספים אישיים (#21 סעיף 3)
+   ------------------------------------------------------------
+   אוסף = שם שהמורה בחר + הפניות למשחקים, למערכים שלו או למערכים מהבנק. האוסף לא
+   מעתיק ולא משנה את הפריט; הוא נשמר במפתח col.list (נכלל בגיבוי) והלוגיקה הטהורה
+   שלו ב-hm-data.js (colAdd/colToggle/…). שום דבר כאן לא נוצר או משתנה אוטומטית.
+   המודול נותן שלושה דברים: בוחר («הוסף לאוסף») לכל פריט, מנהל האוספים במסך המערכים,
+   ואירוע col:change כדי שדף המשחקים ירענן את הסינון לפי אוסף.
+   ============================================================ */
+(function(){
+  const H=()=>window.HM, D=()=>window.HMDATA, KEY="col.list";
+  const resolvers={};
+  let ctx=null, open={}, armed=null, renaming=null;
+
+  const get=()=>D().normCollections(H().LS.get(KEY,[]));
+  const T=(k,d)=>H().t(k,d);
+  function changed(){ document.dispatchEvent(new CustomEvent("col:change")); paintManager(); if(ctx)paintPicker(); }
+  function failMsg(res){
+    const r=res&&res.reason;
+    H().toast(r==="dup"?T("col.dup","כבר יש אוסף בשם הזה")
+      :r==="limit"?(res.kind==="cols"?T("col.limitCols","אפשר עד 20 אוספים"):T("col.limitItems","אוסף יכול להכיל עד 100 פריטים"))
+      :r==="empty"?T("col.needName","כתבו שם לאוסף")
+      :r==="missing"?T("col.gone","האוסף כבר לא קיים")
+      :T("col.saveFail","⚠ השמירה נכשלה"));
+  }
+  function commit(res){
+    if(!res.ok){ failMsg(res); return false; }
+    if(!H().LS.set(KEY,res.list)){ failMsg({reason:"write"}); return false; }
+    return true;
+  }
+
+  /* ---------- בוחר: «הוסף לאוסף» ---------- */
+  function paintPicker(){
+    const {$, esc}=H(), box=$("#col-pickBody"); if(!box||!ctx)return;
+    const list=get(), inIds=D().colsOf(list,ctx.item);
+    box.innerHTML=(list.length?`<div class="col-pick">${list.map(c=>
+        `<label class="col-row"><input type="checkbox" data-pc="${esc(c.id)}"${inIds.indexOf(c.id)>=0?" checked":""}> <span>${esc(c.name)}</span> <span class="hint">${c.items.length}</span></label>`).join("")}</div>`
+      :`<div class="hint">${esc(T("col.none","עוד אין אוספים — צרו אחד למטה."))}</div>`)
+      +`<div class="row col-new"><input id="col-newIn" type="text" maxlength="${D().COL_NAME}" autocomplete="off" placeholder="${esc(T("col.newPh","שם לאוסף חדש"))}" aria-label="${esc(T("col.newPh","שם לאוסף חדש"))}">
+        <button type="button" class="btn sm acc" id="col-newBtn">${esc(T("col.create","צור והוסף"))}</button></div>
+        <div class="hint">${esc(T("col.hint","אוסף הוא קיבוץ משלך של משחקים ומערכים (למשל «שבוע הכדורשת»). הוא שומר רק הפניות — לא משנה ולא מעתיק את הפריטים, ונכלל בגיבוי."))}</div>`;
+    box.querySelectorAll("[data-pc]").forEach(cb=>cb.addEventListener("change",()=>{
+      const res=D().colToggle(get(),cb.dataset.pc,ctx.item);
+      if(!commit(res)){ cb.checked=!cb.checked; return; }
+      H().toast(res.has?T("col.added","נוסף לאוסף"):T("col.removed","הוסר מהאוסף")); changed();
+    }));
+    const add=()=>{
+      const inp=$("#col-newIn"), made=D().colAdd(get(),inp.value,{today:new Date().toISOString().slice(0,10)});
+      if(!made.ok){ failMsg(made.reason==="limit"?Object.assign({kind:"cols"},made):made); return; }
+      const res=D().colToggle(made.list,made.id,ctx.item);
+      if(!commit(res))return;
+      inp.value=""; H().toast(T("col.created","האוסף נוצר והפריט נוסף")); changed();
+    };
+    $("#col-newBtn").addEventListener("click",add);
+    $("#col-newIn").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); add(); } });
+  }
+  function pick(item,label){
+    if(!item||!item.k||!item.id)return;
+    ctx={item:{k:item.k,id:String(item.id)},label:label||""};
+    const t=H().$("#col-pickTitle"); if(t)t.textContent=T("col.pickTitle","הוספה לאוסף")+(label?" · "+label:"");
+    paintPicker(); H().modal("col-modal");
+  }
+
+  /* ---------- מנהל האוספים (מסך המערכים) ---------- */
+  function register(kind,r){ resolvers[kind]=r; }
+  const kindName=k=>k==="g"?T("col.kindG","משחק"):k==="p"?T("col.kindP","מערך שלי"):T("col.kindB","מערך מהבנק");
+  function titleOf(it){
+    const r=resolvers[it.k]; let t=null;
+    try{ t=r&&r.title?r.title(it.id):null; }catch(e){ t=null; }
+    return t;
+  }
+  function paintManager(){
+    const {$, esc}=H(), box=$("#ls-colList"); if(!box)return;
+    const list=get();
+    const cnt=$("#ls-colCount"); if(cnt)cnt.textContent=list.length?list.length+" "+T("col.countWord","אוספים"):"";
+    box.innerHTML=list.length?list.map(c=>{
+      const isOpen=!!open[c.id], ren=renaming===c.id;
+      const items=isOpen?`<ul class="col-items">${c.items.map(it=>{ const t=titleOf(it);
+          return `<li><span class="pill">${esc(kindName(it.k))}</span> <span class="col-t">${t?esc(t):`<span class="hint">${esc(T("col.unavail","לא זמין (נמחק)"))}</span>`}</span>
+            ${t?`<button type="button" class="btn sm ghost" data-copen="${esc(it.k)}|${esc(it.id)}">${esc(T("col.open","פתח"))}</button>`:""}
+            <button type="button" class="btn sm ghost" data-crm="${esc(it.k)}|${esc(it.id)}" aria-label="${esc(T("col.remove","הסר מהאוסף"))}">✕</button></li>`; }).join("")||`<li class="hint">${esc(T("col.empty","האוסף ריק"))}</li>`}</ul>`:"";
+      const acts=ren?`<button type="button" class="btn sm acc" data-cok>${esc(T("col.save","שמור"))}</button><button type="button" class="btn sm ghost" data-ccancel>${esc(T("col.cancel","ביטול"))}</button>`
+        :`<button type="button" class="btn sm" data-ctoggle aria-expanded="${isOpen}">${isOpen?"▴":"▾"}</button>
+           <button type="button" class="btn sm ghost" data-cren title="${esc(T("col.rename","שנה שם"))}" aria-label="${esc(T("col.rename","שנה שם"))}">✎</button>
+           <button type="button" class="btn sm stop" data-cdel>${armed===c.id?esc(T("col.sure","בטוח?")):"✕"}</button>`;
+      return `<div class="arc-item col-item" data-col="${esc(c.id)}"><div class="col-hd"><div class="ttl">${ren?`<input type="text" data-cn maxlength="${D().COL_NAME}" value="${esc(c.name)}" aria-label="${esc(T("col.rename","שנה שם"))}">`:`🗂 ${esc(c.name)}`} <span class="pill">${c.items.length}</span></div>${acts}</div>${items}</div>`; }).join(""):`<div class="hint">${esc(T("col.managerEmpty","עוד אין אוספים. הוסיפו משחק או מערך לאוסף מכפתור 🗂, וכאן תראו ותנהלו אותם."))}</div>`;
+  }
+  function onManagerClick(e){
+    const row=e.target.closest("[data-col]"); if(!row)return;
+    const id=row.dataset.col;
+    if(e.target.closest("[data-ctoggle]")){ open[id]=!open[id]; paintManager(); return; }
+    if(e.target.closest("[data-cren]")){ renaming=id; paintManager(); const i=row.querySelector("[data-cn]"); const n=H().$("#ls-colList [data-cn]"); if(n)n.focus(); return; }
+    if(e.target.closest("[data-ccancel]")){ renaming=null; paintManager(); return; }
+    if(e.target.closest("[data-cok]")){
+      const v=H().$("#ls-colList [data-cn]").value, res=D().colRename(get(),id,v);
+      if(commit(res)){ renaming=null; changed(); } return;
+    }
+    if(e.target.closest("[data-cdel]")){
+      /* שתי לחיצות: הראשונה מבקשת אישור, השנייה מוחקת את האוסף בלבד — הפריטים נשארים */
+      if(armed!==id){ armed=id; paintManager(); setTimeout(()=>{ if(armed===id){ armed=null; paintManager(); } },4000); return; }
+      armed=null; const res=D().colDelete(get(),id); if(commit(res))changed(); return;
+    }
+    const rm=e.target.closest("[data-crm]");
+    if(rm){ const [k,...r]=rm.dataset.crm.split("|"); const res=D().colToggle(get(),id,{k,id:r.join("|")}); if(commit(res))changed(); return; }
+    const op=e.target.closest("[data-copen]");
+    if(op){ const [k,...r]=op.dataset.copen.split("|"), rs=resolvers[k]; if(rs&&rs.open)rs.open(r.join("|")); }
+  }
+  function init(){
+    const box=document.getElementById("ls-colList");
+    if(box&&!box.dataset.wired){ box.dataset.wired="1"; box.addEventListener("click",onManagerClick);
+      box.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches("[data-cn]")){ e.preventDefault(); const b=box.querySelector("[data-cok]"); if(b)b.click(); } }); }
+    paintManager();
+  }
+  window.COLLECTIONS={pick,register,init,paint:paintManager,list:get};
 })();
 
 ;
@@ -45613,6 +45934,7 @@ window.LESSON=(function(){
         <div class="sb">${e.plan.date} · ${e.plan.grade==="mid"?"חטיבה":"תיכון"} · ${e.plan.phases.reduce((a,p)=>a+p.min,0)} דק׳</div></div>
         <button class="btn sm" data-load="${e.id}">📂</button>
         <button class="btn sm ghost" data-dup="${e.id}" title="שכפל לעריכה">⧉</button>
+        <button class="btn sm ghost" data-col="${e.id}" title="${esc(H().t("col.add","🗂 הוסף לאוסף"))}" aria-label="${esc(H().t("col.add","🗂 הוסף לאוסף"))}">🗂</button>
         ${e.prev?`<button class="btn sm ghost" data-undo="${e.id}" title="${esc(H().t("pc.undo","↩ גרסה קודמת"))}">↩</button>`:""}
         <button class="btn sm stop" data-del="${e.id}">✕</button></div>`;
     }).join("");
@@ -45638,6 +45960,10 @@ window.LESSON=(function(){
       plan=copy; libId=res.id; editPh=false; renderPlan(); renderLib();
       H().toast("⧉ שוכפל — המקור לא השתנה");
       const card=H().$("#ls-planCard"); if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
+    }));
+    $$("#ls-libList [data-col]").forEach(b=>b.addEventListener("click",()=>{
+      const e=H().LS.get("ls.lib",[]).find(x=>String(x.id)===String(b.dataset.col)); if(!e||!e.plan)return;
+      window.COLLECTIONS.pick({k:"p",id:e.plan.id||("pl"+e.id)},e.plan.title);
     }));
     $$("#ls-libList [data-undo]").forEach(b=>b.addEventListener("click",()=>undoCopy(b.dataset.undo)));
     $$("#ls-libList [data-doc]").forEach(b=>b.addEventListener("click",()=>openDoc(b.dataset.doc)));
@@ -45835,6 +46161,7 @@ window.LESSON=(function(){
       bankSec(L.selfQualityCheck,l.selfQualityCheck?`<p>${esc(l.selfQualityCheck)}</p>`:"");
     H().modal("ls-bankModal");
     $("#ls-bankCopy").onclick=()=>bankCopy(sport,n);
+    $("#ls-bankCol").onclick=()=>window.COLLECTIONS.pick({k:"b",id:sport+":"+n},l.title);
     $("#ls-bankPrint").onclick=()=>{
       const w=window.open("","_blank");
       const dir=bankDir();
@@ -45937,6 +46264,24 @@ window.LESSON=(function(){
     const head='<span>'+esc(H().t(w.k,EQW[w.k]||""))+'</span>';
     return (w.items||[]).length?head+': '+w.items.map(i=>'<span>'+esc(i)+'</span>').join(", "):head;
   }
+  /* ---------- אוספים אישיים: איך כל סוג פריט נפתח ומה שמו ---------- */
+  function registerCollectionKinds(){
+    const C=window.COLLECTIONS; if(!C)return;
+    const entryOf=id=>H().LS.get("ls.lib",[]).find(e=>e.plan&&((e.plan.id||("pl"+e.id))===id));
+    C.register("p",{
+      title:id=>{ const e=entryOf(id); return e?e.plan.title:null; },
+      open:id=>{ const e=entryOf(id); if(!e)return; plan=withId(e.plan,e.id); libId=e.id; editPh=false; renderPlan();
+        const card=H().$("#ls-planCard"); if(card)card.scrollIntoView({behavior:"smooth",block:"start"}); }});
+    C.register("b",{
+      title:id=>{ const [sp,n]=id.split(":"); const l=window.LESSONBANK&&window.LESSONBANK.sports&&window.LESSONBANK.sports[sp]?bankLessons(sp).find(x=>x.n===+n):null;
+        return l?l.title:bankSportLabel(sp)+" · "+n; },
+      open:id=>{ const [sp,n]=id.split(":"); curBankSport=sp;
+        window.LESSONBANK.load(sp).then(()=>{ renderBankSports(); openBankLesson(sp,+n); }).catch(()=>H().toast(H().t("lb.loadFail","לא ניתן לטעון את הענף כרגע"))); }});
+    C.register("g",{
+      title:id=>{ const g=window.GAMES&&window.GAMES.byId(id); return g?g.name:null; },
+      open:id=>{ H().LS.set("gm.open",id); H().go("games");
+        setTimeout(()=>{ const c=document.querySelector('#gm-grid [data-g="'+id+'"]'); if(c)c.click(); },120); }});
+  }
   /* ---------- אתחול ---------- */
   function buildTopicSelect(){
     const {$}=H(); const groups=[...new Set(TOPICS.map(t=>t.g))];
@@ -45962,6 +46307,8 @@ window.LESSON=(function(){
        שהוא). בלי זה כפתורים שנבנו ב-t() — «✎ ערוך מהלך» — נשארו
        בשפה הקודמת עד לבנייה הבאה. */
     document.addEventListener("i18n:change",()=>{ try{ if(plan)renderPlan(); }catch(e){} });
+    registerCollectionKinds();
+    window.COLLECTIONS.init();
     buildTopicSelect();
     buildSubSelect();
     $("#ls-focus").addEventListener("change",buildSubSelect);
