@@ -1910,7 +1910,7 @@ const BK_PREFIX=BRAND.ns;
 const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
-  "rec.pass":"קוד המורה","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
+  "rec.pass":"קוד המורה","gm.mine":"הווריאציות שלי למשחקים","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
   "pf.names":"שמות המסלולים","settings":"הגדרות"};
 /* מפתחות שהם רישום מקומי על המכשיר עצמו ולא נתונים של המורה — אין
    טעם לשאת אותם בקובץ ולא להציג אותם בהשוואה. */
@@ -1943,9 +1943,11 @@ async function bkSnapshotFull(budget){
   return snap;
 }
 /* ספירה קריאה לאדם לכל מפתח — «57 תוצאות» ולא «4.2KB» */
-function bkCount(raw){
+function bkCount(raw,key){
   if(raw==null)return "—";
   try{ const v=JSON.parse(raw);
+    /* וריאציות אישיות: ספירה של הווריאציות עצמן, לא של המשחקים שיש להם וריאציות */
+    if(key==="gm.mine"&&v&&typeof v==="object"&&!Array.isArray(v))return Object.keys(v).reduce((n,g)=>n+(Array.isArray(v[g])?v[g].length:0),0);
     if(Array.isArray(v))return v.length;
     if(v&&typeof v==="object")return Object.keys(v).length;
     return v===""?"—":1;
@@ -2459,8 +2461,8 @@ function bkPreview(snap,fp){
     (snap.v<DATA.BK_V?"<span>גיבוי בפורמט ישן</span>":"")+
     (fp?'<span id="bk-fp" title="'+esc(t("bk.fpHint","אותו קוד מוצג ביצירת הקובץ. אם הוא שונה — זה לא אותו קובץ."))+'">'+esc(t("bk.fp","קוד אימות"))+": <b>"+esc(fp)+"</b></span>":"");
   $("#bk-diff").innerHTML=all.map(k=>{
-    const fv=snap.data[k]!=null?bkCount(snap.data[k]):"—";
-    const hv=here.includes(k)?bkCount((STORE||MEMFALLBACK).getItem(BK_PREFIX+k)):"—";
+    const fv=snap.data[k]!=null?bkCount(snap.data[k],k):"—";
+    const hv=here.includes(k)?bkCount((STORE||MEMFALLBACK).getItem(BK_PREFIX+k),k):"—";
     const gone=snap.data[k]==null&&here.includes(k);
     return '<tr'+(gone?' class="gone"':"")+"><td>"+esc(BK_LABELS[k]||k)+"</td><td>"+fv+"</td><td>"+hv+"</td></tr>";
   }).join("");

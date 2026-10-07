@@ -62,5 +62,20 @@ module.exports={title:"משחקים: רמות, משימות ומדליות, ור
     ok(await p.locator("#gm-mBody details.gm-more .gm-lv").count()===3,"הרמות בתוך המקופל");
     ok(await p.locator("#gm-mBody .gm-sec.warn").isVisible(),"בטיחות גלויה");
     await p.evaluate(()=>window.HM.LS.set("gm.compact",false));
+  }),
+  check("תצוגת הגיבוי: «הווריאציות שלי» עם שם ידידותי בחמש שפות וספירה של הווריאציות עצמן",{lang:"en"},async p=>{
+    await p.evaluate(()=>window.HM.LS.set("gm.mine",{"g-flags":[{id:"a",t:"one"},{id:"b",t:"two"}],"g-gaga":[{id:"c",t:"three"}]}));
+    const snap=await p.evaluate(()=>window.HM.backupTest.snapshot());
+    await p.evaluate(()=>window.HM.openSettings("backup"));
+    await p.setInputFiles("#set-bkFile",{name:"backup.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(snap))});
+    await p.locator("#bk-go").waitFor({state:"visible"});
+    for(const l of ["en","ar","ru","es","he"]){
+      await p.evaluate(x=>window.I18N.set(x),l); await p.waitForTimeout(250);
+      const row=await p.evaluate(()=>[...document.querySelectorAll("#bk-diff tr")].map(r=>[...r.children].map(c=>c.textContent.trim())).find(r=>/variation|تنويع|вариант|variante|וריאציות/i.test(r[0])));
+      ok(row,l+": שורת וריאציות אישיות קיימת");
+      eq(row.slice(1),["3","3"],l+": 3 וריאציות בקובץ ובמכשיר, לא 2 משחקים");
+      ok(!/gm\.mine/.test(row[0]),l+": אין מפתח גולמי");
+    }
+    await p.evaluate(()=>window.HM.LS.set("gm.mine",{}));
   })
 ]};

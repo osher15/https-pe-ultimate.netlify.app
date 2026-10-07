@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="28216814">
+<meta name="hm-build" content="6849a354">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -13571,6 +13571,7 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "מלך עם 2 פסילות, והחזרת חבר רק אחרי שתי קליטות נקיות":["A king with 2 lives, and a teammate returns only after two clean catches", "ملك له 2 من الإقصاءات، ولا يعود زميل إلا بعد التقاطين نظيفين", "Король с 2 жизнями, и партнёр возвращается только после двух чистых ловли", "Un rey con 2 vidas, y un compañero vuelve solo tras dos atrapadas limpias"],
 "מדליות פגיעה לאורך השיעור: 5 פגיעות ארד, 10 כסף, 15 זהב. הפלת קונוס קטן נספרת כ-2 פגיעות.":["Hit medals across the lesson: 5 hits bronze, 10 silver, 15 gold. Knocking down a small cone counts as 2 hits.", "ميداليات الإصابات خلال الحصة: 5 إصابات برونزية، 10 فضية، 15 ذهبية. إسقاط مخروط صغير يُحسب 2 إصابة.", "Медали за попадания за урок: 5 попаданий бронза, 10 серебро, 15 золото. Сбитый маленький конус считается за 2 попадания.", "Medallas de impactos durante la clase: 5 impactos bronce, 10 plata, 15 oro. Derribar un cono pequeño cuenta como 2 impactos."],
 "מחניים עם קונוס הזהב — משחק מלא עם כל הכללים נמצא בספרייה בשם ״מחניים זהב״.":["Dodgeball with the golden cone — a full game with all the rules is in the library as “Golden dodgeball”.", "كرة المطاردة مع المخروط الذهبي — لعبة كاملة بكل قواعدها موجودة في المكتبة باسم «كرة المطاردة الذهبية».", "Вышибалы с золотым конусом — полноценная игра со всеми правилами есть в библиотеке под названием «Золотые вышибалы».", "Balón prisionero con el cono dorado — un juego completo con todas las reglas está en la biblioteca como «Balón prisionero dorado»."],
+"הווריאציות שלי למשחקים":["My game variations", "تنويعاتي للألعاب", "Мои варианты игр", "Mis variantes de juegos"],
 });
 
 ;
@@ -19159,7 +19160,7 @@ const BK_PREFIX=BRAND.ns;
 const BK_LABELS={"ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
-  "rec.pass":"קוד המורה","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
+  "rec.pass":"קוד המורה","gm.mine":"הווריאציות שלי למשחקים","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
   "pf.names":"שמות המסלולים","settings":"הגדרות"};
 /* מפתחות שהם רישום מקומי על המכשיר עצמו ולא נתונים של המורה — אין
    טעם לשאת אותם בקובץ ולא להציג אותם בהשוואה. */
@@ -19192,9 +19193,11 @@ async function bkSnapshotFull(budget){
   return snap;
 }
 /* ספירה קריאה לאדם לכל מפתח — «57 תוצאות» ולא «4.2KB» */
-function bkCount(raw){
+function bkCount(raw,key){
   if(raw==null)return "—";
   try{ const v=JSON.parse(raw);
+    /* וריאציות אישיות: ספירה של הווריאציות עצמן, לא של המשחקים שיש להם וריאציות */
+    if(key==="gm.mine"&&v&&typeof v==="object"&&!Array.isArray(v))return Object.keys(v).reduce((n,g)=>n+(Array.isArray(v[g])?v[g].length:0),0);
     if(Array.isArray(v))return v.length;
     if(v&&typeof v==="object")return Object.keys(v).length;
     return v===""?"—":1;
@@ -19708,8 +19711,8 @@ function bkPreview(snap,fp){
     (snap.v<DATA.BK_V?"<span>גיבוי בפורמט ישן</span>":"")+
     (fp?'<span id="bk-fp" title="'+esc(t("bk.fpHint","אותו קוד מוצג ביצירת הקובץ. אם הוא שונה — זה לא אותו קובץ."))+'">'+esc(t("bk.fp","קוד אימות"))+": <b>"+esc(fp)+"</b></span>":"");
   $("#bk-diff").innerHTML=all.map(k=>{
-    const fv=snap.data[k]!=null?bkCount(snap.data[k]):"—";
-    const hv=here.includes(k)?bkCount((STORE||MEMFALLBACK).getItem(BK_PREFIX+k)):"—";
+    const fv=snap.data[k]!=null?bkCount(snap.data[k],k):"—";
+    const hv=here.includes(k)?bkCount((STORE||MEMFALLBACK).getItem(BK_PREFIX+k),k):"—";
     const gone=snap.data[k]==null&&here.includes(k);
     return '<tr'+(gone?' class="gone"':"")+"><td>"+esc(BK_LABELS[k]||k)+"</td><td>"+fv+"</td><td>"+hv+"</td></tr>";
   }).join("");
