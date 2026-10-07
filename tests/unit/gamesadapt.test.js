@@ -54,7 +54,7 @@ test("machanaim gets the golden-cone goalkeeper twist as a variation",()=>{
   assert.ok(g.vars.some(v=>/מחניים זהב/.test(v)),"pointer to the full game");
   const d=GAMES.find(x=>x.id==="g-dodgegold"), t=d.how.join(" ");
   assert.ok(/קו מפריד/.test(t)&&/מאחורי כל קבוצה/.test(t)&&/קונוס גדול/.test(t)&&/4 קונוסים קטנים/.test(t),"line in the middle; 1 large + 4 small cones behind each team");
-  assert.ok(/3 ״פסילות״/.test(t)&&/מלך/.test(t),"king with 3 lives");
+  assert.ok(/3 ״פסילות״/.test(t)&&/מלך חדש/.test(t),"king with 3 lives, then a new king");
   assert.ok(/פוסלים את כל חברי הקבוצה השנייה/.test(t)&&/שניים מהקונוסים הקטנים/.test(t)&&/קונוס הזהב/.test(t),"three ways to win");
   assert.ok(/קליטה נקייה/.test(t)&&/לפי סדר הפסילה/.test(t),"catch returns a teammate in order");
   assert.ok(d.vars.some(v=>/כדור שני איטי/.test(v)),"slow second ball");
