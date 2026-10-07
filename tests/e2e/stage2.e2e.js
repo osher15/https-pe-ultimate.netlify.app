@@ -187,6 +187,7 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
         window.GAMES.all().forEach(g=>{
           const f={name:g.name,who:g.who,space:g.space,equip:g.equip,time:g.time,goal:g.goal,fit:g.fit,safe:g.safe};
           g.how.forEach((x,i)=>f["how"+i]=x); g.vars.forEach((x,i)=>f["vars"+i]=x);
+          if(g.adapt){ f.easy=g.adapt.easy; f.hard=g.adapt.hard; }
           Object.keys(f).forEach(k=>{ const t=window.I18N.tr(f[k]); if(H.test(t))out.push(L+" · "+g.name+" · "+k+": "+t.slice(0,90)); });
         });
         labels.concat(["ציוד אחר","מה עוד יש לך? (אפשר להקליד)"]).forEach(x=>{ const t=window.I18N.tr(x); if(H.test(t))out.push(L+" · תווית: "+x); });
