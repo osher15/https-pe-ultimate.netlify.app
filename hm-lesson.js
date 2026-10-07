@@ -442,8 +442,8 @@ window.LESSON=(function(){
     const chosenSubs=o.subs.filter(s=>pool.some(v=>v.sub===s));
     let mainBlocks;
     /* שיעור ארוך (שעה וחצי וכד׳): בלי בחירה ידנית של תתי־נושאים נבחרים כמה בלוקים
-       עיקריים שונים, כל אחד לא ארוך מ-32 דק׳ בערך — כדי שלא יישאר זמן ריק */
-    const nBlocks=chosenSubs.length||Math.min(3,Math.max(1,Math.ceil(mainMin/32)));
+       עיקריים שונים, כל אחד בין כ-17 ל-31 דק׳ — כדי שלא יישאר זמן ריק */
+    const nBlocks=chosenSubs.length||(mainMin<=33?1:(mainMin<=62?2:3));   /* לפי נתוני ההתאמה: בלוק של 18–31 דק׳ מתאים לרוב הווריאציות, 33+ ו-16 ומטה כמעט לא */
     const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/nBlocks),time:o.time};
     if(chosenSubs.length){
       mainBlocks=chosenSubs.map(s=>pickVariant(pool.filter(v=>v.sub===s),T.id,grade,pickCtx));

@@ -133,7 +133,7 @@ test("2.6b אורך שיעור: חימום, סיום ומשחק חסומים ב�
   assert.equal(D.warmMinutes(45,"normal"),8);
   const src2=fs.readFileSync(path.join(__dirname,"../../hm-lesson.js"),"utf8");
   assert.ok(/Math\.min\(8,Math\.max\(5,Math\.round\(o\.dur\*0\.11\)\)\)/.test(src2),"סיום מוגבל ל-8");
-  assert.ok(/Math\.ceil\(mainMin\/32\)/.test(src2),"בלוקים אוטומטיים לשיעור ארוך");
+  assert.ok(/mainMin<=33\?1:\(mainMin<=62\?2:3\)/.test(src2),"בלוקים אוטומטיים לשיעור ארוך");
 });
 
 test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או» היא חלופה כמו «/»",()=>{
