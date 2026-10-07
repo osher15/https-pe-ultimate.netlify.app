@@ -15,7 +15,7 @@ Reserved files/sections: hm-know.js (GAMES + new GAME_ADAPT/TASK_MENU + games mo
 - Five languages for every new string (he source + en/ar/ru/es), numerals kept identical across languages (test-enforced).
 
 ## Interpretation notes for the owner
-- "4 small cones at the sides": read as 2 per team; golden cone at the centre, each king guards their own side.
+- Cones (corrected by the owner): the middle of the court has only a dividing line; each team has its own golden cone and 4 small cones behind it, and its king guards them.
 - "slow, non-flowing second ball": read as a large soft ball moved by walking/bouncing, no fast throws.
 - Task amounts follow the owner's "2–10 repetitions depending on the exercise"; plank and wall sit are in seconds.
 - Medal thresholds other than Gaga's (10/20/25) are my suggestions (5/10/15, 3/6/9, 1/2/3) and need teacher confirmation.
