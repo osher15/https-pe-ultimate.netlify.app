@@ -25,6 +25,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Games library favorites, compact view, manual filters (#21) | Claude | hm-know.js games view; hm-data.js parseGameMeta/gameMatches; index.html games filter panel; hm-styles.css .gm-*; gm.* keys; library21 tests |
 | Review fixes R1/R2, lesson-bank metadata/regeneration, previous-note near Start (#19/#21/#24) | Claude | hm-data.js wholeMinutes/spreadMinutes; hm-lesson.js readOpts duration only; hm-styles.css .gm-card .sf; hm-lessonbank*.js; tools/notion-lessons-import.js; hm-app.js focusCard/i18n:change. Handoff: docs/handoffs/2026-10-05-session-state.md |
 | Review of PR #43/#44, offline lazy-load probe, device test sheet, timing text proposal, #23 design notes | Codex | See docs/handoffs/2026-10-05-codex-next-tasks.md. Docs and tests only, no product files |
+| Authored game adaptations, tasks/medals, teacher's own variations, two new games (#21) | Claude | hm-know.js games data/modal; hm-data.js normGameMine/addGameMine/delGameMine; hm-styles.css .gm-lv/.gm-tm/.gm-mine*; gm.mine* keys; hm-texts.js appended block. Handoff: docs/handoffs/2026-10-07-game-adaptations.md |
 | Native packaging (#13) | Claude | .github/workflows/native.yml (release AAB job); native/android/app/build.gradle versionName; docs/NATIVE_RELEASE_CHECKLIST.md. Handoff: docs/handoffs/2026-10-05-native-release.md. No signing, upload or package-ID change |
 
 No blanket ownership of hm-data.js or all translation files: reserve bounded sections, rebase against accepted changes and rebuild outputs.

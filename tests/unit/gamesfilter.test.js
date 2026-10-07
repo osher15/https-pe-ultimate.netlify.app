@@ -9,7 +9,7 @@ const src=fs.readFileSync(path.join(__dirname,"../../hm-know.js"),"utf8");
 const GAMES=eval("("+src.match(/const GAMES=\[[\s\S]*?\n\];/)[0].replace("const GAMES=","").replace(/;$/,"")+")");
 
 test("21.1 every game's grades and pupil range parse; open-ended times stay null",()=>{
-  assert.equal(GAMES.length,42);
+  assert.equal(GAMES.length,44);
   GAMES.forEach(g=>{
     const m=D.parseGameMeta(g);
     assert.ok(m.gFrom>=1&&m.gTo<=12&&m.gFrom<=m.gTo,g.id+": grades "+g.who);

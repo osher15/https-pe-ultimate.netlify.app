@@ -800,6 +800,17 @@ body.role-student .hx-mods,body.role-student .scoreband{display:none}
 .gm-sec.warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.28);
   border-radius:11px;padding:10px 13px}
 .gm-sec.warn h4{color:#f87171}
+/* רמות קושי, משימות ומדליות, והווריאציות האישיות של המורה */
+.gm-lv{display:flex;gap:9px;align-items:baseline;font-size:13px;line-height:1.6;margin-bottom:5px;padding:6px 9px;border-radius:9px;border:1px solid var(--line)}
+.gm-lv b{flex:0 0 auto;min-width:74px;font-family:'Secular One',sans-serif;font-size:12px}
+.gm-lv.easy{border-inline-start:4px solid #34d399}.gm-lv.base{border-inline-start:4px solid var(--acc)}.gm-lv.hard{border-inline-start:4px solid #f87171}
+.gm-tm{margin-top:8px}.gm-tm summary{cursor:pointer;font-size:13px;color:var(--acc);min-height:32px}
+.gm-mineAdd{display:flex;gap:7px;margin-top:8px}
+.gm-mineAdd input{flex:1;min-width:0;font-size:16px}
+#gm-mineList li{display:flex;gap:8px;align-items:baseline;justify-content:space-between;overflow-wrap:anywhere}
+#gm-mineList .gm-mineEmpty{color:var(--faint);list-style:none;margin-inline-start:-20px}
+.gm-del{min-width:44px;min-height:34px;background:none;border:1px solid var(--line);border-radius:8px;color:var(--muted);cursor:pointer;flex:0 0 auto}
+.gm-del.sure{color:#f87171;border-color:#f87171}
 
 /* --- מאגר הידע --- */
 .kn-src{background:var(--panel);border:1px solid var(--line);border-radius:14px;
