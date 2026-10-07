@@ -19,20 +19,6 @@ module.exports={title:"#21 — ספריית משחקים: מועדפים, קומ
     ok(sf===1,"כרטיס משיכת החבל (הבדיקה של Codex) מוצג");
   }),
 
-  check("דרגות קושי: «קל יותר» ו«מאתגר יותר» מוצגים בחלון המשחק בכל חמש השפות",{lang:"en"},async p=>{
-    await go(p,"games");
-    const exp={he:["קל יותר","מאתגר יותר"],en:["Easier","More challenging"],ar:["أسهل","أكثر تحديًا"],ru:["Проще","Сложнее"],es:["Más fácil","Más desafiante"]};
-    for(const l of ["he","en","ar","ru","es"]){
-      await p.evaluate(x=>window.I18N.set(x),l); await p.waitForTimeout(200);
-      await p.locator('[data-g="g-flags"]').click(); await p.waitForTimeout(200);
-      const r=await p.evaluate(()=>({labels:[...document.querySelectorAll("#gm-mBody .gm-lv b")].map(b=>b.textContent.trim()),texts:[...document.querySelectorAll("#gm-mBody .gm-lv span")].map(b=>b.textContent.trim())}));
-      eq(r.labels,exp[l],l+": תוויות");
-      ok(r.texts.length===2&&r.texts.every(x=>x.length>10&&(l==="he"||!/[\u0590-\u05ff]/.test(x))),l+": טקסט מתורגם: "+JSON.stringify(r.texts));
-      await p.keyboard.press("Escape"); await p.evaluate(()=>{ const m=document.querySelector("#gm-modal, .modal.on, .modal.show"); });
-      await p.evaluate(()=>{ document.querySelectorAll(".modal.on,.modal.show,.sheet.on").forEach(e=>e.classList.remove("on","show")); });
-    }
-  }),
-
   check("מועדף בלחיצה אחת נשמר, מופיע בלשונית המועדפים ושורד רענון",{lang:"en"},async p=>{
     await go(p,"games");
     const first=p.locator("#gm-grid .gm-card").first(), id=await first.getAttribute("data-g");

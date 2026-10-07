@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="eb80b388">
+<meta name="hm-build" content="428274c5">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -821,7 +821,6 @@ body.role-student .hx-mods,body.role-student .scoreband{display:none}
 .gm-sec p{font-size:13px;line-height:1.65;color:var(--ink);margin:0}
 .gm-sec ol,.gm-sec ul{margin:0;padding-inline-start:20px;font-size:13px;line-height:1.7;color:var(--ink)}
 .gm-sec ol li,.gm-sec ul li{margin-bottom:4px}
-.gm-lv{list-style:none;padding-inline-start:0}.gm-lv b{display:inline-block;min-width:78px;color:var(--acc);font-weight:700}
 .gm-sec.warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.28);
   border-radius:11px;padding:10px 13px}
 .gm-sec.warn h4{color:#f87171}
@@ -4933,10 +4932,14 @@ function stepRanges(v){
   return {typ:typ,lo:lo,hi:hi,rest:rest};
 }
 function sumOf(a){ return a.reduce(function(x,y){ return x+y; },0); }
+/* הזמן t של כל שלב כבר כולל את המעברים הרגילים בתוך התרגיל (כך סוכם עם המורה;
+   רק ארגון מחדש גדול עם הרבה ציוד מצוין בטקסט השלב). לכן «אורך מעברים» לא מוסיף
+   דקות כברירת מחדל: רגיל = 0, איטי מוסיף חצי דקה למעבר (בתחנות ×1.5), מהיר מקצר
+   בחצי דקה למעבר. מה שנשאר בתקורה הוא הפסקת שתייה, ואיטי/מהיר מעבר לרגיל. */
 function overheadFull(n,alloc,opts,rest){
-  var trans=Math.max(0,n-1)*TIME_TRANS[opts.trans]*(rest?1.5:1);
+  var trans=Math.max(0,n-1)*(TIME_TRANS[opts.trans]-1)*(rest?1.5:1);
   var water=opts.water?(alloc>=30?2:(alloc>=15?1:0))+(opts.weather==="hot"&&alloc>=15?1:0):0;
-  return Math.round(trans+water);
+  return Math.max(0,Math.round(trans+water));
 }
 /* מפזר את הדקות שנשארו על השלבים: כל פעם שלב עם הכי הרבה מקום לזוז, בלי לצאת מהטווח */
 function spreadMinutes(typ,lo,hi,target){
@@ -8690,9 +8693,6 @@ window.I18N_TERMS={
 "תיאור קצר (אופציונלי)":["Short description (optional)", "وصف قصير (اختياري)", "Краткое описание (необязательно)", "Descripción breve (opcional)"],
 "למשל: לשים לב שדנה חוזרת מפציעה — תפקיד שיפוט בחלק הסופי":["e.g. Dana is coming back from an injury — give her a referee role in the final part", "مثلًا: الانتباه إلى أن دانا عائدة من إصابة — دور تحكيم في الجزء الأخير", "например: Дана возвращается после травмы — роль судьи в заключительной части", "p. ej.: Dana vuelve de una lesión — rol de árbitra en la parte final"],
 "מדידות כושר":["Fitness measurements", "قياسات اللياقة", "Измерения формы", "Mediciones de condición física"],
-"דרגות קושי":["Difficulty levels", "مستويات الصعوبة", "Уровни сложности", "Niveles de dificultad"],
-"קל יותר":["Easier", "أسهل", "Проще", "Más fácil"],
-"מאתגר יותר":["More challenging", "أكثر تحديًا", "Сложнее", "Más desafiante"],
 };
 
 ;
@@ -13392,92 +13392,6 @@ Object.assign(window.I18N_TERMS,{
 "כדור רך או ציוד אחר + 2 שערים מאולתרים (קונוסים, חבלים, ספסלים, קופסאות או כל ציוד אחר)":["Soft ball or other equipment + 2 improvised goals (cones, ropes, benches, boxes or any other equipment)", "كرة ليّنة أو معدات أخرى + مرميان مرتجلان (أقماع، حبال، مقاعد، صناديق أو أي معدات أخرى)", "Мягкий мяч или другой инвентарь + 2 импровизированных ворот (фишки, верёвки, скамейки, коробки или любой другой инвентарь)", "Balón blando u otro material + 2 porterías improvisadas (conos, cuerdas, bancos, cajas o cualquier otro material)"],
 "שתי קבוצות. לכל קבוצה ״מלך״ שעומד בתוך אזור מסומן בקצה מגרש היריב. את האזור מסמנים בקווים שקיימים במגרש (רחבת השוער בכדורגל, שטח שלוש הנקודות בכדורסל, קווי הכדורעף), או בקונוסים או בחבלים — או בכל ציוד אחר.":["Two teams. Each team has a “king” standing in a marked zone at the end of the opponents' half. Mark the zone with lines that already exist on the court (the goalkeeper's box in football, the three-point area in basketball, volleyball lines), or with cones or ropes — or any other equipment.", "فريقان. لكل فريق «ملك» يقف داخل منطقة مُعلَّمة في طرف ملعب الخصم. تُحدَّد المنطقة بالخطوط الموجودة في الملعب (منطقة حارس المرمى في كرة القدم، منطقة الثلاث نقاط في كرة السلة، خطوط الكرة الطائرة)، أو بالأقماع أو الحبال — أو بأي معدات أخرى.", "Две команды. У каждой есть «король», который стоит в размеченной зоне в конце половины соперника. Зону обозначают линиями, которые уже есть на площадке (вратарская площадка в футболе, трёхочковая зона в баскетболе, линии волейбольной площадки), либо фишками или верёвками — или любым другим инвентарём.", "Dos equipos. Cada uno tiene un «rey» dentro de una zona marcada al fondo del campo rival. La zona se marca con las líneas que ya hay en la cancha (el área del portero en fútbol, la zona de tres puntos en baloncesto, las líneas de voleibol), o con conos o cuerdas, o con cualquier otro material."],
 "משחקים כדורגל בבעיטות רגליים בלבד, בלי לקום. את השערים מסמנים בקונוסים, בחבלים, בספסלים או בכל ציוד אחר.":["Play football by kicking only, without standing up. Mark the goals with cones, ropes, benches or any other equipment.", "اللعب بكرة القدم بالركل بالقدمين فقط، دون الوقوف. تُحدَّد المرميان بالأقماع أو الحبال أو المقاعد أو أي معدات أخرى.", "Играем в футбол только ударами ногами, не вставая. Ворота обозначают фишками, верёвками, скамейками или любым другим инвентарём.", "Se juega al fútbol solo con golpeos de pie, sin levantarse. Las porterías se marcan con conos, cuerdas, bancos o cualquier otro material."],
-
-/* דרגות קושי למשחקים (קל יותר / מאתגר יותר) */
-"מגרש קטן יותר, ושחרור תפוסים בנגיעה אחת בלי המתנה":["A smaller field, and a tagged player is freed by a single touch with no waiting", "جزء من الملعب أصغر، ويُحرَّر الملتقَط بلمسة واحدة دون انتظار", "Площадка поменьше, а пойманного освобождают одним касанием без ожидания", "Un campo más pequeño, y el atrapado se libera con un solo toque sin esperar"],
-"בלי «כלא»: תפוס שנוגע בו חבר משתחרר רק אחרי שהתפוס מבצע 5 קפיצות":["No «jail»: a tagged player who is touched by a teammate is freed only after the tagged player does 5 jumps", "بلا «سجن»: لا يتحرر الملتقَط الذي يلمسه زميله إلا بعد أن يؤدي الملتقَط 5 قفزات", "Без «тюрьмы»: пойманного, которого коснулся партнёр, освобождают только после того, как он сделает 5 прыжков", "Sin «cárcel»: el atrapado al que toca un compañero se libera solo después de hacer 5 saltos"],
-"כדור ספוג גדול, ושבוי חוזר גם אחרי קליטה נקייה":["A large foam ball, and a prisoner comes back even after a clean catch", "كرة إسفنجية كبيرة، ويعود الأسير حتى بعد التقاط نظيف", "Большой поролоновый мяч, и пленный возвращается даже после чистой ловли", "Un balón de espuma grande, y el prisionero vuelve incluso tras una atrapada limpia"],
-"כדור קטן יותר, ופגיעה בשוק בלבד מוציאה את הנפגע":["A smaller ball, and only a hit on the lower leg puts the player out", "كرة أصغر، ولا تُخرج اللاعب إلا إصابة الساق", "Мяч поменьше, и игрока выбивает только попадание в голень", "Un balón más pequeño, y solo un golpe en la pierna elimina al jugador"],
-"מותרת הקפצה אחת לפני התפיסה":["One bounce is allowed before the catch", "يُسمح بارتداد واحد قبل الالتقاط", "Разрешён один отскок перед ловлей", "Se permite un bote antes de atrapar"],
-"מסירה אחת חובה לכל שחקן בקבוצה לפני החזרה מעל הרשת":["Every player on the team must pass once before the ball goes back over the net", "على كل لاعب في الفريق تمريرة واحدة قبل إعادة الكرة فوق الشبكة", "Каждый игрок команды должен сделать одну передачу, прежде чем мяч вернётся через сетку", "Cada jugador del equipo debe pasar una vez antes de devolver el balón por encima de la red"],
-"מרחק קצר יותר וקצב איטי יותר של הפקודות":["A shorter distance and slower commands", "مسافة أقصر ووتيرة أبطأ للأوامر", "Дистанция короче и команды реже", "Una distancia más corta y órdenes más lentas"],
-"פקודות מהירות, ובכל «אדום» חובה לקפוא בעמידה על רגל אחת":["Fast commands, and on every «red» everyone must freeze standing on one leg", "أوامر سريعة، وعند كل «أحمر» يجب التجمّد واقفًا على رجل واحدة", "Быстрые команды, и на каждый «красный» нужно замереть на одной ноге", "Órdenes rápidas, y en cada «rojo» hay que congelarse de pie sobre una pierna"],
-"עד 3 צעדים עם הכדור, והמלך עומד באזור גדול יותר":["Up to 3 steps with the ball, and the king stands in a larger zone", "حتى 3 خطوات بالكرة، ويقف الملك في منطقة أكبر", "До 3 шагов с мячом, а король стоит в большей зоне", "Hasta 3 pasos con el balón, y el rey está en una zona más grande"],
-"בלי צעדים עם הכדור, ו-5 מסירות חובה לפני קליעה למלך":["No steps with the ball, and 5 passes are required before throwing at the king", "بلا خطوات بالكرة، و5 تمريرات إلزامية قبل التصويب نحو الملك", "Без шагов с мячом, и перед броском в короля обязательны 5 передач", "Sin pasos con el balón, y 5 pases obligatorios antes de lanzar al rey"],
-"מגרש גדול יותר, והשרשרת מתפצלת ל-2 כבר ב-4 שחקנים":["A larger field, and the chain splits in 2 as early as 4 players", "ملعب أكبر، وتنقسم السلسلة إلى اثنتين منذ 4 لاعبين", "Площадка побольше, и цепочка делится на 2 уже при 4 игроках", "Un campo más grande, y la cadena se divide en 2 ya con 4 jugadores"],
-"אסור לדבר, והשרשרת מתפצלת רק ב-8 שחקנים":["No talking, and the chain splits only at 8 players", "ممنوع الكلام، وتنقسم السلسلة عند 8 لاعبين فقط", "Говорить нельзя, и цепочка делится только при 8 игроках", "Prohibido hablar, y la cadena se divide solo con 8 jugadores"],
-"מחציות של 2 דקות ומנוחה ארוכה יותר":["Halves of 2 minutes and a longer rest", "أشواط مدة كل منها دقيقتان واستراحة أطول", "Тайм по 2 минуты и более долгий отдых", "Partes de 2 minutos y un descanso más largo"],
-"אסור להרים את הישבן מהרצפה, וכדור קטן יותר":["The hips may not leave the floor, and a smaller ball", "ممنوع رفع الحوض عن الأرض، وكرة أصغر", "Таз нельзя отрывать от пола, и мяч поменьше", "No se puede levantar el trasero del suelo, y un balón más pequeño"],
-"חישובים פשוטים (חיבור וחיסור), ומסלול קצר":["Simple calculations (addition and subtraction) and a short course", "حسابات بسيطة (جمع وطرح) ومسار قصير", "Простые вычисления (сложение и вычитание) и короткая дистанция", "Cálculos sencillos (sumas y restas) y un recorrido corto"],
-"חישובים מורכבים יותר, או שני מספרים בו זמנית":["More complex calculations, or two numbers at the same time", "حسابات أكثر تعقيدًا، أو رقمان في الوقت نفسه", "Более сложные вычисления или два числа одновременно", "Cálculos más complejos, o dos números a la vez"],
-"מעגל קטן יותר, ובלי מדידת זמן":["A smaller circle, and no timing", "دائرة أصغر، وبلا قياس زمن", "Круг поменьше и без замера времени", "Un círculo más pequeño, y sin cronometrar"],
-"חישוק שני בכיוון ההפוך, ובלי דיבור":["A second hoop in the opposite direction, and no talking", "طوق ثانٍ في الاتجاه المعاكس، وبلا كلام", "Второй обруч в обратном направлении и без разговоров", "Un segundo aro en dirección contraria, y sin hablar"],
-"יותר איים ופחות הסרות בין הסיבובים":["More islands and fewer removals between rounds", "جزر أكثر وإزالة أقل بين الجولات", "Больше островов и меньше убираемых между раундами", "Más islas y menos retiradas entre rondas"],
-"הסרת שני איים בכל סיבוב, ואיסור דיבור":["Two islands removed every round, and no talking", "إزالة جزيرتين في كل جولة، وممنوع الكلام", "Каждый раунд убираются два острова, и говорить нельзя", "Se retiran dos islas en cada ronda, y prohibido hablar"],
-"מסלול חציה קצר ו«אצה» אחת בלבד":["A short crossing and only one «seaweed»", "مسار عبور قصير و«طحلب» واحد فقط", "Короткий путь через зону и только одна «водоросль»", "Un cruce corto y una sola «alga»"],
-"מסלול ארוך יותר, ו«דגים» חוצים בקפיצה על רגל אחת":["A longer crossing, and the «fish» cross hopping on one leg", "مسار أطول، و«الأسماك» تعبر قفزًا على رجل واحدة", "Путь подлиннее, и «рыбки» пересекают его, прыгая на одной ноге", "Un cruce más largo, y los «peces» cruzan saltando sobre una pierna"],
-"קולט אחד בכל צד ומסירות קצרות":["One catcher on each side and short passes", "لاعب التقاط واحد في كل جهة وتمريرات قصيرة", "По одному принимающему с каждой стороны и короткие передачи", "Un receptor en cada lado y pases cortos"],
-"חובת 4 מסירות לפני העברה לקולט, ושני קולטים בכל צד":["4 passes are required before passing to the catcher, and two catchers on each side", "4 تمريرات إلزامية قبل التمرير إلى الملتقِط، ولاعبان للالتقاط في كل جهة", "Обязательны 4 передачи до передачи принимающему, и по два принимающих с каждой стороны", "4 pases obligatorios antes de pasar al receptor, y dos receptores en cada lado"],
-"פחות תחנות ומשימות פשוטות":["Fewer stations and simple tasks", "محطات أقل ومهام بسيطة", "Меньше станций и простые задания", "Menos estaciones y tareas sencillas"],
-"משימה נוספת בכל תחנה, וסבב שני נגד זמן הקבוצה עצמה":["An extra task at every station, and a second round against the team's own time", "مهمة إضافية في كل محطة، وجولة ثانية ضد زمن الفريق نفسه", "Дополнительное задание на каждой станции и второй раунд на время против собственного результата команды", "Una tarea extra en cada estación, y una segunda ronda contra el propio tiempo del equipo"],
-"אפשר 3 צעדים בקליטה, ומגרש קטן":["Up to 3 steps after a catch, and a small field", "يُسمح بـ3 خطوات بعد الالتقاط، وملعب صغير", "До 3 шагов после ловли и маленькая площадка", "Hasta 3 pasos tras recibir, y un campo pequeño"],
-"בלי צעדים, ומסירה חובה לכל השחקנים לפני הבקעה":["No steps, and every player must touch the disc before a score", "بلا خطوات، ويجب أن يمرّر كل اللاعبين القرص قبل التسجيل", "Без шагов, и перед очком диск должен побывать у каждого игрока", "Sin pasos, y todos los jugadores deben pasar el disco antes de anotar"],
-"שטח גדול יותר, ובלי איסור על שלוף זנב של מי שלקח זנב":["A larger area, and no ban on pulling the tail of someone who just took a tail", "منطقة أكبر، ودون منع سحب ذيل من أخذ ذيلًا", "Площадь побольше и без запрета выдёргивать хвост у того, кто только что забрал хвост", "Un área más grande, y sin prohibición de quitar la cola a quien acaba de quitar una"],
-"שטח קטן, ושליפה רק ביד אחת":["A small area, and pulling only with one hand", "منطقة صغيرة، والسحب بيد واحدة فقط", "Маленькая площадь, и вытягивать хвост можно только одной рукой", "Un área pequeña, y quitar la cola solo con una mano"],
-"הקפצה אחת נוספת מותרת":["One extra bounce is allowed", "يُسمح بارتداد إضافي واحد", "Разрешён ещё один дополнительный отскок", "Se permite un bote extra"],
-"בלי חוקי בית, ומשחק בכף יד אחת":["No house rules, and playing with one open hand", "بلا قوانين خاصة، واللعب بكف يد واحدة", "Без домашних правил и игра одной ладонью", "Sin reglas de la casa, y jugando con una sola mano abierta"],
-"הפגיעה בשוק בלבד":["A hit on the lower leg only", "الإصابة في الساق فقط", "Попадание только в голень", "Solo cuenta el golpe en la pierna"],
-"פגיעה בקרסול בלבד, ושני כדורים":["A hit on the ankle only, and two balls", "الإصابة في الكاحل فقط، وكرتان", "Попадание только в лодыжку и два мяча", "Solo cuenta el golpe en el tobillo, y dos balones"],
-"מסירה בהקפצה, וכדור גדול יותר":["Bounce passes, and a larger ball", "تمريرة مرتدة، وكرة أكبر", "Передачи с отскоком и мяч побольше", "Pase con bote, y un balón más grande"],
-"שני כדורים ובלי מבט אל מקבל הכדור":["Two balls, and no looking at the player who receives", "كرتان، وبلا النظر إلى مستلم الكرة", "Два мяча и без взгляда на принимающего", "Dos balones, y sin mirar a quien recibe"],
-"פקודות איטיות ופשוטות":["Slow and simple commands", "أوامر بطيئة وبسيطة", "Медленные и простые команды", "Órdenes lentas y sencillas"],
-"פקודות כפולות, ומשימה אחת בקול של תלמיד במקום המורה":["Double commands, and one task given by a student's voice instead of the teacher's", "أوامر مزدوجة، ومهمة واحدة بصوت طالب بدل المعلم", "Двойные команды и одно задание голосом ученика вместо учителя", "Órdenes dobles, y una tarea con la voz de un alumno en lugar de la del profesor"],
-"גל נמוך ואיטי":["A low, slow wave", "موجة منخفضة وبطيئة", "Низкая и медленная волна", "Una ola baja y lenta"],
-"משימת «אוהל» בשקט ובלי אחיזה ביד אחת":["A silent «tent» task, holding with only one hand", "مهمة «الخيمة» بصمت وبالإمساك بيد واحدة", "Задание «палатка» молча и с хватом одной рукой", "La tarea de la «tienda» en silencio, sujetando con una sola mano"],
-"רופא מסומן ומגרש קטן":["A marked medic and a small field", "طبيب معلَّم وملعب صغير", "Помеченный врач и маленькая площадка", "Un médico señalado y un campo pequeño"],
-"רופא סודי ושני רופאים":["A secret medic, and two medics", "طبيب سري وطبيبان", "Тайный врач и два врача", "Un médico secreto, y dos médicos"],
-"3 נגד 3 וכדור גדול ורך":["3 against 3 and a large soft ball", "3 ضد 3 وكرة كبيرة ليّنة", "3 на 3 и большой мягкий мяч", "3 contra 3 y un balón grande y blando"],
-"נגיעה אחת בלבד לכל שחקן לפני החזרה":["Each player may touch the ball only once before it goes back", "لمسة واحدة فقط لكل لاعب قبل الإعادة", "Каждый игрок может коснуться мяча только один раз перед возвратом", "Cada jugador toca el balón solo una vez antes de devolverlo"],
-"מסלול קצר עם 3 מכשולים רכים בלבד":["A short course with only 3 soft obstacles", "مسار قصير فيه 3 عقبات ليّنة فقط", "Короткая трасса только с 3 мягкими препятствиями", "Un recorrido corto con solo 3 obstáculos blandos"],
-"מנחה בלי מילים (רק מחיאות כף), ושני זוגות במקביל":["A guide without words (hand claps only), and two pairs at the same time", "مرشد بلا كلمات (تصفيق فقط)، وزوجان في الوقت نفسه", "Проводник без слов (только хлопки) и две пары одновременно", "Un guía sin palabras (solo palmadas), y dos parejas a la vez"],
-"פחות קונוסים, ו-5 דקות לסבב":["Fewer cones, and 5 minutes per round", "أقماع أقل، و5 دقائق للجولة", "Меньше конусов и 5 минут на раунд", "Menos conos, y 5 minutos por ronda"],
-"מסלול חובה בין הקונוסים, וסבב של 5 דקות":["A mandatory route between the cones, and a 5-minute round", "مسار إلزامي بين الأقماع، وجولة مدتها 5 دقائق", "Обязательный маршрут между конусами и раунд в 5 минут", "Un recorrido obligatorio entre los conos, y una ronda de 5 minutos"],
-"מסלול קצר ושרשרת מסירה":["A short course and a passing chain", "مسار قصير وسلسلة تمرير", "Короткая трасса и цепочка передачи", "Un recorrido corto y una cadena de pases"],
-"מסלול ארוך, וספוגים קטנים יותר":["A long course, and smaller sponges", "مسار طويل وإسفنجات أصغر", "Длинная трасса и губки поменьше", "Un recorrido largo, y esponjas más pequeñas"],
-"פחות זוגות וכרטיסיות עם תמונות":["Fewer pairs and cards with pictures", "أزواج أقل وبطاقات بالصور", "Меньше пар и карточки с картинками", "Menos parejas y tarjetas con imágenes"],
-"מסלול ארוך יותר, ושאלות ידע על כל כרטיסייה":["A longer course, and a knowledge question on every card", "مسار أطول، وسؤال معرفة على كل بطاقة", "Трасса подлиннее и вопрос на знание на каждой карточке", "Un recorrido más largo, y una pregunta de conocimientos en cada tarjeta"],
-"קפיאה חופשית בכל תנוחה":["Freeze in any pose", "التجمّد بأي وضعية", "Замирание в любой позе", "Congelarse en cualquier postura"],
-"קפיאה בתנוחת כוח (פלאנק או סקוואט)":["Freeze in a strength pose (plank or squat)", "التجمّد في وضعية قوة (بلانك أو قرفصاء)", "Замирание в силовой позе (планка или приседание)", "Congelarse en una postura de fuerza (plancha o sentadilla)"],
-"משיכה בישיבה וסבב קצר":["Pulling while seated, and a short round", "السحب جالسًا وجولة قصيرة", "Перетягивание сидя и короткий раунд", "Tirar sentados, y una ronda corta"],
-"גרסת 4 כיוונים, ורוטציה בין הקבוצות בכל סבב":["A 4-direction version, and rotating between teams every round", "نسخة بأربعة اتجاهات، وتبديل الفِرق في كل جولة", "Вариант в 4 направлениях и смена команд в каждом раунде", "Versión de 4 direcciones, y rotación entre equipos en cada ronda"],
-"15 נקודות וקליעה מקרוב":["15 points and shooting from close", "15 نقطة والتصويب من مسافة قريبة", "15 очков и броски с близкого расстояния", "15 puntos y tiros desde cerca"],
-"עונשין ביד חלשה, ושינוי עמדה אחרי כל קליעה":["Free throws with the weaker hand, and changing position after every shot", "رميات حرة باليد الضعيفة، وتغيير المكان بعد كل تصويبة", "Штрафные слабой рукой и смена позиции после каждого броска", "Tiros libres con la mano débil, y cambio de posición tras cada tiro"],
-"הקפצה אחת מותרת":["One bounce is allowed", "يُسمح بارتداد واحد", "Разрешён один отскок", "Se permite un bote"],
-"בלי הקפצה, ומשחק זוגות בכל ריבוע":["No bounce, and pairs playing in every square", "بلا ارتداد، ولعب أزواج في كل مربع", "Без отскока и игра парами в каждом квадрате", "Sin bote, y parejas jugando en cada cuadrado"],
-"שחרור בנגיעה קלה":["Release with a light touch", "التحرير بلمسة خفيفة", "Освобождение лёгким касанием", "Liberación con un toque suave"],
-"שחרור רק אחרי 5 שכיבות סמיכה של השוכב עצמו":["Release only after the player lying down does 5 push-ups", "التحرير فقط بعد أن يؤدي المستلقي 5 تمارين ضغط", "Освобождение только после 5 отжиманий того, кто лежит", "Liberación solo después de que el jugador tumbado haga 5 flexiones"],
-"מרחק בעיטה קרוב":["A close kicking distance", "مسافة ركل قريبة", "Близкая дистанция удара", "Una distancia de tiro corta"],
-"בעיטה ברגל חלשה ושני שערים במקביל":["Kicking with the weaker foot, and two goals at the same time", "الركل بالقدم الضعيفة وهدفان في الوقت نفسه", "Удар слабой ногой и двое ворот одновременно", "Tirar con la pierna débil, y dos porterías a la vez"],
-"שומר אחד לקבוצה ומגרש קטן":["One guard per team and a small field", "حارس واحد لكل فريق وملعب صغير", "Один защитник на команду и маленькая площадка", "Un guardián por equipo y un campo pequeño"],
-"קונוס זהב אחד לכל הכיתה ובלי אזור הגנה":["One golden cone for the whole class and no defence zone", "مخروط ذهبي واحد للصف كله وبلا منطقة دفاع", "Один золотой конус на весь класс и без зоны защиты", "Un solo cono dorado para toda la clase y sin zona de defensa"],
-"איים קרובים זה לזה":["Islands close to each other", "جزر قريبة من بعضها", "Острова расположены близко друг к другу", "Islas cercanas entre sí"],
-"איים רחוקים יותר, ואי נמס כל דקה":["Islands farther apart, and one island melts every minute", "جزر متباعدة أكثر، وتذوب جزيرة كل دقيقة", "Острова дальше друг от друга, и каждую минуту один остров «тает»", "Islas más separadas, y una isla se derrite cada minuto"],
-"כדור גדול ורך ושטח אמצע גדול":["A large soft ball and a large middle area", "كرة كبيرة ليّنة ومنطقة وسط كبيرة", "Большой мягкий мяч и большая центральная зона", "Un balón grande y blando y una zona central amplia"],
-"שני כדורים ושטח אמצע קטן יותר":["Two balls and a smaller middle area", "كرتان ومنطقة وسط أصغر", "Два мяча и центральная зона поменьше", "Dos balones y una zona central más pequeña"],
-"שרשרת קצרה (4–5)":["A short chain (4–5)", "سلسلة قصيرة (4–5)", "Короткая цепочка (4–5)", "Una cadena corta (4–5)"],
-"שרשרת ארוכה יותר ושועל שני":["A longer chain and a second fox", "سلسلة أطول وثعلب ثانٍ", "Цепочка подлиннее и вторая лиса", "Una cadena más larga y un segundo zorro"],
-"קבוצות של 6":["Groups of 6", "مجموعات من 6", "Группы по 6 человек", "Grupos de 6"],
-"בלי דיבור, ובלי שחרור אחיזה גם אחרי 8 דקות":["No talking, and no letting go even after 8 minutes", "بلا كلام، وبلا ترك الأيدي حتى بعد 8 دقائق", "Без разговоров и без разжимания рук даже после 8 минут", "Sin hablar, y sin soltarse ni siquiera tras 8 minutos"],
-"פחות מכשולים ובלי תחרות מול קבוצה":["Fewer obstacles and no competition against another team", "عقبات أقل وبلا منافسة ضد فريق آخر", "Меньше препятствий и без соревнования с другой командой", "Menos obstáculos y sin competir contra otro equipo"],
-"נשיאת חפץ בלי להפיל לאורך כל המסלול":["Carrying an object without dropping it along the whole course", "حمل غرض دون إسقاطه على امتداد المسار كله", "Нести предмет, не роняя, по всей трассе", "Llevar un objeto sin dejarlo caer durante todo el recorrido"],
-"יותר אבני דריכה":["More stepping stones", "أحجار عبور أكثر", "Больше кочек", "Más piedras de paso"],
-"פחות אבנים ואבן שנעלמת אחרי כל חציה":["Fewer stones, and a stone that disappears after every crossing", "أحجار أقل وحجر يختفي بعد كل عبور", "Меньше кочек и одна кочка исчезает после каждого перехода", "Menos piedras, y una piedra que desaparece tras cada cruce"],
-"זמן ארוך יותר ובלי «ציפור שומרת»":["More time and no «guard bird»", "وقت أطول وبلا «طائر حارس»", "Больше времени и без «птицы-охранника»", "Más tiempo y sin «pájaro guardián»"],
-"«ציפור שומרת» לכל קן וגניבה מקן יריב מותרת":["A «guard bird» for every nest, and stealing from an opposing nest is allowed", "«طائر حارس» لكل عش، ويُسمح بالسرقة من عش الخصم", "«Птица-охранник» у каждого гнезда, и можно красть из гнезда соперника", "Un «pájaro guardián» por cada nido, y se permite robar del nido rival"],
-"כדור אחד בלבד, וקצב איטי":["Just one ball, and a slow pace", "كرة واحدة فقط ووتيرة بطيئة", "Только один мяч и медленный темп", "Un solo balón y un ritmo lento"],
-"כדור שלישי, ומדידת סבבים בדקה":["A third ball, and counting rounds per minute", "كرة ثالثة وقياس عدد الجولات في الدقيقة", "Третий мяч и подсчёт кругов за минуту", "Un tercer balón, y contar las rondas por minuto"],
-"מסלול קצר וכוס עמוקה בלי חורים":["A short course and a deep cup without holes", "مسار قصير وكوب عميق بلا ثقوب", "Короткая трасса и глубокий стакан без дырок", "Un recorrido corto y un vaso hondo sin agujeros"],
-"כוס עם חורים קטנים, ומסלול ארוך יותר":["A cup with small holes, and a longer course", "كوب بثقوب صغيرة ومسار أطول", "Стакан с маленькими дырками и трасса подлиннее", "Un vaso con agujeros pequeños, y un recorrido más largo"],
 });
 
 ;
@@ -23713,7 +23627,6 @@ const GAMES=[
    vars:["שני דגלים לכל קבוצה — מסבך את ההגנה ומחייב חלוקת תפקידים.",
          "גרסת ״כלא״: כל התפוסים במקום אחד, שחרור אחד מציל את כולם.",
          "לקצר את המגרש כדי להעלות עצימות, להאריך כדי להוריד."],
-   adapt:{easy:"מגרש קטן יותר, ושחרור תפוסים בנגיעה אחת בלי המתנה",hard:"בלי «כלא»: תפוס שנוגע בו חבר משתחרר רק אחרי שהתפוס מבצע 5 קפיצות"},
    safe:"לתחום את השטח בבירור ולאסור תפיסה בבגדים — נגיעה בכתף בלבד.",
    yt:"תופסת דגלים משחק capture the flag PE game"},
 
@@ -23728,7 +23641,6 @@ const GAMES=[
    vars:["כדור ספוג בלבד לחטיבה — פחות פחד, יותר השתתפות.",
          "שני כדורים במקביל: מכפיל את קצב המשחק.",
          "״מחניים מציל״: קליטה נקייה של הזריקה מחזירה שבוי אחד."],
-   adapt:{easy:"כדור ספוג גדול, ושבוי חוזר גם אחרי קליטה נקייה",hard:"כדור קטן יותר, ופגיעה בשוק בלבד מוציאה את הנפגע"},
    safe:"פגיעה מעל החגורה = הזורק יוצא. אסור לכוון לראש. כדור רך בלבד.",
    yt:"משחק מחניים חוקים dodgeball כיתה"},
 
@@ -23744,7 +23656,6 @@ const GAMES=[
          "כדור גדול ורך מוריד קושי, כדור קטן מעלה.",
          "חובה שכל השחקנים ייגעו לפני העברה — מגדיל שיתוף.",
          "רשת מאולתרת: גומי נמתח עבה או חבל ארוך קשור בין שני עמודים, בגובה שמתאים לגיל."],
-   adapt:{easy:"מותרת הקפצה אחת לפני התפיסה",hard:"מסירה אחת חובה לכל שחקן בקבוצה לפני החזרה מעל הרשת"},
    safe:"לוודא שהרשת מתוחה ומעוגנת ושאין מכשולים מתחת.",
    yt:"כדורשת חוקים משחק בית ספר newcomb ball"},
 
@@ -23759,7 +23670,6 @@ const GAMES=[
    vars:["הוספת ״צהוב״ = הליכה איטית; מוסיפה שליטה עדינה בקצב.",
          "בכל עצירה — תרגיל כושר קצר (5 סקוואטים) והופך לשיעור כושר.",
          "גרסת זוגות: זוג שמחזיק ידיים ומתקדם יחד."],
-   adapt:{easy:"מרחק קצר יותר וקצב איטי יותר של הפקודות",hard:"פקודות מהירות, ובכל «אדום» חובה לקפוא בעמידה על רגל אחת"},
    safe:"לוודא בלימה על שתי רגליים ולא החלקה; מרחק בין תלמידים.",
    yt:"משחק רמזור אדום ירוק red light green light PE"},
 
@@ -23774,7 +23684,6 @@ const GAMES=[
    vars:["שני מלכים לכל קבוצה — מכפיל אפשרויות ומוריד צפיפות.",
          "חובת 5 מסירות לפני ניסיון קליעה למלך.",
          "מלך מתחלף אחרי כל נקודה כדי שכולם יחוו את התפקיד."],
-   adapt:{easy:"עד 3 צעדים עם הכדור, והמלך עומד באזור גדול יותר",hard:"בלי צעדים עם הכדור, ו-5 מסירות חובה לפני קליעה למלך"},
    safe:"אזור המלך אסור לכניסת שחקנים — מונע התנגשויות.",
    yt:"king ball משחק כדור בית ספר end zone game PE"},
 
@@ -23789,7 +23698,6 @@ const GAMES=[
    vars:["פיצול שרשרת ל־2 כשהיא מגיעה ל־6 שחקנים — משחק מהיר יותר.",
          "הקטנת המגרש עם התארכות השרשרת.",
          "גרסה שקטה: אסור לדבר — התיאום רק בתנועה."],
-   adapt:{easy:"מגרש גדול יותר, והשרשרת מתפצלת ל-2 כבר ב-4 שחקנים",hard:"אסור לדבר, והשרשרת מתפצלת רק ב-8 שחקנים"},
    safe:"לאסור משיכה חזקה; אחיזה ביד פתוחה בלבד. תיחום ברור של השטח.",
    yt:"תופסת שרשרת chain tag game PE"},
 
@@ -23804,7 +23712,6 @@ const GAMES=[
    vars:["שוער אחד רשאי לעמוד רגיל.",
          "כדור גדול ורך לחטיבה, כדור קטן למתקדמים.",
          "גרסת ״עכביש״ (בטן למטה) לגיוון עומס."],
-   adapt:{easy:"מחציות של 2 דקות ומנוחה ארוכה יותר",hard:"אסור להרים את הישבן מהרצפה, וכדור קטן יותר"},
    safe:"רצפה חלקה ונקייה, בלי טבעות/שעונים. מחציות קצרות — עומס כתפיים גבוה.",
    yt:"crab soccer game PE כדורגל סרטנים"},
 
@@ -23819,7 +23726,6 @@ const GAMES=[
    vars:["במקום חשבון — שאלות ידע מפינת התזונה או מאגר הידע.",
          "שני מספרים בו זמנית = ריצת זוגות.",
          "לאנגלית: המספר נאמר באנגלית."],
-   adapt:{easy:"חישובים פשוטים (חיבור וחיסור), ומסלול קצר",hard:"חישובים מורכבים יותר, או שני מספרים בו זמנית"},
    safe:"מסלולי ריצה מקבילים ומרוחקים כדי למנוע התנגשות חזיתית.",
    yt:"numbers running game PE משחק מספרים רצים"},
 
@@ -23834,7 +23740,6 @@ const GAMES=[
    vars:["שני חישוקים בכיוונים מנוגדים — מחייב תיאום.",
          "בלי מילים בסיבוב השני.",
          "מעגל ענק של כל השכבה — אתגר בית ספרי."],
-   adapt:{easy:"מעגל קטן יותר, ובלי מדידת זמן",hard:"חישוק שני בכיוון ההפוך, ובלי דיבור"},
    safe:"לוודא שאין משיכה של פרקי ידיים; שחרור מותר אם כואב.",
    yt:"hula hoop pass team building game מרוץ חישוקים"},
 
@@ -23849,7 +23754,6 @@ const GAMES=[
    vars:["איסור מגע — פתרון רק בעמידה על רגל אחת.",
          "הוספת חוק: כולם חייבים לגעת באי, לא רק חלק.",
          "דיון סיום: איך הקבוצה החליטה? מי הוביל?"],
-   adapt:{easy:"יותר איים ופחות הסרות בין הסיבובים",hard:"הסרת שני איים בכל סיבוב, ואיסור דיבור"},
    safe:"רצפה לא חלקה, בלי קפיצות אל האי. להגביל גובה ערימה של תלמידים — אין טיפוס אחד על השני.",
    yt:"island game musical islands team building activity"},
 
@@ -23864,7 +23768,6 @@ const GAMES=[
    vars:["דג שנתפס הופך ל״אצה״ — נשאר במקום ותופס בלי לזוז. מגוון עומסים.",
          "חציית מסלול עם תרגיל: קפיצות במקום שלוש פעמים באמצע.",
          "גרסה בזוגות שמחזיקים ידיים."],
-   adapt:{easy:"מסלול חציה קצר ו«אצה» אחת בלבד",hard:"מסלול ארוך יותר, ו«דגים» חוצים בקפיצה על רגל אחת"},
    safe:"תיחום ברור, נגיעה קלה בלבד, ולוודא שהתלמידים לא רצים לכיוון גדר או קיר.",
    yt:"sharks and minnows game PE משחק כרישים ודגים"},
 
@@ -23879,7 +23782,6 @@ const GAMES=[
    vars:["חובת 4 מסירות לפני העברה לקולט.",
          "שני קולטים בכל צד.",
          "כדור כבד יותר לתיכון, כדור ספוג לחטיבה."],
-   adapt:{easy:"קולט אחד בכל צד ומסירות קצרות",hard:"חובת 4 מסירות לפני העברה לקולט, ושני קולטים בכל צד"},
    safe:"ספסל יציב וקרוב לקיר, שחקן על הספסל יושב ולא עומד על הקצה.",
    yt:"benchball game rules PE כדור ספסל"},
 
@@ -23894,7 +23796,6 @@ const GAMES=[
    vars:["מסלול הפוך בסבב השני.",
          "משימת ידע בתחנה אחת — שאלה מפינת התזונה.",
          "לתת לתלמידים לתכנן תחנה אחת בעצמם."],
-   adapt:{easy:"פחות תחנות ומשימות פשוטות",hard:"משימה נוספת בכל תחנה, וסבב שני נגד זמן הקבוצה עצמה"},
    safe:"מסלולים מקבילים ולא מצטלבים; לוודא שהרצפה יבשה.",
    yt:"relay race stations PE מרוץ שליחים תחנות"},
 
@@ -23909,7 +23810,6 @@ const GAMES=[
    vars:["מגרש קטן וקבוצות של 4 — יותר נגיעות לכל תלמיד.",
          "חובת מסירה לשני המינים לפני ניסיון הבקעה.",
          "שיעור מבוא: 10 דק׳ טכניקת אחיזה וזריקת backhand."],
-   adapt:{easy:"אפשר 3 צעדים בקליטה, ומגרש קטן",hard:"בלי צעדים, ומסירה חובה לכל השחקנים לפני הבקעה"},
    safe:"מרווח בין מגרשים, ולהדגיש שאין קפיצות התנגשות על אותה קליטה.",
    yt:"ultimate frisbee rules beginners אלטימטפריזבי חוקים"},
 
@@ -23924,7 +23824,6 @@ const GAMES=[
    vars:["גרסת קבוצות: צוברים זנבות לחשבון הקבוצה.",
          "צמצום השטח בהדרגה כל 45 שניות.",
          "גרסה בזוגות שקשורים יחד."],
-   adapt:{easy:"שטח גדול יותר, ובלי איסור על שלוף זנב של מי שלקח זנב",hard:"שטח קטן, ושליפה רק ביד אחת"},
    safe:"סרט תחוב ברפיון — לא קשור לבגד או לגוף. אסור לתפוס בבגדים.",
    yt:"tail tag game PE משחק זנבות"},
 
@@ -23939,7 +23838,6 @@ const GAMES=[
    vars:["חוקי בית שהשחקן במקום 1 קובע (״בלי סיבובים״, ״רק בשתי ידיים״).",
          "גרסת ריבוע כפול לכיתה גדולה.",
          "משחק בכף יד בלבד למתקדמים."],
-   adapt:{easy:"הקפצה אחת נוספת מותרת",hard:"בלי חוקי בית, ומשחק בכף יד אחת"},
    safe:"אזור פנוי מסביב לריבוע, ולוודא שאין תלמידים עוברים בתוך המגרש.",
    yt:"four square game rules ארבע פינות משחק"},
 
@@ -23954,7 +23852,6 @@ const GAMES=[
    vars:["גרסה מהירה עם שני כדורים.",
          "מי שיצא נכנס חזרה כשמי שהוציא אותו יוצא.",
          "מגבלת גובה עד קרסול לחטיבה — פחות פגיעות."],
-   adapt:{easy:"הפגיעה בשוק בלבד",hard:"פגיעה בקרסול בלבד, ושני כדורים"},
    safe:"דפנות ללא בליטות; לאסור נפילות מכוונות ודחיפות.",
    yt:"gaga ball rules how to play גאגא כדור בור"},
 
@@ -23969,7 +23866,6 @@ const GAMES=[
    vars:["שני כדורים בכיוונים מנוגדים.",
          "חובת קריאת שם לפני מסירה — מכיר את הכיתה בתחילת שנה.",
          "מסירה בהקפצה בלבד למתקשים."],
-   adapt:{easy:"מסירה בהקפצה, וכדור גדול יותר",hard:"שני כדורים ובלי מבט אל מקבל הכדור"},
    safe:"כדור רך בלבד; מרווח בין השחקנים במעגל.",
    yt:"hot potato ball game PE הכדור המורעל משחק"},
 
@@ -23984,7 +23880,6 @@ const GAMES=[
    vars:["הכפלת קצב הפקודות בהדרגה.",
          "גרסה הפוכה: מבצעים רק כשלא נאמר ״שמעון אומר״.",
          "פקודות באנגלית לשיעור בין־תחומי."],
-   adapt:{easy:"פקודות איטיות ופשוטות",hard:"פקודות כפולות, ומשימה אחת בקול של תלמיד במקום המורה"},
    safe:"בכיתה — בלי קפיצות על רצפה קשה בצפיפות; לסמן מרחב אישי.",
    yt:"simon says fitness game PE שמעון אומר כושר"},
 
@@ -24000,7 +23895,6 @@ const GAMES=[
          "משימה שקטה — תיאום בלי מילים.",
          "שילוב שמות: מי שקוראים בשמו מתחלף.",
          "בלי מצנח: סדין, שמיכה או בד גדול שכל הקבוצה אוחזת בשוליו."],
-   adapt:{easy:"גל נמוך ואיטי",hard:"משימת «אוהל» בשקט ובלי אחיזה ביד אחת"},
    safe:"אחיזה בשוליים בלבד, בלי כריכה סביב פרק היד; ריצה מתחת למצנח רק כשהוא גבוה.",
    yt:"parachute games PE class מצנח פעילות משחקים"},
 
@@ -24015,7 +23909,6 @@ const GAMES=[
    vars:["רופא סודי שאף אחד לא יודע מי הוא — מוסיף עניין.",
          "שני רופאים לקבוצה גדולה.",
          "אזור ״מרפאה״ שבו אי אפשר להיתפס."],
-   adapt:{easy:"רופא מסומן ומגרש קטן",hard:"רופא סודי ושני רופאים"},
    safe:"״נופל״ יושב ולא נשכב על מגרש עם ריצות — למניעת דריכה.",
    yt:"medic tag game PE תופסת רופא"},
 
@@ -24031,7 +23924,6 @@ const GAMES=[
          "חובת נגיעה של שני השחקנים לפני החזרה.",
          "כדור גדול ורך למתחילים.",
          "רשת נמוכה מאולתרת: גומי נמתח או חבל קשור בין שני עמודים, נמוך מרשת כדורעף."],
-   adapt:{easy:"3 נגד 3 וכדור גדול ורך",hard:"נגיעה אחת בלבד לכל שחקן לפני החזרה"},
    safe:"מרווח של 2 מ׳ סביב הרשת; לשים לב להתנגשויות בין בני זוג.",
    yt:"spikeball roundnet rules beginners כדור רשת קרקעי"},
 
@@ -24046,7 +23938,6 @@ const GAMES=[
    vars:["המנחה עומד במקום קבוע ולא הולך לצד המודרך.",
          "שני זוגות במסלול במקביל — מחייב הקשבה סלקטיבית.",
          "בלי מילים — רק מחיאות כף מוסכמות."],
-   adapt:{easy:"מסלול קצר עם 3 מכשולים רכים בלבד",hard:"מנחה בלי מילים (רק מחיאות כף), ושני זוגות במקביל"},
    safe:"מכשולים רכים בלבד, שטח נקי, ומורה שמפקח על כל זוג. עצירה מיידית לבקשת התלמיד.",
    yt:"blindfold obstacle course trust activity team building"},
 
@@ -24061,7 +23952,6 @@ const GAMES=[
    vars:["שלוש קבוצות עם שלושה מצבי קונוס.",
          "מסלול חובה סביב קונוס גדול בין כל שני קונוסים.",
          "סיבוב ארוך של 5 דק׳ למדידת סבולת."],
-   adapt:{easy:"פחות קונוסים, ו-5 דקות לסבב",hard:"מסלול חובה בין הקונוסים, וסבב של 5 דקות"},
    safe:"לוודא שהקונוסים לא נוחתים ברגליים — התכופפות ולא בעיטה.",
    yt:"cone flip game PE high intensity משחק קונוסים"},
 
@@ -24076,7 +23966,6 @@ const GAMES=[
    vars:["מסירת הספוג מעל הראש בטור.",
          "מרוץ שליחים עם משימת כושר באמצע.",
          "גרסה ללא מים — שקיות אורז/חול."],
-   adapt:{easy:"מסלול קצר ושרשרת מסירה",hard:"מסלול ארוך, וספוגים קטנים יותר"},
    safe:"רצפה רטובה = החלקה. לרוץ על דשא/חול בלבד, לא על אריחים. כובעים ומים לשתייה.",
    yt:"sponge relay race water game field day"},
 
@@ -24091,7 +23980,6 @@ const GAMES=[
    vars:["כרטיסיות שאלה־תשובה מתחום התזונה או הכושר.",
          "מרחק ריצה ארוך יותר להעלאת עומס.",
          "משימת כושר לפני כל הפיכת כרטיס."],
-   adapt:{easy:"פחות זוגות וכרטיסיות עם תמונות",hard:"מסלול ארוך יותר, ושאלות ידע על כל כרטיסייה"},
    safe:"מסלולי ריצה מופרדים בין הקבוצות.",
    yt:"memory match running game PE זיכרון בתנועה"},
 
@@ -24106,7 +23994,6 @@ const GAMES=[
    vars:["קפיאה בתנוחת פלאנק/סקוואט — הופך לתרגיל כוח איזומטרי.",
          "תלמיד בוחר את השיר ומנהל את הסיבוב.",
          "עצירה בזוגות — חייבים לקפוא במראה זה של זה."],
-   adapt:{easy:"קפיאה חופשית בכל תנוחה",hard:"קפיאה בתנוחת כוח (פלאנק או סקוואט)"},
    safe:"לסמן מרחב אישי; בלי ריצה בכיתה צפופה.",
    yt:"freeze dance game class activity פריז בריקוד"},
 
@@ -24121,7 +24008,6 @@ const GAMES=[
    vars:["גרסת 4 כיוונים — חבל מרובע.",
          "משיכה בישיבה — מוריד סיכון ומדגיש ליבה.",
          "רוטציה: כל סבב שני תלמידים מתחלפים בין הקבוצות."],
-   adapt:{easy:"משיכה בישיבה וסבב קצר",hard:"גרסת 4 כיוונים, ורוטציה בין הקבוצות בכל סבב"},
    safe:"אסור לכרוך את החבל סביב היד או הגוף. כפפות אם החבל מחוספס. שטח נקי מאבנים. עצירה מיידית בקריאת ״עצור״. חבל עבה ועמיד בלבד, כמו חבל הטיפוס שבאולמות הספורט — חבל קפיצה אינו חזק מספיק למשיכה.",
    yt:"tug of war safety rules school משיכת חבל"},
 
@@ -24136,7 +24022,6 @@ const GAMES=[
    vars:["גרסת 15 נקודות למשחק קצר.",
          "חובת החלפת עמדת זריקה אחרי כל קליעה.",
          "עונשין ביד חלשה = נקודה כפולה."],
-   adapt:{easy:"15 נקודות וקליעה מקרוב",hard:"עונשין ביד חלשה, ושינוי עמדה אחרי כל קליעה"},
    safe:"מרחב מתחת לסל, בלי דחיפות בריבאונד.",
    yt:"21 basketball game rules משחק 21 כדורסל"},
 
@@ -24152,7 +24037,6 @@ const GAMES=[
          "משחק זוגות בכל ריבוע.",
          "בלי הגשה עליונה בשלב הלימוד.",
          "רשת מאולתרת: גומי נמתח עבה או חבל ארוך קשור בין שני עמודים, בגובה שמתאים לגיל."],
-   adapt:{easy:"הקפצה אחת מותרת",hard:"בלי הקפצה, ומשחק זוגות בכל ריבוע"},
    safe:"רשת מעוגנת, אזור פנוי סביב המגרש.",
    yt:"crossnet four square volleyball rules"},
 
@@ -24167,7 +24051,6 @@ const GAMES=[
    vars:["שחרור בעזרת מספר קבוע של שכיבות סמיכה של השוכב עצמו, במקום חבר.",
          "שני סוגי ״דאון״ (פלאנק / ישיבה) לפי הכרזת התופס בזמן התפיסה.",
          "אזור ״מקלט״ קטן שבו אי אפשר להיתפס — מוסיף טקטיקה."],
-   adapt:{easy:"שחרור בנגיעה קלה",hard:"שחרור רק אחרי 5 שכיבות סמיכה של השוכב עצמו"},
    safe:"רק נגיעת כתף, בלי משיכה. תנוחת ה״דאון״ תמיד על משטח נקי ולא רטוב.",
    yt:"tag and down game freeze tag exercise pe"},
 
@@ -24182,7 +24065,6 @@ const GAMES=[
    vars:["מרחק בעיטה גדל ככל שמתקדמים בסיבוב — מעלה קושי בהדרגה.",
          "בעיטה ברגל חלשה בלבד לסיבוב מתקדם.",
          "שני שערים במקביל לקבוצה גדולה — מקצר תורים."],
-   adapt:{easy:"מרחק בעיטה קרוב",hard:"בעיטה ברגל חלשה ושני שערים במקביל"},
    safe:"שוער עם כפפות אם יש; לא לבעוט כשהשוער עדיין מתכופף לאסוף כדור.",
    yt:"מונדיאל משחק כדורגל חצר מעגל"},
 
@@ -24197,7 +24079,6 @@ const GAMES=[
    vars:["קונוס זהב אחד בלבד לכל המגרש (לא לכל קבוצה) — כולם רודפים אחרי אותה מטרה.",
          "השומרים מתחלפים כל ניסיון כדי שכולם יתנסו בכל תפקיד.",
          "אזור ״הגנה״ קרוב לקונוס שאסור לתפוס בו — מגביר טקטיקה של הסחה."],
-   adapt:{easy:"שומר אחד לקבוצה ומגרש קטן",hard:"קונוס זהב אחד לכל הכיתה ובלי אזור הגנה"},
    safe:"תפיסה בנגיעת כתף בלבד. לתחום את המעגל המרכזי בבירור כדי למנוע התנגשויות.",
    yt:"capture the flag cone variation pe game"},
 
@@ -24212,7 +24093,6 @@ const GAMES=[
    vars:["גרסה קבוצתית: כל הקבוצה חייבת לעבור יחד, עם פחות איים ממספר המשתתפים — מכריח שיתוף פעולה.",
          "הגבלת זמן כללית לכל הכיתה יוצרת מרוץ נגד השעון.",
          "אי אחד ״נמס״ (מוסר) כל דקה — מקשה בהדרגה."],
-   adapt:{easy:"איים קרובים זה לזה",hard:"איים רחוקים יותר, ואי נמס כל דקה"},
    safe:"איים יציבים ולא חלקלקים; מרחק ביניהם מותאם לגיל כדי למנוע קפיצות מסוכנות.",
    yt:"the floor is lava classroom game pe"},
 
@@ -24227,7 +24107,6 @@ const GAMES=[
    vars:["שני כדורים במקביל להעלאת קצב.",
          "קליטת כדור באוויר ״מצילה״ שחקן אחד שכבר יצא.",
          "אזור אמצע קטן יותר להעלאת עצימות."],
-   adapt:{easy:"כדור גדול ורך ושטח אמצע גדול",hard:"שני כדורים ושטח אמצע קטן יותר"},
    safe:"פגיעה מתחת לחגורה בלבד, כדור רך, איסור זריקה לראש.",
    yt:"corner ball dodgeball variation pe"},
 
@@ -24242,7 +24121,6 @@ const GAMES=[
    vars:["שני שועלים במקביל בכיתה גדולה.",
          "שרשראות קטנות (5–6) שמתחרות זו בזו על אותו שטח.",
          "החלפת ״תרנגולת ראש״ כל סיבוב כדי שכולם יובילו."],
-   adapt:{easy:"שרשרת קצרה (4–5)",hard:"שרשרת ארוכה יותר ושועל שני"},
    safe:"אחיזה במותניים בלבד, בלי משיכה חזקה; שטח פנוי ממכשולים.",
    yt:"fox and chickens tag game pe"},
 
@@ -24257,7 +24135,6 @@ const GAMES=[
    vars:["הגבלת זמן ליצירת תחרות בין קבוצות מקבילות.",
          "אסור לדבר — רק תנועה, מעלה קושי משמעותית.",
          "אם הקשר לא נפתר אחרי 8 דקות — מותר שחרור אחיזה אחת בלבד."],
-   adapt:{easy:"קבוצות של 6",hard:"בלי דיבור, ובלי שחרור אחיזה גם אחרי 8 דקות"},
    safe:"בלי משיכות חזקות של פרקי ידיים; לעצור מיד אם מישהו מרגיש לא בנוח.",
    yt:"human knot team building game"},
 
@@ -24272,7 +24149,6 @@ const GAMES=[
    vars:["מסלול הפוך בסיבוב שני — מונע שינון ומחייב הסתגלות.",
          "נשיאת כדור/חפץ לאורך כל המסלול בלי להפיל.",
          "זמן קבוצתי מצטבר במקום תחרות ראש בראש — מתאים לכיתה לא תחרותית."],
-   adapt:{easy:"פחות מכשולים ובלי תחרות מול קבוצה",hard:"נשיאת חפץ בלי להפיל לאורך כל המסלול"},
    safe:"מכשולים יציבים ומרווחים; בדיקת המסלול לפני ריצה ראשונה בעצימות מלאה.",
    yt:"obstacle course relay pe class"},
 
@@ -24287,7 +24163,6 @@ const GAMES=[
    vars:["קבוצה שקטה: אסור לדבר במהלך התכנון בפועל — רק תכנון מראש.",
          "אבן אחת ״נעלמת״ אחרי כל חציה מוצלחת — מקשה בהדרגה.",
          "שתי קבוצות חוצות אותה ביצה בו-זמנית משני הכיוונים — מוסיף תיאום."],
-   adapt:{easy:"יותר אבני דריכה",hard:"פחות אבנים ואבן שנעלמת אחרי כל חציה"},
    safe:"אבני דריכה יציבות ולא חלקלקות; מרחק בין אבנים מותאם לגיל.",
    yt:"stepping stones team challenge pe game"},
 
@@ -24302,7 +24177,6 @@ const GAMES=[
    vars:["מותר לגנוב ביצה אחת מקן בית של קבוצה יריבה, לא רק מקנים ניטרליים.",
          "כל ריצה מותרת רק ביצה אחת ביד — מכריח יותר חזרות.",
          "הוספת ״ציפור שומרת״ אחת לכל קן שיכולה לתפוס גנבים ולעצור אותם ל-5 שניות."],
-   adapt:{easy:"זמן ארוך יותר ובלי «ציפור שומרת»",hard:"«ציפור שומרת» לכל קן וגניבה מקן יריב מותרת"},
    safe:"עצמים קטנים ורכים בלבד; לתחום מרחב פנוי סביב כל קן כדי למנוע התנגשויות.",
    yt:"beanbag scramble bird nest game pe"},
 
@@ -24317,7 +24191,6 @@ const GAMES=[
    vars:["הוספת כדור בכל פעם שהקבוצה משלימה סיבוב שלם בלי הפלה.",
          "גרסת מהירות: לתזמן כמה סיבובים אפשר להשלים בדקה.",
          "גרסת שמות: זורקים רק אחרי קריאת שם הזורק החדש בקול, לא רק שם המקבל."],
-   adapt:{easy:"כדור אחד בלבד, וקצב איטי",hard:"כדור שלישי, ומדידת סבבים בדקה"},
    safe:"כדורים רכים בלבד; מרחק סביר בין שחקנים במעגל.",
    yt:"group juggling pattern game team building"},
 
@@ -24332,7 +24205,6 @@ const GAMES=[
    vars:["כוס עם חורים קטנים — צריך למהר לפני שהמים נשפכים.",
          "ריצה עם הכוס על הראש בלי ידיים — מוסיפה קושי שיווי משקל.",
          "תחרות נגד הזמן במקום קבוצה מול קבוצה — כל קבוצה נגד השעון בלבד."],
-   adapt:{easy:"מסלול קצר וכוס עמוקה בלי חורים",hard:"כוס עם חורים קטנים, ומסלול ארוך יותר"},
    safe:"רצפה רטובה = סכנת החלקה — לוודא נעליים מתאימות ולפזר מים באזור מוגדר בלבד.",
    yt:"water bucket relay race game pe"}
 ];
@@ -24419,10 +24291,8 @@ window.GAMES=(function(){
       ${(()=>{ const fit=`<div class="gm-sec"><h4>👤 למי זה מתאים</h4><p>${esc(g.fit)}</p></div>`;
         const how=`<div class="gm-sec"><h4>📖 מהלך המשחק</h4><ol>${g.how.map(s=>"<li>"+esc(s)+"</li>").join("")}</ol></div>`;
         const vars=`<div class="gm-sec"><h4>🔀 וריאציות והתאמות</h4><ul>${g.vars.map(s=>"<li>"+esc(s)+"</li>").join("")}</ul></div>`;
-        /* דרגות קושי: שורה אחת «קל יותר» ושורה אחת «מאתגר יותר», רק למשחק שיש לו התאמות שנכתבו ואושרו */
-        const lv=g.adapt?`<div class="gm-sec"><h4>🎚 דרגות קושי</h4><ul class="gm-lv"><li><b>קל יותר</b> <span>${esc(g.adapt.easy)}</span></li><li><b>מאתגר יותר</b> <span>${esc(g.adapt.hard)}</span></li></ul></div>`:"";
         /* תצוגה קומפקטית: מהלך המשחק פתוח, ו«למי מתאים» והווריאציות מקופלים. הבטיחות תמיד גלויה. */
-        return isCompact()?how+`<details class="gm-more"><summary>${esc(H().t("gm.more","עוד: למי מתאים ווריאציות"))}</summary>${fit}${vars}${lv}</details>`:fit+how+vars+lv; })()}
+        return isCompact()?how+`<details class="gm-more"><summary>${esc(H().t("gm.more","עוד: למי מתאים ווריאציות"))}</summary>${fit}${vars}</details>`:fit+how+vars; })()}
       <div class="gm-sec warn"><h4>⚠️ בטיחות</h4><p>${esc(g.safe)}</p></div>
       <a class="btn acc big" style="margin-top:6px;display:block;text-align:center;text-decoration:none"
          href="${ytUrl(g.yt)}" target="_blank" rel="noopener">▶ צפייה בהדגמה ביוטיוב</a>
@@ -44769,8 +44639,8 @@ window.LESSON=(function(){
     const chosenSubs=o.subs.filter(s=>pool.some(v=>v.sub===s));
     let mainBlocks;
     /* שיעור ארוך (שעה וחצי וכד׳): בלי בחירה ידנית של תתי־נושאים נבחרים כמה בלוקים
-       עיקריים שונים, כל אחד בין כ-17 ל-31 דק׳ — כדי שלא יישאר זמן ריק */
-    const nBlocks=chosenSubs.length||(mainMin<=33?1:(mainMin<=62?2:3));   /* לפי נתוני ההתאמה: בלוק של 18–31 דק׳ מתאים לרוב הווריאציות, 33+ ו-16 ומטה כמעט לא */
+       עיקריים שונים, כל אחד בין כ-18 ל-27 דק׳ — כדי שלא יישאר זמן ריק */
+    const nBlocks=chosenSubs.length||(mainMin<=31?1:(mainMin<=54?2:3));   /* לפי נתוני ההתאמה: בלוק של 19–27 דק׳ מתאים לכמעט כל נושא וכיתה, מ-31 ומעלה ומתחת ל-17 כמעט לא */
     const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/nBlocks),time:o.time};
     if(chosenSubs.length){
       mainBlocks=chosenSubs.map(s=>pickVariant(pool.filter(v=>v.sub===s),T.id,grade,pickCtx));

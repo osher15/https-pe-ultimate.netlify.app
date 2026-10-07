@@ -651,10 +651,14 @@ function stepRanges(v){
   return {typ:typ,lo:lo,hi:hi,rest:rest};
 }
 function sumOf(a){ return a.reduce(function(x,y){ return x+y; },0); }
+/* הזמן t של כל שלב כבר כולל את המעברים הרגילים בתוך התרגיל (כך סוכם עם המורה;
+   רק ארגון מחדש גדול עם הרבה ציוד מצוין בטקסט השלב). לכן «אורך מעברים» לא מוסיף
+   דקות כברירת מחדל: רגיל = 0, איטי מוסיף חצי דקה למעבר (בתחנות ×1.5), מהיר מקצר
+   בחצי דקה למעבר. מה שנשאר בתקורה הוא הפסקת שתייה, ואיטי/מהיר מעבר לרגיל. */
 function overheadFull(n,alloc,opts,rest){
-  var trans=Math.max(0,n-1)*TIME_TRANS[opts.trans]*(rest?1.5:1);
+  var trans=Math.max(0,n-1)*(TIME_TRANS[opts.trans]-1)*(rest?1.5:1);
   var water=opts.water?(alloc>=30?2:(alloc>=15?1:0))+(opts.weather==="hot"&&alloc>=15?1:0):0;
-  return Math.round(trans+water);
+  return Math.max(0,Math.round(trans+water));
 }
 /* מפזר את הדקות שנשארו על השלבים: כל פעם שלב עם הכי הרבה מקום לזוז, בלי לצאת מהטווח */
 function spreadMinutes(typ,lo,hi,target){

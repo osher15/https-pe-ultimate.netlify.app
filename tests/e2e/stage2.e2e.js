@@ -38,12 +38,12 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     ok(r.eqWarn.indexOf("ls.eqVariant")>=0,"אזהרת ציוד על הבלוק: "+r.eqWarn);
   }),
 
-  check("כל דקה מוסברת: סכום השלבים + מעברים = הזמן שהוקצה, או שיש אזהרה (חמישה נושאי כושר × 3 אורכים × 2 שכבות)",null,async page=>{
+  check("כל דקה מוסברת: סכום השלבים + מעברים = הזמן שהוקצה, או שיש אזהרה (חמישה נושאי כושר × 4 אורכים × 2 שכבות)",null,async page=>{
     await go(page,"lesson");
     let checkedN=0;
     for(const topic of ["aerobic","strength","core","speed","flex"])
       for(const grade of ["mid","high"])
-        for(const dur of [30,45,60]){
+        for(const dur of [45,50,60,90]){
           const r=await build(page,topic,grade,dur);
           r.main.forEach(m=>{
             ok(m.t&&m.fit,topic+"/"+grade+"/"+dur+": חסרים זמנים ב-"+m.n);
@@ -55,7 +55,7 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
             checkedN++;
           });
         }
-    eq(checkedN,30,"כל הבניות נבדקו");
+    ok(checkedN>=40,"כל הבניות נבדקו ("+checkedN+"; בשיעור ארוך יש כמה בלוקים)");
   }),
 
   check("המסך מציג דקות לכל שלב; עריכת התיאור מוחקת את הזמנים במקום להשאיר אותם לא מסונכרנים",null,async page=>{
@@ -187,7 +187,6 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
         window.GAMES.all().forEach(g=>{
           const f={name:g.name,who:g.who,space:g.space,equip:g.equip,time:g.time,goal:g.goal,fit:g.fit,safe:g.safe};
           g.how.forEach((x,i)=>f["how"+i]=x); g.vars.forEach((x,i)=>f["vars"+i]=x);
-          if(g.adapt){ f.easy=g.adapt.easy; f.hard=g.adapt.hard; }
           Object.keys(f).forEach(k=>{ const t=window.I18N.tr(f[k]); if(H.test(t))out.push(L+" · "+g.name+" · "+k+": "+t.slice(0,90)); });
         });
         labels.concat(["ציוד אחר","מה עוד יש לך? (אפשר להקליד)"]).forEach(x=>{ const t=window.I18N.tr(x); if(H.test(t))out.push(L+" · תווית: "+x); });

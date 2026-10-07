@@ -797,7 +797,6 @@ body.role-student .hx-mods,body.role-student .scoreband{display:none}
 .gm-sec p{font-size:13px;line-height:1.65;color:var(--ink);margin:0}
 .gm-sec ol,.gm-sec ul{margin:0;padding-inline-start:20px;font-size:13px;line-height:1.7;color:var(--ink)}
 .gm-sec ol li,.gm-sec ul li{margin-bottom:4px}
-.gm-lv{list-style:none;padding-inline-start:0}.gm-lv b{display:inline-block;min-width:78px;color:var(--acc);font-weight:700}
 .gm-sec.warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.28);
   border-radius:11px;padding:10px 13px}
 .gm-sec.warn h4{color:#f87171}

@@ -1233,7 +1233,4 @@ window.I18N_TERMS={
 "תיאור קצר (אופציונלי)":["Short description (optional)", "وصف قصير (اختياري)", "Краткое описание (необязательно)", "Descripción breve (opcional)"],
 "למשל: לשים לב שדנה חוזרת מפציעה — תפקיד שיפוט בחלק הסופי":["e.g. Dana is coming back from an injury — give her a referee role in the final part", "مثلًا: الانتباه إلى أن دانا عائدة من إصابة — دور تحكيم في الجزء الأخير", "например: Дана возвращается после травмы — роль судьи в заключительной части", "p. ej.: Dana vuelve de una lesión — rol de árbitra en la parte final"],
 "מדידות כושר":["Fitness measurements", "قياسات اللياقة", "Измерения формы", "Mediciones de condición física"],
-"דרגות קושי":["Difficulty levels", "مستويات الصعوبة", "Уровни сложности", "Niveles de dificultad"],
-"קל יותר":["Easier", "أسهل", "Проще", "Más fácil"],
-"מאתגר יותר":["More challenging", "أكثر تحديًا", "Сложнее", "Más desafiante"],
 };

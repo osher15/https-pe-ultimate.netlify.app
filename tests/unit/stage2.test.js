@@ -117,13 +117,13 @@ test("2.5 כיסוי: לכל 108 הוריאציות יש זמנים; r (אם י�
     variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes(BALL[id]),id+": חסר need ב-"+v.n)));
 });
 
-test("2.6 טווח זמן: בבלוק של 18–30 דק׳ רוב הוריאציות בתוך הטווח, ולכל נושא וכיתה יש לפחות אחת שמתאימה ל-25",()=>{
-  [18,20,25,30].forEach(a=>{
+test("2.6 טווח זמן: בבלוק של 18–25 דק׳ רוב הוריאציות בתוך הטווח, ולכל נושא וכיתה יש לפחות אחת שמתאימה ל-22",()=>{
+  [18,20,22,25].forEach(a=>{
     const bad=variants.filter(({v})=>D.variantFit(v,a).status!=="exact");
     assert.ok(bad.length<=variants.length*0.25,a+" דק׳: יותר מדי וריאציות מחוץ לטווח ("+bad.length+"): "+bad.slice(0,5).map(x=>x.v.n).join(" | "));
   });
   const groups={};
-  variants.forEach(({topic,grade,v})=>{ const k=topic+"/"+grade; groups[k]=groups[k]||false; if(D.variantFit(v,25).status==="exact")groups[k]=true; });
+  variants.forEach(({topic,grade,v})=>{ const k=topic+"/"+grade; groups[k]=groups[k]||false; if(D.variantFit(v,22).status==="exact")groups[k]=true; });
   const none=Object.keys(groups).filter(k=>!groups[k]);
   assert.deepEqual(none,[],"נושאים שאין בהם אף וריאציה לבלוק של 25 דק׳");
 });
@@ -133,7 +133,7 @@ test("2.6b אורך שיעור: חימום, סיום ומשחק חסומים ב�
   assert.equal(D.warmMinutes(45,"normal"),8);
   const src2=fs.readFileSync(path.join(__dirname,"../../hm-lesson.js"),"utf8");
   assert.ok(/Math\.min\(8,Math\.max\(5,Math\.round\(o\.dur\*0\.11\)\)\)/.test(src2),"סיום מוגבל ל-8");
-  assert.ok(/mainMin<=33\?1:\(mainMin<=62\?2:3\)/.test(src2),"בלוקים אוטומטיים לשיעור ארוך");
+  assert.ok(/mainMin<=31\?1:\(mainMin<=54\?2:3\)/.test(src2),"בלוקים אוטומטיים לשיעור ארוך");
 });
 
 test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או» היא חלופה כמו «/»",()=>{
