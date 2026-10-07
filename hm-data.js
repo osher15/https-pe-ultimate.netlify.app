@@ -819,6 +819,44 @@ function gameMatches(meta,f){
   if(f.noeq&&!meta.noEquip)return false;
   return true;
 }
+/* וריאציות אישיות של המורה למשחק (המפתח gm.mine): {מזהה משחק:[{id,t}]}.
+   המורה מוסיף ומוחק ידנית; שום דבר לא נוצר או משתנה אוטומטית. קריאה מנקה
+   רשומות פגומות ושומרת את השאר, כך שערך חלקי לא מאבד את מה שתקין. */
+var MINE_MAX=300, MINE_PER_GAME=30;
+function normGameMine(v){
+  var out={};
+  if(!v||typeof v!=="object"||Array.isArray(v))return out;
+  Object.keys(v).forEach(function(gid){
+    var a=v[gid]; if(!Array.isArray(a))return;
+    var seen={}, list=[];
+    a.forEach(function(e){
+      if(!e||typeof e.t!=="string"||typeof e.id!=="string")return;
+      var t=e.t.replace(/\s+/g," ").trim().slice(0,MINE_MAX); if(!t||seen[e.id])return;
+      seen[e.id]=1; list.push({id:e.id,t:t});
+    });
+    if(list.length)out[gid]=list.slice(0,MINE_PER_GAME);
+  });
+  return out;
+}
+/* מחזיר {map, ok, reason}. reason: "empty" | "dup" | "limit". לא משנה את הקלט. */
+function addGameMine(map,gid,text,stamp){
+  var m=normGameMine(map), t=String(text==null?"":text).replace(/\s+/g," ").trim().slice(0,MINE_MAX);
+  if(!gid||!t)return {map:m,ok:false,reason:"empty"};
+  var list=(m[gid]||[]).slice();
+  if(list.some(function(e){ return foldSearch(e.t)===foldSearch(t); }))return {map:m,ok:false,reason:"dup"};
+  if(list.length>=MINE_PER_GAME)return {map:m,ok:false,reason:"limit"};
+  var id="m"+(stamp==null?Date.now():stamp).toString(36), n=0, base=id;
+  while(list.some(function(e){ return e.id===id; }))id=base+"-"+(++n);
+  list.push({id:id,t:t}); m[gid]=list;
+  return {map:m,ok:true,id:id};
+}
+function delGameMine(map,gid,id){
+  var m=normGameMine(map);
+  if(!m[gid])return m;
+  m[gid]=m[gid].filter(function(e){ return e.id!==id; });
+  if(!m[gid].length)delete m[gid];
+  return m;
+}
 /* איחוד רשימות ציוד בלי כפילויות (לפי קיפול — «קונוסים» פעם אחת) */
 function mergeEquip(){
   var out=[], seen={};
@@ -2990,7 +3028,7 @@ return {
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
   variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
-  stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+  stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, normGameMine:normGameMine, addGameMine:addGameMine, delGameMine:delGameMine, MINE_MAX:MINE_MAX, MINE_PER_GAME:MINE_PER_GAME, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   libSave:libSave, libUndo:libUndo, bankToPlan:bankToPlan, bankSectionMinutes:bankSectionMinutes, PLAN_LIB_MAX:PLAN_LIB_MAX,
   isStudentRec:isStudentRec, normalizeStudent:normalizeStudent, normalizeStudents:normalizeStudents,
   SCHEMA_VERSION:SCHEMA_VERSION, SCHEMA_KEY:SCHEMA_KEY, MIGRATIONS:MIGRATIONS,

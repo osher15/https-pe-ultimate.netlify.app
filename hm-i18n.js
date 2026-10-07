@@ -93,7 +93,7 @@ en:{
   "gm.fav":"Add to favorites",
   "gm.unfav":"Remove from favorites",
   "gm.noFavs":"No favorites yet — tap ☆ on a game card.",
-  "gm.more":"More: who it suits and variations",
+  "gm.more":"More: who it suits, variations and levels",
   "gm.countWord":"games",
   "gm.filtered":"filtered",
   /* ux-redesign */
@@ -855,7 +855,15 @@ en:{
   "ab.builtT":"🛠 Built with",
   "ab.built":"JavaScript, HTML and CSS only — no external libraries and no build step in the browser, so the app opens fast and works in the field without a network. Developed together with Claude Code.",
   "ab.warnT":"⚠️ Disclaimer",
-  "ab.warn":"A teaching aid. Camera and stopwatch measurements are as good as field conditions allow, and are not a substitute for certified timing equipment in official competition. The educational decision and the grade are yours."
+  "ab.warn":"A teaching aid. Camera and stopwatch measurements are as good as field conditions allow, and are not a substitute for certified timing equipment in official competition. The educational decision and the grade are yours.",
+  /* games: my variations */
+  "gm.mineAdd":"Add",
+  "gm.minePh":"Write your own variation…",
+  "gm.mineDel":"Delete",
+  "gm.mineSure":"Delete?",
+  "gm.mineEmpty":"No variations of your own for this game yet.",
+  "gm.mineSaved":"Variation saved",
+  "gm.mineLimit":"Up to 30 variations per game"
 },
 
 ar:{
@@ -915,7 +923,7 @@ ar:{
   "gm.fav":"أضف إلى المفضلة",
   "gm.unfav":"إزالة من المفضلة",
   "gm.noFavs":"لا توجد مفضلة بعد — اضغطوا ☆ على بطاقة اللعبة.",
-  "gm.more":"المزيد: لمن يناسب والتنويعات",
+  "gm.more":"المزيد: لمن يناسب والتنويعات والمستويات",
   "gm.countWord":"ألعاب",
   "gm.filtered":"مُصفّى",
   /* ux-redesign */
@@ -1681,7 +1689,15 @@ ar:{
   "ab.builtT":"🛠 بُني باستخدام",
   "ab.built":"JavaScript وHTML وCSS فقط — بلا مكتبات خارجية وبلا مرحلة بناء في المتصفح، ليفتح التطبيق بسرعة ويعمل في الميدان بلا شبكة. طُوِّر بالتعاون مع Claude Code.",
   "ab.warnT":"⚠️ إخلاء مسؤولية",
-  "ab.warn":"أداة مساعدة للتدريس. قياسات الكاميرا والساعة جيدة بقدر ما تسمح ظروف الميدان، وليست بديلًا عن معدات توقيت معتمدة للمنافسات الرسمية. القرار التربوي والعلامة لك."
+  "ab.warn":"أداة مساعدة للتدريس. قياسات الكاميرا والساعة جيدة بقدر ما تسمح ظروف الميدان، وليست بديلًا عن معدات توقيت معتمدة للمنافسات الرسمية. القرار التربوي والعلامة لك.",
+  /* games: my variations */
+  "gm.mineAdd":"إضافة",
+  "gm.minePh":"اكتبوا تنويعكم الخاص…",
+  "gm.mineDel":"حذف",
+  "gm.mineSure":"حذف؟",
+  "gm.mineEmpty":"لا توجد تنويعات خاصة بك لهذه اللعبة بعد.",
+  "gm.mineSaved":"تم حفظ التنويع",
+  "gm.mineLimit":"حتى 30 تنويعًا لكل لعبة"
 },
 
 ru:{
@@ -1741,7 +1757,7 @@ ru:{
   "gm.fav":"Добавить в избранное",
   "gm.unfav":"Убрать из избранного",
   "gm.noFavs":"Пока нет избранного — нажмите ☆ на карточке игры.",
-  "gm.more":"Ещё: кому подходит и варианты",
+  "gm.more":"Ещё: кому подходит, варианты и уровни",
   "gm.countWord":"игр",
   "gm.filtered":"отфильтровано",
   /* ux-redesign */
@@ -2500,7 +2516,15 @@ ru:{
   "ab.builtT":"🛠 Сделано с помощью",
   "ab.built":"Только JavaScript, HTML и CSS — без внешних библиотек и без шага сборки в браузере, чтобы приложение быстро открывалось и работало в поле без сети. Разработано совместно с Claude Code.",
   "ab.warnT":"⚠️ Ограничение ответственности",
-  "ab.warn":"Вспомогательный инструмент для преподавания. Измерения камерой и секундомером настолько хороши, насколько позволяют условия на площадке, и не заменяют сертифицированное хронометражное оборудование для официальных соревнований. Педагогическое решение и оценка — за вами."
+  "ab.warn":"Вспомогательный инструмент для преподавания. Измерения камерой и секундомером настолько хороши, насколько позволяют условия на площадке, и не заменяют сертифицированное хронометражное оборудование для официальных соревнований. Педагогическое решение и оценка — за вами.",
+  /* games: my variations */
+  "gm.mineAdd":"Добавить",
+  "gm.minePh":"Напишите свой вариант…",
+  "gm.mineDel":"Удалить",
+  "gm.mineSure":"Удалить?",
+  "gm.mineEmpty":"У вас пока нет своих вариантов для этой игры.",
+  "gm.mineSaved":"Вариант сохранён",
+  "gm.mineLimit":"До 30 вариантов на игру"
 },
 
 es:{
@@ -2560,7 +2584,7 @@ es:{
   "gm.fav":"Añadir a favoritos",
   "gm.unfav":"Quitar de favoritos",
   "gm.noFavs":"Aún no hay favoritos: toca ☆ en una tarjeta de juego.",
-  "gm.more":"Más: para quién y variantes",
+  "gm.more":"Más: para quién, variantes y niveles",
   "gm.countWord":"juegos",
   "gm.filtered":"filtrado",
   /* ux-redesign */
@@ -3357,7 +3381,15 @@ es:{
   "ab.builtT":"🛠 Hecho con",
   "ab.built":"Solo JavaScript, HTML y CSS — sin bibliotecas externas ni paso de compilación en el navegador, para que la aplicación abra rápido y funcione en la pista sin red. Desarrollada junto con Claude Code.",
   "ab.warnT":"⚠️ Aviso",
-  "ab.warn":"Una herramienta de apoyo a la docencia. Las mediciones con cámara y cronómetro son tan buenas como lo permitan las condiciones de la pista, y no sustituyen a un equipo de cronometraje homologado para competición oficial. La decisión educativa y la calificación son tuyas."
+  "ab.warn":"Una herramienta de apoyo a la docencia. Las mediciones con cámara y cronómetro son tan buenas como lo permitan las condiciones de la pista, y no sustituyen a un equipo de cronometraje homologado para competición oficial. La decisión educativa y la calificación son tuyas.",
+  /* games: my variations */
+  "gm.mineAdd":"Añadir",
+  "gm.minePh":"Escribe tu propia variante…",
+  "gm.mineDel":"Eliminar",
+  "gm.mineSure":"¿Eliminar?",
+  "gm.mineEmpty":"Aún no tienes variantes propias para este juego.",
+  "gm.mineSaved":"Variante guardada",
+  "gm.mineLimit":"Hasta 30 variantes por juego"
 }
 };
 
