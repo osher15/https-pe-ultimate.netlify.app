@@ -19,6 +19,18 @@
   [headers.values]
     Cache-Control = "no-store"
 
+# קבצי hm-*.js / hm-*.css נטענים תמיד עם ?v=<hash> מ-index.html (build-standalone.js),
+# כך ששינוי תוכן = כתובת חדשה, ומותר לשמור אותם במטמון לשנה.
+[[headers]]
+  for = "/hm-*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/hm-*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # פרויקט המעטפת לחנויות (native/) נמצא במאגר אבל אינו חלק מהאתר
 [[redirects]]
   from = "/native/*"
