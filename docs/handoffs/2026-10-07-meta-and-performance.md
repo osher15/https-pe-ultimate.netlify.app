@@ -3,7 +3,7 @@ Date: 2026-10-07
 Owner: Claude
 Base commit: tip of ccr-a2b04eee-q1dh9y at session start
 Branch / PR: ccr-a2b04eee-q1dh9y / no PR opened
-Task / priority / status: Meta description + load-performance quick wins (Issue #45) / low / implemented, pending browser-suite result and owner review
+Task / priority / status: Meta description + load-performance quick wins (Issue #45) / low / implemented, tested, pending owner review
 Reserved files/sections: index.html head (title area only), netlify.toml headers, generated outputs (Hamegrash.html, sw.js, index.html stamps)
 
 Changes and user behavior:
@@ -20,10 +20,10 @@ Deliberately NOT done:
 Validation commands and results:
 - `npm test`: 689 pass, 0 fail.
 - `node build-standalone.js` run repeatedly: second run produced no further diff.
-- Lighthouse 13.5.0 against local `python3 -m http.server` (uncompressed, throttled): before Performance 52 / A11y 100 / BP 96 / SEO 90. After: see PR/session summary. Local numbers ignore Netlify gzip and caching, so they are indicative only.
-- `node tests/e2e/run.js`: see session summary for the result.
+- Lighthouse 13.5.0 against local `python3 -m http.server` (uncompressed, throttled): before Performance 52 / A11y 100 / BP 96 / SEO 90. After: Performance 54 / A11y 100 / BP 96 / SEO 100. Local numbers ignore Netlify gzip and caching, so they are indicative only.
+- `node tests/e2e/run.js`: 629 pass, 0 fail (full log). An earlier run failed from #361 onward with 'browser has been closed' while another command was killing processes in the same shell; it was an environment issue and did not reproduce.
 
 CI / emulation / physical-device evidence: none. Live-site (Netlify) Lighthouse/PageSpeed not run.
 Unresolved issues and dependencies: hm-texts.js size / boot-blocking load; cache headers only take effect after deploy.
 Publication status: committed and pushed to the task branch; no PR, no merge, no deploy.
-Next owner / next action: Owner reviews; if wanted, reserve a follow-up to split hm-texts.js per language.
+Next owner / next action: Owner reviews; Performance gain is small (52 to 54) because hm-texts.js dominates; if wanted, reserve a follow-up to split hm-texts.js per language.
