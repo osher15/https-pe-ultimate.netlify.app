@@ -421,9 +421,9 @@ window.LESSON=(function(){
     /* מזג אוויר משפיע רק בחוץ: חם — חימום קצר יותר, קר — ארוך יותר */
     const wx=o.place==="field"?o.time.weather:"normal";
     let warmMin=window.HMDATA.warmMinutes(o.dur,wx);
-    const coolMin=Math.max(5,Math.round(o.dur*0.11));
+    const coolMin=Math.min(8,Math.max(5,Math.round(o.dur*0.11)));
     let body=o.dur-warmMin-coolMin;
-    const gameMin=o.withGame?Math.max(6,Math.round(o.dur*0.16)):0;
+    const gameMin=o.withGame?Math.min(15,Math.max(6,Math.round(o.dur*0.16))):0;
     /* אין מספיק זמן למשחק ולפעילות העיקרית (פחות מ-18 דק׳)? מקצרים את החימום
        שבתחילת השיעור לחימום סטנדרטי קצר (5 דק׳, לא חימום שהוא משחק) — המשחק נשאר */
     const shortLesson=body-gameMin<18&&warmMin>5&&o.place!=="class";
@@ -441,11 +441,19 @@ window.LESSON=(function(){
     const pool=T.main[grade]||T.main.mid;
     const chosenSubs=o.subs.filter(s=>pool.some(v=>v.sub===s));
     let mainBlocks;
-    const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/(chosenSubs.length||1)),time:o.time};
+    /* שיעור ארוך (שעה וחצי וכד׳): בלי בחירה ידנית של תתי־נושאים נבחרים כמה בלוקים
+       עיקריים שונים, כל אחד לא ארוך מ-32 דק׳ בערך — כדי שלא יישאר זמן ריק */
+    const nBlocks=chosenSubs.length||Math.min(3,Math.max(1,Math.ceil(mainMin/32)));
+    const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/nBlocks),time:o.time};
     if(chosenSubs.length){
       mainBlocks=chosenSubs.map(s=>pickVariant(pool.filter(v=>v.sub===s),T.id,grade,pickCtx));
     }else{
-      mainBlocks=[pickVariant(pool,T.id,grade,pickCtx)];
+      mainBlocks=[]; let left=pool;
+      for(let i=0;i<nBlocks&&left.length;i++){
+        const v=pickVariant(left,T.id,grade,pickCtx); mainBlocks.push(v);
+        const other=left.filter(x=>x.sub!==v.sub);
+        left=other.length?other:left.filter(x=>x!==v);
+      }
     }
     const per=Math.floor(mainMin/mainBlocks.length);
     const mainPhases=mainBlocks.map((v,i)=>({
@@ -1165,6 +1173,11 @@ window.LESSON=(function(){
     buildSubSelect();
     $("#ls-focus").addEventListener("change",buildSubSelect);
     $("#ls-eqOther").addEventListener("input",()=>{ if($("#ls-eqOther").value.trim())$("#ls-eqOtherOn").checked=true; });
+    /* אורכי שיעור נפוצים: 45, 50, 60 ושיעור כפול של 90 */
+    const durIn=$("#ls-dur");
+    const paintDur=()=>$$("#ls-durSeg button").forEach(x=>x.classList.toggle("on",+x.dataset.d===+durIn.value));
+    $$("#ls-durSeg button").forEach(b=>b.addEventListener("click",()=>{ durIn.value=b.dataset.d; paintDur(); }));
+    durIn.addEventListener("input",paintDur); paintDur();
     $$("#ls-gradeSeg button").forEach(b=>b.addEventListener("click",()=>{
       $$("#ls-gradeSeg button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); grade=b.dataset.g;
       buildSubSelect();

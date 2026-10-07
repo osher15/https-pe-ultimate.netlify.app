@@ -23,7 +23,7 @@ test("2.1 variantEquipConflicts: רק פריטים שנדרשים ואינם ז�
 
 test("2.2 variantFit: טווח יעיל — הדקות מותאמות בתוכו והסכום תמיד מוסבר",()=>{
   const v={n:"מעגל תחנות",d:["שלב 1 — הדגמה","b","c","d","e"],t:[6,4,3,12,3]};
-  [20,25,30,36,45].forEach(a=>{
+  [26,28,30,32,34].forEach(a=>{
     const f=D.variantFit(v,a);
     assert.equal(f.status,"exact","בתוך הטווח "+a);
     assert.equal(f.fitted.reduce((x,y)=>x+y,0)+f.overhead,a,"שלבים + תקורה = הזמן שהוקצה ("+a+")");
@@ -32,9 +32,35 @@ test("2.2 variantFit: טווח יעיל — הדקות מותאמות בתוכו
   assert.equal(D.variantFit(v,200).status,"short","הרבה מעבר לטווח — צריך עוד סבבים, לא «מעברים»");
   assert.equal(D.variantFit(v,200).gap>0,true);
   assert.equal(D.variantFit(v,10).status,"over");
+  assert.equal(D.variantFit(v,45).status,"short","הטווח צר (עד ±2 דק׳ לשלב): 45 דק׳ לבלוק של 28 אופייניות — העודף למשחק פנאי");
   assert.equal(D.variantFit({d:["a"]},20).known,false,"בלי t — לא יודעים");
   assert.equal(D.variantFit({d:["a","b"],t:[5]},20).known,false,"t לא באורך d — לא סומכים עליו");
   assert.equal(D.variantFit(v,0).known,false);
+});
+
+test("2.2c טווח: אחוזים מעוגלים לחצי דקה, עד 2 דקות לכל כיוון (8 ← 6–10), בלי רבעים",()=>{
+  const rg=t=>{ const r=D.stepRanges({n:"x",d:["a"],t:[t]}); return [r.lo[0],r.hi[0]]; };
+  assert.deepEqual(rg(8),[6,10]);
+  assert.deepEqual(rg(4),[3,5]);
+  assert.deepEqual(rg(6),[4.5,7.5]);
+  assert.deepEqual(rg(12),[10,14],"שלב ארוך לא מתרחב מעבר ל-±2");
+  assert.deepEqual(rg(20),[18,22]);
+  assert.deepEqual(rg(1),[1,2],"שלב קצר מאוד לא יורד מתחת לדקה");
+  for(let t=1;t<=40;t++){ const [l,h]=rg(t); assert.ok(t-l<=2&&h-t<=2,"עד 2 דק׳ לכל כיוון ב-"+t); assert.equal(l*2,Math.round(l*2),"חצי דקה"); assert.equal(h*2,Math.round(h*2)); assert.ok(l>=1&&l<=t&&h>=t); }
+  /* הדקות שמוקצות בפועל תמיד שלמות ובתוך הטווח */
+  const f=D.variantFit({n:"x",d:["a"],t:[6]},12,{water:false});
+  f.fitted.forEach(m=>assert.ok(Number.isInteger(m)&&m>=4.5&&m<=7.5));
+});
+
+test("2.2d סבבים (תחנות/מעגל/אינטרוולים): לא מתקצרים מתחת ל-8 דקות בסך הכול",()=>{
+  const v={n:"מעגל תחנות",d:["a","b","c","d"],t:[2,3,2,3]};      /* 10 אופייניות; בלי רצפה אפשר היה לרדת ל-6 */
+  const sr=D.stepRanges(v);
+  assert.ok(sr.lo.reduce((a,b)=>a+b,0)>=8,"סכום המינימום ≥ 8");
+  assert.equal(D.variantFit(v,8,{water:false,trans:"quick"}).status!=="exact"||D.variantFit(v,8,{water:false,trans:"quick"}).fitted.reduce((a,b)=>a+b,0)>=8,true);
+  const tabata={n:"טאבטה",d:["a","b"],t:[4,3]};                    /* 7 אופייניות: הפרוטוקול עצמו קצר מ-8 */
+  assert.equal(D.stepRanges(tabata).lo.reduce((a,b)=>a+b,0)<=7,true,"הרצפה לא דורסת בלוק שהאופייני שלו קצר מ-8");
+  const nonRound={n:"טכניקה",d:["a","b"],t:[3,3]};
+  assert.ok(D.stepRanges(nonRound).lo.reduce((a,b)=>a+b,0)<8,"בלוק שאינו בסבבים — אין רצפה");
 });
 
 test("2.2b גמישות: אותו תרגיל — כיתה איטית מקבלת יותר, התקורה מתכווצת ראשונה, ו-r קובע טווח",()=>{
@@ -47,8 +73,8 @@ test("2.2b גמישות: אותו תרגיל — כיתה איטית מקבלת 
   const tight=D.variantFit(v,D.stepRanges(v).lo.reduce((a,b)=>a+b,0)+1);
   assert.equal(tight.status,"exact","כשצפוף, התקורה מתכווצת לפני שהשלבים נדחסים מתחת למינימום");
   assert.ok(tight.overhead<=1);
-  const withR=D.stepRanges({d:["a","b"],t:[10,10],r:[[8,25],[5,12]]});
-  assert.deepEqual([withR.lo,withR.hi],[[8,5],[25,12]]);
+  const withR=D.stepRanges({d:["a","b"],t:[10,10],r:[[9,25],[5,12]]});
+  assert.deepEqual([withR.lo,withR.hi],[[9,8],[12,12]],"r יכול לצמצם אבל לא להרחיב מעבר ל-±2 דקות");
   const t=D.timeOpts({pace:"nope",trans:"x"});
   assert.deepEqual(t,{pace:"normal",trans:"normal",water:true,weather:"normal"},"ערך לא מוכר → ברירת מחדל");
   assert.equal(D.timeOpts({weather:"hot"}).weather,"hot");
@@ -91,11 +117,23 @@ test("2.5 כיסוי: לכל 108 הוריאציות יש זמנים; r (אם י�
     variants.filter(x=>x.topic===id).forEach(({v})=>assert.ok((v.need||[]).includes(BALL[id]),id+": חסר need ב-"+v.n)));
 });
 
-test("2.6 טווח זמן: ברוב הוריאציות הזמן הרגיל של שיעור (מ-18 עד 32 דק׳ לבלוק) נמצא בטווח היעיל",()=>{
-  [18,25,32].forEach(a=>{
+test("2.6 טווח זמן: בבלוק של 18–30 דק׳ רוב הוריאציות בתוך הטווח, ולכל נושא וכיתה יש לפחות אחת שמתאימה ל-25",()=>{
+  [18,20,25,30].forEach(a=>{
     const bad=variants.filter(({v})=>D.variantFit(v,a).status!=="exact");
-    assert.ok(bad.length<=variants.length*0.15,a+" דק׳: יותר מדי וריאציות מחוץ לטווח ("+bad.length+"): "+bad.slice(0,5).map(x=>x.v.n).join(" | "));
+    assert.ok(bad.length<=variants.length*0.25,a+" דק׳: יותר מדי וריאציות מחוץ לטווח ("+bad.length+"): "+bad.slice(0,5).map(x=>x.v.n).join(" | "));
   });
+  const groups={};
+  variants.forEach(({topic,grade,v})=>{ const k=topic+"/"+grade; groups[k]=groups[k]||false; if(D.variantFit(v,25).status==="exact")groups[k]=true; });
+  const none=Object.keys(groups).filter(k=>!groups[k]);
+  assert.deepEqual(none,[],"נושאים שאין בהם אף וריאציה לבלוק של 25 דק׳");
+});
+
+test("2.6b אורך שיעור: חימום, סיום ומשחק חסומים בשיעור ארוך (90), והבלוק העיקרי מתחלק ל-2–3 בלוקים",()=>{
+  assert.ok(D.warmMinutes(90,"normal")<=12&&D.warmMinutes(120,"normal")<=12);
+  assert.equal(D.warmMinutes(45,"normal"),8);
+  const src2=fs.readFileSync(path.join(__dirname,"../../hm-lesson.js"),"utf8");
+  assert.ok(/Math\.min\(8,Math\.max\(5,Math\.round\(o\.dur\*0\.11\)\)\)/.test(src2),"סיום מוגבל ל-8");
+  assert.ok(/Math\.ceil\(mainMin\/32\)/.test(src2),"בלוקים אוטומטיים לשיעור ארוך");
 });
 
 test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או» היא חלופה כמו «/»",()=>{
@@ -156,6 +194,8 @@ test("2.10 סוגי כדורים נפרדים: כדור ספציפי נחסם ר
 test("2.7 בונה ידני: חלון זמן יעיל, חימום מומלץ ורשימת ציוד משותפת",()=>{
   const w=D.mainWindow("stations",4,25);
   assert.equal(w.status,"exact"); assert.deepEqual([w.lo,w.hi],[8,24]);
+  assert.equal(D.mainWindow("circuit",2,20).lo,8,"סבבים: רצפה של 8 דק׳ גם עם תרגיל אחד–שניים");
+  assert.equal(D.mainWindow("emom",1,20).lo,8);
   const long=D.mainWindow("stations",4,70);
   assert.equal(long.status,"short"); assert.ok(long.free>0,"עודף ← משחק פנאי");
   assert.equal(long.hi+long.overhead+long.free,70,"הסכום מוסבר");

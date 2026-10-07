@@ -591,7 +591,7 @@ function variantEquipConflicts(v,unavailable){
 }
 /* חימום לפי מזג אוויר (מגרש חוץ): חם — קצר יותר, קר — ארוך יותר; אף פעם לא מתחת ל-5 דק׳ */
 function warmMinutes(dur,weather){
-  var base=Math.max(7,Math.round(dur*0.18));
+  var base=Math.min(12,Math.max(7,Math.round(dur*0.18)));
   if(weather==="hot")return Math.max(5,Math.round(base*0.7));
   if(weather==="cold")return Math.min(12,Math.round(base*1.3));
   return base;
@@ -615,19 +615,39 @@ function timeOpts(o){
   return {pace:TIME_PACE[o.pace]?o.pace:"normal", trans:TIME_TRANS[o.trans]?o.trans:"normal", water:o.water!==false,
     weather:o.weather==="cold"||o.weather==="hot"?o.weather:"normal"};
 }
+/* טווח לכל שלב: אחוז קבוע מהזמן האופייני, מעוגל לחצי דקה (לא לרבעים), ולא יותר
+   מ-2 דקות לכל כיוון. 8 דק׳ ← 6–10; 4 דק׳ ← 3–5; 12 דק׳ ← 10–14. לשלבים קצרים מאוד
+   (1–3 דק׳) נשארת דקה אחת לכל כיוון, אחרת אין להם גמישות בכלל.
+   וריאציה בסבבים (תחנות/מעגל/אינטרוולים) לא מתקצרת מתחת ל-8 דקות בסך הכול. */
+var RANGE_PCT=0.25, RANGE_MAX=2, RANGE_MIN=1, ROUND_MIN_TOTAL=8;
+function halfMinutes(x){ return Math.round(x*2)/2; }
+function stepBand(m){ return Math.min(RANGE_MAX,Math.max(RANGE_MIN,halfMinutes(m*RANGE_PCT))); }
 function stepRanges(v){
   var t=v&&asList(v.t), d=v&&v.d;
   if(!t||!t.length||!Array.isArray(d)||t.length!==d.length)return null;
   var rest=REST_RX.test(String(v.n||""))||REST_RX.test(String(v.sub||"")), r=asList(v.r);
   var typ=[], lo=[], hi=[];
   t.forEach(function(x,i){
-    var m=Math.max(1,Math.round(+x||0)), demo=DEMO_RX.test(String(d[i]||""));
-    var rep=!demo&&REPEAT_RX.test(String(d[i]||""));
-    var l=Math.max(1,Math.round(m*(demo?0.6:0.7))), h=Math.max(m+1,Math.round(m*(demo?1.6:(rep?2.2:(rest?1.8:1.7)))));
+    var m=Math.max(1,Math.round(+x||0)), band=stepBand(m);
+    var l=Math.max(1,m-band), h=m+band;
     var o=r[i];
-    if(Array.isArray(o)&&o.length===2&&+o[0]>=1&&+o[1]>=+o[0]){ l=Math.round(+o[0]); h=Math.round(+o[1]); }
-    typ.push(Math.min(Math.max(m,l),h)); lo.push(l); hi.push(h);
+    /* טווח ידני (r) יכול לצמצם, אבל לא להרחיב מעבר לפס של ±2 דקות */
+    if(Array.isArray(o)&&o.length===2&&+o[0]>=1&&+o[1]>=+o[0]){
+      l=Math.max(l,halfMinutes(+o[0])); h=Math.min(h,halfMinutes(+o[1]));
+    }
+    l=Math.min(l,m); h=Math.max(h,m);
+    typ.push(m); lo.push(l); hi.push(h);
   });
+  if(rest){
+    /* רצפה לבלוק סבבים: לא מקצרים אותו מתחת ל-8 דק׳ (ואם הזמן האופייני שלו קצר מזה — לא מתחת לאופייני) */
+    var floor=Math.min(ROUND_MIN_TOTAL,sumOf(typ)), guard=200;
+    while(sumOf(lo)<floor&&guard-->0){
+      var bi=-1, bg=0;
+      lo.forEach(function(x,i){ if(typ[i]-x>bg){ bg=typ[i]-x; bi=i; } });
+      if(bi<0)break;
+      lo[bi]=Math.min(typ[bi],lo[bi]+Math.min(bg,0.5));
+    }
+  }
   return {typ:typ,lo:lo,hi:hi,rest:rest};
 }
 function sumOf(a){ return a.reduce(function(x,y){ return x+y; },0); }
@@ -660,13 +680,15 @@ function fitSteps(sr,alloc,opts){
   alloc=wholeMinutes(alloc);
   if(!sr||!(alloc>0))return {known:false};
   var o=timeOpts(opts), pace=TIME_PACE[o.pace], n=sr.typ.length;
-  var typ=sr.typ.map(function(x,i){ return Math.min(Math.max(Math.round(x*pace),sr.lo[i]),sr.hi[i]); });
-  var sumLo=sumOf(sr.lo), sumHi=sumOf(sr.hi), oh=overheadFull(n,alloc,o,sr.rest), avail=alloc-oh;
+  /* הטווח מוצג בחצאי דקות, אבל הדקות המוקצות לשלב הן תמיד שלמות בתוכו */
+  var lo=sr.lo.map(Math.ceil), hi=sr.hi.map(Math.floor);
+  var typ=sr.typ.map(function(x,i){ return Math.min(Math.max(Math.round(x*pace),lo[i]),hi[i]); });
+  var sumLo=sumOf(lo), sumHi=sumOf(hi), oh=overheadFull(n,alloc,o,sr.rest), avail=alloc-oh;
   if(avail<sumLo){ oh=Math.max(0,alloc-sumLo); avail=alloc-oh; }
   var st, gap=0, fitted;
-  if(avail>sumHi){ st="short"; gap=avail-sumHi; fitted=sr.hi.slice(); }
-  else if(avail<sumLo){ st="over"; gap=sumLo-avail; fitted=sr.lo.slice(); }
-  else{ st="exact"; fitted=spreadMinutes(typ,sr.lo,sr.hi,avail); }
+  if(avail>sumHi){ st="short"; gap=avail-sumHi; fitted=hi.slice(); }
+  else if(avail<sumLo){ st="over"; gap=sumLo-avail; fitted=lo.slice(); }
+  else{ st="exact"; fitted=spreadMinutes(typ,lo,hi,avail); }
   return {known:true,base:sumOf(sr.typ),min:sumLo,max:sumHi,fitted:fitted,overhead:oh,transit:oh,gap:gap,status:st};
 }
 function variantFit(v,alloc,opts){
@@ -689,11 +711,13 @@ function eqAvailList(saved){
   return Array.isArray(saved)?saved.filter(function(x){ return ok.indexOf(x)>=0; }):DEFAULT_EQ_AVAIL.slice();
 }
 /* כמה דקות אפשר לתת לחלק העיקרי בכל מבנה. per — לכל תרגיל; block — לכל הבלוק (מעגל/AMRAP/EMOM). */
-var MAIN_FMT_RANGE={stations:{per:[2,6]},circuit:{per:[2,4]},sets:{per:[3,8]},pairs:{per:[3,6]},
-  amrap:{block:[6,20]},emom:{block:[6,20]},free:{per:[2,8]}};
+var MAIN_FMT_RANGE={stations:{per:[2,6],min:8},circuit:{per:[2,4],min:8},sets:{per:[3,8]},pairs:{per:[3,6]},
+  amrap:{block:[8,20],min:8},emom:{block:[8,20],min:8},free:{per:[2,8]}};
 function mainWindow(fmt,n,alloc,opts){
   var r=MAIN_FMT_RANGE[fmt]||MAIN_FMT_RANGE.stations, o=timeOpts(opts), k=Math.max(1,+n||1);
   var lo=r.block?r.block[0]:r.per[0]*k, hi=r.block?r.block[1]:r.per[1]*k;
+  if(r.min)lo=Math.max(lo,r.min);   /* סבבים: לא פחות מ-8 דק׳ בסך הכול */
+  hi=Math.max(hi,lo);
   alloc=wholeMinutes(alloc);
   if(!(alloc>0))return {known:false};
   var oh=overheadFull(r.block?1:k,alloc,o,fmt==="stations"||fmt==="circuit"), avail=alloc-oh;

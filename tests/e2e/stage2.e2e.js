@@ -119,6 +119,27 @@ module.exports={title:"שלב 2 — ציוד וזמן לבלוק הראשי",tes
     ok(q.k.indexOf("game")>=0&&q.warm>5,"בשיעור ארוך חימום רגיל ומשחק: "+JSON.stringify(q));
   }),
 
+  check("אורכי שיעור 45/50/60/90: כפתורי בחירה, הסכום נשמר, ושיעור כפול מתחלק ל-2–3 בלוקים עיקריים",null,async page=>{
+    await go(page,"lesson");
+    await page.selectOption("#ls-focus","aerobic"); await page.selectOption("#ls-place","hall");
+    eq(await page.evaluate(()=>[...document.querySelectorAll("#ls-durSeg button")].map(b=>b.dataset.d).join(",")),"45,50,60,90","ארבעה אורכים נפוצים, בלי 30");
+    const res={};
+    for(const d of [45,50,60,90]){
+      await page.click(`#ls-durSeg button[data-d="${d}"]`);
+      eq(await page.inputValue("#ls-dur"),String(d),"הכפתור ממלא את השדה");
+      ok(await page.evaluate(d=>document.querySelector(`#ls-durSeg button[data-d="${d}"]`).classList.contains("on"),d),"הכפתור מסומן");
+      await page.click("#ls-gen"); await page.waitForTimeout(100);
+      res[d]=await page.evaluate(()=>{ const x=window.LESSON.current(); const m=x.phases.filter(f=>f.k==="main");
+        return {total:x.phases.reduce((a,f)=>a+f.min,0),mains:m.length,names:m.map(f=>f.n),warm:x.phases[0].min,mainMin:m.map(f=>f.min)}; });
+      eq(res[d].total,d,"הסכום "+d+": "+JSON.stringify(res[d]));
+      ok(res[d].warm<=12,"חימום מוגבל: "+res[d].warm);
+    }
+    eq(res[90].mains>=2,true,"שיעור כפול — לפחות שני בלוקים עיקריים: "+JSON.stringify(res[90]));
+    eq(new Set(res[90].names).size,res[90].mains,"הבלוקים שונים זה מזה: "+res[90].names);
+    res[90].mainMin.forEach(m=>ok(m<=36,"בלוק לא ארוך מדי: "+m));
+    eq(res[45].mains,1,"45 דק׳ — בלוק אחד");
+  }),
+
   check("מזג אוויר: חם — חימום קצר יותר, קר — ארוך יותר; רק במגרש חוץ",null,async page=>{
     await go(page,"lesson");
     await page.evaluate(()=>{ document.querySelector(".ls-flex").open=true; });
