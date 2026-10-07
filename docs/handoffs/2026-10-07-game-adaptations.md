@@ -44,3 +44,6 @@ Owner: review in the app, tell which lines to change. Claude: apply teacher edit
 - `npm test`: 700 / 700 pass.
 - `node build-standalone.js` twice: Hamegrash.html, index.html, sw.js identical (no diff).
 - `node tests/e2e/some.js gameadapt library21`: 10/10 passed on the preceding build; `gameadapt` alone re-run on the final build: 6/6. The full `run.js` was not run.
+
+## CI finding on PR #46 (fixed)
+Browser suite `i18n15` #480 (Russian deep content, no Hebrew left) failed on the first head: a line that *starts* with a ״…״ quotation ("״ציפור שומרת״ לכל קן…") rendered with Hebrew left in the visible DOM even though its Russian row exists. Reworded to "לכל קן ״ציפור שומרת״, וגניבה…" (same meaning); `i18n15` passes 16/16 locally. Lesson: do not begin translated strings with ״; the root cause in the DOM translation path was not investigated.
