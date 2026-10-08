@@ -15,11 +15,11 @@
     "identity": "שם מלא: אתלטיקה 01 — יציאה והאצה למרחק קצר\nקוד מערך: AT-01-HE\nענף: אתלטיקה\nתת נושא: עמדת יציאה מעמידה, צעדים ראשונים והאטה נשלטת\nגיל: 10–13\nרמת ניסיון: מתחילים\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 30 קונוסים, 8–12 מקלות או שקיות סימון וסימוני מסלול\nמרחב: מגרש או מסלול ישר עם נתיבים בני 15–20 מטר ואזור האטה\nמורכבות: בסיסית",
     "purpose": "ללמד יציאה בטוחה מעמידה, האצה הדרגתית וסיום נשלט כבסיס לריצת מהירות בית־ספרית.",
     "objectives": [
-      "מתייצב בעמדת פסיעה יציבה עם רגל מובילה קבועה לפני האות.",
-      "יוצא באות ומבצע שלושה צעדים ראשונים קצרים ומהירים ב־4 מתוך 5 ניסיונות.",
-      "שומר נטייה קדימה כקו אחד בעשרת המטרים הראשונים.",
-      "עובר את קו הסיום ומאט בהדרגה בתוך אזור ההאטה, בלי עצירה חדה.",
-      "נשאר בנתיב שלו ונותן לבן או בת הזוג משוב עובדתי אחד."
+      "התלמיד יצליח להתייצב בעמדת פסיעה יציבה עם רגל מובילה קבועה לפני האות.",
+      "התלמיד יצליח לצאת באות ולבצע שלושה צעדים ראשונים קצרים ומהירים ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לשמור נטייה קדימה כקו אחד בעשרת המטרים הראשונים.",
+      "התלמיד יצליח לעבור את קו הסיום ולהאט בהדרגה בתוך אזור ההאטה, בלי עצירה חדה.",
+      "התלמיד יצליח להישאר בנתיב שלו ולתת לבן או בת הזוג משוב עובדתי אחד."
     ],
     "priorKnowledge": "אין דרישה למערך אתלטיקה קודם; נדרשים כללי נתיב ואות עצירה.",
     "pathwayPosition": "המערך הקודם: אין — זהו מערך הפתיחה של רצף האתלטיקה.\nהמערך הנוכחי: כמערך הפתיחה של רצף האתלטיקה, הוא מבסס שלושה יסודות שעליהם נשען כל ספרינט: עמדת יציאה יציבה, צעדים ראשונים קצרים ומהירים תחת נטייה קדימה, והאטה הדרגתית בתוך אזור האטה מסומן. הוא דוחה בכוונה את טכניקת הריצה המלוטשת במהירות מלאה ואת ההוראה השיטתית של תגובה לאות משתנה — המשימה המרכזית מתבססת על פקודה אחת צפויה, והאות החזותי המאוחר הוא רק הרחבה אופציונלית למתקדמים — ואלה יפותחו כראוי ב-AT-02 וב-AT-03.\nהמערך הבא: AT-02 — מנח ריצה, עבודת ידיים והאצה.",
@@ -78,11 +78,11 @@
     "identity": "שם מלא: אתלטיקה 02 — יציבת ריצה, פעולת ידיים והאצה\nקוד מערך: AT-02-HE\nענף: אתלטיקה\nתת נושא: טכניקת ריצה והאצה\nגיל: 10–12\nרמת ניסיון: מתפתחים\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "לשמור יציבה גבוהה ופעולת ידיים קדימה–אחורה במהלך האצה של 20 מטר.",
     "objectives": [
-      "שומר גוף זקוף עם אגן גבוה ומבט קדימה לאורך כל ההאצה, ב־4 מתוך 5 ריצות.",
-      "מניע את הידיים קדימה ואחורה לאורך קו הגוף ולא לרוחבו, במרפק כפוף בזווית של כ־90 מעלות, ברוב הריצות.",
-      "מגדיל את אורך הצעד בהדרגה לאורך 20 מטר במקום לצאת בצעד מלא מיד, ומתאים את המאמץ למרחק — סימן היכר לכך הוא יכולת לנשום ולדבר בלי קושי חריג בסוף ההאצה — ב־3 מתוך 4 ריצות.",
-      "נשאר בנתיב שלו, מתחיל רק באות, ושומר מרווח של שתי זרועות מהרץ שלפניו.",
-      "מציע לשותף משוב עובדתי אחד על יציבה או ידיים, וקובע לעצמו יעד אישי להמשך."
+      "התלמיד יצליח לשמור גוף זקוף עם אגן גבוה ומבט קדימה לאורך כל ההאצה, ב־4 מתוך 5 ריצות.",
+      "התלמיד יצליח להניע את הידיים קדימה ואחורה לאורך קו הגוף ולא לרוחבו, במרפק כפוף בזווית של כ־90 מעלות, ברוב הריצות.",
+      "התלמיד יצליח להגדיל את אורך הצעד בהדרגה לאורך 20 מטר במקום לצאת בצעד מלא מיד, ולהתאים את המאמץ למרחק — סימן היכר לכך הוא יכולת לנשום ולדבר בלי קושי חריג בסוף ההאצה — ב־3 מתוך 4 ריצות.",
+      "התלמיד יצליח להישאר בנתיב שלו, להתחיל רק באות, ולשמור מרווח של שתי זרועות מהרץ שלפניו.",
+      "התלמיד יצליח להציע לשותף משוב עובדתי אחד על יציבה או ידיים, ולקבוע לעצמו יעד אישי להמשך."
     ],
     "priorKnowledge": "AT-01 — יציאה מעמידה והאצה קצרה.",
     "pathwayPosition": "המערך הקודם: AT-01 — יציאה מעמידה והאצה קצרה.\nהמערך הנוכחי: עובר מן היציאה אל מה שקורה אחריה — AT-01 עסק בשלושת הצעדים הראשונים, וכאן נבנית הריצה עצמה: יציבה שמחזיקה מעמד ופעולת ידיים שמניעה את הרגליים. עדיין ללא לחץ תגובה וללא אות מפתיע; אלה נוספים ב־AT-03.\nהמערך הבא: AT-03 — תגובה וזינוק לאות משתנה.",
@@ -141,11 +141,11 @@
     "identity": "שם מלא: אתלטיקה 03 — תגובה וזינוק לאות משתנה\nקוד מערך: AT-03-HE\nענף: אתלטיקה\nתת נושא: תגובה וזינוק\nגיל: 10–12\nרמת ניסיון: מתפתחים\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "להגיב לאות חזותי או קולי ולצאת להאצה מאוזנת בלי התחלה מוקדמת.",
     "objectives": [
-      "עומד בעמדת מוכנות ללא כל תנועה עד האות, ללא יציאה מוקדמת, ב־4 מתוך 5 זינוקים.",
-      "מגיב לאות ומבצע את הצעד הראשון בתוך כחצי שנייה, בלי להתנדנד או לזוז מראש.",
-      "מזהה את האות הנכון מבין שניים ובוחר את הכיוון המתאים, ב־3 מתוך 4 מצבים.",
-      "מאיץ בשיווי משקל לאחר התגובה ושומר על היציבה ופעולת הידיים מ-AT-02 במקום להיתקל ביציאה: דוחף את הקרקע ברגל האחורית בצעד הראשון, שלושת הצעדים הראשונים נמוכים, והעלייה ליציבה זקופה הדרגתית.",
-      "מציע לשותף משוב עובדתי אחד על היציבות או התגובה שלו, וקובע לעצמו יעד אישי למאמץ הבא."
+      "התלמיד יצליח לעמוד בעמדת מוכנות ללא כל תנועה עד האות, ללא יציאה מוקדמת, ב־4 מתוך 5 זינוקים.",
+      "התלמיד יצליח להגיב לאות ולבצע את הצעד הראשון בתוך כחצי שנייה, בלי להתנדנד או לזוז מראש.",
+      "התלמיד יצליח לזהות את האות הנכון מבין שניים ולבחור את הכיוון המתאים, ב־3 מתוך 4 מצבים.",
+      "התלמיד יצליח להאיץ בשיווי משקל לאחר התגובה ולשמור על היציבה ופעולת הידיים מ-AT-02 במקום להיתקל ביציאה: לדחוף את הקרקע ברגל האחורית בצעד הראשון, שלושת הצעדים הראשונים נמוכים, והעלייה ליציבה זקופה הדרגתית.",
+      "התלמיד יצליח להציע לשותף משוב עובדתי אחד על היציבות או התגובה שלו, ולקבוע לעצמו יעד אישי למאמץ הבא."
     ],
     "priorKnowledge": "AT-02 — יציבת ריצה והאצה.",
     "pathwayPosition": "המערך הקודם: AT-02 — יציבת ריצה והאצה.\nהמערך הנוכחי: מוסיף את אי־הוודאות — ב־AT-02 התלמיד ידע מתי הוא יוצא ולאן, וכאן האות אינו צפוי ולעיתים גם הכיוון אינו ידוע מראש. עדיין זינוק אישי בלי שותף ובלי מסירה; העבודה המשותפת נפתחת ב־AT-04.\nהמערך הבא: AT-04 — העברת מקל במרוץ שליחים.",
@@ -204,11 +204,11 @@
     "identity": "שם מלא: אתלטיקה 04 — העברת מקל בשליחים\nקוד מערך: AT-04-HE\nענף: אתלטיקה\nתת נושא: שליחים והעברה בטוחה\nגיל: 10–13\nרמת ניסיון: מתפתחים\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "להעביר מקל בתוך אזור מסומן תוך התאמת מהירות ותקשורת ברורה.",
     "objectives": [
-      "משלים את ההעברה בתוך אזור מסומן של 10 מטר ולא לפניו או אחריו, ב־4 מתוך 5 ניסיונות.",
-      "המקבל מושיט יד אחורה ומחזיק אותה יציבה עד שהמקל נוגע בה, בלי להסתובב אחורה.",
-      "קורא את מילת הקוד המוסכמת ברגע הנכון, כך שהמקבל לא יוצא מוקדם מדי ולא מאוחר מדי, ב־3 מתוך 4 מסירות.",
-      "ממשיך לרוץ קדימה במהלך המסירה ולאחריה, בלי עצירה, האטה חדה או הסתכלות אחורה.",
-      "מציע לשותף משוב עובדתי אחד על היד או הקריאה, וקובע לעצמו יעד אישי למסירה הבאה."
+      "התלמיד יצליח להשלים את ההעברה בתוך אזור מסומן של 10 מטר ולא לפניו או אחריו, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח, כמקבל, להושיט יד אחורה ולהחזיק אותה יציבה עד שהמקל נוגע בה, בלי להסתובב אחורה.",
+      "התלמיד יצליח לקרוא את מילת הקוד המוסכמת ברגע הנכון, כך שהמקבל לא יוצא מוקדם מדי ולא מאוחר מדי, ב־3 מתוך 4 מסירות.",
+      "התלמיד יצליח להמשיך לרוץ קדימה במהלך המסירה ולאחריה, בלי עצירה, האטה חדה או הסתכלות אחורה.",
+      "התלמיד יצליח להציע לשותף משוב עובדתי אחד על היד או הקריאה, ולקבוע לעצמו יעד אישי למסירה הבאה."
     ],
     "priorKnowledge": "AT-03 — תגובה וזינוק.",
     "pathwayPosition": "המערך הקודם: AT-03 — תגובה וזינוק.\nהמערך הנוכחי: הופך את הריצה מפעולה אישית לפעולה משותפת — לראשונה התזמון של תלמיד אחד תלוי במהירות של אחר, והשגיאה אינה של אף אחד מהם לבדו. עדיין מסלול ישר ומרחקים קצרים, בלי סבולת; הקצב לטווח ארוך נלמד ב־AT-05.\nהמערך הבא: AT-05 — קצב אישי בריצת סבולת.",
@@ -267,11 +267,11 @@
     "identity": "שם מלא: אתלטיקה 05 — קצב אישי בריצת סבולת\nקוד מערך: AT-05-HE\nענף: אתלטיקה\nתת נושא: וויסות קצב ומאמץ\nגיל: 11–14\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "לשמור קצב אישי יציב במשך 6–8 דקות ולדרג מאמץ באופן אמין.",
     "objectives": [
-      "משלים 6–8 דקות ריצה רצופה בלי לעצור, כשההקפה האחרונה קרובה לראשונה בהפרש של שניות בודדות בלבד, ב־4 מתוך 5 סבבים.",
-      "שומר קצב שמאפשר לומר משפט קצר, ובודק זאת ביושר כשנשאל.",
-      "מדרג את מאמצו בסולם המוסכם בהתאמה למה שהמורה מבחין, ב־3 מתוך 4 בדיקות.",
-      "פותח בקצב בר-קיימא ולא בספרינט מקו הפתיחה, ושומר רזרבה לדקות האחרונות.",
-      "נותן לשותף משוב עובדתי אחד על הקצב או הנשימה שלו, וקובע יעד אישי לסבב הבא."
+      "התלמיד יצליח להשלים 6–8 דקות ריצה רצופה בלי לעצור, כשההקפה האחרונה קרובה לראשונה בהפרש של שניות בודדות בלבד, ב־4 מתוך 5 סבבים.",
+      "התלמיד יצליח לשמור קצב שמאפשר לומר משפט קצר, ולבדוק זאת ביושר כשנשאל.",
+      "התלמיד יצליח לדרג את מאמצו בסולם המוסכם בהתאמה למה שהמורה מבחין, ב־3 מתוך 4 בדיקות.",
+      "התלמיד יצליח לפתוח בקצב בר-קיימא ולא בספרינט מקו הפתיחה, ולשמור רזרבה לדקות האחרונות.",
+      "התלמיד יצליח לתת לשותף משוב עובדתי אחד על הקצב או הנשימה שלו, ולקבוע יעד אישי לסבב הבא."
     ],
     "priorKnowledge": "AT-04 — שליחים.",
     "pathwayPosition": "המערך הקודם: AT-04 — שליחים.\nהמערך הנוכחי: מעבר מאתלטיקת מהירות לאתלטיקת סבולת — המדד הוא אחידות קצב לאורך זמן, לא זמן על קטע קצר. זהו המערך הראשון שבו התלמיד מנהל את המאמץ של עצמו.\nהמערך הבא: AT-06 — קפיצה לרוחק מעמידה.",
@@ -330,11 +330,11 @@
     "identity": "שם מלא: אתלטיקה 06 — קפיצה לרוחק מעמידה ונחיתה\nקוד מערך: AT-06-HE\nענף: אתלטיקה\nתת נושא: דחיפה ונחיתה\nגיל: 10–12\nרמת ניסיון: מתפתחים\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "לדחוף בשתי רגליים ולנחות על שתיהן ביציבות באזור בטוח.",
     "objectives": [
-      "דוחף בשתי רגליים בו־זמנית ונוחת על שתיהן, ב־4 מתוך 5 קפיצות.",
-      "מניף את הידיים אחורה ואז קדימה ומעלה ברגע הדחיפה, ולא משאיר אותן לאורך הגוף, ב־4 מתוך 5 קפיצות.",
-      "מכניס ברכיים בנחיתה ונשאר יציב שתי שניות בלי לנפול ובלי לדרוך אחורה, ב־3 מתוך 4 נחיתות.",
-      "קופץ אל אזור הבטיחות המסומן וממתין לאות לפני שיוצא ממנו או לפני שהתלמיד הבא קופץ.",
-      "מציע לשותף משוב עובדתי אחד על תנופת הידיים או הנחיתה שלו, וקובע לעצמו יעד אישי לקפיצה הבאה."
+      "התלמיד יצליח לדחוף בשתי רגליים בו־זמנית ולנחות על שתיהן, ב־4 מתוך 5 קפיצות.",
+      "התלמיד יצליח להניף את הידיים אחורה ואז קדימה ומעלה ברגע הדחיפה, ולא להשאיר אותן לאורך הגוף, ב־4 מתוך 5 קפיצות.",
+      "התלמיד יצליח להכניס ברכיים בנחיתה ולהישאר יציב שתי שניות בלי לנפול ובלי לדרוך אחורה, ב־3 מתוך 4 נחיתות.",
+      "התלמיד יצליח לקפוץ אל אזור הבטיחות המסומן ולהמתין לאות לפני שיוצא ממנו או לפני שהתלמיד הבא קופץ.",
+      "התלמיד יצליח להציע לשותף משוב עובדתי אחד על תנופת הידיים או הנחיתה שלו, ולקבוע לעצמו יעד אישי לקפיצה הבאה."
     ],
     "priorKnowledge": "AT-05 — קצב סבולת.",
     "pathwayPosition": "המערך הקודם: AT-05 — קצב סבולת.\nהמערך הנוכחי: פותח תחום חדש ביחידה — עד כה הכוח שימש לתנועה קדימה, וכאן הוא מתורגם לניתוק מהקרקע ולחזרה בטוחה אליה. עדיין מעמידה בלבד, בלי ריצת גישה ובלי מהירות נכנסת; אלה נוספים ב־AT-07.\nהמערך הבא: AT-07 — ריצת גישה וקפיצה לאזור.",
@@ -393,11 +393,11 @@
     "identity": "שם מלא: אתלטיקה 07 — ריצת גישה וקפיצה לאזור\nקוד מערך: AT-07-HE\nענף: אתלטיקה\nתת נושא: קצב גישה והמראה\nגיל: 11–14\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "לחבר ריצת גישה קצרה להמראה מרגל אחת ולנחיתה בטוחה על מזרן או אזור מסומן.",
     "objectives": [
-      "מבצע ריצת גישה של 5–7 צעדים בקצב אחיד ומגיע לנקודת ההמראה בלי לקצר או להאריך צעד, ב־4 מתוך 5 ניסיונות.",
-      "ממריא מרגל אחת קבועה ומעלה את הברך החופשית קדימה ומעלה.",
-      "נוחת על שתי רגליים על המזרן או באזור המסומן בלי לנפול, ב־4 מתוך 5 קפיצות.",
-      "שומר מבט קדימה לאורך כל הגישה ואינו מחפש את קו ההמראה בעיניים.",
-      "ממתין לפינוי המזרן לפני הניסיון הבא, מציע לשותף משוב עובדתי אחד על קצב הגישה או הנחיתה של השותף, וקובע לעצמו יעד אישי לקפיצה הבאה."
+      "התלמיד יצליח לבצע ריצת גישה של 5–7 צעדים בקצב אחיד ולהגיע לנקודת ההמראה בלי לקצר או להאריך צעד, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח להמריא מרגל אחת קבועה ולהעלות את הברך החופשית קדימה ומעלה.",
+      "התלמיד יצליח לנחות על שתי רגליים על המזרן או באזור המסומן בלי לנפול, ב־4 מתוך 5 קפיצות.",
+      "התלמיד יצליח לשמור מבט קדימה לאורך כל הגישה ואינו מחפש את קו ההמראה בעיניים.",
+      "התלמיד יצליח להמתין לפינוי המזרן לפני הניסיון הבא, להציע לשותף משוב עובדתי אחד על קצב הגישה או הנחיתה של השותף, ולקבוע לעצמו יעד אישי לקפיצה הבאה."
     ],
     "priorKnowledge": "AT-06 — קפיצה מעמידה.",
     "pathwayPosition": "המערך הקודם: AT-06 — קפיצה מעמידה.\nהמערך הנוכחי: מחבר את שני העולמות שנלמדו בנפרד — הריצה של AT-02 והקפיצה של AT-06 — והקושי האמיתי הוא התפר: המראה מתוך תנועה ומרגל אחת. עדיין גישה קצרה ואזור נחיתה רחב, בלי מדידת מרחק תחרותית.\nהמערך הבא: AT-08 — זריקת כדור רך למרחק.",
@@ -456,11 +456,11 @@
     "identity": "שם מלא: אתלטיקה 08 — זריקת כדור רך למרחק\nקוד מערך: AT-08-HE\nענף: אתלטיקה\nתת נושא: העברת כוח וזריקה\nגיל: 11–14\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "לזרוק כדור רך למרחק מתוך עמידת צד ובטיחות מלאה של אזור הזריקה.",
     "objectives": [
-      "מתייצב בעמידת צד למטרה — כתף הזרוע הזורקת אחורה, רגל נגדית קדימה — לפני כל זריקה, ב־4 מתוך 5 ניסיונות.",
-      "זורק עם מרפק גבוה מעל קו הכתף ומשחרר את הכדור קדימה־מעלה, בלי זריקה מהצד או מלמטה, ב־4 מתוך 5 ניסיונות.",
-      "מעביר משקל מהרגל האחורית לקדמית בזמן הזריקה ומסיים עם החזה פונה למטרה, ב־3 מתוך 4 זריקות.",
-      "ממתין לאות ולפינוי מלא של אזור הנחיתה לפני שהוא זורק, ב־100% מהסבבים.",
-      "מציין לשותף עובדה אחת שראה (זווית מרפק, עמידת צד או העברת משקל) ובוחר לעצמו יעד אחד לסבב הבא."
+      "התלמיד יצליח להתייצב בעמידת צד למטרה — כתף הזרוע הזורקת אחורה, רגל נגדית קדימה — לפני כל זריקה, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לזרוק עם מרפק גבוה מעל קו הכתף ולשחרר את הכדור קדימה־מעלה, בלי זריקה מהצד או מלמטה, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח להעביר משקל מהרגל האחורית לקדמית בזמן הזריקה ולסיים עם החזה פונה למטרה, ב־3 מתוך 4 זריקות.",
+      "התלמיד יצליח להמתין לאות ולפינוי מלא של אזור הנחיתה לפני שהוא זורק, ב־100% מהסבבים.",
+      "התלמיד יצליח לציין לשותף עובדה אחת שראה (זווית מרפק, עמידת צד או העברת משקל) ולבחור לעצמו יעד אחד לסבב הבא."
     ],
     "priorKnowledge": "AT-07 — ריצת גישה וקפיצה.",
     "pathwayPosition": "המערך הקודם: AT-07 — ריצת גישה וקפיצה.\nהמערך הנוכחי: מעביר את מקור הכוח מהרגליים בלבד אל שרשרת שלמה — עד כה התלמיד ייצר מהירות בריצה ובקפיצה, וכאן הוא לומד להעביר כוח מהרצפה דרך הגוף אל חפץ חיצוני. עדיין זריקה בודדת ממקום, ללא סיבוב גוף מלא וללא שילוב עם ריצת גישה; חיבור המיומנויות לרצף אחד נעשה ב־AT-09.\nהמערך הבא: AT-09 — תחנות אתלטיקה משולבות.",
@@ -519,11 +519,11 @@
     "identity": "שם מלא: אתלטיקה 09 — תחנות ריצה, קפיצה וזריקה\nקוד מערך: AT-09-HE\nענף: אתלטיקה\nתת נושא: תחנות רב־מיומנות\nגיל: 12–15\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "לבצע רצף תחנות ריצה, קפיצה וזריקה תוך ויסות מאמץ ומעבר עצמאי.",
     "objectives": [
-      "עובר בין התחנות ומבצע בכל אחת את הרמז הנכון לה — עמידה גבוהה בריצה, נחיתה על שתי רגליים בקפיצה, עמידת צד בזריקה — נכון בכל תחנה, ב־4 מתוך 5 סבבים.",
-      "מווסת מאמץ לאורך כל הסבב, כך שהתחנה האחרונה מבוצעת באותה איכות כמו הראשונה.",
-      "עובר בין תחנות רק לפי אות המעבר, ומשאיר את הציוד בטוח ומוכן לקבוצה הבאה.",
-      "רושם בכנות את התוצאה שלו בכל תחנה ומשווה אותה רק לתוצאתו הקודמת.",
-      "מוסר לשותפו הערה עובדתית אחת על הטכניקה שלו באיזושהי תחנה, וקובע יעד אישי לסבב הבא."
+      "התלמיד יצליח לעבור בין התחנות ולבצע בכל אחת את הרמז הנכון לה — עמידה גבוהה בריצה, נחיתה על שתי רגליים בקפיצה, עמידת צד בזריקה — נכון בכל תחנה, ב־4 מתוך 5 סבבים.",
+      "התלמיד יצליח לווסת מאמץ לאורך כל הסבב, כך שהתחנה האחרונה מבוצעת באותה איכות כמו הראשונה.",
+      "התלמיד יצליח לעבור בין תחנות רק לפי אות המעבר, ולהשאיר את הציוד בטוח ומוכן לקבוצה הבאה.",
+      "התלמיד יצליח לרשום בכנות את התוצאה שלו בכל תחנה ולהשוות אותה רק לתוצאתו הקודמת.",
+      "התלמיד יצליח למסור לשותפו הערה עובדתית אחת על הטכניקה שלו באיזושהי תחנה, ולקבוע יעד אישי לסבב הבא."
     ],
     "priorKnowledge": "AT-08 — זריקה למרחק.",
     "pathwayPosition": "המערך הקודם: AT-08 — זריקה למרחק.\nהמערך הנוכחי: הראשון שבו שלוש המיומנויות שנלמדו בנפרד — ריצה, קפיצה וזריקה — מופיעות באותו שיעור והתלמיד צריך להחליף ביניהן בלי לאבד איכות. החידוש הוא המעבר העצמאי וויסות המאמץ לאורך סבבים. עדיין ללא מדידה רשמית וללא תיעוד רב־שיעורי — אלה נוספים ב־AT-10.\nהמערך הבא: AT-10 — הערכת מסלול אתלטיקה.",
@@ -582,11 +582,11 @@
     "identity": "שם מלא: אתלטיקה 10 — הערכה מסכמת רב־תחומית\nקוד מערך: AT-10-HE\nענף: אתלטיקה\nתת נושא: יישום והערכת מסלול\nגיל: 13–16\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, סימוני רצפה, מקלות שליחים, כדורים רכים, מזרנים וסרט מדידה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "להציג שיפור נצפה בריצה, קפיצה וזריקה ולהסביר יעד אישי הבא.",
     "objectives": [
-      "מציג בכל אחת משלוש המיומנויות — ריצה, קפיצה, זריקה — את הרמז הטכני המרכזי בשני הניסיונות המדודים, ב־4 מתוך 5 מקרים.",
-      "מצביע על ראיה מוחשית אחת לשיפור מ־AT-09 — משתמש במשוב שקיבל בין שני הניסיונות כדי לשנות דבר אחד ומוגדר בניסיון השני.",
-      "רושם את התוצאות שלו בדייקנות ומשווה אותן רק לתוצאותיו הקודמות ביחידה.",
-      "שומר על כל נוהלי הבטיחות מיוזמתו — משמעת מסלול, אות זריקה ופינוי אזור הנחיתה — לאורך כל ההערכה — עובדה אחת והצעה אחת — ב־3 מתוך 4 סבבים.",
-      "מציין חוזקה אישית אחת ויעד הבא, כל אחד מהם נתמך בראיה מהשיעור ולא ברושם כללי."
+      "התלמיד יצליח להציג בכל אחת משלוש המיומנויות — ריצה, קפיצה, זריקה — את הרמז הטכני המרכזי בשני הניסיונות המדודים, ב־4 מתוך 5 מקרים.",
+      "התלמיד יצליח להצביע על ראיה מוחשית אחת לשיפור מ־AT-09 — להשתמש במשוב שקיבל בין שני הניסיונות כדי לשנות דבר אחד ומוגדר בניסיון השני.",
+      "התלמיד יצליח לרשום את התוצאות שלו בדייקנות ולהשוות אותן רק לתוצאותיו הקודמות ביחידה.",
+      "התלמיד יצליח לשמור על כל נוהלי הבטיחות מיוזמתו — משמעת מסלול, אות זריקה ופינוי אזור הנחיתה — לאורך כל ההערכה — עובדה אחת והצעה אחת — ב־3 מתוך 4 סבבים.",
+      "התלמיד יצליח לציין חוזקה אישית אחת ויעד הבא, כל אחד מהם נתמך בראיה מהשיעור ולא ברושם כללי."
     ],
     "priorKnowledge": "AT-09 — תחנות משולבות.",
     "pathwayPosition": "המערך הקודם: AT-09 — תחנות משולבות.\nהמערך הנוכחי: הופך את התלמיד ממבצע למעריך של עצמו — בפעם הראשונה ביחידה יש מדידה רשמית, הזדמנות שנייה אחרי משוב, ודרישה להצביע על ראיה. היחידה נסגרת כאן: מיומנויות חדשות, מרחקים ארוכים יותר ותחרויות רשמיות שייכים למסלול המתקדם שאחריה.\nהמערך הבא: מסלול מתקדם או יחידת שיפור אישית.",
@@ -647,11 +647,11 @@
     "identity": "Full title: Athletics 01 — Standing Start and Short Acceleration\nLesson code: AT-01-EN\nSport: Athletics\nSubtopic: standing-start position, first steps, and controlled deceleration\nAge: 10–13\nExperience: beginner\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 30 cones, 8–12 batons or beanbags, and lane markers\nSpace: court, field, or straight track with 15–20 metre lanes and run-off area\nComplexity: foundation",
     "purpose": "Teach a safe standing start, progressive acceleration, and controlled finish as the foundation for school sprinting.",
     "objectives": [
-      "Sets a stable split stance with a consistent lead foot before the signal.",
-      "Starts on the signal and takes three short, quick first steps in 4 of 5 attempts.",
-      "Holds a forward lean as one line through the first ten metres.",
-      "Runs through the finish line and slows gradually inside the run-off zone, with no sudden stop.",
-      "Stays in their own lane and gives a partner one factual comment."
+      "The student can set a stable split stance with a consistent lead foot before the signal.",
+      "The student can start on the signal and take three short, quick first steps in 4 of 5 attempts.",
+      "The student can hold a forward lean as one line through the first ten metres.",
+      "The student can run through the finish line and slow gradually inside the run-off zone, with no sudden stop.",
+      "The student can stay in their own lane and give a partner one factual comment."
     ],
     "priorKnowledge": "No athletics lesson required; students need safe lane and stop-signal routines.",
     "pathwayPosition": "Previous lesson: None — this is the opening lesson of the athletics sequence.\nCurrent lesson: As the opening athletics lesson it establishes the three things every sprint depends on: a stable split stance, short quick first steps under a forward lean, and a deceleration that happens gradually inside a run-off zone. It withholds refined running technique at full speed and the systematic teaching of reaction to changing signals — the core task uses one predictable command, and the late-signal option is only an optional extension for advanced learners — which AT-02 and AT-03 develop properly.\nNext lesson: AT-02 — running posture, arm action, and acceleration.",
@@ -710,11 +710,11 @@
     "identity": "Full title: Athletics 02 — Running Posture, Arm Action, and Acceleration\nLesson code: AT-02-EN\nSport: Athletics\nSubtopic: running technique and acceleration\nAge: 10–12\nExperience: developing\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Maintain tall posture and forward–back arm action during a 20 m acceleration.",
     "objectives": [
-      "Holds a tall running posture with the hips underneath the shoulders through the full 20 metres, in 4 of 5 runs.",
-      "Drives the elbows backwards in a forward–back action beside the body, with the hands never crossing the midline, in most runs.",
-      "Lengthens the stride gradually rather than over-striding from the first step, matching effort to the 20-metre distance — shown by being able to breathe and talk without excessive difficulty by the end of the acceleration — in 3 of 4 runs.",
-      "Runs in the assigned lane, starts only on the signal, and keeps two arm lengths from the runner ahead.",
-      "Observes a partner, reports one factual cue about their posture or arm action, and states a personal goal for the next run."
+      "The student can hold a tall running posture with the hips underneath the shoulders through the full 20 metres, in 4 of 5 runs.",
+      "The student can drive the elbows backwards in a forward–back action beside the body, with the hands never crossing the midline, in most runs.",
+      "The student can lengthen the stride gradually rather than over-striding from the first step, matching effort to the 20-metre distance — shown by being able to breathe and talk without excessive difficulty by the end of the acceleration — in 3 of 4 runs.",
+      "The student can run in the assigned lane, start only on the signal, and keep two arm lengths from the runner ahead.",
+      "The student can observe a partner, report one factual cue about their posture or arm action, and state a personal goal for the next run."
     ],
     "priorKnowledge": "AT-01 — standing start and short acceleration.",
     "pathwayPosition": "Previous lesson: AT-01 — standing start and short acceleration.\nCurrent lesson: It refines what AT-01 began: the start position is now assumed rather than taught, and attention moves to what the body does during the run — a tall posture, an efficient forward–back arm action, and a stride that lengthens progressively over 20 metres. It withholds any unpredictable start signal, since every run begins on a single known command, which AT-03 changes.\nNext lesson: AT-03 — reaction and start to changing signals.",
@@ -773,11 +773,11 @@
     "identity": "Full title: Athletics 03 — Reaction and Start to Changing Signals\nLesson code: AT-03-EN\nSport: Athletics\nSubtopic: reaction and start\nAge: 10–12\nExperience: developing\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Respond to a visual or sound signal and accelerate in balance without anticipating.",
     "objectives": [
-      "Holds the set position completely still until the signal is given, with no false start, in 4 of 5 attempts.",
-      "Reacts to the signal and takes the first step within roughly half a second, without rocking or pre-moving.",
-      "Reads a colour or sound cue at the start and accelerates in the matching direction in 3 of 4 attempts.",
-      "Accelerates in balance after reacting, holding the posture and arm action from AT-02 rather than stumbling out of the start.",
-      "Observes a partner, reports one factual cue about their stillness or reaction, and states a personal goal for the next attempt."
+      "The student can hold the set position completely still until the signal is given, with no false start, in 4 of 5 attempts.",
+      "The student can react to the signal and take the first step within roughly half a second, without rocking or pre-moving.",
+      "The student can read a colour or sound cue at the start and accelerate in the matching direction in 3 of 4 attempts.",
+      "The student can accelerate in balance after reacting, holding the posture and arm action from AT-02 rather than stumbling out of the start.",
+      "The student can observe a partner, report one factual cue about their stillness or reaction, and state a personal goal for the next attempt."
     ],
     "priorKnowledge": "AT-02 — running posture and acceleration.",
     "pathwayPosition": "Previous lesson: AT-02 — running posture and acceleration.\nCurrent lesson: It removes the predictability the pathway has relied on: the start command may now be visual or auditory, may come at any moment, and in the second task also determines which direction to run. It withholds any partner or baton, so the reaction remains entirely the individual's own — which AT-04 changes with the relay exchange.\nNext lesson: AT-04 — relay baton exchange.",
@@ -836,11 +836,11 @@
     "identity": "Full title: Athletics 04 — Safe Relay Baton Exchange\nLesson code: AT-04-EN\nSport: Athletics\nSubtopic: relay exchange\nAge: 10–13\nExperience: developing\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Exchange a baton inside a marked zone with matched speed and clear communication.",
     "objectives": [
-      "Receives the baton inside the marked exchange zone, with no exchange happening before or beyond it, in 4 of 5 attempts.",
-      "Holds the receiving hand still and steady behind the hip, palm open and fixed, until the baton is placed in it.",
-      "Calls the agreed word at the right moment, so the outgoing runner starts neither too early nor too late, in 3 of 4 exchanges.",
-      "Keeps running forward through and after the exchange, without stopping, slowing sharply, or turning to look back.",
-      "Observes a partner, reports one factual cue about their hand position or call, and states a personal goal for the next exchange."
+      "The student can receive the baton inside the marked exchange zone, with no exchange happening before or beyond it, in 4 of 5 attempts.",
+      "The student can hold the receiving hand still and steady behind the hip, palm open and fixed, until the baton is placed in it.",
+      "The student can call the agreed word at the right moment, so the outgoing runner starts neither too early nor too late, in 3 of 4 exchanges.",
+      "The student can keep running forward through and after the exchange, without stopping, slowing sharply, or turning to look back.",
+      "The student can observe a partner, report one factual cue about their hand position or call, and state a personal goal for the next exchange."
     ],
     "priorKnowledge": "AT-03 — reaction and start.",
     "pathwayPosition": "Previous lesson: AT-03 — reaction and start.\nCurrent lesson: It turns the individual sprinting of AT-01 to AT-03 into a shared task: two runners must now match speeds, communicate, and move a baton between them inside a marked zone. It withholds competitive timing entirely — exchanges are scored for safety and accuracy, never for how fast a team finishes — and it withholds the endurance pacing AT-05 introduces.\nNext lesson: AT-05 — personal endurance pacing.",
@@ -899,11 +899,11 @@
     "identity": "Full title: Athletics 05 — Personal Endurance Pacing\nLesson code: AT-05-EN\nSport: Athletics\nSubtopic: pace and effort regulation\nAge: 11–14\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Hold a steady personal pace for 6–8 minutes and rate effort honestly.",
     "objectives": [
-      "Holds a steady pace for 6–8 minutes without stopping, finishing the final lap within a few seconds of the first, in 4 of 5 rounds.",
-      "Maintains a pace at which a short sentence can still be spoken, and checks this honestly when asked.",
-      "Rates their own effort on the agreed scale in a way that matches what the teacher observes, in 3 of 4 checks.",
-      "Starts at a sustainable pace rather than sprinting from the line, keeping a reserve for the final minutes.",
-      "Reports one factual cue about a partner's pacing or breathing and states a personal goal for the next round."
+      "The student can hold a steady pace for 6–8 minutes without stopping, finishing the final lap within a few seconds of the first, in 4 of 5 rounds.",
+      "The student can maintain a pace at which a short sentence can still be spoken, and check this honestly when asked.",
+      "The student can rate their own effort on the agreed scale in a way that matches what the teacher observes, in 3 of 4 checks.",
+      "The student can start at a sustainable pace rather than sprinting from the line, keeping a reserve for the final minutes.",
+      "The student can report one factual cue about a partner's pacing or breathing and state a personal goal for the next round."
     ],
     "priorKnowledge": "AT-04 — relay exchange.",
     "pathwayPosition": "Previous lesson: AT-04 — relay exchange.\nCurrent lesson: It changes the question from how fast to how long: after four lessons built on short maximal efforts, students now choose a pace they can hold for 6–8 minutes and learn to judge their own effort honestly. It withholds all jumping and throwing events, and all competition between students, since every target here is personal — AT-06 turns to take-off and landing.\nNext lesson: AT-06 — standing long jump.",
@@ -962,11 +962,11 @@
     "identity": "Full title: Athletics 06 — Standing Long Jump and Landing\nLesson code: AT-06-EN\nSport: Athletics\nSubtopic: take-off and landing\nAge: 10–12\nExperience: developing\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Push from two feet and land on both feet with control in a safe zone.",
     "objectives": [
-      "Swings both arms back and then forward in time with the push, so the arms lead the take-off, in 4 of 5 jumps.",
-      "Takes off from two feet simultaneously and lands on two feet, absorbing through bent knees, in 4 of 5 jumps.",
-      "Holds the landing still for two full seconds without stepping, hopping, or putting a hand down, in 3 of 4 jumps.",
-      "Jumps into the marked safe zone and waits for the signal before leaving it or before the next student jumps.",
-      "Reports one factual cue about a partner's arm swing or landing and states a personal goal for the next jump."
+      "The student can swing both arms back and then forward in time with the push, so the arms lead the take-off, in 4 of 5 jumps.",
+      "The student can take off from two feet simultaneously and land on two feet, absorbing through bent knees, in 4 of 5 jumps.",
+      "The student can hold the landing still for two full seconds without stepping, hopping, or putting a hand down, in 3 of 4 jumps.",
+      "The student can jump into the marked safe zone and wait for the signal before leaving it or before the next student jumps.",
+      "The student can report one factual cue about a partner's arm swing or landing and state a personal goal for the next jump."
     ],
     "priorKnowledge": "AT-05 — endurance pacing.",
     "pathwayPosition": "Previous lesson: AT-05 — endurance pacing.\nCurrent lesson: It opens the jumping half of the pathway, moving from running to a two-footed take-off and, above all, a controlled two-footed landing. It withholds the approach run entirely — every jump is made from standing, so the take-off can be learned without speed — which AT-07 adds.\nNext lesson: AT-07 — approach run and jump to zone.",
@@ -1025,11 +1025,11 @@
     "identity": "Full title: Athletics 07 — Approach Run and Jump to a Zone\nLesson code: AT-07-EN\nSport: Athletics\nSubtopic: approach rhythm and take-off\nAge: 11–14\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Link a short approach to one-foot take-off and safe two-foot landing on a mat or zone.",
     "objectives": [
-      "Runs a consistent 5–7 stride approach that arrives at the take-off mark without stuttering or stretching, in 4 of 5 attempts.",
-      "Takes off from one foot at the marked board or line, without over-running it or braking before it.",
-      "Lands on two feet inside the marked zone with bent knees, holding the landing under control, in 4 of 5 jumps.",
-      "Keeps the eyes forward through the approach and take-off rather than looking down to find the take-off mark.",
-      "Reports one factual cue about a partner's approach rhythm or landing and states a personal goal for the next jump."
+      "The student can run a consistent 5–7 stride approach that arrives at the take-off mark without stuttering or stretching, in 4 of 5 attempts.",
+      "The student can take off from one foot at the marked board or line, without over-running it or braking before it.",
+      "The student can land on two feet inside the marked zone with bent knees, holding the landing under control, in 4 of 5 jumps.",
+      "The student can keep the eyes forward through the approach and take-off rather than looking down to find the take-off mark.",
+      "The student can report one factual cue about a partner's approach rhythm or landing and state a personal goal for the next jump."
     ],
     "priorKnowledge": "AT-06 — standing long jump.",
     "pathwayPosition": "Previous lesson: AT-06 — standing long jump.\nCurrent lesson: It adds the run-up AT-06 withheld: the student now carries speed into a one-footed take-off and must still land on two feet under control. It withholds any measured competition for distance and any hard landing surface — jumps go into a wide zone or onto mats, and accuracy of take-off is what scores — while AT-08 turns to throwing.\nNext lesson: AT-08 — soft-ball distance throw.",
@@ -1088,11 +1088,11 @@
     "identity": "Full title: Athletics 08 — Soft-Ball Throw for Distance\nLesson code: AT-08-EN\nSport: Athletics\nSubtopic: force transfer and throwing\nAge: 11–14\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Throw a soft ball for distance from side-on stance with a fully cleared sector.",
     "objectives": [
-      "Stands side-on with the non-throwing shoulder towards the sector and the feet split, before every throw.",
-      "Transfers weight from the back foot to the front foot during the throw, so the legs and trunk contribute rather than the arm alone, in 4 of 5 throws.",
-      "Keeps the throwing elbow above shoulder height and releases forward and upward at roughly 45 degrees, in 3 of 4 throws.",
-      "Throws only after the sector is confirmed clear and only on the signal, and never collects until collection is called.",
-      "Reports one factual cue about a partner's stance or weight transfer and states a personal goal for the next throw."
+      "The student can stand side-on with the non-throwing shoulder towards the sector and the feet split, before every throw.",
+      "The student can transfer weight from the back foot to the front foot during the throw, so the legs and trunk contribute rather than the arm alone, in 4 of 5 throws.",
+      "The student can keep the throwing elbow above shoulder height and release forward and upward at roughly 45 degrees, in 3 of 4 throws.",
+      "The student can throw only after the sector is confirmed clear and only on the signal, and never collect until collection is called.",
+      "The student can report one factual cue about a partner's stance or weight transfer and state a personal goal for the next throw."
     ],
     "priorKnowledge": "AT-07 — approach and jump.",
     "pathwayPosition": "Previous lesson: AT-07 — approach and jump.\nCurrent lesson: It completes the three athletics disciplines by adding throwing: distance is now generated through a side-on stance and a transfer of weight from back foot to front, rather than by arm strength. It withholds any rotational or run-up throw, since all throwing here is from a standing or single-step position with soft implements — AT-09 combines running, jumping, and throwing into one circuit.\nNext lesson: AT-09 — combined athletics stations.",
@@ -1151,11 +1151,11 @@
     "identity": "Full title: Athletics 09 — Running, Jumping, and Throwing Circuit\nLesson code: AT-09-EN\nSport: Athletics\nSubtopic: multi-skill circuit\nAge: 12–15\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Complete running, jumping, and throwing stations with regulated effort and independent transitions.",
     "objectives": [
-      "Performs the key cue of each station — tall running posture, two-footed landing, side-on throwing — correctly at every station, in 4 of 5 rounds.",
-      "Regulates effort across the whole circuit, so the final station is performed as well as the first.",
-      "Moves between stations only on the transition signal, leaving equipment safe and ready for the next group.",
-      "Records their own result honestly at each station and compares it only with their own previous score.",
-      "Reports one factual cue about a partner's technique at any station and states a personal goal for the next round."
+      "The student can perform the key cue of each station — tall running posture, two-footed landing, side-on throwing — correctly at every station, in 4 of 5 rounds.",
+      "The student can regulate effort across the whole circuit, so the final station is performed as well as the first.",
+      "The student can move between stations only on the transition signal, leaving equipment safe and ready for the next group.",
+      "The student can record their own result honestly at each station and compare it only with their own previous score.",
+      "The student can report one factual cue about a partner's technique at any station and state a personal goal for the next round."
     ],
     "priorKnowledge": "AT-08 — distance throw.",
     "pathwayPosition": "Previous lesson: AT-08 — distance throw.\nCurrent lesson: It brings the three disciplines together for the first time, asking students to move independently between running, jumping, and throwing stations while holding technique as fatigue accumulates. It withholds formal assessment — the teacher still coaches at each station and nothing is recorded for a grade — which AT-10 replaces with observation against criteria.\nNext lesson: AT-10 — athletics pathway assessment.",
@@ -1214,11 +1214,11 @@
     "identity": "Full title: Athletics 10 — Final Multi-Event Assessment\nLesson code: AT-10-EN\nSport: Athletics\nSubtopic: application and pathway assessment\nAge: 13–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, floor marks, batons, soft balls, mats, tape\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Show observable improvement in run, jump, and throw and explain the next personal goal.",
     "objectives": [
-      "Demonstrates the key technical cue of each event — running posture, jumping take-off and landing, throwing stance and transfer — in both measured attempts, in 4 of 5 cases.",
-      "Uses the feedback given between the two attempts to change something specific in the second attempt.",
-      "Records their own results accurately and compares them only against their own earlier scores in the unit.",
-      "Follows every safety routine unprompted — lane discipline, throwing signal, landing-zone clearance — throughout the assessment.",
-      "States one personal strength and one next goal, each supported by evidence from the lesson rather than a general impression."
+      "The student can demonstrate the key technical cue of each event — running posture, jumping take-off and landing, throwing stance and transfer — in both measured attempts, in 4 of 5 cases.",
+      "The student can use the feedback given between the two attempts to change something specific in the second attempt.",
+      "The student can record their own results accurately and compare them only against their own earlier scores in the unit.",
+      "The student can follow every safety routine unprompted — lane discipline, throwing signal, landing-zone clearance — throughout the assessment.",
+      "The student can state one personal strength and one next goal, each supported by evidence from the lesson rather than a general impression."
     ],
     "priorKnowledge": "AT-09 — combined stations.",
     "pathwayPosition": "Previous lesson: AT-09 — combined stations.\nCurrent lesson: It teaches nothing new and instead gathers evidence across all three disciplines, giving each student two measured attempts per event with coaching in between, so that improvement rather than raw result is what gets recorded. It withholds no further content in this pathway — what it leaves to an advanced unit is competitive events, standardised measurement, and event specialisation.\nNext lesson: Advanced pathway or personal improvement unit.",
@@ -1279,11 +1279,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 01 — البدء من الوقوف والتسارع القصير\nالرمز: AT-01-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: وضع البدء والخطوات الأولى والتباطؤ المضبوط\nالعمر: 10–13 سنة\nالخبرة: مبتدئة\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 30 مخروطًا، 8–12 عصا أو كيسًا صغيرًا وعلامات مسار\nالمكان: مسار مستقيم 15–20 مترًا مع منطقة تباطؤ\nالتعقيد: أساسي",
     "purpose": "تعليم بدء آمن وتسارع تدريجي وإنهاء مضبوط كأساس للجري السريع المدرسي.",
     "objectives": [
-      "يتخذ وقفة منقسمة ثابتة بقدم أمامية ثابتة قبل الإشارة.",
-      "ينطلق عند الإشارة ويؤدي ثلاث خطوات أولى قصيرة وسريعة في 4 من 5 محاولات.",
-      "يحافظ على ميل أمامي كخط واحد في أول عشرة أمتار.",
-      "يعبر خط النهاية ويتباطأ تدريجيًا داخل منطقة التباطؤ دون توقف مفاجئ.",
-      "يبقى في مساره ويقدم لشريكه ملاحظة واقعية."
+      "يستطيع الطالب أن يتخذ وقفة منقسمة ثابتة بقدم أمامية ثابتة قبل الإشارة.",
+      "يستطيع الطالب أن ينطلق عند الإشارة ويؤدي ثلاث خطوات أولى قصيرة وسريعة في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يحافظ على ميل أمامي كخط واحد في أول عشرة أمتار.",
+      "يستطيع الطالب أن يعبر خط النهاية ويتباطأ تدريجيًا داخل منطقة التباطؤ دون توقف مفاجئ.",
+      "يستطيع الطالب أن يبقى في مساره ويقدم لشريكه ملاحظة واقعية."
     ],
     "priorKnowledge": "لا يلزم درس سابق؛ تلزم قواعد المسار وإشارة التوقف.",
     "pathwayPosition": "الدرس السابق: لا يوجد — هذا هو الدرس الافتتاحي لسلسلة ألعاب القوى.\nالدرس الحالي: بوصفه الدرس الافتتاحي في ألعاب القوى، يثبّت ثلاثة أمور يقوم عليها كل عدو: وقفة منقسمة ثابتة، وخطوات أولى قصيرة وسريعة تحت ميل أمامي، وتباطؤ تدريجي داخل منطقة تباطؤ. ويؤجل تقنية الجري المصقولة بالسرعة الكاملة والتعليم المنهجي للاستجابة لإشارات متغيرة — فالمهمة الأساسية تستخدم أمرًا واحدًا متوقعًا، والإشارة المتأخرة مجرد توسيع اختياري للمتقدمين — وهو ما يطوره AT-02 وAT-03.\nالدرس التالي: AT-02 — وضع الجري وعمل الذراعين والتسارع.",
@@ -1342,11 +1342,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 02 — وضع الجري وعمل الذراعين والتسارع\nالرمز: AT-02-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: تقنية الجري والتسارع\nالعمر: 10–12 سنة\nالخبرة: نامٍ\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "الحفاظ على وضع مرتفع وحركة الذراعين أمامًا–خلفًا خلال تسارع 20 م.",
     "objectives": [
-      "يحافظ على وضع جري مرتفع، والوركان تحت الكتفين، طوال 20 مترًا في 4 من 5 محاولات.",
-      "يدفع المرفقين للخلف بحركة أمامًا–خلفًا بجانب الجسم، دون أن تعبر اليدان خط الوسط، في معظم المحاولات.",
-      "يطيل الخطوة تدريجيًا بدل مدّها من الخطوة الأولى، ويلائم الجهد مع مسافة 20 مترًا — ويظهر ذلك من قدرته على التنفس والحديث دون صعوبة زائدة مع نهاية التسارع — في 3 من 4 محاولات.",
-      "يجري في المسار المحدد، وينطلق عند الإشارة فقط، ويحافظ على مسافة ذراعين من العداء الذي أمامه.",
-      "يلاحظ شريكه ويذكر علامة واقعية واحدة عن وضعه أو عمل ذراعيه، ويحدد هدفًا شخصيًا للمحاولة التالية."
+      "يستطيع الطالب أن يحافظ على وضع جري مرتفع، والوركان تحت الكتفين، طوال 20 مترًا في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يدفع المرفقين للخلف بحركة أمامًا–خلفًا بجانب الجسم، دون أن تعبر اليدان خط الوسط، في معظم المحاولات.",
+      "يستطيع الطالب أن يطيل الخطوة تدريجيًا بدل مدّها من الخطوة الأولى، ويلائم الجهد مع مسافة 20 مترًا — ويظهر ذلك من قدرته على التنفس والحديث دون صعوبة زائدة مع نهاية التسارع — في 3 من 4 محاولات.",
+      "يستطيع الطالب أن يجري في المسار المحدد، وينطلق عند الإشارة فقط، ويحافظ على مسافة ذراعين من العداء الذي أمامه.",
+      "يستطيع الطالب أن يلاحظ شريكه ويذكر علامة واقعية واحدة عن وضعه أو عمل ذراعيه، ويحدد هدفًا شخصيًا للمحاولة التالية."
     ],
     "priorKnowledge": "AT-01 — البدء من الوقوف والتسارع القصير.",
     "pathwayPosition": "الدرس السابق: AT-01 — البدء من الوقوف والتسارع القصير.\nالدرس الحالي: يصقل ما بدأه AT-01: صار وضع البدء مفترضًا لا موضوعًا للتعليم، وينتقل الانتباه إلى ما يفعله الجسم أثناء الجري — وضع مرتفع، وحركة ذراعين فعالة أمامًا–خلفًا، وخطوة تطول تدريجيًا على مدى 20 مترًا. ويؤجل أي إشارة بدء غير متوقعة، فكل محاولة تبدأ بأمر واحد معروف، وهو ما يغيّره AT-03.\nالدرس التالي: AT-03 — الاستجابة والبدء لإشارة متغيرة.",
@@ -1405,11 +1405,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 03 — الاستجابة والبدء لإشارة متغيرة\nالرمز: AT-03-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: الاستجابة والبدء\nالعمر: 10–12 سنة\nالخبرة: نامٍ\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "الاستجابة لإشارة بصرية أو صوتية والتسارع باتزان دون بداية مبكرة.",
     "objectives": [
-      "يثبت في وضع الاستعداد دون أي حركة حتى تُعطى الإشارة، دون بداية مبكرة، في 4 من 5 محاولات.",
-      "يستجيب للإشارة ويخطو الخطوة الأولى خلال نحو نصف ثانية، دون تأرجح أو تحرك مسبق.",
-      "يقرأ إشارة لونية أو صوتية عند البدء ويتسارع في الاتجاه المطابق في 3 من 4 محاولات.",
-      "يتسارع متزنًا بعد الاستجابة، محافظًا على الوضع وعمل الذراعين من AT-02 بدل التعثر عند الانطلاق.",
-      "يلاحظ شريكه ويذكر علامة واقعية واحدة عن ثباته أو استجابته، ويحدد هدفًا شخصيًا للمحاولة التالية."
+      "يستطيع الطالب أن يثبت في وضع الاستعداد دون أي حركة حتى تُعطى الإشارة، دون بداية مبكرة، في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يستجيب للإشارة ويخطو الخطوة الأولى خلال نحو نصف ثانية، دون تأرجح أو تحرك مسبق.",
+      "يستطيع الطالب أن يقرأ إشارة لونية أو صوتية عند البدء ويتسارع في الاتجاه المطابق في 3 من 4 محاولات.",
+      "يستطيع الطالب أن يتسارع متزنًا بعد الاستجابة، محافظًا على الوضع وعمل الذراعين من AT-02 بدل التعثر عند الانطلاق.",
+      "يستطيع الطالب أن يلاحظ شريكه ويذكر علامة واقعية واحدة عن ثباته أو استجابته، ويحدد هدفًا شخصيًا للمحاولة التالية."
     ],
     "priorKnowledge": "AT-02 — وضع الجري وعمل الذراعين والتسارع.",
     "pathwayPosition": "الدرس السابق: AT-02 — وضع الجري وعمل الذراعين والتسارع.\nالدرس الحالي: يزيل القابلية للتوقع التي اعتمد عليها المسار حتى الآن: قد يكون أمر البدء بصريًا أو صوتيًا، وقد يأتي في أي لحظة، وفي المهمة الثانية يحدد أيضًا اتجاه الجري. ويؤجل أي شريك أو عصا، فتبقى الاستجابة فردية بالكامل — وهو ما يغيّره AT-04 بتسليم التتابع.\nالدرس التالي: AT-04 — تسليم عصا التتابع بأمان.",
@@ -1468,11 +1468,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 04 — تسليم عصا التتابع بأمان\nالرمز: AT-04-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: التتابع والتسليم\nالعمر: 10–13 سنة\nالخبرة: نامٍ\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "تسليم العصا داخل منطقة مع توافق السرعة وتواصل واضح.",
     "objectives": [
-      "يستلم العصا داخل منطقة التسليم المحددة، دون تسليم قبلها أو بعدها، في 4 من 5 محاولات.",
-      "يبقي يد الاستلام ثابتة خلف الورك، والكف مفتوحة وساكنة، حتى توضع العصا فيها.",
-      "ينادي الكلمة المتفق عليها في اللحظة المناسبة، فلا ينطلق العداء المستلم مبكرًا جدًا ولا متأخرًا، في 3 من 4 تسليمات.",
-      "يواصل الجري للأمام خلال التسليم وبعده، دون توقف أو إبطاء حاد أو التفات إلى الخلف.",
-      "يلاحظ شريكه ويذكر علامة واقعية واحدة عن وضع يده أو ندائه، ويحدد هدفًا شخصيًا للتسليم التالي."
+      "يستطيع الطالب أن يستلم العصا داخل منطقة التسليم المحددة، دون تسليم قبلها أو بعدها، في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يبقي يد الاستلام ثابتة خلف الورك، والكف مفتوحة وساكنة، حتى توضع العصا فيها.",
+      "يستطيع الطالب أن ينادي الكلمة المتفق عليها في اللحظة المناسبة، فلا ينطلق العداء المستلم مبكرًا جدًا ولا متأخرًا، في 3 من 4 تسليمات.",
+      "يستطيع الطالب أن يواصل الجري للأمام خلال التسليم وبعده، دون توقف أو إبطاء حاد أو التفات إلى الخلف.",
+      "يستطيع الطالب أن يلاحظ شريكه ويذكر علامة واقعية واحدة عن وضع يده أو ندائه، ويحدد هدفًا شخصيًا للتسليم التالي."
     ],
     "priorKnowledge": "AT-03 — الاستجابة والبدء لإشارة متغيرة.",
     "pathwayPosition": "الدرس السابق: AT-03 — الاستجابة والبدء لإشارة متغيرة.\nالدرس الحالي: يحوّل العدو الفردي في AT-01 حتى AT-03 إلى مهمة مشتركة: على عداءين الآن أن يوفّقا بين سرعتيهما، ويتواصلا، وينقلا العصا بينهما داخل منطقة محددة. ويؤجل التوقيت التنافسي كليًا — فالتسليمات تُقيَّم بالسلامة والدقة، لا بسرعة إنهاء الفريق — ويؤجل كذلك تنظيم إيقاع التحمل الذي يقدمه AT-05.\nالدرس التالي: AT-05 — إيقاع شخصي لجري التحمل.",
@@ -1531,11 +1531,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 05 — إيقاع شخصي لجري التحمل\nالرمز: AT-05-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: تنظيم الإيقاع والجهد\nالعمر: 11–14 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "الحفاظ على إيقاع شخصي 6–8 دقائق وتقدير الجهد بصدق.",
     "objectives": [
-      "يحافظ على إيقاع ثابت 6–8 دقائق دون توقف، وينهي الدورة الأخيرة بفارق ثوانٍ قليلة عن الأولى، في 4 من 5 جولات.",
-      "يحافظ على إيقاع يستطيع فيه نطق جملة قصيرة، ويتحقق من ذلك بصدق حين يُسأل.",
-      "يقدّر جهده على المقياس المتفق عليه تقديرًا يطابق ما يلاحظه المعلم في 3 من 4 مرات.",
-      "يبدأ بإيقاع يمكن الحفاظ عليه بدل العدو من خط البداية، محتفظًا باحتياطي للدقائق الأخيرة.",
-      "يذكر علامة واقعية واحدة عن إيقاع شريكه أو تنفسه، ويحدد هدفًا شخصيًا للجولة التالية."
+      "يستطيع الطالب أن يحافظ على إيقاع ثابت 6–8 دقائق دون توقف، وينهي الدورة الأخيرة بفارق ثوانٍ قليلة عن الأولى، في 4 من 5 جولات.",
+      "يستطيع الطالب أن يحافظ على إيقاع يستطيع فيه نطق جملة قصيرة، ويتحقق من ذلك بصدق حين يُسأل.",
+      "يستطيع الطالب أن يقدّر جهده على المقياس المتفق عليه تقديرًا يطابق ما يلاحظه المعلم في 3 من 4 مرات.",
+      "يستطيع الطالب أن يبدأ بإيقاع يمكن الحفاظ عليه بدل العدو من خط البداية، محتفظًا باحتياطي للدقائق الأخيرة.",
+      "يستطيع الطالب أن يذكر علامة واقعية واحدة عن إيقاع شريكه أو تنفسه، ويحدد هدفًا شخصيًا للجولة التالية."
     ],
     "priorKnowledge": "AT-04 — تسليم عصا التتابع بأمان.",
     "pathwayPosition": "الدرس السابق: AT-04 — تسليم عصا التتابع بأمان.\nالدرس الحالي: يغيّر السؤال من «كم أنا سريع؟» إلى «كم أستطيع أن أستمر؟»: بعد أربعة دروس قامت على جهود قصيرة قصوى، يختار الطلبة الآن إيقاعًا يستطيعون الحفاظ عليه 6–8 دقائق ويتعلمون تقدير جهدهم بصدق. ويؤجل فعاليات الوثب والرمي كلها، وأي منافسة بين الطلبة، لأن كل هدف هنا شخصي — وينتقل AT-06 إلى الارتقاء والهبوط.\nالدرس التالي: AT-06 — الوثب الطويل من الثبات والهبوط.",
@@ -1594,11 +1594,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 06 — الوثب الطويل من الثبات والهبوط\nالرمز: AT-06-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: الدفع والهبوط\nالعمر: 10–12 سنة\nالخبرة: نامٍ\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "الدفع بالقدمين والهبوط عليهما باتزان في منطقة آمنة.",
     "objectives": [
-      "يؤرجح الذراعين للخلف ثم للأمام متزامنتين مع الدفع، فتقود الذراعان الارتقاء، في 4 من 5 وثبات.",
-      "يرتقي من القدمين معًا ويهبط على القدمين، ممتصًا الهبوط بركبتين مثنيتين، في 4 من 5 وثبات.",
-      "يثبت في وضع الهبوط ثانيتين كاملتين دون خطوة أو قفزة أو وضع يد على الأرض، في 3 من 4 وثبات.",
-      "يثب إلى منطقة الأمان المحددة وينتظر الإشارة قبل مغادرتها أو قبل أن يثب الطالب التالي.",
-      "يذكر علامة واقعية واحدة عن أرجحة ذراعي شريكه أو هبوطه، ويحدد هدفًا شخصيًا للوثبة التالية."
+      "يستطيع الطالب أن يؤرجح الذراعين للخلف ثم للأمام متزامنتين مع الدفع، فتقود الذراعان الارتقاء، في 4 من 5 وثبات.",
+      "يستطيع الطالب أن يرتقي من القدمين معًا ويهبط على القدمين، ممتصًا الهبوط بركبتين مثنيتين، في 4 من 5 وثبات.",
+      "يستطيع الطالب أن يثبت في وضع الهبوط ثانيتين كاملتين دون خطوة أو قفزة أو وضع يد على الأرض، في 3 من 4 وثبات.",
+      "يستطيع الطالب أن يثب إلى منطقة الأمان المحددة وينتظر الإشارة قبل مغادرتها أو قبل أن يثب الطالب التالي.",
+      "يستطيع الطالب أن يذكر علامة واقعية واحدة عن أرجحة ذراعي شريكه أو هبوطه، ويحدد هدفًا شخصيًا للوثبة التالية."
     ],
     "priorKnowledge": "AT-05 — إيقاع شخصي لجري التحمل.",
     "pathwayPosition": "الدرس السابق: AT-05 — إيقاع شخصي لجري التحمل.\nالدرس الحالي: يفتح نصف المسار الخاص بالوثب، فينتقل من الجري إلى الارتقاء بالقدمين معًا، وقبل كل شيء إلى هبوط مضبوط على القدمين. ويؤجل جري الاقتراب كليًا — فكل وثبة تُؤدى من الثبات، ليُتعلَّم الارتقاء دون سرعة — وهو ما يضيفه AT-07.\nالدرس التالي: AT-07 — جري الاقتراب والوثب إلى منطقة.",
@@ -1657,11 +1657,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 07 — جري الاقتراب والوثب إلى منطقة\nالرمز: AT-07-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: إيقاع الاقتراب والارتقاء\nالعمر: 11–14 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "ربط اقتراب قصير بارتقاء قدم واحدة وهبوط آمن على القدمين.",
     "objectives": [
-      "يجري اقترابًا ثابتًا من 5–7 خطوات يصل إلى علامة الارتقاء دون تقطيع الخطوات أو مدّها، في 4 من 5 محاولات.",
-      "يرتقي من قدم واحدة عند اللوح أو الخط المحدد، دون تجاوزه أو الفرملة قبله.",
-      "يهبط على القدمين داخل المنطقة المحددة بركبتين مثنيتين، ويضبط الهبوط، في 4 من 5 وثبات.",
-      "يبقي عينيه للأمام خلال الاقتراب والارتقاء بدل النظر إلى الأسفل بحثًا عن علامة الارتقاء.",
-      "يذكر علامة واقعية واحدة عن إيقاع اقتراب شريكه أو هبوطه، ويحدد هدفًا شخصيًا للوثبة التالية."
+      "يستطيع الطالب أن يجري اقترابًا ثابتًا من 5–7 خطوات يصل إلى علامة الارتقاء دون تقطيع الخطوات أو مدّها، في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يرتقي من قدم واحدة عند اللوح أو الخط المحدد، دون تجاوزه أو الفرملة قبله.",
+      "يستطيع الطالب أن يهبط على القدمين داخل المنطقة المحددة بركبتين مثنيتين، ويضبط الهبوط، في 4 من 5 وثبات.",
+      "يستطيع الطالب أن يبقي عينيه للأمام خلال الاقتراب والارتقاء بدل النظر إلى الأسفل بحثًا عن علامة الارتقاء.",
+      "يستطيع الطالب أن يذكر علامة واقعية واحدة عن إيقاع اقتراب شريكه أو هبوطه، ويحدد هدفًا شخصيًا للوثبة التالية."
     ],
     "priorKnowledge": "AT-06 — الوثب الطويل من الثبات والهبوط.",
     "pathwayPosition": "الدرس السابق: AT-06 — الوثب الطويل من الثبات والهبوط.\nالدرس الحالي: يضيف جري الاقتراب الذي أجّله AT-06: يحمل الطالب الآن السرعة إلى ارتقاء بقدم واحدة، ويجب أن يهبط مع ذلك على القدمين بضبط. ويؤجل أي منافسة مقيسة على المسافة وأي سطح هبوط صلب — فالوثبات تكون إلى منطقة واسعة أو على حصائر، ودقة الارتقاء هي ما يُحتسب — بينما ينتقل AT-08 إلى الرمي.\nالدرس التالي: AT-08 — رمي كرة لينة للمسافة.",
@@ -1720,11 +1720,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 08 — رمي كرة لينة للمسافة\nالرمز: AT-08-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: نقل القوة والرمي\nالعمر: 11–14 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "رمي كرة لينة من وضع جانبي بعد خلو قطاع الرمي بالكامل.",
     "objectives": [
-      "يقف جانبيًا والكتف غير الرامية نحو القطاع والقدمان متباعدتان أمامًا وخلفًا، قبل كل رمية.",
-      "ينقل الوزن من القدم الخلفية إلى الأمامية أثناء الرمي، فتسهم الساقان والجذع لا الذراع وحدها، في 4 من 5 رميات.",
-      "يبقي مرفق الذراع الرامية فوق مستوى الكتف ويطلق الكرة للأمام وللأعلى بزاوية تقارب 45 درجة، في 3 من 4 رميات.",
-      "لا يرمي إلا بعد التأكد من خلو القطاع وعند الإشارة فقط، ولا يجمع الكرات قبل إعلان الجمع.",
-      "يذكر علامة واقعية واحدة عن وقفة شريكه أو نقله للوزن، ويحدد هدفًا شخصيًا للرمية التالية."
+      "يستطيع الطالب أن يقف جانبيًا والكتف غير الرامية نحو القطاع والقدمان متباعدتان أمامًا وخلفًا، قبل كل رمية.",
+      "يستطيع الطالب أن ينقل الوزن من القدم الخلفية إلى الأمامية أثناء الرمي، فتسهم الساقان والجذع لا الذراع وحدها، في 4 من 5 رميات.",
+      "يستطيع الطالب أن يبقي مرفق الذراع الرامية فوق مستوى الكتف ويطلق الكرة للأمام وللأعلى بزاوية تقارب 45 درجة، في 3 من 4 رميات.",
+      "يستطيع الطالب ألا يرمي إلا بعد التأكد من خلو القطاع وعند الإشارة فقط، وألا يجمع الكرات قبل إعلان الجمع.",
+      "يستطيع الطالب أن يذكر علامة واقعية واحدة عن وقفة شريكه أو نقله للوزن، ويحدد هدفًا شخصيًا للرمية التالية."
     ],
     "priorKnowledge": "AT-07 — جري الاقتراب والوثب إلى منطقة.",
     "pathwayPosition": "الدرس السابق: AT-07 — جري الاقتراب والوثب إلى منطقة.\nالدرس الحالي: يكمل فعاليات ألعاب القوى الثلاث بإضافة الرمي: تُولَّد المسافة الآن بالوقفة الجانبية ونقل الوزن من القدم الخلفية إلى الأمامية، لا بقوة الذراع. ويؤجل أي رمي دوراني أو بجري اقتراب، فكل الرمي هنا من الثبات أو بخطوة واحدة وبأدوات لينة — ويجمع AT-09 الجري والوثب والرمي في دائرة واحدة.\nالدرس التالي: AT-09 — دائرة الجري والوثب والرمي.",
@@ -1783,11 +1783,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 09 — دائرة الجري والوثب والرمي\nالرمز: AT-09-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: دائرة متعددة المهارات\nالعمر: 12–15 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "إكمال محطات الجري والوثب والرمي بتنظيم الجهد والانتقال المستقل.",
     "objectives": [
-      "يؤدي العلامة المفتاحية لكل محطة — وضع الجري المرتفع، والهبوط على القدمين، والرمي الجانبي — بشكل صحيح في كل محطة، في 4 من 5 جولات.",
-      "ينظم جهده على امتداد الدائرة كلها، فيؤدي المحطة الأخيرة بجودة الأولى.",
-      "لا ينتقل بين المحطات إلا عند إشارة الانتقال، تاركًا الأدوات آمنة وجاهزة للمجموعة التالية.",
-      "يسجل نتيجته في كل محطة بصدق ويقارنها بنتيجته السابقة فقط.",
-      "يذكر علامة واقعية واحدة عن تقنية شريكه في أي محطة، ويحدد هدفًا شخصيًا للجولة التالية."
+      "يستطيع الطالب أن يؤدي العلامة المفتاحية لكل محطة — وضع الجري المرتفع، والهبوط على القدمين، والرمي الجانبي — بشكل صحيح في كل محطة، في 4 من 5 جولات.",
+      "يستطيع الطالب أن ينظم جهده على امتداد الدائرة كلها، فيؤدي المحطة الأخيرة بجودة الأولى.",
+      "يستطيع الطالب ألا ينتقل بين المحطات إلا عند إشارة الانتقال، وأن يترك الأدوات آمنة وجاهزة للمجموعة التالية.",
+      "يستطيع الطالب أن يسجل نتيجته في كل محطة بصدق ويقارنها بنتيجته السابقة فقط.",
+      "يستطيع الطالب أن يذكر علامة واقعية واحدة عن تقنية شريكه في أي محطة، ويحدد هدفًا شخصيًا للجولة التالية."
     ],
     "priorKnowledge": "AT-08 — رمي كرة لينة للمسافة.",
     "pathwayPosition": "الدرس السابق: AT-08 — رمي كرة لينة للمسافة.\nالدرس الحالي: يجمع الفعاليات الثلاث للمرة الأولى، فيطلب من الطلبة التنقل باستقلال بين محطات الجري والوثب والرمي مع الحفاظ على التقنية بينما يتراكم التعب. ويؤجل التقويم الرسمي — فالمعلم ما زال يوجّه في كل محطة ولا يُسجَّل شيء للتقدير — وهو ما يستبدله AT-10 بملاحظة وفق معايير.\nالدرس التالي: AT-10 — تقويم ختامي متعدد الفعاليات.",
@@ -1846,11 +1846,11 @@
     "identity": "الاسم الكامل: ألعاب القوى 10 — تقويم ختامي متعدد الفعاليات\nالرمز: AT-10-AR\nالفرع: ألعاب القوى\nالموضوع الفرعي: تطبيق وتقويم المسار\nالعمر: 13–16 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وعلامات وعصي وكرات لينة وحصائر وشريط\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "إظهار تحسن في الجري والوثب والرمي وتحديد الهدف الشخصي التالي.",
     "objectives": [
-      "يُظهر العلامة التقنية المفتاحية لكل فعالية — وضع الجري، والارتقاء والهبوط في الوثب، ووقفة الرمي ونقل الوزن — في المحاولتين المقيستين، في 4 من 5 حالات.",
-      "يستخدم التغذية الراجعة المقدمة بين المحاولتين لتغيير شيء محدد في المحاولة الثانية.",
-      "يسجل نتائجه بدقة ويقارنها فقط بنتائجه السابقة في الوحدة.",
-      "يتبع كل روتين سلامة دون تذكير — الانضباط في المسار، وإشارة الرمي، وإخلاء منطقة الهبوط — طوال التقويم.",
-      "يذكر نقطة قوة شخصية وهدفًا تاليًا، كلًّا منهما مدعومًا بدليل من الدرس لا بانطباع عام."
+      "يستطيع الطالب أن يُظهر العلامة التقنية المفتاحية لكل فعالية — وضع الجري، والارتقاء والهبوط في الوثب، ووقفة الرمي ونقل الوزن — في المحاولتين المقيستين، في 4 من 5 حالات.",
+      "يستطيع الطالب أن يستخدم التغذية الراجعة المقدمة بين المحاولتين لتغيير شيء محدد في المحاولة الثانية.",
+      "يستطيع الطالب أن يسجل نتائجه بدقة ويقارنها فقط بنتائجه السابقة في الوحدة.",
+      "يستطيع الطالب أن يتبع كل روتين سلامة دون تذكير — الانضباط في المسار، وإشارة الرمي، وإخلاء منطقة الهبوط — طوال التقويم.",
+      "يستطيع الطالب أن يذكر نقطة قوة شخصية وهدفًا تاليًا، كلًّا منهما مدعومًا بدليل من الدرس لا بانطباع عام."
     ],
     "priorKnowledge": "AT-09 — دائرة الجري والوثب والرمي.",
     "pathwayPosition": "الدرس السابق: AT-09 — دائرة الجري والوثب والرمي.\nالدرس الحالي: لا يعلّم شيئًا جديدًا، بل يجمع الأدلة في الفعاليات الثلاث، فيمنح كل طالب محاولتين مقيستين في كل فعالية بينهما توجيه، حتى يُسجَّل التحسن لا النتيجة الخام. ولا يؤجل محتوى آخر في هذا المسار — فما يتركه للوحدة المتقدمة هو المسابقات التنافسية والقياس المعياري والتخصص في فعالية.\nالدرس التالي: مسار متقدم أو تحسين شخصي.",
@@ -1911,11 +1911,11 @@
     "identity": "Полное название: Лёгкая атлетика 01 — Старт с места и короткое ускорение\nКод: AT-01-RU\nВид: Лёгкая атлетика\nПодтема: стойка старта, первые шаги и контролируемое замедление\nВозраст: 10–13\nОпыт: начальный\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 30 конусов, 8–12 палочек или мешочков и разметка дорожек\nПространство: прямая площадка 15–20 м с зоной выбега\nСложность: базовая",
     "purpose": "Научить безопасному старту, постепенному ускорению и контролируемому финишу как основе школьного спринта.",
     "objectives": [
-      "Принимает устойчивую разножку с постоянной опорной ногой до сигнала.",
-      "Стартует по сигналу и делает три коротких быстрых шага в 4 из 5 попыток.",
-      "Сохраняет наклон вперёд одной линией на первых десяти метрах.",
-      "Пробегает линию финиша и постепенно замедляется в зоне выбега, без резкой остановки.",
-      "Остаётся на своей дорожке и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет принять устойчивую разножку с постоянной опорной ногой до сигнала.",
+      "Ученик сможет стартовать по сигналу и сделать три коротких быстрых шага в 4 из 5 попыток.",
+      "Ученик сможет сохранять наклон вперёд одной линией на первых десяти метрах.",
+      "Ученик сможет пробежать линию финиша и постепенно замедлиться в зоне выбега, без резкой остановки.",
+      "Ученик сможет оставаться на своей дорожке и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "Предыдущий урок не нужен; необходимы правила дорожки и стоп-сигнал.",
     "pathwayPosition": "Предыдущий урок: нет — это первый урок цикла; нужны только правила дорожки и стоп-сигнал.\nТекущий урок: Первый урок лёгкой атлетики закладывает три опоры любого спринта: устойчивую разножку, короткие быстрые первые шаги в наклоне и постепенное замедление в зоне выбега. Урок не даёт беговую технику на полной скорости и систематическое обучение реакции на меняющийся сигнал: основное задание идёт по одной предсказуемой команде, а поздний зрительный сигнал — лишь дополнительный вариант для продвинутых. Это развивают AT-02 и AT-03.\nСледующий урок: AT-02 — беговая осанка, руки и ускорение.",
@@ -1974,11 +1974,11 @@
     "identity": "Полное название: Лёгкая атлетика 02 — Беговая осанка, работа рук и ускорение\nКод: AT-02-RU\nВид: Лёгкая атлетика\nПодтема: техника бега и ускорение\nВозраст: 10–12\nОпыт: развивающийся\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Сохранять высокую осанку и движение рук вперёд–назад при ускорении 20 м.",
     "objectives": [
-      "Сохраняет высокую осанку — таз под плечами — на всех 20 м в 4 из 5 забегов.",
-      "Работает локтями назад, вперёд–назад вдоль корпуса, не пересекая руками среднюю линию, в большинстве забегов.",
-      "Удлиняет шаг постепенно, без «заброса» ноги с первого шага, и подбирает усилие под 20 м — это видно по тому, что может дышать и говорить без чрезмерного труда к концу ускорения — в 3 из 4 забегов.",
-      "Бежит по своей дорожке, стартует только по сигналу и соблюдает дистанцию в две вытянутые руки до бегущего впереди.",
-      "Наблюдает за партнёром, называет ему один фактический признак его осанки или работы рук и ставит личную цель на следующий забег."
+      "Ученик сможет сохранять высокую осанку — таз под плечами — на всех 20 м в 4 из 5 забегов.",
+      "Ученик сможет работать локтями назад, вперёд–назад вдоль корпуса, не пересекая руками среднюю линию, в большинстве забегов.",
+      "Ученик сможет удлинять шаг постепенно, без «заброса» ноги с первого шага, и подобрать усилие под 20 м — это видно по тому, что может дышать и говорить без чрезмерного труда к концу ускорения — в 3 из 4 забегов.",
+      "Ученик сможет бежать по своей дорожке, стартовать только по сигналу и соблюдать дистанцию в две вытянутые руки до бегущего впереди.",
+      "Ученик сможет наблюдать за партнёром, назвать ему один фактический признак его осанки или работы рук и ставит личную цель на следующий забег."
     ],
     "priorKnowledge": "AT-01 — старт с места.",
     "pathwayPosition": "Предыдущий урок: AT-01 — старт с места.\nТекущий урок: Урок продолжает AT-01: стартовое положение уже не разучивается, а внимание переходит к тому, что делает тело во время бега, — высокая осанка, экономная работа рук вперёд–назад и шаг, который постепенно удлиняется на 20 м. Непредсказуемый стартовый сигнал откладывается: каждый забег начинается по одной известной команде, а старт по меняющемуся сигналу — тема AT-03.\nСледующий урок: AT-03 — реакция и старт по меняющемуся сигналу.",
@@ -2037,11 +2037,11 @@
     "identity": "Полное название: Лёгкая атлетика 03 — Реакция и старт по меняющемуся сигналу\nКод: AT-03-RU\nВид: Лёгкая атлетика\nПодтема: реакция и старт\nВозраст: 10–12\nОпыт: развивающийся\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Реагировать на зрительный или звуковой сигнал и ускоряться без фальстарта.",
     "objectives": [
-      "Стоит в стартовом положении полностью неподвижно до сигнала, без фальстарта, в 4 из 5 попыток.",
-      "Реагирует на сигнал и делает первый шаг примерно за полсекунды, без раскачки и преждевременного движения.",
-      "Считывает цвет или звук в момент старта и ускоряется в нужном направлении в 3 из 4 попыток.",
-      "После реакции ускоряется в равновесии, сохраняя осанку и работу рук из AT-02, а не «вываливаясь» со старта.",
-      "Соблюдает дистанцию в две вытянутые руки, стартует только по сигналу и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет стоять в стартовом положении полностью неподвижно до сигнала, без фальстарта, в 4 из 5 попыток.",
+      "Ученик сможет реагировать на сигнал и сделать первый шаг примерно за полсекунды, без раскачки и преждевременного движения.",
+      "Ученик сможет считывать цвет или звук в момент старта и ускоряется в нужном направлении в 3 из 4 попыток.",
+      "Ученик сможет после реакции ускориться в равновесии, сохраняя осанку и работу рук из AT-02, а не «вываливаясь» со старта.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, стартовать только по сигналу и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "AT-02 — техника бега.",
     "pathwayPosition": "Предыдущий урок: AT-02 — техника бега.\nТекущий урок: Урок убирает предсказуемость, на которую опирались AT-01 и AT-02: стартовая команда может быть зрительной или звуковой, прозвучать в любой момент, а во втором задании ещё и определяет направление бега. Партнёр и эстафетная палочка откладываются: реакция остаётся полностью личной, а передачу палочки вводит AT-04.\nСледующий урок: AT-04 — передача эстафетной палочки.",
@@ -2100,11 +2100,11 @@
     "identity": "Полное название: Лёгкая атлетика 04 — Безопасная передача палочки\nКод: AT-04-RU\nВид: Лёгкая атлетика\nПодтема: эстафетная передача\nВозраст: 10–13\nОпыт: развивающийся\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Передавать палочку в зоне при согласованной скорости и ясной команде.",
     "objectives": [
-      "Принимает палочку внутри размеченной зоны передачи, не раньше и не позже неё, в 4 из 5 попыток.",
-      "Держит принимающую руку неподвижно за бедром, ладонь открыта, пока палочку не вложат в неё.",
-      "Подаёт условное слово вовремя, чтобы принимающий стартовал не слишком рано и не слишком поздно, в 3 из 4 передач.",
-      "Продолжает бежать вперёд во время и после передачи — без остановки, резкого торможения и оглядывания назад.",
-      "Соблюдает дистанцию в две вытянутые руки, стартует только по сигналу и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет принять палочку внутри размеченной зоны передачи, не раньше и не позже неё, в 4 из 5 попыток.",
+      "Ученик сможет держать принимающую руку неподвижно за бедром, ладонь открыта, пока палочку не вложат в неё.",
+      "Ученик сможет вовремя подать условное слово, чтобы принимающий стартовал не слишком рано и не слишком поздно, в 3 из 4 передач.",
+      "Ученик сможет продолжать бежать вперёд во время и после передачи — без остановки, резкого торможения и оглядывания назад.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, стартовать только по сигналу и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "AT-03 — реакция и старт.",
     "pathwayPosition": "Предыдущий урок: AT-03 — реакция и старт.\nТекущий урок: Урок превращает личный спринт AT-01 — AT-03 в общую задачу: два бегущих должны сравнять скорость, договориться и передать палочку внутри размеченной зоны. Соревнование на время полностью откладывается — передачи оцениваются за безопасность и точность, а не за то, как быстро команда финиширует, — как и темп выносливости, который вводит AT-05.\nСледующий урок: AT-05 — личный темп выносливости.",
@@ -2163,11 +2163,11 @@
     "identity": "Полное название: Лёгкая атлетика 05 — Личный темп выносливости\nКод: AT-05-RU\nВид: Лёгкая атлетика\nПодтема: темп и усилие\nВозраст: 11–14\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Сохранять личный темп 6–8 минут и честно оценивать усилие.",
     "objectives": [
-      "Держит ровный темп 6–8 минут без остановки, и последний круг отличается от первого не более чем на несколько секунд, в 4 из 5 раундов.",
-      "Бежит в темпе, в котором ещё может произнести короткую фразу, и честно проверяет это по просьбе партнёра.",
-      "Оценивает своё усилие по условной шкале так, что оценка совпадает с наблюдением учителя, в 3 из 4 проверок.",
-      "Начинает в посильном темпе, а не со спринта, и сохраняет запас на последние минуты.",
-      "Соблюдает дистанцию в две вытянутые руки, стартует только по сигналу и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет держать ровный темп 6–8 минут без остановки, и последний круг отличается от первого не более чем на несколько секунд, в 4 из 5 раундов.",
+      "Ученик сможет бежать в темпе, в котором ещё может произнести короткую фразу, и честно проверить это по просьбе партнёра.",
+      "Ученик сможет оценить своё усилие по условной шкале так, что оценка совпадает с наблюдением учителя, в 3 из 4 проверок.",
+      "Ученик сможет начать в посильном темпе, а не со спринта, и сохранять запас на последние минуты.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, стартовать только по сигналу и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "AT-04 — эстафета.",
     "pathwayPosition": "Предыдущий урок: AT-04 — эстафета.\nТекущий урок: Урок меняет вопрос «как быстро?» на «как долго?»: после четырёх уроков коротких максимальных усилий ученики выбирают темп, который могут держать 6–8 минут, и учатся честно оценивать своё усилие. Прыжки, метания и любое соревнование между учениками откладываются: каждая цель здесь личная, а отталкивание и приземление вводит AT-06.\nСледующий урок: AT-06 — прыжок с места.",
@@ -2226,11 +2226,11 @@
     "identity": "Полное название: Лёгкая атлетика 06 — Прыжок в длину с места и приземление\nКод: AT-06-RU\nВид: Лёгкая атлетика\nПодтема: толчок и приземление\nВозраст: 10–12\nОпыт: развивающийся\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Оттолкнуться двумя ногами и устойчиво приземлиться на обе в безопасной зоне.",
     "objectives": [
-      "Отводит обе руки назад и выносит их вперёд одновременно с толчком, так что руки ведут отталкивание, в 4 из 5 прыжков.",
-      "Отталкивается двумя ногами одновременно и приземляется на две ноги, амортизируя согнутыми коленями, в 4 из 5 прыжков.",
-      "Удерживает приземление неподвижно две полные секунды — без шага, подскока и опоры на руку — в 3 из 4 прыжков.",
-      "Прыгает в размеченную безопасную зону и покидает её, а следующий прыгает, только по сигналу.",
-      "Соблюдает дистанцию в две вытянутые руки, стартует только по сигналу и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет отвести обе руки назад и выносит их вперёд одновременно с толчком, так что руки ведут отталкивание, в 4 из 5 прыжков.",
+      "Ученик сможет оттолкнуться двумя ногами одновременно и приземлиться на две ноги, амортизируя согнутыми коленями, в 4 из 5 прыжков.",
+      "Ученик сможет удерживать приземление неподвижно две полные секунды — без шага, подскока и опоры на руку — в 3 из 4 прыжков.",
+      "Ученик сможет прыгнуть в размеченную безопасную зону и покинуть её, а следующий прыгает, только по сигналу.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, стартовать только по сигналу и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "AT-05 — темп выносливости.",
     "pathwayPosition": "Предыдущий урок: AT-05 — темп выносливости.\nТекущий урок: Урок открывает прыжковую часть цикла: от бега — к отталкиванию двумя ногами и, главное, к контролируемому приземлению на обе ноги. Разбег полностью откладывается: каждый прыжок выполняется с места, чтобы отталкивание осваивалось без скорости, а разбег добавляет AT-07.\nСледующий урок: AT-07 — разбег и прыжок в зону.",
@@ -2289,11 +2289,11 @@
     "identity": "Полное название: Лёгкая атлетика 07 — Разбег и прыжок в зону\nКод: AT-07-RU\nВид: Лёгкая атлетика\nПодтема: ритм разбега и отталкивание\nВозраст: 11–14\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Связать короткий разбег с толчком одной ногой и безопасным приземлением.",
     "objectives": [
-      "Выполняет одинаковый разбег в 5–7 шагов и попадает на место толчка без семенения и растягивания шага в 4 из 5 попыток.",
-      "Отталкивается одной ногой у размеченной планки или линии, не заступая и не тормозя перед ней.",
-      "Приземляется на две ноги в размеченной зоне с согнутыми коленями и удерживает приземление в 4 из 5 прыжков.",
-      "Смотрит вперёд на разбеге и при толчке, а не вниз в поисках места толчка.",
-      "Соблюдает дистанцию в две вытянутые руки, стартует только по сигналу и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет выполнить одинаковый разбег в 5–7 шагов и попасть на место толчка без семенения и растягивания шага в 4 из 5 попыток.",
+      "Ученик сможет оттолкнуться одной ногой у размеченной планки или линии, не заступая и не тормозя перед ней.",
+      "Ученик сможет приземлиться на две ноги в размеченной зоне с согнутыми коленями и удерживать приземление в 4 из 5 прыжков.",
+      "Ученик сможет смотреть вперёд на разбеге и при толчке, а не вниз в поисках места толчка.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, стартовать только по сигналу и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "AT-06 — прыжок с места.",
     "pathwayPosition": "Предыдущий урок: AT-06 — прыжок с места.\nТекущий урок: Урок добавляет разбег, отложенный в AT-06: ученик переносит скорость в отталкивание одной ногой и всё равно должен приземлиться на две ноги под контролем. Соревнование на измеряемую дальность и жёсткая поверхность приземления откладываются: прыжки выполняются в широкую зону или на маты, а баллы даются за точность толчка; метания вводит AT-08.\nСледующий урок: AT-08 — бросок мягкого мяча.",
@@ -2352,11 +2352,11 @@
     "identity": "Полное название: Лёгкая атлетика 08 — Бросок мягкого мяча на дальность\nКод: AT-08-RU\nВид: Лёгкая атлетика\nПодтема: перенос силы и бросок\nВозраст: 11–14\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Бросать мягкий мяч из боковой стойки при полностью свободном секторе.",
     "objectives": [
-      "Перед каждым броском стоит боком — плечо небросковой руки к сектору, ноги врозь.",
-      "Переносит вес с задней ноги на переднюю во время броска, так что работают ноги и корпус, а не только рука, в 4 из 5 бросков.",
-      "Держит локоть бросковой руки выше плеча и выпускает мяч вперёд-вверх примерно под 45° в 3 из 4 бросков.",
-      "Бросает только после подтверждения, что сектор свободен, и только по сигналу; за мячами идёт только по команде сбора.",
-      "Даёт партнёру одну фактическую обратную связь о стойке или переносе веса и называет себе цель на следующий бросок."
+      "Ученик сможет перед каждым броском встать боком — плечо небросковой руки к сектору, ноги врозь.",
+      "Ученик сможет перенести вес с задней ноги на переднюю во время броска, так что работают ноги и корпус, а не только рука, в 4 из 5 бросков.",
+      "Ученик сможет держать локоть бросковой руки выше плеча и выпустить мяч вперёд-вверх примерно под 45° в 3 из 4 бросков.",
+      "Ученик сможет бросить только после подтверждения, что сектор свободен, и только по сигналу; за мячами идёт только по команде сбора.",
+      "Ученик сможет дать партнёру одну фактическую обратную связь о стойке или переносе веса и назвать себе цель на следующий бросок."
     ],
     "priorKnowledge": "AT-07 — разбег и прыжок.",
     "pathwayPosition": "Предыдущий урок: AT-07 — разбег и прыжок.\nТекущий урок: Урок завершает три дисциплины лёгкой атлетики, добавляя метание: дальность теперь создаётся боковой стойкой и переносом веса с задней ноги на переднюю, а не силой руки. Броски с поворотом и с разбега откладываются: все метания здесь выполняются с места или с одного шага мягкими снарядами, а бег, прыжки и метания в одном комплексе соединяет AT-09.\nСледующий урок: AT-09 — комплекс станций.",
@@ -2415,11 +2415,11 @@
     "identity": "Полное название: Лёгкая атлетика 09 — Круг бега, прыжка и броска\nКод: AT-09-RU\nВид: Лёгкая атлетика\nПодтема: многоборный круг\nВозраст: 12–15\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Выполнить станции бега, прыжка и броска с регулировкой усилия и переходов.",
     "objectives": [
-      "Выполняет главный признак каждой станции — высокая беговая осанка, приземление на две ноги, бросок из боковой стойки — верно на всех станциях в 4 из 5 кругов.",
-      "Распределяет усилие на весь круг, так что последнюю станцию выполняет так же качественно, как первую.",
-      "Переходит между станциями только по сигналу, оставляя инвентарь безопасным и готовым для следующей группы.",
-      "Честно записывает свой результат на каждой станции и сравнивает его только со своим предыдущим.",
-      "Даёт партнёру одну фактическую обратную связь о технике на любой станции и ставит личную цель на следующий круг."
+      "Ученик сможет выполнить главный признак каждой станции — высокая беговая осанка, приземление на две ноги, бросок из боковой стойки — верно на всех станциях в 4 из 5 кругов.",
+      "Ученик сможет распределять усилие на весь круг, так что последнюю станцию выполняет так же качественно, как первую.",
+      "Ученик сможет перейти между станциями только по сигналу, оставляя инвентарь безопасным и готовым для следующей группы.",
+      "Ученик сможет честно записывать свой результат на каждой станции и сравнивать его только со своим предыдущим.",
+      "Ученик сможет дать партнёру одну фактическую обратную связь о технике на любой станции и ставит личную цель на следующий круг."
     ],
     "priorKnowledge": "AT-08 — бросок.",
     "pathwayPosition": "Предыдущий урок: AT-08 — бросок.\nТекущий урок: Урок впервые соединяет три дисциплины: ученики самостоятельно переходят между станциями бега, прыжков и метания и удерживают технику по мере накопления усталости. Формальное оценивание откладывается: учитель по-прежнему подсказывает на каждой станции, ничего не идёт в отметку, а наблюдение по критериям вводит AT-10.\nСледующий урок: AT-10 — итоговая оценка.",
@@ -2478,11 +2478,11 @@
     "identity": "Полное название: Лёгкая атлетика 10 — Итоговая многоборная оценка\nКод: AT-10-RU\nВид: Лёгкая атлетика\nПодтема: применение и оценивание\nВозраст: 13–16\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, метки, палочки, мягкие мячи, маты, лента\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Показать улучшение в беге, прыжке и броске и назвать следующую цель.",
     "objectives": [
-      "Показывает главный технический ключ каждой дисциплины — беговая осанка, отталкивание и приземление, стойка и перенос веса в метании — в обеих измеряемых попытках в 4 из 5 случаев.",
-      "Использует обратную связь, полученную между двумя попытками, чтобы изменить во второй попытке что-то конкретное.",
-      "Точно записывает свои результаты и сравнивает их только со своими более ранними результатами в цикле.",
-      "Соблюдает все правила безопасности без подсказки — порядок на дорожках, сигнал при метании, свободная зона приземления — на протяжении всего оценивания.",
-      "Называет одну личную сильную сторону и одну следующую цель, опираясь на доказательства из урока, а не на общее впечатление."
+      "Ученик сможет показать главный технический ключ каждой дисциплины — беговая осанка, отталкивание и приземление, стойка и перенос веса в метании — в обеих измеряемых попытках в 4 из 5 случаев.",
+      "Ученик сможет использовать обратную связь, полученную между двумя попытками, чтобы изменить во второй попытке что-то конкретное.",
+      "Ученик сможет точно записывать свои результаты и сравнивать их только со своими более ранними результатами в цикле.",
+      "Ученик сможет соблюдать все правила безопасности без подсказки — порядок на дорожках, сигнал при метании, свободная зона приземления — на протяжении всего оценивания.",
+      "Ученик сможет назвать одну личную сильную сторону и одну следующую цель, опираясь на доказательства из урока, а не на общее впечатление."
     ],
     "priorKnowledge": "AT-09 — комплекс станций.",
     "pathwayPosition": "Предыдущий урок: AT-09 — комплекс станций.\nТекущий урок: Урок не вводит ничего нового, а собирает доказательства по всем трём дисциплинам: каждый ученик делает по две измеряемые попытки в каждой дисциплине с подсказкой между ними, и записывается прежде всего улучшение, а не сырой результат. Дальнейшего содержания в этом цикле нет — продвинутому циклу остаются соревнования, стандартизированные измерения и специализация по дисциплинам.\nСледующий урок: Продвинутый цикл или личное улучшение.",
@@ -2543,11 +2543,11 @@
     "identity": "Título completo: Atletismo 01 — Salida de pie y aceleración corta\nCódigo: AT-01-ES\nDisciplina: Atletismo\nSubtema: posición de salida de pie, primeros apoyos y desaceleración controlada\nEdad: 10–13 años\nExperiencia: inicial\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 30 conos, 8–12 testigos o saquitos y marcas de calle\nEspacio: pista, campo o recta con calles de 15–20 metros y zona de desaceleración\nComplejidad: básica",
     "purpose": "Enseñar una salida de pie segura, una aceleración progresiva y una llegada controlada, como base de la carrera de velocidad escolar.",
     "objectives": [
-      "Adopta una posición de salida estable, con un pie adelantado siempre el mismo, antes de la señal.",
-      "Sale con la señal y realiza tres primeros apoyos cortos y rápidos en 4 de 5 intentos.",
-      "Mantiene la inclinación del cuerpo en una sola línea durante los primeros diez metros.",
-      "Pasa la línea de llegada sin frenar y reduce la velocidad de forma gradual dentro de la zona marcada.",
-      "Permanece en su propia calle y aporta a su pareja un comentario basado en un hecho."
+      "El alumno será capaz de adoptar una posición de salida estable, con un pie adelantado siempre el mismo, antes de la señal.",
+      "El alumno será capaz de salir con la señal y realizar tres primeros apoyos cortos y rápidos en 4 de 5 intentos.",
+      "El alumno será capaz de mantener la inclinación del cuerpo en una sola línea durante los primeros diez metros.",
+      "El alumno será capaz de pasar la línea de llegada sin frenar y reducir la velocidad de forma gradual dentro de la zona marcada.",
+      "El alumno será capaz de permanecer en su propia calle y aportar a su pareja un comentario basado en un hecho."
     ],
     "priorKnowledge": "No se exige ninguna sesión previa de atletismo. El alumnado debe conocer las normas de calle y responder a la señal de parada.",
     "pathwayPosition": "Sesión anterior: ninguna; es la sesión inicial del itinerario de atletismo.\nSesión actual: como sesión inicial del itinerario de atletismo, establece las tres bases de todo esprint: una posición de salida estable, primeros apoyos cortos y rápidos bajo una inclinación hacia delante, y una desaceleración gradual dentro de una zona marcada. Aplaza deliberadamente la técnica de carrera pulida a máxima velocidad y la enseñanza sistemática de la reacción a señales cambiantes — la tarea central usa una única orden previsible, y la señal visual tardía es solo una ampliación opcional para el nivel avanzado — aspectos que AT-02 y AT-03 desarrollarán correctamente.\nSesión siguiente: AT-02 — Postura de carrera, brazos y aceleración.",
@@ -2606,11 +2606,11 @@
     "identity": "Título completo: Atletismo 02 — Postura de carrera, brazos y aceleración\nCódigo: AT-02-ES\nDisciplina: Atletismo\nSubtema: técnica de carrera y aceleración\nEdad: 10–12 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, balones blandos, colchonetas y cinta\nEspacio: gimnasio, pista o recta llana\nComplejidad: intermedia",
     "purpose": "Mantener una postura erguida y una acción de brazos adelante–atrás durante una aceleración de 20 metros.",
     "objectives": [
-      "Mantiene el tronco erguido y alineado durante toda la aceleración en 4 de 5 intentos.",
-      "Realiza una acción de brazos adelante–atrás junto al cuerpo, sin cruzar la línea media, en la mayoría de los intentos.",
-      "Alarga la zancada de forma progresiva en lugar de hacerlo desde el primer apoyo, ajustando el esfuerzo a los 20 metros — lo que se refleja en poder respirar y hablar sin dificultad excesiva al final de la aceleración — en 3 de 4 intentos.",
-      "Corre por su propia calle, sale solo con la señal y mantiene dos brazos de separación del corredor de delante.",
-      "Observa a su pareja, aporta una devolución observable sobre su postura o brazos, y enuncia un objetivo personal para el siguiente intento."
+      "El alumno será capaz de mantener el tronco erguido y alineado durante toda la aceleración en 4 de 5 intentos.",
+      "El alumno será capaz de realizar una acción de brazos adelante–atrás junto al cuerpo, sin cruzar la línea media, en la mayoría de los intentos.",
+      "El alumno será capaz de alargar la zancada de forma progresiva en lugar de hacerlo desde el primer apoyo, ajustando el esfuerzo a los 20 metros — lo que se refleja en poder respirar y hablar sin dificultad excesiva al final de la aceleración — en 3 de 4 intentos.",
+      "El alumno será capaz de correr por su propia calle, salir solo con la señal y mantener dos brazos de separación del corredor de delante.",
+      "El alumno será capaz de observar a su pareja, aportar una devolución observable sobre su postura o brazos, y enunciar un objetivo personal para el siguiente intento."
     ],
     "priorKnowledge": "AT-01 — Salida de pie y aceleración corta.",
     "pathwayPosition": "Sesión anterior: AT-01 — Salida de pie y aceleración corta.\nSesión actual: consolida la postura de carrera y la acción de brazos durante la aceleración.\nSesión siguiente: AT-03 — Reacción y salida ante señales cambiantes.",
@@ -2669,11 +2669,11 @@
     "identity": "Título completo: Atletismo 03 — Reacción y salida ante señales cambiantes\nCódigo: AT-03-ES\nDisciplina: Atletismo\nSubtema: reacción y salida\nEdad: 10–12 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, balones blandos, colchonetas y cinta\nEspacio: gimnasio, pista o recta llana\nComplejidad: intermedia",
     "purpose": "Responder a una señal visual o sonora y acelerar en equilibrio, sin anticiparse a la señal.",
     "objectives": [
-      "Se mantiene completamente inmóvil en la posición de listo hasta la señal, sin anticiparse, en 4 de 5 intentos.",
-      "Reacciona a la señal y da el primer apoyo en aproximadamente medio segundo, sin balancearse ni moverse antes de tiempo.",
-      "Lee una señal de color o de sonido en el momento de la salida y acelera en la dirección correspondiente en 3 de 4 intentos.",
-      "Acelera en equilibrio tras reaccionar, manteniendo la postura y la acción de brazos de AT-02 en lugar de perder el equilibrio en la salida.",
-      "Observa a su pareja, aporta un comentario objetivo sobre su quietud o su reacción, y enuncia un objetivo personal para el siguiente intento."
+      "El alumno será capaz de mantenerse completamente inmóvil en la posición de listo hasta la señal, sin anticiparse, en 4 de 5 intentos.",
+      "El alumno será capaz de reaccionar a la señal y dar el primer apoyo en aproximadamente medio segundo, sin balancearse ni moverse antes de tiempo.",
+      "El alumno será capaz de leer una señal de color o de sonido en el momento de la salida y acelerar en la dirección correspondiente en 3 de 4 intentos.",
+      "El alumno será capaz de acelerar en equilibrio tras reaccionar, manteniendo la postura y la acción de brazos de AT-02 en lugar de perder el equilibrio en la salida.",
+      "El alumno será capaz de observar a su pareja, aportar un comentario objetivo sobre su quietud o su reacción, y enunciar un objetivo personal para el siguiente intento."
     ],
     "priorKnowledge": "AT-02 — Postura de carrera, brazos y aceleración.",
     "pathwayPosition": "Sesión anterior: AT-02 — Postura de carrera, brazos y aceleración.\nSesión actual: incorpora la reacción a señales visuales y sonoras cambiantes.\nSesión siguiente: AT-04 — Entrega segura del testigo.",
@@ -2732,11 +2732,11 @@
     "identity": "Título completo: Atletismo 04 — Entrega segura del testigo\nCódigo: AT-04-ES\nDisciplina: Atletismo\nSubtema: entrega del testigo en relevos\nEdad: 10–13 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, balones blandos, colchonetas y cinta\nEspacio: gimnasio, pista o recta llana\nComplejidad: intermedia",
     "purpose": "Entregar el testigo dentro de una zona marcada, con velocidades ajustadas entre ambos corredores y una comunicación clara.",
     "objectives": [
-      "Realiza la entrega del testigo dentro de la zona marcada en 4 de 5 intentos.",
-      "Mantiene la mano receptora firme y quieta detrás de la cadera, con la palma abierta, hasta que el testigo se coloca en ella.",
-      "Llama la palabra acordada en el momento oportuno, para que quien recibe no salga ni demasiado pronto ni demasiado tarde, en 3 de 4 entregas.",
-      "Sigue corriendo hacia delante durante y después de la entrega, sin detenerse, frenar en seco ni girarse para mirar atrás.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de realizar la entrega del testigo dentro de la zona marcada en 4 de 5 intentos.",
+      "El alumno será capaz de mantener la mano receptora firme y quieta detrás de la cadera, con la palma abierta, hasta que el testigo se coloca en ella.",
+      "El alumno será capaz de llamar la palabra acordada en el momento oportuno, para que quien recibe no salga ni demasiado pronto ni demasiado tarde, en 3 de 4 entregas.",
+      "El alumno será capaz de seguir corriendo hacia delante durante y después de la entrega, sin detenerse, frenar en seco ni girarse para mirar atrás.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "AT-03 — Reacción y salida ante señales cambiantes.",
     "pathwayPosition": "Sesión anterior: AT-03 — Reacción y salida ante señales cambiantes.\nSesión actual: incorpora la entrega del testigo dentro de zona con velocidades ajustadas.\nSesión siguiente: AT-05 — Ritmo personal de resistencia.",
@@ -2795,11 +2795,11 @@
     "identity": "Título completo: Atletismo 05 — Ritmo personal de resistencia\nCódigo: AT-05-ES\nDisciplina: Atletismo\nSubtema: ritmo y regulación de la carga percibida\nEdad: 11–14 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, balones blandos, colchonetas y cinta\nEspacio: gimnasio, pista o recta llana\nComplejidad: intermedia",
     "purpose": "Mantener un ritmo personal constante durante 6–8 minutos y valorar con honestidad la carga percibida.",
     "objectives": [
-      "Mantiene un ritmo constante durante 6–8 minutos sin detenerse, terminando la última vuelta a pocos segundos de la primera, en 4 de 5 series.",
-      "Supera la prueba del habla: puede decir una frase corta sin quedarse sin aire.",
-      "Valora su carga percibida con una escala sencilla, de forma coherente con lo que observa el docente, en 3 de 4 comprobaciones.",
-      "Empieza a un ritmo sostenible en lugar de salir esprintando, guardando una reserva para los últimos minutos.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de mantener un ritmo constante durante 6–8 minutos sin detenerse, terminando la última vuelta a pocos segundos de la primera, en 4 de 5 series.",
+      "El alumno será capaz de superar la prueba del habla: puede decir una frase corta sin quedarse sin aire.",
+      "El alumno será capaz de valorar su carga percibida con una escala sencilla, de forma coherente con lo que observa el docente, en 3 de 4 comprobaciones.",
+      "El alumno será capaz de empezar a un ritmo sostenible en lugar de salir esprintando, guardando una reserva para los últimos minutos.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "AT-04 — Entrega segura del testigo.",
     "pathwayPosition": "Sesión anterior: AT-04 — Entrega segura del testigo.\nSesión actual: incorpora la regulación del ritmo y de la carga percibida en carrera continua.\nSesión siguiente: AT-06 — Salto de longitud desde parado y caída.",
@@ -2858,11 +2858,11 @@
     "identity": "Título completo: Atletismo 06 — Salto de longitud desde parado y caída\nCódigo: AT-06-ES\nDisciplina: Atletismo\nSubtema: impulso y caída\nEdad: 10–12 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, balones blandos, colchonetas y cinta\nEspacio: gimnasio, pista o recta llana\nComplejidad: intermedia",
     "purpose": "Impulsarse con los dos pies y caer sobre los dos pies con control dentro de una zona segura.",
     "objectives": [
-      "Se impulsa con los dos pies a la vez, con balanceo previo de brazos, en 4 de 5 intentos.",
-      "Cae sobre los dos pies dentro de la zona marcada y mantiene la posición inmóvil durante dos segundos completos, sin dar un paso, saltar ni apoyar una mano, en 3 de 4 intentos.",
-      "Amortigua la caída con las rodillas flexionadas, sin apoyar las manos en el suelo.",
-      "Salta a la zona de seguridad marcada y espera la señal antes de salir de ella o antes de que salte el siguiente estudiante.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de impulsarse con los dos pies a la vez, con balanceo previo de brazos, en 4 de 5 intentos.",
+      "El alumno será capaz de caer sobre los dos pies dentro de la zona marcada y mantener la posición inmóvil durante dos segundos completos, sin dar un paso, saltar ni apoyar una mano, en 3 de 4 intentos.",
+      "El alumno será capaz de amortiguar la caída con las rodillas flexionadas, sin apoyar las manos en el suelo.",
+      "El alumno será capaz de saltar a la zona de seguridad marcada y esperar la señal antes de salir de ella o antes de que salte el siguiente estudiante.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "AT-05 — Ritmo personal de resistencia.",
     "pathwayPosition": "Sesión anterior: AT-05 — Ritmo personal de resistencia.\nSesión actual: incorpora el salto horizontal desde parado y la caída controlada.\nSesión siguiente: AT-07 — Carrera de aproximación y salto a una zona.",
@@ -2921,11 +2921,11 @@
     "identity": "Título completo: Atletismo 07 — Carrera de aproximación y salto a una zona\nCódigo: AT-07-ES\nDisciplina: Atletismo\nSubtema: ritmo de aproximación y batida\nEdad: 11–14 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, balones blandos, colchonetas y cinta\nEspacio: gimnasio, pista o recta llana\nComplejidad: intermedia",
     "purpose": "Enlazar una carrera de aproximación corta con una batida a un pie y una caída segura sobre dos pies, en colchoneta o zona marcada.",
     "objectives": [
-      "Mantiene un ritmo de aproximación constante durante 5–7 apoyos y llega a la zona de batida sin acortar ni alargar el paso, en 4 de 5 intentos.",
-      "Bate con un solo pie desde la zona marcada, sin pisarla de más ni frenar antes de ella.",
-      "Cae sobre los dos pies dentro de la zona de caída y amortigua con las rodillas, manteniendo el control de la caída, en 4 de 5 saltos.",
-      "Mantiene la mirada al frente durante toda la aproximación y la batida, en lugar de buscar la zona de batida con los ojos.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de mantener un ritmo de aproximación constante durante 5–7 apoyos y llegar a la zona de batida sin acortar ni alargar el paso, en 4 de 5 intentos.",
+      "El alumno será capaz de batir con un solo pie desde la zona marcada, sin pisarla de más ni frenar antes de ella.",
+      "El alumno será capaz de caer sobre los dos pies dentro de la zona de caída y amortiguar con las rodillas, manteniendo el control de la caída, en 4 de 5 saltos.",
+      "El alumno será capaz de mantener la mirada al frente durante toda la aproximación y la batida, en lugar de buscar la zona de batida con los ojos.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "AT-06 — Salto de longitud desde parado y caída.",
     "pathwayPosition": "Sesión anterior: AT-06 — Salto de longitud desde parado y caída.\nSesión actual: añade la carrera de aproximación y la batida a un pie.\nSesión siguiente: AT-08 — Lanzamiento de pelota blanda a distancia.",
@@ -2984,11 +2984,11 @@
     "identity": "Título completo: Atletismo 08 — Lanzamiento de pelota blanda a distancia\nCódigo: AT-08-ES\nDisciplina: Atletismo\nSubtema: transferencia de fuerza y lanzamiento\nEdad: 11–14 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, pelotas blandas, colchonetas y cinta\nEspacio: gimnasio, pista o campo llano\nComplejidad: intermedia",
     "purpose": "Lanzar una pelota blanda a distancia desde una posición de perfil, con el sector de caída completamente despejado.",
     "objectives": [
-      "Se coloca de perfil, con el hombro contrario orientado a la dirección del lanzamiento, en 4 de 5 intentos.",
-      "Mantiene el codo por encima del hombro y suelta la pelota hacia delante y hacia arriba en un ángulo de unos 45 grados, en 3 de 4 lanzamientos.",
-      "Transfiere el peso del pie de atrás al de delante durante el lanzamiento, de modo que las piernas y el tronco participan y no solo el brazo, en 4 de 5 lanzamientos.",
-      "Comprueba que el sector está despejado y lanza solo con la señal.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de colocarse de perfil, con el hombro contrario orientado a la dirección del lanzamiento, en 4 de 5 intentos.",
+      "El alumno será capaz de mantener el codo por encima del hombro y soltar la pelota hacia delante y hacia arriba en un ángulo de unos 45 grados, en 3 de 4 lanzamientos.",
+      "El alumno será capaz de transferir el peso del pie de atrás al de delante durante el lanzamiento, de modo que las piernas y el tronco participan y no solo el brazo, en 4 de 5 lanzamientos.",
+      "El alumno será capaz de comprobar que el sector está despejado y lanzar solo con la señal.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "AT-07 — Carrera de aproximación y salto a una zona.",
     "pathwayPosition": "Sesión anterior: AT-07 — Carrera de aproximación y salto a una zona.\nSesión actual: incorpora el lanzamiento a distancia con transferencia de peso y control del sector.\nSesión siguiente: AT-09 — Circuito de carrera, salto y lanzamiento.",
@@ -3047,11 +3047,11 @@
     "identity": "Título completo: Atletismo 09 — Circuito de carrera, salto y lanzamiento\nCódigo: AT-09-ES\nDisciplina: Atletismo\nSubtema: circuito multidisciplinar\nEdad: 12–15 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, pelotas blandas, colchonetas, cinta y tarjetas de consigna\nEspacio: gimnasio, pista o campo llano\nComplejidad: intermedia",
     "purpose": "Completar estaciones de carrera, salto y lanzamiento con el esfuerzo regulado y transiciones autónomas.",
     "objectives": [
-      "Completa las tres estaciones aplicando en cada una la consigna técnica correspondiente en 4 de 5 rondas.",
-      "Regula su esfuerzo para llegar a la última estación sin agotarse.",
-      "Realiza las transiciones solo con la señal y por el recorrido previsto.",
-      "Registra su propio resultado y lo compara únicamente consigo mismo.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de completar las tres estaciones aplicando en cada una la consigna técnica correspondiente en 4 de 5 rondas.",
+      "El alumno será capaz de regular su esfuerzo para llegar a la última estación sin agotarse.",
+      "El alumno será capaz de realizar las transiciones solo con la señal y por el recorrido previsto.",
+      "El alumno será capaz de registrar su propio resultado y compararlo únicamente consigo mismo.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "AT-08 — Lanzamiento de pelota blanda a distancia, y las técnicas de las sesiones AT-01 a AT-07.",
     "pathwayPosition": "Sesión anterior: AT-08 — Lanzamiento de pelota blanda a distancia.\nSesión actual: integra las tres familias de gestos en un circuito con autonomía en las transiciones.\nSesión siguiente: AT-10 — Evaluación final de pruebas combinadas.",
@@ -3110,11 +3110,11 @@
     "identity": "Título completo: Atletismo 10 — Evaluación final de pruebas combinadas\nCódigo: AT-10-ES\nDisciplina: Atletismo\nSubtema: aplicación y evaluación del itinerario\nEdad: 13–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, marcas de suelo, testigos, pelotas blandas, colchonetas, cinta y fichas de registro\nEspacio: gimnasio, pista o campo llano\nComplejidad: intermedia",
     "purpose": "Mostrar una mejora observable en carrera, salto y lanzamiento, y explicar el objetivo personal siguiente.",
     "objectives": [
-      "Ejecuta con técnica correcta las tres pruebas del itinerario en 4 de 5 intentos.",
-      "Ajusta el segundo intento a partir de la devolución recibida en el primero.",
-      "Registra su propia evidencia de mejora respecto a sesiones anteriores.",
-      "Mantiene la separación, respeta las normas de calle y de sector, y responde a la señal de parada.",
-      "Enuncia un punto fuerte personal y un objetivo concreto para la unidad siguiente, ambos respaldados por evidencia de la sesión."
+      "El alumno será capaz de ejecutar con técnica correcta las tres pruebas del itinerario en 4 de 5 intentos.",
+      "El alumno será capaz de ajustar el segundo intento a partir de la devolución recibida en el primero.",
+      "El alumno será capaz de registrar su propia evidencia de mejora respecto a sesiones anteriores.",
+      "El alumno será capaz de mantener la separación, respetar las normas de calle y de sector, y responde a la señal de parada.",
+      "El alumno será capaz de enunciar un punto fuerte personal y un objetivo concreto para la unidad siguiente, ambos respaldados por evidencia de la sesión."
     ],
     "priorKnowledge": "AT-09 — Circuito de carrera, salto y lanzamiento, y el conjunto de las sesiones AT-01 a AT-08.",
     "pathwayPosition": "Sesión anterior: AT-09 — Circuito de carrera, salto y lanzamiento.\nSesión actual: evaluación final aplicada de las tres familias de pruebas.\nSesión siguiente: itinerario avanzado o unidad de mejora personal, según las evidencias recogidas.",

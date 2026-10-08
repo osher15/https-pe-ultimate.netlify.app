@@ -15,11 +15,11 @@
     "identity": "שם מלא: כדורגל 01 — שליטה בכדור וכדרור לשטח פנוי\nקוד מערך: FB-01-HE\nענף: כדורגל\nתת נושא: נגיעות קרובות, סריקה וכדרור לשטח פנוי\nגיל: 9–11\nרמת ניסיון: מתחילים\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורי רגל או כדורים רכים, 30 קונוסים ואפודות\nמרחב: מגרש או אולם המחולק לארבע רשתות עם מסדרוני ביטחון\nמורכבות: בסיסית",
     "purpose": "לפתח שליטה קרובה בכדור בהליכה ובריצה קלה, כדי לזהות ולהיכנס לשטח פנוי בבטחה.",
     "objectives": [
-      "מכדרר בנגיעות קרובות ושומר את הכדור בטווח צעד אחד ב־4 מתוך 5 ניסיונות.",
-      "מרים מבט לפחות פעמיים בכל מסלול ובוחר שטח פנוי.",
-      "עוצר את הכדור בכף הרגל באות בתוך שתי שניות.",
-      "משנה כיוון בלי לחדור לאזור של תלמיד אחר.",
-      "ממלא תפקיד מבצע וצופה ונותן משוב עובדתי אחד."
+      "התלמיד יצליח לכדרר בנגיעות קרובות ולשמור את הכדור בטווח צעד אחד ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח להרים מבט לפחות פעמיים בכל מסלול ולבחור שטח פנוי.",
+      "התלמיד יצליח לעצור את הכדור בכף הרגל באות בתוך שתי שניות.",
+      "התלמיד יצליח לשנות כיוון בלי לחדור לאזור של תלמיד אחר.",
+      "התלמיד יצליח למלא תפקיד מבצע וצופה ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "אין דרישה למערך כדורגל קודם; נדרשות תגובה לאות ותנועה בטוחה.",
     "pathwayPosition": "המערך הקודם: אין — זהו מערך הפתיחה של רצף הכדורגל.\nהמערך הנוכחי: מניח את שכבת השליטה האישית — הכדור נשאר בטווח צעד והמבט עולה בין נגיעות. עדיין ללא מסירה וללא מגן אמיתי.\nהמערך הבא: FB-02 — מסירה, קבלה ותנועת תמיכה.",
@@ -74,18 +74,18 @@
   },
   {
     "n": 2,
-    "title": "כדורגל 02 — מסירה, קליטה ותנועה לתמיכה",
-    "identity": "שם/קוד: מסירה, קליטה ותנועה לתמיכה; FB-02-HE\nענף/תת־נושא: כדורגל; מסירת פנים כף הרגל, קליטה ותנועה\nגיל/ניסיון: 9–11; מתחילים–מתפתחים\nמשך/תלמידים: 45 דקות; 20–30\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 10–15 כדורים, 28 קונוסים, אפודים\nמרחב/מורכבות: מגרש שטוח או אולם; בינונית",
-    "purpose": "לפתח יכולת להעביר כדור בדיוק, לקלוט אותו אל שטח בטוח ולנוע מיד לנקודת תמיכה חדשה כחלק ממשחק קבוצתי.",
+    "title": "כדורגל 02 — מסירה, קבלה ותנועה לתמיכה",
+    "identity": "שם/קוד: מסירה, קבלה ותנועה לתמיכה; FB-02-HE\nענף/תת־נושא: כדורגל; מסירת פנים כף הרגל, קבלה ותנועה\nגיל/ניסיון: 9–11; מתחילים–מתפתחים\nמשך/תלמידים: 45 דקות; 20–30\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 10–15 כדורים, 28 קונוסים, אפודים\nמרחב/מורכבות: מגרש שטוח או אולם; בינונית",
+    "purpose": "לפתח יכולת להעביר כדור בדיוק, לקבל אותו אל שטח בטוח ולנוע מיד לנקודת תמיכה חדשה כחלק ממשחק קבוצתי.",
     "objectives": [
-      "למסור בכף הרגל הפנימית לאזור של מטר סביב השותף ב־6/8.",
-      "לקלוט בנגיעה שמרחיקה את הכדור פחות מצעד.",
-      "להרים מבט לפני מסירה ולהציג זווית תמיכה לאחריה.",
-      "לשמור מרחק 3–5 מטרים במשולש.",
-      "להשלים חמישה רצפים ללא מגע או יציאה מהאזור."
+      "התלמיד יצליח למסור בכף הרגל הפנימית לאזור של מטר סביב השותף ב־6/8.",
+      "התלמיד יצליח לקבל בנגיעה שמרחיקה את הכדור פחות מצעד.",
+      "התלמיד יצליח להרים מבט לפני מסירה ולהציג זווית תמיכה לאחריה.",
+      "התלמיד יצליח לשמור מרחק 3–5 מטרים במשולש.",
+      "התלמיד יצליח להשלים חמישה רצפים ללא מגע או יציאה מהאזור."
     ],
     "priorKnowledge": "שליטה בסיסית וכדרור לשטח פנוי ממערך 01. מי שאינו שולט בכדור עובד ממרחק קצר ובכדור רך.",
-    "pathwayPosition": "קודם: כדורגל 01 — שליטה וכדרור. נוכחי: מסירה, קליטה ותמיכה. הבא: כדורגל 03 — שינוי כיוון והגנת הכדור.",
+    "pathwayPosition": "קודם: כדורגל 01 — שליטה וכדרור. נוכחי: מסירה, קבלה ותמיכה. הבא: כדורגל 03 — שינוי כיוון והגנת הכדור.",
     "unitContribution": "מוטורית: דיוק ותיאום רגל–עין. חברתית: שיתוף ותקשורת. קוגניטיבית: סריקה ותזמון. טקטית: זווית תמיכה ורוחב. רגשית: אמון במסירה והתמודדות עם איבוד.",
     "equipment": "כדור לכל זוג/שלישייה; משולשים 5×5×5 מטר וריבועים 7×7. הקמה: 7 דקות; פירוק: 4. מעבר של 1.5 מטר בין אזורים; אין טורים.",
     "safety": [
@@ -99,9 +99,9 @@
       "משטח ושרוכים נבדקים."
     ],
     "sections": {
-      "opening": "3 דקות. “מסירה טובה אינה מסתיימת כשהכדור עוזב את הרגל; היא ממשיכה בקליטה ובתנועה.” מטרה: שלושת שלבי הרצף.",
-      "warmup": "7 דקות. זוגות מגלגלים כדור, קולטים בסוליה ונעים לקונוס חדש. לאחר 3 דקות עוברים למסירת פנים כף הרגל; לאחר 5 דקות מוסיפים קריאת שם. וריאציות: מרחק קצר וכדור גדול.",
-      "mainA": "10 דקות. זוגות מול שער קונוסים ברוחב מטר. שמונה מסירות ואז שינוי זווית. דגשים: רגל תמיכה ליד הכדור, קרסול יציב, פנים כף הרגל למטרה, קליטה רכה. טעויות: בוהן, רגל תמיכה רחוקה, כוח רב, קליטה עומדת.",
+      "opening": "3 דקות. “מסירה טובה אינה מסתיימת כשהכדור עוזב את הרגל; היא ממשיכה בקבלה ובתנועה.” מטרה: שלושת שלבי הרצף.",
+      "warmup": "7 דקות. זוגות מגלגלים כדור, מקבלים בסוליה ונעים לקונוס חדש. לאחר 3 דקות עוברים למסירת פנים כף הרגל; לאחר 5 דקות מוסיפים קריאת שם. וריאציות: מרחק קצר וכדור גדול.",
+      "mainA": "10 דקות. זוגות מול שער קונוסים ברוחב מטר. שמונה מסירות ואז שינוי זווית. דגשים: רגל תמיכה ליד הכדור, קרסול יציב, פנים כף הרגל למטרה, קבלה רכה. טעויות: בוהן, רגל תמיכה רחוקה, כוח רב, קבלה עומדת.",
       "mainB": "10 דקות. שלישייה במשולש; לאחר מסירה עוברים לפינה הפנויה. ארבעה סבבים לכל כיוון. דגשים: מבט לפני מסירה, זווית רחבה, נגיעה ראשונה לשטח, תנועה אחרי שליטה. טעויות: כולם לכדור, עמידה, מסירה מאחורי שותף, כדור רחוק.",
       "appliedGame": "10 דקות. 3 נגד 1 בריבוע, מגן־צל עד 50% וללא תיקול. ארבע מסירות מאפשרות מסירה דרך שער סיום. ניקוד: נקודה לארבע מסירות ונקודת בונוס אם כל השלושה קיבלו. וריאציות: ללא מגן; מגן 60%; שני שערים.",
       "closing": "5 דקות. מסר: “מוסר, נע ותומך.” הדגמת רצף, משוב של שותף, איסוף מסודר."
@@ -109,28 +109,28 @@
     "commonErrors": [
       "בעיטה בבוהן: הכדור לא מדויק; להפנות פנים כף הרגל.",
       "רגל תמיכה רחוקה: הגוף נופל; לסמן עקבה ליד הכדור.",
-      "מסירה חזקה: קליטה בורחת; לקצר מרחק ולכוון לשער.",
+      "מסירה חזקה: קבלה בורחת; לקצר מרחק ולכוון לשער.",
       "אין תנועה אחרי מסירה: המשולש נסגר; קונוס פנוי בולט.",
-      "קליטה מתחת לגוף: הכדור נעצר בלי המשך; לכוון נגיעה לצד הפנוי.",
+      "קבלה מתחת לגוף: הכדור נעצר בלי המשך; לכוון נגיעה לצד הפנוי.",
       "מבט למטה: שותף אינו מוכן; קריאת שם והרמת ראש."
     ],
     "teachingPoints": [
       "רגל תמיכה ליד הכדור.",
       "קרסול יציב.",
       "מסירה על הקרקע.",
-      "קליטה רכה.",
+      "קבלה רכה.",
       "מבט לפני מסירה.",
       "מסרתי–נעתי.",
       "משולש רחב.",
       "תקשורת קצרה."
     ],
     "adaptations": "בסיס: כדור רך, 2–3 מטר, שער רחב. ביניים: 4–5 מטר ותנועה. מתקדם: שתי נגיעות ומגן 60%. קבוצה גדולה: שמונה משולשים. קטנה: 3 נגד 1. שטח מוגבל: 4×4 והליכה. ציוד חלקי: כדור לרביעייה וצופה. צרכים שונים: מטרה גדולה, קצב איטי, שותף קבוע, אות חזותי/קולי ותוכנית אישית.",
-    "assessment": "דיוק, קליטה, מבט, תנועה ומרווח. הצלחה: לפחות ארבע מחמשת המטרות הושגו, כל אחת לפי המדד שנקבע לה־חלקית: שלוש מטרות או השגה רק ללא מגן; אי־הצלחה: כדור בורח, אין תנועה או סכנת התנגשות. חוזרים לשער זוגי.",
+    "assessment": "דיוק, קבלה, מבט, תנועה ומרווח. הצלחה: לפחות ארבע מחמשת המטרות הושגו, כל אחת לפי המדד שנקבע לה־חלקית: שלוש מטרות או השגה רק ללא מגן; אי־הצלחה: כדור בורח, אין תנועה או סכנת התנגשות. חוזרים לשער זוגי.",
     "reflection": "למורה: האם המרחק מתאים ומספר הנגיעות גבוה? לתלמיד: לאן כיוונת את הנגיעה הראשונה? למה נעת אחרי המסירה? לשיפור: להתאים שערים ומרחקים.",
     "continuity": "אם הושג: כדורגל 03 — שינוי כיוון והגנת כדור. אם לא: חזרה לפעילות א; בקושי שליטה חוזרים לכדורגל 01.",
-    "bankLink": "תגיות: כדורגל, מסירה, קליטה, תמיכה. גיל 9–11. ציוד: כדורים, קונוסים, אפודים. מיומנויות: דיוק, נגיעה ראשונה, תנועה. עומס בינוני; מורכבות בינונית. מילות מפתח: inside-foot pass, first touch, support angle.",
+    "bankLink": "תגיות: כדורגל, מסירה, קבלה, תמיכה. גיל 9–11. ציוד: כדורים, קונוסים, אפודים. מיומנויות: דיוק, נגיעה ראשונה, תנועה. עומס בינוני; מורכבות בינונית. מילות מפתח: inside-foot pass, first touch, support angle.",
     "systemData": "גופני: בינוני; קוגניטיבי: בינוני; ארגוני: בינוני; עצמאות: בינונית.",
-    "teacherSummary": "כדורגל 02 מחבר מסירה, קליטה ותנועה.\nמתחילים בזוגות ומתקדמים למשולש ול־3 נגד 1.\nהכדור נשאר על הקרקע וללא תיקול.\nהדגש הוא נגיעה ראשונה ותמיכה אחרי המסירה.\nהצלחה: לפחות 4 מתוך 5 המטרות, כל אחת לפי המדד שלה.",
+    "teacherSummary": "כדורגל 02 מחבר מסירה, קבלה ותנועה.\nמתחילים בזוגות ומתקדמים למשולש ול־3 נגד 1.\nהכדור נשאר על הקרקע וללא תיקול.\nהדגש הוא נגיעה ראשונה ותמיכה אחרי המסירה.\nהצלחה: לפחות 4 מתוך 5 המטרות, כל אחת לפי המדד שלה.",
     "pedagogicalValue": "המערך הופך שליטה אישית לשיתוף קבוצתי ומפתח דיוק, זווית ותזמון. דילוג עליו משאיר את המשחק מבוסס כדרור אישי והצטופפות.",
     "selfQualityCheck": "✅ מקורי ✅ בטוח ✅ מטרות נצפות ✅ מותאם לגיל ✅ ציוד ריאלי ✅ רצף ✅ התאמות ✅ הערכה ✅ רפלקציה ✅ ניתן להעברה\nסטטוס: טיוטה מקורית בסיוע AI; נדרשות בדיקת מורה, עריכת שפה, פיילוט ובדיקת זכויות.",
     "ageRange": "9–11",
@@ -144,11 +144,11 @@
     "identity": "שם/קוד: שינוי כיוון והגנת הכדור; FB-03-HE\nענף/תת־נושא: כדורגל; סיבוב, גוף בין מגן לכדור ויציאה לשטח\nגיל/ניסיון: 10–12; מתחילים–מתפתחים\nמשך/תלמידים: 45 דקות; 20–30\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 10–15 כדורים, 30 קונוסים, אפודים\nמרחב/מורכבות: מגרש שטוח או אולם; בינונית",
     "purpose": "לפתח שליטה המאפשרת לשנות כיוון ולהרחיק את הכדור מלחץ באמצעות מיקום הגוף, בלי מגע ובלי להישען על מהירות בלבד.",
     "objectives": [
-      "לעצור ולשנות כיוון תוך שתי נגיעות ב־6/8.",
-      "להציב גוף בין מגן־צל לכדור ב־5/7.",
-      "לצאת מהסיבוב עם הכדור בטווח צעד.",
-      "להרים מבט ולבחור שער פנוי.",
-      "להשלים 1 נגד 1 מבוקר ללא מגע."
+      "התלמיד יצליח לעצור ולשנות כיוון תוך שתי נגיעות ב־6/8.",
+      "התלמיד יצליח להציב גוף בין מגן־צל לכדור ב־5/7.",
+      "התלמיד יצליח לצאת מהסיבוב עם הכדור בטווח צעד.",
+      "התלמיד יצליח להרים מבט ולבחור שער פנוי.",
+      "התלמיד יצליח להשלים 1 נגד 1 מבוקר ללא מגע."
     ],
     "priorKnowledge": "כדרור בשליטה, עצירת סוליה ומסירה בסיסית. תלמיד שמתקשה עובד ללא מגן ובקצב הליכה.",
     "pathwayPosition": "קודם: כדורגל 02 — מסירה ותמיכה. נוכחי: נותן לתלמיד פתרון ללחץ שאינו מסירה — עד כה המוצא מן הלחץ היה שותף, וכאן הוא מיקום הגוף והנגיעה עצמם. עדיין מגן־צל בודד ובלי שער לסיים אליו; הסיום נוסף בכדורגל 04. הבא: כדורגל 04 — חדירה דרך שער וסיום מדויק.",
@@ -209,11 +209,11 @@
     "identity": "שם/קוד: חדירה לשער וסיום מדויק; FB-04-HE\nענף/תת־נושא: כדורגל; כדרור קדימה, הכנת כדור ובעיטה מדויקת\nגיל/ניסיון: 10–13; מתחילים–מתפתחים\nמשך/תלמידים: 45 דקות; 20–30\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 10–15 כדורים, 30 קונוסים, 4–6 שערים קטנים, אפודים\nמרחב/מורכבות: מגרש שטוח או אולם; בינונית",
     "purpose": "לחבר כדרור אל שטח פנוי להכנת כדור ולסיום נמוך ומדויק, תוך שליטה במהירות ובטיחות סביב אזור הבעיטה.",
     "objectives": [
-      "לחדור דרך שער כניסה כשהכדור בטווח צעד ב־6/8.",
-      "להכין את הכדור בנגיעה אחרונה לצד הרגל הבועטת.",
-      "לפגוע בשער ברוחב 2 מטר ב־5/8 בעיטות.",
-      "להאט ולסרוק לפני הבעיטה.",
-      "לצאת מנתיב הבעיטה מיד לאחר הסיום."
+      "התלמיד יצליח לחדור דרך שער כניסה כשהכדור בטווח צעד ב־6/8.",
+      "התלמיד יצליח להכין את הכדור בנגיעה אחרונה לצד הרגל הבועטת.",
+      "התלמיד יצליח לפגוע בשער ברוחב 2 מטר ב־5/8 בעיטות.",
+      "התלמיד יצליח להאט ולסרוק לפני הבעיטה.",
+      "התלמיד יצליח לצאת מנתיב הבעיטה מיד לאחר הסיום."
     ],
     "priorKnowledge": "כדרור, שינוי כיוון והגנת כדור ממערכים 01–03. מי שמתקשה עובד ללא חדירה וממרחק קצר.",
     "pathwayPosition": "קודם: כדורגל 03 — שינוי כיוון והגנת הכדור. נוכחי: מוסיף לראשונה מטרה לרצף — עד כה השליטה הייתה מטרה בפני עצמה, וכאן היא נמדדת במה שהיא מייצרת: נגיעה מכינה ובעיטה מדויקת. עדיין ללא שוער, ללא שותף וללא לחץ אמיתי; יצירת ההזדמנות עם שותף נפתחת בכדורגל 05. הבא: כדורגל 05 — תנועה ללא כדור ויצירת הזדמנות לסיום.",
@@ -275,13 +275,13 @@
     "identity": "שם/קוד: תנועה ללא כדור ויצירת אפשרות מסירה; FB-05-HE\nענף/תת־נושא: כדורגל; התרחקות, שינוי כיוון וקבלה בשטח\nגיל/ניסיון: 11–14; מתפתחים\nמשך/תלמידים: 45 דקות; 20–30\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 8–12 כדורים, 28 קונוסים, אפודים\nמרחב/מורכבות: מגרש או אולם; בינונית",
     "purpose": "לפתח הרגל של תנועה מתוזמנת לשטח פנוי לפני קבלת הכדור, כדי ליצור קו מסירה ולהכין פעולה התקפית הבאה.",
     "objectives": [
-      "להתרחק תחילה מהיעד ואז לשנות כיוון לקבלה ב־6/8.",
-      "להגיע לשטח הפנוי בזמן שהמוסר מוכן.",
-      "להציג כיוון גוף המאפשר לראות כדור ויעד.",
-      "לקבל בנגיעה ראשונה אל שטח בטוח ב־5/7.",
-      "לשמור מרווח וללא מגע מול מגן־צל."
+      "התלמיד יצליח להתרחק תחילה מהיעד ואז לשנות כיוון לקבלה ב־6/8.",
+      "התלמיד יצליח להגיע לשטח הפנוי בזמן שהמוסר מוכן.",
+      "התלמיד יצליח להציג כיוון גוף המאפשר לראות כדור ויעד.",
+      "התלמיד יצליח לקבל בנגיעה ראשונה אל שטח בטוח ב־5/7.",
+      "התלמיד יצליח לשמור מרווח וללא מגע מול מגן־צל."
     ],
-    "priorKnowledge": "מסירה וקליטה ממערך 02, שינוי כיוון ממערך 03 וסיום ממערך 04. תלמיד שאינו מוכן עובד ללא מגן ובקצב הליכה.",
+    "priorKnowledge": "מסירה וקבלה ממערך 02, שינוי כיוון ממערך 03 וסיום ממערך 04. תלמיד שאינו מוכן עובד ללא מגן ובקצב הליכה.",
     "pathwayPosition": "קודם: כדורגל 04 — חדירה וסיום. נוכחי: יצירת האפשרות לפני הקבלה. הבא: כדורגל 06 — הגנה ללא מגע וסגירת קו מסירה.",
     "unitContribution": "מוטורית: שינוי קצב וכיוון. חברתית: תיאום ותקשורת. קוגניטיבית: תזמון וסריקה. טקטית: קו מסירה ורוחב. רגשית: יוזמה וביטחון לבקש כדור.",
     "equipment": "5–6 מלבנים 6×10 מטר עם נקודת מוסר ושני שערי קבלה. הקמה: 7 דקות; פירוק: 4. 4–5 תלמידים באזור; נתיב החזרה מבחוץ.",
@@ -340,11 +340,11 @@
     "identity": "שם/קוד: הגנה ללא מגע וסגירת קו מסירה; FB-06-HE\nענף/תת־נושא: כדורגל; עמדת הגנה, מרחק ויירוט קו\nגיל/ניסיון: 11–14; מתפתחים\nמשך/תלמידים: 45 דקות; 20–30\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 8–12 כדורים, 28 קונוסים, אפודים\nמרחב/מורכבות: מגרש או אולם; בינונית",
     "purpose": "לפתח הגנה המבוססת על מיקום, מרחק וקריאת מסירה, כדי לעכב התקפה ולסגור אפשרות בלי מגע או תיקול מסוכן.",
     "objectives": [
-      "לשמור גוף בין התוקף לשער ב־6/8 מצבים.",
-      "לשמור מרחק 1.5–2 מטרים בלי מגע.",
-      "לנוע בצעדים קצרים וללא הצלבת רגליים.",
-      "לזהות ולסגור קו מסירה אחד ב־5/7.",
-      "ליירט רק כדור שעבר במרחב, בלי לפגוע בשחקן."
+      "התלמיד יצליח לשמור גוף בין התוקף לשער ב־6/8 מצבים.",
+      "התלמיד יצליח לשמור מרחק 1.5–2 מטרים בלי מגע.",
+      "התלמיד יצליח לנוע בצעדים קצרים וללא הצלבת רגליים.",
+      "התלמיד יצליח לזהות ולסגור קו מסירה אחד ב־5/7.",
+      "התלמיד יצליח ליירט רק כדור שעבר במרחב, בלי לפגוע בשחקן."
     ],
     "priorKnowledge": "שינוי כיוון, תנועה ללא כדור והבנת קו מסירה ממערכים 03 ו־05. תלמיד שאינו מוכן עובד ללא כדור מול מוביל־צל.",
     "pathwayPosition": "קודם: כדורגל 05 — יצירת קו מסירה. נוכחי: מהפך תפקיד ביחס ל־05 — התלמיד שלמד לפתוח לעצמו קו מסירה לומד עכשיו לסגור אותו לאחר. עדיין מגן יחיד מול מוסר ומקבל, בלי שותף הגנתי ובלי מעבר בין התפקידים; אלה נוספים בכדורגל 08. הבא: כדורגל 07 — יתרון התקפי 2 נגד 1.",
@@ -406,11 +406,11 @@
     "identity": "שם/קוד: יתרון התקפי 2 נגד 1; FB-07-HE\nענף/תת־נושא: כדורגל; רוחב, משיכת מגן ומסירה בזמן\nגיל/ניסיון: 12–15; מתפתחים\nמשך/תלמידים: 45 דקות; 18–30\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 8–12 כדורים, 28 קונוסים, אפודים, שערים קטנים\nמרחב/מורכבות: מגרש או אולם; בינונית–מתקדמת",
     "purpose": "לפתח ניצול של יתרון שני תוקפים מול מגן אחד באמצעות רוחב, נשיאת כדור שמושכת מגן ומסירה בזמן לשחקן הפנוי.",
     "objectives": [
-      "לשמור רוחב 4–7 מטרים ב־6/8 התקפות.",
-      "נושא הכדור סורק את המגן לפני קו החלטה.",
-      "למסור כאשר המגן מתחייב או להמשיך כשהנתיב פתוח ב־5/7.",
-      "השותף נשאר גלוי ולפני הכדור.",
-      "לסיים בתוך 10 שניות ללא מגע."
+      "התלמיד יצליח לשמור רוחב 4–7 מטרים ב־6/8 התקפות.",
+      "התלמיד יצליח, כנושא הכדור, לסרוק את המגן לפני קו החלטה.",
+      "התלמיד יצליח למסור כאשר המגן מתחייב או להמשיך כשהנתיב פתוח ב־5/7.",
+      "התלמיד יצליח, כשותף ללא כדור, להישאר גלוי ולפני הכדור.",
+      "התלמיד יצליח לסיים בתוך 10 שניות ללא מגע."
     ],
     "priorKnowledge": "מסירה, קבלה בתנועה, סיום והגנה ללא מגע ממערכים 02–06. מי שאינו מוכן עובד ב־2 נגד 0 עם מגן־קונוס.",
     "pathwayPosition": "קודם: כדורגל 06 — סגירת קו מסירה. נוכחי: הופך את ידיעת ההגנה לכלי התקפי — מי שלמד כיצד מגן סוגר קו יודע עכשיו כיצד לגרום לו להתחייב. עדיין מגן אחד בלבד והרצף נחתם בסיום; מה שקורה ברגע שהכדור אובד נלמד בכדורגל 08. הבא: כדורגל 08 — מעבר מהתקפה להגנה לאחר איבוד.",
@@ -471,11 +471,11 @@
     "identity": "שם/קוד: מעבר מהתקפה להגנה לאחר איבוד; FB-08-HE\nענף/תת־נושא: כדורגל; תגובה, נסיגה וסגירת מרכז\nגיל/ניסיון: 12–15; מתפתחים\nמשך/תלמידים: 45 דקות; 18–30\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 8–12 כדורים, 28 קונוסים, אפודים\nמרחב/מורכבות: מגרש או אולם; מתקדמת",
     "purpose": "לפתח תגובה קבוצתית מהירה ובטוחה לאיבוד כדור: עצירה, חזרה לעמדה וסגירת הנתיב המרכזי לפני ניסיון לזכות מחדש בכדור.",
     "objectives": [
-      "להגיב לאיבוד בתוך שתי שניות ב־6/8 מצבים.",
-      "השחקן הקרוב מעכב ללא מגע והשני נסוג למרכז.",
-      "לשמור גוף בין הכדור לשער.",
-      "לתקשר במילה מוסכמת אחת.",
-      "להחזיר מבנה הגנתי בתוך חמש שניות."
+      "התלמיד יצליח להגיב לאיבוד בתוך שתי שניות ב־6/8 מצבים.",
+      "התלמיד יצליח, כשחקן הקרוב, לעכב ללא מגע, וכשחקן השני – לסגת למרכז.",
+      "התלמיד יצליח לשמור גוף בין הכדור לשער.",
+      "התלמיד יצליח לתקשר במילה מוסכמת אחת.",
+      "התלמיד יצליח להחזיר מבנה הגנתי בתוך חמש שניות."
     ],
     "priorKnowledge": "2 נגד 1, סגירת קו מסירה ותנועה ללא כדור ממערכים 05–07. מי שאינו מוכן עובד בתגובה לאות ללא יריב.",
     "pathwayPosition": "קודם: כדורגל 07 — יתרון התקפי 2 נגד 1. נוכחי: מחבר לראשונה את שני הצדדים שנלמדו בנפרד — ההתקפה של 07 וההגנה של 06 — סביב הרגע שבו הבעלות מתחלפת. עדיין המעבר מופעל באות מוסכם ובאזור קטן, ולא בזרימת משחק חופשית; זו נפתחת בכדורגל 09. הבא: כדורגל 09 — משחק מצומצם עם מעברים.",
@@ -537,11 +537,11 @@
     "identity": "שם/קוד: משחק מצומצם 4 נגד 4 ומעברים; FB-09-HE\nענף/תת־נושא: כדורגל; רוחב, תמיכה ומעבר לאחר שינוי בעלות\nגיל/ניסיון: 13–16; מתפתחים\nמשך/תלמידים: 45 דקות; 16–32\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 4–6 כדורים, 32 קונוסים, אפודים, 8–12 שערים קטנים\nמרחב/מורכבות: מגרש או אולם; מתקדמת",
     "purpose": "לשלב מסירה, תנועה, יתרון ומעבר הגנתי בתוך משחק מצומצם שבו כל תלמיד מקבל הזדמנויות חוזרות להחליט ולהשתתף.",
     "objectives": [
-      "ליצור לפחות שתי אפשרויות מסירה סביב הכדור.",
-      "לשנות תפקיד בתוך שתי שניות משינוי בעלות.",
-      "להשתמש ברוחב ולא להצטופף במרכז.",
-      "לשמור הגנה ללא מגע ולסגור שער מרכזי.",
-      "לכל תלמיד לפחות שלוש פעולות משמעותיות בכל משחקון."
+      "התלמיד יצליח ליצור לפחות שתי אפשרויות מסירה סביב הכדור.",
+      "התלמיד יצליח לשנות תפקיד בתוך שתי שניות משינוי בעלות.",
+      "התלמיד יצליח להשתמש ברוחב ולא להצטופף במרכז.",
+      "התלמיד יצליח לשמור הגנה ללא מגע ולסגור שער מרכזי.",
+      "התלמיד יצליח לבצע לפחות שלוש פעולות משמעותיות בכל משחקון."
     ],
     "priorKnowledge": "מסירה, קבלה, תנועה, הגנה, 2 נגד 1 ומעבר ממערכים 02–08. תלמיד הזקוק לתמיכה עובד עם שחקן ניטרלי או ביתרון מספרי.",
     "pathwayPosition": "קודם: כדורגל 08 — מעבר לאחר איבוד. נוכחי: מסיר את הפיגומים — כל מה שנלמד עד כה בתנאים מבודדים (רוחב, תמיכה, הגנה, מעבר) נדרש עכשיו בו־זמנית ובזרימה רציפה. עדיין אזור מוקטן, משחקונים קצרים וחוקי שיתוף שמחייבים מעורבות; ההערכה עצמה נדחית לכדורגל 10. הבא: כדורגל 10 — משחק יישומי מסכם והערכה.",
@@ -603,11 +603,11 @@
     "identity": "שם/קוד: משחק יישומי מסכם והערכת רצף; FB-10-HE\nענף/תת־נושא: כדורגל; יישום שליטה, מסירה, תנועה, סיום, הגנה ומעבר\nגיל/ניסיון: 13–16; מתפתחים\nמשך/תלמידים: 45 דקות; 16–32\nקבוצה: בנות, בנים או מעורבת; התאמות לפי יכולת\nציוד: 4–6 כדורים, 32 קונוסים, אפודים, שערים קטנים, כרטיסי הערכה\nמרחב/מורכבות: מגרש או אולם; מתקדמת",
     "purpose": "להעריך באופן יישומי אם התלמיד משלב מיומנויות, החלטות ושיתוף בתוך משחק בטוח, בלי להפוך את ההערכה למדידת שערים או יכולת אישית בלבד.",
     "objectives": [
-      "לבצע החלטה מתאימה בשלושה מתוך ארבעה מצבי כדור.",
-      "ליצור או לנצל קו מסירה לפחות ארבע פעמים.",
-      "להתחיל תגובה לאיבוד הכדור בתוך שתי שניות ולהשלים את שינוי התפקיד ההתקפי/הגנתי בתוך חמש שניות.",
-      "להגן ללא מגע ולשמור על המרכז.",
-      "להשתתף באופן פעיל ומכבד בכל משחקון."
+      "התלמיד יצליח לבצע החלטה מתאימה בשלושה מתוך ארבעה מצבי כדור.",
+      "התלמיד יצליח ליצור או לנצל קו מסירה לפחות ארבע פעמים.",
+      "התלמיד יצליח להתחיל תגובה לאיבוד הכדור בתוך שתי שניות ולהשלים את שינוי התפקיד ההתקפי/הגנתי בתוך חמש שניות.",
+      "התלמיד יצליח להגן ללא מגע ולשמור על המרכז.",
+      "התלמיד יצליח להשתתף באופן פעיל ומכבד בכל משחקון."
     ],
     "priorKnowledge": "רכיבי מערכים 01–09. תלמיד שאינו מוכן למשחק מלא מקבל שחקן ניטרלי, אזור תמיכה או תצפית פעילה עם כניסה מדורגת.",
     "pathwayPosition": "קודם: כדורגל 09 — 4 נגד 4 ומעברים. נוכחי: אותו משחק של 09, אך המבט מוסט מן הלמידה אל הראיה — כאן נאסף מידע נצפה על כל תלמיד לצורך תכנון המשך. אין רכיב טקטי חדש, וזו בחירה: מערך הערכה שמלמד בובזמן משהו חדש אינו מודד דבר. הבא: מעבר לכדוריד או יחידת כדורגל מתקדמת לפי תוצאות.",
@@ -671,11 +671,11 @@
     "identity": "Full title: Football 01 — Ball Control and Dribbling into Space\nLesson code: FB-01-EN\nSport: Football\nSubtopic: close touches, scanning, and dribbling toward free space\nAge: 9–11\nExperience: beginner\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 footballs or soft balls, 30 cones, and bibs\nSpace: field or gym divided into 4 grids with safety channels\nComplexity: foundation",
     "purpose": "Develop close ball control while walking and jogging so students can recognise and enter free space safely.",
     "objectives": [
-      "Dribbles with close touches and keeps the ball within one step's distance in 4 of 5 attempts.",
-      "Looks up at least twice per route and selects free space.",
-      "Stops the ball with the sole on the signal within two seconds.",
-      "Changes direction without entering another student’s area.",
-      "Takes both performer and observer roles in every rotation and names one factual cue seen in the partner's touches, rather than a verdict."
+      "The student can dribble with close touches and keep the ball within one step's distance in 4 of 5 attempts.",
+      "The student can look up at least twice per route and select free space.",
+      "The student can stop the ball with the sole on the signal within two seconds.",
+      "The student can change direction without entering another student’s area.",
+      "The student can take both performer and observer roles in every rotation and name one factual cue seen in the partner's touches, rather than a verdict."
     ],
     "priorKnowledge": "No football lesson is required; students must stop on signal and move safely.",
     "pathwayPosition": "Previous lesson: No football lesson is required; students must stop on signal and move safely.\nCurrent lesson: As the opening football lesson it adds the first relationship with the ball at the feet: close inside- and outside-foot touches, the sole stop, and the forward look that finds free space. It withholds passing to a team-mate entirely — the ball stays with one student for every task — which is what FB-02 introduces.\nNext lesson: FB-02 — pass, receive, and support movement.",
@@ -734,11 +734,11 @@
     "identity": "Name/code: Pass, Receive, and Move to Support; FB-02-EN\nSport/subtopic: Football; inside-foot pass, first touch, support\nAge/experience: 9–11; beginner–developing\nDuration/students: 45 minutes; 20–30\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 10–15 balls, 28 cones, bibs\nSpace/complexity: Flat field or gym; intermediate",
     "purpose": "Develop accurate passing, a safe first touch, and immediate movement to a new support point as foundations of team play.",
     "objectives": [
-      "Pass with inside foot into a one-metre area around partner in 6/8.",
-      "Keep first touch within one step.",
-      "Scan before passing and form a support angle afterward.",
-      "Maintain 3–5 metre triangle spacing.",
-      "Complete five sequences without contact or leaving area."
+      "The student can pass with inside foot into a one-metre area around partner in 6/8.",
+      "The student can keep first touch within one step.",
+      "The student can scan before passing and form a support angle afterward.",
+      "The student can maintain 3–5 metre triangle spacing.",
+      "The student can complete five sequences without contact or leaving area."
     ],
     "priorKnowledge": "Basic control and dribbling into space from Football 01. Students needing support use shorter distance and softer ball.",
     "pathwayPosition": "Previous: Football 01—control and dribble. Current: it adds the second player, turning the solo control of Football 01 into an inside-foot pass, a first touch that keeps the ball within one step, and a move to a new support angle straight after release; it withholds turning away from pressure and any defender permitted to tackle, so every pass is made in open space — which Football 03 changes. Next: Football 03—change direction and protect the ball.",
@@ -800,11 +800,11 @@
     "identity": "Name/code: Turn and Protect the Ball; FB-03-EN\nSport/subtopic: Football; turn, body position, escape pressure\nAge/experience: 10–12; beginner–developing\nDuration/students: 45 minutes; 20–30\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 10–15 balls, 30 cones, bibs\nSpace/complexity: Flat field or gym; intermediate",
     "purpose": "Develop control that allows a change of direction and movement away from pressure through body position, without contact or relying only on speed.",
     "objectives": [
-      "Stop and turn within two touches in 6/8.",
-      "Place body between shadow defender and ball in 5/7.",
-      "Exit the turn with ball within one step.",
-      "Scan and select an open gate.",
-      "Complete controlled 1v1 without contact."
+      "The student can stop and turn within two touches in 6/8.",
+      "The student can place body between shadow defender and ball in 5/7.",
+      "The student can exit the turn with ball within one step.",
+      "The student can scan and select an open gate.",
+      "The student can complete controlled 1v1 without contact."
     ],
     "priorKnowledge": "Controlled dribble, sole stop, and basic pass. Students needing support work unopposed at walking pace.",
     "pathwayPosition": "Previous: Football 02—pass and support. Current: it adds the answer to pressure, teaching students to stop, turn, and place the body between an opponent and the ball before leaving through open space; it withholds shooting and any finish on goal — every escape ends at a gate, not a target — which Football 04 adds. Next: Football 04—drive through a gate and finish accurately.",
@@ -865,11 +865,11 @@
     "identity": "Name/code: Drive Through and Finish Accurately; FB-04-EN\nSport/subtopic: Football; forward dribble, preparation touch, accurate strike\nAge/experience: 10–13; beginner–developing\nDuration/students: 45 minutes; 20–30\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 10–15 balls, 30 cones, 4–6 small goals, bibs\nSpace/complexity: Flat field or gym; intermediate",
     "purpose": "Connect dribbling into space with a preparation touch and low accurate finish while controlling speed and shooting-area safety.",
     "objectives": [
-      "Drive through entry gate with ball within one step in 6/8.",
-      "Prepare ball to the striking side with the final touch.",
-      "Hit a two-metre gate in 5/8.",
-      "Slow and scan before striking.",
-      "Leave the shooting lane immediately afterward."
+      "The student can drive through entry gate with ball within one step in 6/8.",
+      "The student can prepare ball to the striking side with the final touch.",
+      "The student can hit a two-metre gate in 5/8.",
+      "The student can slow and scan before striking.",
+      "The student can leave the shooting lane immediately afterward."
     ],
     "priorKnowledge": "Dribbling, turning, and protecting from Football 01–03. Students needing support finish from a stationary ball at short range.",
     "pathwayPosition": "Previous: Football 03—turn and protect. Current: it adds the end of the attacking sequence, joining the forward drive to a preparation touch and a low accurate strike on goal; it withholds any defender and any team-mate creating the chance — the student arrives at goal alone through an empty lane — which Football 05 begins to change. Next: Football 05—off-ball movement to create a finishing chance.",
@@ -931,11 +931,11 @@
     "identity": "Name/code: Off-Ball Movement to Receive; FB-05-EN\nSport/subtopic: Football; check away, change direction, receive in space\nAge/experience: 11–14; developing\nDuration/students: 45 minutes; 20–30\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 8–12 balls, 28 cones, bibs\nSpace/complexity: Field or gym; intermediate",
     "purpose": "Develop timed movement into open space before reception, creating a passing lane and preparing the next attacking action.",
     "objectives": [
-      "Check away then change direction to receive in 6/8.",
-      "Reach space as passer becomes ready.",
-      "Use body position that sees ball and target.",
-      "First-touch into safe space in 5/7.",
-      "Maintain spacing without contact against a shadow."
+      "The student can check away then change direction to receive in 6/8.",
+      "The student can reach space as passer becomes ready.",
+      "The student can use body position that sees ball and target.",
+      "The student can take a first touch into safe space in 5/7.",
+      "The student can maintain spacing without contact against a shadow."
     ],
     "priorKnowledge": "Pass/receive from Lesson 02, turn from 03, finish from 04. Students needing support work unopposed at walking pace.",
     "pathwayPosition": "Previous: Football 04—drive and finish. Current: it adds the movement that happens before the ball arrives — checking away, changing direction, and timing arrival to the passer's head-up moment — so the receiver creates the lane instead of waiting in it; it withholds the defensive half of that picture, since the shadow here never competes for the ball, which Football 06 supplies. Next: Football 06—no-contact defense and closing passing lanes.",
@@ -996,11 +996,11 @@
     "identity": "Name/code: No-Contact Defense and Closing a Passing Lane; FB-06-EN\nSport/subtopic: Football; stance, distance, lane interception\nAge/experience: 11–14; developing\nDuration/students: 45 minutes; 20–30\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 8–12 balls, 28 cones, bibs\nSpace/complexity: Field or gym; intermediate",
     "purpose": "Develop defense based on position, distance, and reading a pass, delaying attack without contact or unsafe tackling.",
     "objectives": [
-      "Keep body between attacker and gate in 6/8.",
-      "Maintain 1.5–2 metres without contact.",
-      "Use short uncrossed steps.",
-      "Identify and close one passing lane in 5/7.",
-      "Intercept only a ball traveling through space."
+      "The student can keep body between attacker and gate in 6/8.",
+      "The student can maintain 1.5–2 metres without contact.",
+      "The student can use short uncrossed steps.",
+      "The student can identify and close one passing lane in 5/7.",
+      "The student can intercept only a ball traveling through space."
     ],
     "priorKnowledge": "Changing direction, off-ball movement, and passing-lane understanding from Lessons 03 and 05. Students needing support mirror without a ball.",
     "pathwayPosition": "Previous: Football 05—create a passing lane. Current: it reverses the previous lesson's viewpoint — having learned to open a passing lane in Football 05, students now shut one using stance, distance, and the timing of an interception, entirely without contact; it withholds any second defender and all pressing as a unit, since one defender works alone against a pass, which the 2v1 of Football 07 opens up. Next: Football 07—2v1 attacking advantage.",
@@ -1062,11 +1062,11 @@
     "identity": "Name/code: Attacking 2v1 Advantage; FB-07-EN\nSport/subtopic: Football; width, committing defender, timed pass\nAge/experience: 12–15; developing\nDuration/students: 45 minutes; 18–30\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 8–12 balls, 28 cones, bibs, small goals\nSpace/complexity: Field or gym; intermediate–advanced",
     "purpose": "Develop use of a two-attacker advantage through width, carrying to commit one defender, and passing at the right moment to the free player.",
     "objectives": [
-      "Maintain 4–7 metres of width in 6/8 attacks.",
-      "Ball carrier scans before decision line.",
-      "Pass when defender commits or carry when lane stays open in 5/7.",
-      "Partner remains visible and ahead of ball.",
-      "Finish within ten seconds without contact."
+      "The student can maintain 4–7 metres of width in 6/8 attacks.",
+      "As the ball carrier, the student can scan before the decision line.",
+      "The student can pass when defender commits or carry when lane stays open in 5/7.",
+      "As the off-ball partner, the student can remain visible and ahead of the ball.",
+      "The student can finish within ten seconds without contact."
     ],
     "priorKnowledge": "Passing, moving reception, finishing, and no-contact defense from Lessons 02–06. Students needing support use 2v0 with cone defender.",
     "pathwayPosition": "Previous: Football 06—close a passing lane. Current: it adds the numerical overload, asking two attackers to hold width, carry the ball until the defender commits, and release the pass at that exact moment; it withholds any recovery defender and any consequence for losing possession — the advantage lasts the whole attack — which Football 08 takes away. Next: Football 08—attack-to-defense transition after loss.",
@@ -1127,11 +1127,11 @@
     "identity": "Name/code: Attack-to-Defense Transition After Loss; FB-08-EN\nSport/subtopic: Football; reaction, recovery, protect center\nAge/experience: 12–15; developing\nDuration/students: 45 minutes; 18–30\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 8–12 balls, 28 cones, bibs\nSpace/complexity: Field or gym; advanced",
     "purpose": "Develop a quick, safe team response to losing possession: stop, recover position, and protect the central route before trying to regain the ball.",
     "objectives": [
-      "React within two seconds in 6/8 losses.",
-      "Nearest player delays without contact while partner recovers centrally.",
-      "Keep body between ball and goal.",
-      "Use one agreed communication word.",
-      "Restore defensive shape within five seconds."
+      "The student can react within two seconds in 6/8 losses.",
+      "As the nearest player, the student can delay without contact while the partner recovers centrally.",
+      "The student can keep body between ball and goal.",
+      "The student can use one agreed communication word.",
+      "The student can restore defensive shape within five seconds."
     ],
     "priorKnowledge": "2v1, closing lanes, and off-ball movement from Lessons 05–07. Students needing support respond to a signal without opponents.",
     "pathwayPosition": "Previous: Football 07—attacking 2v1. Current: it adds the moment the pathway has so far ignored — the two seconds after the ball is lost — splitting the response into the nearest player delaying and the far player recovering to protect the centre; it withholds continuous play, since every transition is triggered by a signal and then stops, which Football 09 makes uninterrupted. Next: Football 09—small-sided transition game.",
@@ -1193,11 +1193,11 @@
     "identity": "Name/code: 4v4 Small-Sided Transition Game; FB-09-EN\nSport/subtopic: Football; width, support, possession transition\nAge/experience: 13–16; developing\nDuration/students: 45 minutes; 16–32\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 4–6 balls, 32 cones, bibs, 8–12 small goals\nSpace/complexity: Field or gym; advanced",
     "purpose": "Combine passing, movement, advantage, and defensive transition in a small-sided game that gives every student repeated decisions and participation.",
     "objectives": [
-      "Create at least two passing options around ball.",
-      "Switch role within two seconds of possession change.",
-      "Use width rather than crowding center.",
-      "Defend without contact and protect central gate.",
-      "Each student makes at least three meaningful actions per game."
+      "The student can create at least two passing options around ball.",
+      "The student can switch role within two seconds of possession change.",
+      "The student can use width rather than crowding center.",
+      "The student can defend without contact and protect central gate.",
+      "The student can make at least three meaningful actions per game."
     ],
     "priorKnowledge": "Passing, receiving, movement, defense, 2v1, and transition from Lessons 02–08. Students needing support use a neutral player or numerical advantage.",
     "pathwayPosition": "Previous: Football 08—transition after loss. Current: it removes the signals and stoppages, running continuous 4v4 in which width, support, advantage, and transition must all be produced by the students themselves; it withholds only the formal assessment of each individual's pathway, which Football 10 adds as the closing lesson. Next: Football 10—final applied game and assessment.",
@@ -1259,11 +1259,11 @@
     "identity": "Name/code: Final Applied Game and Pathway Assessment; FB-10-EN\nSport/subtopic: Football; integrated control, pass, movement, finish, defense, transition\nAge/experience: 13–16; developing\nDuration/students: 45 minutes; 16–32\nGroup: Girls, boys, or mixed; adapt by ability\nEquipment: 4–6 balls, 32 cones, bibs, small goals, assessment cards\nSpace/complexity: Field or gym; advanced",
     "purpose": "Assess whether students combine skill, decisions, and cooperation in safe play without reducing achievement to goals or prior individual ability.",
     "objectives": [
-      "Make an appropriate choice in three of four ball situations.",
-      "Create or use a passing lane at least four times.",
-      "React to a loss within two seconds and complete the change of role within five seconds.",
-      "Defend centrally without contact.",
-      "Participate actively and respectfully in every game."
+      "The student can make an appropriate choice in three of four ball situations.",
+      "The student can create or use a passing lane at least four times.",
+      "The student can react to a loss within two seconds and complete the change of role within five seconds.",
+      "The student can defend centrally without contact.",
+      "The student can participate actively and respectfully in every game."
     ],
     "priorKnowledge": "Components of Football 01–09. Students not ready receive a neutral player, support zone, or active observer role with gradual entry.",
     "pathwayPosition": "Previous: Football 09—4v4 transitions. Current: it adds no new content and instead gathers evidence, asking each student to play 4v4 while observers record decision, lane use, transition, defense, and participation against criteria stated in advance; it withholds nothing further in this pathway — what follows is chosen from that evidence, whether an advanced football unit or the handball pathway. Next: handball unit or advanced football based on evidence.",
@@ -1327,11 +1327,11 @@
     "identity": "الاسم الكامل: كرة القدم 01 — التحكم بالكرة والمحاورة إلى المساحة\nالرمز: FB-01-AR\nالفرع: كرة القدم\nالموضوع الفرعي: لمسات قريبة ومسح ومحاورة إلى فراغ\nالعمر: 9–11 سنة\nالخبرة: مبتدئة\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة قدم أو كرة لينة، 30 مخروطًا وصدريات\nالمكان: ملعب أو صالة مقسمة إلى أربع شبكات وممرات أمان\nالتعقيد: أساسي",
     "purpose": "تطوير تحكم قريب أثناء المشي والهرولة للتعرف على الفراغ والدخول إليه بأمان.",
     "objectives": [
-      "يحاور بلمسات قريبة ويبقي الكرة ضمن خطوة واحدة في 4 من 5 محاولات.",
-      "يرفع نظره مرتين على الأقل في كل مسار ويختار فراغًا.",
-      "يوقف الكرة بباطن القدم عند الإشارة خلال ثانيتين.",
-      "يغير الاتجاه دون دخول منطقة طالب آخر.",
-      "يؤدي دوري المنفذ والمراقب في كل تبديل، ويسمّي علامة واقعية واحدة رآها في لمسات شريكه بدل إصدار حكم."
+      "يستطيع الطالب أن يحاور بلمسات قريبة ويبقي الكرة ضمن خطوة واحدة في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يرفع نظره مرتين على الأقل في كل مسار ويختار فراغًا.",
+      "يستطيع الطالب أن يوقف الكرة بباطن القدم عند الإشارة خلال ثانيتين.",
+      "يستطيع الطالب أن يغير الاتجاه دون دخول منطقة طالب آخر.",
+      "يستطيع الطالب أن يؤدي دوري المنفذ والمراقب في كل تبديل، ويسمّي علامة واقعية واحدة رآها في لمسات شريكه بدل إصدار حكم."
     ],
     "priorKnowledge": "لا يلزم درس كرة قدم؛ تلزم الاستجابة للتوقف والحركة الآمنة.",
     "pathwayPosition": "الدرس السابق: لا يلزم درس كرة قدم؛ تلزم الاستجابة للتوقف والحركة الآمنة.\nالدرس الحالي: بوصفه أول درس في كرة القدم، يضيف أول علاقة مع الكرة عند القدمين: لمسات قريبة بباطن القدم وخارجها، والإيقاف بالنعل، والنظرة الأمامية التي تجد الفراغ. ويؤجل التمرير إلى الزميل كليًا — فالكرة تبقى مع طالب واحد في كل مهمة — وهو ما يفتحه FB-02.\nالدرس التالي: FB-02 — التمرير والاستلام والتحرك للمساندة.",
@@ -1390,11 +1390,11 @@
     "identity": "الاسم/الرمز: التمرير والاستلام والتحرك للمساندة؛ FB-02-AR\nالرياضة/الفرع: كرة القدم؛ تمرير داخل القدم واللمسة الأولى\nالعمر/الخبرة: 9–11؛ مبتدئ–نامٍ\nالمدة/العدد: 45 دقيقة؛ 20–30\nالمجموعة: بنات أو بنون أو مختلطة؛ حسب القدرة\nالأدوات: 10–15 كرة، 28 مخروطًا، صديريات\nالمكان/التعقيد: ملعب مستوٍ/صالة؛ متوسط",
     "purpose": "تطوير تمرير دقيق ولمسة أولى آمنة وحركة فورية إلى نقطة مساندة جديدة كأساس للعب الجماعي.",
     "objectives": [
-      "تمرير بداخل القدم ضمن متر من الزميل في 6/8.",
-      "لمسة أولى تبقي الكرة ضمن خطوة واحدة في 6 من 8 استلامات.",
-      "يرفع نظره قبل التمرير، وينتقل إلى الزاوية الخالية بعده.",
-      "مسافة 3–5 أمتار في المثلث.",
-      "خمس سلاسل بلا احتكاك أو خروج."
+      "يستطيع الطالب أن يمرر بداخل القدم ضمن متر من الزميل في 6/8.",
+      "يستطيع الطالب أن يؤدي لمسة أولى تُبقي الكرة ضمن خطوة واحدة في 6 من 8 استلامات.",
+      "يستطيع الطالب أن يرفع نظره قبل التمرير، وينتقل إلى الزاوية الخالية بعده.",
+      "يستطيع الطالب أن يحافظ على مسافة 3–5 أمتار في المثلث.",
+      "يستطيع الطالب أن يكمل خمس سلاسل بلا احتكاك أو خروج."
     ],
     "priorKnowledge": "تحكم ومحاورة أساسيان من كرة القدم 01. عند الحاجة: مسافة قصيرة وكرة لينة.",
     "pathwayPosition": "السابق: كرة القدم 01 — التحكم بالكرة والمحاورة إلى المساحة.\nالحالي: يضيف اللاعب الثاني: يتحول التحكم الفردي في الدرس 01 إلى تمريرة بباطن القدم، ولمسة أولى تبقي الكرة ضمن خطوة، وحركة فورية إلى زاوية مساندة جديدة بعد الإطلاق. ويؤجل الدوران بعيدًا عن الضغط وأي مدافع مسموح له بقطع الكرة — فكل تمريرة هنا في مساحة مفتوحة — وهو ما يبدأ في الدرس 03.\nالتالي: كرة القدم 03 — تغيير الاتجاه وحماية الكرة.",
@@ -1442,11 +1442,11 @@
     "identity": "الاسم/الرمز: تغيير الاتجاه وحماية الكرة؛ FB-03-AR\nالرياضة/الفرع: كرة القدم؛ دوران ووضع الجسم والخروج من الضغط\nالعمر/الخبرة: 10–12؛ مبتدئ–نامٍ\nالمدة/العدد: 45 دقيقة؛ 20–30\nالمجموعة: بنات أو بنون أو مختلطة؛ حسب القدرة\nالأدوات: 10–15 كرة، 30 مخروطًا، صديريات\nالمكان/التعقيد: ملعب/صالة؛ متوسط",
     "purpose": "تطوير تحكم يسمح بتغيير الاتجاه وإبعاد الكرة عن الضغط بوضع الجسم، بلا احتكاك أو اعتماد على السرعة وحدها.",
     "objectives": [
-      "توقف ودوران خلال لمستين في 6/8.",
-      "الجسم بين المدافع السلبي والكرة في 5/7.",
-      "يخرج من المنطقة والكرة ضمن خطوة واحدة.",
-      "يرفع نظره قبل اللمسة ويسمّي البوابة الخالية التي سيخرج منها.",
-      "إكمال 1 ضد 1 مضبوط بلا احتكاك."
+      "يستطيع الطالب أن يتوقف ويدور خلال لمستين في 6/8.",
+      "يستطيع الطالب أن يضع جسمه بين المدافع السلبي والكرة في 5/7.",
+      "يستطيع الطالب أن يخرج من المنطقة والكرة ضمن خطوة واحدة.",
+      "يستطيع الطالب أن يرفع نظره قبل اللمسة ويسمّي البوابة الخالية التي سيخرج منها.",
+      "يستطيع الطالب أن يكمل مواجهة 1 ضد 1 مضبوطة بلا احتكاك."
     ],
     "priorKnowledge": "محاورة مضبوطة وتوقف بالنعل وتمرير أساسي. عند الحاجة: بلا مدافع ومشي.",
     "pathwayPosition": "السابق: كرة القدم 02 — التمرير والاستلام والتحرك للمساندة.\nالحالي: يضيف أول ضغط: كان كل تمرير في الدرس 02 في مساحة مفتوحة، وهنا يتعلم الطالب التوقف والدوران ووضع جسمه بين المدافع السلبي والكرة ثم الخروج إلى بوابة خالية. ويؤجل التسديد على المرمى — فكل خروج ينتهي بعبور بوابة لا بهدف — وهو ما يضيفه الدرس 04.\nالتالي: كرة القدم 04 — الاختراق والإنهاء الدقيق.",
@@ -1494,11 +1494,11 @@
     "identity": "الاسم/الرمز: الاختراق والإنهاء الدقيق؛ FB-04-AR\nالرياضة/الفرع: كرة القدم؛ محاورة ولمسة إعداد وتسديد دقيق\nالعمر/الخبرة: 10–13؛ مبتدئ–نامٍ\nالمدة/العدد: 45 دقيقة؛ 20–30\nالمجموعة: بنات أو بنون أو مختلطة؛ حسب القدرة\nالأدوات: 10–15 كرة، 30 مخروطًا، 4–6 أهداف صغيرة، صديريات\nالمكان/التعقيد: ملعب/صالة؛ متوسط",
     "purpose": "ربط المحاورة إلى الفراغ بلمسة إعداد وإنهاء أرضي دقيق، مع ضبط السرعة وسلامة منطقة التسديد.",
     "objectives": [
-      "عبور بوابة الدخول والكرة ضمن خطوة في 6/8.",
-      "يُعدّ الكرة باللمسة الأخيرة نصف متر قطريًا نحو قدم التسديد.",
-      "إصابة هدف بعرض مترين في 5/8.",
-      "الإبطاء والمسح قبل التسديد.",
-      "يغادر مسار التسديد جانبيًا فور التسديد في كل محاولة."
+      "يستطيع الطالب أن يعبر بوابة الدخول والكرة ضمن خطوة في 6/8.",
+      "يستطيع الطالب أن يُعدّ الكرة باللمسة الأخيرة نصف متر قطريًا نحو قدم التسديد.",
+      "يستطيع الطالب أن يصيب هدفًا بعرض مترين في 5/8.",
+      "يستطيع الطالب أن يبطئ ويمسح قبل التسديد.",
+      "يستطيع الطالب أن يغادر مسار التسديد جانبيًا فور التسديد في كل محاولة."
     ],
     "priorKnowledge": "المحاورة والدوران وحماية الكرة من الدروس 01–03. عند الحاجة: كرة ثابتة ومسافة قصيرة.",
     "pathwayPosition": "السابق: كرة القدم 03 — تغيير الاتجاه وحماية الكرة.\nالحالي: يضيف الإنهاء: الخروج من الضغط في الدرس 03 كان ينتهي بعبور بوابة، وهنا يتحول إلى محاورة ولمسة إعداد وتسديد أرضي دقيق نحو هدف صغير. ويؤجل حارس المرمى وأي مدافع حقيقي — فالهدف فارغ والمدافع سلبي في الحد الأقصى — ويؤجل كذلك صناعة الفرصة دون كرة، وهو موضوع الدرس 05.\nالتالي: كرة القدم 05 — الحركة دون كرة لصناعة خيار تمرير.",
@@ -1546,11 +1546,11 @@
     "identity": "الاسم/الرمز: الحركة دون كرة لصناعة خيار تمرير؛ FB-05-AR\nالرياضة/الفرع: كرة القدم؛ الابتعاد وتغيير الاتجاه والاستلام في الفراغ\nالعمر/الخبرة: 11–14؛ نامٍ\nالمدة/العدد: 45 دقيقة؛ 20–30\nالمجموعة: بنات أو بنون أو مختلطة؛ حسب القدرة\nالأدوات: 8–12 كرة، 28 مخروطًا، صديريات\nالمكان/التعقيد: ملعب/صالة؛ متوسط",
     "purpose": "تطوير حركة موقّتة إلى الفراغ قبل الاستلام لصناعة خط تمرير وتحضير الفعل الهجومي التالي.",
     "objectives": [
-      "الابتعاد ثم تغيير الاتجاه للاستلام في 6/8.",
-      "يبدأ الحركة نحو الفراغ لحظة رفع الممرر رأسه، لا قبلها.",
-      "يستلم بجسم نصف مفتوح يرى منه الكرة والهدف معًا.",
-      "لمسة أولى إلى فراغ آمن في 5/7.",
-      "حفظ المسافة بلا احتكاك أمام مدافع سلبي."
+      "يستطيع الطالب أن يبتعد ثم يغيّر الاتجاه للاستلام في 6/8.",
+      "يستطيع الطالب أن يبدأ الحركة نحو الفراغ لحظة رفع الممرر رأسه، لا قبلها.",
+      "يستطيع الطالب أن يستلم بجسم نصف مفتوح يرى منه الكرة والهدف معًا.",
+      "يستطيع الطالب أن يؤدي لمسة أولى إلى فراغ آمن في 5/7.",
+      "يستطيع الطالب أن يحفظ المسافة بلا احتكاك أمام مدافع سلبي."
     ],
     "priorKnowledge": "التمرير من 02، الدوران من 03، الإنهاء من 04. عند الحاجة: بلا مدافع ومشي.",
     "pathwayPosition": "السابق: كرة القدم 04 — الاختراق والإنهاء الدقيق.\nالحالي: يضيف ما يحدث قبل وصول الكرة: بعد أن تعلم الطالب الإنهاء في الدرس 04، يتعلم الآن الابتعاد ثم تغيير الاتجاه والوصول إلى الفراغ في توقيت الممرر، بجسم نصف مفتوح. ويؤجل الدفاع الحقيقي عن خط التمرير — فالمدافع هنا سلبي ولا يقطع الكرة — وهو ما يعلّمه الدرس 06 من جهة المدافع.\nالتالي: كرة القدم 06 — دفاع بلا احتكاك وإغلاق خط التمرير.",
@@ -1598,11 +1598,11 @@
     "identity": "الاسم/الرمز: دفاع بلا احتكاك وإغلاق خط التمرير؛ FB-06-AR\nالرياضة/الفرع: كرة القدم؛ وقفة ومسافة واعتراض الخط\nالعمر/الخبرة: 11–14؛ نامٍ\nالمدة/العدد: 45 دقيقة؛ 20–30\nالمجموعة: بنات أو بنون أو مختلطة؛ حسب القدرة\nالأدوات: 8–12 كرة، 28 مخروطًا، صديريات\nالمكان/التعقيد: ملعب/صالة؛ متوسط",
     "purpose": "تطوير دفاع يعتمد على الموقع والمسافة وقراءة التمريرة، لإبطاء الهجوم بلا احتكاك أو افتكاك خطر.",
     "objectives": [
-      "الجسم بين المهاجم والبوابة في 6/8.",
-      "مسافة 1.5–2 متر بلا احتكاك.",
-      "يتحرك بخطوات جانبية قصيرة دون تقاطع القدمين.",
-      "إغلاق خط واحد في 5/7.",
-      "اعتراض الكرة الحرة فقط."
+      "يستطيع الطالب أن يضع جسمه بين المهاجم والبوابة في 6/8.",
+      "يستطيع الطالب أن يحافظ على مسافة 1.5–2 متر بلا احتكاك.",
+      "يستطيع الطالب أن يتحرك بخطوات جانبية قصيرة دون تقاطع القدمين.",
+      "يستطيع الطالب أن يغلق خطًا واحدًا في 5/7.",
+      "يستطيع الطالب أن يعترض الكرة الحرة فقط."
     ],
     "priorKnowledge": "تغيير الاتجاه وفهم خط التمرير من 03 و05. عند الحاجة: مرآة بلا كرة.",
     "pathwayPosition": "السابق: كرة القدم 05 — الحركة دون كرة لصناعة خيار تمرير.\nالحالي: يقلب منظور الدرس 05: بعد أن تعلم الطالب صناعة خط التمرير، يتعلم الآن إغلاقه بالموقع والمسافة والجسم نصف المفتوح، واعتراض الكرة الحرة فقط دون احتكاك. ويؤجل الدفاع أمام أفضلية عددية حقيقية وقرار المهاجمين ضده — فالمواجهة هنا مضبوطة ببوابتين — وهو ما يعالجه الدرس 07 من جهة الهجوم.\nالتالي: كرة القدم 07 — الأفضلية الهجومية 2 ضد 1.",
@@ -1650,11 +1650,11 @@
     "identity": "الاسم/الرمز: الأفضلية الهجومية 2 ضد 1؛ FB-07-AR\nالرياضة/الفرع: كرة القدم؛ العرض وجذب المدافع والتمرير الموقّت\nالعمر/الخبرة: 12–15؛ نامٍ\nالمدة/العدد: 45 دقيقة؛ 18–30\nالمجموعة: بنات أو بنون أو مختلطة؛ حسب القدرة\nالأدوات: 8–12 كرة، 28 مخروطًا، صديريات، أهداف صغيرة\nالمكان/التعقيد: ملعب/صالة؛ متوسط–متقدم",
     "purpose": "استثمار أفضلية مهاجمين بالعرض وحمل الكرة لجذب مدافع واحد والتمرير في الوقت المناسب للاعب الخالي.",
     "objectives": [
-      "عرض 4–7 أمتار في 6/8 هجمات.",
-      "مسح المدافع قبل خط القرار.",
-      "تمرير عند التزام المدافع أو استمرار عند بقاء الطريق مفتوحًا في 5/7.",
-      "يبقى الزميل بلا كرة أمام الكرة وفي خط رؤية حاملها.",
-      "إنهاء خلال 10 ثوانٍ بلا احتكاك."
+      "يستطيع الطالب أن يحافظ على عرض 4–7 أمتار في 6/8 هجمات.",
+      "يستطيع الطالب أن يمسح المدافع قبل خط القرار.",
+      "يستطيع الطالب أن يمرر عند التزام المدافع أو يستمر عند بقاء الطريق مفتوحًا في 5/7.",
+      "يستطيع الطالب أن يبقى الزميل بلا كرة أمام الكرة وفي خط رؤية حاملها.",
+      "يستطيع الطالب أن ينهي خلال 10 ثوانٍ بلا احتكاك."
     ],
     "priorKnowledge": "التمرير والاستلام والإنهاء والدفاع من 02–06. عند الحاجة: 2 ضد 0 ومخروط.",
     "pathwayPosition": "السابق: كرة القدم 06 — دفاع بلا احتكاك وإغلاق خط التمرير.\nالحالي: يضيف أول أفضلية عددية: بعد أن تعلم الطالب إغلاق الخط في الدرس 06، يتعلم الآن كمهاجم كيف يحمل الكرة ليجذب المدافع ثم يمرر في الوقت المناسب للزميل الخالي، مع الحفاظ على العرض. ويؤجل ما يحدث بعد فقد الكرة — فكل سلسلة تنتهي بعبور أو هدف — وهو موضوع الدرس 08.\nالتالي: كرة القدم 08 — الانتقال للدفاع بعد فقد الكرة.",
@@ -1702,11 +1702,11 @@
     "identity": "الاسم/الرمز: الانتقال للدفاع بعد فقد الكرة؛ FB-08-AR\nالرياضة/الفرع: كرة القدم؛ استجابة وعودة وحماية الوسط\nالعمر/الخبرة: 12–15؛ نامٍ\nالمدة/العدد: 45 دقيقة؛ 18–30\nالمجموعة: بنات أو بنون أو مختلطة؛ حسب القدرة\nالأدوات: 8–12 كرة، 28 مخروطًا، صديريات\nالمكان/التعقيد: ملعب/صالة؛ متقدم",
     "purpose": "بناء استجابة جماعية سريعة وآمنة للفقد: التوقف والعودة وحماية الطريق المركزي قبل محاولة استرداد الكرة.",
     "objectives": [
-      "استجابة خلال ثانيتين في 6/8.",
-      "الأقرب يؤخر بلا احتكاك والأبعد يعود للوسط.",
-      "يحافظ على وقوف جسمه بين الكرة والمرمى.",
-      "كلمة تواصل واحدة.",
-      "استعادة الشكل خلال خمس ثوانٍ."
+      "يستطيع الطالب أن يستجيب خلال ثانيتين في 6/8.",
+      "يستطيع الطالب، بصفته اللاعب الأقرب، أن يؤخر بلا احتكاك، وبصفته اللاعب الأبعد أن يعود للوسط.",
+      "يستطيع الطالب أن يحافظ على وقوف جسمه بين الكرة والمرمى.",
+      "يستطيع الطالب أن يستخدم كلمة تواصل واحدة.",
+      "يستطيع الطالب أن يستعيد الشكل خلال خمس ثوانٍ."
     ],
     "priorKnowledge": "2 ضد 1 وإغلاق الخط والحركة من 05–07. عند الحاجة: استجابة لإشارة بلا خصم.",
     "pathwayPosition": "السابق: كرة القدم 07 — الأفضلية الهجومية 2 ضد 1.\nالحالي: يضيف ما أجّله الدرس 07: اللحظة التي تُفقد فيها الكرة. يتعلم الطلبة التحول الفوري إلى الدفاع — الأقرب يؤخر والأبعد يعود لحماية الوسط — بدل المطاردة أو اللوم. ويؤجل الانتقال في الاتجاهين داخل لعب متواصل — فكل تغيير هنا يبدأ بإشارة أو بتمريرة للخصم في منطقة محددة — وهو ما تجمعه لعبة 4 ضد 4 في الدرس 09.\nالتالي: كرة القدم 09 — لعبة مصغرة 4 ضد 4 وانتقالات.",
@@ -1754,11 +1754,11 @@
     "identity": "الاسم/الرمز: لعبة مصغرة 4 ضد 4 وانتقالات؛ FB-09-AR\nالرياضة/الفرع: كرة القدم؛ عرض ومساندة وتغير استحواذ\nالعمر/الخبرة: 13–16؛ نامٍ\nالمدة/العدد: 45 دقيقة؛ 16–32\nالمجموعة: بنات أو بنون أو مختلطة؛ حسب القدرة\nالأدوات: 4–6 كرات، 32 مخروطًا، صديريات، 8–12 هدفًا صغيرًا\nالمكان/التعقيد: ملعب/صالة؛ متقدم",
     "purpose": "دمج التمرير والحركة والأفضلية والانتقال في لعبة مصغرة تمنح كل طالب قرارات ومشاركة متكررة.",
     "objectives": [
-      "يوفّر الفريق خياري تمرير على الأقل حول حامل الكرة.",
-      "تغيير الدور خلال ثانيتين.",
-      "يستخدم الفريق عرض الملعب ولا يتكدس في الوسط أثناء الهجوم.",
-      "حماية الوسط بلا احتكاك.",
-      "ثلاثة أفعال مهمة لكل طالب في اللعبة."
+      "يستطيع الطالب أن يوفّر الفريق خياري تمرير على الأقل حول حامل الكرة.",
+      "يستطيع الطالب أن يغيّر الدور خلال ثانيتين.",
+      "يستطيع الطالب أن يستخدم الفريق عرض الملعب وألا يتكدس في الوسط أثناء الهجوم.",
+      "يستطيع الطالب أن يحمي الوسط بلا احتكاك.",
+      "يستطيع الطالب أن ينفذ ثلاثة أفعال مهمة في اللعبة."
     ],
     "priorKnowledge": "التمرير والاستلام والحركة والدفاع و2 ضد 1 والانتقال من 02–08. للدعم: لاعب محايد أو أفضلية.",
     "pathwayPosition": "السابق: كرة القدم 08 — الانتقال للدفاع بعد فقد الكرة.\nالحالي: يرفع الإشارات المصطنعة: الانتقال الذي تعلّمه الطلبة بإشارة في الدرس 08 يحدث هنا داخل لعب 4 ضد 4 متواصل، مع العرض والمساندة وحماية الوسط في الاتجاهين. ويؤجل التقويم الختامي بالمعايير الخمسة — فالنقاط هنا تعليمية لتشجيع المشاركة والشكل — وهو ما يجمعه الدرس 10.\nالتالي: كرة القدم 10 — لعبة تطبيقية ختامية وتقويم المسار.",
@@ -1806,11 +1806,11 @@
     "identity": "الاسم الكامل: كرة القدم 10 — لعبة تطبيقية ختامية وتقويم المسار\nالرمز: FB-10-AR\nالفرع/الموضوع الفرعي: كرة القدم؛ تطبيق متكامل للتحكم، التمرير، التحرك، الإنهاء، الدفاع والانتقال\nالعمر/الخبرة: 13–16 سنة؛ مستوى نامٍ\nالمدة/عدد الطلبة: 45 دقيقة؛ 16–32 طالبًا وطالبة\nالمجموعة: بنات، بنين أو مجموعة مختلطة؛ تكييف حسب القدرة\nالأدوات: 4–6 كرات، 32 مخروطًا، صدريات، مرامٍ صغيرة، بطاقات ملاحظة\nالمكان/التعقيد: ملعب أو صالة؛ مستوى متقدم",
     "purpose": "تقويم مدى دمج المتعلم للمهارة والقرار والتعاون في لعب آمن، من دون اختزال النجاح في عدد الأهداف أو الخبرة السابقة في النادي.",
     "objectives": [
-      "يتخذ قرارًا مناسبًا في 3 من كل 4 مواقف مع الكرة.",
-      "يفتح أو يستغل خط تمرير أربع مرات على الأقل خلال اللعب.",
-      "عند فقد الكرة، يبدأ بالاستجابة خلال ثانيتين، ويكتمل تبديل الدور دفاعيًا/هجوميًا خلال خمس ثوانٍ.",
-      "يدافع عن الممر المركزي دون احتكاك.",
-      "يشارك بفعالية واحترام في كل مباراة."
+      "يستطيع الطالب أن يتخذ قرارًا مناسبًا في 3 من كل 4 مواقف مع الكرة.",
+      "يستطيع الطالب أن يفتح أو يستغل خط تمرير أربع مرات على الأقل خلال اللعب.",
+      "عند فقد الكرة، يستطيع الطالب أن يبدأ الاستجابة خلال ثانيتين وأن يكمل تبديل الدور دفاعيًا/هجوميًا خلال خمس ثوانٍ.",
+      "يستطيع الطالب أن يدافع عن الممر المركزي دون احتكاك.",
+      "يستطيع الطالب أن يشارك بفعالية واحترام في كل مباراة."
     ],
     "priorKnowledge": "مكوّنات دروس كرة القدم من 01 إلى 09. الطالب غير الجاهز للعب الكامل يحصل على دور لاعب محايد، منطقة دعم، أو مراقب نشط مع دخول تدريجي إلى اللعب.",
     "pathwayPosition": "الدرس السابق: كرة القدم 09 — لعبة مصغرة 4 ضد 4 وانتقالات.\nالدرس الحالي: نفس لعبة 09، لكن التركيز ينتقل من التعلّم إلى الملاحظة — يجمع المعلم هنا لأول مرة معلومات مرصودة عن كل طالب لتخطيط المسار التالي. لا يُضاف محتوى خططي جديد: الدرس الذي يعلّم ويقوّم في الوقت نفسه لا يقيس شيئًا بثقة.\nالدرس التالي: الانتقال إلى كرة اليد أو إلى وحدة كرة قدم متقدمة، حسب نتائج التقويم.",
@@ -1860,11 +1860,11 @@
     "identity": "Полное название: Футбол 01 — Контроль мяча и ведение в свободное пространство\nКод: FB-01-RU\nВид: Футбол\nПодтема: короткие касания, обзор и ведение в свободное место\nВозраст: 9–11\nОпыт: начальный\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 футбольных или мягких мячей, 30 конусов и манишки\nПространство: поле или зал с четырьмя сетками и безопасными коридорами\nСложность: базовая",
     "purpose": "Развить близкий контроль при ходьбе и лёгком беге, чтобы безопасно видеть и занимать свободное пространство.",
     "objectives": [
-      "Ведёт мяч короткими касаниями и держит его в пределах одного шага в 4 из 5 попыток.",
-      "Поднимает взгляд не менее двух раз на маршруте и выбирает свободное место.",
-      "Останавливает мяч подошвой по сигналу за две секунды.",
-      "Меняет направление, не заходя в зону другого ученика.",
-      "Выполняет роли исполнителя и наблюдателя и даёт партнёру одну фактическую обратную связь по схеме «я увидел…; попробуй…»."
+      "Ученик сможет вести мяч короткими касаниями и держать его в пределах одного шага в 4 из 5 попыток.",
+      "Ученик сможет поднять взгляд не менее двух раз на маршруте и выбрать свободное место.",
+      "Ученик сможет остановить мяч подошвой по сигналу за две секунды.",
+      "Ученик сможет менять направление, не заходя в зону другого ученика.",
+      "Ученик сможет выполнить роли исполнителя и наблюдателя и дать партнёру одну фактическую обратную связь по схеме «я увидел…; попробуй…»."
     ],
     "priorKnowledge": "Футбольный опыт не нужен; требуется стоп-сигнал и безопасное движение.",
     "pathwayPosition": "Предыдущий урок: Это первый урок футбольного блока; нужны только стоп-сигнал и безопасное передвижение по залу.\nТекущий урок: Урок закладывает основу: мяч остаётся в пределах шага при коротких касаниях, голова поднимается между касаниями, а направление выбирается к свободному месту до следующего касания. Передача и приём мяча откладываются до FB-02; отбора нет — рядом может быть только пассивный партнёр, который не отбирает мяч.\nСледующий урок: FB-02 — передача, приём и поддержка.",
@@ -1923,11 +1923,11 @@
     "identity": "Название/код: Передача, приём и выход для поддержки; FB-02-RU\nВид/подтема: футбол; пас внутренней стороной, первое касание, поддержка\nВозраст/опыт: 9–11; начальный–развивающийся\nВремя/количество: 45 минут; 20–30\nГруппа: девочки, мальчики или смешанная; по способности\nИнвентарь: 10–15 мячей, 28 конусов, манишки\nМесто/сложность: ровное поле/зал; средняя",
     "purpose": "Развить точный пас, безопасное первое касание и немедленный выход в новую позицию поддержки как основу командной игры.",
     "objectives": [
-      "Пас внутренней стороной в радиус метра от партнёра в 6/8.",
-      "Первым касанием оставляет мяч не дальше одного шага от себя.",
-      "Поднимает взгляд до передачи и после неё занимает свободный угол треугольника.",
-      "Расстояние 3–5 м в треугольнике.",
-      "Пять связок без контакта и выхода из зоны."
+      "Ученик сможет выполнить передачу внутренней стороной стопы в радиус метра от партнёра в 6/8.",
+      "Ученик сможет первым касанием оставить мяч не дальше одного шага от себя.",
+      "Ученик сможет поднять взгляд до передачи и после неё занять свободный угол треугольника.",
+      "Ученик сможет сохранять расстояние 3–5 м в треугольнике.",
+      "Ученик сможет выполнить пять связок без контакта и выхода из зоны."
     ],
     "priorKnowledge": "Базовый контроль и ведение из Футбола 01. При трудности — короткая дистанция и мягкий мяч.",
     "pathwayPosition": "До: Футбол 01 — контроль мяча и ведение.\nСейчас: Урок переводит мяч от одного игрока к другому: передача внутренней стороной стопы, первое касание в сторону свободного места и выход в новый угол сразу после передачи. Поворот с мячом и укрывание мяча корпусом откладываются: защитник здесь только пассивный и не отбирает, а работа под давлением — тема Футбола 03.\nПосле: Футбол 03 — поворот и укрывание мяча.",
@@ -1989,11 +1989,11 @@
     "identity": "Название/код: Поворот и укрывание мяча; FB-03-RU\nВид/подтема: футбол; поворот, положение тела, выход из давления\nВозраст/опыт: 10–12; начальный–развивающийся\nВремя/количество: 45 минут; 20–30\nГруппа: девочки, мальчики или смешанная; по способности\nИнвентарь: 10–15 мячей, 30 конусов, манишки\nМесто/сложность: поле/зал; средняя",
     "purpose": "Научить менять направление и уводить мяч от давления положением тела, без контакта и зависимости только от скорости.",
     "objectives": [
-      "Остановка и поворот за два касания в 6/8.",
-      "Держит корпус между пассивным защитником и мячом в 5 из 7 попыток.",
-      "Выходит из поворота, сохраняя мяч в пределах шага.",
-      "Называет цвет свободных ворот до касания и выходит через них.",
-      "Играет 1×1 без контакта: ни одного толчка или удара локтем за игру."
+      "Ученик сможет остановить мяч и развернуться за два касания в 6/8.",
+      "Ученик сможет держать корпус между пассивным защитником и мячом в 5 из 7 попыток.",
+      "Ученик сможет выйти из поворота, сохраняя мяч в пределах шага.",
+      "Ученик сможет назвать цвет свободных ворот до касания и выйти через них.",
+      "Ученик сможет играть 1×1 без контакта: ни одного толчка или удара локтем за игру."
     ],
     "priorKnowledge": "Контролируемое ведение, остановка подошвой, базовый пас. При трудности — без защитника шагом.",
     "pathwayPosition": "До: Футбол 02 — передача, приём и поддержка.\nСейчас: Урок впервые добавляет давление соперника: ученик останавливает мяч, поворачивается и укрывает мяч корпусом, уводя его первым касанием в свободную сторону. Удар по воротам откладывается — выход завершается проходом через ворота из конусов; защитник остаётся пассивным и не отбирает мяч, а точное завершение — тема Футбола 04.\nПосле: Футбол 04 — проход и точное завершение.",
@@ -2054,11 +2054,11 @@
     "identity": "Название/код: Проход и точное завершение; FB-04-RU\nВид/подтема: футбол; ведение, подготовительное касание, точный удар\nВозраст/опыт: 10–13; начальный–развивающийся\nВремя/количество: 45 минут; 20–30\nГруппа: девочки, мальчики или смешанная; по способности\nИнвентарь: 10–15 мячей, 30 конусов, 4–6 малых ворот, манишки\nМесто/сложность: поле/зал; средняя",
     "purpose": "Соединить ведение в свободный путь с подготовительным касанием и низким точным завершением, контролируя скорость и безопасность.",
     "objectives": [
-      "Пройти входные ворота с мячом в пределах шага в 6/8.",
-      "Последним касанием выводит мяч на полметра под бьющую ногу.",
-      "Попасть в двухметровые ворота в 5/8.",
-      "Перед ударом замедляется и поднимает взгляд на ворота.",
-      "После удара сразу же покидает коридор сбоку."
+      "Ученик сможет пройти входные ворота с мячом в пределах шага в 6/8.",
+      "Ученик сможет последним касанием вывести мяч на полметра под бьющую ногу.",
+      "Ученик сможет попасть в двухметровые ворота в 5/8.",
+      "Ученик сможет перед ударом замедлиться и поднять взгляд на ворота.",
+      "Ученик сможет после удара сразу покинуть коридор сбоку."
     ],
     "priorKnowledge": "Ведение, поворот и укрывание мяча из уроков 01–03. При трудности — неподвижный мяч и короткая дистанция.",
     "pathwayPosition": "До: Футбол 03 — поворот и укрывание мяча.\nСейчас: Урок доводит атаку до конца: ведение в свободный коридор, подготовительное касание под бьющую ногу и низкий точный удар в малые ворота. Вратарь и активный защитник откладываются: ворота пустые, а в продвинутом варианте есть только пассивный защитник сзади на 40%; открывание без мяча — тема Футбола 05.\nПосле: Футбол 05 — движение без мяча для создания момента.",
@@ -2120,11 +2120,11 @@
     "identity": "Название/код: Движение без мяча для приёма; FB-05-RU\nВид/подтема: футбол; уход, смена направления, приём в пространстве\nВозраст/опыт: 11–14; развивающийся\nВремя/количество: 45 минут; 20–30\nГруппа: девочки, мальчики или смешанная; по способности\nИнвентарь: 8–12 мячей, 28 конусов, манишки\nМесто/сложность: поле/зал; средняя",
     "purpose": "Сформировать своевременный выход в свободное пространство до приёма, создающий линию передачи и следующую атаку.",
     "objectives": [
-      "Сначала отойти, затем сменить направление в 6/8.",
-      "Начинает рывок к мячу в момент, когда передающий поднял голову.",
-      "Принимает мяч полуоткрытым корпусом, видя и мяч, и ворота.",
-      "Первое касание в безопасное пространство в 5/7.",
-      "Сохраняет дистанцию до пассивного защитника без контакта во всех попытках."
+      "Ученик сможет сначала отойти, затем сменить направление в 6/8.",
+      "Ученик сможет начать рывок к мячу в момент, когда передающий поднял голову.",
+      "Ученик сможет принять мяч полуоткрытым корпусом, видя и мяч, и ворота.",
+      "Ученик сможет выполнить первое касание в безопасное пространство в 5/7.",
+      "Ученик сможет сохранять дистанцию до пассивного защитника без контакта во всех попытках."
     ],
     "priorKnowledge": "Пас/приём из 02, поворот из 03, завершение из 04. При трудности — без защитника шагом.",
     "pathwayPosition": "До: Футбол 04 — проход и точное завершение.\nСейчас: Урок переносит внимание на игрока без мяча: сначала уйти от места приёма, затем резко сменить направление и открыться под передачу в момент, когда партнёр готов. Закрывание линии передачи со стороны защиты откладывается: защитник здесь только пассивный (50–65%), а активная оборона линий — тема Футбола 06.\nПосле: Футбол 06 — закрывание линии передачи.",
@@ -2185,11 +2185,11 @@
     "identity": "Название/код: Защита без контакта и закрытие линии передачи; FB-06-RU\nВид/подтема: футбол; стойка, дистанция, перехват линии\nВозраст/опыт: 11–14; развивающийся\nВремя/количество: 45 минут; 20–30\nГруппа: девочки, мальчики или смешанная; по способности\nИнвентарь: 8–12 мячей, 28 конусов, манишки\nМесто/сложность: поле/зал; средняя",
     "purpose": "Развить защиту позицией, дистанцией и чтением паса, замедляя атаку без контакта и опасного отбора.",
     "objectives": [
-      "Тело между атакующим и воротами в 6/8.",
-      "Держит дистанцию 1,5–2 м без контакта.",
-      "Двигается короткими приставными шагами без скрещивания ног.",
-      "Закрытие одной линии в 5/7.",
-      "Перехватывает только свободный мяч на траектории передачи — ни одного касания соперника за игру."
+      "Ученик сможет держать тело между атакующим и воротами в 6/8.",
+      "Ученик сможет держать дистанцию 1,5–2 м без контакта.",
+      "Ученик сможет двигаться короткими приставными шагами без скрещивания ног.",
+      "Ученик сможет закрыть одну линию передачи в 5/7.",
+      "Ученик сможет перехватить только свободный мяч на траектории передачи — ни одного касания соперника за игру."
     ],
     "priorKnowledge": "Смена направления и понимание линии из уроков 03 и 05. При трудности — зеркало без мяча.",
     "pathwayPosition": "До: Футбол 05 — открывание и создание линии передачи.\nСейчас: Урок переворачивает задачу прошлого урока: теперь ученик не открывает линию передачи, а закрывает её — позицией между игроком и воротами, дистанцией 1,5–2 м и полуоткрытым корпусом, чтобы видеть и мяч, и принимающего. Отбор мяча у игрока откладывается сознательно — разрешён только перехват свободного мяча; как атаковать в большинстве 2×1 — тема Футбола 07.\nПосле: Футбол 07 — атакующее преимущество 2×1.",
@@ -2251,11 +2251,11 @@
     "identity": "Название/код: Атакующее преимущество 2×1; FB-07-RU\nВид/подтема: футбол; ширина, фиксация защитника, своевременный пас\nВозраст/опыт: 12–15; развивающийся\nВремя/количество: 45 минут; 18–30\nГруппа: девочки, мальчики или смешанная; по способности\nИнвентарь: 8–12 мячей, 28 конусов, манишки, малые ворота\nМесто/сложность: поле/зал; средне-продвинутая",
     "purpose": "Использовать преимущество двух атакующих через ширину, ведение для фиксации защитника и своевременный пас свободному игроку.",
     "objectives": [
-      "Ширина 4–7 м в 6/8 атак.",
-      "Поднимает взгляд на защитника до линии решения.",
-      "Пас при движении защитника к мячу или продолжение при свободном пути в 5/7.",
-      "Партнёр без мяча находится впереди мяча и в поле зрения.",
-      "Завершение до 10 секунд без контакта."
+      "Ученик сможет сохранять ширину 4–7 м в 6/8 атак.",
+      "Ученик сможет поднять взгляд на защитника до линии решения.",
+      "Ученик сможет выполнить пас при движении защитника к мячу или продолжить при свободном пути в 5/7.",
+      "Ученик сможет, играя без мяча, находиться впереди мяча и в поле зрения партнёра.",
+      "Ученик сможет завершить атаку за 10 секунд без контакта."
     ],
     "priorKnowledge": "Пас, приём, завершение и защита из уроков 02–06. При трудности — 2×0 с конусом.",
     "pathwayPosition": "До: Футбол 06 — закрывание линии передачи.\nСейчас: Урок меняет сторону: ученики атакуют вдвоём против одного защитника, держат ширину, ведут мяч на защитника, чтобы вынудить его выбрать, и передают свободному партнёру. Что делать после потери мяча, откладывается: при потере эпизод заканчивается и начинается новый, а переход в защиту — тема Футбола 08.\nПосле: Футбол 08 — переход в защиту после потери.",
@@ -2316,11 +2316,11 @@
     "identity": "Название/код: Переход в защиту после потери; FB-08-RU\nВид/подтема: футбол; реакция, возврат, защита центра\nВозраст/опыт: 12–15; развивающийся\nВремя/количество: 45 минут; 18–30\nГруппа: девочки, мальчики или смешанная; по способности\nИнвентарь: 8–12 мячей, 28 конусов, манишки\nМесто/сложность: поле/зал; продвинутая",
     "purpose": "Сформировать быструю безопасную реакцию на потерю: остановиться, вернуться и закрыть центр до попытки отбора.",
     "objectives": [
-      "Реагирует на потерю мяча в течение двух секунд в 6 из 8 эпизодов.",
-      "Ближний задерживает без контакта, дальний возвращается в центр.",
-      "Игрок, который возвращается, встаёт между мячом и воротами.",
-      "Подаёт партнёру одно условное слово («назад» или «держу»).",
-      "Пара восстанавливает защитную структуру — ближний задерживает, дальний в центре — в течение пяти секунд."
+      "Ученик сможет реагировать на потерю мяча в течение двух секунд в 6 из 8 эпизодов.",
+      "Ученик сможет, будучи ближним игроком, задержать без контакта, а будучи дальним — вернуться в центр.",
+      "Ученик сможет, возвращаясь, встать между мячом и воротами.",
+      "Ученик сможет подать партнёру одно условное слово («назад» или «держу»).",
+      "Ученик сможет вместе с партнёром восстановить защитную структуру — ближний задерживает, дальний в центре — в течение пяти секунд."
     ],
     "priorKnowledge": "2×1, закрытие линии, движение без мяча из 05–07. При трудности — реакция на сигнал без соперника.",
     "pathwayPosition": "До: Футбол 07 — атакующее преимущество 2×1.\nСейчас: Урок добавляет то, что в 2×1 заканчивало эпизод: момент потери мяча. Ученики учатся за две секунды сменить роль — ближний задерживает соперника на дистанции, дальний возвращается и закрывает центр. Отбор мяча и немедленный прессинг откладываются: задача — задержать и закрыть центр, а переход в атаку после возврата мяча — тема Футбола 09.\nПосле: Футбол 09 — малая игра с переходами.",
@@ -2382,11 +2382,11 @@
     "identity": "Название/код: Малая игра 4×4 с переходами; FB-09-RU\nВид/подтема: футбол; ширина, поддержка, смена владения\nВозраст/опыт: 13–16; развивающийся\nВремя/количество: 45 минут; 16–32\nГруппа: девочки, мальчики или смешанная; по способности\nИнвентарь: 4–6 мячей, 32 конуса, манишки, 8–12 малых ворот\nМесто/сложность: поле/зал; продвинутая",
     "purpose": "Объединить пас, движение, преимущество и переход в малой игре с частыми решениями и участием каждого.",
     "objectives": [
-      "У игрока с мячом всегда есть не менее двух вариантов передачи.",
-      "Меняет роль в течение двух секунд после потери или отбора мяча.",
-      "Атакующая команда использует ширину поля и не скапливается в центре.",
-      "В защите игроки встают между мячом и воротами без контакта.",
-      "Каждый игрок выполняет не меньше трёх значимых действий (передача, открывание, задержка) за 3-минутную игру."
+      "Ученик сможет обеспечить игроку с мячом не менее двух вариантов передачи.",
+      "Ученик сможет менять роль в течение двух секунд после потери или отбора мяча.",
+      "Ученик сможет вместе с командой использовать ширину поля и не скапливаться в центре.",
+      "Ученик сможет в защите вставать между мячом и воротами без контакта.",
+      "Ученик сможет выполнить не меньше трёх значимых действий (передача, открывание, задержка) за 3-минутную игру."
     ],
     "priorKnowledge": "Пас, приём, движение, защита, 2×1 и переход из 02–08. Поддержка — нейтральный игрок или преимущество.",
     "pathwayPosition": "До: Футбол 08 — переход в защиту после потери.\nСейчас: Урок соединяет всё изученное в малой игре 4×4 с переходами в обе стороны: ширина и две линии передачи в атаке, реакция за две секунды и закрывание центра после потери, а счёт поощряет участие троих и быструю перестройку. Итоговое оценивание по пяти критериям откладывается: здесь учитель наблюдает и корректирует, а сбор итоговых данных — тема Футбола 10.\nПосле: Футбол 10 — итоговая игра и оценка.",
@@ -2448,11 +2448,11 @@
     "identity": "Полное название: Футбол 10 — итоговая прикладная игра и оценка пути обучения\nКод: FB-10-RU\nВид/подтема: футбол; итоговое применение контроля, передачи, движения, завершения, защиты и перехода\nВозраст/опыт: 13–16 лет; развивающийся уровень\nПродолжительность/участники: 45 минут; 16–32 ученика\nГруппа: девочки, мальчики или смешанная группа; адаптация по уровню\nИнвентарь: 4–6 мячей, 32 конуса, манишки, малые ворота, карточки наблюдения\nПространство/сложность: поле или зал; продвинутый уровень",
     "purpose": "Оценить, насколько ученик самостоятельно объединяет технику, решения и взаимодействие в безопасной игре — без сведения успеха только к голам или к прежнему опыту в клубе.",
     "objectives": [
-      "Принимает уместное решение как минимум в 3 из 4 игровых эпизодов с мячом.",
-      "Создаёт или использует линию передачи не менее четырёх раз за игру.",
-      "При потере мяча начинает реагировать в течение двух секунд и полностью переходит в новую роль в течение пяти секунд.",
-      "Защищает центральную зону без контакта.",
-      "Активно и уважительно участвует в каждой игре."
+      "Ученик сможет принять уместное решение как минимум в 3 из 4 игровых эпизодов с мячом.",
+      "Ученик сможет создать или использовать линию передачи не менее четырёх раз за игру.",
+      "Ученик сможет при потере мяча начать реагировать в течение двух секунд и полностью перейти в новую роль в течение пяти секунд.",
+      "Ученик сможет защищать центральную зону без контакта.",
+      "Ученик сможет активно и уважительно участвовать в каждой игре."
     ],
     "priorKnowledge": "Материал уроков Футбол 01–09. Ученик, не готовый к полной игре, получает роль нейтрального игрока, зону поддержки или активного наблюдателя с постепенным включением в игру.",
     "pathwayPosition": "Предыдущий урок: Футбол 09 — малая игра 4×4 с переходами.\nТекущий урок: та же игра 4×4, но внимание смещается с обучения на фиксацию результата — учитель впервые собирает наблюдаемые данные по каждому ученику для планирования дальнейшего пути. Новый тактический материал не вводится: урок, который одновременно учит и оценивает, не измеряет ничего надёжно.\nСледующий урок: переход к гандболу или к продвинутому модулю футбола — по итогам оценивания.",
@@ -2516,11 +2516,11 @@
     "identity": "Título completo: Fútbol 01 — Control del balón y conducción al espacio\nCódigo: FB-01-ES\nDisciplina: Fútbol\nSubtema: toques cercanos, exploración visual y conducción hacia el espacio libre\nEdad: 9–11 años\nExperiencia: inicial\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones de fútbol o balones blandos, 30 conos y petos\nEspacio: campo o gimnasio dividido en 4 cuadrículas con pasillos de seguridad\nComplejidad: básica",
     "purpose": "Desarrollar el control cercano del balón caminando y a trote suave, para que el alumnado reconozca el espacio libre y entre en él con seguridad.",
     "objectives": [
-      "Conduce con toques cercanos y mantiene el balón a menos de un paso en 4 de 5 intentos.",
-      "Levanta la mirada al menos dos veces por recorrido y elige un espacio libre.",
-      "Para el balón con la planta a la señal en menos de dos segundos.",
-      "Cambia de dirección sin entrar en la zona de otro compañero.",
-      "Asume los roles de ejecutante y de observador y aporta un comentario basado en un hecho."
+      "El alumno será capaz de conducir con toques cercanos y mantener el balón a menos de un paso en 4 de 5 intentos.",
+      "El alumno será capaz de levantar la mirada al menos dos veces por recorrido y elegir un espacio libre.",
+      "El alumno será capaz de parar el balón con la planta a la señal en menos de dos segundos.",
+      "El alumno será capaz de cambiar de dirección sin entrar en la zona de otro compañero.",
+      "El alumno será capaz de asumir los roles de ejecutante y de observador y aportar un comentario basado en un hecho."
     ],
     "priorKnowledge": "No se exige ninguna sesión previa de fútbol. El alumnado debe pararse con la señal y desplazarse con seguridad.",
     "pathwayPosition": "Sesión anterior: ninguna; es la sesión inicial del itinerario de fútbol.\nSesión actual: construye el control cercano del balón y la conducción hacia un espacio libre elegido con la mirada.\nSesión siguiente: FB-02 — Pase, recepción y movimiento de apoyo.",
@@ -2579,11 +2579,11 @@
     "identity": "Título completo: Fútbol 02 — Pase, recepción y movimiento de apoyo\nCódigo: FB-02-ES\nDisciplina y subtema: fútbol; pase con el interior, primer toque y apoyo\nEdad: 9–11 años\nExperiencia: inicial–en desarrollo\nDuración: 45 minutos\nEstudiantes: 20–30\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 10–15 balones, 28 conos y petos\nEspacio: campo llano o gimnasio\nComplejidad: intermedia",
     "purpose": "Desarrollar el pase preciso, un primer toque seguro y el desplazamiento inmediato a un nuevo punto de apoyo, como bases del juego colectivo.",
     "objectives": [
-      "Pasa con el interior del pie dentro de un área de un metro alrededor de su pareja en 6 de 8 intentos.",
-      "Mantiene el primer toque a menos de un paso.",
-      "Mira antes de pasar y forma un ángulo de apoyo después de hacerlo.",
-      "Conserva una separación de 3–5 metros en el triángulo.",
-      "Completa cinco secuencias sin contacto y sin salir del área."
+      "El alumno será capaz de pasar con el interior del pie dentro de un área de un metro alrededor de su pareja en 6 de 8 intentos.",
+      "El alumno será capaz de mantener el primer toque a menos de un paso.",
+      "El alumno será capaz de mirar antes de pasar y formar un ángulo de apoyo después de hacerlo.",
+      "El alumno será capaz de conservar una separación de 3–5 metros en el triángulo.",
+      "El alumno será capaz de completar cinco secuencias sin contacto y sin salir del área."
     ],
     "priorKnowledge": "Control básico y conducción al espacio de la sesión FB-01. Quien necesite apoyo trabaja con distancia más corta y balón más blando.",
     "pathwayPosition": "Sesión anterior: FB-01 — Control del balón y conducción al espacio.\nSesión actual: pasar con precisión, controlar con el primer toque y apoyar de inmediato.\nSesión siguiente: FB-03 — Giro y protección del balón.",
@@ -2645,11 +2645,11 @@
     "identity": "Título completo: Fútbol 03 — Giro y protección del balón\nCódigo: FB-03-ES\nDisciplina y subtema: fútbol; giro, colocación corporal y salida de la presión\nEdad: 10–12 años\nExperiencia: inicial–en desarrollo\nDuración: 45 minutos\nEstudiantes: 20–30\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 10–15 balones, 30 conos y petos\nEspacio: campo llano o gimnasio\nComplejidad: intermedia",
     "purpose": "Desarrollar un control que permita cambiar de dirección y alejarse de la presión mediante la colocación del cuerpo, sin contacto y sin depender únicamente de la velocidad.",
     "objectives": [
-      "Para y gira en un máximo de dos toques en 6 de 8 intentos.",
-      "Coloca el cuerpo entre el defensor pasivo y el balón en 5 de 7 situaciones.",
-      "Sale del giro con el balón a menos de un paso.",
-      "Mira y elige una puerta abierta.",
-      "Completa un 1 contra 1 controlado sin contacto."
+      "El alumno será capaz de parar y girar en un máximo de dos toques en 6 de 8 intentos.",
+      "El alumno será capaz de colocar el cuerpo entre el defensor pasivo y el balón en 5 de 7 situaciones.",
+      "El alumno será capaz de salir del giro con el balón a menos de un paso.",
+      "El alumno será capaz de mirar y elegir una puerta abierta.",
+      "El alumno será capaz de completar un 1 contra 1 controlado sin contacto."
     ],
     "priorKnowledge": "Conducción controlada, parada con la planta y pase básico. Quien necesite apoyo trabaja sin oposición y a ritmo de marcha.",
     "pathwayPosition": "Sesión anterior: FB-02 — Pase, recepción y movimiento de apoyo.\nSesión actual: girar y proteger el balón para salir de la presión.\nSesión siguiente: FB-04 — Conducción y finalización precisa.",
@@ -2710,11 +2710,11 @@
     "identity": "Título completo: Fútbol 04 — Conducción y finalización precisa\nCódigo: FB-04-ES\nDisciplina y subtema: fútbol; conducción hacia delante, toque de preparación y golpeo preciso\nEdad: 10–13 años\nExperiencia: inicial–en desarrollo\nDuración: 45 minutos\nEstudiantes: 20–30\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 10–15 balones, 30 conos, 4–6 porterías pequeñas y petos\nEspacio: campo llano o gimnasio\nComplejidad: intermedia",
     "purpose": "Enlazar la conducción al espacio con un toque de preparación y una finalización rasa y precisa, controlando la velocidad y la seguridad de la zona de tiro.",
     "objectives": [
-      "Atraviesa la puerta de entrada con el balón a menos de un paso en 6 de 8 intentos.",
-      "Prepara el balón hacia el lado de golpeo con el último toque.",
-      "Acierta una puerta de dos metros en 5 de 8 intentos.",
-      "Reduce el ritmo y mira antes de golpear.",
-      "Abandona el carril de tiro inmediatamente después de finalizar."
+      "El alumno será capaz de atravesar la puerta de entrada con el balón a menos de un paso en 6 de 8 intentos.",
+      "El alumno será capaz de preparar el balón hacia el lado de golpeo con el último toque.",
+      "El alumno será capaz de acertar una puerta de dos metros en 5 de 8 intentos.",
+      "El alumno será capaz de reducir el ritmo y mirar antes de golpear.",
+      "El alumno será capaz de abandonar el carril de tiro inmediatamente después de finalizar."
     ],
     "priorKnowledge": "Conducción, giro y protección de las sesiones FB-01 a FB-03. Quien necesite apoyo finaliza con el balón parado y a corta distancia.",
     "pathwayPosition": "Sesión anterior: FB-03 — Giro y protección del balón.\nSesión actual: convertir el control en una finalización preparada y precisa.\nSesión siguiente: FB-05 — Movimiento sin balón para recibir.",
@@ -2776,11 +2776,11 @@
     "identity": "Título completo: Fútbol 05 — Movimiento sin balón para recibir\nCódigo: FB-05-ES\nDisciplina y subtema: fútbol; desmarque de apoyo, cambio de dirección y recepción en espacio\nEdad: 11–14 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nEstudiantes: 20–30\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 8–12 balones, 28 conos y petos\nEspacio: campo o gimnasio\nComplejidad: intermedia",
     "purpose": "Desarrollar un desplazamiento temporizado hacia el espacio libre antes de la recepción, que cree una línea de pase y prepare la acción ofensiva siguiente.",
     "objectives": [
-      "Se aleja primero y después cambia de dirección para recibir, en 6 de 8 intentos.",
-      "Llega al espacio justo cuando quien pasa está preparado.",
-      "Adopta una posición corporal que le permite ver el balón y el objetivo.",
-      "Dirige el primer toque hacia un espacio seguro en 5 de 7 intentos.",
-      "Mantiene la separación sin contacto frente a un defensor pasivo."
+      "El alumno será capaz de alejarse primero y después cambiar de dirección para recibir, en 6 de 8 intentos.",
+      "El alumno será capaz de llegar al espacio justo cuando quien pasa está preparado.",
+      "El alumno será capaz de adoptar una posición corporal que le permite ver el balón y el objetivo.",
+      "El alumno será capaz de dirigir el primer toque hacia un espacio seguro en 5 de 7 intentos.",
+      "El alumno será capaz de mantener la separación sin contacto frente a un defensor pasivo."
     ],
     "priorKnowledge": "Pase y recepción de la sesión FB-02, giro de la FB-03 y finalización de la FB-04. Quien necesite apoyo trabaja sin oposición y a ritmo de marcha.",
     "pathwayPosition": "Sesión anterior: FB-04 — Conducción y finalización precisa.\nSesión actual: crear la opción de pase antes de que llegue el balón.\nSesión siguiente: FB-06 — Defensa sin contacto y cierre de línea de pase.",
@@ -2841,11 +2841,11 @@
     "identity": "Título completo: Fútbol 06 — Defensa sin contacto y cierre de línea de pase\nCódigo: FB-06-ES\nDisciplina y subtema: fútbol; posición defensiva, distancia e interceptación de la línea\nEdad: 11–14 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nEstudiantes: 20–30\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 8–12 balones, 28 conos y petos\nEspacio: campo o gimnasio\nComplejidad: intermedia",
     "purpose": "Desarrollar una defensa basada en la posición, la distancia y la lectura del pase, que retrase el ataque sin contacto ni entradas peligrosas.",
     "objectives": [
-      "Mantiene el cuerpo entre quien ataca y la puerta en 6 de 8 situaciones.",
-      "Conserva una distancia de 1,5–2 metros sin contacto.",
-      "Usa pasos cortos y sin cruzar los pies.",
-      "Identifica y cierra una línea de pase en 5 de 7 situaciones.",
-      "Intercepta únicamente un balón que ya se desplaza por el espacio."
+      "El alumno será capaz de mantener el cuerpo entre quien ataca y la puerta en 6 de 8 situaciones.",
+      "El alumno será capaz de conservar una distancia de 1,5–2 metros sin contacto.",
+      "El alumno será capaz de usar pasos cortos y sin cruzar los pies.",
+      "El alumno será capaz de identificar y cerrar una línea de pase en 5 de 7 situaciones.",
+      "El alumno será capaz de interceptar únicamente un balón que ya se desplaza por el espacio."
     ],
     "priorKnowledge": "Cambio de dirección, movimiento sin balón y comprensión de la línea de pase de las sesiones FB-03 y FB-05. Quien necesite apoyo trabaja en espejo y sin balón.",
     "pathwayPosition": "Sesión anterior: FB-05 — Movimiento sin balón para recibir.\nSesión actual: cerrar con seguridad la línea de pase que se aprendió a crear.\nSesión siguiente: FB-07 — Ventaja ofensiva 2 contra 1.",
@@ -2907,11 +2907,11 @@
     "identity": "Título completo: Fútbol 07 — Ventaja ofensiva 2 contra 1\nCódigo: FB-07-ES\nDisciplina y subtema: fútbol; amplitud, fijar al defensor y pase en el momento justo\nEdad: 12–15 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nEstudiantes: 18–30\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 8–12 balones, 28 conos, petos y porterías pequeñas\nEspacio: campo o gimnasio\nComplejidad: intermedia–avanzada",
     "purpose": "Desarrollar el aprovechamiento de la ventaja de dos atacantes mediante la amplitud, la conducción que fija a un defensor y el pase en el momento oportuno al jugador libre.",
     "objectives": [
-      "Mantiene una amplitud de 4–7 metros en 6 de 8 ataques.",
-      "Quien lleva el balón mira antes de la línea de decisión.",
-      "Pasa cuando el defensor se compromete, o conduce cuando el carril sigue abierto, en 5 de 7 situaciones.",
-      "El compañero permanece visible y por delante del balón.",
-      "Finaliza en menos de diez segundos y sin contacto."
+      "El alumno será capaz de mantener una amplitud de 4–7 metros en 6 de 8 ataques.",
+      "Cuando lleva el balón, el alumno será capaz de mirar antes de la línea de decisión.",
+      "El alumno será capaz de pasar cuando el defensor se compromete, o conducir cuando el carril sigue abierto, en 5 de 7 situaciones.",
+      "Como compañero sin balón, el alumno será capaz de permanecer visible y por delante del balón.",
+      "El alumno será capaz de finalizar en menos de diez segundos y sin contacto."
     ],
     "priorKnowledge": "Pase, recepción en movimiento, finalización y defensa sin contacto de las sesiones FB-02 a FB-06. Quien necesite apoyo trabaja en 2 contra 0 con un cono como defensor.",
     "pathwayPosition": "Sesión anterior: FB-06 — Defensa sin contacto y cierre de línea de pase.\nSesión actual: leer a un defensor y explotar la superioridad numérica.\nSesión siguiente: FB-08 — Transición ataque–defensa tras pérdida.",
@@ -2972,11 +2972,11 @@
     "identity": "Título completo: Fútbol 08 — Transición ataque–defensa tras pérdida\nCódigo: FB-08-ES\nDisciplina y subtema: fútbol; reacción, repliegue y protección del centro\nEdad: 12–15 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nEstudiantes: 18–30\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 8–12 balones, 28 conos y petos\nEspacio: campo o gimnasio\nComplejidad: avanzada",
     "purpose": "Desarrollar una respuesta colectiva rápida y segura ante la pérdida del balón: frenar el avance, recuperar la posición y proteger el pasillo central antes de intentar robar.",
     "objectives": [
-      "Reacciona en menos de dos segundos en 6 de 8 pérdidas.",
-      "Quien está más cerca retrasa el avance sin contacto mientras su compañero repliega al centro.",
-      "Mantiene el cuerpo entre el balón y la portería.",
-      "Emplea una palabra de comunicación acordada.",
-      "Restablece la estructura defensiva en menos de cinco segundos."
+      "El alumno será capaz de reaccionar en menos de dos segundos en 6 de 8 pérdidas.",
+      "Como quien está más cerca, el alumno será capaz de retrasar el avance sin contacto mientras su compañero repliega al centro.",
+      "El alumno será capaz de mantener el cuerpo entre el balón y la portería.",
+      "El alumno será capaz de emplear una palabra de comunicación acordada.",
+      "El alumno será capaz de restablecer la estructura defensiva en menos de cinco segundos."
     ],
     "priorKnowledge": "Ventaja 2 contra 1, cierre de líneas de pase y movimiento sin balón de las sesiones FB-05 a FB-07. Quien necesite apoyo responde a una señal sin oposición.",
     "pathwayPosition": "Sesión anterior: FB-07 — Ventaja ofensiva 2 contra 1.\nSesión actual: cambiar de rol de inmediato después de perder el balón.\nSesión siguiente: FB-09 — Juego de transición 4 contra 4.",
@@ -3038,11 +3038,11 @@
     "identity": "Título completo: Fútbol 09 — Juego de transición 4 contra 4\nCódigo: FB-09-ES\nDisciplina y subtema: fútbol; amplitud, apoyo y transición de la posesión\nEdad: 13–16 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nEstudiantes: 16–32\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 4–6 balones, 32 conos, petos y 8–12 porterías pequeñas\nEspacio: campo o gimnasio\nComplejidad: avanzada",
     "purpose": "Combinar pase, movimiento, ventaja numérica y transición defensiva en un juego reducido que ofrezca a cada estudiante decisiones y participación repetidas.",
     "objectives": [
-      "Crea al menos dos opciones de pase alrededor del balón.",
-      "Cambia de rol en menos de dos segundos tras el cambio de posesión.",
-      "Usa la amplitud en lugar de amontonarse en el centro.",
-      "Defiende sin contacto y protege la puerta central.",
-      "Realiza al menos tres acciones significativas por partido."
+      "El alumno será capaz de crear al menos dos opciones de pase alrededor del balón.",
+      "El alumno será capaz de cambiar de rol en menos de dos segundos tras el cambio de posesión.",
+      "El alumno será capaz de usar la amplitud en lugar de amontonarse en el centro.",
+      "El alumno será capaz de defender sin contacto y proteger la puerta central.",
+      "El alumno será capaz de realizar al menos tres acciones significativas por partido."
     ],
     "priorKnowledge": "Pase, recepción, movimiento, defensa, ventaja 2 contra 1 y transición de las sesiones FB-02 a FB-08. Quien necesite apoyo juega con jugador neutral o con superioridad numérica.",
     "pathwayPosition": "Sesión anterior: FB-08 — Transición ataque–defensa tras pérdida.\nSesión actual: integrar todos los elementos en un 4 contra 4.\nSesión siguiente: FB-10 — Juego final y evaluación del itinerario.",
@@ -3104,11 +3104,11 @@
     "identity": "Título completo: Fútbol 10 — Juego final y evaluación del itinerario\nCódigo: FB-10-ES\nDisciplina y subtema: fútbol; integración de control, pase, movimiento, finalización, defensa y transición\nEdad: 13–16 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nEstudiantes: 16–32\nGrupo: chicas, chicos o mixto; ajustes por capacidad\nMaterial: 4–6 balones, 32 conos, petos, porterías pequeñas y fichas de observación\nEspacio: campo o gimnasio\nComplejidad: avanzada",
     "purpose": "Valorar si el alumnado combina habilidad, decisiones y cooperación en un juego seguro, sin reducir el logro al número de goles ni a la experiencia previa individual.",
     "objectives": [
-      "Toma una decisión adecuada en tres de cada cuatro situaciones con balón.",
-      "Crea o aprovecha una línea de pase al menos cuatro veces.",
-      "Reacciona a la pérdida del balón en menos de dos segundos y completa el cambio de rol en menos de cinco segundos.",
-      "Defiende el pasillo central sin contacto.",
-      "Participa de forma activa y respetuosa en todos los partidos."
+      "El alumno será capaz de tomar una decisión adecuada en tres de cada cuatro situaciones con balón.",
+      "El alumno será capaz de crear o aprovecha una línea de pase al menos cuatro veces.",
+      "El alumno será capaz de reaccionar a la pérdida del balón en menos de dos segundos y completar el cambio de rol en menos de cinco segundos.",
+      "El alumno será capaz de defender el pasillo central sin contacto.",
+      "El alumno será capaz de participar de forma activa y respetuosa en todos los partidos."
     ],
     "priorKnowledge": "Los componentes de las sesiones FB-01 a FB-09. Quien no esté preparado dispone de jugador neutral, zona de apoyo o rol de observador activo con incorporación gradual.",
     "pathwayPosition": "Sesión anterior: FB-09 — Juego de transición 4 contra 4.\nSesión actual: evaluación final auténtica de todo el itinerario.\nSesión siguiente: unidad de balonmano o fútbol avanzado, según las evidencias recogidas.",

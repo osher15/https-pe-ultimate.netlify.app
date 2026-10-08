@@ -15,11 +15,11 @@
     "identity": "שם מלא: כושר 01 — תחנות כוח וסבולת בוויסות אישי\nקוד מערך: FIT-01-HE\nענף: כושר גופני\nתת נושא: כוח בסיסי, סבולת אירובית ובחירת עומס\nגיל: 12–16\nרמת ניסיון: מתחילים\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, 6–10 מזרנים, ספסלים יציבים או קיר, שעון וכרטיסי רמה\nמרחב: אולם, מגרש או רחבה שטוחה עם 4–6 תחנות\nמורכבות: בסיסית",
     "purpose": "להציג מעגל בטוח שבו התלמיד בוחר רמה מתאימה, שומר איכות תנועה ומתאר את תחושת המאמץ.",
     "objectives": [
-      "בוחר בכל תחנה גרסת תרגיל שהוא שולט בה ומנמק את הבחירה בסימן גוף אחד.",
-      "שומר על טכניקה נקייה לאורך כל זמן העבודה ב־4 מתוך 5 התחנות.",
-      "מדרג את המאמץ בסולם 1–5 ומתאים עומס לפחות פעם אחת בשיעור.",
-      "עובר בין תחנות במסלול המסומן ובזמן המעבר שנקבע.",
-      "ממלא תפקיד מבצע וצופה ונותן משוב עובדתי אחד."
+      "התלמיד יצליח לבחור בכל תחנה גרסת תרגיל שהוא שולט בה ולנמק את הבחירה בסימן גוף אחד.",
+      "התלמיד יצליח לשמור על טכניקה נקייה לאורך כל זמן העבודה ב־4 מתוך 5 התחנות.",
+      "התלמיד יצליח לדרג את המאמץ בסולם 1–5 ולהתאים עומס לפחות פעם אחת בשיעור.",
+      "התלמיד יצליח לעבור בין תחנות במסלול המסומן ובזמן המעבר שנקבע.",
+      "התלמיד יצליח למלא תפקיד מבצע וצופה ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "אין דרישה למערך כושר קודם; נדרשות הכרת אות עצירה וסולם מאמץ 1–5.",
     "pathwayPosition": "המערך הקודם: אין — זהו מערך הפתיחה של רצף הכושר.\nהמערך הנוכחי: מלמד קודם כל את שפת הוויסות — סולם מאמץ, בחירת רמה ורזרבה. התרגילים עצמם פשוטים בכוונה; איכות התנועה נבנית ב-FIT-02.\nהמערך הבא: FIT-02 — איכות תנועה בכריעה, ציר, דחיפה ויציבות.",
@@ -78,11 +78,11 @@
     "identity": "שם מלא: כושר 02 — איכות תנועה: כריעה, ציר, דחיפה וליבה\nקוד מערך: FIT-02-HE\nענף: כושר\nתת נושא: דפוסי תנועה בסיסיים\nגיל: 10–13\nרמת ניסיון: מתחילים\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, מזרנים, שעון וכרטיסי רמה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "לבצע ארבעה דפוסי תנועה בסיסיים בשליטה ובטווח אישי בטוח.",
     "objectives": [
-      "כורע עד הטווח האישי שלו כשהעקבים על הרצפה, הברכיים בכיוון האצבעות והגב ארוך, ב־4 מתוך 5 חזרות.",
-      "מבצע ציר ירך (הסטת אגן אחורה עם ברכיים כפופות מעט), ולא כפיפת גב, ב־4 מתוך 5 חזרות.",
-      "שומר קו ישר מהראש ועד העקב בדחיפת קיר ובמנח הליבה, בלי שקיעת מותניים, ב־3 מתוך 4 סבבים.",
-      "עוצר בעצמו כשהטכניקה מתקלקלת או כשיש כאב, בלי לחכות לאות המורה.",
-      "מציין לשותף איזה מארבעת הדפוסים קשה לו ביותר ומה הרמז האחד שהוא לוקח לשיעור הבא."
+      "התלמיד יצליח לכרוע עד הטווח האישי שלו כשהעקבים על הרצפה, הברכיים בכיוון האצבעות והגב ארוך, ב־4 מתוך 5 חזרות.",
+      "התלמיד יבצע ציר ירך (הסטת אגן אחורה עם ברכיים כפופות מעט), ולא כפיפת גב, ב־4 מתוך 5 חזרות.",
+      "התלמיד יצליח לשמור קו ישר מהראש ועד העקב בדחיפת קיר ובמנח הליבה, בלי שקיעת מותניים, ב־3 מתוך 4 סבבים.",
+      "התלמיד יצליח לעצור בעצמו כשהטכניקה מתקלקלת או כשיש כאב, בלי לחכות לאות המורה.",
+      "התלמיד יצליח לציין לשותף איזה מארבעת הדפוסים קשה לו ביותר ומה הרמז האחד שהוא לוקח לשיעור הבא."
     ],
     "priorKnowledge": "FIT-01 — תחנות כוח וסבולת בוויסות אישי.",
     "pathwayPosition": "המערך הקודם: FIT-01 — תחנות כוח וסבולת בוויסות אישי.\nהמערך הנוכחי: ב־FIT-01 התלמיד למד לווסת עומס — כמה לעשות. כאן לומדים איך לעשות: ארבעה דפוסים שחוזרים בכל תרגיל כוח, עם קריטריון טכני ברור לכל אחד. עדיין ללא עומס חיצוני, ללא קצב כפוי וללא עבודה אירובית ממושכת — אלה נכנסים ב־FIT-03.\nהמערך הבא: FIT-03 — אינטרוולים אירוביים בקצב אישי.",
@@ -141,11 +141,11 @@
     "identity": "שם מלא: כושר 03 — אינטרוולים אירוביים בקצב אישי\nקוד מערך: FIT-03-HE\nענף: כושר\nתת נושא: סבולת וויסות מאמץ\nגיל: 11–15\nרמת ניסיון: מתפתחים\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, מזרנים, שעון וכרטיסי רמה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "להשלים שישה אינטרוולים בקצב נשלט ולחזור לנשימה נוחה בהתאוששות.",
     "objectives": [
-      "משלים שישה אינטרוולים בלי לוותר על סבב ובלי לעצור באמצע סבב.",
-      "שומר על קצב אחיד: הסבב השישי דומה לראשון ואינו איטי ביותר.",
-      "חוזר לנשימה נוחה עד סוף זמן ההתאוששות ב־4 מתוך 6 סבבים.",
-      "מדרג מאמץ בסולם 1–5 בסיום כל סבב ומתאים את הסבב הבא לפי הדירוג.",
-      "שומר נתיב קבוע ומרווח שתי זרועות גם בסבבים המאוחרים."
+      "התלמיד יצליח להשלים שישה אינטרוולים בלי לוותר על סבב ובלי לעצור באמצע סבב.",
+      "התלמיד יצליח לשמור על קצב אחיד: הסבב השישי דומה לראשון ואינו איטי ביותר.",
+      "התלמיד יצליח לחזור לנשימה נוחה עד סוף זמן ההתאוששות ב־4 מתוך 6 סבבים.",
+      "התלמיד יצליח לדרג מאמץ בסולם 1–5 בסיום כל סבב ולהתאים את הסבב הבא לפי הדירוג.",
+      "התלמיד יצליח לשמור נתיב קבוע ומרווח שתי זרועות גם בסבבים המאוחרים."
     ],
     "priorKnowledge": "FIT-02 — איכות תנועה בסיסית.",
     "pathwayPosition": "המערך הקודם: FIT-02 — איכות תנועה בסיסית.\nהמערך הנוכחי: מוסיף את ממד הזמן — אחרי ש-FIT-02 בנה איכות תנועה, כאן צריך לשמר אותה על פני שישה סבבים עוקבים. ההתאוששות היא חלק מהתרגיל, לא הפסקה.\nהמערך הבא: FIT-04 — תחנות זוגיות בוויסות עצמי.",
@@ -204,11 +204,11 @@
     "identity": "שם מלא: כושר 04 — תחנות זוגיות בוויסות עצמי\nקוד מערך: FIT-04-HE\nענף: כושר\nתת נושא: כוח, סבולת ושיתוף פעולה\nגיל: 12–16\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, מזרנים, שעון וכרטיסי רמה\nמרחב: אולם, מגרש או מסלול שטוח\nמורכבות: בינונית",
     "purpose": "לבחור רמת עומס מתאימה ולשמור טכניקה ותקשורת במעגל זוגי.",
     "objectives": [
-      "בוחר בעצמו אחת משלוש גרסאות העומס בכל תחנה ומנמק את הבחירה במשפט אחד, ב־4 מתוך 5 תחנות.",
-      "יורד גרסה או עוצר ברגע שהטכניקה מתקלקלת, בלי להמתין לסוף הזמן, ברוב הסבבים.",
-      "כצופה: מוסר למבצע עובדה אחת שראה והצעה אחת, בלי לקבוע לו עומס ובלי לספור במקומו, ב־3 מתוך 4 החלפות.",
-      "עובד בזוג שבו שני החברים בגרסאות שונות בלי להעיר על כך, ושומר מרווח ועוצר באות.",
-      "מציין בסוף השיעור באיזו תחנה הוא מתכוון לעלות גרסה בשיעור הבא, ומה הסימן שיגיד לו שהוא מוכן."
+      "התלמיד יצליח לבחור בעצמו אחת משלוש גרסאות העומס בכל תחנה ולנמק את הבחירה במשפט אחד, ב־4 מתוך 5 תחנות.",
+      "התלמיד יצליח לרדת גרסה או לעצור ברגע שהטכניקה מתקלקלת, בלי להמתין לסוף הזמן, ברוב הסבבים.",
+      "התלמיד יצליח, כצופה, למסור למבצע עובדה אחת שראה והצעה אחת, בלי לקבוע לו עומס ובלי לספור במקומו, ב־3 מתוך 4 החלפות.",
+      "התלמיד יצליח לעבוד בזוג שבו שני החברים בגרסאות שונות בלי להעיר על כך, ולשמור מרווח ולעצור באות.",
+      "התלמיד יצליח לציין בסוף השיעור באיזו תחנה הוא מתכוון לעלות גרסה בשיעור הבא, ומה הסימן שיגיד לו שהוא מוכן."
     ],
     "priorKnowledge": "FIT-03 — אינטרוולים אירוביים.",
     "pathwayPosition": "המערך הקודם: FIT-03 — אינטרוולים אירוביים.\nהמערך הנוכחי: עד כה המורה קבע את העומס — זמן, קצב ומספר סבבים. כאן הבחירה עוברת לתלמיד: שלוש גרסאות בכל תחנה, ושותף שתפקידו לשקף ולא להשוות. עדיין לא התלמיד בונה את המעגל, לא בוחר את התרגילים ולא קובע סדר — זה התפקיד של FIT-05.\nהמערך הבא: FIT-05 — תכנון מעגל אישי מאוזן.",
@@ -267,11 +267,11 @@
     "identity": "שם מלא: כושר 05 — תכנון מעגל אישי מאוזן\nקוד מערך: FIT-05-HE\nענף: כושר גופני\nתת נושא: איזון בין כוח, סבולת, תנועה והתאוששות\nגיל: 12–16\nרמת ניסיון: בינונית\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, 6–10 מזרנים, ספסלים יציבים או קיר, שעון וכרטיסי משימה\nמרחב: אולם, מגרש מוצל או רחבה שטוחה ומסומנת\nמורכבות: בינונית",
     "purpose": "לתכנן, לבצע ולתקן מעגל אישי מאוזן תוך בחירת עומס בטוח והסבר ההיגיון שמאחוריו.",
     "objectives": [
-      "בונה רצף בן ארבע תחנות שבו כל קטגוריה — כוח רגליים, כוח פלג גוף עליון, תנועה אירובית ויציבות — מופיעה פעם אחת בלבד, ב־4 מתוך 5 בדיקות.",
-      "בוחר רמת עומס ומנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
-      "שומר מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
-      "מתעד מדד אחד ומשנה משתנה אחד בהתאם לראיה.",
-      "נותן לבן או בת זוג משוב עובדתי ומכבד."
+      "התלמיד יצליח לבנות רצף בן ארבע תחנות שבו כל קטגוריה — כוח רגליים, כוח פלג גוף עליון, תנועה אירובית ויציבות — מופיעה פעם אחת בלבד, ב־4 מתוך 5 בדיקות.",
+      "התלמיד יצליח לבחור רמת עומס ולנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
+      "התלמיד יצליח לשמור מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
+      "התלמיד יצליח לתעד מדד אחד ולשנות משתנה אחד בהתאם לראיה.",
+      "התלמיד יצליח לתת לבן או בת זוג משוב עובדתי ומכבד."
     ],
     "priorKnowledge": "נדרשת היכרות עם אות עצירה, סולם מאמץ 1–5 ועם התרגילים הבסיסיים שנלמדו ברצף. המערך הקודם: FIT-04 — תחנות זוגיות בוויסות עצמי.",
     "pathwayPosition": "המערך הקודם: FIT-04 — תחנות זוגיות בוויסות עצמי; התלמידים תרגלו בחירת עומס ושמירת איכות.\nהמערך הנוכחי: ב־FIT-04 התלמיד בחר עומס בתוך מעגל שהמורה בנה. כאן הוא בונה את המעגל עצמו: אילו קטגוריות לכלול, באיזה סדר, ומה לשנות אחרי סבב ראשון. עדיין עובדים ביחסי זמן קבועים שהמורה נותן — ניהול קצב ותכנון התאוששות עצמאיים נוספים ב־FIT-06.\nהמערך הבא: FIT-06 — ניהול קצב והתאוששות.",
@@ -330,11 +330,11 @@
     "identity": "שם מלא: כושר 06 — ניהול קצב והתאוששות\nקוד מערך: FIT-06-HE\nענף: כושר גופני\nתת נושא: ויסות מאמץ באמצעות מבחן דיבור וסולם תחושה\nגיל: 12–16\nרמת ניסיון: בינונית\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, 6–10 מזרנים, ספסלים יציבים או קיר, שעון וכרטיסי משימה\nמרחב: אולם, מגרש מוצל או רחבה שטוחה ומסומנת\nמורכבות: בינונית",
     "purpose": "לווסת קצב עבודה והתאוששות כך שאפשר יהיה להשלים מספר מקטעים באיכות יציבה.",
     "objectives": [
-      "שומר את מאמצו בדרגה 3–4 מתוך 5 לאורך כל המקטע — מצליח לומר משפט מקוטע אך נשלט — ב־4 מתוך 5 בדיקות.",
-      "בוחר רמת עומס ומנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
-      "שומר מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
-      "מתעד מדד אחד ומשנה משתנה אחד בהתאם לראיה.",
-      "נותן לבן או בת זוג משוב עובדתי ומכבד."
+      "התלמיד יצליח לשמור את מאמצו בדרגה 3–4 מתוך 5 לאורך כל המקטע — להצליח לומר משפט מקוטע אך נשלט — ב־4 מתוך 5 בדיקות.",
+      "התלמיד יצליח לבחור רמת עומס ולנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
+      "התלמיד יצליח לשמור מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
+      "התלמיד יצליח לתעד מדד אחד ולשנות משתנה אחד בהתאם לראיה.",
+      "התלמיד יצליח לתת לבן או בת זוג משוב עובדתי ומכבד."
     ],
     "priorKnowledge": "נדרשת היכרות עם אות עצירה, סולם מאמץ 1–5 ועם התרגילים הבסיסיים שנלמדו ברצף. המערך הקודם: FIT-05 — תכנון מעגל אישי מאוזן.",
     "pathwayPosition": "המערך הקודם: FIT-05 — תכנון מעגל אישי מאוזן; התלמידים תרגלו בחירת עומס ושמירת איכות.\nהמערך הנוכחי: ב־FIT-05 התלמיד תכנן מה לעשות ובאיזה סדר. כאן נכנס משתנה חדש: הזמן. התלמיד לומד לבחור קצב מראש, לבדוק אותו במבחן דיבור, ולהשתמש בהתאוששות ככלי ולא כהפסקה. עדיין המקטעים קצרים והעבודה אירובית בעיקרה — סבולת שרירית תחת עייפות נכנסת ב־FIT-07.\nהמערך הבא: FIT-07 — סבולת שרירית באיכות.",
@@ -393,11 +393,11 @@
     "identity": "שם מלא: כושר 07 — סבולת שרירית באיכות\nקוד מערך: FIT-07-HE\nענף: כושר גופני\nתת נושא: שמירת טכניקה בחזרות מתונות\nגיל: 12–16\nרמת ניסיון: בינונית\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, 6–10 מזרנים, ספסלים יציבים או קיר, שעון וכרטיסי משימה\nמרחב: אולם, מגרש מוצל או רחבה שטוחה ומסומנת\nמורכבות: בינונית",
     "purpose": "לפתח סבולת שרירית תוך שמירת מנח, נשימה וטווח תנועה מתאים לאורך מספר סבבים.",
     "objectives": [
-      "שומר מנח, נשימה וטווח נשלט גם בחזרה האחרונה של הסבב כמו בראשונה, ב־4 מתוך 5 בדיקות.",
-      "בוחר רמת עומס ומנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
-      "שומר מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
-      "מתעד מדד אחד ומשנה משתנה אחד בהתאם לראיה.",
-      "נותן לבן או בת זוג משוב עובדתי ומכבד."
+      "התלמיד יצליח לשמור מנח, נשימה וטווח נשלט גם בחזרה האחרונה של הסבב כמו בראשונה, ב־4 מתוך 5 בדיקות.",
+      "התלמיד יצליח לבחור רמת עומס ולנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
+      "התלמיד יצליח לשמור מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
+      "התלמיד יצליח לתעד מדד אחד ולשנות משתנה אחד בהתאם לראיה.",
+      "התלמיד יצליח לתת לבן או בת זוג משוב עובדתי ומכבד."
     ],
     "priorKnowledge": "נדרשת היכרות עם אות עצירה, סולם מאמץ 1–5 ועם התרגילים הבסיסיים שנלמדו ברצף. המערך הקודם: FIT-06 — ניהול קצב והתאוששות.",
     "pathwayPosition": "המערך הקודם: FIT-06 — ניהול קצב והתאוששות; התלמידים תרגלו בחירת עומס ושמירת איכות.\nהמערך הנוכחי: ב־FIT-06 התלמיד ויסת קצב בעבודה אירובית. כאן אותו עקרון עובר לעבודת כוח: הקריטריון הוא לא כמה חזרות אלא אם החזרה האחרונה עוד נראית כמו הראשונה. עדיין במשקל גוף בלבד, במקטעים קצרים וללא עבודה עד כשל; עומס לב־ריאה ממושך מחכה ל־FIT-08.\nהמערך הבא: FIT-08 — סבולת לב־ריאה ומבחן דיבור.",
@@ -456,11 +456,11 @@
     "identity": "שם מלא: כושר 08 — סבולת לב־ריאה ומבחן דיבור\nקוד מערך: FIT-08-HE\nענף: כושר גופני\nתת נושא: מאמץ רציף מתון והערכת עצימות\nגיל: 12–16\nרמת ניסיון: בינונית\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, 6–10 מזרנים, ספסלים יציבים או קיר, שעון וכרטיסי משימה\nמרחב: אולם, מגרש מוצל או רחבה שטוחה ומסומנת\nמורכבות: בינונית",
     "purpose": "להחזיק מאמץ אירובי מתון ולבחור קצב בעזרת נשימה, מבחן דיבור ותחושת מאמץ.",
     "objectives": [
-      "מחזיק תנועה רצופה שש דקות בלי לעצור, בטווח מאמץ 3–4 מתוך 5, ב־4 מתוך 5 בדיקות.",
-      "בוחר רמת עומס ומנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
-      "שומר מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
-      "מתעד מדד אחד ומשנה משתנה אחד בהתאם לראיה.",
-      "נותן לבן או בת זוג משוב עובדתי ומכבד."
+      "התלמיד יצליח להחזיק תנועה רצופה שש דקות בלי לעצור, בטווח מאמץ 3–4 מתוך 5, ב־4 מתוך 5 בדיקות.",
+      "התלמיד יצליח לבחור רמת עומס ולנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
+      "התלמיד יצליח לשמור מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
+      "התלמיד יצליח לתעד מדד אחד ולשנות משתנה אחד בהתאם לראיה.",
+      "התלמיד יצליח לתת לבן או בת זוג משוב עובדתי ומכבד."
     ],
     "priorKnowledge": "נדרשת היכרות עם אות עצירה, סולם מאמץ 1–5 ועם התרגילים הבסיסיים שנלמדו ברצף. המערך הקודם: FIT-07 — סבולת שרירית באיכות.",
     "pathwayPosition": "המערך הקודם: FIT-07 — סבולת שרירית באיכות; התלמידים תרגלו בחירת עומס ושמירת איכות.\nהמערך הנוכחי: עד כה העבודה הייתה במקטעים קצרים עם התאוששות ביניהם. כאן מופיע לראשונה מאמץ רצוף ארוך — שש דקות בלי לעצור — והוויסות נעשה תוך כדי תנועה ולא בין סבבים. עדיין המורה קובע את מבנה השיעור; בניית תוכנית אישית ואימון עמיתים מגיעים ב־FIT-09.\nהמערך הבא: FIT-09 — תוכנית שיפור אישית ואימון עמיתים.",
@@ -519,11 +519,11 @@
     "identity": "שם מלא: כושר 09 — תוכנית שיפור אישית ואימון עמיתים\nקוד מערך: FIT-09-HE\nענף: כושר גופני\nתת נושא: הצבת יעד, בחירת פעולה ומשוב מבוסס ראיה\nגיל: 12–16\nרמת ניסיון: בינונית\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, 6–10 מזרנים, ספסלים יציבים או קיר, שעון וכרטיסי משימה\nמרחב: אולם, מגרש מוצל או רחבה שטוחה ומסומנת\nמורכבות: בינונית",
     "purpose": "לבנות יעד כושר קצר ומדיד ולתרגל אותו בעזרת משוב עמיתים מדויק ובטוח.",
     "objectives": [
-      "מנסח יעד אישי שכולל שלושה חלקים — מה אשפר, באיזו פעולה, ואיך אדע שהצלחתי — והוא ניתן לבדיקה בתוך שיעור אחד.",
-      "בוחר רמת עומס ומנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
-      "שומר מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
-      "מתעד מדד אחד ומשנה משתנה אחד בהתאם לראיה.",
-      "נותן לבן או בת זוג משוב עובדתי ומכבד."
+      "התלמיד יצליח לנסח יעד אישי שכולל שלושה חלקים — מה אשפר, באיזו פעולה, ואיך אדע שהצלחתי — והוא ניתן לבדיקה בתוך שיעור אחד.",
+      "התלמיד יצליח לבחור רמת עומס ולנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
+      "התלמיד יצליח לשמור מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
+      "התלמיד יצליח לתעד מדד אחד ולשנות משתנה אחד בהתאם לראיה.",
+      "התלמיד יצליח לתת לבן או בת זוג משוב עובדתי ומכבד."
     ],
     "priorKnowledge": "נדרשת היכרות עם אות עצירה, סולם מאמץ 1–5 ועם התרגילים הבסיסיים שנלמדו ברצף. המערך הקודם: FIT-08 — סבולת לב־ריאה ומבחן דיבור.",
     "pathwayPosition": "המערך הקודם: FIT-08 — סבולת לב־ריאה ומבחן דיבור; התלמידים תרגלו בחירת עומס ושמירת איכות.\nהמערך הנוכחי: עד כה התלמיד בחר בתוך משימה שהמורה הגדיר. כאן הוא מגדיר את המשימה עצמה: יעד, מדד ופעולה, ומקבל שותף שתפקידו להחזיר ראיה על המדד האחד הזה. עדיין היעד נבדק באותו שיעור ולא על פני היחידה כולה — ההסתכלות על כל המסלול שמורה ל־FIT-10.\nהמערך הבא: FIT-10 — אתגר מסכם והערכת המסלול.",
@@ -582,11 +582,11 @@
     "identity": "שם מלא: כושר 10 — אתגר כושר משולב והערכה מסכמת\nקוד מערך: FIT-10-HE\nענף: כושר גופני\nתת נושא: שילוב תכנון, ביצוע, ויסות ורפלקציה\nגיל: 12–16\nרמת ניסיון: בינונית\nמשך: 45 דקות\nמספר תלמידים: 20–32 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: קונוסים, 6–10 מזרנים, ספסלים יציבים או קיר, שעון וכרטיסי משימה\nמרחב: אולם, מגרש מוצל או רחבה שטוחה ומסומנת\nמורכבות: בינונית",
     "purpose": "להדגים עצמאות בתכנון וביצוע משימת כושר מאוזנת, בטוחה ומווסתת ולהסביר את ההתקדמות האישית.",
     "objectives": [
-      "מתכנן בעצמו סדר תחנות, רמת קושי וזמן התאוששות, ומבצע את התוכנית שלו בטכניקה בטוחה ב־4 מתוך 5 בדיקות.",
-      "בוחר רמת עומס ומנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
-      "שומר מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
-      "מתעד מדד אחד ומשנה משתנה אחד בהתאם לראיה.",
-      "נותן לבן או בת זוג משוב עובדתי ומכבד."
+      "התלמיד יצליח לתכנן בעצמו סדר תחנות, רמת קושי וזמן התאוששות, ולבצע את התוכנית שלו בטכניקה בטוחה ב־4 מתוך 5 בדיקות.",
+      "התלמיד יצליח לבחור רמת עומס ולנמק אותה באמצעות סימן גופני או תוצאת ביצוע.",
+      "התלמיד יצליח לשמור מרווחים, נתיב ותגובה לאות עצירה בכל הפעילויות.",
+      "התלמיד יצליח לתעד מדד אחד ולשנות משתנה אחד בהתאם לראיה.",
+      "התלמיד יצליח לתת לבן או בת זוג משוב עובדתי ומכבד."
     ],
     "priorKnowledge": "נדרשת היכרות עם אות עצירה, סולם מאמץ 1–5 ועם התרגילים הבסיסיים שנלמדו ברצף. המערך הקודם: FIT-09 — תוכנית שיפור אישית ואימון עמיתים.",
     "pathwayPosition": "המערך הקודם: FIT-09 — תוכנית שיפור אישית ואימון עמיתים; התלמידים תרגלו בחירת עומס ושמירת איכות.\nהמערך הנוכחי: מאחד את כל מה שנלמד ביחידה — דפוסי תנועה, בחירת עומס, ניהול קצב, סבולת והצבת יעד — למשימה אחת שהתלמיד מרכיב לבד. ההערכה היא על התהליך וההחלטות, לא על רמת הכושר. זהו סוף היחידה: עבודה עם ציוד חיצוני, מחזור אימון רב־שבועי ומדדי כושר רשמיים שייכים ליחידות המשך.\nהמערך הבא: יחידת המשך אישית או חזרה ממוקדת לפי נתוני ההערכה.",
@@ -647,11 +647,11 @@
     "identity": "Full title: Fitness 01 — Self-Regulated Strength and Endurance Circuit\nLesson code: FIT-01-EN\nSport: Physical fitness\nSubtopic: foundation strength, aerobic endurance, and self-selected load\nAge: 12–16\nExperience: beginner\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: cones, 6–10 mats, stable benches or wall space, timer, and level cards\nSpace: gym, court, or flat marked area with 4–6 stations\nComplexity: foundation",
     "purpose": "Introduce a safe circuit in which students select a manageable level, maintain movement quality, and describe their effort.",
     "objectives": [
-      "Chooses an exercise version they can control at each station and justifies it with one body signal.",
-      "Holds clean technique for the full work interval at 4 of 5 stations.",
-      "Rates effort on a 1–5 scale and adjusts the load at least once in the lesson.",
-      "Moves between stations along the marked route within the set transition time.",
-      "Takes both performer and observer roles and gives one factual comment."
+      "The student can choose an exercise version they can control at each station and justify it with one body signal.",
+      "The student can hold clean technique for the full work interval at 4 of 5 stations.",
+      "The student can rate effort on a 1–5 scale and adjust the load at least once in the lesson.",
+      "The student can move between stations along the marked route within the set transition time.",
+      "The student can take both performer and observer roles and give one factual comment."
     ],
     "priorKnowledge": "No previous fitness lesson required; students need the stop signal and 1–5 effort scale.",
     "pathwayPosition": "Previous lesson: No previous fitness lesson required; students need the stop signal and 1–5 effort scale.\nCurrent lesson: As the opening fitness lesson it establishes the two things the whole pathway depends on: choosing a level you can actually control, and rating your own effort honestly on a 1–5 scale. It withholds any teaching of the movement patterns themselves — the stations use only simple, self-limiting exercises — which FIT-02 addresses directly.\nNext lesson: FIT-02 — movement quality in squat, hinge, push, and brace.",
@@ -710,11 +710,11 @@
     "identity": "Full title: Fitness 02 — Movement Quality: Squat, Hinge, Push, and Brace\nLesson code: FIT-02-EN\nSport: Fitness\nSubtopic: fundamental movement patterns\nAge: 10–13\nExperience: beginner\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, mats, timer, level cards\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Perform four fundamental patterns with control and a safe personal range.",
     "objectives": [
-      "Performs a squat with the heels down, knees tracking over the toes, and a neutral spine, to a depth they can control, in 4 of 5 repetitions.",
-      "Performs a hip hinge by pushing the hips backwards with a flat back and only slight knee bend, keeping the movement at the hips rather than the lower back.",
-      "Performs a wall or incline push with the body in one straight line from head to heels, lowering under control rather than dropping.",
-      "Holds a brace with steady breathing for the set time, without the hips sagging or lifting, and stops the moment the position breaks.",
-      "Observes a partner, reports one factual cue about their range or alignment, and states a personal goal for the next round."
+      "The student can perform a squat with the heels down, knees tracking over the toes, and a neutral spine, to a depth they can control, in 4 of 5 repetitions.",
+      "The student can perform a hip hinge by pushing the hips backwards with a flat back and only slight knee bend, keeping the movement at the hips rather than the lower back.",
+      "The student can perform a wall or incline push with the body in one straight line from head to heels, lowering under control rather than dropping.",
+      "The student can hold a brace with steady breathing for the set time, without the hips sagging or lifting, and stop the moment the position breaks.",
+      "The student can observe a partner, report one factual cue about their range or alignment, and state a personal goal for the next round."
     ],
     "priorKnowledge": "FIT-01 — self-regulated strength and endurance circuit.",
     "pathwayPosition": "Previous lesson: FIT-01 — self-regulated strength and endurance circuit.\nCurrent lesson: It teaches the four movement patterns FIT-01 only used: squat, hip hinge, push, and brace are now taught individually, slowly, and with a self-selected range. It withholds all conditioning intensity — nothing here is fast or fatiguing, because the aim is a correct pattern — which FIT-03 begins to load with aerobic intervals.\nNext lesson: FIT-03 — aerobic intervals at a personal pace.",
@@ -773,11 +773,11 @@
     "identity": "Full title: Fitness 03 — Aerobic Intervals at a Personal Pace\nLesson code: FIT-03-EN\nSport: Fitness\nSubtopic: endurance and effort regulation\nAge: 11–15\nExperience: developing\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, mats, timer, level cards\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Complete six intervals at a controlled pace and recover comfortable breathing between rounds.",
     "objectives": [
-      "Completes all six intervals without stopping early, holding a pace that is sustainable rather than maximal, in 4 of 5 rounds.",
-      "Recovers to comfortable, conversational breathing by the end of each recovery period, in most rounds.",
-      "Rates effort on the 1–5 scale after each interval and keeps it in the 3–4 range rather than reaching 5.",
-      "Adjusts the pace of the next interval whenever the previous rating or recovery showed it was too hard.",
-      "Reports one factual cue about a partner's pacing or breathing and states a personal goal for the next round."
+      "The student can complete all six intervals without stopping early, holding a pace that is sustainable rather than maximal, in 4 of 5 rounds.",
+      "The student can recover to comfortable, conversational breathing by the end of each recovery period, in most rounds.",
+      "The student can rate effort on the 1–5 scale after each interval and keep it in the 3–4 range rather than reaching 5.",
+      "The student can adjust the pace of the next interval whenever the previous rating or recovery showed it was too hard.",
+      "The student can report one factual cue about a partner's pacing or breathing and state a personal goal for the next round."
     ],
     "priorKnowledge": "FIT-02 — movement quality.",
     "pathwayPosition": "Previous lesson: FIT-02 — movement quality.\nCurrent lesson: It adds a cardiovascular demand to the patterns of FIT-02, using interval work so effort arrives in manageable pieces with recovery built in. It withholds any continuous long effort and all partner-imposed loading — each student sets their own pace and every interval is short — which FIT-04 changes by adding a partner.\nNext lesson: FIT-04 — self-regulated partner circuit.",
@@ -836,11 +836,11 @@
     "identity": "Full title: Fitness 04 — Self-Regulated Partner Circuit\nLesson code: FIT-04-EN\nSport: Fitness\nSubtopic: strength, endurance, cooperation\nAge: 12–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, mats, timer, level cards\nSpace: gym, court, or flat track\nComplexity: intermediate",
     "purpose": "Choose an appropriate load and maintain technique and communication in a partner circuit.",
     "objectives": [
-      "Chooses the exercise version they can control at each station and states the body signal that justified the choice.",
-      "Holds the named technical cue for the full work interval at 4 of 5 stations, stopping if the shape breaks.",
-      "As observer, reports what was actually seen by naming the cue, rather than counting repetitions or offering encouragement alone.",
-      "Respects a partner's chosen level without pressuring them to match their own, in every rotation.",
-      "Records one measure across the two rounds and changes one variable in response to it."
+      "The student can choose the exercise version they can control at each station and state the body signal that justified the choice.",
+      "The student can hold the named technical cue for the full work interval at 4 of 5 stations, stopping if the shape breaks.",
+      "As observer, the student can report what was actually seen by naming the cue, rather than counting repetitions or offering encouragement alone.",
+      "The student can respect a partner's chosen level without pressuring them to match their own, in every rotation.",
+      "The student can record one measure across the two rounds and change one variable in response to it."
     ],
     "priorKnowledge": "FIT-03 — aerobic intervals.",
     "pathwayPosition": "Previous lesson: FIT-03 — aerobic intervals.\nCurrent lesson: It adds the partner to the self-regulation of FIT-01 and FIT-03: students now work in pairs, one performing and one observing, which means learning to give useful feedback and, crucially, to respect a partner's level rather than impose their own. It withholds designing the circuit itself — the stations are still set by the teacher — which FIT-05 hands over to them.\nNext lesson: FIT-05 — designing a balanced personal circuit.",
@@ -899,11 +899,11 @@
     "identity": "Full title: Fitness 05 — Designing a Balanced Personal Circuit\nLesson code: FIT-05-EN\nSport: Physical fitness\nSubtopic: balancing strength, endurance, movement, and recovery\nAge: 12–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, 6–10 mats, stable benches or a wall, timer, and task cards\nSpace: gym, shaded court, or flat marked area\nComplexity: intermediate",
     "purpose": "Plan, perform, and revise a balanced personal circuit while choosing a safe load and explaining the reasoning behind it.",
     "objectives": [
-      "Designs a four-station circuit that includes lower-body strength, upper-body strength, aerobic movement, and stability, with each station correctly matched to its category.",
-      "Selects a load level at each station and justifies it using a body cue or a performance result.",
-      "Orders the stations so that two working the same area never follow one another, and holds spacing, travel lanes, and the stop signal throughout.",
-      "Records one measure across the two rounds and changes exactly one station or variable in response to that evidence.",
-      "Gives a partner factual, respectful feedback naming what was actually seen rather than offering a verdict."
+      "The student can design a four-station circuit that includes lower-body strength, upper-body strength, aerobic movement, and stability, with each station correctly matched to its category.",
+      "The student can select a load level at each station and justify it using a body cue or a performance result.",
+      "The student can order the stations so that two working the same area never follow one another, and hold spacing, travel lanes, and the stop signal throughout.",
+      "The student can record one measure across the two rounds and change exactly one station or variable in response to that evidence.",
+      "The student can give a partner factual, respectful feedback naming what was actually seen rather than offering a verdict."
     ],
     "priorKnowledge": "Students need the stop signal, the 1–5 effort scale, and the basic exercises taught earlier in the pathway. Previous lesson: FIT-04 — self-regulated partner circuit.",
     "pathwayPosition": "Previous lesson: FIT-04 — self-regulated partner circuit; students practised load selection and movement quality.\nCurrent lesson: It hands the circuit design itself to the students: having chosen loads within a teacher-built circuit in FIT-04, they now select the four categories, order the stations, and justify the balance between strength, aerobic work, and stability. It withholds the management of pacing and recovery across a whole session — the work-to-recovery ratio is still given to them — which FIT-06 addresses.\nNext lesson: FIT-06 — pacing and recovery management.",
@@ -962,11 +962,11 @@
     "identity": "Full title: Fitness 06 — Pacing and Recovery Management\nLesson code: FIT-06-EN\nSport: Physical fitness\nSubtopic: regulating effort with the talk test and perceived-exertion scale\nAge: 12–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, 6–10 mats, stable benches or a wall, timer, and task cards\nSpace: gym, shaded court, or flat marked area\nComplexity: intermediate",
     "purpose": "Regulate work pace and recovery so several intervals can be completed with stable movement quality.",
     "objectives": [
-      "Completes every bout at an effort of 3–4 on the 1–5 scale, verified by being able to speak a short broken sentence, in 4 of 5 checks.",
-      "Chooses a pace before each round and reports afterwards whether the plan matched the feeling.",
-      "Begins the recovery walk immediately at the end of each work bout, rather than stopping dead or sitting down, and holds the marked lane throughout.",
-      "Changes exactly one variable — pace, duration, or mode — whenever a round's effort rating fell outside the chosen range.",
-      "Gives a partner factual, respectful feedback naming the pacing evidence that was actually observed."
+      "The student can complete every bout at an effort of 3–4 on the 1–5 scale, verified by being able to speak a short broken sentence, in 4 of 5 checks.",
+      "The student can choose a pace before each round and report afterwards whether the plan matched the feeling.",
+      "The student can begin the recovery walk immediately at the end of each work bout, rather than stopping dead or sitting down, and hold the marked lane throughout.",
+      "The student can change exactly one variable — pace, duration, or mode — whenever a round's effort rating fell outside the chosen range.",
+      "The student can give a partner factual, respectful feedback naming the pacing evidence that was actually observed."
     ],
     "priorKnowledge": "Students need the stop signal, the 1–5 effort scale, and the basic exercises taught earlier in the pathway. Previous lesson: FIT-05 — designing a balanced personal circuit.",
     "pathwayPosition": "Previous lesson: FIT-05 — designing a balanced personal circuit; students practised load selection and movement quality.\nCurrent lesson: It supplies the ratio FIT-05 left out: having designed a balanced circuit, students now regulate effort across several bouts using the talk test and the 1–5 scale, and recover actively between them. It withholds sustained continuous work — every bout is short with recovery built in — which FIT-08 extends into continuous aerobic effort.\nNext lesson: FIT-07 — muscular endurance with quality.",
@@ -1025,11 +1025,11 @@
     "identity": "Full title: Fitness 07 — Muscular Endurance with Quality\nLesson code: FIT-07-EN\nSport: Physical fitness\nSubtopic: maintaining technique during moderate repetitions\nAge: 12–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, 6–10 mats, stable benches or a wall, timer, and task cards\nSpace: gym, shaded court, or flat marked area\nComplexity: intermediate",
     "purpose": "Develop muscular endurance while maintaining alignment, breathing, and an appropriate range of motion across repeated rounds.",
     "objectives": [
-      "Maintains trunk stability and joint alignment — knees tracking over the feet, hips neither sagging nor piking — through every repetition of a work interval, in 4 of 5 checks.",
-      "Exhales on the effort phase of each repetition instead of holding the breath, and selects a version allowing an even pace to the end of the interval.",
-      "Steps down a level as soon as quality drops, and holds spacing, travel lanes, and the stop signal throughout.",
-      "Stops a set before technical failure rather than pushing to exhaustion, and states the body cue that prompted stopping.",
-      "Gives a partner factual, respectful feedback naming one of the three agreed quality markers."
+      "The student can maintain trunk stability and joint alignment — knees tracking over the feet, hips neither sagging nor piking — through every repetition of a work interval, in 4 of 5 checks.",
+      "The student can exhale on the effort phase of each repetition instead of holding the breath, and select a version allowing an even pace to the end of the interval.",
+      "The student can step down a level as soon as quality drops, and hold spacing, travel lanes, and the stop signal throughout.",
+      "The student can stop a set before technical failure rather than pushing to exhaustion, and state the body cue that prompted stopping.",
+      "The student can give a partner factual, respectful feedback naming one of the three agreed quality markers."
     ],
     "priorKnowledge": "Students need the stop signal, the 1–5 effort scale, and the basic exercises taught earlier in the pathway. Previous lesson: FIT-06 — pacing and recovery management.",
     "pathwayPosition": "Previous lesson: FIT-06 — pacing and recovery management; students practised load selection and movement quality.\nCurrent lesson: It applies the pacing of FIT-06 to resistance work: students now repeat the movement patterns of FIT-02 across several rounds and must keep alignment and breathing intact as fatigue accumulates. It withholds maximal loading and all work to failure — every set stops while quality is still good — which remains the rule for the rest of the pathway.\nNext lesson: FIT-08 — cardiorespiratory endurance and the talk test.",
@@ -1088,11 +1088,11 @@
     "identity": "Full title: Fitness 08 — Cardiorespiratory Endurance and the Talk Test\nLesson code: FIT-08-EN\nSport: Physical fitness\nSubtopic: continuous moderate effort and intensity judgment\nAge: 12–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, 6–10 mats, stable benches or a wall, timer, and task cards\nSpace: gym, shaded court, or flat marked area\nComplexity: intermediate",
     "purpose": "Sustain moderate aerobic work and select pace using breathing, the talk test, and perceived effort.",
     "objectives": [
-      "Sustains continuous moderate movement for a full five-minute bout without stopping, in both bouts.",
-      "Holds an effort of 3–4 on the 1–5 scale throughout, verified by the talk test at each check.",
-      "Keeps to the marked lane and direction for the whole bout and recovers by walking rather than stopping abruptly.",
-      "Chooses between the easy, moderate, and challenging option at each decision point, based on the previous check rather than on what others chose.",
-      "Reports their own effort honestly at every check, including when the honest answer means stepping down an option."
+      "The student can sustain continuous moderate movement for a full five-minute bout without stopping, in both bouts.",
+      "The student can hold an effort of 3–4 on the 1–5 scale throughout, verified by the talk test at each check.",
+      "The student can keep to the marked lane and direction for the whole bout and recover by walking rather than stopping abruptly.",
+      "The student can choose between the easy, moderate, and challenging option at each decision point, based on the previous check rather than on what others chose.",
+      "The student can report their own effort honestly at every check, including when the honest answer means stepping down an option."
     ],
     "priorKnowledge": "Students need the stop signal, the 1–5 effort scale, and the basic exercises taught earlier in the pathway. Previous lesson: FIT-07 — muscular endurance with quality.",
     "pathwayPosition": "Previous lesson: FIT-07 — muscular endurance with quality; students practised load selection and movement quality.\nCurrent lesson: It extends the short bouts of FIT-06 into genuinely continuous work: two five-minute efforts in which students hold a moderate intensity and re-choose their option at set decision points without stopping. It withholds any individual programme design — the route and the decision points are still set — which FIT-09 hands over as a personal improvement plan.\nNext lesson: FIT-09 — personal improvement plan and peer coaching.",
@@ -1151,11 +1151,11 @@
     "identity": "Full title: Fitness 09 — Personal Improvement Plan and Peer Coaching\nLesson code: FIT-09-EN\nSport: Physical fitness\nSubtopic: setting a goal, selecting an action, and evidence-based feedback\nAge: 12–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, 6–10 mats, stable benches or a wall, timer, and task cards\nSpace: gym, shaded court, or flat marked area\nComplexity: intermediate",
     "purpose": "Build a short measurable fitness goal and practise it through precise, safe peer feedback.",
     "objectives": [
-      "Writes one measurable fitness goal with a named measure and an observable success criterion, rather than a general intention.",
-      "Selects one familiar station and one action that directly serves that goal, and explains the link between them.",
-      "Observes a partner against their chosen measure and gives feedback naming what was seen, in the form “I saw… so try…”, while holding spacing and the stop signal.",
-      "Changes exactly one variable per coaching cycle and records whether the result actually moved.",
-      "Compares results only with their own earlier attempt, never with a partner's."
+      "The student can write one measurable fitness goal with a named measure and an observable success criterion, rather than a general intention.",
+      "The student can select one familiar station and one action that directly serves that goal, and explain the link between them.",
+      "The student can observe a partner against their chosen measure and give feedback naming what was seen, in the form “I saw… so try…”, while holding spacing and the stop signal.",
+      "The student can change exactly one variable per coaching cycle and record whether the result actually moved.",
+      "The student can compare results only with their own earlier attempt, never with a partner's."
     ],
     "priorKnowledge": "Students need the stop signal, the 1–5 effort scale, and the basic exercises taught earlier in the pathway. Previous lesson: FIT-08 — cardiorespiratory endurance and the talk test.",
     "pathwayPosition": "Previous lesson: FIT-08 — cardiorespiratory endurance and the talk test; students practised load selection and movement quality.\nCurrent lesson: It turns the self-regulation of the whole pathway into a plan the student owns: they now set one measurable goal, choose an action that serves it, and coach a partner against their measure across three cycles. It withholds the integrated assessment itself — the goal is practised here rather than examined — which FIT-10 completes.\nNext lesson: FIT-10 — integrated challenge and pathway assessment.",
@@ -1214,11 +1214,11 @@
     "identity": "Full title: Fitness 10 — Integrated Fitness Challenge and Final Assessment\nLesson code: FIT-10-EN\nSport: Physical fitness\nSubtopic: combining planning, performance, regulation, and reflection\nAge: 12–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–32 students of all genders; adapt by ability and need\nEquipment: cones, 6–10 mats, stable benches or a wall, timer, and task cards\nSpace: gym, shaded court, or flat marked area\nComplexity: intermediate",
     "purpose": "Demonstrate independence in planning and completing a balanced, safe, self-regulated fitness task and explain personal progress.",
     "objectives": [
-      "Plans a four-station sequence covering lower-body strength, pushing, stability, and aerobic movement, and states the order before starting.",
-      "Selects a difficulty and a recovery time for each station and justifies both with a body cue or an earlier result.",
-      "Maintains safe technique, spacing, and lane discipline across both rounds without prompting.",
-      "Records one measure per round and explains, with evidence, whether the plan worked and what would change next time.",
-      "Gives a partner factual, respectful feedback throughout, and compares results only with their own."
+      "The student can plan a four-station sequence covering lower-body strength, pushing, stability, and aerobic movement, and state the order before starting.",
+      "The student can select a difficulty and a recovery time for each station and justify both with a body cue or an earlier result.",
+      "The student can maintain safe technique, spacing, and lane discipline across both rounds without prompting.",
+      "The student can record one measure per round and explain, with evidence, whether the plan worked and what would change next time.",
+      "The student can give a partner factual, respectful feedback throughout, and compare results only with their own."
     ],
     "priorKnowledge": "Students need the stop signal, the 1–5 effort scale, and the basic exercises taught earlier in the pathway. Previous lesson: FIT-09 — personal improvement plan and peer coaching.",
     "pathwayPosition": "Previous lesson: FIT-09 — personal improvement plan and peer coaching; students practised load selection and movement quality.\nCurrent lesson: It teaches nothing new and instead gathers evidence, asking each student to plan, perform, regulate, and explain a complete four-station sequence independently, with the teacher observing rather than directing. It withholds no further content in this pathway — what follows is an individual extension unit, or a targeted return to whichever component the evidence identifies.\nNext lesson: an individual extension unit or targeted return based on assessment evidence.",
@@ -1279,11 +1279,11 @@
     "identity": "الاسم الكامل: اللياقة 01 — دائرة قوة وتحمل بتنظيم ذاتي\nالرمز: FIT-01-AR\nالفرع: اللياقة البدنية\nالموضوع الفرعي: قوة أساسية وتحمل هوائي واختيار حمل\nالعمر: 12–16 سنة\nالخبرة: مبتدئة\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط، 6–10 حصائر، مقاعد ثابتة أو حائط، مؤقت وبطاقات مستوى\nالمكان: صالة أو مساحة مستوية مع 4–6 محطات\nالتعقيد: أساسي",
     "purpose": "تقديم دائرة آمنة يختار فيها الطالب مستوى مناسبًا ويحافظ على الجودة ويصف الجهد.",
     "objectives": [
-      "يختار في كل محطة نسخة تمرين يتحكم بها ويبرر اختياره بعلامة جسدية واحدة.",
-      "يحافظ على تقنية نظيفة طوال زمن العمل في 4 من 5 محطات.",
-      "يقيّم الجهد على سلم 1–5 ويعدل الحمل مرة واحدة على الأقل في الدرس.",
-      "ينتقل بين المحطات عبر المسار المحدد وفي زمن الانتقال المقرر.",
-      "يؤدي دوري منفذ ومراقب ويقدم ملاحظة واقعية."
+      "يستطيع الطالب أن يختار في كل محطة نسخة تمرين يتحكم بها ويبرر اختياره بعلامة جسدية واحدة.",
+      "يستطيع الطالب أن يحافظ على تقنية نظيفة طوال زمن العمل في 4 من 5 محطات.",
+      "يستطيع الطالب أن يقيّم الجهد على سلم 1–5 ويعدل الحمل مرة واحدة على الأقل في الدرس.",
+      "يستطيع الطالب أن ينتقل بين المحطات عبر المسار المحدد وفي زمن الانتقال المقرر.",
+      "يستطيع الطالب أن يؤدي دوري منفذ ومراقب ويقدم ملاحظة واقعية."
     ],
     "priorKnowledge": "لا يلزم درس سابق؛ تلزم إشارة التوقف ومقياس 1–5.",
     "pathwayPosition": "الدرس السابق: لا يلزم درس سابق؛ تلزم إشارة التوقف ومقياس 1–5.\nالدرس الحالي: بوصفه الدرس الافتتاحي في اللياقة، يثبّت أمرين يقوم عليهما المسار كله: اختيار مستوى يستطيع الطالب التحكم فيه فعلًا، وتقدير جهده بصدق على سلم 1–5. ويؤجل تعليم أنماط الحركة نفسها — فالمحطات لا تستخدم إلا تمارين بسيطة محدودة ذاتيًا — وهو ما يتناوله FIT-02 مباشرة.\nالدرس التالي: FIT-02 — جودة الحركة: قرفصاء وانثناء من الورك ودفع وثبات.",
@@ -1342,11 +1342,11 @@
     "identity": "الاسم الكامل: اللياقة 02 — جودة الحركة: قرفصاء وانثناء من الورك ودفع وثبات\nالرمز: FIT-02-AR\nالفرع: اللياقة\nالموضوع الفرعي: أنماط حركة أساسية\nالعمر: 10–13 سنة\nالخبرة: مبتدئ\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وحصائر ومؤقت وبطاقات مستوى\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "تنفيذ أربعة أنماط حركة بتحكم ومدى شخصي آمن.",
     "objectives": [
-      "يؤدي القرفصاء والعقبان على الأرض والركبتان فوق أصابع القدمين والظهر محايد، إلى عمق يستطيع التحكم فيه، في 4 من 5 تكرارات.",
-      "يثني الجذع من مفصلي الورك بدفع الحوض إلى الخلف مع ظهر مستقيم وثني خفيف للركبتين، فتبقى الحركة في الوركين لا في أسفل الظهر.",
-      "يؤدي الدفع عن الحائط أو سطح مائل والجسم خط مستقيم واحد من الرأس إلى العقبين، ويهبط بتحكم لا بسقوط.",
-      "يثبت الجذع مع تنفس منتظم للزمن المحدد دون ترهل الوركين أو ارتفاعهما، ويتوقف لحظة انهيار الوضع.",
-      "يلاحظ شريكه ويذكر علامة واقعية واحدة عن مداه أو استقامته، ويحدد هدفًا شخصيًا للجولة التالية."
+      "يستطيع الطالب أن يؤدي القرفصاء والعقبان على الأرض والركبتان فوق أصابع القدمين والظهر محايد، إلى عمق يستطيع التحكم فيه، في 4 من 5 تكرارات.",
+      "يستطيع الطالب أن يثني الجذع من مفصلي الورك بدفع الحوض إلى الخلف مع ظهر مستقيم وثني خفيف للركبتين، فتبقى الحركة في الوركين لا في أسفل الظهر.",
+      "يستطيع الطالب أن يؤدي الدفع عن الحائط أو سطح مائل والجسم خط مستقيم واحد من الرأس إلى العقبين، ويهبط بتحكم لا بسقوط.",
+      "يستطيع الطالب أن يثبت الجذع مع تنفس منتظم للزمن المحدد دون ترهل الوركين أو ارتفاعهما، ويتوقف لحظة انهيار الوضع.",
+      "يستطيع الطالب أن يلاحظ شريكه ويذكر علامة واقعية واحدة عن مداه أو استقامته، ويحدد هدفًا شخصيًا للجولة التالية."
     ],
     "priorKnowledge": "FIT-01 — دائرة قوة وتحمل بتنظيم ذاتي.",
     "pathwayPosition": "الدرس السابق: FIT-01 — دائرة قوة وتحمل بتنظيم ذاتي.\nالدرس الحالي: يعلّم أنماط الحركة الأربعة التي اكتفى FIT-01 باستخدامها: القرفصاء، والانثناء من الورك، والدفع، وتثبيت الجذع تُعلَّم الآن كلٌّ على حدة، ببطء، وبمدى يختاره الطالب. ويؤجل أي شدة تدريبية — فلا شيء هنا سريع أو مُتعِب، لأن الهدف نمط صحيح — وهو ما يبدأ FIT-03 بتحميله بفترات هوائية.\nالدرس التالي: FIT-03 — فترات هوائية بإيقاع شخصي.",
@@ -1405,11 +1405,11 @@
     "identity": "الاسم الكامل: اللياقة 03 — فترات هوائية بإيقاع شخصي\nالرمز: FIT-03-AR\nالفرع: اللياقة\nالموضوع الفرعي: التحمل وتنظيم الجهد\nالعمر: 11–15 سنة\nالخبرة: نامٍ\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وحصائر ومؤقت وبطاقات مستوى\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "إكمال ست فترات بإيقاع مضبوط واستعادة تنفس مريح.",
     "objectives": [
-      "يكمل فترات العمل كلها دون توقف مبكر، بإيقاع يمكن الحفاظ عليه لا بأقصى جهد، في 4 من 5 جولات.",
-      "يستعيد تنفسًا مريحًا يسمح بالكلام بنهاية كل فترة استشفاء، في معظم الجولات.",
-      "يقدّر الجهد على سلم 1–5 بعد كل فترة ويبقيه بين 3 و4 دون أن يبلغ 5.",
-      "يعدّل إيقاع الفترة التالية كلما أظهر التقدير السابق أو الاستشفاء أنها كانت أصعب من اللازم.",
-      "يذكر علامة واقعية واحدة عن إيقاع شريكه أو تنفسه، ويحدد هدفًا شخصيًا للجولة التالية."
+      "يستطيع الطالب أن يكمل فترات العمل كلها دون توقف مبكر، بإيقاع يمكن الحفاظ عليه لا بأقصى جهد، في 4 من 5 جولات.",
+      "يستطيع الطالب أن يستعيد تنفسًا مريحًا يسمح بالكلام بنهاية كل فترة استشفاء، في معظم الجولات.",
+      "يستطيع الطالب أن يقدّر الجهد على سلم 1–5 بعد كل فترة ويبقيه بين 3 و4 دون أن يبلغ 5.",
+      "يستطيع الطالب أن يعدّل إيقاع الفترة التالية كلما أظهر التقدير السابق أو الاستشفاء أنها كانت أصعب من اللازم.",
+      "يستطيع الطالب أن يذكر علامة واقعية واحدة عن إيقاع شريكه أو تنفسه، ويحدد هدفًا شخصيًا للجولة التالية."
     ],
     "priorKnowledge": "FIT-02 — جودة الحركة: قرفصاء وانثناء من الورك ودفع وثبات.",
     "pathwayPosition": "الدرس السابق: FIT-02 — جودة الحركة: قرفصاء وانثناء من الورك ودفع وثبات.\nالدرس الحالي: يضيف متطلبًا قلبيًا تنفسيًا إلى أنماط FIT-02، مستخدمًا العمل بالفترات حتى يأتي الجهد في أجزاء يمكن إدارتها والاستشفاء مدمج فيه. ويؤجل أي جهد متواصل طويل وكل حمل يفرضه شريك — فكل طالب يحدد إيقاعه وكل فترة قصيرة — وهو ما يغيّره FIT-04 بإضافة شريك.\nالدرس التالي: FIT-04 — دائرة ثنائية بتنظيم ذاتي.",
@@ -1468,11 +1468,11 @@
     "identity": "الاسم الكامل: اللياقة 04 — دائرة ثنائية بتنظيم ذاتي\nالرمز: FIT-04-AR\nالفرع: اللياقة\nالموضوع الفرعي: قوة وتحمل وتعاون\nالعمر: 12–16 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط وحصائر ومؤقت وبطاقات مستوى\nالمكان: صالة أو ملعب أو مضمار مستوٍ\nالتعقيد: متوسط",
     "purpose": "اختيار حمل مناسب والحفاظ على التقنية والتواصل في دائرة ثنائية.",
     "objectives": [
-      "يختار في كل محطة نسخة التمرين التي يتحكم فيها، ويذكر الإشارة الجسدية التي بررت اختياره.",
-      "يحافظ على العلامة التقنية المسماة طوال فترة العمل في 4 من 5 محطات، ويتوقف إذا انهار الشكل.",
-      "يذكر بوصفه مراقبًا ما رآه فعلًا بتسمية العلامة، بدل عدّ التكرارات أو الاكتفاء بالتشجيع.",
-      "يحترم المستوى الذي اختاره شريكه دون الضغط عليه ليجاري مستواه، في كل تدوير.",
-      "يسجل مقياسًا واحدًا عبر الجولتين ويغيّر متغيرًا واحدًا استجابة له."
+      "يستطيع الطالب أن يختار في كل محطة نسخة التمرين التي يتحكم فيها، ويذكر الإشارة الجسدية التي بررت اختياره.",
+      "يستطيع الطالب أن يحافظ على العلامة التقنية المسماة طوال فترة العمل في 4 من 5 محطات، ويتوقف إذا انهار الشكل.",
+      "يستطيع الطالب أن يذكر بوصفه مراقبًا ما رآه فعلًا بتسمية العلامة، بدل عدّ التكرارات أو الاكتفاء بالتشجيع.",
+      "يستطيع الطالب أن يحترم المستوى الذي اختاره شريكه دون الضغط عليه ليجاري مستواه، في كل تدوير.",
+      "يستطيع الطالب أن يسجل مقياسًا واحدًا عبر الجولتين ويغيّر متغيرًا واحدًا استجابة له."
     ],
     "priorKnowledge": "FIT-03 — فترات هوائية بإيقاع شخصي.",
     "pathwayPosition": "الدرس السابق: FIT-03 — فترات هوائية بإيقاع شخصي.\nالدرس الحالي: يضيف الشريك إلى التنظيم الذاتي في FIT-01 وFIT-03: يعمل الطلبة الآن أزواجًا، أحدهما ينفذ والآخر يلاحظ، أي يتعلمون تقديم تغذية راجعة مفيدة، والأهم أن يحترموا مستوى الشريك بدل فرض مستواهم. ويؤجل تصميم الدائرة نفسها — فالمعلم ما زال يحدد المحطات — وهو ما يسلّمه FIT-05 إليهم.\nالدرس التالي: FIT-05 — تصميم دائرة شخصية متوازنة.",
@@ -1531,11 +1531,11 @@
     "identity": "الاسم الكامل: اللياقة 05 — تصميم دائرة شخصية متوازنة\nالرمز: FIT-05-AR\nالفرع: اللياقة البدنية\nالموضوع الفرعي: الموازنة بين القوة والتحمل والحركة والاستشفاء\nالعمر: 12–16 سنة\nالخبرة: متوسطة\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط، 6–10 حصائر، مقاعد ثابتة أو حائط، مؤقت وبطاقات مهمة\nالمكان: صالة أو ملعب مظلل أو مساحة مستوية محددة\nالتعقيد: متوسط",
     "purpose": "تخطيط دائرة شخصية متوازنة وتنفيذها وتعديلها مع اختيار حمل آمن وشرح سبب الاختيار.",
     "objectives": [
-      "يصمم دائرة من أربع محطات تشمل قوة الجزء السفلي، وقوة الجزء العلوي، وحركة هوائية، وثباتًا، وتطابق كل محطة فئتها بشكل صحيح.",
-      "يختار مستوى حمل في كل محطة ويبرره بإشارة جسدية أو نتيجة أداء.",
-      "يرتب المحطات بحيث لا تتتابع محطتان تعملان على المنطقة نفسها، ويحافظ على المسافة وممرات الانتقال وإشارة التوقف طوال الوقت.",
-      "يسجل مقياسًا واحدًا عبر الجولتين ويغيّر محطة أو متغيرًا واحدًا بالضبط استجابة لذلك الدليل.",
-      "يقدم لشريكه تغذية راجعة واقعية ومحترمة تسمّي ما رآه فعلًا بدل إصدار حكم."
+      "يستطيع الطالب أن يصمم دائرة من أربع محطات تشمل قوة الجزء السفلي، وقوة الجزء العلوي، وحركة هوائية، وثباتًا، وتطابق كل محطة فئتها بشكل صحيح.",
+      "يستطيع الطالب أن يختار مستوى حمل في كل محطة ويبرره بإشارة جسدية أو نتيجة أداء.",
+      "يستطيع الطالب أن يرتب المحطات بحيث لا تتتابع محطتان تعملان على المنطقة نفسها، ويحافظ على المسافة وممرات الانتقال وإشارة التوقف طوال الوقت.",
+      "يستطيع الطالب أن يسجل مقياسًا واحدًا عبر الجولتين ويغيّر محطة أو متغيرًا واحدًا بالضبط استجابة لذلك الدليل.",
+      "يستطيع الطالب أن يقدم لشريكه تغذية راجعة واقعية ومحترمة تسمّي ما رآه فعلًا بدل إصدار حكم."
     ],
     "priorKnowledge": "معرفة إشارة التوقف، ومقياس الجهد 1–5، والتمارين الأساسية السابقة. الدرس السابق: FIT-04 — دائرة ثنائية بتنظيم ذاتي.",
     "pathwayPosition": "الدرس السابق: FIT-04 — دائرة ثنائية بتنظيم ذاتي؛ تدرب الطلبة على اختيار الحمل وجودة الحركة.\nالدرس الحالي: يسلّم تصميم الدائرة نفسه إلى الطلبة: بعد أن اختاروا الأحمال داخل دائرة بناها المعلم في FIT-04، يختارون الآن الفئات الأربع، ويرتبون المحطات، ويبررون التوازن بين القوة والعمل الهوائي والثبات. ويؤجل إدارة الإيقاع والاستشفاء عبر الحصة كلها — فنسبة العمل إلى الاستشفاء ما زالت تُعطى لهم — وهو ما يعالجه FIT-06.\nالدرس التالي: FIT-06 — إدارة الإيقاع والاستشفاء.",
@@ -1594,11 +1594,11 @@
     "identity": "الاسم الكامل: اللياقة 06 — إدارة الإيقاع والاستشفاء\nالرمز: FIT-06-AR\nالفرع: اللياقة البدنية\nالموضوع الفرعي: تنظيم الجهد باختبار الكلام ومقياس الإحساس\nالعمر: 12–16 سنة\nالخبرة: متوسطة\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط، 6–10 حصائر، مقاعد ثابتة أو حائط، مؤقت وبطاقات مهمة\nالمكان: صالة أو ملعب مظلل أو مساحة مستوية محددة\nالتعقيد: متوسط",
     "purpose": "تنظيم إيقاع العمل والاستشفاء لإكمال فترات متعددة بجودة حركة مستقرة.",
     "objectives": [
-      "يكمل كل فترة عمل بجهد 3–4 على سلم 1–5، يثبته بقدرته على نطق جملة قصيرة متقطعة، في 4 من 5 فحوص.",
-      "يختار إيقاعًا قبل كل جولة ويذكر بعدها هل طابقت الخطة الإحساس.",
-      "يبدأ مشي الاستشفاء فور انتهاء فترة العمل بدل التوقف المفاجئ أو الجلوس، ويلتزم بالممر المحدد طوال الوقت.",
-      "يغيّر متغيرًا واحدًا بالضبط — الإيقاع أو المدة أو نمط الحركة — كلما خرج تقدير جهد الجولة عن النطاق المختار.",
-      "يقدم لشريكه تغذية راجعة واقعية ومحترمة تسمّي دليل الإيقاع الذي لوحظ فعلًا."
+      "يستطيع الطالب أن يكمل كل فترة عمل بجهد 3–4 على سلم 1–5، يثبته بقدرته على نطق جملة قصيرة متقطعة، في 4 من 5 فحوص.",
+      "يستطيع الطالب أن يختار إيقاعًا قبل كل جولة ويذكر بعدها هل طابقت الخطة الإحساس.",
+      "يستطيع الطالب أن يبدأ مشي الاستشفاء فور انتهاء فترة العمل بدل التوقف المفاجئ أو الجلوس، ويلتزم بالممر المحدد طوال الوقت.",
+      "يستطيع الطالب أن يغيّر متغيرًا واحدًا بالضبط — الإيقاع أو المدة أو نمط الحركة — كلما خرج تقدير جهد الجولة عن النطاق المختار.",
+      "يستطيع الطالب أن يقدم لشريكه تغذية راجعة واقعية ومحترمة تسمّي دليل الإيقاع الذي لوحظ فعلًا."
     ],
     "priorKnowledge": "معرفة إشارة التوقف، ومقياس الجهد 1–5، والتمارين الأساسية السابقة. الدرس السابق: FIT-05 — تصميم دائرة شخصية متوازنة.",
     "pathwayPosition": "الدرس السابق: FIT-05 — تصميم دائرة شخصية متوازنة؛ تدرب الطلبة على اختيار الحمل وجودة الحركة.\nالدرس الحالي: يقدم النسبة التي تركها FIT-05: بعد تصميم دائرة متوازنة، ينظم الطلبة الآن الجهد عبر فترات عدة باستخدام اختبار الكلام وسلم 1–5، ويستشفون بنشاط بينها. ويؤجل العمل المتواصل الطويل — فكل فترة قصيرة والاستشفاء مدمج فيها — وهو ما يمدّه FIT-08 إلى جهد هوائي متواصل.\nالدرس التالي: FIT-07 — التحمل العضلي بجودة.",
@@ -1657,11 +1657,11 @@
     "identity": "الاسم الكامل: اللياقة 07 — التحمل العضلي بجودة\nالرمز: FIT-07-AR\nالفرع: اللياقة البدنية\nالموضوع الفرعي: الحفاظ على التقنية أثناء تكرارات معتدلة\nالعمر: 12–16 سنة\nالخبرة: متوسطة\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط، 6–10 حصائر، مقاعد ثابتة أو حائط، مؤقت وبطاقات مهمة\nالمكان: صالة أو ملعب مظلل أو مساحة مستوية محددة\nالتعقيد: متوسط",
     "purpose": "تطوير التحمل العضلي مع الحفاظ على المحاذاة والتنفس ومدى حركة مناسب عبر جولات متكررة.",
     "objectives": [
-      "يحافظ على ثبات الجذع واستقامة المفاصل — الركبتان فوق القدمين، والوركان لا يترهلان ولا يرتفعان — في كل تكرار من فترة العمل، في 4 من 5 فحوص.",
-      "يزفر في مرحلة الجهد من كل تكرار بدل حبس النفس، ويختار نسخة تسمح بإيقاع منتظم حتى نهاية الفترة.",
-      "ينزل مستوى فور تراجع الجودة، ويحافظ على المسافة وممرات الانتقال وإشارة التوقف طوال الوقت.",
-      "يوقف المجموعة قبل الفشل التقني بدل الدفع حتى الإنهاك، ويذكر الإشارة الجسدية التي دفعته إلى التوقف.",
-      "يقدم لشريكه تغذية راجعة واقعية ومحترمة تسمّي إحدى علامات الجودة الثلاث المتفق عليها."
+      "يستطيع الطالب أن يحافظ على ثبات الجذع واستقامة المفاصل — الركبتان فوق القدمين، والوركان لا يترهلان ولا يرتفعان — في كل تكرار من فترة العمل، في 4 من 5 فحوص.",
+      "يستطيع الطالب أن يزفر في مرحلة الجهد من كل تكرار بدل حبس النفس، ويختار نسخة تسمح بإيقاع منتظم حتى نهاية الفترة.",
+      "يستطيع الطالب أن ينزل مستوى فور تراجع الجودة، ويحافظ على المسافة وممرات الانتقال وإشارة التوقف طوال الوقت.",
+      "يستطيع الطالب أن يوقف المجموعة قبل الفشل التقني بدل الدفع حتى الإنهاك، ويذكر الإشارة الجسدية التي دفعته إلى التوقف.",
+      "يستطيع الطالب أن يقدم لشريكه تغذية راجعة واقعية ومحترمة تسمّي إحدى علامات الجودة الثلاث المتفق عليها."
     ],
     "priorKnowledge": "معرفة إشارة التوقف، ومقياس الجهد 1–5، والتمارين الأساسية السابقة. الدرس السابق: FIT-06 — إدارة الإيقاع والاستشفاء.",
     "pathwayPosition": "الدرس السابق: FIT-06 — إدارة الإيقاع والاستشفاء؛ تدرب الطلبة على اختيار الحمل وجودة الحركة.\nالدرس الحالي: يطبق إيقاع FIT-06 على العمل بالمقاومة: يكرر الطلبة الآن أنماط الحركة من FIT-02 عبر جولات عدة، ويجب أن يحافظوا على الاستقامة والتنفس بينما يتراكم التعب. ويؤجل الحمل الأقصى وكل عمل حتى الفشل — فكل مجموعة تتوقف والجودة ما زالت جيدة — وتبقى هذه القاعدة سارية في بقية المسار.\nالدرس التالي: FIT-08 — التحمل القلبي التنفسي واختبار الكلام.",
@@ -1720,11 +1720,11 @@
     "identity": "الاسم الكامل: اللياقة 08 — التحمل القلبي التنفسي واختبار الكلام\nالرمز: FIT-08-AR\nالفرع: اللياقة البدنية\nالموضوع الفرعي: جهد معتدل مستمر وتقدير الشدة\nالعمر: 12–16 سنة\nالخبرة: متوسطة\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط، 6–10 حصائر، مقاعد ثابتة أو حائط، مؤقت وبطاقات مهمة\nالمكان: صالة أو ملعب مظلل أو مساحة مستوية محددة\nالتعقيد: متوسط",
     "purpose": "الحفاظ على عمل هوائي معتدل واختيار الإيقاع باستخدام التنفس واختبار الكلام والإحساس بالجهد.",
     "objectives": [
-      "يواصل الحركة المعتدلة طوال فترة كاملة مدتها خمس دقائق دون توقف، في الفترتين كلتيهما.",
-      "يحافظ على جهد 3–4 على سلم 1–5 طوال الفترة، ويثبته باختبار الكلام عند كل فحص.",
-      "يلتزم بالممر والاتجاه المحددين طوال الفترة، ويستشفي بالمشي بدل التوقف المفاجئ.",
-      "يختار بين النسخة السهلة والمتوسطة والصعبة عند كل نقطة قرار بناءً على الفحص السابق، لا على ما اختاره الآخرون.",
-      "يبلغ عن جهده بصدق عند كل فحص، حتى حين يعني الجواب الصادق النزول إلى نسخة أسهل."
+      "يستطيع الطالب أن يواصل الحركة المعتدلة طوال فترة كاملة مدتها خمس دقائق دون توقف، في الفترتين كلتيهما.",
+      "يستطيع الطالب أن يحافظ على جهد 3–4 على سلم 1–5 طوال الفترة، ويثبته باختبار الكلام عند كل فحص.",
+      "يستطيع الطالب أن يلتزم بالممر والاتجاه المحددين طوال الفترة، ويستشفي بالمشي بدل التوقف المفاجئ.",
+      "يستطيع الطالب أن يختار بين النسخة السهلة والمتوسطة والصعبة عند كل نقطة قرار بناءً على الفحص السابق، لا على ما اختاره الآخرون.",
+      "يستطيع الطالب أن يبلغ عن جهده بصدق عند كل فحص، حتى حين يعني الجواب الصادق النزول إلى نسخة أسهل."
     ],
     "priorKnowledge": "معرفة إشارة التوقف، ومقياس الجهد 1–5، والتمارين الأساسية السابقة. الدرس السابق: FIT-07 — التحمل العضلي بجودة.",
     "pathwayPosition": "الدرس السابق: FIT-07 — التحمل العضلي بجودة؛ تدرب الطلبة على اختيار الحمل وجودة الحركة.\nالدرس الحالي: يمدّ الفترات القصيرة في FIT-06 إلى عمل متواصل حقًا: فترتان من خمس دقائق يحافظ فيهما الطلبة على شدة معتدلة، ويعيدون اختيار نسختهم عند نقاط القرار دون أن يتوقفوا. ويؤجل تصميم البرنامج الفردي — فالمسار ونقاط القرار ما زالت محددة لهم — وهو ما يسلّمه FIT-09 إليهم في صورة خطة تحسين شخصية.\nالدرس التالي: FIT-09 — خطة تحسين شخصية وتدريب الأقران.",
@@ -1783,11 +1783,11 @@
     "identity": "الاسم الكامل: اللياقة 09 — خطة تحسين شخصية وتدريب الأقران\nالرمز: FIT-09-AR\nالفرع: اللياقة البدنية\nالموضوع الفرعي: تحديد هدف واختيار فعل وتغذية راجعة قائمة على دليل\nالعمر: 12–16 سنة\nالخبرة: متوسطة\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط، 6–10 حصائر، مقاعد ثابتة أو حائط، مؤقت وبطاقات مهمة\nالمكان: صالة أو ملعب مظلل أو مساحة مستوية محددة\nالتعقيد: متوسط",
     "purpose": "بناء هدف لياقة قصير قابل للقياس والتدرب عليه بتغذية راجعة دقيقة وآمنة من الزملاء.",
     "objectives": [
-      "يكتب هدف لياقة واحدًا قابلًا للقياس، بمقياس مسمّى ومعيار نجاح يمكن ملاحظته، لا نية عامة.",
-      "يختار محطة مألوفة واحدة وفعلًا يخدم الهدف مباشرة، ويشرح الصلة بينهما.",
-      "يلاحظ شريكه وفق المقياس الذي اختاره الشريك ويقدم تغذية راجعة تسمّي ما رآه بصيغة «رأيت… لذلك جرّب…»، مع الحفاظ على المسافة وإشارة التوقف.",
-      "يغيّر متغيرًا واحدًا بالضبط في كل دورة تدريب، ويسجل هل تحركت النتيجة فعلًا.",
-      "يقارن نتائجه بمحاولته السابقة فقط، لا بنتائج شريكه أبدًا."
+      "يستطيع الطالب أن يكتب هدف لياقة واحدًا قابلًا للقياس، بمقياس مسمّى ومعيار نجاح يمكن ملاحظته، لا نية عامة.",
+      "يستطيع الطالب أن يختار محطة مألوفة واحدة وفعلًا يخدم الهدف مباشرة، ويشرح الصلة بينهما.",
+      "يستطيع الطالب أن يلاحظ شريكه وفق المقياس الذي اختاره الشريك ويقدم تغذية راجعة تسمّي ما رآه بصيغة «رأيت… لذلك جرّب…»، مع الحفاظ على المسافة وإشارة التوقف.",
+      "يستطيع الطالب أن يغيّر متغيرًا واحدًا بالضبط في كل دورة تدريب، ويسجل هل تحركت النتيجة فعلًا.",
+      "يستطيع الطالب أن يقارن نتائجه بمحاولته السابقة فقط، لا بنتائج شريكه أبدًا."
     ],
     "priorKnowledge": "معرفة إشارة التوقف، ومقياس الجهد 1–5، والتمارين الأساسية السابقة. الدرس السابق: FIT-08 — التحمل القلبي التنفسي واختبار الكلام.",
     "pathwayPosition": "الدرس السابق: FIT-08 — التحمل القلبي التنفسي واختبار الكلام؛ تدرب الطلبة على اختيار الحمل وجودة الحركة.\nالدرس الحالي: يحوّل التنظيم الذاتي الذي بُني في المسار كله إلى خطة يملكها الطالب: يضع الآن هدفًا واحدًا قابلًا للقياس، ويختار فعلًا يخدمه، ويدرّب شريكه وفق مقياسه عبر ثلاث دورات. ويؤجل التقويم المتكامل نفسه — فالهدف هنا يُتدرَّب عليه لا يُمتحَن — وهو ما يكمله FIT-10.\nالدرس التالي: FIT-10 — تحدي لياقة متكامل وتقويم ختامي.",
@@ -1846,11 +1846,11 @@
     "identity": "الاسم الكامل: اللياقة 10 — تحدي لياقة متكامل وتقويم ختامي\nالرمز: FIT-10-AR\nالفرع: اللياقة البدنية\nالموضوع الفرعي: دمج التخطيط والتنفيذ والتنظيم والتأمل\nالعمر: 12–16 سنة\nالخبرة: متوسطة\nالمدة: 45 دقيقة\nالمجموعة: 20–32 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: مخاريط، 6–10 حصائر، مقاعد ثابتة أو حائط، مؤقت وبطاقات مهمة\nالمكان: صالة أو ملعب مظلل أو مساحة مستوية محددة\nالتعقيد: متوسط",
     "purpose": "إظهار الاستقلالية في تخطيط مهمة لياقة متوازنة وآمنة ومنظمة ذاتيًا وتنفيذها وشرح التقدم الشخصي.",
     "objectives": [
-      "يخطط تسلسلًا من أربع محطات يشمل قوة الجزء السفلي، والدفع، والثبات، والحركة الهوائية، ويعلن الترتيب قبل البدء.",
-      "يختار مستوى صعوبة وزمن استشفاء لكل محطة، ويبرر كليهما بإشارة جسدية أو نتيجة سابقة.",
-      "يحافظ على تقنية آمنة وعلى المسافة والالتزام بالممر طوال الجولتين دون تذكير.",
-      "يسجل مقياسًا واحدًا في كل جولة، ويشرح بالدليل هل نجحت الخطة وما الذي سيغيّره في المرة القادمة.",
-      "يقدم لشريكه تغذية راجعة واقعية ومحترمة طوال الوقت، ويقارن نتائجه بنتائجه هو فقط."
+      "يستطيع الطالب أن يخطط تسلسلًا من أربع محطات يشمل قوة الجزء السفلي، والدفع، والثبات، والحركة الهوائية، ويعلن الترتيب قبل البدء.",
+      "يستطيع الطالب أن يختار مستوى صعوبة وزمن استشفاء لكل محطة، ويبرر كليهما بإشارة جسدية أو نتيجة سابقة.",
+      "يستطيع الطالب أن يحافظ على تقنية آمنة وعلى المسافة والالتزام بالممر طوال الجولتين دون تذكير.",
+      "يستطيع الطالب أن يسجل مقياسًا واحدًا في كل جولة، ويشرح بالدليل هل نجحت الخطة وما الذي سيغيّره في المرة القادمة.",
+      "يستطيع الطالب أن يقدم لشريكه تغذية راجعة واقعية ومحترمة طوال الوقت، ويقارن نتائجه بنتائجه هو فقط."
     ],
     "priorKnowledge": "معرفة إشارة التوقف، ومقياس الجهد 1–5، والتمارين الأساسية السابقة. الدرس السابق: FIT-09 — خطة تحسين شخصية وتدريب الأقران.",
     "pathwayPosition": "الدرس السابق: FIT-09 — خطة تحسين شخصية وتدريب الأقران؛ تدرب الطلبة على اختيار الحمل وجودة الحركة.\nالدرس الحالي: لا يعلّم شيئًا جديدًا، بل يجمع الأدلة: يُطلب من كل طالب أن يخطط تسلسلًا كاملًا من أربع محطات، وينفذه، وينظم جهده فيه، ويشرحه باستقلال، بينما يراقب المعلم ولا يوجّه. ولا يؤجل محتوى آخر في هذا المسار — فما يليه وحدة توسيع فردية، أو عودة موجهة إلى المكوّن الذي تحدده الأدلة.\nالدرس التالي: وحدة شخصية متقدمة أو عودة موجهة وفق بيانات التقويم.",
@@ -1911,11 +1911,11 @@
     "identity": "Полное название: Фитнес 01 — Круг силы и выносливости с саморегуляцией\nКод: FIT-01-RU\nВид: Фитнес\nПодтема: базовая сила, аэробная выносливость и выбор нагрузки\nВозраст: 12–16\nОпыт: начальный\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, 6–10 матов, устойчивые скамьи или стена, таймер и карточки уровня\nПространство: зал или ровная зона с 4–6 станциями\nСложность: базовая",
     "purpose": "Познакомить с безопасным кругом, где ученик выбирает уровень, сохраняет качество и описывает усилие.",
     "objectives": [
-      "Выбирает на каждой станции посильный вариант упражнения и обосновывает выбор одним телесным признаком.",
-      "Сохраняет чистую технику весь интервал работы на 4 из 5 станций.",
-      "Оценивает усилие по шкале 1–5 и меняет нагрузку хотя бы один раз за урок.",
-      "Переходит между станциями по размеченному маршруту за установленное время.",
-      "Выполняет роли исполнителя и наблюдателя и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет выбрать на каждой станции посильный вариант упражнения и обосновывает выбор одним телесным признаком.",
+      "Ученик сможет сохранять чистую технику весь интервал работы на 4 из 5 станций.",
+      "Ученик сможет оценить усилие по шкале 1–5 и менять нагрузку хотя бы один раз за урок.",
+      "Ученик сможет перейти между станциями по размеченному маршруту за установленное время.",
+      "Ученик сможет выполнить роли исполнителя и наблюдателя и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "Предыдущий урок не нужен; необходимы стоп-сигнал и шкала 1–5.",
     "pathwayPosition": "Предыдущий урок: нет — это первый урок цикла; нужны только стоп-сигнал и шкала 1–5.\nТекущий урок: Первый урок фитнеса закладывает две опоры всего цикла: выбирать уровень, который действительно можешь контролировать, и честно оценивать своё усилие по шкале 1–5. Обучение самим моделям движения откладывается — на станциях только простые упражнения, которые ученик легко дозирует сам, — а присед, наклон, толчок и стабилизацию разбирает FIT-02.\nСледующий урок: FIT-02 — качество приседа, наклона, толчка и стабилизации.",
@@ -1974,11 +1974,11 @@
     "identity": "Полное название: Фитнес 02 — Качество движения: приседание, наклон в тазобедренных суставах, отжимание и стабилизация корпуса\nКод: FIT-02-RU\nВид: Фитнес\nПодтема: базовые модели движения\nВозраст: 10–13\nОпыт: начальный\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, маты, таймер, карточки уровня\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Выполнить четыре модели движения под контролем и в безопасной амплитуде.",
     "objectives": [
-      "Выполняет присед с пятками на полу, коленями по линии носков и нейтральной спиной на контролируемую глубину в 4 из 5 повторений.",
-      "Выполняет наклон с отведением таза назад, ровной спиной и лёгким сгибанием коленей, так что движение идёт в тазобедренных суставах, а не в пояснице.",
-      "Выполняет отжимание от стены или наклонной опоры, держа тело одной прямой линией от головы до пяток и опускаясь под контролем, а не падая.",
-      "Удерживает корпус с ровным дыханием заданное время, не прогибаясь и не поднимая таз, и останавливается, как только положение нарушается.",
-      "Соблюдает дистанцию в две вытянутые руки, начинает и заканчивает интервал по сигналу и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет выполнить присед с пятками на полу, коленями по линии носков и нейтральной спиной на контролируемую глубину в 4 из 5 повторений.",
+      "Ученик сможет выполнить наклон с отведением таза назад, ровной спиной и лёгким сгибанием коленей, так что движение идёт в тазобедренных суставах, а не в пояснице.",
+      "Ученик сможет выполнить отжимание от стены или наклонной опоры, держа тело одной прямой линией от головы до пяток и опускаясь под контролем, а не падая.",
+      "Ученик сможет удерживать корпус с ровным дыханием заданное время, не прогибаясь и не поднимая таз, и остановиться, как только положение нарушается.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, начать и заканчивать интервал по сигналу и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "FIT-01 — круг силы и выносливости.",
     "pathwayPosition": "Предыдущий урок: FIT-01 — круг силы и выносливости.\nТекущий урок: Урок учит четырём моделям движения, которые в FIT-01 только использовались: присед, наклон, отжимание и удержание корпуса разбираются по отдельности, медленно и в самостоятельно выбранной амплитуде. Нагрузка на выносливость откладывается: здесь ничто не выполняется быстро и до утомления, потому что цель — правильная модель движения, а нагружать её аэробными интервалами начнёт FIT-03.\nСледующий урок: FIT-03 — аэробные интервалы.",
@@ -2037,11 +2037,11 @@
     "identity": "Полное название: Фитнес 03 — Аэробные интервалы в личном темпе\nКод: FIT-03-RU\nВид: Фитнес\nПодтема: выносливость и усилие\nВозраст: 11–15\nОпыт: развивающийся\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, маты, таймер, карточки уровня\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Выполнить шесть интервалов в контролируемом темпе и восстановить дыхание.",
     "objectives": [
-      "Выполняет все шесть интервалов без досрочной остановки в посильном, а не максимальном темпе в 4 из 5 раундов.",
-      "К концу каждого отдыха восстанавливает спокойное дыхание, при котором можно говорить.",
-      "После каждого интервала оценивает усилие по шкале 1–5 и держит его в диапазоне 3–4, не доходя до 5.",
-      "Меняет темп следующего интервала, если предыдущая оценка или восстановление показали, что было слишком тяжело.",
-      "Соблюдает дистанцию в две вытянутые руки, начинает и заканчивает интервал по сигналу и даёт партнёру одну фактическую обратную связь."
+      "Ученик сможет выполнить все шесть интервалов без досрочной остановки в посильном, а не максимальном темпе в 4 из 5 раундов.",
+      "Ученик сможет к концу каждого отдыха восстановить спокойное дыхание, при котором можно говорить.",
+      "Ученик сможет после каждого интервала оценить усилие по шкале 1–5 и держать его в диапазоне 3–4, не доходя до 5.",
+      "Ученик сможет менять темп следующего интервала, если предыдущая оценка или восстановление показали, что было слишком тяжело.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, начать и заканчивать интервал по сигналу и дать партнёру одну фактическую обратную связь."
     ],
     "priorKnowledge": "FIT-02 — качество движения.",
     "pathwayPosition": "Предыдущий урок: FIT-02 — качество движения.\nТекущий урок: Урок добавляет к моделям движения из FIT-02 нагрузку на сердце и дыхание: интервальная работа даёт усилие посильными порциями со встроенным отдыхом. Длительная непрерывная работа и нагрузка, задаваемая партнёром, откладываются: каждый сам выбирает темп, а каждый интервал короткий; партнёра в работу добавляет FIT-04.\nСледующий урок: FIT-04 — парный круг.",
@@ -2100,11 +2100,11 @@
     "identity": "Полное название: Фитнес 04 — Парный круг с саморегуляцией\nКод: FIT-04-RU\nВид: Фитнес\nПодтема: сила, выносливость, сотрудничество\nВозраст: 12–16\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, маты, таймер, карточки уровня\nПространство: зал, площадка или ровная дорожка\nСложность: средняя",
     "purpose": "Выбрать подходящую нагрузку и сохранять технику и общение в парном круге.",
     "objectives": [
-      "На каждой станции выбирает вариант упражнения, который может контролировать, и называет телесный признак, на котором основан выбор.",
-      "Удерживает названный технический признак весь интервал работы на 4 из 5 станций и останавливается, если форма нарушается.",
-      "В роли наблюдателя сообщает, что действительно увидел, называя признак, а не считая повторения и не ограничиваясь подбадриванием.",
-      "Уважает уровень, выбранный партнёром, и не давит на него, чтобы тот работал на его уровне, при каждой смене.",
-      "Записывает один показатель за два круга и меняет по нему один параметр."
+      "Ученик сможет на каждой станции выбрать вариант упражнения, который может контролировать, и назвать телесный признак, на котором основан выбор.",
+      "Ученик сможет удерживать названный технический признак весь интервал работы на 4 из 5 станций и остановиться, если форма нарушается.",
+      "Ученик сможет в роли наблюдателя сообщить, что действительно увидел, называя признак, а не считая повторения и не ограничиваясь подбадриванием.",
+      "Ученик сможет уважать уровень, выбранный партнёром, и не давит на него, чтобы тот работал на его уровне, при каждой смене.",
+      "Ученик сможет записывать один показатель за два круга и менять по нему один параметр."
     ],
     "priorKnowledge": "FIT-03 — интервалы.",
     "pathwayPosition": "Предыдущий урок: FIT-03 — интервалы.\nТекущий урок: Урок добавляет партнёра к саморегуляции из FIT-01 и FIT-03: ученики работают в парах — один выполняет, другой наблюдает, — а значит, учатся давать полезную обратную связь и, главное, уважать уровень партнёра, а не навязывать свой. Составление самого круга откладывается: станции по-прежнему задаёт учитель, а передаёт это ученикам FIT-05.\nСледующий урок: FIT-05 — личный сбалансированный круг.",
@@ -2163,11 +2163,11 @@
     "identity": "Полное название: Фитнес 05 — Личный сбалансированный круг\nКод: FIT-05-RU\nВид: Физическая подготовка\nПодтема: баланс силы, выносливости, движения и восстановления\nВозраст: 12–16 лет\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, 6–10 матов, устойчивые скамьи или стена, таймер, карточки\nПространство: зал, затенённая площадка или ровная размеченная зона\nСложность: средняя",
     "purpose": "Спланировать, выполнить и скорректировать личный сбалансированный круг, выбрав безопасную нагрузку и объяснив основание выбора.",
     "objectives": [
-      "Составляет круг из четырёх станций — сила ног, сила верхней части тела, аэробное движение, устойчивость — и верно относит каждую станцию к её категории.",
-      "На каждой станции выбирает уровень нагрузки и объясняет выбор телесным сигналом или результатом.",
-      "Располагает станции так, чтобы две станции на одну и ту же зону не шли подряд, и всё время соблюдает дистанцию, дорожки и сигнал остановки.",
-      "Записывает один показатель за два круга и по этим данным меняет ровно одну станцию или один параметр.",
-      "Даёт партнёру фактическую и уважительную обратную связь, называя увиденное, а не вынося оценку."
+      "Ученик сможет составить круг из четырёх станций — сила ног, сила верхней части тела, аэробное движение, устойчивость — и верно относит каждую станцию к её категории.",
+      "Ученик сможет на каждой станции выбрать уровень нагрузки и объяснить выбор телесным сигналом или результатом.",
+      "Ученик сможет расположить станции так, чтобы две станции на одну и ту же зону не шли подряд, и всё время соблюдать дистанцию, дорожки и сигнал остановки.",
+      "Ученик сможет записывать один показатель за два круга и по этим данным менять ровно одну станцию или один параметр.",
+      "Ученик сможет дать партнёру фактическую и уважительную обратную связь, называя увиденное, а не вынося оценку."
     ],
     "priorKnowledge": "Нужны знание стоп-сигнала, шкалы усилия 1–5 и базовых упражнений траектории. Предыдущий урок: FIT-04 — парный круг с саморегуляцией.",
     "pathwayPosition": "Предыдущий урок: FIT-04 — парный круг с саморегуляцией; отрабатывались выбор нагрузки и качество.\nТекущий урок: Урок передаёт ученикам составление самого круга: после выбора нагрузки внутри круга учителя в FIT-04 они теперь сами выбирают четыре категории, определяют порядок станций и обосновывают баланс силы, аэробной работы и устойчивости. Управление темпом и восстановлением на протяжении всего занятия откладывается — соотношение работы и отдыха по-прежнему задаётся, — и этим занимается FIT-06.\nСледующий урок: FIT-06 — управление темпом и восстановлением.",
@@ -2226,11 +2226,11 @@
     "identity": "Полное название: Фитнес 06 — Управление темпом и восстановлением\nКод: FIT-06-RU\nВид: Физическая подготовка\nПодтема: регуляция усилия по разговорному тесту и шкале ощущений\nВозраст: 12–16 лет\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, 6–10 матов, устойчивые скамьи или стена, таймер, карточки\nПространство: зал, затенённая площадка или ровная размеченная зона\nСложность: средняя",
     "purpose": "Регулировать рабочий темп и восстановление, чтобы выполнить несколько интервалов со стабильным качеством.",
     "objectives": [
-      "Выполняет каждый отрезок на усилии 3–4 по шкале 1–5, что подтверждается способностью произнести короткую прерывистую фразу, в 4 из 5 проверок.",
-      "Перед каждым раундом выбирает темп и после него сообщает, совпал ли план с ощущением.",
-      "В конце каждого отрезка сразу переходит на восстанавливающую ходьбу, а не останавливается резко и не садится, и всё время держится своей дорожки.",
-      "Меняет ровно один параметр — темп, длительность или вид движения, — если оценка усилия в раунде вышла за выбранный диапазон.",
-      "Даёт партнёру фактическую и уважительную обратную связь, называя реально замеченные признаки темпа."
+      "Ученик сможет выполнить каждый отрезок на усилии 3–4 по шкале 1–5, что подтверждается способностью произнести короткую прерывистую фразу, в 4 из 5 проверок.",
+      "Ученик сможет перед каждым раундом выбрать темп и после него сообщить, совпал ли план с ощущением.",
+      "Ученик сможет в конце каждого отрезка сразу перейти на восстанавливающую ходьбу, а не останавливаться резко и не садиться, и всё время держаться своей дорожки.",
+      "Ученик сможет менять ровно один параметр — темп, длительность или вид движения, — если оценка усилия в раунде вышла за выбранный диапазон.",
+      "Ученик сможет дать партнёру фактическую и уважительную обратную связь, называя реально замеченные признаки темпа."
     ],
     "priorKnowledge": "Нужны знание стоп-сигнала, шкалы усилия 1–5 и базовых упражнений траектории. Предыдущий урок: FIT-05 — личный сбалансированный круг.",
     "pathwayPosition": "Предыдущий урок: FIT-05 — личный сбалансированный круг; отрабатывались выбор нагрузки и качество.\nТекущий урок: Урок добавляет то, что FIT-05 оставил заданным, — соотношение работы и отдыха: составив сбалансированный круг, ученики теперь регулируют усилие на протяжении нескольких отрезков с помощью разговорного теста и шкалы 1–5 и активно восстанавливаются между ними. Длительная непрерывная работа откладывается — каждый отрезок короткий, со встроенным отдыхом, — а в непрерывную аэробную нагрузку это развивает FIT-08.\nСледующий урок: FIT-07 — силовая выносливость с сохранением правильной техники.",
@@ -2289,11 +2289,11 @@
     "identity": "Полное название: Фитнес 07 — Силовая выносливость с сохранением правильной техники\nКод: FIT-07-RU\nВид: Физическая подготовка\nПодтема: сохранение техники при умеренных повторениях\nВозраст: 12–16 лет\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, 6–10 матов, устойчивые скамьи или стена, таймер, карточки\nПространство: зал, затенённая площадка или ровная размеченная зона\nСложность: средняя",
     "purpose": "Развивать силовую выносливость, сохраняя положение тела, дыхание и подходящую амплитуду в нескольких кругах.",
     "objectives": [
-      "Сохраняет устойчивость корпуса и положение суставов — колени по направлению стоп, таз не провисает и не поднимается — в каждом повторении интервала в 4 из 5 проверок.",
-      "Выдыхает на фазе усилия в каждом повторении, а не задерживает дыхание, и выбирает вариант, позволяющий держать ровный темп до конца интервала.",
-      "Снижает уровень, как только падает качество, и всё время соблюдает дистанцию, дорожки и сигнал остановки.",
-      "Заканчивает подход до технического отказа, а не работает до изнеможения, и называет телесный признак, по которому остановился.",
-      "Даёт партнёру фактическую и уважительную обратную связь, называя один из трёх согласованных признаков качества."
+      "Ученик сможет сохранять устойчивость корпуса и положение суставов — колени по направлению стоп, таз не провисает и не поднимается — в каждом повторении интервала в 4 из 5 проверок.",
+      "Ученик сможет выдыхать на фазе усилия в каждом повторении, а не задерживать дыхание, и выбрать вариант, позволяющий держать ровный темп до конца интервала.",
+      "Ученик сможет снижать уровень, как только падает качество, и всё время соблюдать дистанцию, дорожки и сигнал остановки.",
+      "Ученик сможет заканчивать подход до технического отказа, а не работать до изнеможения, и назвать телесный признак, по которому остановился.",
+      "Ученик сможет дать партнёру фактическую и уважительную обратную связь, называя один из трёх согласованных признаков качества."
     ],
     "priorKnowledge": "Нужны знание стоп-сигнала, шкалы усилия 1–5 и базовых упражнений траектории. Предыдущий урок: FIT-06 — управление темпом и восстановлением.",
     "pathwayPosition": "Предыдущий урок: FIT-06 — управление темпом и восстановлением; отрабатывались выбор нагрузки и качество.\nТекущий урок: Урок переносит управление темпом из FIT-06 на силовую работу: ученики повторяют модели движения из FIT-02 в нескольких кругах и должны сохранять положение тела и дыхание по мере накопления усталости. Максимальные отягощения и любая работа до отказа не вводятся — каждый подход заканчивается, пока качество ещё хорошее, — и это правило остаётся до конца цикла.\nСледующий урок: FIT-08 — кардиореспираторная выносливость и разговорный тест.",
@@ -2352,11 +2352,11 @@
     "identity": "Полное название: Фитнес 08 — Кардиореспираторная выносливость и разговорный тест\nКод: FIT-08-RU\nВид: Физическая подготовка\nПодтема: непрерывная умеренная работа и оценка интенсивности\nВозраст: 12–16 лет\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, 6–10 матов, устойчивые скамьи или стена, таймер, карточки\nПространство: зал, затенённая площадка или ровная размеченная зона\nСложность: средняя",
     "purpose": "Поддерживать умеренную аэробную работу и выбирать темп по дыханию, разговорному тесту и ощущению усилия.",
     "objectives": [
-      "Выполняет непрерывную умеренную работу весь шестиминутный отрезок без остановки — в обоих отрезках.",
-      "Держит усилие 3–4 по шкале 1–5 на протяжении всего отрезка, что подтверждается разговорным тестом при каждой проверке.",
-      "Весь отрезок держится своей дорожки и направления и восстанавливается ходьбой, а не резкой остановкой.",
-      "В каждой двухминутной точке выбора выбирает лёгкий, средний или сложный вариант по результату предыдущей проверки, а не по тому, что выбрали другие.",
-      "Честно сообщает своё усилие при каждой проверке, даже если честный ответ означает переход на более лёгкий вариант."
+      "Ученик сможет выполнить непрерывную умеренную работу весь шестиминутный отрезок без остановки — в обоих отрезках.",
+      "Ученик сможет держать усилие 3–4 по шкале 1–5 на протяжении всего отрезка, что подтверждается разговорным тестом при каждой проверке.",
+      "Ученик сможет весь отрезок держаться своей дорожки и направления и восстанавливаться ходьбой, а не резкой остановкой.",
+      "Ученик сможет в каждой двухминутной точке выбора выбирать лёгкий, средний или сложный вариант по результату предыдущей проверки, а не по тому, что выбрали другие.",
+      "Ученик сможет честно сообщать своё усилие при каждой проверке, даже если честный ответ означает переход на более лёгкий вариант."
     ],
     "priorKnowledge": "Нужны знание стоп-сигнала, шкалы усилия 1–5 и базовых упражнений траектории. Предыдущий урок: FIT-07 — силовая выносливость с сохранением правильной техники.",
     "pathwayPosition": "Предыдущий урок: FIT-07 — силовая выносливость с сохранением правильной техники; отрабатывались выбор нагрузки и качество.\nТекущий урок: Урок превращает короткие отрезки FIT-06 в по-настоящему непрерывную работу: два шестиминутных усилия, в которых ученики держат умеренную интенсивность и каждые две минуты заново выбирают вариант, не останавливаясь. Составление индивидуальной программы откладывается — маршрут и точки выбора по-прежнему заданы, — а личный план улучшения передаёт ученикам FIT-09.\nСледующий урок: FIT-09 — личный план улучшения и взаимное тренерство.",
@@ -2415,11 +2415,11 @@
     "identity": "Полное название: Фитнес 09 — Личный план улучшения и взаимное тренерство\nКод: FIT-09-RU\nВид: Физическая подготовка\nПодтема: цель, действие и обратная связь по наблюдаемым данным\nВозраст: 12–16 лет\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, 6–10 матов, устойчивые скамьи или стена, таймер, карточки\nПространство: зал, затенённая площадка или ровная размеченная зона\nСложность: средняя",
     "purpose": "Составить короткую измеримую цель и отработать её с точной и безопасной обратной связью партнёра.",
     "objectives": [
-      "Записывает одну измеримую цель по физической подготовке с названным показателем и наблюдаемым критерием успеха, а не общее намерение.",
-      "Выбирает одну знакомую станцию и одно действие, прямо служащие этой цели, и объясняет связь между ними.",
-      "Наблюдает за партнёром по выбранному им показателю и даёт обратную связь в форме «я увидел… поэтому попробуй…», соблюдая дистанцию и сигнал остановки.",
-      "В каждом цикле меняет ровно один параметр и записывает, сдвинулся ли результат.",
-      "Сравнивает результаты только со своей предыдущей попыткой, никогда — с результатом партнёра."
+      "Ученик сможет записывать одну измеримую цель по физической подготовке с названным показателем и наблюдаемым критерием успеха, а не общее намерение.",
+      "Ученик сможет выбрать одну знакомую станцию и одно действие, прямо служащие этой цели, и объясняет связь между ними.",
+      "Ученик сможет наблюдать за партнёром по выбранному им показателю и дать обратную связь в форме «я увидел… поэтому попробуй…», соблюдая дистанцию и сигнал остановки.",
+      "Ученик сможет в каждом цикле менять ровно один параметр и записывать, сдвинулся ли результат.",
+      "Ученик сможет сравнивать результаты только со своей предыдущей попыткой, никогда — с результатом партнёра."
     ],
     "priorKnowledge": "Нужны знание стоп-сигнала, шкалы усилия 1–5 и базовых упражнений траектории. Предыдущий урок: FIT-08 — кардиореспираторная выносливость и разговорный тест.",
     "pathwayPosition": "Предыдущий урок: FIT-08 — кардиореспираторная выносливость и разговорный тест; отрабатывались выбор нагрузки и качество.\nТекущий урок: Урок превращает саморегуляцию всего цикла в план, которым владеет сам ученик: он ставит одну измеримую цель, выбирает действие, которое ей служит, и в трёх циклах тренирует партнёра по его показателю. Само итоговое оценивание откладывается — цель здесь отрабатывается, а не проверяется, — и его проводит FIT-10.\nСледующий урок: FIT-10 — итоговое комплексное испытание.",
@@ -2478,11 +2478,11 @@
     "identity": "Полное название: Фитнес 10 — Комплексное испытание и итоговая оценка\nКод: FIT-10-RU\nВид: Физическая подготовка\nПодтема: объединение планирования, выполнения, регуляции и рефлексии\nВозраст: 12–16 лет\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–32 ученика любого пола; адаптация по уровню и потребностям\nИнвентарь: конусы, 6–10 матов, устойчивые скамьи или стена, таймер, карточки\nПространство: зал, затенённая площадка или ровная размеченная зона\nСложность: средняя",
     "purpose": "Показать самостоятельность в планировании и выполнении сбалансированной безопасной задачи и объяснить личный прогресс.",
     "objectives": [
-      "Планирует последовательность из четырёх станций — сила ног, толчок, устойчивость, аэробное движение — и называет порядок до начала.",
-      "Выбирает сложность и время восстановления для каждой станции и обосновывает оба выбора телесным сигналом или прежним результатом.",
-      "Без подсказки сохраняет безопасную технику, дистанцию и порядок на дорожках в обоих кругах.",
-      "Записывает один показатель в каждом круге и с опорой на данные объясняет, сработал ли план и что изменится в следующий раз.",
-      "Всё время даёт партнёру фактическую и уважительную обратную связь и сравнивает результаты только со своими."
+      "Ученик сможет планировать последовательность из четырёх станций — сила ног, толчок, устойчивость, аэробное движение — и назвать порядок до начала.",
+      "Ученик сможет выбрать сложность и время восстановления для каждой станции и обосновывает оба выбора телесным сигналом или прежним результатом.",
+      "Ученик сможет без подсказки сохранять безопасную технику, дистанцию и порядок на дорожках в обоих кругах.",
+      "Ученик сможет записывать один показатель в каждом круге и с опорой на данные объясняет, сработал ли план и что изменится в следующий раз.",
+      "Ученик сможет всё время давать партнёру фактическую и уважительную обратную связь и сравнивать результаты только со своими."
     ],
     "priorKnowledge": "Нужны знание стоп-сигнала, шкалы усилия 1–5 и базовых упражнений траектории. Предыдущий урок: FIT-09 — личный план улучшения и взаимное тренерство.",
     "pathwayPosition": "Предыдущий урок: FIT-09 — личный план улучшения и взаимное тренерство; отрабатывались выбор нагрузки и качество.\nТекущий урок: Урок не вводит ничего нового, а собирает доказательства: каждый ученик самостоятельно планирует, выполняет, регулирует и объясняет полную последовательность из четырёх станций, а учитель наблюдает, а не руководит. Дальнейшего содержания в этом цикле нет — дальше следует индивидуальный модуль продолжения или точечный возврат к тому компоненту, на который укажут данные.\nСледующий урок: индивидуальный модуль продолжения или точечный возврат по данным оценки.",
@@ -2543,11 +2543,11 @@
     "identity": "Título completo: Condición física 01 — Circuito autorregulado de fuerza y resistencia\nCódigo: FIT-01-ES\nDisciplina: Condición física\nSubtema: fuerza de base, resistencia aeróbica y carga elegida por el propio estudiante\nEdad: 12–16 años\nExperiencia: inicial\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, 6–10 colchonetas, bancos estables o espacio de pared, cronómetro y tarjetas de nivel\nEspacio: gimnasio, pista o zona llana marcada con 4–6 estaciones\nComplejidad: básica",
     "purpose": "Presentar un circuito seguro en el que cada estudiante elige un nivel que puede controlar, mantiene la calidad del movimiento y sabe describir su esfuerzo.",
     "objectives": [
-      "Elige en cada estación una versión del ejercicio que puede controlar y la justifica con una señal corporal.",
-      "Mantiene una técnica limpia durante todo el intervalo de trabajo en 4 de 5 estaciones.",
-      "Valora su esfuerzo en una escala de 1 a 5 y ajusta la carga al menos una vez durante la sesión.",
-      "Se desplaza entre estaciones por el recorrido marcado dentro del tiempo de transición establecido.",
-      "Asume los roles de ejecutante y de observador y aporta un comentario basado en un hecho."
+      "El alumno será capaz de elegir en cada estación una versión del ejercicio que puede controlar y justificarla con una señal corporal.",
+      "El alumno será capaz de mantener una técnica limpia durante todo el intervalo de trabajo en 4 de 5 estaciones.",
+      "El alumno será capaz de valorar su esfuerzo en una escala de 1 a 5 y ajustar la carga al menos una vez durante la sesión.",
+      "El alumno será capaz de desplazarse entre estaciones por el recorrido marcado dentro del tiempo de transición establecido.",
+      "El alumno será capaz de asumir los roles de ejecutante y de observador y aportar un comentario basado en un hecho."
     ],
     "priorKnowledge": "No se exige ninguna sesión previa de condición física. El alumnado debe conocer la señal de parada y la escala de esfuerzo de 1 a 5.",
     "pathwayPosition": "Sesión anterior: ninguna; es la sesión inicial del itinerario de condición física.\nSesión actual: introduce el circuito autorregulado y la escala de carga percibida.\nSesión siguiente: FIT-02 — Calidad de movimiento: sentadilla, bisagra, empuje y estabilidad.",
@@ -2606,11 +2606,11 @@
     "identity": "Título completo: Condición física 02 — Calidad de movimiento: sentadilla, bisagra, empuje y estabilidad\nCódigo: FIT-02-ES\nDisciplina: Condición física\nSubtema: patrones fundamentales de movimiento\nEdad: 10–13 años\nExperiencia: inicial\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, colchonetas, cronómetro y tarjetas de nivel\nEspacio: gimnasio, pista o zona llana marcada\nComplejidad: intermedia",
     "purpose": "Ejecutar cuatro patrones fundamentales de movimiento con control y dentro de un rango personal seguro.",
     "objectives": [
-      "Ejecuta la sentadilla manteniendo los talones apoyados y las rodillas alineadas con los pies en 4 de 5 repeticiones.",
-      "Realiza la bisagra de cadera llevando la cadera hacia atrás y manteniendo la espalda neutra.",
-      "Realiza el empuje a la pared con el cuerpo alineado, sin hundir la cadera.",
-      "Mantiene la estabilidad del tronco respirando de forma continua durante todo el intervalo.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de ejecutar la sentadilla manteniendo los talones apoyados y las rodillas alineadas con los pies en 4 de 5 repeticiones.",
+      "El alumno será capaz de realizar la bisagra de cadera llevando la cadera hacia atrás y manteniendo la espalda neutra.",
+      "El alumno será capaz de realizar el empuje a la pared con el cuerpo alineado, sin hundir la cadera.",
+      "El alumno será capaz de mantener la estabilidad del tronco respirando de forma continua durante todo el intervalo.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "FIT-01 — Circuito autorregulado de fuerza y resistencia.",
     "pathwayPosition": "Sesión anterior: FIT-01 — Circuito autorregulado de fuerza y resistencia.\nSesión actual: fija la calidad técnica de los cuatro patrones fundamentales.\nSesión siguiente: FIT-03 — Intervalos aeróbicos a ritmo personal.",
@@ -2669,11 +2669,11 @@
     "identity": "Título completo: Condición física 03 — Intervalos aeróbicos a ritmo personal\nCódigo: FIT-03-ES\nDisciplina: Condición física\nSubtema: resistencia y regulación de la carga percibida\nEdad: 11–15 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, colchonetas, cronómetro y tarjetas de nivel\nEspacio: gimnasio, pista o zona llana marcada\nComplejidad: intermedia",
     "purpose": "Completar seis intervalos a un ritmo controlado y recuperar una respiración cómoda entre rondas.",
     "objectives": [
-      "Completa los seis intervalos sin que la calidad del movimiento caiga en las últimas rondas.",
-      "Recupera una respiración cómoda antes de empezar el intervalo siguiente en 4 de 5 rondas.",
-      "Valora su esfuerzo de 1 a 5 después de cada intervalo y ajusta el ritmo al menos una vez.",
-      "Mantiene la separación y respeta las señales de trabajo y de recuperación.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de completar los seis intervalos sin que la calidad del movimiento caiga en las últimas rondas.",
+      "El alumno será capaz de recuperar una respiración cómoda antes de empezar el intervalo siguiente en 4 de 5 rondas.",
+      "El alumno será capaz de valorar su esfuerzo de 1 a 5 después de cada intervalo y ajustar el ritmo al menos una vez.",
+      "El alumno será capaz de mantener la separación y respetar las señales de trabajo y de recuperación.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "FIT-02 — Calidad de movimiento: sentadilla, bisagra, empuje y estabilidad.",
     "pathwayPosition": "Sesión anterior: FIT-02 — Calidad de movimiento: sentadilla, bisagra, empuje y estabilidad.\nSesión actual: incorpora el trabajo por intervalos con regulación de la carga percibida.\nSesión siguiente: FIT-04 — Circuito por parejas con autorregulación.",
@@ -2732,11 +2732,11 @@
     "identity": "Título completo: Condición física 04 — Circuito por parejas con autorregulación\nCódigo: FIT-04-ES\nDisciplina: Condición física\nSubtema: fuerza, resistencia y cooperación\nEdad: 12–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, colchonetas, cronómetro y tarjetas de nivel\nEspacio: gimnasio, pista o zona llana marcada\nComplejidad: intermedia",
     "purpose": "Elegir una carga adecuada y mantener la técnica y la comunicación dentro de un circuito por parejas.",
     "objectives": [
-      "Elige la versión del ejercicio que puede controlar en cada estación y la mantiene durante todo el intervalo.",
-      "Desempeña el rol de observador aportando un hecho concreto por estación.",
-      "Respeta la carga elegida por su pareja sin imponerle la propia.",
-      "Mantiene la separación, respeta las señales de trabajo y de cambio, y cuida el material.",
-      "Aporta a su pareja una devolución observable y enuncia un objetivo personal."
+      "El alumno será capaz de elegir la versión del ejercicio que puede controlar en cada estación y mantenerla durante todo el intervalo.",
+      "El alumno será capaz de desempeñar el rol de observador aportando un hecho concreto por estación.",
+      "El alumno será capaz de respetar la carga elegida por su pareja sin imponerle la propia.",
+      "El alumno será capaz de mantener la separación, respetar las señales de trabajo y de cambio, y cuida el material.",
+      "El alumno será capaz de aportar a su pareja una devolución observable y enunciar un objetivo personal."
     ],
     "priorKnowledge": "FIT-03 — Intervalos aeróbicos a ritmo personal.",
     "pathwayPosition": "Sesión anterior: FIT-03 — Intervalos aeróbicos a ritmo personal.\nSesión actual: incorpora el trabajo por parejas con roles de ejecutante y observador.\nSesión siguiente: FIT-05 — Diseño de un circuito personal equilibrado.",
@@ -2795,11 +2795,11 @@
     "identity": "Título completo: Condición física 05 — Diseño de un circuito personal equilibrado\nCódigo: FIT-05-ES\nDisciplina: Condición física\nSubtema: equilibrio entre fuerza, resistencia, movimiento y recuperación\nEdad: 12–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, 6–10 colchonetas, bancos estables o una pared, cronómetro y tarjetas de tarea\nEspacio: gimnasio, patio sombreado o zona plana señalizada\nComplejidad: intermedia",
     "purpose": "Planificar, realizar y revisar un circuito personal equilibrado, eligiendo una carga segura y explicando el criterio utilizado.",
     "objectives": [
-      "Realiza la tarea central con técnica segura en 4 de 5 controles.",
-      "Elige una carga y la justifica mediante una señal corporal o un resultado.",
-      "Mantiene separación, carriles y respuesta a la señal de parada.",
-      "Registra una medida y cambia una variable a partir de una evidencia.",
-      "Ofrece a otra persona una observación objetiva y respetuosa."
+      "El alumno será capaz de realizar la tarea central con técnica segura en 4 de 5 controles.",
+      "El alumno será capaz de elegir una carga y justificarla mediante una señal corporal o un resultado.",
+      "El alumno será capaz de mantener separación, carriles y respuesta a la señal de parada.",
+      "El alumno será capaz de registrar una medida y cambiar una variable a partir de una evidencia.",
+      "El alumno será capaz de ofrecer a otra persona una observación objetiva y respetuosa."
     ],
     "priorKnowledge": "Se requiere conocer la señal de parada, la escala de esfuerzo 1–5 y los ejercicios básicos del itinerario. Sesión anterior: FIT-04 — circuito por parejas con autorregulación.",
     "pathwayPosition": "Sesión anterior: FIT-04 — circuito por parejas con autorregulación; se practicó la elección de carga y la calidad del movimiento.\nSesión actual: Planificar, realizar y revisar un circuito personal equilibrado, eligiendo una carga segura y explicando el criterio utilizado.\nSesión siguiente: FIT-06 — gestión del ritmo y la recuperación.",
@@ -2858,11 +2858,11 @@
     "identity": "Título completo: Condición física 06 — Gestión del ritmo y la recuperación\nCódigo: FIT-06-ES\nDisciplina: Condición física\nSubtema: regulación del esfuerzo mediante la prueba del habla y una escala percibida\nEdad: 12–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, 6–10 colchonetas, bancos estables o una pared, cronómetro y tarjetas de tarea\nEspacio: gimnasio, patio sombreado o zona plana señalizada\nComplejidad: intermedia",
     "purpose": "Regular el ritmo de trabajo y la recuperación para completar varios intervalos con una calidad estable.",
     "objectives": [
-      "Realiza la tarea central con técnica segura en 4 de 5 controles.",
-      "Elige una carga y la justifica mediante una señal corporal o un resultado.",
-      "Mantiene separación, carriles y respuesta a la señal de parada.",
-      "Registra una medida y cambia una variable a partir de una evidencia.",
-      "Ofrece a otra persona una observación objetiva y respetuosa."
+      "El alumno será capaz de realizar la tarea central con técnica segura en 4 de 5 controles.",
+      "El alumno será capaz de elegir una carga y justificarla mediante una señal corporal o un resultado.",
+      "El alumno será capaz de mantener separación, carriles y respuesta a la señal de parada.",
+      "El alumno será capaz de registrar una medida y cambiar una variable a partir de una evidencia.",
+      "El alumno será capaz de ofrecer a otra persona una observación objetiva y respetuosa."
     ],
     "priorKnowledge": "Se requiere conocer la señal de parada, la escala de esfuerzo 1–5 y los ejercicios básicos del itinerario. Sesión anterior: FIT-05 — diseño de un circuito personal equilibrado.",
     "pathwayPosition": "Sesión anterior: FIT-05 — diseño de un circuito personal equilibrado; se practicó la elección de carga y la calidad del movimiento.\nSesión actual: Regular el ritmo de trabajo y la recuperación para completar varios intervalos con una calidad estable.\nSesión siguiente: FIT-07 — resistencia muscular con calidad.",
@@ -2921,11 +2921,11 @@
     "identity": "Título completo: Condición física 07 — Resistencia muscular con calidad\nCódigo: FIT-07-ES\nDisciplina: Condición física\nSubtema: mantenimiento de la técnica durante repeticiones moderadas\nEdad: 12–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, 6–10 colchonetas, bancos estables o una pared, cronómetro y tarjetas de tarea\nEspacio: gimnasio, patio sombreado o zona plana señalizada\nComplejidad: intermedia",
     "purpose": "Desarrollar resistencia muscular manteniendo alineación, respiración y un recorrido adecuado durante varias vueltas.",
     "objectives": [
-      "Realiza la tarea central con técnica segura en 4 de 5 controles.",
-      "Elige una carga y la justifica mediante una señal corporal o un resultado.",
-      "Mantiene separación, carriles y respuesta a la señal de parada.",
-      "Registra una medida y cambia una variable a partir de una evidencia.",
-      "Ofrece a otra persona una observación objetiva y respetuosa."
+      "El alumno será capaz de realizar la tarea central con técnica segura en 4 de 5 controles.",
+      "El alumno será capaz de elegir una carga y justificarla mediante una señal corporal o un resultado.",
+      "El alumno será capaz de mantener separación, carriles y respuesta a la señal de parada.",
+      "El alumno será capaz de registrar una medida y cambiar una variable a partir de una evidencia.",
+      "El alumno será capaz de ofrecer a otra persona una observación objetiva y respetuosa."
     ],
     "priorKnowledge": "Se requiere conocer la señal de parada, la escala de esfuerzo 1–5 y los ejercicios básicos del itinerario. Sesión anterior: FIT-06 — gestión del ritmo y la recuperación.",
     "pathwayPosition": "Sesión anterior: FIT-06 — gestión del ritmo y la recuperación; se practicó la elección de carga y la calidad del movimiento.\nSesión actual: Desarrollar resistencia muscular manteniendo alineación, respiración y un recorrido adecuado durante varias vueltas.\nSesión siguiente: FIT-08 — resistencia cardiorrespiratoria y prueba del habla.",
@@ -2984,11 +2984,11 @@
     "identity": "Título completo: Condición física 08 — Resistencia cardiorrespiratoria y prueba del habla\nCódigo: FIT-08-ES\nDisciplina: Condición física\nSubtema: esfuerzo continuo moderado y valoración de la intensidad\nEdad: 12–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, 6–10 colchonetas, bancos estables o una pared, cronómetro y tarjetas de tarea\nEspacio: gimnasio, patio sombreado o zona plana señalizada\nComplejidad: intermedia",
     "purpose": "Mantener trabajo aeróbico moderado y seleccionar el ritmo mediante respiración, prueba del habla y esfuerzo percibido.",
     "objectives": [
-      "Realiza la tarea central con técnica segura en 4 de 5 controles.",
-      "Elige una carga y la justifica mediante una señal corporal o un resultado.",
-      "Mantiene separación, carriles y respuesta a la señal de parada.",
-      "Registra una medida y cambia una variable a partir de una evidencia.",
-      "Ofrece a otra persona una observación objetiva y respetuosa."
+      "El alumno será capaz de realizar la tarea central con técnica segura en 4 de 5 controles.",
+      "El alumno será capaz de elegir una carga y justificarla mediante una señal corporal o un resultado.",
+      "El alumno será capaz de mantener separación, carriles y respuesta a la señal de parada.",
+      "El alumno será capaz de registrar una medida y cambiar una variable a partir de una evidencia.",
+      "El alumno será capaz de ofrecer a otra persona una observación objetiva y respetuosa."
     ],
     "priorKnowledge": "Se requiere conocer la señal de parada, la escala de esfuerzo 1–5 y los ejercicios básicos del itinerario. Sesión anterior: FIT-07 — resistencia muscular con calidad.",
     "pathwayPosition": "Sesión anterior: FIT-07 — resistencia muscular con calidad; se practicó la elección de carga y la calidad del movimiento.\nSesión actual: Mantener trabajo aeróbico moderado y seleccionar el ritmo mediante respiración, prueba del habla y esfuerzo percibido.\nSesión siguiente: FIT-09 — plan personal de mejora y tutoría entre iguales.",
@@ -3047,11 +3047,11 @@
     "identity": "Título completo: Condición física 09 — Plan personal de mejora y tutoría entre iguales\nCódigo: FIT-09-ES\nDisciplina: Condición física\nSubtema: objetivo, acción y retroalimentación basada en evidencias\nEdad: 12–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, 6–10 colchonetas, bancos estables o una pared, cronómetro y tarjetas de tarea\nEspacio: gimnasio, patio sombreado o zona plana señalizada\nComplejidad: intermedia",
     "purpose": "Construir un objetivo breve y medible de condición física y practicarlo con retroalimentación precisa y segura entre iguales.",
     "objectives": [
-      "Realiza la tarea central con técnica segura en 4 de 5 controles.",
-      "Elige una carga y la justifica mediante una señal corporal o un resultado.",
-      "Mantiene separación, carriles y respuesta a la señal de parada.",
-      "Registra una medida y cambia una variable a partir de una evidencia.",
-      "Ofrece a otra persona una observación objetiva y respetuosa."
+      "El alumno será capaz de realizar la tarea central con técnica segura en 4 de 5 controles.",
+      "El alumno será capaz de elegir una carga y justificarla mediante una señal corporal o un resultado.",
+      "El alumno será capaz de mantener separación, carriles y respuesta a la señal de parada.",
+      "El alumno será capaz de registrar una medida y cambiar una variable a partir de una evidencia.",
+      "El alumno será capaz de ofrecer a otra persona una observación objetiva y respetuosa."
     ],
     "priorKnowledge": "Se requiere conocer la señal de parada, la escala de esfuerzo 1–5 y los ejercicios básicos del itinerario. Sesión anterior: FIT-08 — resistencia cardiorrespiratoria y prueba del habla.",
     "pathwayPosition": "Sesión anterior: FIT-08 — resistencia cardiorrespiratoria y prueba del habla; se practicó la elección de carga y la calidad del movimiento.\nSesión actual: Construir un objetivo breve y medible de condición física y practicarlo con retroalimentación precisa y segura entre iguales.\nSesión siguiente: FIT-10 — reto integrado y evaluación del itinerario.",
@@ -3110,11 +3110,11 @@
     "identity": "Título completo: Condición física 10 — Reto integrado y evaluación final de condición física\nCódigo: FIT-10-ES\nDisciplina: Condición física\nSubtema: integración de planificación, ejecución, regulación y reflexión\nEdad: 12–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–32 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: conos, 6–10 colchonetas, bancos estables o una pared, cronómetro y tarjetas de tarea\nEspacio: gimnasio, patio sombreado o zona plana señalizada\nComplejidad: intermedia",
     "purpose": "Demostrar autonomía al planificar y completar una tarea equilibrada, segura y autorregulada, explicando el progreso personal.",
     "objectives": [
-      "Realiza la tarea central con técnica segura en 4 de 5 controles.",
-      "Elige una carga y la justifica mediante una señal corporal o un resultado.",
-      "Mantiene separación, carriles y respuesta a la señal de parada.",
-      "Registra una medida y cambia una variable a partir de una evidencia.",
-      "Ofrece a otra persona una observación objetiva y respetuosa."
+      "El alumno será capaz de realizar la tarea central con técnica segura en 4 de 5 controles.",
+      "El alumno será capaz de elegir una carga y justificarla mediante una señal corporal o un resultado.",
+      "El alumno será capaz de mantener separación, carriles y respuesta a la señal de parada.",
+      "El alumno será capaz de registrar una medida y cambiar una variable a partir de una evidencia.",
+      "El alumno será capaz de ofrecer a otra persona una observación objetiva y respetuosa."
     ],
     "priorKnowledge": "Se requiere conocer la señal de parada, la escala de esfuerzo 1–5 y los ejercicios básicos del itinerario. Sesión anterior: FIT-09 — plan personal de mejora y tutoría entre iguales.",
     "pathwayPosition": "Sesión anterior: FIT-09 — plan personal de mejora y tutoría entre iguales; se practicó la elección de carga y la calidad del movimiento.\nSesión actual: Demostrar autonomía al planificar y completar una tarea equilibrada, segura y autorregulada, explicando el progreso personal.\nSesión siguiente: una unidad personal de ampliación o un retorno específico según la evaluación.",

@@ -15,11 +15,11 @@
     "identity": "שם מלא: כדורעף 01 — עמדת מוכנות ומסירת אמות\nקוד מערך: VB-01-HE\nענף: כדורעף\nתת נושא: עמדת מוכנות, משטח אמות והכוונת כדור מבוקרת\nגיל: 10–13\nרמת ניסיון: מתחילים\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 10–15 כדורי כדורעף קלים או כדורי חוף, 24 קונוסים ורשת נמוכה או חבל\nמרחב: אולם או מגרש המחולק ל־4–6 ריבועים קטנים\nמורכבות: בסיסית",
     "purpose": "לבנות עמדת מוכנות ומשטח אמות יציב, כדי לכוון כדור שנמסר בעדינות לבן זוג.",
     "objectives": [
-      "מגיע לעמדת מוכנות — ברכיים כפופות ומשקל קדימה — לפני כל מגע.",
-      "יוצר משטח אמות ישר עם אגודלים צמודים ב־4 מתוך 5 ניסיונות.",
-      "מכוון את הכדור לאזור המטרה בגובה מעל הראש ב־3 מתוך 5 ניסיונות.",
-      "נע אל הכדור ברגליים ועוצר לפני המגע, ולא נמתח אליו.",
-      "ממלא תפקיד מבצע וצופה ונותן משוב עובדתי אחד."
+      "התלמיד יצליח להגיע לעמדת מוכנות — ברכיים כפופות ומשקל קדימה — לפני כל מגע.",
+      "התלמיד יצליח ליצור משטח אמות ישר עם אגודלים צמודים ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לכוון את הכדור לאזור המטרה בגובה מעל הראש ב־3 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לנוע אל הכדור ברגליים ולעצור לפני המגע, ולא להימתח אליו.",
+      "התלמיד יצליח למלא תפקיד מבצע וצופה ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "אין דרישה למערך כדורעף קודם; נדרשים מרחב אישי ותגובה לאות.",
     "pathwayPosition": "המערך הקודם: אין — זהו מערך הפתיחה של רצף הכדורעף.\nהמערך הנוכחי: בונה את המגע הראשון — השונה מכל שאר משחקי הכדור: אין תפיסה ואין החזקה, הכדור נוגע ועוזב. עדיין ללא משחק מעל הרשת.\nהמערך הבא: VB-02 — מסירת אצבעות ותנועת תמיכה.",
@@ -78,11 +78,11 @@
     "identity": "שם מלא: כדורעף 02 — מסירה עילית ותנועה לתמיכה\nקוד מערך: VB-02-HE\nענף: כדורעף\nתת נושא: מגע אצבעות ותמיכה\nגיל: 9–11\nרמת ניסיון: מתחילים\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לכוון מסירה עילית לשותף ולעבור מיד לתמיכה.",
     "objectives": [
-      "מבצע מסירה עילית במגע אצבעות מעל המצח, מרפקים לצדדים ואגודלים מופנים לאחור, בלי תפיסה או החזקה, ב־4 מתוך 5 ניסיונות.",
-      "מגיע מתחת לכדור ומתייצב על שתי רגליים לפני המגע, ב־3 מתוך 4 מצבים.",
-      "מגביה את הכדור מעל קו הראש ומכוון אותו לאזור מטרה ברוחב 2 מטרים אצל השותף, ב־3 מתוך 5 ניסיונות.",
-      "יוצא לעמדת תמיכה פנויה בתוך 2 שניות מסיום המסירה, ב־4 מתוך 5 ניסיונות.",
-      "קורא “שלי” לפני כניסה לכדור, ממלא תפקיד מוסר ותומך לסירוגין ונותן משוב עובדתי אחד."
+      "התלמיד יבצע מסירה עילית במגע אצבעות מעל המצח, מרפקים לצדדים ואגודלים מופנים לאחור, בלי תפיסה או החזקה, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח להגיע מתחת לכדור ולהתייצב על שתי רגליים לפני המגע, ב־3 מתוך 4 מצבים.",
+      "התלמיד יצליח להגביה את הכדור מעל קו הראש ולכוון אותו לאזור מטרה ברוחב 2 מטרים אצל השותף, ב־3 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לצאת לעמדת תמיכה פנויה בתוך 2 שניות מסיום המסירה, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לקרוא “שלי” לפני כניסה לכדור, למלא תפקיד מוסר ותומך לסירוגין ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "VB-01 — עמדת מוכנות ומסירת אמות.",
     "pathwayPosition": "המערך הקודם: VB-01 — עמדת מוכנות ומסירת אמות.\nהמערך הנוכחי: מוסיף את המגע השני של הכדורעף — אחרי שמסירת האמות ב־VB-01 לימדה לקבל כדור נמוך ומהיר, כאן נלמד המגע שמכוון אותו הלאה, באצבעות ומלמעלה. עדיין ללא רשת גבוהה, ללא הגשה וללא יריב אמיתי; ההגשה נוספת ב־VB-03.\nהמערך הבא: VB-03 — הגשה תחתית מדויקת.",
@@ -141,12 +141,12 @@
     "identity": "שם מלא: כדורעף 03 — הגשה תחתית לאזור מטרה\nקוד מערך: VB-03-HE\nענף: כדורעף\nתת נושא: הגשה תחתית ודיוק\nגיל: 9–11\nרמת ניסיון: מתפתחים\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לשלוח הגשה תחתית בטוחה מעל רשת נמוכה לאזור מטרה.",
     "objectives": [
-      "מכה בכדור בזרוע ישרה ונוקשית מתחת לגובה המותן, ממגע בכדור מוחזק או משוחרר בעדינות ולא מוטל למעלה, ב־4 מתוך 5 ניסיונות.",
-      "מבצע צעד קדימה ברגל הנגדית ליד המגישה ומעביר את משקל הגוף קדימה בזמן המגע, ב־3 מתוך 4 ניסיונות.",
-      "מכוון את ההגשה לאזור מטרה ברוחב 2 מטרים, ב־3 מתוך 5 ניסיונות.",
-      "שולח הגשה שעוברת מעל הרשת הנמוכה ומטיילת כ־4 עד 6 מטרים, ב־4 מתוך 5 ניסיונות.",
-      "בודק שאזור ההגשה פנוי והאוסף מוכן לפני כל הגשה, ב־5 מתוך 5 ניסיונות.",
-      "ממתין לאות לפני הגשה, ממלא תפקיד מגיש ואוסף לסירוגין ונותן משוב עובדתי אחד."
+      "התלמיד יצליח להכות בכדור בזרוע ישרה ונוקשית מתחת לגובה המותן, ממגע בכדור מוחזק או משוחרר בעדינות ולא להיות למעלה, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לבצע צעד קדימה ברגל הנגדית ליד המגישה ולהעביר את משקל הגוף קדימה בזמן המגע, ב־3 מתוך 4 ניסיונות.",
+      "התלמיד יצליח לכוון את ההגשה לאזור מטרה ברוחב 2 מטרים, ב־3 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לשלוח הגשה שעוברת מעל הרשת הנמוכה ומטיילת כ־4 עד 6 מטרים, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לבדוק שאזור ההגשה פנוי והאוסף מוכן לפני כל הגשה, ב־5 מתוך 5 ניסיונות.",
+      "התלמיד יצליח להמתין לאות לפני הגשה, למלא תפקיד מגיש ואוסף לסירוגין ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "VB-02 — מסירה עילית ותמיכה.",
     "pathwayPosition": "המערך הקודם: VB-02 — מסירה עילית ותמיכה.\nהמערך הנוכחי: מכניס את הפעולה היחידה בכדורעף שאינה תגובה לכדור של מישהו אחר — ההגשה מתחילה כל נקודה, ולכן היא גם הפעולה הראשונה שהתלמיד שולט בה במלואה. עדיין מרשת נמוכה וללא מקבל אמיתי מולה; קבלת ההגשה נלמדת ב־VB-04.\nהמערך הבא: VB-04 — קבלת הגשה במסירת אמות.",
@@ -205,11 +205,11 @@
     "identity": "שם מלא: כדורעף 04 — קבלת הגשה במסירת אמות\nקוד מערך: VB-04-HE\nענף: כדורעף\nתת נושא: קבלה וכיוון פלטפורמה\nגיל: 10–12\nרמת ניסיון: מתפתחים\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לנוע מאחורי מסלול הגשה ולכוון קבלה לאזור המוסר.",
     "objectives": [
-      "מגיע מאחורי מסלול הכדור ועומד יציב עם הפלטפורמה כבר בנויה לפני המגע, ב־4 מתוך 5 קבלות.",
-      "מטה את הפלטפורמה לכיוון אזור המוסר ולא מחזיר את הכדור ישר אל המגיש, ב־3 מתוך 4 קבלות.",
-      "מכוון את הקבלה גבוה לאזור המוסר כך שמגע שני יהיה אפשרי בפועל, ב־3 מתוך 5 ניסיונות.",
-      "קורא “שלי” לפני הקבלה כשהכדור מגיע בין שני תלמידים.",
-      "ממלא תפקיד מגיש ומקבל לסירוגין ונותן משוב עובדתי אחד."
+      "התלמיד יצליח להגיע מאחורי מסלול הכדור ולעמוד יציב עם הפלטפורמה כבר בנויה לפני המגע, ב־4 מתוך 5 קבלות.",
+      "התלמיד יצליח להטות את הפלטפורמה לכיוון אזור המוסר ולא להחזיר את הכדור ישר אל המגיש, ב־3 מתוך 4 קבלות.",
+      "התלמיד יצליח לכוון את הקבלה גבוה לאזור המוסר כך שמגע שני יהיה אפשרי בפועל, ב־3 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לקרוא “שלי” לפני הקבלה כשהכדור מגיע בין שני תלמידים.",
+      "התלמיד יצליח למלא תפקיד מגיש ומקבל לסירוגין ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "VB-03 — הגשה תחתית.",
     "pathwayPosition": "המערך הקודם: VB-03 — הגשה תחתית.\nהמערך הנוכחי: סוגר את המעגל מול VB-03 — מי שלמד להגיש לומד עכשיו לקלוט הגשה, וזו הפעם הראשונה שהכדור מגיע במהירות ובזווית שהתלמיד לא קבע בעצמו. עדיין קבלה בודדת ללא המשך; חיבור שלוש הנגיעות לרצף אחד נעשה ב־VB-05.\nהמערך הבא: VB-05 — רצף שלוש נגיעות.",
@@ -268,11 +268,11 @@
     "identity": "שם מלא: כדורעף 05 — רצף קבלה, מסירה והעברה\nקוד מערך: VB-05-HE\nענף: כדורעף\nתת נושא: רצף שלוש נגיעות\nגיל: 11–13\nרמת ניסיון: מתפתחים\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לבצע קבלה–מסירה–העברה בתפקידים ברורים ובתקשורת.",
     "objectives": [
-      "משלים רצף של שלוש נגיעות — קבלה באמות, מסירה עילית והעברה מעל הרשת — ב־3 מתוך 5 רצפים.",
-      "קורא “שלי!” לפני כל מגע ומגיע למקום לפני שהכדור מגיע ב־3 מתוך 4 מצבים.",
-      "מכוון את הקבלה למרכז המגרש ולא חזרה למוסר, ב־3 מתוך 5 ניסיונות.",
-      "מתקשר ושומר שתי זרועות מרווח.",
-      "ממלא שני תפקידים ונותן משוב מכבד."
+      "התלמיד יצליח להשלים רצף של שלוש נגיעות — קבלה באמות, מסירה עילית והעברה מעל הרשת — ב־3 מתוך 5 רצפים.",
+      "התלמיד יצליח לקרוא “שלי!” לפני כל מגע ולהגיע למקום לפני שהכדור מגיע ב־3 מתוך 4 מצבים.",
+      "התלמיד יצליח לכוון את הקבלה למרכז המגרש ולא חזרה למוסר, ב־3 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לתקשר ולשמור שתי זרועות מרווח.",
+      "התלמיד יצליח למלא שני תפקידים ולתת משוב מכבד."
     ],
     "priorKnowledge": "VB-04 — קבלת הגשה.",
     "pathwayPosition": "המערך הקודם: VB-04 — קבלת הגשה.\nהמערך הנוכחי: נקודת החיבור של הרצף — עד כאן נלמדו אמות, עילית, הגשה וקבלה בנפרד, וכאן הם מחוברים לרצף שלוש נגיעות עם חלוקת תפקידים.\nהמערך הבא: VB-06 — תנועה וכיסוי מגרש.",
@@ -331,11 +331,11 @@
     "identity": "שם מלא: כדורעף 06 — תנועה וכיסוי שטח לאחר מגע\nקוד מערך: VB-06-HE\nענף: כדורעף\nתת נושא: עמדות בסיס וכיסוי\nגיל: 12–14\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לנוע מעמדת בסיס לכדור ולאחר המגע לכסות שטח פנוי.",
     "objectives": [
-      "חוזר לעמדת הבסיס שלו בתוך שתי שניות מסיום כל מגע, ב־4 מתוך 5 רצפים.",
-      "נע אל הכדור בצעדי צד או בצעדים אחורה ושומר על הפנים אל הרשת, ב־3 מתוך 4 מצבים.",
-      "מכסה את השטח שהשותף פינה כשזה יצא אל הכדור, ב־3 מתוך 5 מצבים.",
-      "שומר על שלושת השחקנים במשולש ולא בקו אחד לאורך המשחקון.",
-      "קורא לפני כניסה לכדור, ממלא תפקיד מקבל ומכסה לסירוגין ונותן משוב עובדתי אחד."
+      "התלמיד יצליח לחזור לעמדת הבסיס שלו בתוך שתי שניות מסיום כל מגע, ב־4 מתוך 5 רצפים.",
+      "התלמיד יצליח לנוע אל הכדור בצעדי צד או בצעדים אחורה ולשמור על הפנים אל הרשת, ב־3 מתוך 4 מצבים.",
+      "התלמיד יצליח לכסות את השטח שהשותף פינה כשזה יצא אל הכדור, ב־3 מתוך 5 מצבים.",
+      "התלמיד יצליח לשמור על שלושת השחקנים במשולש ולא בקו אחד לאורך המשחקון.",
+      "התלמיד יצליח לקרוא לפני כניסה לכדור, למלא תפקיד מקבל ומכסה לסירוגין ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "VB-05 — רצף שלוש נגיעות.",
     "pathwayPosition": "המערך הקודם: VB-05 — רצף שלוש נגיעות.\nהמערך הנוכחי: עוסק לראשונה במה שקורה כשהכדור אינו אצלך — עד VB-05 כל הלמידה הייתה על המגע עצמו, וכאן הנושא הוא שתי השניות שאחריו. עדיין ללא התקפה וללא חסימה; ההתקפה מעל הרשת נוספת ב־VB-07.\nהמערך הבא: VB-07 — התקפה מבוקרת מעמידה.",
@@ -394,11 +394,11 @@
     "identity": "שם מלא: כדורעף 07 — התקפה מבוקרת מעמידה\nקוד מערך: VB-07-HE\nענף: כדורעף\nתת נושא: מכת יד פתוחה והנחה\nגיל: 12–14\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לשלוח התקפה מבוקרת מעמידה לשטח פנוי בבטיחות.",
     "objectives": [
-      "מבצע מגע יד פתוחה מעל גובה הראש עם מרפק גבוה, בלי אגרוף ובלי כף יד סגורה, ב־4 מתוך 5 ניסיונות.",
-      "מתמקם מתחת לכדור ומעט מאחוריו לפני המגע, ב־3 מתוך 4 מצבים.",
-      "מכוון את ההתקפה לשטח פנוי מסומן ולא לעבר שחקן, ב־3 מתוך 5 ניסיונות.",
-      "מבצע את המגע בעוצמה של כ־60% ואינו מגביר כוח על חשבון הדיוק.",
-      "נוחת באותו מקום בלי לגעת ברשת, ממלא תפקיד מוסר ותוקף לסירוגין ונותן משוב עובדתי אחד."
+      "התלמיד יבצע מגע יד פתוחה מעל גובה הראש עם מרפק גבוה, בלי אגרוף ובלי כף יד סגורה, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח להתמקם מתחת לכדור ומעט מאחוריו לפני המגע, ב־3 מתוך 4 מצבים.",
+      "התלמיד יצליח לכוון את ההתקפה לשטח פנוי מסומן ולא לעבר שחקן, ב־3 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לבצע את המגע בעוצמה של כ־60% ולא להגביר כוח על חשבון הדיוק.",
+      "התלמיד יצליח לנחות באותו מקום בלי לגעת ברשת, למלא תפקיד מוסר ותוקף לסירוגין ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "VB-06 — תנועה וכיסוי.",
     "pathwayPosition": "המערך הקודם: VB-06 — תנועה וכיסוי.\nהמערך הנוכחי: הופך את הכדור השלישי ממסירה שמחזירה לפעולה שמייצרת נקודה — עד כה כל מגע נועד לשמור על הכדור באוויר, וכאן לראשונה המטרה היא שהוא ייפול. עדיין מעמידה בלבד, בלי קפיצה ובלי חסימה מול; ההגנה על הרשת נוספת ב־VB-08.\nהמערך הבא: VB-08 — הגנת רשת וכיסוי אחורי.",
@@ -457,11 +457,11 @@
     "identity": "שם מלא: כדורעף 08 — הגנת רשת וכיסוי אחורי\nקוד מערך: VB-08-HE\nענף: כדורעף\nתת נושא: חסימת צל וכיסוי\nגיל: 12–14\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לתאם עמדת ידיים ליד הרשת וכיסוי אחורי בלי מגע או חצייה.",
     "objectives": [
-      "מרים שתי ידיים פתוחות מעל גובה הרשת ומחזיק אותן קרוב זו לזו, בלי לגעת ברשת, ב־4 מתוך 5 ניסיונות.",
-      "נוחת על שתי רגליים באותו צד של הרשת שממנו קפץ, בלי לצעוד קדימה אל תוכה או מתחתיה, ב־3 מתוך 4 ניסיונות.",
-      "נע אל נקודת החסימה בצעדי צד ולא בהצלבת רגליים, ומגיע במצב חזית מול הרשת לפני ההתקפה.",
-      "השחקן האחורי מכסה את השטח לצד השותף החוסם ומשחק את הכדור שעובר מעל החסימה, ב־3 מתוך 5 מצבים.",
-      "קורא לשותף לפני שהוא עולה לחסימה, ממלא תפקיד קדמי ואחורי לסירוגין ונותן משוב עובדתי אחד."
+      "התלמיד יצליח להרים שתי ידיים פתוחות מעל גובה הרשת ולהחזיק אותן קרוב זו לזו, בלי לגעת ברשת, ב־4 מתוך 5 ניסיונות.",
+      "התלמיד יצליח לנחות על שתי רגליים באותו צד של הרשת שממנו קפץ, בלי לצעוד קדימה אל תוכה או מתחתיה, ב־3 מתוך 4 ניסיונות.",
+      "התלמיד יצליח לנוע אל נקודת החסימה בצעדי צד ולא בהצלבת רגליים, ולהגיע במצב חזית מול הרשת לפני ההתקפה.",
+      "התלמיד יצליח, כשחקן אחורי, לכסות את השטח לצד השותף החוסם ולשחק את הכדור שעובר מעל החסימה, ב־3 מתוך 5 מצבים.",
+      "התלמיד יצליח לקרוא לשותף לפני שהוא עולה לחסימה, למלא תפקיד קדמי ואחורי לסירוגין ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "VB-07 — התקפה מבוקרת.",
     "pathwayPosition": "המערך הקודם: VB-07 — התקפה מבוקרת.\nהמערך הנוכחי: נותן תשובה ישירה להתקפה שנלמדה ב־VB-07 — שני תלמידים לומדים לחלק ביניהם את המגרש: אחד סוגר את האוויר מעל הרשת, השני מכסה את מה שעובר. עדיין חסימת צל בלי קפיצה מלאה; המשחק המלא עם מעבר תפקידים נפתח ב־VB-09.\nהמערך הבא: VB-09 — משחק 3 נגד 3 ומעבר.",
@@ -520,11 +520,11 @@
     "identity": "שם מלא: כדורעף 09 — משחק 3 נגד 3 ומעבר תפקידים\nקוד מערך: VB-09-HE\nענף: כדורעף\nתת נושא: רוטציה בסיסית והחלטות\nגיל: 13–16\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לשמור משולש, לעבור מקבלה להתקפה ולהחליף תפקידים בסדר.",
     "objectives": [
-      "שומר על מבנה משולש עם שני שותפיו ברגע שהכדור חוצה את הרשת, ב־4 מתוך 5 מצבים.",
-      "עובר מתפקיד מקבל לתפקיד מוסר או תוקף בתוך אותו רצף, ב־3 מתוך 4 מצבים.",
-      "מבצע רוטציה לעמדה הבאה רק בין נקודות ולא כשהכדור עדיין במשחק, בכל סבב.",
-      "קורא “שלי” או “שלך” לפני כל מגע שלו או של השותף, במהלך כל המשחקון.",
-      "ממלא את שלושת התפקידים לפחות פעם אחת ונותן משוב עובדתי אחד."
+      "התלמיד יצליח לשמור על מבנה משולש עם שני שותפיו ברגע שהכדור חוצה את הרשת, ב־4 מתוך 5 מצבים.",
+      "התלמיד יצליח לעבור מתפקיד מקבל לתפקיד מוסר או תוקף בתוך אותו רצף, ב־3 מתוך 4 מצבים.",
+      "התלמיד יבצע רוטציה לעמדה הבאה רק בין נקודות ולא כשהכדור עדיין במשחק, בכל סבב.",
+      "התלמיד יצליח לקרוא “שלי” או “שלך” לפני כל מגע שלו או של השותף, במהלך כל המשחקון.",
+      "התלמיד יצליח למלא את שלושת התפקידים לפחות פעם אחת ולתת משוב עובדתי אחד."
     ],
     "priorKnowledge": "VB-08 — הגנת רשת וכיסוי.",
     "pathwayPosition": "המערך הקודם: VB-08 — הגנת רשת וכיסוי.\nהמערך הנוכחי: מבטל את התפקידים הקבועים — עד כה כל תלמיד ידע מראש אם הוא מקבל, מוסר או תוקף, וכאן התפקיד משתנה בתוך הרצף עצמו וגם בין נקודה לנקודה. עדיין המורה מנהל את המשחק ואין הערכה; ההערכה עצמה נעשית ב־VB-10.\nהמערך הבא: VB-10 — משחק מסכם והערכה.",
@@ -583,11 +583,11 @@
     "identity": "שם מלא: כדורעף 10 — משחק מסכם והערכת הרצף\nקוד מערך: VB-10-HE\nענף: כדורעף\nתת נושא: יישום והערכה אותנטית\nגיל: 13–16\nרמת ניסיון: בינוני\nמשך: 45 דקות\nמספר תלמידים: 20–30 תלמידים מכל המגדרים; התאמות לפי יכולת וצרכים\nציוד: 12–16 כדורים, רשת או חבל, 30 קונוסים וגופיות\nמרחב: אולם או מגרש שטוח; ארבעה מגרשים קטנים\nמורכבות: בינונית",
     "purpose": "לשלב הגשה, קבלה, מסירה, כיסוי והחלטה במשחק בטוח.",
     "objectives": [
-      "מגיש לתוך המגרש כדי לפתוח רצף ומבצע החלטה מתאימה למצב הכדור, ב־3 מתוך 4 מצבים, לפי הקריטריונים שהוצגו בפתיחה.",
-      "תורם לרצף של שלוש נגיעות — קבלה, מסירה או התקפה, לפי מה שהמצב דורש — ב־4 מתוך 5 רצפים.",
-      "חוזר לעמדת בסיס ומכסה שותף שיצא לשחק את הכדור, ב־3 מתוך 5 רצפים.",
-      "קורא בבירור ומשחק בבטיחות ליד הרשת, בלי מגע ובלי הושטת יד מעליה, לאורך כל משחקון.",
-      "מציין חוזקה אישית אחת ויעד אחד, כל אחד מגובה בתצפית ממשית ולא ברושם כללי."
+      "התלמיד יצליח להגיש לתוך המגרש כדי לפתוח רצף ולבצע החלטה מתאימה למצב הכדור, ב־3 מתוך 4 מצבים, לפי הקריטריונים שהוצגו בפתיחה.",
+      "התלמיד יצליח לתרום לרצף של שלוש נגיעות — קבלה, מסירה או התקפה, לפי מה שהמצב דורש — ב־4 מתוך 5 רצפים.",
+      "התלמיד יצליח לחזור לעמדת בסיס ולכסות שותף שיצא לשחק את הכדור, ב־3 מתוך 5 רצפים.",
+      "התלמיד יצליח לקרוא בבירור ולשחק בבטיחות ליד הרשת, בלי מגע ובלי הושטת יד מעליה, לאורך כל משחקון.",
+      "התלמיד יצליח לציין חוזקה אישית אחת ויעד אחד, כל אחד מגובה בתצפית ממשית ולא ברושם כללי."
     ],
     "priorKnowledge": "VB-09 — משחק 3 נגד 3 ורוטציה.",
     "pathwayPosition": "המערך הקודם: VB-09 — משחק 3 נגד 3 ורוטציה.\nהמערך הנוכחי: אותו משחק של VB-09, אך המבט מוסט מן הלמידה אל הראיה — כאן נאסף מידע נצפה על כל תלמיד לצורך תכנון המשך. אין מיומנות חדשה, וזו בחירה: מערך הערכה שמלמד בובזמן משהו חדש אינו מודד דבר.\nהמערך הבא: מסלול מתקדם: 4 נגד 4 והתקפה מורכבת.",
@@ -648,11 +648,11 @@
     "identity": "Full title: Volleyball 01 — Ready Position and Forearm Pass\nLesson code: VB-01-EN\nSport: Volleyball\nSubtopic: ready stance, platform formation, and controlled forearm pass\nAge: 10–13\nExperience: beginner\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 10–15 lightweight volleyballs or beach balls, 24 cones, and a low net or rope\nSpace: gym or court divided into 4–6 small grids\nComplexity: foundation",
     "purpose": "Build a stable ready position and controlled forearm platform so students can direct a gently delivered ball to a partner.",
     "objectives": [
-      "Reaches the ready position—knees bent, weight forward—before every contact.",
-      "Forms a flat forearm platform with the thumbs together in 4 of 5 attempts.",
-      "Directs the ball into the target zone above head height in 3 of 5 attempts.",
-      "Moves to the ball with the feet and stops before contact rather than reaching.",
-      "Takes both performer and observer roles in every rotation and names one factual cue seen in the partner's stance or platform, rather than a verdict."
+      "The student can reach the ready position—knees bent, weight forward—before every contact.",
+      "The student can form a flat forearm platform with the thumbs together in 4 of 5 attempts.",
+      "The student can direct the ball into the target zone above head height in 3 of 5 attempts.",
+      "The student can move to the ball with the feet and stop before contact rather than reaching.",
+      "The student can take both performer and observer roles in every rotation and name one factual cue seen in the partner's stance or platform, rather than a verdict."
     ],
     "priorKnowledge": "No volleyball lesson required; students must respect personal space and stop on signal.",
     "pathwayPosition": "Previous lesson: No volleyball lesson required; students must respect personal space and stop on signal.\nCurrent lesson: As the opening volleyball lesson it builds the two things every later contact depends on: the low ready position and a flat, stable forearm platform aimed with the legs. It withholds the overhead set and all play across a net — every ball is delivered by a gentle underhand toss and ends in a catch — which VB-02 begins to open up.\nNext lesson: VB-02 — overhead setting and support movement.",
@@ -711,11 +711,11 @@
     "identity": "Full title: Volleyball 02 — Overhead Set and Support Movement\nLesson code: VB-02-EN\nSport: Volleyball\nSubtopic: finger contact and support\nAge: 9–11\nExperience: beginner\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Direct an overhead set to a partner and move immediately to support.",
     "objectives": [
-      "Contacts the ball with the finger pads above the forehead, elbows out and thumbs back, without catching or holding the ball, in 4 of 5 attempts.",
-      "Arrives under the ball with the feet and is stationary before contact, in 3 of 4 receptions.",
-      "Sets the ball high enough to pass above head height and lands it inside a 2-metre target zone near the partner, in 3 of 5 attempts.",
-      "Calls for the ball before entering its path and keeps two arm lengths from every other student.",
-      "Moves to a free support position within 2 seconds of releasing the set, in 4 of 5 rallies, rather than watching the ball, and names one factual cue seen in a partner's hand shape."
+      "The student can contact the ball with the finger pads above the forehead, elbows out and thumbs back, without catching or holding the ball, in 4 of 5 attempts.",
+      "The student can arrive under the ball with the feet and be stationary before contact, in 3 of 4 receptions.",
+      "The student can set the ball high enough to pass above head height and land it inside a 2-metre target zone near the partner, in 3 of 5 attempts.",
+      "The student can call for the ball before entering its path and keep two arm lengths from every other student.",
+      "The student can move to a free support position within 2 seconds of releasing the set, in 4 of 5 rallies, rather than watching the ball, and name one factual cue seen in a partner's hand shape."
     ],
     "priorKnowledge": "VB-01 — ready position and forearm pass.",
     "pathwayPosition": "Previous lesson: VB-01 — ready position and forearm pass.\nCurrent lesson: It adds the second of the two basic contacts: where VB-01 played the ball from below with a platform, students now play it from above with the finger pads, then move to support the next contact. It withholds serving and any play that starts a rally — every ball is fed by a self-toss or a partner — which VB-03 introduces.\nNext lesson: VB-03 — accurate underhand serve.",
@@ -774,12 +774,12 @@
     "identity": "Full title: Volleyball 03 — Underhand Serve to a Target Zone\nLesson code: VB-03-EN\nSport: Volleyball\nSubtopic: underhand serve and accuracy\nAge: 9–11\nExperience: developing\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Send a safe underhand serve over a low net into a target zone.",
     "objectives": [
-      "Strikes the ball with a firm, straight arm below waist height, off a held or lightly dropped ball rather than a toss, in 4 of 5 attempts.",
-      "Stands with the opposite foot forward and steps towards the target as the arm swings, transferring weight onto the front foot, in 3 of 4 serves.",
-      "Places the serve inside the marked target zone in 3 of 5 attempts.",
-      "Sends the serve over the rope or low net so it travels roughly 4–6 metres, in 4 of 5 attempts.",
-      "Checks that the service and target zones are clear and the retriever is ready before every serve, and serves only on the teacher's signal, keeping two arm lengths from the next server, in 5 of 5 serves.",
-      "Takes serving, retrieving, and observing roles in turn and names one factual cue about a partner's stance or swing."
+      "The student can strike the ball with a firm, straight arm below waist height, off a held or lightly dropped ball rather than a toss, in 4 of 5 attempts.",
+      "The student can stand with the opposite foot forward and step towards the target as the arm swings, transferring weight onto the front foot, in 3 of 4 serves.",
+      "The student can place the serve inside the marked target zone in 3 of 5 attempts.",
+      "The student can send the serve over the rope or low net so it travels roughly 4–6 metres, in 4 of 5 attempts.",
+      "The student can check that the service and target zones are clear and the retriever is ready before every serve, and serve only on the teacher's signal, keeping two arm lengths from the next server, in 5 of 5 serves.",
+      "The student can take serving, retrieving, and observing roles in turn and name one factual cue about a partner's stance or swing."
     ],
     "priorKnowledge": "VB-02 — overhead set and support.",
     "pathwayPosition": "Previous lesson: VB-02 — overhead set and support.\nCurrent lesson: It adds the contact that begins every rally: instead of receiving a feed from a partner, the student now puts the ball into play alone, over a net, to a chosen zone. It withholds receiving that serve — the ball lands in a target area and nobody plays it back — which VB-04 adds.\nNext lesson: VB-04 — forearm serve reception.",
@@ -838,11 +838,11 @@
     "identity": "Full title: Volleyball 04 — Forearm Serve Reception\nLesson code: VB-04-EN\nSport: Volleyball\nSubtopic: reception and platform angle\nAge: 10–12\nExperience: developing\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Move behind an easy serve and direct reception to the setter zone.",
     "objectives": [
-      "Moves behind the flight of the serve and is stationary with the platform already formed before contact, in 4 of 5 receptions.",
-      "Angles the platform towards the setter zone rather than straight back at the server, in 3 of 4 receptions.",
-      "Directs the reception high into the setter zone so that a second contact is genuinely possible, in 3 of 5 attempts.",
-      "Calls “mine” before entering the ball's path and keeps two arm lengths from the nearest team-mate.",
-      "Takes serving, receiving, and setting roles in turn and names one factual cue about a partner's platform angle."
+      "The student can move behind the flight of the serve and be stationary with the platform already formed before contact, in 4 of 5 receptions.",
+      "The student can angle the platform towards the setter zone rather than straight back at the server, in 3 of 4 receptions.",
+      "The student can direct the reception high into the setter zone so that a second contact is genuinely possible, in 3 of 5 attempts.",
+      "The student can call “mine” before entering the ball's path and keep two arm lengths from the nearest team-mate.",
+      "The student can take serving, receiving, and setting roles in turn and name one factual cue about a partner's platform angle."
     ],
     "priorKnowledge": "VB-03 — underhand serve.",
     "pathwayPosition": "Previous lesson: VB-03 — underhand serve.\nCurrent lesson: It closes the loop the last two lessons opened: the serve of VB-03 is now received with the platform of VB-01 and directed to a target rather than merely returned. It withholds the full three-contact rally and any attack over the net — the sequence stops at the set — which VB-05 completes.\nNext lesson: VB-05 — three-contact sequence.",
@@ -901,11 +901,11 @@
     "identity": "Full title: Volleyball 05 — Receive, Set, and Send Sequence\nLesson code: VB-05-EN\nSport: Volleyball\nSubtopic: three-contact sequence\nAge: 11–13\nExperience: developing\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Complete receive–set–send with clear roles and communication.",
     "objectives": [
-      "Successfully completes the full three-touch sequence — reception, set, and send — with correct technique at each touch, in 3 of 5 attempts.",
-      "Calls for the ball before every contact and moves into position before it arrives, in 3 of 4 sequences.",
-      "Sets the second contact high enough, and close enough to the net, for the third player to send it over, in 3 of 5 sequences.",
-      "Stays in the assigned role for the whole sequence instead of chasing the first ball, keeping two arm lengths from team-mates.",
-      "Takes receiver, setter, and sender roles in turn and names one factual cue about a partner's contact or position."
+      "The student can successfully complete the full three-touch sequence — reception, set, and send — with correct technique at each touch, in 3 of 5 attempts.",
+      "The student can call for the ball before every contact and move into position before it arrives, in 3 of 4 sequences.",
+      "The student can set the second contact high enough, and close enough to the net, for the third player to send it over, in 3 of 5 sequences.",
+      "The student can stay in the assigned role for the whole sequence instead of chasing the first ball, keeping two arm lengths from team-mates.",
+      "The student can take receiver, setter, and sender roles in turn and name one factual cue about a partner's contact or position."
     ],
     "priorKnowledge": "VB-04 — serve reception.",
     "pathwayPosition": "Previous lesson: VB-04 — serve reception.\nCurrent lesson: It assembles three separate contacts into one sequence for the first time: the reception of VB-04, the set of VB-02, and a controlled send over the net, each performed by a different player. It withholds attacking and any defence of the third ball — the send is a placement, not a hit, and nobody plays it back — which VB-06 and VB-07 add.\nNext lesson: VB-06 — movement and court coverage.",
@@ -964,11 +964,11 @@
     "identity": "Full title: Volleyball 06 — Movement and Coverage after Contact\nLesson code: VB-06-EN\nSport: Volleyball\nSubtopic: base positions and coverage\nAge: 12–14\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Move from base to the ball and cover open court after contact.",
     "objectives": [
-      "Returns to the assigned base position within two seconds of every contact, in 4 of 5 rallies.",
-      "Moves to the ball with the feet and arrives stationary before playing it, in 3 of 4 receptions.",
-      "Covers the open area left by a team-mate who has moved to play the ball, in 3 of 5 situations.",
-      "Keeps the trio in a triangle rather than a straight line, holding two arm lengths from the nearest team-mate.",
-      "Takes receiving, covering, and observing roles in turn and names one factual cue about a partner's recovery to base."
+      "The student can return to the assigned base position within two seconds of every contact, in 4 of 5 rallies.",
+      "The student can move to the ball with the feet and arrive stationary before playing it, in 3 of 4 receptions.",
+      "The student can cover the open area left by a team-mate who has moved to play the ball, in 3 of 5 situations.",
+      "The student can keep the trio in a triangle rather than a straight line, holding two arm lengths from the nearest team-mate.",
+      "The student can take receiving, covering, and observing roles in turn and name one factual cue about a partner's recovery to base."
     ],
     "priorKnowledge": "VB-05 — three-contact sequence.",
     "pathwayPosition": "Previous lesson: VB-05 — three-contact sequence.\nCurrent lesson: It adds what happens between the contacts of VB-05: students learn a base position, the movement out of it to play a ball, and — crucially — the recovery back into it, plus covering the gap a moving team-mate leaves behind. It withholds attacking the ball downward and defending such an attack, which VB-07 and VB-08 add.\nNext lesson: VB-07 — controlled standing attack.",
@@ -1027,11 +1027,11 @@
     "identity": "Full title: Volleyball 07 — Controlled Standing Attack\nLesson code: VB-07-EN\nSport: Volleyball\nSubtopic: open-hand hit and tip\nAge: 12–14\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Send a controlled standing attack into open space safely.",
     "objectives": [
-      "Contacts the ball with an open hand above shoulder height, elbow leading and wrist firm, in 4 of 5 attempts.",
-      "Arrives under the set and is balanced before contacting, rather than reaching or jumping, in 3 of 4 attempts.",
-      "Places the attack into a marked open space rather than at an opponent, in 3 of 5 attempts.",
-      "Chooses between a firm hit and a soft tip according to which target is open, holding force at about 60 per cent.",
-      "Takes setter, attacker, and observer roles in turn and names one factual cue about a partner's hand shape or placement."
+      "The student can contact the ball with an open hand above shoulder height, elbow leading and wrist firm, in 4 of 5 attempts.",
+      "The student can arrive under the set and be balanced before contacting, rather than reaching or jumping, in 3 of 4 attempts.",
+      "The student can place the attack into a marked open space rather than at an opponent, in 3 of 5 attempts.",
+      "The student can choose between a firm hit and a soft tip according to which target is open, holding force at about 60 per cent.",
+      "The student can take setter, attacker, and observer roles in turn and name one factual cue about a partner's hand shape or placement."
     ],
     "priorKnowledge": "VB-06 — movement and coverage.",
     "pathwayPosition": "Previous lesson: VB-06 — movement and coverage.\nCurrent lesson: It gives the third contact of VB-05 a purpose: instead of simply sending the ball over, the student now attacks it with an open hand from a standing position, choosing between a firm hit and a tip. It withholds jumping, spiking downward, and any blocking — every contact stays at controlled force from the floor — which VB-08 answers from the defending side.\nNext lesson: VB-08 — net defence and backcourt coverage.",
@@ -1090,11 +1090,11 @@
     "identity": "Full title: Volleyball 08 — Net Defence and Backcourt Coverage\nLesson code: VB-08-EN\nSport: Volleyball\nSubtopic: shadow block and coverage\nAge: 12–14\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Coordinate net hand position and backcourt coverage without contact or crossing.",
     "objectives": [
-      "Presses both hands high above the net with fingers spread and thumbs up, holding the shape throughout the shadow block, in 4 of 5 attempts.",
-      "Lands on two feet on the same side of the net, without stepping forward into or under it, in 3 of 4 attempts.",
-      "Travels to the block with side steps rather than crossing the feet, arriving square to the net before the attack.",
-      "Covers the backcourt space beside a blocking team-mate and plays the ball that passes the block, in 3 of 5 situations.",
-      "Takes blocker, backcourt, and observer roles in turn and names one factual cue about a partner's hand position or landing."
+      "The student can press both hands high above the net with fingers spread and thumbs up, holding the shape throughout the shadow block, in 4 of 5 attempts.",
+      "The student can land on two feet on the same side of the net, without stepping forward into or under it, in 3 of 4 attempts.",
+      "The student can travel to the block with side steps rather than crossing the feet, arriving square to the net before the attack.",
+      "The student can cover the backcourt space beside a blocking team-mate and play the ball that passes the block, in 3 of 5 situations.",
+      "The student can take blocker, backcourt, and observer roles in turn and name one factual cue about a partner's hand position or landing."
     ],
     "priorKnowledge": "VB-07 — controlled attack.",
     "pathwayPosition": "Previous lesson: VB-07 — controlled attack.\nCurrent lesson: It answers VB-07 from the other side of the net: while one student attacks, a front player shows a shadow block with high hands and a back player covers the space behind. It withholds jumping to block a genuine spike and all contact at the net — blocks are shadowed and attacks stay at controlled force — so shape is learned before speed. VB-09 puts it into continuous rotation.\nNext lesson: VB-09 — 3v3 play and transition.",
@@ -1153,11 +1153,11 @@
     "identity": "Full title: Volleyball 09 — 3v3 Play and Role Transition\nLesson code: VB-09-EN\nSport: Volleyball\nSubtopic: basic rotation and decisions\nAge: 13–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Keep a triangle, transition from reception to attack, and rotate in order.",
     "objectives": [
-      "Holds a triangle shape with two team-mates at the moment the ball crosses the net, in 4 of 5 rallies.",
-      "Transitions from the receiving position to an attacking position after the first contact, in 3 of 4 rallies.",
-      "Rotates in the correct order at each change of service, without needing a reminder from the teacher.",
-      "Calls before every contact, so that no ball is played by two students or left by both.",
-      "Takes receiving, setting, and attacking roles across the rotation and names one factual cue about a partner's transition."
+      "The student can hold a triangle shape with two team-mates at the moment the ball crosses the net, in 4 of 5 rallies.",
+      "The student can transition from the receiving position to an attacking position after the first contact, in 3 of 4 rallies.",
+      "The student can rotate in the correct order at each change of service, without needing a reminder from the teacher.",
+      "The student can call before every contact, so that no ball is played by two students or left by both.",
+      "The student can take receiving, setting, and attacking roles across the rotation and name one factual cue about a partner's transition."
     ],
     "priorKnowledge": "VB-08 — net defence and coverage.",
     "pathwayPosition": "Previous lesson: VB-08 — net defence and coverage.\nCurrent lesson: It removes the fixed jobs the pathway has relied on: students rotate through every role, so the same person receives in one rally and sets in the next, and must transition from defending to attacking inside a single rally. It withholds formal assessment — the teacher still coaches during play — which VB-10 replaces with observation against criteria.\nNext lesson: VB-10 — final game and assessment.",
@@ -1216,11 +1216,11 @@
     "identity": "Full title: Volleyball 10 — Final Applied Game and Pathway Assessment\nLesson code: VB-10-EN\nSport: Volleyball\nSubtopic: authentic application and assessment\nAge: 13–16\nExperience: intermediate\nDuration: 45 minutes\nGroup: 20–30 students of all genders; adapt by ability and need\nEquipment: 12–16 balls, net or rope, 30 cones, bibs\nSpace: gym or flat court with four small courts\nComplexity: intermediate",
     "purpose": "Combine serve, reception, set, coverage, and decisions in safe play.",
     "objectives": [
-      "Serves into the court to start a rally and makes an appropriate choice on the ball in 3 of 4 situations, judged against the criteria stated at the start.",
-      "Contributes to a three-contact rally by receiving, setting, or attacking as the situation requires, in 4 of 5 rallies.",
-      "Recovers to a base position and covers a team-mate who has moved to play the ball, in 3 of 5 rallies.",
-      "Calls clearly and plays safely at the net, with no contact and no reaching over, throughout every game.",
-      "Names one personal strength and one target, each supported by something actually observed rather than a general impression."
+      "The student can serve into the court to start a rally and make an appropriate choice on the ball in 3 of 4 situations, judged against the criteria stated at the start.",
+      "The student can contribute to a three-contact rally by receiving, setting, or attacking as the situation requires, in 4 of 5 rallies.",
+      "The student can recover to a base position and cover a team-mate who has moved to play the ball, in 3 of 5 rallies.",
+      "The student can call clearly and play safely at the net, with no contact and no reaching over, throughout every game.",
+      "The student can name one personal strength and one target, each supported by something actually observed rather than a general impression."
     ],
     "priorKnowledge": "VB-09 — 3v3 play and rotation.",
     "pathwayPosition": "Previous lesson: VB-09 — 3v3 play and rotation.\nCurrent lesson: It teaches nothing new and instead gathers evidence, asking students to combine the serve, reception, set, attack, and coverage of the whole pathway in observed 3v3 play against criteria shared in advance. It withholds no further content here — what it leaves to an advanced unit is 4v4, jump attacking, and complex blocking systems.\nNext lesson: Advanced pathway: 4v4 and complex attack.",
@@ -1281,11 +1281,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 01 — وضع الاستعداد والتمرير بالساعدين\nالرمز: VB-01-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: وضع استعداد ومنصة ساعدين وتوجيه مضبوط\nالعمر: 10–13 سنة\nالخبرة: مبتدئة\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 10–15 كرة طائرة خفيفة أو كرة شاطئ، 24 مخروطًا وشبكة منخفضة\nالمكان: صالة أو ملعب مع 4–6 مربعات صغيرة\nالتعقيد: أساسي",
     "purpose": "بناء وضع استعداد ومنصة ساعدين ثابتة لتوجيه كرة مرسلة بلطف إلى شريك.",
     "objectives": [
-      "يصل إلى وضع الاستعداد — ركبتان مثنيتان ووزن للأمام — قبل كل لمسة.",
-      "يكوّن سطح ساعدين مستويًا مع تلاصق الإبهامين في 4 من 5 محاولات.",
-      "يوجه الكرة إلى منطقة الهدف بارتفاع فوق الرأس في 3 من 5 محاولات.",
-      "يتحرك إلى الكرة بالقدمين ويتوقف قبل اللمس بدل الامتداد إليها.",
-      "يؤدي دوري المنفذ والمراقب في كل تدوير، ويسمّي علامة واقعية واحدة رآها في وضع شريكه أو منصته، بدل إصدار حكم."
+      "يستطيع الطالب أن يصل إلى وضع الاستعداد — ركبتان مثنيتان ووزن للأمام — قبل كل لمسة.",
+      "يستطيع الطالب أن يكوّن سطح ساعدين مستويًا مع تلاصق الإبهامين في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يوجه الكرة إلى منطقة الهدف بارتفاع فوق الرأس في 3 من 5 محاولات.",
+      "يستطيع الطالب أن يتحرك إلى الكرة بالقدمين ويتوقف قبل اللمس بدل الامتداد إليها.",
+      "يستطيع الطالب أن يؤدي دوري المنفذ والمراقب في كل تدوير، ويسمّي علامة واقعية واحدة رآها في وضع شريكه أو منصته، بدل إصدار حكم."
     ],
     "priorKnowledge": "لا يلزم درس سابق؛ تلزم المساحة الشخصية وإشارة التوقف.",
     "pathwayPosition": "الدرس السابق: لا يلزم درس سابق؛ تلزم المساحة الشخصية وإشارة التوقف.\nالدرس الحالي: بوصفه الدرس الافتتاحي في الكرة الطائرة، يبني الأمرين اللذين تعتمد عليهما كل لمسة لاحقة: وضع الاستعداد المنخفض، ومنصة ساعدين مسطحة وثابتة تُوجَّه بالرجلين. ويؤجل التمرير العلوي وكل لعب فوق الشبكة — فكل كرة تصل برمية لينة من أسفل وتنتهي بالتقاط — وهو ما يبدأ VB-02 بفتحه.\nالدرس التالي: VB-02 — التمرير العلوي والتحرك للمساندة.",
@@ -1344,11 +1344,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 02 — التمرير العلوي والتحرك للمساندة\nالرمز: VB-02-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: لمس الأصابع والمساندة\nالعمر: 9–11 سنة\nالخبرة: مبتدئ\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "توجيه تمريرة علوية لشريك والتحرك فورًا للمساندة.",
     "objectives": [
-      "يلمس الكرة بباطن الأصابع فوق الجبهة، والمرفقان للخارج والإبهامان للخلف، دون التقاط الكرة أو حملها، في 4 من 5 محاولات.",
-      "يصل تحت الكرة بقدميه ويكون ثابتًا قبل اللمس، في 3 من 4 استقبالات.",
-      "يمرر الكرة عاليًا فوق مستوى الرأس ويُسقطها داخل منطقة هدف بعرض مترين عند شريكه في 3 من 5 محاولات.",
-      "ينادي على الكرة قبل دخول مسارها، ويحافظ على مسافة ذراعين من كل طالب آخر.",
-      "يتحرك إلى مخروط مساندة فارِّ في أقل من ثانيتين من التمرير، في 4 من 5 محاولات، بدل التفرج على الكرة، ويسمّي علامة واقعية واحدة رآها في شكل يدي شريكه."
+      "يستطيع الطالب أن يلمس الكرة بباطن الأصابع فوق الجبهة، والمرفقان للخارج والإبهامان للخلف، دون التقاط الكرة أو حملها، في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يصل تحت الكرة بقدميه ويكون ثابتًا قبل اللمس، في 3 من 4 استقبالات.",
+      "يستطيع الطالب أن يمرر الكرة عاليًا فوق مستوى الرأس ويُسقطها داخل منطقة هدف بعرض مترين عند شريكه في 3 من 5 محاولات.",
+      "يستطيع الطالب أن ينادي على الكرة قبل دخول مسارها، ويحافظ على مسافة ذراعين من كل طالب آخر.",
+      "يستطيع الطالب أن يتحرك إلى مخروط مساندة فارِّ في أقل من ثانيتين من التمرير، في 4 من 5 محاولات، بدل التفرج على الكرة، ويسمّي علامة واقعية واحدة رآها في شكل يدي شريكه."
     ],
     "priorKnowledge": "VB-01 — وضع الاستعداد والتمرير بالساعدين.",
     "pathwayPosition": "الدرس السابق: VB-01 — وضع الاستعداد والتمرير بالساعدين.\nالدرس الحالي: يضيف اللمسة الأساسية الثانية: بعد أن لعب الطلبة الكرة في VB-01 من أسفل بمنصة الساعدين، يلعبونها الآن من أعلى بباطن الأصابع، ثم يتحركون لمساندة اللمسة التالية. ويؤجل الإرسال وكل لعب يبدأ به تبادل — فكل كرة تأتي برمية ذاتية أو من شريك — وهو ما يقدمه VB-03.\nالدرس التالي: VB-03 — إرسال سفلي إلى منطقة هدف.",
@@ -1407,12 +1407,12 @@
     "identity": "الاسم الكامل: الكرة الطائرة 03 — إرسال سفلي إلى منطقة هدف\nالرمز: VB-03-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: الإرسال السفلي والدقة\nالعمر: 9–11 سنة\nالخبرة: نامٍ\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "إرسال سفلي آمن فوق شبكة منخفضة إلى منطقة هدف.",
     "objectives": [
-      "يضرب الكرة بقبضة ثابتة أو كف مسطحة تحت مستوى الخصر، من كرة ممسوكة أو مُسقطة بخفة، في 4 من 5 محاولات.",
-      "يقف والقدم المقابلة للذراع الضاربة أمامًا، ويخطو نحو الهدف مع مرجحة الذراع، في 3 من 4 إرسالات.",
-      "يرسل الكرة فوق الحبل أو الشبكة المنخفضة بحيث تقطع مسافة 4 إلى 6 أمتار تقريبًا، في 4 من 5 محاولات.",
-      "يوجه الإرسال داخل منطقة الهدف المحددة في 3 من 5 محاولات.",
-      "يتحقق من أن منطقة الإرسال ومنطقة الهدف خاليتان وأن الجامع جاهز قبل كل إرسال، ولا يرسل إلا عند إشارة المعلم، ويحافظ على مسافة ذراعين من المرسل التالي، في 5 من 5 محاولات.",
-      "يتناوب على أدوار المرسل والجامع والمراقب، ويسمّي علامة واقعية واحدة عن وقفة شريكه أو مرجحته."
+      "يستطيع الطالب أن يضرب الكرة بقبضة ثابتة أو كف مسطحة تحت مستوى الخصر، من كرة ممسوكة أو مُسقطة بخفة، في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يقف والقدم المقابلة للذراع الضاربة أمامًا، ويخطو نحو الهدف مع مرجحة الذراع، في 3 من 4 إرسالات.",
+      "يستطيع الطالب أن يرسل الكرة فوق الحبل أو الشبكة المنخفضة بحيث تقطع مسافة 4 إلى 6 أمتار تقريبًا، في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يوجه الإرسال داخل منطقة الهدف المحددة في 3 من 5 محاولات.",
+      "يستطيع الطالب أن يتحقق من أن منطقة الإرسال ومنطقة الهدف خاليتان وأن الجامع جاهز قبل كل إرسال، وألا يرسل إلا عند إشارة المعلم، ويحافظ على مسافة ذراعين من المرسل التالي، في 5 من 5 محاولات.",
+      "يستطيع الطالب أن يتناوب على أدوار المرسل والجامع والمراقب، ويسمّي علامة واقعية واحدة عن وقفة شريكه أو مرجحته."
     ],
     "priorKnowledge": "VB-02 — التمرير العلوي والتحرك للمساندة.",
     "pathwayPosition": "الدرس السابق: VB-02 — التمرير العلوي والتحرك للمساندة.\nالدرس الحالي: يضيف اللمسة التي يبدأ بها كل تبادل: بدل أن يتلقى الطالب كرة من شريك، يضع الآن الكرة في اللعب وحده، فوق الشبكة، إلى منطقة يختارها. ويؤجل استقبال هذا الإرسال — فالكرة تسقط في منطقة الهدف ولا يعيدها أحد — وهو ما يضيفه VB-04.\nالدرس التالي: VB-04 — استقبال الإرسال بالساعدين.",
@@ -1471,11 +1471,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 04 — استقبال الإرسال بالساعدين\nالرمز: VB-04-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: الاستقبال وزاوية المنصة\nالعمر: 10–12 سنة\nالخبرة: نامٍ\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "التحرك خلف إرسال سهل وتوجيه الاستقبال إلى منطقة المعد.",
     "objectives": [
-      "يتحرك خلف مسار الإرسال ويكون ثابتًا والمنصة مكوّنة قبل اللمس، في 4 من 5 استقبالات.",
-      "يوجّه زاوية المنصة نحو منطقة المعد بدل إعادتها مباشرة إلى المرسل، في 3 من 4 استقبالات.",
-      "يوجّه الاستقبال عاليًا إلى منطقة المعد بحيث تكون اللمسة الثانية ممكنة فعلًا، في 3 من 5 محاولات.",
-      "ينادي «لي» قبل دخول مسار الكرة، ويحافظ على مسافة ذراعين من أقرب زميل.",
-      "يتناوب على أدوار المرسل والمستقبل والمعد، ويسمّي علامة واقعية واحدة عن زاوية منصة شريكه."
+      "يستطيع الطالب أن يتحرك خلف مسار الإرسال ويكون ثابتًا والمنصة مكوّنة قبل اللمس، في 4 من 5 استقبالات.",
+      "يستطيع الطالب أن يوجّه زاوية المنصة نحو منطقة المعد بدل إعادتها مباشرة إلى المرسل، في 3 من 4 استقبالات.",
+      "يستطيع الطالب أن يوجّه الاستقبال عاليًا إلى منطقة المعد بحيث تكون اللمسة الثانية ممكنة فعلًا، في 3 من 5 محاولات.",
+      "يستطيع الطالب أن ينادي «لي» قبل دخول مسار الكرة، ويحافظ على مسافة ذراعين من أقرب زميل.",
+      "يستطيع الطالب أن يتناوب على أدوار المرسل والمستقبل والمعد، ويسمّي علامة واقعية واحدة عن زاوية منصة شريكه."
     ],
     "priorKnowledge": "VB-03 — إرسال سفلي إلى منطقة هدف.",
     "pathwayPosition": "الدرس السابق: VB-03 — إرسال سفلي إلى منطقة هدف.\nالدرس الحالي: يغلق الحلقة التي فتحها الدرسان السابقان: صار إرسال VB-03 يُستقبل بمنصة VB-01 ويُوجَّه إلى هدف بدل أن يُعاد فحسب. ويؤجل التبادل الكامل بثلاث لمسات وأي هجوم فوق الشبكة — فالتسلسل يتوقف عند الإعداد — وهو ما يكمله VB-05.\nالدرس التالي: VB-05 — تسلسل الاستقبال والإعداد والإعادة فوق الشبكة.",
@@ -1534,11 +1534,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 05 — تسلسل الاستقبال والإعداد والإعادة فوق الشبكة\nالرمز: VB-05-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: ثلاث لمسات\nالعمر: 11–13 سنة\nالخبرة: نامٍ\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "تنفيذ تسلسل استقبال–إعداد–إعادة فوق الشبكة بأدوار واضحة وتواصل.",
     "objectives": [
-      "يكمل تسلسل الثلاث لمسات بالكامل — الاستقبال، فالإعداد، فالإعادة فوق الشبكة — بتقنية سليمة في كل لمسة، في 3 من 5 محاولات.",
-      "ينادي على الكرة قبل كل لمسة ويتخذ موقعه قبل وصولها، في 3 من 4 تسلسلات.",
-      "يعدّ اللمسة الثانية عالية وقريبة من الشبكة بما يكفي ليعيدها اللاعب الثالث فوقها، في 3 من 5 تسلسلات.",
-      "يبقى في دوره المحدد طوال التسلسل بدل مطاردة الكرة الأولى، ويحافظ على مسافة ذراعين من زملائه.",
-      "يتناوب على أدوار المستقبل والمعد والمُعيد، ويسمّي علامة واقعية واحدة عن لمسة شريكه أو موقعه."
+      "يستطيع الطالب أن يكمل تسلسل الثلاث لمسات بالكامل — الاستقبال، فالإعداد، فالإعادة فوق الشبكة — بتقنية سليمة في كل لمسة، في 3 من 5 محاولات.",
+      "يستطيع الطالب أن ينادي على الكرة قبل كل لمسة ويتخذ موقعه قبل وصولها، في 3 من 4 تسلسلات.",
+      "يستطيع الطالب أن يعدّ اللمسة الثانية عالية وقريبة من الشبكة بما يكفي ليعيدها اللاعب الثالث فوقها، في 3 من 5 تسلسلات.",
+      "يستطيع الطالب أن يبقى في دوره المحدد طوال التسلسل بدل مطاردة الكرة الأولى، ويحافظ على مسافة ذراعين من زملائه.",
+      "يستطيع الطالب أن يتناوب على أدوار المستقبل والمعد والمُعيد، ويسمّي علامة واقعية واحدة عن لمسة شريكه أو موقعه."
     ],
     "priorKnowledge": "VB-04 — استقبال الإرسال بالساعدين.",
     "pathwayPosition": "الدرس السابق: VB-04 — استقبال الإرسال بالساعدين.\nالدرس الحالي: يجمع ثلاث لمسات منفصلة في تسلسل واحد للمرة الأولى: استقبال VB-04، وتمرير VB-02 العلوي، وإعادة مضبوطة فوق الشبكة، يؤدي كلًّا منها لاعب مختلف. ويؤجل الهجوم وأي دفاع عن الكرة الثالثة — فالإعادة توجيه لا ضرب، ولا يعيدها أحد — وهو ما يضيفه VB-06 وVB-07.\nالدرس التالي: VB-06 — الحركة وتغطية الملعب بعد اللمس.",
@@ -1597,11 +1597,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 06 — الحركة وتغطية الملعب بعد اللمس\nالرمز: VB-06-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: مواقع الأساس والتغطية\nالعمر: 12–14 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "التحرك من الأساس للكرة ثم تغطية المساحة بعد اللمس.",
     "objectives": [
-      "يعود إلى موقع الأساس المحدد خلال ثانيتين من كل لمسة، في 4 من 5 تبادلات.",
-      "يتحرك إلى الكرة بقدميه ويصل ثابتًا قبل لعبها، في 3 من 4 استقبالات.",
-      "يغطي المساحة المكشوفة التي تركها زميل تحرك ليلعب الكرة، في 3 من 5 مواقف.",
-      "يحافظ مع ثلاثيه على شكل مثلث لا خط مستقيم، مع مسافة ذراعين من أقرب زميل.",
-      "يتناوب على أدوار المستقبل والمغطي والمراقب، ويسمّي علامة واقعية واحدة عن عودة شريكه إلى الأساس."
+      "يستطيع الطالب أن يعود إلى موقع الأساس المحدد خلال ثانيتين من كل لمسة، في 4 من 5 تبادلات.",
+      "يستطيع الطالب أن يتحرك إلى الكرة بقدميه ويصل ثابتًا قبل لعبها، في 3 من 4 استقبالات.",
+      "يستطيع الطالب أن يغطي المساحة المكشوفة التي تركها زميل تحرك ليلعب الكرة، في 3 من 5 مواقف.",
+      "يستطيع الطالب أن يحافظ مع ثلاثيه على شكل مثلث لا خط مستقيم، مع مسافة ذراعين من أقرب زميل.",
+      "يستطيع الطالب أن يتناوب على أدوار المستقبل والمغطي والمراقب، ويسمّي علامة واقعية واحدة عن عودة شريكه إلى الأساس."
     ],
     "priorKnowledge": "VB-05 — تسلسل الاستقبال والإعداد والإعادة فوق الشبكة.",
     "pathwayPosition": "الدرس السابق: VB-05 — تسلسل الاستقبال والإعداد والإعادة فوق الشبكة.\nالدرس الحالي: يضيف ما يحدث بين لمسات VB-05: يتعلم الطلبة موقع أساس، والحركة منه للعب الكرة، والأهم العودة إليه، إضافة إلى تغطية الفراغ الذي يتركه زميل يتحرك. ويؤجل ضرب الكرة نحو الأسفل والدفاع عن مثل هذا الهجوم، وهو ما يضيفه VB-07 وVB-08.\nالدرس التالي: VB-07 — هجوم مضبوط من الثبات.",
@@ -1660,11 +1660,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 07 — هجوم مضبوط من الثبات\nالرمز: VB-07-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: ضرب بيد مفتوحة وإسقاط\nالعمر: 12–14 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "توجيه هجوم مضبوط من الثبات إلى مساحة مفتوحة بأمان.",
     "objectives": [
-      "يلمس الكرة بيد مفتوحة فوق مستوى الكتف، والمرفق يتقدم والرسغ ثابت، في 4 من 5 محاولات.",
-      "يصل تحت الإعداد ويكون متوازنًا قبل اللمس، بدل الامتداد أو القفز، في 3 من 4 محاولات.",
-      "يوجّه الهجوم إلى مساحة مفتوحة محددة لا نحو منافس، في 3 من 5 محاولات.",
-      "يختار بين ضربة ثابتة وإسقاطة ناعمة وفق الهدف المفتوح، ويحافظ على قوة نحو 60%.",
-      "يتناوب على أدوار المعد والمهاجم والمراقب، ويسمّي علامة واقعية واحدة عن شكل يد شريكه أو توجيهه."
+      "يستطيع الطالب أن يلمس الكرة بيد مفتوحة فوق مستوى الكتف، والمرفق يتقدم والرسغ ثابت، في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يصل تحت الإعداد ويكون متوازنًا قبل اللمس، بدل الامتداد أو القفز، في 3 من 4 محاولات.",
+      "يستطيع الطالب أن يوجّه الهجوم إلى مساحة مفتوحة محددة لا نحو منافس، في 3 من 5 محاولات.",
+      "يستطيع الطالب أن يختار بين ضربة ثابتة وإسقاطة ناعمة وفق الهدف المفتوح، ويحافظ على قوة نحو 60%.",
+      "يستطيع الطالب أن يتناوب على أدوار المعد والمهاجم والمراقب، ويسمّي علامة واقعية واحدة عن شكل يد شريكه أو توجيهه."
     ],
     "priorKnowledge": "VB-06 — الحركة وتغطية الملعب بعد اللمس.",
     "pathwayPosition": "الدرس السابق: VB-06 — الحركة وتغطية الملعب بعد اللمس.\nالدرس الحالي: يمنح اللمسة الثالثة في VB-05 غاية: بدل إعادة الكرة فوق الشبكة فحسب، يهاجمها الطالب الآن بيد مفتوحة من الثبات، مختارًا بين ضربة ثابتة وإسقاطة. ويؤجل القفز والضرب الساحق نحو الأسفل وأي صد — فكل لمسة تبقى بقوة مضبوطة من الأرض — وهو ما يجيب عنه VB-08 من جهة الدفاع.\nالدرس التالي: VB-08 — دفاع الشبكة والتغطية الخلفية.",
@@ -1723,11 +1723,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 08 — دفاع الشبكة والتغطية الخلفية\nالرمز: VB-08-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: صد تمثيلي وتغطية خلفية\nالعمر: 12–14 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "تنسيق وضع اليدين قرب الشبكة والتغطية الخلفية بلا احتكاك أو عبور.",
     "objectives": [
-      "يرفع اليدين عاليًا فوق الشبكة، والأصابع منفرجة والإبهامان للأعلى، ويحافظ على الشكل طوال الصد التمثيلي، في 4 من 5 محاولات.",
-      "يهبط على القدمين كلتيهما في الجهة نفسها من الشبكة، دون أن يخطو نحوها أو تحتها، في 3 من 4 محاولات.",
-      "ينتقل إلى موقع الصد بخطوات جانبية لا بتقاطع القدمين، ويصل مواجهًا الشبكة قبل الهجوم.",
-      "يغطي المساحة الخلفية إلى جانب زميله الصادّ ويلعب الكرة التي تتجاوز الصد، في 3 من 5 مواقف.",
-      "يتناوب على أدوار الصادّ والمدافع الخلفي والمراقب، ويسمّي علامة واقعية واحدة عن وضع يدي شريكه أو هبوطه."
+      "يستطيع الطالب أن يرفع اليدين عاليًا فوق الشبكة، والأصابع منفرجة والإبهامان للأعلى، ويحافظ على الشكل طوال الصد التمثيلي، في 4 من 5 محاولات.",
+      "يستطيع الطالب أن يهبط على القدمين كلتيهما في الجهة نفسها من الشبكة، دون أن يخطو نحوها أو تحتها، في 3 من 4 محاولات.",
+      "يستطيع الطالب أن ينتقل إلى موقع الصد بخطوات جانبية لا بتقاطع القدمين، ويصل مواجهًا الشبكة قبل الهجوم.",
+      "يستطيع الطالب أن يغطي المساحة الخلفية إلى جانب زميله الصادّ ويلعب الكرة التي تتجاوز الصد، في 3 من 5 مواقف.",
+      "يستطيع الطالب أن يتناوب على أدوار الصادّ والمدافع الخلفي والمراقب، ويسمّي علامة واقعية واحدة عن وضع يدي شريكه أو هبوطه."
     ],
     "priorKnowledge": "VB-07 — هجوم مضبوط من الثبات.",
     "pathwayPosition": "الدرس السابق: VB-07 — هجوم مضبوط من الثبات.\nالدرس الحالي: يجيب عن VB-07 من الجهة الأخرى للشبكة: بينما يهاجم طالب، يؤدي لاعب أمامي صدًّا تمثيليًا باليدين عاليتين ويغطي لاعب خلفي المساحة وراءه. ويؤجل القفز لصد ضربة ساحقة حقيقية وكل احتكاك عند الشبكة — فالصد تمثيلي والهجمات بقوة مضبوطة — ليُتعلَّم الشكل قبل السرعة. ويضعه VB-09 في تدوير متواصل.\nالدرس التالي: VB-09 — لعب 3 ضد 3 وانتقال الأدوار.",
@@ -1786,11 +1786,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 09 — لعب 3 ضد 3 وانتقال الأدوار\nالرمز: VB-09-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: دوران أساسي وقرارات\nالعمر: 13–16 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "الحفاظ على مثلث والانتقال للهجوم وتدوير الأدوار بنظام.",
     "objectives": [
-      "يحافظ مع زميليه على شكل مثلث لحظة عبور الكرة الشبكة، في 4 من 5 تبادلات.",
-      "ينتقل من موقع الاستقبال إلى موقع هجومي بعد اللمسة الأولى، في 3 من 4 تبادلات.",
-      "يدور بالترتيب الصحيح عند كل تغيير للإرسال، دون حاجة إلى تذكير من المعلم.",
-      "ينادي قبل كل لمسة، فلا يلعب الكرة طالبان ولا يتركانها معًا.",
-      "يتناوب على أدوار الاستقبال والإعداد والهجوم عبر الدوران، ويسمّي علامة واقعية واحدة عن انتقال شريكه."
+      "يستطيع الطالب أن يحافظ مع زميليه على شكل مثلث لحظة عبور الكرة الشبكة، في 4 من 5 تبادلات.",
+      "يستطيع الطالب أن ينتقل من موقع الاستقبال إلى موقع هجومي بعد اللمسة الأولى، في 3 من 4 تبادلات.",
+      "يستطيع الطالب أن يدور بالترتيب الصحيح عند كل تغيير للإرسال، دون حاجة إلى تذكير من المعلم.",
+      "يستطيع الطالب أن ينادي قبل كل لمسة، فلا يلعب الكرة طالبان ولا يتركانها معًا.",
+      "يستطيع الطالب أن يتناوب على أدوار الاستقبال والإعداد والهجوم عبر الدوران، ويسمّي علامة واقعية واحدة عن انتقال شريكه."
     ],
     "priorKnowledge": "VB-08 — دفاع الشبكة والتغطية الخلفية.",
     "pathwayPosition": "الدرس السابق: VB-08 — دفاع الشبكة والتغطية الخلفية.\nالدرس الحالي: يلغي الأدوار الثابتة التي اعتمد عليها المسار: يدور الطلبة عبر كل الأدوار، فمن يستقبل في تبادل يعدّ في التالي، وعليهم الانتقال من الدفاع إلى الهجوم داخل التبادل الواحد. ويؤجل التقويم الرسمي — فالمعلم ما زال يوجّه أثناء اللعب — وهو ما يستبدله VB-10 بالملاحظة وفق معايير.\nالدرس التالي: VB-10 — لعبة ختامية وتقويم المسار.",
@@ -1849,11 +1849,11 @@
     "identity": "الاسم الكامل: الكرة الطائرة 10 — لعبة ختامية وتقويم المسار\nالرمز: VB-10-AR\nالفرع: الكرة الطائرة\nالموضوع الفرعي: تطبيق وتقويم أصيل\nالعمر: 13–16 سنة\nالخبرة: متوسط\nالمدة: 45 دقيقة\nالمجموعة: 20–30 طالبًا وطالبة؛ التكييف حسب القدرة والحاجة\nالأدوات: 12–16 كرة، شبكة أو حبل، 30 مخروطًا وصدريات\nالمكان: صالة أو ملعب مستوٍ بأربعة ملاعب صغيرة\nالتعقيد: متوسط",
     "purpose": "دمج الإرسال والاستقبال والإعداد والتغطية والقرار في لعب آمن.",
     "objectives": [
-      "يرسل إلى داخل الملعب ليبدأ التبادل، ويتخذ قرارًا مناسبًا بالكرة في 3 من 4 مواقف، وفق المعايير المعلنة في البداية.",
-      "يسهم في تبادل بثلاث لمسات بالاستقبال أو الإعداد أو الهجوم كما يتطلب الموقف، في 4 من 5 تبادلات.",
-      "يعود إلى موقع الأساس ويغطي زميلًا تحرك ليلعب الكرة، في 3 من 5 تبادلات.",
-      "ينادي بوضوح ويلعب بأمان عند الشبكة، دون احتكاك ودون مدّ اليد فوقها، طوال كل لعبة.",
-      "يسمّي نقطة قوة شخصية وهدفًا واحدًا، يدعم كلًّا منهما بشيء لوحظ فعلًا لا بانطباع عام."
+      "يستطيع الطالب أن يرسل إلى داخل الملعب ليبدأ التبادل، ويتخذ قرارًا مناسبًا بالكرة في 3 من 4 مواقف، وفق المعايير المعلنة في البداية.",
+      "يستطيع الطالب أن يسهم في تبادل بثلاث لمسات بالاستقبال أو الإعداد أو الهجوم كما يتطلب الموقف، في 4 من 5 تبادلات.",
+      "يستطيع الطالب أن يعود إلى موقع الأساس ويغطي زميلًا تحرك ليلعب الكرة، في 3 من 5 تبادلات.",
+      "يستطيع الطالب أن ينادي بوضوح ويلعب بأمان عند الشبكة، دون احتكاك ودون مدّ اليد فوقها، طوال كل لعبة.",
+      "يستطيع الطالب أن يسمّي نقطة قوة شخصية وهدفًا واحدًا، يدعم كلًّا منهما بشيء لوحظ فعلًا لا بانطباع عام."
     ],
     "priorKnowledge": "VB-09 — لعب 3 ضد 3 وانتقال الأدوار.",
     "pathwayPosition": "الدرس السابق: VB-09 — لعب 3 ضد 3 وانتقال الأدوار.\nالدرس الحالي: لا يعلّم شيئًا جديدًا، بل يجمع الأدلة: يُطلب من الطلبة دمج الإرسال والاستقبال والإعداد والهجوم والتغطية التي بناها المسار كله في لعب 3 ضد 3 مُلاحَظ وفق معايير معلنة مسبقًا. ولا يؤجل محتوى آخر هنا — فما يتركه لوحدة متقدمة هو 4 ضد 4 والهجوم بالقفز وأنظمة الصد المركبة.\nالدرس التالي: مسار متقدم: 4 ضد 4 وهجوم مركب.",
@@ -1914,11 +1914,11 @@
     "identity": "Полное название: Волейбол 01 — Стойка готовности и приём снизу\nКод: VB-01-RU\nВид: Волейбол\nПодтема: стойка готовности, площадка из предплечий и контролируемое направление\nВозраст: 10–13\nОпыт: начальный\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 10–15 лёгких волейбольных или пляжных мячей, 24 конуса и низкая сетка\nПространство: зал или площадка с 4–6 малыми зонами\nСложность: базовая",
     "purpose": "Сформировать устойчивую стойку и площадку из предплечий для направления мягко поданного мяча партнёру.",
     "objectives": [
-      "Принимает стойку готовности — колени согнуты, вес вперёд — перед каждым касанием.",
-      "Формирует ровную площадку предплечий с соединёнными большими пальцами в 4 из 5 попыток.",
-      "Направляет мяч в целевую зону выше уровня головы в 3 из 5 попыток.",
-      "Выходит к мячу ногами и останавливается до касания, а не тянется к нему.",
-      "Выполняет роли исполнителя и наблюдателя и даёт партнёру одну фактическую обратную связь по схеме «я увидел…; попробуй…»."
+      "Ученик сможет принять стойку готовности — колени согнуты, вес вперёд — перед каждым касанием.",
+      "Ученик сможет сформировать ровную площадку предплечий с соединёнными большими пальцами в 4 из 5 попыток.",
+      "Ученик сможет направить мяч в целевую зону выше уровня головы в 3 из 5 попыток.",
+      "Ученик сможет выйти к мячу ногами и остановиться до касания, а не тянется к нему.",
+      "Ученик сможет выполнить роли исполнителя и наблюдателя и дать партнёру одну фактическую обратную связь по схеме «я увидел…; попробуй…»."
     ],
     "priorKnowledge": "Предыдущий урок не нужен; требуется личное пространство и стоп-сигнал.",
     "pathwayPosition": "Предыдущий урок: Это первый урок волейбольного блока; нужны только личное пространство и стоп-сигнал.\nТекущий урок: Урок закладывает основу волейбола: стойка готовности, выход к мячу ногами и приём мяча снизу двумя руками — ровной площадкой из предплечий, которая направляет мяч высоко к партнёру. Верхняя передача и подача откладываются: мяч вводится мягким броском партнёра, а касание пальцами — тема VB-02.\nСледующий урок: VB-02 — верхняя передача и движение поддержки.",
@@ -1977,11 +1977,11 @@
     "identity": "Полное название: Волейбол 02 — Верхняя передача и выход в поддержку\nКод: VB-02-RU\nВид: Волейбол\nПодтема: контакт пальцами и поддержка\nВозраст: 9–11\nОпыт: начальный\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Направить верхнюю передачу партнёру и сразу выйти в поддержку.",
     "objectives": [
-      "Выходит под мяч так, чтобы он опускался надо лбом, до касания в 3 из 4 ситуаций.",
-      "Выполняет верхнюю передачу двумя руками касанием пальцев («окошко» из рук), локти разведены в стороны, большие пальцы назад, без захвата и задержки мяча в 4 из 5 попыток.",
-      "Направляет передачу выше уровня головы и попадает ей в целевую зону шириной 2 метра у партнёра в 3 из 5 попыток.",
-      "После передачи за 2 секунды выходит к свободному конусу поддержки в 4 из 5 розыгрышей.",
-      "Соблюдает дистанцию в две вытянутые руки, называет «моё» перед касанием и даёт партнёру одну уважительную обратную связь."
+      "Ученик сможет выйти под мяч так, чтобы он опускался надо лбом, до касания в 3 из 4 ситуаций.",
+      "Ученик сможет выполнить верхнюю передачу двумя руками касанием пальцев («окошко» из рук), локти разведены в стороны, большие пальцы назад, без захвата и задержки мяча в 4 из 5 попыток.",
+      "Ученик сможет направить передачу выше уровня головы и попасть ей в целевую зону шириной 2 метра у партнёра в 3 из 5 попыток.",
+      "Ученик сможет после передачи за 2 секунды выйти к свободному конусу поддержки в 4 из 5 розыгрышей.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, назвать «моё» перед касанием и дать партнёру одну уважительную обратную связь."
     ],
     "priorKnowledge": "VB-01 — стойка готовности и приём снизу.",
     "pathwayPosition": "Предыдущий урок: VB-01 — стойка готовности и приём снизу.\nТекущий урок: Урок добавляет к приёму снизу из VB-01 второе касание — верхнюю передачу пальцами над лбом — и привычку сразу выходить в поддержку после передачи. Подача и приём подачи откладываются: розыгрыш начинается подбросом, в игре разрешена одна ловля, а нижняя прямая подача — тема VB-03.\nСледующий урок: VB-03 — точная нижняя подача.",
@@ -2040,12 +2040,12 @@
     "identity": "Полное название: Волейбол 03 — Нижняя подача в целевую зону\nКод: VB-03-RU\nВид: Волейбол\nПодтема: нижняя подача и точность\nВозраст: 9–11\nОпыт: развивающийся\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Безопасно подать снизу через низкую сетку в целевую зону.",
     "objectives": [
-      "Выполняет нижнюю прямую подачу твёрдой прямой рукой, начиная с мяча перед бедром и касаясь его снизу основанием ладони, в 4 из 5 попыток.",
-      "Делает шаг разноимённой ногой к цели и переносит вес тела на переднюю ногу в момент удара, в 3 из 4 подач.",
-      "Переводит мяч через низкую сетку или верёвку так, что он пролетает примерно 4–6 метров, в 4 из 5 подач.",
-      "Попадает в названную целевую зону в 3 из 5 подач.",
-      "Перед подачей проверяет, что зона свободна и принимающие готовы, в 5 из 5 подач.",
-      "Соблюдает дистанцию в две вытянутые руки, выполняет обе роли и даёт партнёру одну уважительную обратную связь."
+      "Ученик сможет выполнить нижнюю прямую подачу твёрдой прямой рукой, начиная с мяча перед бедром и касаясь его снизу основанием ладони, в 4 из 5 попыток.",
+      "Ученик сможет сделать шаг разноимённой ногой к цели и перенести вес тела на переднюю ногу в момент удара, в 3 из 4 подач.",
+      "Ученик сможет перевести мяч через низкую сетку или верёвку так, что он пролетает примерно 4–6 метров, в 4 из 5 подач.",
+      "Ученик сможет попасть в названную целевую зону в 3 из 5 подач.",
+      "Ученик сможет перед подачей проверить, что зона свободна и принимающие готовы, в 5 из 5 подач.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, выполнить обе роли и дать партнёру одну уважительную обратную связь."
     ],
     "priorKnowledge": "VB-02 — верхняя передача.",
     "pathwayPosition": "Предыдущий урок: VB-02 — верхняя передача.\nТекущий урок: Урок даёт ученику способ самому начать розыгрыш — нижнюю прямую подачу: мяч перед бедром, прямая рука, шаг к цели и точность вместо силы. Приём подачи откладывается: принимающая сторона пока ловит мяч, а приём подачи снизу — тема VB-04.\nСледующий урок: VB-04 — приём подачи снизу.",
@@ -2104,11 +2104,11 @@
     "identity": "Полное название: Волейбол 04 — Приём подачи снизу\nКод: VB-04-RU\nВид: Волейбол\nПодтема: приём подачи и наклон площадки из предплечий\nВозраст: 10–12\nОпыт: развивающийся\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Выйти за лёгкую подачу и направить приём в зону связующего.",
     "objectives": [
-      "Выходит ногами за мячом и останавливается с уже сформированной ровной площадкой из предплечий до касания, в 4 из 5 приёмов.",
-      "Наклоняет площадку в сторону зоны связующего, а не отбивает мяч прямо назад к подающему, в 3 из 4 приёмов.",
-      "Направляет приём высоко в зону связующего — обруч 2×2 м у сетки — так, чтобы второе касание было реально возможно, в 3 из 5 подач.",
-      "Называет «моё» до касания и не мешает партнёру по приёму в 4 из 5 подач.",
-      "Соблюдает дистанцию в две вытянутые руки, выполняет обе роли и даёт партнёру одну уважительную обратную связь."
+      "Ученик сможет выйти ногами за мячом и остановиться с уже сформированной ровной площадкой из предплечий до касания, в 4 из 5 приёмов.",
+      "Ученик сможет наклонить площадку в сторону зоны связующего, а не отбивает мяч прямо назад к подающему, в 3 из 4 приёмов.",
+      "Ученик сможет направить приём высоко в зону связующего — обруч 2×2 м у сетки — так, чтобы второе касание было реально возможно, в 3 из 5 подач.",
+      "Ученик сможет назвать «моё» до касания и не мешает партнёру по приёму в 4 из 5 подач.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, выполнить обе роли и дать партнёру одну уважительную обратную связь."
     ],
     "priorKnowledge": "VB-03 — нижняя подача.",
     "pathwayPosition": "Предыдущий урок: VB-03 — нижняя подача.\nТекущий урок: Урок соединяет подачу из VB-03 и приём снизу из VB-01: теперь мяч летит с другой стороны сетки, и ученик учится выйти за ним ногами и наклонить площадку из предплечий так, чтобы приём ушёл в зону связующего. Полная игра в три касания откладывается: после приёма мяч можно поймать и перебросить, а приём–передача–перевод через сетку — тема VB-05.\nСледующий урок: VB-05 — три касания.",
@@ -2167,9 +2167,9 @@
     "identity": "Полное название: Волейбол 05 — Приём, передача и перевод через сетку\nКод: VB-05-RU\nВид: Волейбол\nПодтема: три касания\nВозраст: 11–13\nОпыт: развивающийся\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Выполнить цепочку «приём — передача — перевод через сетку» с ясными ролями.",
     "objectives": [
-      "Успешно завершает полную цепочку из трёх касаний — приём, передачу и перевод через сетку — с правильной техникой на каждом касании, в 3 из 5 попыток.",
-      "Называет своё касание вслух, и игроки не сталкиваются в 4 из 5 розыгрышей.",
-      "Соблюдает дистанцию в две вытянутые руки, выполняет обе роли и даёт партнёру одну уважительную обратную связь."
+      "Ученик сможет успешно завершить полную цепочку из трёх касаний — приём, передачу и перевод через сетку — с правильной техникой на каждом касании, в 3 из 5 попыток.",
+      "Ученик сможет назвать своё касание вслух, и игроки не сталкиваются в 4 из 5 розыгрышей.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, выполнить обе роли и дать партнёру одну уважительную обратную связь."
     ],
     "priorKnowledge": "VB-04 — приём подачи.",
     "pathwayPosition": "Предыдущий урок: VB-04 — приём подачи.\nТекущий урок: Урок соединяет три изученных касания в одну цепочку с ясными ролями: приём снизу в центр, верхняя передача вверх и перевод мяча через сетку. Перемещение и страховка после касания, а также нападающий удар откладываются: игроки пока играют из постоянных мест, движение и страховка — тема VB-06.\nСледующий урок: VB-06 — движение и страховка.",
@@ -2228,11 +2228,11 @@
     "identity": "Полное название: Волейбол 06 — Движение и страховка после контакта\nКод: VB-06-RU\nВид: Волейбол\nПодтема: исходные позиции и страховка\nВозраст: 12–14\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Двигаться из исходной позиции к мячу и после касания прикрывать свободную зону.",
     "objectives": [
-      "Возвращается в исходную позицию в течение 2 секунд после касания в 4 из 5 розыгрышей.",
-      "Выходит к мячу из исходной позиции и занимает место до касания в 3 из 4 ситуаций.",
-      "Когда мяч играет партнёр, встаёт на страховку сбоку-сзади от него в 3 из 5 розыгрышей.",
-      "Команда держит треугольник страховки, а не стоит в одну линию.",
-      "Соблюдает дистанцию в две вытянутые руки, выполняет обе роли и даёт партнёру одну уважительную обратную связь."
+      "Ученик сможет вернуться в исходную позицию в течение 2 секунд после касания в 4 из 5 розыгрышей.",
+      "Ученик сможет выйти к мячу из исходной позиции и занять место до касания в 3 из 4 ситуаций.",
+      "Ученик сможет, когда мяч играет партнёр, встать на страховку сбоку-сзади от него в 3 из 5 розыгрышей.",
+      "Ученик сможет вместе с командой держать треугольник страховки, а не стоять в одну линию.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, выполнить обе роли и дать партнёру одну уважительную обратную связь."
     ],
     "priorKnowledge": "VB-05 — три касания.",
     "pathwayPosition": "Предыдущий урок: VB-05 — три касания.\nТекущий урок: Урок добавляет к трём касаниям движение: из исходной позиции к мячу, возврат после касания и страховку партнёра, который играет мяч, — треугольником, а не в одну линию. Нападающий удар и блок откладываются: мяч переводится через сетку передачей или броском, а контролируемая атака с места — тема VB-07.\nСледующий урок: VB-07 — контролируемая атака с места.",
@@ -2291,11 +2291,11 @@
     "identity": "Полное название: Волейбол 07 — Контролируемая атака с места\nКод: VB-07-RU\nВид: Волейбол\nПодтема: нападающий удар с места и скидка\nВозраст: 12–14\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Направить безопасную атаку с места в свободную зону.",
     "objectives": [
-      "Выполняет нападающий удар с места по подброшенному мячу — локоть выше плеча, удар открытой ладонью по верху мяча — в 4 из 5 попыток.",
-      "Подходит под передачу и принимает устойчивое положение перед ударом, не тянется и не прыгает, в 3 из 4 попыток.",
-      "Направляет атаку в обозначенную свободную зону, а не в соперника, в 3 из 5 попыток.",
-      "Выбирает между сильным ударом и мягкой скидкой в зависимости от открытой цели, удерживая примерно 60% силы.",
-      "Соблюдает дистанцию в две вытянутые руки, выполняет обе роли и даёт партнёру одну уважительную обратную связь."
+      "Ученик сможет выполнить нападающий удар с места по подброшенному мячу — локоть выше плеча, удар открытой ладонью по верху мяча — в 4 из 5 попыток.",
+      "Ученик сможет подойти под передачу и принять устойчивое положение перед ударом, не тянясь и не прыгая, в 3 из 4 попыток.",
+      "Ученик сможет направить атаку в обозначенную свободную зону, а не в соперника, в 3 из 5 попыток.",
+      "Ученик сможет выбрать между сильным ударом и мягкой скидкой в зависимости от открытой цели, удерживая примерно 60% силы.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, выполнить обе роли и дать партнёру одну уважительную обратную связь."
     ],
     "priorKnowledge": "VB-06 — движение и страховка.",
     "pathwayPosition": "Предыдущий урок: VB-06 — движение и страховка.\nТекущий урок: Урок превращает третье касание из переброса в атаку: нападающий удар с места открытой ладонью или скидка в свободную зону — с контролем силы и без касания сетки. Нападающий удар в прыжке и защита у сетки откладываются: атака только с места, а блок и страховка задней линии — тема VB-08.\nСледующий урок: VB-08 — защита у сетки и задняя линия.",
@@ -2354,11 +2354,11 @@
     "identity": "Полное название: Волейбол 08 — Защита у сетки и страховка задней линии\nКод: VB-08-RU\nВид: Волейбол\nПодтема: имитация блока у сетки и страховка задней линии\nВозраст: 12–14\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Согласовать руки у сетки и заднюю страховку без контакта и пересечения.",
     "objectives": [
-      "Встаёт у сетки в стойку блока — руки вверх, ладони к сопернику — до удара в 4 из 5 эпизодов.",
-      "Приземляется на обе ноги на своей стороне сетки, не наступая вперёд под сетку или за неё, в 3 из 4 попыток.",
-      "Перемещается к месту блока приставными шагами, не скрещивая ноги, и занимает позицию лицом к сетке до атаки.",
-      "Задний игрок закрывает пространство рядом с блокирующим партнёром и играет мяч, прошедший мимо блока, в 3 из 5 эпизодов.",
-      "Соблюдает дистанцию в две вытянутые руки, выполняет обе роли и даёт партнёру одну уважительную обратную связь."
+      "Ученик сможет встать у сетки в стойку блока — руки вверх, ладони к сопернику — до удара в 4 из 5 эпизодов.",
+      "Ученик сможет приземлиться на обе ноги на своей стороне сетки, не наступая вперёд под сетку или за неё, в 3 из 4 попыток.",
+      "Ученик сможет переместиться к месту блока приставными шагами, не скрещивая ноги, и занять позицию лицом к сетке до атаки.",
+      "Ученик сможет, играя задним игроком, закрыть пространство рядом с блокирующим партнёром и сыграть мяч, прошедший мимо блока, в 3 из 5 эпизодов.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, выполнить обе роли и дать партнёру одну уважительную обратную связь."
     ],
     "priorKnowledge": "VB-07 — контролируемая атака.",
     "pathwayPosition": "Предыдущий урок: VB-07 — контролируемая атака.\nТекущий урок: Урок добавляет ответ на атаку из VB-07: передний игрок ставит блок у сетки, задний страхует мяч, отскочивший от рук, — без касания сетки и без столкновений. Атака в прыжке и полная смена позиций откладываются: нападающие бьют только с места, а игра 3×3 с переходом по позициям — тема VB-09.\nСледующий урок: VB-09 — игра 3×3 и переход.",
@@ -2417,11 +2417,11 @@
     "identity": "Полное название: Волейбол 09 — Игра 3×3 и смена ролей\nКод: VB-09-RU\nВид: Волейбол\nПодтема: переход по позициям и решения в игре\nВозраст: 13–16\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Держать треугольник, переходить к атаке и менять роли по порядку.",
     "objectives": [
-      "Команда держит треугольник — двое у сетки, один сзади — в 4 из 5 розыгрышей.",
-      "Называет своё касание до контакта — на протяжении всей игры.",
-      "После возвращения подачи команда переходит по часовой стрелке без ошибки, только между розыгрышами, а не во время розыгрыша.",
-      "Переходит из принимающей позиции в атакующую сразу после первого касания, в 3 из 4 розыгрышей.",
-      "Соблюдает дистанцию в две вытянутые руки, выполняет обе роли и даёт партнёру одну уважительную обратную связь."
+      "Ученик сможет вместе с командой держать треугольник — двое у сетки, один сзади — в 4 из 5 розыгрышей.",
+      "Ученик сможет назвать своё касание до контакта — на протяжении всей игры.",
+      "Ученик сможет вместе с командой после возвращения подачи перейти по часовой стрелке без ошибки, только между розыгрышами, а не во время розыгрыша.",
+      "Ученик сможет перейти из принимающей позиции в атакующую сразу после первого касания, в 3 из 4 розыгрышей.",
+      "Ученик сможет соблюдать дистанцию в две вытянутые руки, выполнить обе роли и дать партнёру одну уважительную обратную связь."
     ],
     "priorKnowledge": "VB-08 — защита и страховка.",
     "pathwayPosition": "Предыдущий урок: VB-08 — защита и страховка.\nТекущий урок: Урок соединяет всё изученное в самостоятельную игру 3×3: треугольник на площадке, три касания с атакой или переводом и переход по часовой стрелке после возвращения подачи, чтобы каждый побывал у сетки и сзади. Итоговое оценивание откладывается: здесь учитель наблюдает и подсказывает, а оценка по критериям — тема VB-10.\nСледующий урок: VB-10 — итоговая игра и оценивание.",
@@ -2480,11 +2480,11 @@
     "identity": "Полное название: Волейбол 10 — Итоговая игра и оценка траектории\nКод: VB-10-RU\nВид: Волейбол\nПодтема: применение и оценивание\nВозраст: 13–16\nОпыт: средний\nПродолжительность: 45 минут\nГруппа: 20–30 учеников любого пола; адаптация по уровню и потребностям\nИнвентарь: 12–16 мячей, сетка или верёвка, 30 конусов, манишки\nПространство: зал или ровная площадка с четырьмя малыми полями\nСложность: средняя",
     "purpose": "Объединить подачу, приём, передачу, страховку и решение в игре.",
     "objectives": [
-      "Подаёт в поле соперника, чтобы начать розыгрыш, и принимает решение, соответствующее ситуации с мячом, в 3 из 4 случаев — по критериям, названным в начале урока.",
-      "Участвует в розыгрыше на три касания — приёмом, передачей или атакой, по требованию ситуации — в 4 из 5 розыгрышей.",
-      "Возвращается в исходную позицию и страхует партнёра, который вышел играть мяч, в 3 из 5 розыгрышей.",
-      "Чётко подаёт голосовые сигналы и играет безопасно у сетки — без касания сетки и без вытягивания руки над ней — на протяжении всей игры.",
-      "Называет одну личную сильную сторону и одну цель, каждую — подкреплённую реально увиденным, а не общим впечатлением."
+      "Ученик сможет подать в поле соперника, чтобы начать розыгрыш, и принять решение, соответствующее ситуации с мячом, в 3 из 4 случаев — по критериям, названным в начале урока.",
+      "Ученик сможет участвовать в розыгрыше на три касания — приёмом, передачей или атакой, по требованию ситуации — в 4 из 5 розыгрышей.",
+      "Ученик сможет вернуться в исходную позицию и страхует партнёра, который вышел играть мяч, в 3 из 5 розыгрышей.",
+      "Ученик сможет чётко подавать голосовые сигналы и играть безопасно у сетки — без касания сетки и без вытягивания руки над ней — на протяжении всей игры.",
+      "Ученик сможет назвать одну личную сильную сторону и одну цель, каждую — подкреплённую реально увиденным, а не общим впечатлением."
     ],
     "priorKnowledge": "VB-09 — игра 3×3 и переход по позициям.",
     "pathwayPosition": "Предыдущий урок: VB-09 — игра 3×3 и переход по позициям.\nТекущий урок: Урок завершает цикл: каждый ученик показывает на станциях и в игре 3×3 подачу, приём, передачу, атаку с места и страховку, а учитель оценивает по пяти заранее названным критериям — счёт игры в оценку не входит. Новые навыки не вводятся: игра 4×4, нападающий удар в прыжке и сложные комбинации откладываются до продвинутого цикла.\nСледующий урок: Продвинутый цикл: 4×4 и сложная атака.",
@@ -2545,11 +2545,11 @@
     "identity": "Título completo: Voleibol 01 — Posición de preparación y toque de antebrazos\nCódigo: VB-01-ES\nDisciplina: Voleibol\nSubtema: posición de preparación, formación de la plataforma y toque de antebrazos controlado\nEdad: 10–13 años\nExperiencia: inicial\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 10–15 balones de voleibol ligeros o balones de playa, 24 conos y una red baja o una cuerda\nEspacio: gimnasio o pista dividida en 4–6 cuadrículas pequeñas\nComplejidad: básica",
     "purpose": "Construir una posición de preparación estable y una plataforma de antebrazos controlada, para que el alumnado dirija hacia su pareja un balón lanzado con suavidad.",
     "objectives": [
-      "Alcanza la posición de preparación —rodillas flexionadas y peso adelantado— antes de cada contacto.",
-      "Forma una plataforma plana con los antebrazos y los pulgares juntos en 4 de 5 intentos.",
-      "Dirige el balón a la zona objetivo por encima de la altura de la cabeza en 3 de 5 intentos.",
-      "Se desplaza al balón con los pies y se detiene antes del contacto, en lugar de estirarse.",
-      "Asume los roles de ejecutante y de observador y aporta un comentario basado en un hecho."
+      "El alumno será capaz de alcanzar la posición de preparación —rodillas flexionadas y peso adelantado— antes de cada contacto.",
+      "El alumno será capaz de formar una plataforma plana con los antebrazos y los pulgares juntos en 4 de 5 intentos.",
+      "El alumno será capaz de dirigir el balón a la zona objetivo por encima de la altura de la cabeza en 3 de 5 intentos.",
+      "El alumno será capaz de desplazarse al balón con los pies y detenerse antes del contacto, en lugar de estirarse.",
+      "El alumno será capaz de asumir los roles de ejecutante y de observador y aportar un comentario basado en un hecho."
     ],
     "priorKnowledge": "No se exige ninguna sesión previa de voleibol. El alumnado debe respetar el espacio personal y pararse con la señal.",
     "pathwayPosition": "Sesión anterior: ninguna; es la sesión inicial del itinerario de voleibol.\nSesión actual: construye la posición de preparación y el toque de antebrazos controlado.\nSesión siguiente: VB-02 — Colocación de dedos y movimiento de apoyo.",
@@ -2608,12 +2608,12 @@
     "identity": "Título completo: Voleibol 02 — Colocación de dedos y movimiento de apoyo\nCódigo: VB-02-ES\nDisciplina: Voleibol\nSubtema: contacto con los dedos y apoyo posterior\nEdad: 9–11 años\nExperiencia: inicial\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos y petos\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Dirigir una colocación de dedos hacia la pareja y desplazarse de inmediato a una posición de apoyo.",
     "objectives": [
-      "Contacta el balón con los dedos por encima de la frente, los codos hacia fuera y los pulgares hacia atrás, sin atrapar ni sostener el balón, en 4 de 5 intentos.",
-      "Se coloca debajo del balón antes del contacto en 3 de 4 situaciones.",
-      "Eleva el balón por encima de la altura de la cabeza y lo dirige a una zona objetivo de 2 metros de ancho junto a la pareja, en 3 de 5 intentos.",
-      "Se desplaza a un cono de apoyo libre en menos de 2 segundos tras la colocación, en 4 de 5 jugadas.",
-      "Avisa en voz alta antes de entrar en la trayectoria y mantiene dos brazos de separación.",
-      "Completa los dos roles y ofrece una devolución respetuosa basada en un hecho."
+      "El alumno será capaz de contactar el balón con los dedos por encima de la frente, los codos hacia fuera y los pulgares hacia atrás, sin atrapar ni sostener el balón, en 4 de 5 intentos.",
+      "El alumno será capaz de colocarse debajo del balón antes del contacto en 3 de 4 situaciones.",
+      "El alumno será capaz de elevar el balón por encima de la altura de la cabeza y dirigirlo a una zona objetivo de 2 metros de ancho junto a la pareja, en 3 de 5 intentos.",
+      "El alumno será capaz de desplazarse a un cono de apoyo libre en menos de 2 segundos tras la colocación, en 4 de 5 jugadas.",
+      "El alumno será capaz de avisar en voz alta antes de entrar en la trayectoria y mantener dos brazos de separación.",
+      "El alumno será capaz de completar los dos roles y ofrecer una devolución respetuosa basada en un hecho."
     ],
     "priorKnowledge": "VB-01 — Posición de preparación y toque de antebrazos.",
     "pathwayPosition": "Sesión anterior: VB-01 — Posición de preparación y toque de antebrazos.\nSesión actual: añade la colocación de dedos y el desplazamiento inmediato al apoyo.\nSesión siguiente: VB-03 — Saque de abajo a una zona objetivo.",
@@ -2672,12 +2672,12 @@
     "identity": "Título completo: Voleibol 03 — Saque de abajo a una zona objetivo\nCódigo: VB-03-ES\nDisciplina: Voleibol\nSubtema: saque de abajo y precisión\nEdad: 9–11 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos y petos\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Enviar un saque de abajo seguro por encima de una red baja hacia una zona objetivo.",
     "objectives": [
-      "Ejecuta el saque de abajo con el brazo extendido, sosteniendo el balón por delante de la cadera y golpeándolo por debajo con el talón de la mano, en 4 de 5 intentos.",
-      "Da un paso con el pie contrario hacia el objetivo y traslada el peso del cuerpo a la pierna delantera en el momento del golpeo, en 3 de 4 saques.",
-      "Envía el balón por encima de la red o la cuerda de modo que recorra aproximadamente 4 a 6 metros, en 4 de 5 intentos.",
-      "Dirige el saque dentro de la zona objetivo marcada en 3 de 5 intentos.",
-      "Comprueba que la zona de saque y la zona objetivo están despejadas y que quien recupera el balón está preparado antes de cada saque, y solo saca con la señal del docente, manteniendo dos brazos de separación, en 5 de 5 intentos.",
-      "Completa los dos roles y ofrece una devolución respetuosa basada en un hecho."
+      "El alumno será capaz de ejecutar el saque de abajo con el brazo extendido, sosteniendo el balón por delante de la cadera y golpeándolo por debajo con el talón de la mano, en 4 de 5 intentos.",
+      "El alumno será capaz de dar un paso con el pie contrario hacia el objetivo y traslada el peso del cuerpo a la pierna delantera en el momento del golpeo, en 3 de 4 saques.",
+      "El alumno será capaz de enviar el balón por encima de la red o la cuerda de modo que recorra aproximadamente 4 a 6 metros, en 4 de 5 intentos.",
+      "El alumno será capaz de dirigir el saque dentro de la zona objetivo marcada en 3 de 5 intentos.",
+      "El alumno será capaz de comprobar que la zona de saque y la zona objetivo están despejadas y que quien recupera el balón está preparado antes de cada saque, y solo sacar con la señal del docente, manteniendo dos brazos de separación, en 5 de 5 intentos.",
+      "El alumno será capaz de completar los dos roles y ofrecer una devolución respetuosa basada en un hecho."
     ],
     "priorKnowledge": "VB-02 — Colocación de dedos y movimiento de apoyo.",
     "pathwayPosition": "Sesión anterior: VB-02 — Colocación de dedos y movimiento de apoyo.\nSesión actual: incorpora el saque de abajo con precisión hacia una zona.\nSesión siguiente: VB-04 — Recepción del saque con antebrazos.",
@@ -2736,11 +2736,11 @@
     "identity": "Título completo: Voleibol 04 — Recepción del saque con antebrazos\nCódigo: VB-04-ES\nDisciplina: Voleibol\nSubtema: recepción y ángulo de la plataforma\nEdad: 10–12 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos y petos\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Desplazarse por detrás de un saque fácil y dirigir la recepción hacia la zona de colocación.",
     "objectives": [
-      "Llega con los pies por detrás de la trayectoria del balón y se detiene con la plataforma ya formada antes del contacto, en 4 de 5 recepciones.",
-      "Orienta el ángulo de la plataforma hacia la zona de colocación en lugar de devolver el balón directamente a quien saca, en 3 de 4 recepciones.",
-      "Dirige la recepción alta hacia la zona de colocación, de modo que un segundo contacto sea realmente posible, en 3 de 5 intentos.",
-      "Avisa en voz alta antes de entrar en la trayectoria y mantiene dos brazos de separación.",
-      "Completa los dos roles y ofrece una devolución respetuosa basada en un hecho."
+      "El alumno será capaz de llegar con los pies por detrás de la trayectoria del balón y detenerse con la plataforma ya formada antes del contacto, en 4 de 5 recepciones.",
+      "El alumno será capaz de orientar el ángulo de la plataforma hacia la zona de colocación en lugar de devolver el balón directamente a quien saca, en 3 de 4 recepciones.",
+      "El alumno será capaz de dirigir la recepción alta hacia la zona de colocación, de modo que un segundo contacto sea realmente posible, en 3 de 5 intentos.",
+      "El alumno será capaz de avisar en voz alta antes de entrar en la trayectoria y mantener dos brazos de separación.",
+      "El alumno será capaz de completar los dos roles y ofrecer una devolución respetuosa basada en un hecho."
     ],
     "priorKnowledge": "VB-03 — Saque de abajo a una zona objetivo.",
     "pathwayPosition": "Sesión anterior: VB-03 — Saque de abajo a una zona objetivo.\nSesión actual: incorpora la recepción del saque dirigida a la zona de colocación.\nSesión siguiente: VB-05 — Secuencia de recepción, colocación y envío.",
@@ -2799,11 +2799,11 @@
     "identity": "Título completo: Voleibol 05 — Secuencia de recepción, colocación y envío\nCódigo: VB-05-ES\nDisciplina: Voleibol\nSubtema: secuencia de tres contactos\nEdad: 11–13 años\nExperiencia: en desarrollo\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos y petos\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Completar la secuencia recepción–colocación–envío con roles claros y comunicación entre los tres jugadores.",
     "objectives": [
-      "Completa con éxito la secuencia completa de tres contactos —recepción, colocación y envío— con la técnica correcta en cada contacto, en 3 de 5 intentos.",
-      "Avisa en voz alta antes de cada contacto y respeta el turno de sus compañeros.",
-      "Dirige la recepción a la zona central y la colocación a la zona de envío en 3 de 5 jugadas.",
-      "Se desplaza al apoyo después de cada contacto en lugar de quedarse parado.",
-      "Completa los tres roles y ofrece una devolución respetuosa basada en un hecho."
+      "El alumno será capaz de completar con éxito la secuencia completa de tres contactos —recepción, colocación y envío— con la técnica correcta en cada contacto, en 3 de 5 intentos.",
+      "El alumno será capaz de avisar en voz alta antes de cada contacto y respetar el turno de sus compañeros.",
+      "El alumno será capaz de dirigir la recepción a la zona central y la colocación a la zona de envío en 3 de 5 jugadas.",
+      "El alumno será capaz de desplazarse al apoyo después de cada contacto en lugar de quedarse parado.",
+      "El alumno será capaz de completar los tres roles y ofrecer una devolución respetuosa basada en un hecho."
     ],
     "priorKnowledge": "VB-04 — Recepción del saque con antebrazos.",
     "pathwayPosition": "Sesión anterior: VB-04 — Recepción del saque con antebrazos.\nSesión actual: encadena los tres contactos con reparto de roles y comunicación.\nSesión siguiente: VB-06 — Movimiento y cobertura después del contacto.",
@@ -2862,11 +2862,11 @@
     "identity": "Título completo: Voleibol 06 — Movimiento y cobertura después del contacto\nCódigo: VB-06-ES\nDisciplina: Voleibol\nSubtema: posiciones base y cobertura del campo\nEdad: 12–14 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos y petos\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Salir de la posición base hacia el balón y volver a cubrir el espacio libre del campo después de cada contacto.",
     "objectives": [
-      "Parte de la posición base y regresa a ella después de cada contacto en 4 de 5 jugadas.",
-      "Se desplaza hacia el balón con los pies y llega detenido antes de jugarlo, en 3 de 4 recepciones.",
-      "Cubre la zona corta del campo cuando su compañero recibe, en 3 de 5 situaciones.",
-      "Mantiene con sus compañeros una forma triangular y no una línea recta.",
-      "Completa los dos roles y ofrece una devolución respetuosa basada en un hecho."
+      "El alumno será capaz de partir de la posición base y regresar a ella después de cada contacto en 4 de 5 jugadas.",
+      "El alumno será capaz de desplazarse hacia el balón con los pies y llegar detenido antes de jugarlo, en 3 de 4 recepciones.",
+      "El alumno será capaz de cubrir la zona corta del campo cuando su compañero recibe, en 3 de 5 situaciones.",
+      "El alumno será capaz de mantener con sus compañeros una forma triangular y no una línea recta.",
+      "El alumno será capaz de completar los dos roles y ofrecer una devolución respetuosa basada en un hecho."
     ],
     "priorKnowledge": "VB-05 — Secuencia de recepción, colocación y envío.",
     "pathwayPosition": "Sesión anterior: VB-05 — Secuencia de recepción, colocación y envío.\nSesión actual: incorpora la posición base y la cobertura del campo después del contacto.\nSesión siguiente: VB-07 — Ataque controlado desde el suelo.",
@@ -2925,11 +2925,11 @@
     "identity": "Título completo: Voleibol 07 — Ataque controlado desde el suelo\nCódigo: VB-07-ES\nDisciplina: Voleibol\nSubtema: golpeo con la mano abierta y finta\nEdad: 12–14 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos y petos\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Enviar un ataque controlado desde el suelo hacia el espacio libre, con seguridad y sin buscar la potencia.",
     "objectives": [
-      "Golpea con la mano abierta y el codo alto en 4 de 5 intentos.",
-      "Se coloca debajo y detrás del balón antes del contacto en 3 de 4 intentos.",
-      "Dirige el balón al espacio libre elegido en 3 de 5 intentos.",
-      "Elige entre golpeo firme y finta suave según el objetivo abierto, manteniendo la fuerza en torno al 60 %.",
-      "Completa los dos roles y ofrece una devolución respetuosa basada en un hecho."
+      "El alumno será capaz de golpear con la mano abierta y el codo alto en 4 de 5 intentos.",
+      "El alumno será capaz de colocarse debajo y detrás del balón antes del contacto en 3 de 4 intentos.",
+      "El alumno será capaz de dirigir el balón al espacio libre elegido en 3 de 5 intentos.",
+      "El alumno será capaz de elegir entre golpeo firme y finta suave según el objetivo abierto, manteniendo la fuerza en torno al 60 %.",
+      "El alumno será capaz de completar los dos roles y ofrecer una devolución respetuosa basada en un hecho."
     ],
     "priorKnowledge": "VB-06 — Movimiento y cobertura después del contacto.",
     "pathwayPosition": "Sesión anterior: VB-06 — Movimiento y cobertura después del contacto.\nSesión actual: incorpora el ataque controlado desde el suelo y la elección entre golpeo y finta.\nSesión siguiente: VB-08 — Defensa de red y cobertura de fondo.",
@@ -2988,11 +2988,11 @@
     "identity": "Título completo: Voleibol 08 — Defensa de red y cobertura de fondo\nCódigo: VB-08-ES\nDisciplina: Voleibol\nSubtema: bloqueo pasivo y cobertura del fondo\nEdad: 12–14 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos y petos\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Coordinar la posición de las manos en la red con la cobertura del fondo del campo, sin contacto y sin invadir el campo contrario.",
     "objectives": [
-      "Coloca las manos altas por encima de la red sin tocarla en 4 de 5 intentos.",
-      "Cae con los dos pies en equilibrio en el mismo lado de la red desde el que ha saltado, sin avanzar hacia ella ni pasar por debajo, en 3 de 4 intentos.",
-      "Se desplaza hacia el bloqueo con pasos laterales, sin cruzar los pies, y llega de frente a la red antes del ataque.",
-      "Cubre la zona de fondo junto a su compañero que bloquea y juega el balón que pasa el bloqueo, en 3 de 5 situaciones.",
-      "Completa los dos roles y ofrece una devolución respetuosa basada en un hecho."
+      "El alumno será capaz de colocar las manos altas por encima de la red sin tocarla en 4 de 5 intentos.",
+      "El alumno será capaz de caer con los dos pies en equilibrio en el mismo lado de la red desde el que ha saltado, sin avanzar hacia ella ni pasar por debajo, en 3 de 4 intentos.",
+      "El alumno será capaz de desplazarse hacia el bloqueo con pasos laterales, sin cruzar los pies, y llegar de frente a la red antes del ataque.",
+      "El alumno será capaz de cubrir la zona de fondo junto a su compañero que bloquea y jugar el balón que pasa el bloqueo, en 3 de 5 situaciones.",
+      "El alumno será capaz de completar los dos roles y ofrecer una devolución respetuosa basada en un hecho."
     ],
     "priorKnowledge": "VB-07 — Ataque controlado desde el suelo.",
     "pathwayPosition": "Sesión anterior: VB-07 — Ataque controlado desde el suelo.\nSesión actual: coordina la defensa de red con la cobertura del fondo.\nSesión siguiente: VB-09 — Juego 3 contra 3 y transición de roles.",
@@ -3051,11 +3051,11 @@
     "identity": "Título completo: Voleibol 09 — Juego 3 contra 3 y transición de roles\nCódigo: VB-09-ES\nDisciplina: Voleibol\nSubtema: rotación básica y decisiones\nEdad: 13–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos y petos\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Mantener la forma triangular, pasar de la recepción al ataque y rotar en el orden correcto.",
     "objectives": [
-      "Mantiene la forma triangular con sus compañeros durante la jugada en 4 de 5 ocasiones.",
-      "Avisa antes de cada uno de los tres contactos.",
-      "Pasa de la recepción al ataque desplazándose en cuanto envía el balón, en 3 de 4 jugadas.",
-      "Rota en el orden acordado y solo con el balón parado.",
-      "Completa los tres roles y ofrece una devolución respetuosa basada en un hecho."
+      "El alumno será capaz de mantener la forma triangular con sus compañeros durante la jugada en 4 de 5 ocasiones.",
+      "El alumno será capaz de avisar antes de cada uno de los tres contactos.",
+      "El alumno será capaz de pasar de la recepción al ataque desplazándose en cuanto envía el balón, en 3 de 4 jugadas.",
+      "El alumno será capaz de rotar en el orden acordado y solo con el balón parado.",
+      "El alumno será capaz de completar los tres roles y ofrecer una devolución respetuosa basada en un hecho."
     ],
     "priorKnowledge": "VB-08 — Defensa de red y cobertura de fondo.",
     "pathwayPosition": "Sesión anterior: VB-08 — Defensa de red y cobertura de fondo.\nSesión actual: integra triángulo, transición y rotación en el juego 3 contra 3.\nSesión siguiente: VB-10 — Juego final y evaluación del itinerario.",
@@ -3114,11 +3114,11 @@
     "identity": "Título completo: Voleibol 10 — Juego final y evaluación del itinerario\nCódigo: VB-10-ES\nDisciplina: Voleibol\nSubtema: aplicación auténtica y evaluación\nEdad: 13–16 años\nExperiencia: intermedia\nDuración: 45 minutos\nGrupo: 20–30 estudiantes de cualquier género; ajustes por capacidad y necesidad\nMaterial: 12–16 balones, red o cuerda, 30 conos, petos y fichas de observación\nEspacio: gimnasio o pista llana con cuatro campos pequeños\nComplejidad: intermedia",
     "purpose": "Combinar saque, recepción, colocación, cobertura y decisiones en un juego seguro, y recoger evidencias de cada componente del itinerario.",
     "objectives": [
-      "Saca al campo para iniciar la jugada y toma una decisión adecuada a la situación del balón, en 3 de 4 situaciones, según los criterios presentados al inicio.",
-      "Contribuye a una jugada de tres contactos recibiendo, colocando o atacando según lo exija la situación, en 4 de 5 jugadas.",
-      "Vuelve a la posición base y cubre a un compañero que se ha desplazado a jugar el balón, en 3 de 5 jugadas.",
-      "Avisa con claridad y juega con seguridad junto a la red, sin contacto ni invadir por encima de ella, durante todo el partido.",
-      "Nombra una fortaleza personal y un objetivo, cada uno respaldado por algo realmente observado y no por una impresión general."
+      "El alumno será capaz de sacar al campo para iniciar la jugada y tomar una decisión adecuada a la situación del balón, en 3 de 4 situaciones, según los criterios presentados al inicio.",
+      "El alumno será capaz de contribuir a una jugada de tres contactos recibiendo, colocando o atacando según lo exija la situación, en 4 de 5 jugadas.",
+      "El alumno será capaz de volver a la posición base y cubrir a un compañero que se ha desplazado a jugar el balón, en 3 de 5 jugadas.",
+      "El alumno será capaz de avisar con claridad y jugar con seguridad junto a la red, sin contacto ni invadir por encima de ella, durante todo el partido.",
+      "El alumno será capaz de nombrar una fortaleza personal y un objetivo, cada uno respaldado por algo realmente observado y no por una impresión general."
     ],
     "priorKnowledge": "VB-09 — Juego 3 contra 3 y transición de roles, y el conjunto de las sesiones VB-01 a VB-09.",
     "pathwayPosition": "Sesión anterior: VB-09 — Juego 3 contra 3 y transición de roles.\nSesión actual: evaluación auténtica de los cinco componentes del itinerario.\nSesión siguiente: itinerario avanzado: juego 4 contra 4 y construcción de ataque.",
