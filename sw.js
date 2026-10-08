@@ -11,7 +11,7 @@
    יוצרת מטמון חדש והישן נמחק — במקום שגרסה ישנה תישאר תקועה על
    מכשיר בלי שאיש יידע.
    ============================================================ */
-const CACHE_VERSION = "28216814";
+const CACHE_VERSION = "c279029b";
 const CACHE = "peultimate-" + CACHE_VERSION;
 
 const SHELL = [
@@ -47,7 +47,7 @@ const SHELL = [
   "./hm-tools.js?v=0baf385d",
   "./hm-plans.js?v=20cf74cb",
   "./hm-lessonbank.js?v=b28c19df",
-  "./hm-lessonbank-basketball.js?v=0edb16e1",
+  "./hm-lessonbank-basketball.js?v=743186a6",
   "./hm-lessonbank-football.js?v=fe744a2c",
   "./hm-lessonbank-handball.js?v=d8650cc8",
   "./hm-lessonbank-volleyball.js?v=1bf7154c",
