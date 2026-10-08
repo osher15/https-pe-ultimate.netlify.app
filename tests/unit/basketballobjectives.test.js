@@ -11,10 +11,10 @@ new Function("window",fs.readFileSync(path.join(__dirname,"../../hm-lessonbank-b
 const sport=win.LESSONBANK.sports.basketball;
 
 const LEAD={
-  he:/^התלמיד (יצליח|יבצע) /,
+  he:/^התלמיד (יצליח|יבצע)[ ,]/,
   en:/^(The student can |(As|With|In) [^,]+, the student can )/,
   ar:/^يستطيع الطالب أن /,
-  ru:/^Ученик сможет /,
+  ru:/^Ученик сможет[ ,]/,
   es:/^El alumno será capaz de /
 };
 
