@@ -50,8 +50,8 @@ window.LESSONBANK.meta = {
   provenance: {
     source: "Notion — מאגר מערכי שיעור ספורט / סדרת מערכים לבית הספר",
     sourcePageId: "3df128d0e2178140b549dd1a82642096",
-    contentVersion: "V2, תיקוני Notion עד 2026-09-28",
-    importedFrom: "basketball, football: feat/international-lesson-bank (2026-09-29); handball, volleyball, athletics, fitness: Notion export via tools/notion-lessons-import.js (2026-10-05)",
+    contentVersion: "V2, תיקוני Notion עד 2026-09-28; he/en: V2.1, סקירת שפה ומונחים 2026-10-08",
+    importedFrom: "basketball, football: feat/international-lesson-bank (2026-09-29); handball, volleyball, athletics, fitness: Notion export via tools/notion-lessons-import.js (2026-10-05); he/en text of all six sports replaced by the reviewed edition (2026-10-08, see docs/handoffs/2026-10-08-lessonbank-he-en-review.md)",
     reviewStatus: "draft"
   },
   langs: ["he", "en", "ar", "ru", "es"],
