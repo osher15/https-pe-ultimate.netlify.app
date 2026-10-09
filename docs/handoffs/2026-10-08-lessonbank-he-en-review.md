@@ -18,7 +18,7 @@ Reserved files/sections: hm-lessonbank-*.js (he and en arrays only), hm-lessonba
 - Round trip: rewriting the committed data with no changes gives no diff.
 - `npm test`: 700 pass, 0 fail.
 - `node build-standalone.js` twice: Hamegrash.html, index.html and sw.js identical on the second run.
-- `node tests/e2e/run.js` (full suite): see the PR description. Focused rerun of lessonbank, lang30 and i18n15: 32/32 pass.
+- `node tests/e2e/run.js` (full suite): 610 pass, then the browser process crashed ("browser has been closed") for the remaining 25; the remaining suites (lang30, stage1, stage2, lessonbank) run alone: 30/30 pass. Focused lessonbank/lang30/i18n15: 32/32.
 
 ## CI / emulation / physical-device evidence
 Local headless Chromium only. No physical device check.
@@ -26,7 +26,8 @@ Local headless Chromium only. No physical device check.
 ## Unresolved issues and dependencies
 - English is not native-reviewed; reviewStatus stays draft.
 - Some English sections now carry line breaks per label where the old data had one long line; this is the reviewed layout.
-- The Notion pages were updated with the same text in a separate step (see the PR description for the result); ar/ru/es pages were not touched.
+- Notion: all 120 he/en pages were replaced with the same text (sections 16, 17 and 20 kept); ar/ru/es pages untouched. 79 pages were read back and matched line by line; 3 mismatches were found and fixed (AT-06 he one word; BB-06 he/en blank underscores rendered as formatting). 41 pages are not yet read back; Codex/owner task in docs/handoffs/2026-10-09-codex-task-lessonbank-review.md. Section 16/17/20 headings and section-9 sub-headings were standardised per language on a few pages that had variants.
+- Also fixed after the first commit: duplicated first sentence in four Hebrew lesson sequences (FIT-03, HB-04, VB-05, VB-10).
 
 ## Publication status
 Branch pushed; PR open for the owner. Not merged, not deployed.
