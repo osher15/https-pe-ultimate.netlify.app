@@ -1,0 +1,250 @@
+<!doctype html>
+<!--
+PE ULTIMATE SCOREBOARD · Standalone module prototype · 2026-10-10
+Open this file in a modern browser. All code and translations are embedded.
+No server, CDN, font download, framework, account, grade changes or PE app edits.
+English first; Hebrew/Arabic RTL, Spanish and Russian available in the selector.
+
+INTEGRATION HANDOFF FOR CLAUDE
+- User requested a compact scoreboard in a separate future PE Ultimate tab.
+- This file is an independent artifact, not deployed or merged into PE Ultimate.
+- Prefer an isolated same-origin iframe in a lazy-loaded tab for the first pilot.
+  Remove the iframe when leaving the tab; do not paste global CSS into the host.
+  Keep enough frame height for controls, or use host tab scrolling on phones.
+- The frame exposes window.PEScoreboard.getState(), exportResult(),
+  setLanguage(code). Its document emits pe-scoreboard:change with a state copy.
+  The host must explicitly listen on iframe.contentDocument after frame load.
+- Final result uses a stable match ID. Re-finalization updates that result,
+  never adds a second record. Editing the current final reopens the match.
+- Team names are display labels, not sid/cid. No student data or grades are used.
+  Add approved cid/group-ID snapshots explicitly if later connected to groups.
+- Persistence uses ONLY pe-scoreboard.v1 and pe-scoreboard.lang.v1.
+  This storage is NOT currently included in PE Ultimate's backup. Before release,
+  reserve the relevant source files, implement the approved host storage/backup
+  adapter and restore validation, then test sid/cid isolation and class switching.
+- Current result + last 20 completed matches; undo max 40 actions in the current
+  session. Reload preserves match/period data, clears undo and pauses the clock.
+  Timeout count remains; an interrupted timeout is dismissed on reload.
+- Time uses a deadline, not interval counts. Main time stops during timeout.
+  Start is manual after timeout/period changes. Sound is optional and depends
+  on browser user activation/device settings; no claim of background audio.
+- Score correction cannot reduce totals below completed earlier periods.
+  Undo can reopen the most recent period transition during the session.
+  Earlier saved games can be exported; only the current game is editable.
+- School presets (basketball 4x10, football/handball 2x20) are editable examples,
+  not official competition rules. Team fouls reset each period, with no automatic
+  penalties, player fouls, bonus threshold, shot clock, league or grade handling.
+- JSON export is a portable result copy; file import is not implemented here.
+- Verification: 19 automated engine/application-handler scenarios passed using
+  deterministic time and a simulated DOM/storage, plus JS syntax/static checks.
+  Browser rendering, touch, native WebView, fullscreen, actual downloads and
+  audio/device behavior still need a physical/browser pilot. No device pass claimed.
+-->
+
+<html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><title>PE Ultimate · Scoreboard</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1018;--panel:#151e2b;--line:#2e3b50;--muted:#a8b7c9;--ink:#f5f8ff;--lime:#d2f565;--blue:#76b6ff;--red:#ff9b93}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer;min-height:44px;border:1px solid var(--line);border-radius:12px;background:#202c3d;color:var(--ink);padding:10px 15px;font-weight:650;touch-action:manipulation}button:hover{background:#2c3b50}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--lime);outline-offset:3px}button:disabled{opacity:.4;cursor:default}input,select{color:var(--ink);background:#0d1520;border:1px solid #52637a;border-radius:10px;padding:10px;min-height:44px;width:100%;min-width:0}select{width:auto;max-width:100%}.app{max-width:1060px;margin:auto;padding:20px clamp(12px,3vw,28px) max(24px,env(safe-area-inset-bottom))}header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}.brand{font-weight:850;font-size:17px;letter-spacing:.03em}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.15em}.top-actions{display:flex;gap:8px;align-items:center}h1{font-size:clamp(23px,4vw,32px);line-height:1.2;margin:0}.intro{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.tag{font-size:11px;letter-spacing:.1em;color:var(--lime);border:1px solid #58663b;padding:5px 9px;border-radius:99px;white-space:nowrap}.board{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:22px clamp(12px,3vw,30px);box-shadow:0 16px 50px #0003}.boardtop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-size:13px}.status{display:inline-flex;align-items:center;gap:7px}.status:before{content:'';width:7px;height:7px;border-radius:50%;background:#8997ab}.status.running:before{background:var(--lime)}.clockarea{text-align:center;margin:14px auto 20px}.clock{font-size:clamp(58px,10vw,104px);font-weight:850;line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:-.04em;direction:ltr}.clock.urgent{color:var(--red)}.clockcaption{font-size:12px;color:var(--muted);margin-bottom:5px}.period{display:flex;justify-content:center;gap:6px;margin-top:10px}.dot{width:22px;height:4px;background:#3c4b61;border-radius:4px}.dot.done{background:var(--muted)}.dot.active{background:var(--lime)}.teams{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);gap:14px;direction:ltr}.team{border:1px solid #44536a;border-radius:18px;padding:18px 12px;text-align:center;min-width:0}.team.a{border-top:4px solid var(--blue);background:#152639}.team.b{border-top:4px solid var(--red);background:#30212d}.name{font-weight:750;font-size:clamp(16px,2.6vw,24px);overflow-wrap:anywhere;line-height:1.25;min-height:1.25em}.score{font-size:clamp(64px,11vw,120px);font-weight:850;line-height:1.1;font-variant-numeric:tabular-nums}.a .score{color:var(--blue)}.b .score{color:var(--red)}.versus{align-self:center;color:var(--muted);font-size:12px;text-align:center}.score-actions{display:flex;gap:6px;justify-content:center;margin:10px 0 16px}.score-actions button{flex:1;padding:9px 4px;max-width:90px;font-size:20px}.a .score-actions button:not(.minus){background:#244e7b}.b .score-actions button:not(.minus){background:#703938}.score-actions .minus{font-size:16px;max-width:48px;background:transparent}.stats{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;flex-wrap:wrap}.stats strong{font-size:20px;min-width:24px;font-variant-numeric:tabular-nums}.stats button{width:40px;padding:4px;min-height:40px;font-size:18px}.timeoutbtn{width:100%;margin-top:12px;background:transparent;font-size:12px}.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 2px}.primary{background:var(--lime);color:#111b05;border-color:var(--lime);min-width:140px}.primary:hover{background:#e3ff88}.ghost{background:transparent}.danger{color:#ffb5ae}.hint{color:var(--muted);font-size:12px;text-align:center;margin:14px 0 0}.footer-actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.footer-actions button{flex:1;font-size:13px}.below{margin-top:22px;border:1px solid var(--line);border-radius:16px;background:#101925;overflow:hidden}summary{cursor:pointer;padding:14px 18px;font-weight:650;min-height:48px}.tablewrap{padding:0 14px 14px;overflow:auto}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:13px}th,td{text-align:center;padding:10px 5px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}thead th{color:var(--muted);font-weight:550}tfoot{font-weight:750}.empty{text-align:center;padding:14px;color:var(--muted);font-size:13px}.save{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:6px;margin-top:20px}.save.error{color:#ffb5ae}.save:before{content:'●';font-size:10px;color:var(--lime)}.save.error:before{color:var(--red)}dialog{background:#15202e;color:var(--ink);border:1px solid #52637a;border-radius:20px;padding:24px;width:min(560px,calc(100% - 24px));max-height:90dvh;overflow:auto}dialog::backdrop{background:#000a}dialog h2{font-size:23px;margin:0 0 18px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:6px;font-size:13px}.full{grid-column:1/-1}.field select{width:100%}.dialogactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px;justify-content:flex-end}.subnote{font-size:12px;color:var(--muted);margin:12px 0 0}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#101824;box-shadow:0 6px 20px #0005;padding:12px 18px;border-radius:14px;font-weight:650;z-index:10;max-width:90vw;text-align:center}#toast:empty{display:none}.timeoutpanel{display:flex;align-items:center;justify-content:center;gap:16px;border:1px solid var(--lime);border-radius:12px;padding:8px 12px;margin:12px 0;color:var(--lime);flex-wrap:wrap}.timeoutpanel[hidden]{display:none}.timeoutpanel b{font-size:26px;font-variant-numeric:tabular-nums}.archive-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px;border-top:1px solid var(--line);flex-wrap:wrap}.archive-item small{color:var(--muted)}.archive-item button{font-size:12px}.project .top-actions,.project .intro,.project .controls,.project .score-actions,.project .stats button,.project .timeoutbtn,.project .footer-actions,.project .below,.project .save,.project .hint,.project .timeoutpanel button{display:none}.project .app{max-width:1400px}.project .board{margin-top:2vh}.project .score{font-size:clamp(90px,19vw,240px)}.project .clock{font-size:clamp(85px,13vw,160px)}.exitproject{display:none;position:fixed;top:12px;inset-inline-end:12px;z-index:3;font-size:12px;opacity:.7}.project .exitproject{display:block}.project .team{padding:28px 14px}.project .name{font-size:clamp(20px,3vw,40px)}[hidden]{display:none!important}@media(max-width:500px){.app{padding-top:14px}.brand{font-size:14px}.top-actions button{font-size:12px;padding:8px 10px}.top-actions select{font-size:12px;padding:8px}.teams{gap:7px;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr)}.team{padding:14px 8px}.score-actions{gap:3px}.score-actions button{font-size:17px;min-height:44px}.stats{gap:4px}.stats button{width:32px}.clockarea{margin:14px auto}.board{padding:16px 10px}.controls button{flex:1;min-width:0;font-size:13px}.formgrid{gap:12px}h1{font-size:24px}.tag{font-size:9px}.name{min-height:2.5em;display:flex;align-items:center;justify-content:center}.project .name{min-height:1em}.footer-actions button{flex:1 1 40%}}@media(prefers-reduced-motion:no-preference){button{transition:background .12s ease,transform .12s ease}button:active:not(:disabled){transform:scale(.97)}}
+</style></head><body>
+<div class="app" id="pe-scoreboard">
+<header><div class="brand" dir="ltr">PE ULTIMATE<small>SCOREBOARD / 01</small></div><div class="top-actions"><select id="language" aria-label="Language"><option value="en">English</option><option value="he">עברית</option><option value="ar">العربية</option><option value="ru">Русский</option><option value="es">Español</option></select><button id="display" data-t="display">Display</button></div></header>
+<div class="intro"><h1 data-t="title">Game scoreboard</h1><span class="tag" data-t="offline">OFFLINE READY</span></div>
+<main class="board"><div class="boardtop"><span id="sportLabel"></span><span class="status" id="status"></span></div>
+<div class="clockarea"><div class="clockcaption" id="periodLabel"></div><div class="clock" id="clock" role="timer" aria-live="off">10:00</div><div class="period" id="dots" aria-hidden="true"></div></div>
+<div class="timeoutpanel" id="timeoutpanel" hidden><span id="timeoutLabel"></span><b id="timeoutclock" dir="ltr"></b><button id="cancelTimeout" data-t="closeTimeout">End timeout</button></div>
+<div class="teams">
+<section class="team a" aria-labelledby="name0"><div class="name" id="name0" dir="auto"></div><div class="score" id="score0" aria-live="polite">0</div><div class="score-actions"><button data-team="0" data-action="score" data-delta="-1" class="minus">−1</button><button data-team="0" data-action="score" data-delta="1">+1</button><button data-team="0" data-action="score" data-delta="2" class="basket">+2</button><button data-team="0" data-action="score" data-delta="3" class="basket">+3</button></div><div class="stats"><span data-t="fouls">Fouls</span><button data-team="0" data-action="foul" data-delta="-1">−</button><strong id="foul0">0</strong><button data-team="0" data-action="foul" data-delta="1">+</button></div><button class="timeoutbtn" data-team="0" data-action="timeout"><span data-t="timeout">Timeout</span> · <span id="timeouts0">0</span></button></section>
+<div class="versus">VS</div>
+<section class="team b" aria-labelledby="name1"><div class="name" id="name1" dir="auto"></div><div class="score" id="score1" aria-live="polite">0</div><div class="score-actions"><button data-team="1" data-action="score" data-delta="-1" class="minus">−1</button><button data-team="1" data-action="score" data-delta="1">+1</button><button data-team="1" data-action="score" data-delta="2" class="basket">+2</button><button data-team="1" data-action="score" data-delta="3" class="basket">+3</button></div><div class="stats"><span data-t="fouls">Fouls</span><button data-team="1" data-action="foul" data-delta="-1">−</button><strong id="foul1">0</strong><button data-team="1" data-action="foul" data-delta="1">+</button></div><button class="timeoutbtn" data-team="1" data-action="timeout"><span data-t="timeout">Timeout</span> · <span id="timeouts1">0</span></button></section>
+</div><div class="controls"><button id="toggle" class="primary"></button><button id="next" class="ghost"></button><button id="edit" class="ghost" data-t="edit">Edit score / time</button></div><p class="hint" data-t="hint">Space: start / pause · Team fouls reset each period</p></main>
+<div class="footer-actions"><button id="undo" data-t="undo">Undo</button><button id="finish" data-t="finish">Finish match</button><button id="new" data-t="new">New match</button><button id="export" data-t="export">Export result</button></div>
+<details class="below" open><summary data-t="periodScores">Period scores</summary><div class="tablewrap"><table><thead><tr><th data-t="period">Period</th><th id="th0" dir="auto"></th><th id="th1" dir="auto"></th></tr></thead><tbody id="periodRows"></tbody><tfoot><tr><td data-t="total">Total</td><td id="total0">0</td><td id="total1">0</td></tr></tfoot></table></div></details>
+<details class="below" id="archive"><summary><span data-t="savedMatches">Saved matches</span> <span id="archiveCount"></span></summary><div id="archiveRows"></div><div class="tablewrap"><button id="clearArchive" class="ghost danger" data-t="clearArchive">Clear saved matches</button></div></details>
+<div class="save" id="save" role="status"></div>
+</div><button class="exitproject" id="exitproject" data-t="exitDisplay">Exit display</button><div id="toast" role="status"></div>
+<dialog id="setup"><form id="setupForm"><h2 data-t="new">New match</h2><div class="formgrid">
+<label class="field"><span data-t="teamA">Blue team</span><input id="teamA" required maxlength="40" dir="auto"></label><label class="field"><span data-t="teamB">Red team</span><input id="teamB" required maxlength="40" dir="auto"></label>
+<label class="field full"><span data-t="sport">Sport</span><select id="sport"><option value="basketball" data-t="basketball">Basketball</option><option value="football" data-t="football">Football</option><option value="handball" data-t="handball">Handball</option><option value="custom" data-t="custom">Custom</option></select></label>
+<label class="field"><span data-t="format">Format</span><select id="mode"><option value="quarters" data-t="quarters">Quarters</option><option value="halves" data-t="halves">Halves</option></select></label><label class="field"><span data-t="periodCount">Number of periods</span><input id="count" type="number" min="1" max="8" required></label>
+<label class="field"><span data-t="duration">Minutes per period</span><input id="minutes" type="number" min="1" max="120" required></label><label class="field"><span data-t="overtimeMinutes">Overtime minutes</span><input id="overtime" type="number" min="1" max="30" required></label>
+<label class="field full"><span data-t="timeoutSeconds">Timeout seconds</span><input id="timeoutSeconds" type="number" min="10" max="180" required></label>
+</div><p class="subnote" data-t="school">School presets are editable. They are not official competition rules.</p><div class="dialogactions"><button type="button" data-close="setup" data-t="cancel">Cancel</button><button class="primary" type="submit" data-t="create">Create match</button></div></form></dialog>
+<dialog id="editDialog"><form id="editForm"><h2 data-t="edit">Edit score / time</h2><div class="formgrid"><label class="field"><span id="editName0" dir="auto"></span><input id="editA" type="number" min="0" max="999" required></label><label class="field"><span id="editName1" dir="auto"></span><input id="editB" type="number" min="0" max="999" required></label><label class="field"><span data-t="minutes">Minutes</span><input id="editMinutes" type="number" min="0" max="120" required></label><label class="field"><span data-t="seconds">Seconds</span><input id="editSeconds" type="number" min="0" max="59" required></label></div><p class="subnote" data-t="editNote">Editing pauses the clock. Completed periods stay intact; use Undo to reopen the last action. Editing a final result reopens the match; finish it again after correction.</p><div class="dialogactions"><button type="button" data-close="editDialog" data-t="cancel">Cancel</button><button class="primary" type="submit" data-t="apply">Apply</button></div></form></dialog>
+<script>
+/* PE Scoreboard v1. Pure engine; no PE Ultimate keys, identities or grades. */
+(function(root){
+'use strict';
+const copy=x=>JSON.parse(JSON.stringify(x));
+const num=(n,min,max)=>Number.isFinite(Number(n))?Math.max(min,Math.min(max,Math.floor(Number(n)))):min;
+function create(config={},now=Date.now()){
+ const duration=num(config.minutes||10,1,120)*60000;
+ return {version:1,id:'match-'+now+'-'+Math.random().toString(36).slice(2,9),created:now,updated:now,
+  sport:config.sport||'basketball',mode:config.mode==='halves'?'halves':'quarters',count:num(config.count||4,1,8),duration,
+  overtimeDuration:num(config.overtime||5,1,30)*60000,timeoutDuration:num(config.timeout||60,10,180)*1000,
+  names:[String(config.a||'Blue team').slice(0,40),String(config.b||'Red team').slice(0,40)],
+  scores:[0,0],fouls:[0,0],timeouts:[0,0],period:1,periods:[],remaining:duration,deadline:null,
+  timeout:null,status:'paused',ended:null,history:[]};
+}
+function tick(s,now=Date.now()){
+ if(s.deadline!==null){s.remaining=Math.max(0,s.deadline-now);if(!s.remaining){s.deadline=null;s.status='periodEnd';}}
+ if(s.timeout&&s.timeout.deadline!==null){s.timeout.remaining=Math.max(0,s.timeout.deadline-now);if(!s.timeout.remaining)s.timeout=null;}
+ return s;
+}
+function base(s){return s.periods.length?s.periods[s.periods.length-1].total:[0,0];}
+function snapshot(s){const n=copy(s);delete n.history;return n;}
+function remember(s){s.history.push(snapshot(s));if(s.history.length>40)s.history.shift();}
+function pause(s){s.deadline=null;if(s.status!=='final'&&s.status!=='periodEnd')s.status='paused';}
+function settle(s){
+ if(s.periods.some(p=>p.n===s.period))return;
+ const b=base(s);s.periods.push({n:s.period,score:s.scores.map((v,i)=>v-b[i]),total:s.scores.slice(),fouls:s.fouls.slice()});
+}
+function action(s,type,data={},now=Date.now()){
+ tick(s,now);
+ if(type==='undo'){
+  const old=s.history.pop();if(!old)return false;
+  const history=s.history;Object.assign(s,old,{history});s.deadline=null;s.timeout=null;
+  if(s.status!=='final')s.status=s.remaining?'paused':'periodEnd';s.updated=now;return true;
+ }
+ if(type==='finish'&&s.status==='final')return false;
+ if(s.status==='final'&&type!=='edit')return false;
+ if(type==='toggle'){
+  if(s.timeout||s.remaining<=0)return false;
+  if(s.deadline!==null)pause(s);else{s.deadline=now+s.remaining;s.status='running';}
+ }else if(type==='score'||type==='foul'){
+  const team=num(data.team,0,1),delta=num(Math.abs(data.delta),1,999)*(Number(data.delta)<0?-1:1);
+  const key=type==='score'?'scores':'fouls';const min=type==='score'?base(s)[team]:0;
+  const value=Math.max(min,Math.min(type==='score'?999:99,s[key][team]+delta));
+  if(value===s[key][team])return false;remember(s);s[key][team]=value;
+ }else if(type==='edit'){
+  remember(s);if(s.status==='final'){s.periods=s.periods.filter(p=>p.n!==s.period);s.ended=null;}
+  const b=base(s);const a=num(data.a,b[0],999),c=num(data.b,b[1],999);
+  pause(s);s.scores=[a,c];s.remaining=num(data.minutes,0,120)*60000+num(data.seconds,0,59)*1000;
+  s.timeout=null;s.status=s.remaining?'paused':'periodEnd';
+ }else if(type==='timeout'){
+  if(s.timeout)return false;const team=num(data.team,0,1);if(s.timeouts[team]>=999)return false;remember(s);pause(s);s.timeouts[team]++;
+  s.timeout={team,remaining:s.timeoutDuration,deadline:now+s.timeoutDuration};
+ }else if(type==='cancelTimeout'){
+  if(!s.timeout)return false;s.timeout=null;pause(s);
+ }else if(type==='next'){
+  if(s.period>=s.count)return false;remember(s);pause(s);settle(s);s.period++;
+  s.remaining=s.duration;s.fouls=[0,0];s.timeout=null;s.status='paused';
+ }else if(type==='overtime'){
+  if(s.period<s.count||s.period>=50)return false;remember(s);pause(s);settle(s);s.period++;
+  s.remaining=s.overtimeDuration;s.fouls=[0,0];s.timeout=null;s.status='paused';
+ }else if(type==='finish'){
+  remember(s);pause(s);settle(s);s.timeout=null;s.status='final';s.ended=now;
+ }else return false;
+ s.updated=now;return true;
+}
+function reload(s,now=Date.now()){
+ tick(s,now);s.deadline=null;s.timeout=null;if(s.status!=='final')s.status=s.remaining?'paused':'periodEnd';return s;
+}
+function valid(s){
+ if(!s||s.version!==1||typeof s.id!=='string'||s.id.length>100||!['basketball','football','handball','custom'].includes(s.sport))return false;
+ const ints=(a,max)=>Array.isArray(a)&&a.length===2&&a.every(n=>Number.isInteger(n)&&n>=0&&n<=max);
+ if(!ints(s.scores,999)||!ints(s.fouls,99)||!ints(s.timeouts,999))return false;
+ if(!Array.isArray(s.names)||s.names.length!==2||!s.names.every(x=>typeof x==='string'&&x.length<=40))return false;
+ if(!['halves','quarters'].includes(s.mode)||!Number.isInteger(s.count)||s.count<1||s.count>8||!Number.isInteger(s.period)||s.period<1||s.period>50)return false;
+ if(!['paused','running','periodEnd','final'].includes(s.status)||!Number.isFinite(s.remaining)||s.remaining<0||s.remaining>7260000)return false;
+ if(!Number.isFinite(s.duration)||s.duration<60000||s.duration>7200000||!Number.isFinite(s.overtimeDuration)||s.overtimeDuration<60000||s.overtimeDuration>1800000||!Number.isFinite(s.timeoutDuration)||s.timeoutDuration<10000||s.timeoutDuration>180000)return false;
+ if(s.deadline!==null&&!Number.isFinite(s.deadline))return false;
+ if(s.timeout!==null&&(!s.timeout||typeof s.timeout!=='object'||![0,1].includes(s.timeout.team)||!Number.isFinite(s.timeout.remaining)||s.timeout.remaining<0||s.timeout.remaining>180000||!Number.isFinite(s.timeout.deadline)))return false;
+ if(!Array.isArray(s.periods)||s.periods.length>50||!Array.isArray(s.history)||s.history.length>40)return false;
+ if(!s.periods.every((p,i)=>p.n===i+1&&ints(p.score,999)&&ints(p.total,999)&&ints(p.fouls,99)))return false;
+ let totals=[0,0];for(const p of s.periods){totals=totals.map((v,i)=>v+p.score[i]);if(totals.some((v,i)=>v!==p.total[i]))return false;}
+ return totals.every((v,i)=>v<=s.scores[i]);
+}
+const API={create,tick,action,reload,valid,copy,base,snapshot};
+if(typeof module!=='undefined'&&module.exports)module.exports=API;else root.PEScoreEngine=API;
+})(typeof window==='undefined'?globalThis:window);
+
+</script>
+<script>
+(()=>{'use strict';
+const E=window.PEScoreEngine,$=id=>document.getElementById(id),KEY='pe-scoreboard.v1',PREF='pe-scoreboard.lang.v1';
+const L={
+en:{title:'Game scoreboard',display:'Display',offline:'OFFLINE READY',fouls:'Fouls',timeout:'Timeout',closeTimeout:'End timeout',edit:'Edit score / time',hint:'Space: start / pause · Team fouls reset each period',undo:'Undo',finish:'Finish match',new:'New match',export:'Export result',periodScores:'Period scores',period:'Period',total:'Total',savedMatches:'Saved matches',clearArchive:'Clear saved matches',exitDisplay:'Exit display',teamA:'Blue team',teamB:'Red team',sport:'Sport',basketball:'Basketball',football:'Football',handball:'Handball',custom:'Custom',format:'Format',quarters:'Quarters',halves:'Halves',periodCount:'Number of periods',duration:'Minutes per period',overtimeMinutes:'Overtime minutes',timeoutSeconds:'Timeout seconds',school:'School presets are editable. They are not official competition rules.',cancel:'Cancel',create:'Create match',minutes:'Minutes',seconds:'Seconds',editNote:'Editing pauses the clock. Completed periods stay intact; use Undo to reopen the last action. Editing a final result reopens the match; finish it again after correction.',apply:'Apply',start:'Start',pause:'Pause',paused:'Paused',running:'In play',periodEnd:'Period ended',final:'Final',quarter:'Quarter',half:'Half',overtime:'Overtime',next:'Next period',addOvertime:'Add overtime',saved:'Saved on this device',unsaved:'Not saved — export a copy before closing',restored:'Match restored; clock is paused',damaged:'Saved data could not be read. A new board is available; the original saved data has not been overwritten.',replace:'Replace the current match? Export it first if you need to keep it.',early:'End this period before the clock reaches zero?',confirmFinish:'Finish this match? The final result will be saved locally.',cleared:'Remove all saved results? The current match stays.',noMatches:'No completed matches yet',download:'JSON',downloaded:'Export requested. Check your downloads.',failedDownload:'Export failed. Try again in a browser.',sound:'Sound',soundOn:'Sound on',soundOff:'Sound off',empty:'Current period',notFullscreen:'Display mode is on. Fullscreen is unavailable here.',point:'Score',foul:'Foul',loadWarning:'Another tab changed this board. Reload to use its saved match.',saveConflict:'Not saved — another tab has changed the board. Export your copy, then reload.',storageNote:'Local only · Last 20 completed matches · Export for backup',tooMany:'Maximum of 50 periods reached'},
+he:{title:'לוח תוצאות',display:'מצב תצוגה',offline:'פועל ללא אינטרנט',fouls:'עבירות',timeout:'פסק זמן',closeTimeout:'סיום פסק הזמן',edit:'עריכת תוצאה / זמן',hint:'מקש רווח: הפעלה / עצירה · עבירות קבוצתיות מתאפסות בכל פרק',undo:'ביטול פעולה',finish:'סיום משחק',new:'משחק חדש',export:'ייצוא תוצאה',periodScores:'תוצאות לפי פרקים',period:'פרק',total:'סך הכול',savedMatches:'משחקים שנשמרו',clearArchive:'מחיקת משחקים שנשמרו',exitDisplay:'יציאה מתצוגה',teamA:'הקבוצה הכחולה',teamB:'הקבוצה האדומה',sport:'ענף ספורט',basketball:'כדורסל',football:'כדורגל',handball:'כדוריד',custom:'התאמה אישית',format:'מבנה המשחק',quarters:'רבעים',halves:'מחציות',periodCount:'מספר פרקי המשחק',duration:'דקות לכל פרק',overtimeMinutes:'דקות הארכה',timeoutSeconds:'פסק זמן בשניות',school:'הזמנים מותאמים לבית הספר וניתנים לשינוי. הם אינם חוקי תחרות רשמיים.',cancel:'ביטול',create:'יצירת משחק',minutes:'דקות',seconds:'שניות',editNote:'עריכה עוצרת את השעון. פרקים שהסתיימו נשמרים; לביטול הפעולה האחרונה השתמשו בביטול פעולה. עריכת תוצאה סופית פותחת מחדש את המשחק; יש לסיים אותו שוב לאחר התיקון.',apply:'החלת השינוי',start:'הפעלה',pause:'עצירה',paused:'מושהה',running:'המשחק פעיל',periodEnd:'הזמן הסתיים',final:'תוצאה סופית',quarter:'רבע',half:'מחצית',overtime:'הארכה',next:'לפרק הבא',addOvertime:'הוספת הארכה',saved:'נשמר במכשיר הזה',unsaved:'לא נשמר — יש לייצא עותק לפני סגירה',restored:'המשחק שוחזר; השעון מושהה',damaged:'לא ניתן לקרוא את הנתונים השמורים. מוצג לוח חדש; הנתונים המקוריים לא נדרסו.',replace:'להחליף את המשחק הנוכחי? אם רוצים לשמור אותו, יש לייצא קודם.',early:'לסיים את הפרק לפני שהשעון הגיע לאפס?',confirmFinish:'לסיים את המשחק? התוצאה הסופית תישמר במכשיר.',cleared:'למחוק את כל התוצאות השמורות? המשחק הנוכחי יישאר.',noMatches:'עדיין אין משחקים שהסתיימו',download:'JSON',downloaded:'הייצוא התבקש. יש לבדוק בתיקיית ההורדות.',failedDownload:'הייצוא נכשל. נסו שוב בדפדפן.',sound:'צליל',soundOn:'הצליל פעיל',soundOff:'הצליל כבוי',empty:'פרק נוכחי',notFullscreen:'מצב התצוגה פעיל. מסך מלא אינו זמין כאן.',point:'ניקוד',foul:'עבירה',loadWarning:'הלוח השתנה בלשונית אחרת. יש לרענן כדי לטעון את המשחק השמור.',saveConflict:'לא נשמר — הלוח השתנה בלשונית אחרת. ייצאו עותק ואז רעננו.',storageNote:'שמירה מקומית · 20 המשחקים האחרונים · ייצוא לגיבוי',tooMany:'הגעתם למגבלה של 50 פרקים'},
+es:{title:'Marcador',display:'Pantalla',offline:'SIN CONEXIÓN',fouls:'Faltas',timeout:'Tiempo muerto',closeTimeout:'Terminar tiempo muerto',edit:'Editar marcador / tiempo',hint:'Espacio: iniciar / pausar · Las faltas de equipo se reinician en cada periodo',undo:'Deshacer',finish:'Finalizar partido',new:'Nuevo partido',export:'Exportar resultado',periodScores:'Resultados por periodo',period:'Periodo',total:'Total',savedMatches:'Partidos guardados',clearArchive:'Borrar partidos guardados',exitDisplay:'Salir de pantalla',teamA:'Equipo azul',teamB:'Equipo rojo',sport:'Deporte',basketball:'Baloncesto',football:'Fútbol',handball:'Balonmano',custom:'Personalizado',format:'Formato',quarters:'Cuartos',halves:'Mitades',periodCount:'Número de periodos',duration:'Minutos por periodo',overtimeMinutes:'Minutos de prórroga',timeoutSeconds:'Segundos de tiempo muerto',school:'Los ajustes escolares se pueden cambiar. No son reglas oficiales de competición.',cancel:'Cancelar',create:'Crear partido',minutes:'Minutos',seconds:'Segundos',editNote:'Editar pausa el reloj. Los periodos terminados se conservan; usa Deshacer para revertir la última acción. Editar un resultado final reabre el partido; finalízalo de nuevo tras corregirlo.',apply:'Aplicar',start:'Iniciar',pause:'Pausar',paused:'En pausa',running:'En juego',periodEnd:'Periodo terminado',final:'Final',quarter:'Cuarto',half:'Mitad',overtime:'Prórroga',next:'Siguiente periodo',addOvertime:'Añadir prórroga',saved:'Guardado en este dispositivo',unsaved:'Sin guardar — exporta antes de cerrar',restored:'Partido recuperado; reloj en pausa',damaged:'No se pudieron leer los datos. No se han sobrescrito los datos originales.',replace:'¿Reemplazar el partido actual? Expórtalo primero si quieres conservarlo.',early:'¿Terminar el periodo antes de llegar a cero?',confirmFinish:'¿Finalizar el partido y guardar el resultado?',cleared:'¿Borrar todos los resultados guardados? Se mantiene el partido actual.',noMatches:'Todavía no hay partidos finalizados',download:'JSON',downloaded:'Exportación solicitada. Revisa las descargas.',failedDownload:'No se pudo exportar. Inténtalo en un navegador.',sound:'Sonido',soundOn:'Sonido activado',soundOff:'Sonido desactivado',empty:'Periodo actual',notFullscreen:'Modo pantalla activo. La pantalla completa no está disponible.',point:'Puntos',foul:'Falta',loadWarning:'Otra pestaña cambió el marcador. Recarga para recuperarlo.',saveConflict:'Sin guardar — otra pestaña cambió el marcador. Exporta y recarga.',storageNote:'Solo local · Últimos 20 partidos · Exporta para una copia',tooMany:'Máximo de 50 periodos'},
+ru:{title:'Табло',display:'Режим показа',offline:'БЕЗ ИНТЕРНЕТА',fouls:'Фолы',timeout:'Тайм-аут',closeTimeout:'Завершить тайм-аут',edit:'Счёт / время',hint:'Пробел: пуск / пауза · Фолы команды обнуляются в каждом периоде',undo:'Отменить действие',finish:'Завершить матч',new:'Новый матч',export:'Экспорт результата',periodScores:'Счёт по периодам',period:'Период',total:'Итого',savedMatches:'Сохранённые матчи',clearArchive:'Удалить сохранённые матчи',exitDisplay:'Выйти из показа',teamA:'Синяя команда',teamB:'Красная команда',sport:'Вид спорта',basketball:'Баскетбол',football:'Футбол',handball:'Гандбол',custom:'Другой',format:'Формат',quarters:'Четверти',halves:'Таймы',periodCount:'Количество периодов',duration:'Минут на период',overtimeMinutes:'Минут в дополнительном периоде',timeoutSeconds:'Тайм-аут в секундах',school:'Школьные настройки можно менять. Это не официальные правила соревнований.',cancel:'Отмена',create:'Создать матч',minutes:'Минуты',seconds:'Секунды',editNote:'Редактирование останавливает часы. Завершённые периоды сохраняются; последнее действие можно отменить. Правка итога открывает матч снова; завершите его после исправления.',apply:'Применить',start:'Пуск',pause:'Пауза',paused:'Пауза',running:'Идёт игра',periodEnd:'Период завершён',final:'Итог',quarter:'Четверть',half:'Тайм',overtime:'Доп. период',next:'Следующий период',addOvertime:'Доп. период',saved:'Сохранено на этом устройстве',unsaved:'Не сохранено — экспортируйте перед закрытием',restored:'Матч восстановлен; часы остановлены',damaged:'Не удалось прочитать данные. Исходные данные не перезаписаны.',replace:'Заменить текущий матч? Сначала экспортируйте его, если нужно сохранить.',early:'Завершить период до окончания времени?',confirmFinish:'Завершить матч и сохранить итог?',cleared:'Удалить все сохранённые результаты? Текущий матч останется.',noMatches:'Завершённых матчей пока нет',download:'JSON',downloaded:'Экспорт запрошен. Проверьте загрузки.',failedDownload:'Экспорт не удался. Попробуйте в браузере.',sound:'Звук',soundOn:'Звук включён',soundOff:'Звук выключен',empty:'Текущий период',notFullscreen:'Режим показа включён. Полный экран недоступен.',point:'Счёт',foul:'Фол',loadWarning:'Табло изменилось в другой вкладке. Обновите страницу.',saveConflict:'Не сохранено — данные изменены в другой вкладке. Экспортируйте и обновите.',storageNote:'Локально · Последние 20 матчей · Экспорт для резервной копии',tooMany:'Максимум 50 периодов'},
+ar:{title:'لوحة النتائج',display:'وضع العرض',offline:'يعمل دون إنترنت',fouls:'الأخطاء',timeout:'وقت مستقطع',closeTimeout:'إنهاء الوقت المستقطع',edit:'تعديل النتيجة / الوقت',hint:'مفتاح المسافة: تشغيل / إيقاف · تُصفّر أخطاء الفريق في كل فترة',undo:'تراجع',finish:'إنهاء المباراة',new:'مباراة جديدة',export:'تصدير النتيجة',periodScores:'نتائج الفترات',period:'الفترة',total:'المجموع',savedMatches:'المباريات المحفوظة',clearArchive:'حذف المباريات المحفوظة',exitDisplay:'الخروج من العرض',teamA:'الفريق الأزرق',teamB:'الفريق الأحمر',sport:'الرياضة',basketball:'كرة السلة',football:'كرة القدم',handball:'كرة اليد',custom:'مخصص',format:'نظام المباراة',quarters:'أرباع',halves:'شوطان',periodCount:'عدد الفترات',duration:'دقائق كل فترة',overtimeMinutes:'دقائق الوقت الإضافي',timeoutSeconds:'الوقت المستقطع بالثواني',school:'الإعدادات المدرسية قابلة للتعديل وليست قواعد رسمية للمنافسات.',cancel:'إلغاء',create:'إنشاء المباراة',minutes:'دقائق',seconds:'ثوانٍ',editNote:'التعديل يوقف الساعة. تبقى الفترات المكتملة محفوظة؛ استخدم التراجع لإلغاء آخر إجراء. تعديل النتيجة النهائية يعيد فتح المباراة؛ أنهِها مجدداً بعد التصحيح.',apply:'تطبيق',start:'تشغيل',pause:'إيقاف',paused:'متوقفة',running:'المباراة جارية',periodEnd:'انتهت الفترة',final:'النتيجة النهائية',quarter:'الربع',half:'الشوط',overtime:'وقت إضافي',next:'الفترة التالية',addOvertime:'إضافة وقت إضافي',saved:'محفوظ على هذا الجهاز',unsaved:'لم يُحفظ — صدّر نسخة قبل الإغلاق',restored:'استُعيدت المباراة؛ الساعة متوقفة',damaged:'تعذرت قراءة البيانات. لم تُستبدل البيانات الأصلية.',replace:'استبدال المباراة الحالية؟ صدّرها أولاً إن أردت الاحتفاظ بها.',early:'إنهاء الفترة قبل وصول الساعة إلى الصفر؟',confirmFinish:'إنهاء المباراة وحفظ النتيجة النهائية؟',cleared:'حذف جميع النتائج المحفوظة؟ تبقى المباراة الحالية.',noMatches:'لا توجد مباريات مكتملة بعد',download:'JSON',downloaded:'طُلب التصدير. تحقق من التنزيلات.',failedDownload:'تعذر التصدير. حاول في المتصفح.',sound:'الصوت',soundOn:'الصوت مفعّل',soundOff:'الصوت متوقف',empty:'الفترة الحالية',notFullscreen:'وضع العرض مفعّل. الشاشة الكاملة غير متاحة هنا.',point:'النقاط',foul:'خطأ',loadWarning:'تغيرت اللوحة في علامة تبويب أخرى. أعد تحميل الصفحة.',saveConflict:'لم يُحفظ — تغيرت اللوحة في علامة تبويب أخرى. صدّر نسخة ثم أعد التحميل.',storageNote:'محلي فقط · آخر 20 مباراة · التصدير للنسخ الاحتياطي',tooMany:'الحد الأقصى 50 فترة'}
+};
+let lang='en',s=E.create(),records=[],sound=false,audio=null,corrupt=false,conflict=false,revision=null,persistOK=false,toastTimer;
+try{const pref=localStorage.getItem(PREF);if(L[pref])lang=pref;const raw=localStorage.getItem(KEY);if(raw){if(raw.length>1000000)throw Error('oversize');const n=JSON.parse(raw);if(!E.valid(n.current)||!Array.isArray(n.records)||n.records.length>20||!n.records.every(v=>E.valid({...v,history:[]})&&v.status==='final'))throw Error('invalid');s=E.reload(n.current);s.history=[];records=n.records;revision=n.revision;}}catch(e){corrupt=true;persistOK=false;}
+const t=k=>L[lang][k]||L.en[k]||k;
+function notify(text){$('toast').textContent=text;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').textContent='',4500);}
+function store(){
+ if(corrupt||conflict){persistOK=false;renderSave();return false;}
+ try{
+  const raw=localStorage.getItem(KEY),old=raw?JSON.parse(raw):null;
+  if((old?.revision??null)!==revision){conflict=true;persistOK=false;renderSave();notify(t('loadWarning'));return false;}
+  const next=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);localStorage.setItem(KEY,JSON.stringify({version:1,revision:next,current:s,records}));revision=next;persistOK=true;
+ }catch(e){persistOK=false;}
+ renderSave();return persistOK;
+}
+function renderSave(){const msg=conflict?'saveConflict':persistOK&&!corrupt?'saved':'unsaved';$('save').textContent=t(msg)+' · '+t('storageNote');$('save').classList.toggle('error',!persistOK||corrupt||conflict);}
+function periodText(n){return n>s.count?t('overtime')+' '+(n-s.count):t(s.mode==='halves'?'half':'quarter')+' '+n;}
+function clock(ms){const v=Math.ceil(ms/1000);return Math.floor(v/60).toString().padStart(2,'0')+':'+(v%60).toString().padStart(2,'0');}
+function renderClock(){E.tick(s);$('clock').textContent=clock(s.remaining);$('clock').classList.toggle('urgent',s.remaining<=60000&&s.status!=='final');$('timeoutpanel').hidden=!s.timeout;if(s.timeout){$('timeoutLabel').textContent=t('timeout')+' · '+s.names[s.timeout.team];$('timeoutclock').textContent=clock(s.timeout.remaining);}}
+function syncRecord(){const i=records.findIndex(x=>x.id===s.id);if(s.status==='final'){const n=E.snapshot(s);if(i>=0)records[i]=n;else records.unshift(n);records=records.slice(0,20);}else if(i>=0)records.splice(i,1);}
+function render(){
+ document.documentElement.lang=lang;document.documentElement.dir=['he','ar'].includes(lang)?'rtl':'ltr';$('language').value=lang;
+ document.querySelectorAll('[data-t]').forEach(el=>el.textContent=t(el.dataset.t));
+ $('sportLabel').textContent=t(s.sport);$('status').textContent=t(s.status);$('status').className='status '+s.status;
+ $('periodLabel').textContent=periodText(s.period)+(s.period<=s.count?' / '+s.count:'');
+ $('dots').replaceChildren();for(let i=1;i<=s.count;i++){const el=document.createElement('span');el.className='dot '+(i===s.period?'active':i<s.period?'done':'');$('dots').append(el);}
+ for(let i=0;i<2;i++){for(const prefix of ['name','th','editName'])$(prefix+i).textContent=s.names[i];$('score'+i).textContent=s.scores[i];$('total'+i).textContent=s.scores[i];$('foul'+i).textContent=s.fouls[i];$('timeouts'+i).textContent=s.timeouts[i];}
+ document.querySelectorAll('.basket').forEach(el=>el.hidden=s.sport!=='basketball'&&s.sport!=='custom');
+ document.querySelectorAll('[data-action]').forEach(el=>{el.disabled=s.status==='final'||(el.dataset.action==='timeout'&&!!s.timeout);el.setAttribute('aria-label',s.names[el.dataset.team]+' · '+t(el.dataset.action==='score'?'point':el.dataset.action==='foul'?'foul':'timeout')+' '+(el.dataset.delta||''));});
+ $('toggle').textContent=s.deadline!==null?t('pause'):t('start');$('toggle').disabled=s.status==='final'||s.remaining<=0||!!s.timeout;
+ $('next').textContent=t(s.period>=s.count?'addOvertime':'next');$('next').disabled=s.status==='final'||!!s.timeout||s.period>=50;
+ $('undo').disabled=!s.history.length;$('edit').disabled=false;$('finish').disabled=s.status==='final';
+ $('periodRows').replaceChildren();const b=E.base(s),rows=s.periods.map(p=>({label:periodText(p.n),score:p.score}));if(s.status!=='final')rows.push({label:periodText(s.period)+' · '+t('empty'),score:s.scores.map((v,i)=>v-b[i])});
+ for(const r of rows){const tr=document.createElement('tr');for(const v of [r.label,...r.score]){const td=document.createElement('td');td.textContent=v;tr.append(td);}$('periodRows').append(tr);}
+ $('archiveCount').textContent='('+records.length+')';$('archiveRows').replaceChildren();
+ if(!records.length){const el=document.createElement('div');el.className='empty';el.textContent=t('noMatches');$('archiveRows').append(el);}
+ records.forEach(r=>{const el=document.createElement('div');el.className='archive-item';const label=document.createElement('div');label.dir='auto';const title=document.createElement('strong');title.textContent=r.names[0]+' '+r.scores[0]+' — '+r.scores[1]+' '+r.names[1];const date=document.createElement('small');date.textContent=new Date(r.ended).toLocaleString(lang==='he'?'he-IL':lang);label.append(title,document.createElement('br'),date);const btn=document.createElement('button');btn.textContent=t('download');btn.onclick=()=>download(r);el.append(label,btn);$('archiveRows').append(el);});
+ $('clearArchive').disabled=!records.length;renderClock();renderSave();
+ document.dispatchEvent(new CustomEvent('pe-scoreboard:change',{detail:E.snapshot(s)}));
+}
+function beep(){if(!sound)return;try{if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.frequency.value=880;g.gain.setValueAtTime(.18,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.6);o.start();o.stop(audio.currentTime+.6);}catch(e){}}
+function act(type,data){if(E.action(s,type,data)){syncRecord();store();render();}}
+function download(state=s){
+ const blob=new Blob([JSON.stringify({format:'pe-scoreboard-result',version:1,exportedAt:new Date().toISOString(),match:E.snapshot(state)},null,2)],{type:'application/json'});
+ try{const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=state.id+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);notify(t('downloaded'));}catch(e){notify(t('failedDownload'));}
+}
+$('language').onchange=()=>{lang=$('language').value;try{localStorage.setItem(PREF,lang);}catch(e){}render();};
+$('toggle').onclick=()=>{if(sound){try{if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();audio.resume();}catch(e){}}act('toggle');};
+$('undo').onclick=()=>act('undo');$('export').onclick=()=>download();$('cancelTimeout').onclick=()=>act('cancelTimeout');
+$('pe-scoreboard').addEventListener('click',ev=>{const b=ev.target.closest('[data-action]');if(b&&!b.disabled)act(b.dataset.action,{team:Number(b.dataset.team),delta:Number(b.dataset.delta)});});
+$('next').onclick=()=>{if(s.period>=50){notify(t('tooMany'));return;}if(s.remaining>0&&!confirm(t('early')))return;act(s.period>=s.count?'overtime':'next');};
+$('finish').onclick=()=>{if(s.status!=='final'&&confirm(t('confirmFinish')))act('finish');};
+$('clearArchive').onclick=()=>{if(confirm(t('cleared'))){records=[];store();render();}};
+const soundBtn=document.createElement('button');soundBtn.id='sound';soundBtn.className='ghost';document.querySelector('.footer-actions').append(soundBtn);
+function soundLabel(){soundBtn.textContent=t(sound?'soundOn':'soundOff');soundBtn.setAttribute('aria-pressed',String(sound));}
+soundBtn.onclick=()=>{sound=!sound;soundLabel();if(sound)beep();};$('language').addEventListener('change',soundLabel);
+function setup(){if(s.deadline!==null)act('toggle');for(const [id,v] of Object.entries({teamA:s.names[0],teamB:s.names[1],sport:s.sport,mode:s.mode,count:s.count,minutes:s.duration/60000,overtime:s.overtimeDuration/60000,timeoutSeconds:s.timeoutDuration/1000}))$(id).value=v;$('setup').showModal();}
+$('new').onclick=setup;
+$('sport').onchange=()=>{const k=$('sport').value;if(k==='basketball'){$('mode').value='quarters';$('count').value=4;$('minutes').value=10;}else if(k!=='custom'){$('mode').value='halves';$('count').value=2;$('minutes').value=20;}};
+$('mode').onchange=()=>{$('count').value=$('mode').value==='halves'?2:4;};
+$('setupForm').onsubmit=ev=>{ev.preventDefault();if(s.status!=='final'&&(s.scores.some(Boolean)||s.period>1||s.remaining!==s.duration||s.fouls.some(Boolean))&&!confirm(t('replace')))return;
+ if(corrupt&&!confirm(t('replace')))return;
+ s=E.create({a:$('teamA').value.trim()||t('teamA'),b:$('teamB').value.trim()||t('teamB'),sport:$('sport').value,mode:$('mode').value,count:$('count').value,minutes:$('minutes').value,overtime:$('overtime').value,timeout:$('timeoutSeconds').value});
+ corrupt=false;try{const old=localStorage.getItem(KEY);revision=old?JSON.parse(old).revision??null:null;}catch(e){revision=null;try{localStorage.removeItem(KEY);}catch(e){}}$('setup').close();store();render();soundLabel();};
+$('edit').onclick=()=>{E.tick(s);if(s.deadline!==null)act('toggle');if(s.timeout)act('cancelTimeout');const b=s.status==='final'?(s.periods.length>1?s.periods[s.periods.length-2].total:[0,0]):E.base(s);$('editA').value=s.scores[0];$('editB').value=s.scores[1];$('editA').min=b[0];$('editB').min=b[1];const sec=Math.ceil(s.remaining/1000);$('editMinutes').value=Math.floor(sec/60);$('editSeconds').value=sec%60;$('editDialog').showModal();};
+$('editForm').onsubmit=ev=>{ev.preventDefault();act('edit',{a:$('editA').value,b:$('editB').value,minutes:$('editMinutes').value,seconds:$('editSeconds').value});$('editDialog').close();};
+for(const b of document.querySelectorAll('[data-close]'))b.onclick=()=>$(b.dataset.close).close();
+$('display').onclick=async()=>{document.body.classList.add('project');try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();}catch(e){notify(t('notFullscreen'));}};
+$('exitproject').onclick=async()=>{document.body.classList.remove('project');try{if(document.fullscreenElement)await document.exitFullscreen();}catch(e){}};
+window.addEventListener('keydown',ev=>{if(ev.key==='Escape'){document.body.classList.remove('project');return;}if(ev.code==='Space'&&!ev.repeat&&!ev.target.closest('input,select,textarea,button,summary,dialog')){ev.preventDefault();$('toggle').click();}});
+window.addEventListener('storage',ev=>{if(ev.key===KEY){if(s.deadline!==null){E.tick(s);s.deadline=null;s.status=s.remaining?'paused':'periodEnd';}s.timeout=null;conflict=true;persistOK=false;render();notify(t('loadWarning'));}});
+let lastSave=Date.now();
+setInterval(()=>{const status=s.status,timeout=!!s.timeout;renderClock();if(status!==s.status||timeout!==!!s.timeout){beep();store();render();}if(Date.now()-lastSave>5000&&(s.deadline!==null||s.timeout)){store();lastSave=Date.now();}},200);
+window.addEventListener('pagehide',()=>{E.tick(s);store();});document.addEventListener('visibilitychange',()=>{E.tick(s);if(document.hidden)store();else render();});
+/* Integration contract: isolated state + event; do not map team names to sid/cid.
+ Replace persistence with the host's approved adapter before embedding in its tab.
+ Provide destroy() when leaving the tab after splitting this file into a mounted module.
+ Current standalone file is not injected into PE Ultimate. */
+window.PEScoreboard={getState:()=>E.snapshot(s),exportResult:()=>download(),setLanguage:code=>{if(!L[code])return false;lang=code;render();soundLabel();return true;},version:1};
+if(!corrupt)store();render();soundLabel();if(corrupt)notify(t('damaged'));else if(revision)notify(t('restored'));
+})();
+</script></body></html>
