@@ -208,13 +208,13 @@ Los datos de condición física y el VO₂max son estimaciones con fines educati
 
 The new logo keeps the idea of the current icon (stopwatch with a check mark) and adds a basketball and a football (soccer ball) with color: a white stopwatch with a green check on a blue gradient, yellow speed lines, an orange basketball and a black-and-white football. The shoe from the old icon is dropped because it did not read at small sizes. The icon has no text, so it needs no translation.
 
-**Future only, not applied:** these files are not wired into the app. Replacing `icon-*.png`, `native/assets/*` and the manifest icons is a separate task that needs a fresh reservation on shared files and the owner's choice of logo. For the Android adaptive icon the foreground and background will have to be split into two layers (`native/assets/icon-foreground.png` / `icon-background.png`) with the stopwatch inside the central safe zone; that split was not done here.
+**Applied on draft PR #44, not merged or deployed:** the new logo replaces the web/PWA, maskable, Android legacy/round/adaptive and iOS icon assets. Android foreground/background sources are already split in `native/assets/icon-foreground.png` and `native/assets/icon-background.png`. Owner review of the logo and physical-device checks of adaptive masks and small-size legibility remain pending. Splash screens are unchanged. The earlier store-listing handoff's future-icon wording is superseded by `docs/handoffs/2026-10-05-icons-package-id.md`.
 
 The feature graphic text is English only and uses a system font; a Hebrew/Arabic/Russian/Spanish variant is not made. Review the artwork yourself, including trademark and similarity checks, before use.
 
 ## Still needed from the owner
 
-1. Package ID and audience decision.
+1. Confirm the proposed `io.github.osher15.peultimate` package ID and intended audience before store submission. The ID is implemented on draft PR #44; owner approval, release signing and submission are not claimed.
 2. Approve or edit the wording (especially claims such as "30 fitness tests", which come from README.md).
 3. Real-device screenshots (phone, and tablet if offered).
 4. Store privacy sentence and Data safety answers (readiness doc §6).
