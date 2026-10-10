@@ -65,5 +65,13 @@ const suites=[
   require("./stage2.e2e.js"),
   require("./lessonbank.e2e.js")
 ];
-run(suites).then(fail=>process.exit(fail?1:0))
+run(suites).then(fail=>{
+  if(fail)return process.exit(1);
+  // This probe serves real index.html/SW instead of the standalone harness.
+  // Await its process and preserve failures; requiring it would not await it.
+  const result=require("node:child_process").spawnSync(process.execPath,
+    [...process.execArgv,require.resolve("../review/offline-lazy.e2e.js")],{stdio:"inherit"});
+  if(result.error){ console.error(result.error); return process.exit(1); }
+  process.exit(result.signal||result.status!==0?1:0);
+})
   .catch(e=>{ console.error(e); process.exit(1); });
