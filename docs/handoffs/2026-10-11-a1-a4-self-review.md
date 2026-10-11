@@ -88,3 +88,29 @@ release policy and device evidence need fresh release-time verification.
 Owner next: review OWNER_MERGE_ORDER and the small patches; confirm route only when
 ready for eventual integration. Do not apply both the cumulative and incremental routes.
 Netlify hold remains through2026-10-22 and beyond until explicit deployment approval.
+
+
+## Adversarial finding discovered by complete integration run
+
+Fresh reservation: Issue18 comment6111402990. Severity: offline core regression
+inherited from candidate. index.html loaded hm-collections.js, but sw.js SHELL omitted
+it. The initial integration's unchanged offline-lazy probe failed at hm-lesson.js:1265
+with COLLECTIONS undefined after first-install cache then offline reload. Normal
+standalone-harness suites inline the module and therefore did not expose this defect.
+
+Minimal correction: add one source SHELL entry for hm-collections.js immediately after
+hm-know.js. No test assertion changes. Source patch:
+docs/patches/2026-10-11-offline-collections-cache.patch. Generated index.html,
+Hamegrash.html and sw.js stamps rebuilt, never copied. This is an inherited-candidate
+correction separate from A1's seven-file attribution and A1-only patch.
+
+npm test715/715; two builds hash-identical. The corrected ordered integration ef5ef2a
+passes the unchanged fresh-cache offline probe. Initial attempt to execute that probe
+in this task1 worktree returned MODULE_NOT_FOUND because registration is only in the
+ordered integration; it is not counted as browser evidence. Browser evidence is from
+the ordered integration. Full rerun results belong to task2's handoff.
+
+OWNER_MERGE_ORDER now includes exact patch export and source cache-entry application
+before rebuilding A1. Expected unit counts remain715. No CI/physical-device/teacher
+review. Do not treat the original integration's offline failure as a browser-lifecycle
+crash. The historical browser-closed cause remains unidentified.

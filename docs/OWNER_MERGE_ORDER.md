@@ -21,9 +21,16 @@ git switch -c review/owner-ordered-integration dba3cbe6f97205a87922ad84212838113
 npm test
 node build-standalone.js
 node build-standalone.js
-# Obtain the A1-only patch from the self-review branch before switching.
+# Export the source patches from the published self-review artifact branch.
+git show origin/codex/a1-a4-self-review-2026-10-11:docs/patches/2026-10-11-a1-only.patch > /tmp/2026-10-11-a1-only.patch
+git show origin/codex/a1-a4-self-review-2026-10-11:docs/patches/2026-10-11-offline-collections-cache.patch > /tmp/2026-10-11-offline-collections-cache.patch
+git show origin/codex/a1-a4-self-review-2026-10-11:docs/patches/2026-10-11-pr47-metadata-test.patch > /tmp/2026-10-11-pr47-metadata-test.patch
+git show origin/codex/a1-a4-self-review-2026-10-11:docs/patches/2026-10-11-package-migration.patch > /tmp/2026-10-11-package-migration.patch
 git apply --check /tmp/2026-10-11-a1-only.patch
 git apply /tmp/2026-10-11-a1-only.patch
+# Candidate omitted the new core module from SW precache. Source entry only:
+git apply --check /tmp/2026-10-11-offline-collections-cache.patch
+git apply /tmp/2026-10-11-offline-collections-cache.patch
 npm test
 node build-standalone.js
 node build-standalone.js
@@ -72,3 +79,9 @@ A1 targeted suite is now 6 checks; full-browser counts belong to task 2.
 The A1-only and metadata-test patches contain source/tests only. They deliberately
 omit generated outputs, documentation and inherited candidate changes.
 All 18 protected AR/RU/ES bank arrays must remain byte-identical to main.
+
+Task2 exposed an inherited candidate offline defect: hm-collections.js was absent
+from SW SHELL. The additional task1 patch adds that source entry; build-standalone.js
+regenerates its version and build stamps. The original full browser run is retained
+as646 suite checks passed plus one offline probe failure. The final task2 report
+records rerun coverage on the corrected integration; no assertion is weakened.
