@@ -159,3 +159,8 @@ the date does not authorize deployment. No second-party review or native-review 
 Optional runtime adapter verification: unchanged offline probe PASS with the committed
 runtime-browser.cjs and PE_CHROMIUM_BIN/PE_CHROMIUM_ARGS. This supplementary
 one-probe verification is excluded from the650 unique browser check count.
+
+Documentation-only completion: the task1 Package-ID migration gate is also present
+in this executable integration's NATIVE_RELEASE_CHECKLIST.md. It was applied from
+the existing exact task1 source patch; no product/assertion/generated-output change
+and no additional tests counted. Source/build hashes remain those recorded above.
