@@ -18,8 +18,8 @@ and an honest source-evidence status. No card gets an overall pass based on shar
 
 | Language | Card-specific observations | Explicit per-card source mappings | Still need per-card mapping |
 |---|---:|---:|---:|
-| EN |120|72|48|
-| AR |120|0|120|
+| EN |120|76|44|
+| AR |120|5|115|
 | RU |120|0|120|
 | ES |120|0|120|
 
@@ -27,8 +27,9 @@ The report-level bibliographies in AR/RU/ES are not a substitute for a term→so
 mapping for each card. This is a substantive remaining audit finding, not a zero-error
 or source-complete result. The72 English mappings are inherited evidence with their
 original source/edition/access limits, not newly certified primary-source readings.
-The stricter source-corroboration portion of task4 remains unfinished:408 mappings.
+The stricter source-corroboration portion of task4 remains unfinished:399 mappings after nine exact source-section matches.
 Do not manufacture a generic ministry citation to make these cells look complete.
+Of the81 explicit mappings,72 are inherited English evidence and9 are new source-section comparisons.
 
 ## Numeric flags and exact edits
 
@@ -71,4 +72,23 @@ research leads, never as native-language corroboration. Fresh RU section fetches
 out and direct retrieval returned502; Chile page retrieval failed. The Palestinian
 portal, English statutory curriculum and Irish curriculum identify credible research
 leads but cannot certify the unmatched precise terms. This evidence gap is preserved,
-not converted to a pass. No claim that the strict408 missing mappings were completed.
+not converted to a pass. Nine later precise matches reduce408 missing mappings to399;
+no claim that all remaining mappings were completed.
+
+
+## Nine precise source matches added in this continuation
+
+Fresh reservation: Issue18 comment6114185943. Saved complete current bodies of
+EN DR040/054/073/075 and AR DR002/003/009/010/025 were read against specific source
+sections. Sport NZ running/rotation/landing pages support the stated concepts; the
+ledger explicitly records differences in arm position, approach and hold duration.
+Palestinian Grade5 PE guide2017 pages37/49/62/63/64 were rendered with pdftoppm and
+visually inspected to avoid relying on damaged RTL extraction. Native Arabic terms
+for inside-foot pass, forearm pass, overhead pass, underhand serve and chest pass
+have direct concept evidence. These sections do not approve all drill adaptations,
+ages, quantities or timing, and no new source card replacement was required.
+
+Current counts: EN76 mapped/44 pending; AR5/115; RU0/120; ES0/120. All480 observations,
+49 adjudications and48 historical full-body receipts remain. No overall pass. This
+is a precise progress checkpoint, not completion of the strict source-coverage request.
+Teacher and native-human approval remain outstanding for every language.

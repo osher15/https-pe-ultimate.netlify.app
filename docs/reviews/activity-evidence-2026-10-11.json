@@ -1,15 +1,15 @@
 {
-  "scope": "Existing EN/AR/RU/ES cards only; audit ledger reconciliation, not a new full body edit pass",
+  "scope": "Existing EN/AR/RU/ES cards only; full saved-body observations and numeric reconciliation plus selective primary-source follow-through. Not a fresh live page reread or new source edit.",
   "counts": {
     "en": {
       "cards": 120,
-      "explicit_source_mapping": 72,
-      "mapping_pending": 48
+      "explicit_source_mapping": 76,
+      "mapping_pending": 44
     },
     "ar": {
       "cards": 120,
-      "explicit_source_mapping": 0,
-      "mapping_pending": 120
+      "explicit_source_mapping": 5,
+      "mapping_pending": 115
     },
     "ru": {
       "cards": 120,
@@ -1083,15 +1083,17 @@
       "title": "DR-040 — Running arm action from a stable stance",
       "body_sha256": "5f8e5a2fc703333f0be4344421fc84e95f71c6422fe300538a103935f20f5385",
       "card_specific_observation": "The card distinguishes isolated arm action from arm-leg coordination, includes a timed 15-second/30-second-rest set totaling 135 seconds, and allocates remaining time to setup/feedback. No load or forced range is prescribed. No primary source for this precise arm-action cue was retrieved; no technique endorsement inferred. No edit proposed.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "alternating running arm action",
+          "url": "https://sportnz.org.nz/media/2050/fundamental-movement-running.pdf",
+          "section": "Printed pp26–27, direction-of-force discussion and learning cues. Supports bent-elbow shoulder-driven arm action; stationary isolation,15/30-second intervals and adaptations are editorial.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "Running arm action from a stable stance",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass."
-      }
+      "overall_pass": false
     },
     {
       "language": "en",
@@ -1327,15 +1329,17 @@
       "title": "DR-054 — Sideways body roll on a mat",
       "body_sha256": "1aa7a5ee73c16e232cee02d1878d725778ad7a97ab3e3db708447743d158d37a",
       "card_specific_observation": "The body-roll task defines a slow back-side-front sequence and return path without loading the neck; mat integrity, observer position, no partner push, stopping for pain/dizziness, and avoiding unsuitable prone positions are explicit. Two tries each direction and six-minute timing are clear. As this is a movement/safety review, not clinical approval, no external technique endorsement is made; no edit proposed.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "sideways roll around body long axis",
+          "url": "https://sportnz.org.nz/media/2042/fundamental-movement-rotation.pdf",
+          "section": "Printed p161, Log Rolling. Supports back/front long-axis rolling on mats. Source uses arms overhead; this card uses hands near chest and slower partial stages. Do not treat the source as approval of those changes, dosage or safety.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "Sideways body roll on a mat",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass."
-      }
+      "overall_pass": false
     },
     {
       "language": "en",
@@ -1658,15 +1662,17 @@
       "title": "DR-073 — Approach steps into one-foot take-off and two-foot landing",
       "body_sha256": "3ef5f7ce2d21696849b00c3788ffbc8ae12208a8b66f41dc04cc1f29d8ca8e69",
       "card_specific_observation": "A short three-step walk-in, one-foot take-off, two-foot landing, two-second balance hold, sideways exit, and outside return are explicit; only one performer uses the lane at a time. The adaptation is correctly assessed separately from jumping. Attempt and timing counts are clear. No edit proposed.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "one-foot take-off and two-foot landing",
+          "url": "https://sportnz.org.nz/media/2044/fundamental-movement-landing.pdf",
+          "section": "Printed p120, Landing on Feet. Explicitly includes one-foot take-off into two-foot landing. Card adds three approach steps and a two-second hold; source has a three-second hold. Dose, approach and accessibility remain editorial.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "Approach steps into one-foot take-off and two-foot landing",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass."
-      }
+      "overall_pass": false
     },
     {
       "language": "en",
@@ -1693,15 +1699,17 @@
       "title": "DR-075 — Easy running with even step rhythm between markers",
       "body_sha256": "20f810c5583aad6f403977ff5bfa8e65e2e93cb0ebd27189b00b80b5cd6bd195",
       "card_specific_observation": "The lane dimensions divide into a 4 m approach, 6 m marker section and 6 m slowing area. The teacher adjusts marker spacing to natural steps; the learner returns outside the lane. Three passes, pair swap, and 6-minute suggested schedule are clear. No primary source validates the exact stride-marker setup or dosage; no edit proposed.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "even running rhythm",
+          "url": "https://sportnz.org.nz/media/2050/fundamental-movement-running.pdf",
+          "section": "Printed p27, consolidating phase; p31 Running Journey. Supports rhythmic running concept, not fixed gaps, three passes, lane dimensions or wheelchair alternative.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "Easy running with even step rhythm between markers",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass."
-      }
+      "overall_pass": false
     },
     {
       "language": "en",
@@ -2226,17 +2234,17 @@
       "title": "DR-002 — تمرير بباطن القدم عبر بوابة",
       "body_sha256": "e73c4a40d89ddd0f3ac7836ed1105e03f530a5c482905944988a0281c7cefb9c",
       "card_specific_observation": "Natural standard instructions; ‘باطن القدم’ and ‘قدم الارتكاز’ are consistent PE terms. Ground pass through a measured gate is operationally defined; the learner stops the return before passing, alternates the foot by ability, and retrieves only after a clear lane.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "التمرير بباطن القدم",
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "2017 experimental Palestinian Grade5 guide, printed/PDF p37. Inside-foot pass heading and support-foot direction match the card concept. The gate drill, distances, dosage, first-touch criterion and adaptations are editorial.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "تمرير بباطن القدم عبر بوابة",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass.",
-        "english_concept_reference": "en/DR-002",
-        "reference_limit": "English counterpart has explicit conceptual sources, but these do not establish the translated wording. No native-language mapping is inferred."
-      }
+      "overall_pass": false
     },
     {
       "language": "ar",
@@ -2245,17 +2253,17 @@
       "title": "DR-003 — التحرك إلى الكرة والتمرير بالساعدين",
       "body_sha256": "6c1eabd0cefa30f136896df8f5afad52ba192a045760a9004b034487cfe62b3b",
       "card_specific_observation": "Formal Arabic is generally fluent; ‘المغذي’ is understandable in context for the feeder, though ‘الممرر’ would also be familiar. No change proposed. Gentle feed within one step precedes lateral movement and forearm return; no net, no diving, below-head feed and pain stop are explicit.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "التمرير بالساعدين",
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "Printed/PDF p63, underhand forward passing; p59 unit goal. The page explicitly identifies forearm contact, matching this term. Card adds preannounced lateral movement then stop; schedule, equipment and seated variant are editorial.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "التحرك إلى الكرة والتمرير بالساعدين",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass.",
-        "english_concept_reference": "en/DR-003",
-        "reference_limit": "English counterpart has explicit conceptual sources, but these do not establish the translated wording. No native-language mapping is inferred."
-      }
+      "overall_pass": false
     },
     {
       "language": "ar",
@@ -2473,17 +2481,17 @@
       "title": "DR-009 — تمرير علوي ذاتي ثم التقاط",
       "body_sha256": "abf3ee09483df47a679eb5a21007f1bf71b18c5a7d034457d730c915e825de74",
       "card_specific_observation": "‘تمرير علوي’ and ‘ملامسة بأصابع مفتوحة’ are clear in this introductory self-set context. Self-set followed by one-touch catch is appropriately low-volume; overhead clearance, finger-pain stop, and seated adaptation are specified.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "التمرير من أعلى",
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "Printed/PDF p62, overhead forward passing from standing. Supports above-forehead open-finger passing concept. Self-set/catch task differs from the source partner pass; no claim that repetitions, height or assessment are prescribed.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "تمرير علوي ذاتي ثم التقاط",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass.",
-        "english_concept_reference": "en/DR-009",
-        "reference_limit": "English counterpart has explicit conceptual sources, but these do not establish the translated wording. No native-language mapping is inferred."
-      }
+      "overall_pass": false
     },
     {
       "language": "ar",
@@ -2492,17 +2500,17 @@
       "title": "DR-010 — إرسال من أسفل إلى مساحة خالية",
       "body_sha256": "aa1c163ea6e0f6f2d1d863c721fc7b83f4db4dad63ef361f3261b833dcde042e",
       "card_specific_observation": "The underhand-service terms are understandable; ‘خط الإرسال’ and ‘اليد غير الضاربة’ are precise. The task safely removes net/receiver exposure and defines stance, release, target, retrieval signal and five-shot tally; contact description is still simplified for a technique primer.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "الإرسال من أسفل",
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "Printed/PDF p64, underhand service. Supports opposite foot forward and low swing/contact concept. Source describes net play; card deliberately uses no net/no receiver and closer target. No official-service-law or dosage certification.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "إرسال من أسفل إلى مساحة خالية",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass.",
-        "english_concept_reference": "en/DR-010",
-        "reference_limit": "English counterpart has explicit conceptual sources, but these do not establish the translated wording. No native-language mapping is inferred."
-      }
+      "overall_pass": false
     },
     {
       "language": "ar",
@@ -2891,17 +2899,17 @@
       "title": "DR-025 — تمريرة صدرية مباشرة باليدين",
       "body_sha256": "034cbcd3666bd90fa77bbb2cc99fd8a05fcb06a8616e0b0bbbc04d2f78f49637",
       "card_specific_observation": "Chest-pass terms and receiver-readiness cue are natural MSA; sectioning is easy to scan. Soft-ball chest pass is made only to a ready partner; space, target height, no chasing and low-force distance progression are explicit.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "التمريرة الصدرية",
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "Printed/PDF p49, chest pass. Supports two-handed release from chest toward target. Source has a circular preparation that this card does not require. Distance, criteria, age, timing and adaptations remain editorial.",
+          "access": "Source section read2026-10-11; Arabic pages37/49/62/63/64 also rendered and visually checked; saved complete current card body read for comparison."
+        }
+      ],
+      "source_status": "explicit primary-source concept mapping; differences retained; teacher/native review pending",
       "teacher_native_review": "pending",
-      "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "تمريرة صدرية مباشرة باليدين",
-        "finding": "No retained card-specific primary-source section corroborates this term in this language. The body observation is not external corroboration.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass.",
-        "english_concept_reference": "en/DR-025",
-        "reference_limit": "English counterpart has explicit conceptual sources, but these do not establish the translated wording. No native-language mapping is inferred."
-      }
+      "overall_pass": false
     },
     {
       "language": "ar",
@@ -10317,5 +10325,7 @@
       "url": "https://curriculumonline.ie/getmedia/ca8a385c-5455-42b6-9f1c-88390be91afc/PSEC05_Physical-Education_Curriculum.pdf",
       "result": "Curriculum identity/contents available; no new precise card-specific corroboration asserted."
     }
-  ]
+  ],
+  "new_source_sections": 9,
+  "source_mapping_missing_total": 399
 }
