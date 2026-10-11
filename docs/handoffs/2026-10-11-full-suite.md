@@ -164,3 +164,35 @@ Documentation-only completion: the task1 Package-ID migration gate is also prese
 in this executable integration's NATIVE_RELEASE_CHECKLIST.md. It was applied from
 the existing exact task1 source patch; no product/assertion/generated-output change
 and no additional tests counted. Source/build hashes remain those recorded above.
+
+## Completed automatic CI evidence (2026-10-11 23:09 UTC)
+
+The earlier "not run" statement describes the local evidence checkpoint. No workflow
+dispatch was requested. The existing push workflow automatically ran on source commit
+45015402ccc0e102cba6de52e785528297a04810 and completed successfully:
+https://github.com/osher15/https-pe-ultimate.netlify.app/actions/runs/38181309330
+
+| Evidence | Command / scope | Pass | Fail | Result |
+| --- | --- | ---: | ---: | --- |
+| CI unit, job 114594271746 | npm test | 715 | 0 | Success |
+| CI browser, job 114594316978 | npm run test:e2e: 65 registered suites plus offline/lazy probe | 647 | 0 | Success |
+| CI build sync | Existing generated-output check | — | — | Success |
+
+Browser log reports 646 registered checks followed by "offline/lazy review probe PASS",
+giving 647 unique checks. The historical three-check claude-review browser probe and
+five-check timing-library-review Node probe were not run in CI; their separate local
+results above remain unchanged. CI is not added to the local 650 total or presented as
+additional unique coverage. Suite names are the same 65 registered entries plus offline
+probe in the complete table above, excluding historical claude-review.
+
+CI ran Node v22.23.3, Playwright 1.56.1 and Chromium 141.0.7390.37 (build v1194),
+on an Ubuntu runner. The browser job ran 22:40:06–23:09:40 UTC. The ordinary monolithic
+runner completed without a browser-closed failure. This demonstrates a clean CI run;
+it does not identify the cause of the previous crash. No assertions or product code
+were changed to obtain this result. CI logs contain synthetic fixtures, not live pupils.
+
+Saved ci-unit-job.log and ci-browser-job.log contain the test-step logs and omit
+repository authentication/setup/cleanup sections. This subsequent evidence-only commit
+may trigger another existing push workflow; the attested result is explicitly for 4501540.
+Physical devices, native build, classroom acceptance and native-language review remain
+not run. The historical stale-count assertion remains 4 pass / 1 fail locally.
