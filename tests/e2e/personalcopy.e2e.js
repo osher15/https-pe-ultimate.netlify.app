@@ -29,7 +29,8 @@ module.exports={title:"#21 — עותק אישי של מערך",tests:[
     ok(await p.locator(".ls-src").count()>0,"שורת «מבוסס על»");
   }),
 
-  check("מערך מהבנק ← עותק אישי: הבנק לא משתנה, הדקות מהקטעים, מקור וסטטוס מוצגים, ואפשר לפתוח את המקור",seed,async p=>{
+  ...["he","en"].map(lang=>check("Bank personal copy preserves source, minutes, version and selected-language review status: "+lang,seed,async p=>{
+    await p.evaluate(l=>window.I18N.set(l),lang);
     await go(p);
     const before=await p.evaluate(()=>JSON.stringify(window.LESSONBANK.sports));
     await p.evaluate(()=>document.querySelector("#ls-bankList [data-bopen]").click()); await p.waitForTimeout(250);
@@ -39,10 +40,19 @@ module.exports={title:"#21 — עותק אישי של מערך",tests:[
     ok(info.n>=4,"שלבים מהקטעים: "+info.n); eq(info.src.kind,"bank"); eq(info.lib,1,"נשמר בספרייה"); eq(info.after,before,"רשומות הבנק לא השתנו"); eq(info.modal,false,"החלון נסגר");
     ok(info.min>=30&&info.min<=120,"סכום דקות סביר: "+info.min);
     const txt=await p.evaluate(()=>document.querySelector(".ls-src").textContent);
-    ok(/טיוטה|draft/i.test(txt),"סטטוס טיוטה מוצג: "+txt);
+    const source=await p.evaluate(src=>{
+      const [sport,n]=src.id.split(':');
+      return window.LESSONBANK.sports[sport][src.lang].find(l=>String(l.n)===n);
+    },info.src);
+    eq(info.src.lang,lang,"Selected source language preserved");
+    eq(info.src.status,source.reviewStatus,"Copy retains actual source review status");
+    eq(info.src.v,source.contentVersion,"Copy retains actual source version");
+    ok(txt.includes(source.contentVersion),"Source version displayed");
+    if(source.reviewStatus==="draft")ok(/טיוטה|draft/i.test(txt),"Draft source labelled honestly: "+txt);
+    else ok(txt.includes(source.reviewStatus),"Reviewed source status displayed: "+txt);
     await p.click(".ls-src [data-bankopen]"); await p.waitForTimeout(400);
     ok(await p.evaluate(()=>document.getElementById("ls-bankModal").classList.contains("on")),"המקור נפתח");
-  }),
+  })),
 
   check("הספרייה מלאה: שמירה נדחית בהודעה, ושום מערך לא נמחק בשקט",seed,async p=>{
     await go(p); await gen(p);

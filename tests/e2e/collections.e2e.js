@@ -7,6 +7,97 @@ const go=async(p,m)=>{ await p.evaluate(x=>window.HM.go(x),m); await p.waitForTi
 const cols=p=>p.evaluate(()=>window.HM.LS.get("col.list",[]));
 
 module.exports={title:"#21 — אוספים אישיים",tests:[
+  check("Collection reopen keeps one language repaint and hidden-view changes preserve drafts",seed,async p=>{
+    await go(p,"lesson");
+    await p.evaluate(()=>{
+      const D=window.HMDATA,a=D.colAdd([],"Lifecycle",{now:57});
+      window.HM.LS.set("col.list",D.colToggle(a.list,a.id,{k:"g",id:"g-flags"}).list);
+      window.COLLECTIONS.register("g",{title:()=>{window.__titleCalls=(window.__titleCalls||0)+1; return "Stable title";}});
+      window.COLLECTIONS.paint();
+    });
+    await p.click("#ls-colList [data-ctoggle]");
+    await p.click("#ls-colList [data-cren]");
+    await p.fill("#ls-colList [data-cn]","Retained rename");
+    for(let i=0;i<5;i++)await p.evaluate(()=>{
+      window.COLLECTIONS.pick({k:"g",id:"g-flags"},"Lifecycle");
+      window.HM.modal("col-modal",false);
+    });
+    await p.evaluate(()=>{
+      const input=document.querySelector("#col-newIn"); input.value="Hidden draft";
+      window.__draftNode=input; window.__titleCalls=0;
+      window.I18N.set("ar");
+    });
+    eq(await p.evaluate(()=>window.__titleCalls),1,"One resolver call after repeated opens");
+    eq(await p.evaluate(()=>document.documentElement.dir),"rtl");
+    eq(await p.inputValue("#ls-colList [data-cn]"),"Retained rename");
+    eq(await p.inputValue("#col-newIn"),"Hidden draft");
+    ok(await p.evaluate(()=>window.__draftNode===document.querySelector("#col-newIn")),"Hidden draft node retained");
+    ok(!await p.locator("#col-modal").isVisible(),"Language event does not reopen modal");
+    await p.evaluate(()=>{window.HM.modal("col-modal"); const i=document.querySelector("#col-newIn");i.focus();i.setSelectionRange(2,5);window.I18N.set("ru");});
+    eq(await p.evaluate(()=>{const i=document.querySelector("#col-newIn");return [document.activeElement===i,i.selectionStart,i.selectionEnd,document.documentElement.dir];}),[true,2,5,"ltr"]);
+  }),
+  check("Open collections repaint EN to ES and Hebrew without replacing draft inputs or references",seed,async p=>{
+    await go(p,"lesson");
+    await p.evaluate(()=>{
+      window.I18N.set("en");
+      const D=window.HMDATA, a=D.colAdd([],"Language probe",{now:55});
+      window.HM.LS.set("col.list",D.colToggle(a.list,a.id,{k:"g",id:"g-flags"}).list);
+      window.COLLECTIONS.paint();
+    });
+    await p.click("#ls-colList [data-ctoggle]");
+    await p.click("#ls-colList [data-cren]");
+    await p.fill("#ls-colList [data-cn]","Unsaved rename");
+    await p.evaluate(()=>window.COLLECTIONS.pick({k:"g",id:"g-flags"},"Probe"));
+    await p.fill("#col-newIn","Unsaved creation");
+    await p.evaluate(()=>{
+      window.__collectionInputs=[document.querySelector('[data-cn]'),document.querySelector('#col-newIn')];
+      window.__collectionBefore=JSON.stringify(window.HM.LS.get('col.list',[]));
+    });
+    for(const lang of ["es","he"]){
+      await p.evaluate(l=>window.I18N.set(l),lang);
+      const actual=await p.evaluate(()=>({
+        pill:document.querySelector('#ls-colList .col-items .pill').textContent,
+        expected:window.HM.t('col.kindG','משחק'),
+        title:document.querySelector('#col-pickTitle').textContent,
+        titleExpected:window.HM.t('col.pickTitle','הוספה לאוסף')+' · Probe',
+        create:document.querySelector('#col-newBtn').textContent,
+        createExpected:window.HM.t('col.create','צור והוסף'),
+        same:window.__collectionInputs[0]===document.querySelector('[data-cn]')&&window.__collectionInputs[1]===document.querySelector('#col-newIn'),
+        persisted:JSON.stringify(window.HM.LS.get('col.list',[]))===window.__collectionBefore,
+        dir:document.documentElement.dir
+      }));
+      eq(actual.pill,actual.expected,"Already-open type pill uses current language");
+      eq(actual.title,actual.titleExpected); eq(actual.create,actual.createExpected);
+      ok(actual.same,"Draft input nodes retained"); ok(actual.persisted,"References unchanged");
+      eq(await p.inputValue('#ls-colList [data-cn]'),"Unsaved rename");
+      eq(await p.inputValue('#col-newIn'),"Unsaved creation");
+      eq(actual.dir,lang==="he"?"rtl":"ltr");
+    }
+    await p.click('#col-newBtn');
+    eq((await cols(p))[1].items,[{k:"g",id:"g-flags"}],"Picker context survives language switches");
+    await p.reload(); await go(p,"lesson");
+    eq((await cols(p)).length,2,"Committed collection survives reload");
+  }),
+  check("Failed rename and create retain drafts through language repaint and retry",seed,async p=>{
+    await go(p,"lesson");
+    await p.evaluate(()=>{
+      const D=window.HMDATA,a=D.colAdd([],"Original",{now:56});
+      window.HM.LS.set('col.list',a.list); window.COLLECTIONS.paint();
+      window.__realCollectionSet=window.HM.LS.set;
+      window.HM.LS.set=(key,value)=>key==='col.list'?false:window.__realCollectionSet(key,value);
+    });
+    await p.click('#ls-colList [data-cren]'); await p.fill('#ls-colList [data-cn]','Retry rename');
+    await p.click('#ls-colList [data-cok]');
+    await p.evaluate(()=>window.I18N.set('es'));
+    eq(await p.inputValue('#ls-colList [data-cn]'),'Retry rename'); eq((await cols(p))[0].name,'Original');
+    await p.evaluate(()=>window.COLLECTIONS.pick({k:'g',id:'g-flags'},'Probe'));
+    await p.fill('#col-newIn','Retry create'); await p.click('#col-newBtn');
+    await p.evaluate(()=>window.I18N.set('he'));
+    eq(await p.inputValue('#col-newIn'),'Retry create'); eq((await cols(p)).length,1);
+    await p.evaluate(()=>window.HM.LS.set=window.__realCollectionSet);
+    await p.click('#col-newBtn');
+    eq((await cols(p)).length,2); eq((await cols(p))[1].items,[{k:'g',id:'g-flags'}]);
+  }),
   check("משחק: יצירת אוסף מהחלון, הוספה, סינון בדף המשחקים, שרידות ברענון, והסרה — המשחק עצמו לא משתנה",seed,async p=>{
     await go(p,"games");
     const before=await p.evaluate(()=>JSON.stringify(window.GAMES.byId("g-flags")));

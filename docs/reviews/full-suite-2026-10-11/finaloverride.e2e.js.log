@@ -1,0 +1,13 @@
+
+— Explicit teacher final grades —
+  ok  #1 — save and reload retain components/history, optional note and other pupils/periods; hub agrees
+  ok  #2 — explicit removal restores provisional basis and missing components; zero remains valid
+  ok  #3 — empty/out-of-range grades cannot save; Back/Escape keeps or discards the draft explicitly
+  ok  #4 — actual storage quota failure preserves saved roster and editable draft
+  ok  #5 — stale grades, moved/duplicated pupils, changed period and weights cannot receive a draft decision
+  ok  #6 — invalid restored override is visible and can be explicitly removed; damaged containers are preserved
+  ok  #7 — Excel/CSV preserve teacher final, computed basis, missing list, optional note, stable identity and period
+  ok  #8 — backup restore and native mirror retain the teacher decision, including zero
+  ok  #9 — five languages keep explicit controls on a narrow phone and pupil navigation does not merge names
+
+עברו 9 בדיקות

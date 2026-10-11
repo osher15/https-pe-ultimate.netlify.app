@@ -1,0 +1,36 @@
+{
+  "source_head": "ef5ef2a",
+  "main": "348c1ab2d4f069aea7f4640328b7e4f8f30611c3",
+  "initial_head": "1af4d09",
+  "browser": "Chromium153 via preinstalled Playwright; localhost; synthetic data",
+  "final_execution": "three deterministic shards, one suite per fresh process/browser; resumed only completed successful suites after environment interruption",
+  "historical_browser_closed_cause": "not identified",
+  "product_change_for_runner": "none; task1 separately added one missing SW SHELL entry before corrected baseline",
+  "runtime_preload": "/workspace/scratch/56dee9fc55c5/browser-preload.cjs; --no-zygote --disable-gpu, executable /workspace/scratch/56dee9fc55c5/chromium",
+  "not_run": [
+    "CI dispatch/pinned CI browser",
+    "physical devices",
+    "native OS compilation",
+    "real camera/microphone/quota/share",
+    "teacher/native-speaker review"
+  ],
+  "source_hashes": {
+    "hm-data.js": "0974b946d57b9670a796cc69948c712484afc452",
+    "hm-lesson.js": "90c047da14c10263002f8fb89291abd30105ed80",
+    "hm-collections.js": "20cd14e02e948534144803d39f58b4dc964e7e68",
+    "sw.js": "c235db7a054c707656e0d77a40dcef445fb45fc2",
+    "index.html": "5f6b3743dfeea138b30611492f27732e402e8f46",
+    "Hamegrash.html": "29dce5defb908fb138eba7bb07b8d385ee912833"
+  },
+  "final_counts": {
+    "browser_suites": 67,
+    "browser_pass": 650,
+    "browser_fail": 0,
+    "unit_pass": 715,
+    "unit_fail": 0,
+    "historical_node_review_pass": 4,
+    "historical_node_review_fail": 1
+  },
+  "resumed_final_successful_suites": 49,
+  "assertions_changed_in_task2": false
+}

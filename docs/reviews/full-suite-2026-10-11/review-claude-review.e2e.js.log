@@ -1,0 +1,7 @@
+
+— Codex review of merged library changes —
+  ok  #1 — compact card keeps the complete tug-of-war safety note visible
+  ok  #2 — empty manual-filter state is translated in all non-Hebrew languages
+  ok  #3 — favorite, compact and filter settings survive a real backup and restore
+
+עברו 3 בדיקות

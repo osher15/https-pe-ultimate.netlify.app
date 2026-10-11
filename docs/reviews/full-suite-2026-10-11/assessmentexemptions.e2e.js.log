@@ -1,0 +1,16 @@
+
+— Teacher period exemptions —
+  ok  #1 — reason is required; save/reload keeps pupil identity, measured history and manual grades
+  ok  #2 — removing an exemption restores measured/suggested results without deleting history
+  ok  #3 — duplicate names use IDs; switching pupils preserves both drafts and other policies
+  ok  #4 — removing a required test cannot silently discard its saved exemption
+  ok  #5 — actual quota failure leaves the saved envelope and reason draft intact
+  ok  #6 — stale window and pupils moved during editing cannot receive new exemptions
+  ok  #7 — unknown saved pupil exemptions stay intact and allow explicit removal only
+  ok  #8 — class/period/Back discard protection includes exemption drafts
+  ok  #9 — pupil report edit entry preselects pupil; saved exemption is blank-scored in actual Excel/CSV and backup
+  ok  #10 — new requirements and a reasoned exemption can be saved together without inventing a pupil
+  ok  #11 — existing exemptions cannot be edited when the pupil ID becomes duplicated
+  ok  #12 — pupil navigation alone is not a dirty edit; five languages fit a narrow phone
+
+עברו 12 בדיקות

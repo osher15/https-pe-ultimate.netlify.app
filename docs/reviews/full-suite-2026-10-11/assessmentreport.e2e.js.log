@@ -1,0 +1,12 @@
+
+— Period reports and offline Excel —
+  ok  #1 — class report shows best period results, zero, blank missing/exempt scores and rule basis
+  ok  #2 — pupil report and actual XLSX download contain only the selected pupil
+  ok  #3 — class CSV and Excel downloads are generated while offline from the displayed snapshot
+  ok  #4 — period without requirements cannot export an invented complete report
+  ok  #5 — corrupt restored configuration and export failure are visible without data mutation
+  ok  #6 — invalid and unidentified records show an exclusion warning and do not become scores
+  ok  #7 — class coverage and pupil profile entry points open the correct report
+  ok  #8 — five languages and phone width retain Excel and CSV controls without page overflow
+
+עברו 8 בדיקות

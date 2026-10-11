@@ -1,0 +1,11 @@
+
+— Backup rollback review —
+  ok  #1 — partial restore restores exact measurements, decisions and configuration
+  ok  #2 — simulated iOS mirror returns to previous measurements after rollback
+  ok  #3 — unreadable current storage aborts before writes
+  ok  #4 — permanent backend failure reports incomplete rollback with recovery data
+  ok  #5 — malformed incoming backup never erases current data
+  ok  #6 — failed UI restore keeps preview, allows retry and downloads exact recovery copy
+  ok  #7 — failure/recovery controls are translated in five languages
+
+עברו 7 בדיקות

@@ -1,0 +1,18 @@
+
+— Assessment requirements editor —
+  ok  #1 — grading and fitness coverage buttons open the existing class context
+  ok  #2 — save selected requirements and explicit date snapshot across reload
+  ok  #3 — scoring rule must choose rounding; preview and saved values agree
+  ok  #4 — write failure preserves previous configuration and editable draft
+  ok  #5 — invalid restored configuration is not overwritten
+  ok  #6 — external changes cannot be overwritten by an old draft
+  ok  #7 — saved policy blocks period deletion; other periods remain independent
+  ok  #8 — configuration is present in the existing full backup
+  ok  #9 — bad imported requirements are rejected before any backup restore writes
+  ok  #10 — real quota failure preserves saved configuration and editable draft
+  ok  #11 — native mirror includes requirements after saving
+  ok  #12 — remove requirements keeps grades and allows period deletion
+  ok  #13 — switching class or period cannot silently lose an unsaved draft
+  ok  #14 — editor uses every language and fits narrow phones
+
+עברו 14 בדיקות

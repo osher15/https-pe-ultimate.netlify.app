@@ -1,0 +1,13 @@
+
+— Excel template and measurement paste preview —
+  ok  #1 — offline actual Excel template has blank measurements; paste preview/apply only changes draft, then explicit save persists
+  ok  #2 — blank pasted cells retain manual draft values; replacing a draft value requires confirmation
+  ok  #3 — bad header, duplicate/unknown IDs, formulae and invalid results reject the whole paste without changing any draft cell
+  ok  #4 — period exemption and pupil-only scope reject pasted measurements outside the editable selection
+  ok  #5 — editing paste/date/draft invalidates preview; external changes also block apply
+  ok  #6 — save cannot discard unapplied paste or persist only the earlier manual draft
+  ok  #7 — paste-only draft asks before discard and download failure preserves the paste
+  ok  #8 — save quota failure after paste retains editable values and original history; retry saves once
+  ok  #9 — five languages, RTL and phone/desktop layouts expose paste controls without page overflow
+
+עברו 9 בדיקות

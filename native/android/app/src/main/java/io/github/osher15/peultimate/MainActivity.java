@@ -1,4 +1,4 @@
-package app.netlify.peultimate;
+package io.github.osher15.peultimate;
 
 import com.getcapacitor.BridgeActivity;
 

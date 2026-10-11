@@ -1,0 +1,9 @@
+page.evaluate: TypeError: Cannot read properties of undefined (reading 'init')
+    at init (http://127.0.0.1:40153/hm-lesson.js?v=ae71b1f9:1265:24)
+    at Object.go (http://127.0.0.1:40153/hm-app.js?v=8705bb6a:431:400)
+    at eval (eval at evaluate (:311:30), <anonymous>:1:15)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /workspace/scratch/24fa7d46cf03/order-check/tests/review/offline-lazy.e2e.js:19:13 {
+  log: []
+}

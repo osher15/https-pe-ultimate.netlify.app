@@ -1,0 +1,11 @@
+
+— Teacher-reviewed personal progress print —
+  ok  #1 — class report requires explicit pupil selection; offline downloaded HTML isolates pupil and prints as a real PDF
+  ok  #2 — pupil context selects only that pupil; optional history stays period-scoped and print runs only after a click
+  ok  #3 — legitimate zero is shown while missing and exempt values are blank and reasons/grades never appear
+  ok  #4 — freshness and globally ambiguous IDs block output and clear the preview without storage writes
+  ok  #5 — injected print/download failures preserve stored data and allow retry; Back returns to teacher report
+  ok  #6 — escaped pupil text and sandbox/CSP make the preview and downloaded document inert
+  ok  #7 — five languages and phone/desktop preview have labels, units and correct document direction
+
+עברו 7 בדיקות

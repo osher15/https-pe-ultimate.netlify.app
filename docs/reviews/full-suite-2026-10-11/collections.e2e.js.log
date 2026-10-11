@@ -1,0 +1,10 @@
+
+— #21 — אוספים אישיים —
+  ok  #1 — Collection reopen keeps one language repaint and hidden-view changes preserve drafts
+  ok  #2 — Open collections repaint EN to ES and Hebrew without replacing draft inputs or references
+  ok  #3 — Failed rename and create retain drafts through language repaint and retry
+  ok  #4 — משחק: יצירת אוסף מהחלון, הוספה, סינון בדף המשחקים, שרידות ברענון, והסרה — המשחק עצמו לא משתנה
+  ok  #5 — מנהל האוספים: מערך שלי ומערך מהבנק, פתיחה, הסרה, שינוי שם, ומחיקה בשתי לחיצות — הפריטים נשארים
+  ok  #6 — המפתח col.list נשמר תחת קידומת האפליקציה (הגיבוי המלא לוקח את כל המפתחות לפי קידומת)
+
+עברו 6 בדיקות

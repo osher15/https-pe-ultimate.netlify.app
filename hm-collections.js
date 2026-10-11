@@ -14,7 +14,16 @@
   let ctx=null, open={}, armed=null, renaming=null;
 
   const get=()=>D().normCollections(H().LS.get(KEY,[]));
-  const T=(k,d)=>H().t(k,d);
+  const labels={
+    "col.kindG":"משחק", "col.kindP":"מערך שלי", "col.kindB":"מערך מהבנק",
+    "col.countWord":"אוספים", "col.managerEmpty":"עוד אין אוספים. הוסיפו משחק או מערך לאוסף מכפתור 🗂, וכאן תראו ותנהלו אותם.",
+    "col.rename":"שנה שם", "col.save":"שמור", "col.cancel":"ביטול", "col.sure":"בטוח?",
+    "col.empty":"האוסף ריק", "col.unavail":"לא זמין (נמחק)", "col.open":"פתח", "col.remove":"הסר מהאוסף",
+    "col.pickTitle":"הוספה לאוסף", "col.newPh":"שם לאוסף חדש", "col.create":"צור והוסף",
+    "col.none":"עוד אין אוספים — צרו אחד למטה.",
+    "col.hint":"אוסף הוא קיבוץ משלך של משחקים ומערכים (למשל «שבוע הכדורשת»). הוא שומר רק הפניות — לא משנה ולא מעתיק את הפריטים, ונכלל בגיבוי."
+  };
+  const T=(k,d)=>H().t(k,d===undefined?labels[k]:d);
   function changed(){ document.dispatchEvent(new CustomEvent("col:change")); paintManager(); if(ctx)paintPicker(); }
   function failMsg(res){
     const r=res&&res.reason;
@@ -112,5 +121,44 @@
       box.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches("[data-cn]")){ e.preventDefault(); const b=box.querySelector("[data-cok]"); if(b)b.click(); } }); }
     paintManager();
   }
+  // Update existing nodes: language changes must not discard input drafts,
+  // selection/focus, expanded rows or the picker's current item reference.
+  function repaintLanguage(){
+    const {$}=H(), list=get(), box=$("#ls-colList");
+    const text=(root,selector,key)=>{ const el=root&&root.querySelector(selector); if(el)el.textContent=T(key); };
+    const renameLabel=el=>{ if(el)el.setAttribute("aria-label",T("col.rename")); };
+    if(box){
+      const cnt=$("#ls-colCount"); if(cnt)cnt.textContent=list.length?list.length+" "+T("col.countWord"):"";
+      if(!list.length)text(box,".hint","col.managerEmpty");
+      box.querySelectorAll("[data-col]").forEach(row=>{
+        const c=list.find(c=>c.id===row.dataset.col); if(!c)return;
+        renameLabel(row.querySelector("[data-cn]"));
+        const ren=row.querySelector("[data-cren]"); renameLabel(ren); if(ren)ren.title=T("col.rename");
+        text(row,"[data-cok]","col.save"); text(row,"[data-ccancel]","col.cancel");
+        if(armed===c.id)text(row,"[data-cdel]","col.sure");
+        if(!c.items.length)text(row,".col-items .hint","col.empty");
+        row.querySelectorAll(".col-items li").forEach((li,i)=>{
+          const it=c.items[i]; if(!it)return;
+          const pill=li.querySelector(".pill"); if(pill)pill.textContent=kindName(it.k);
+          const title=li.querySelector(".col-t"), value=titleOf(it);
+          if(title){ if(value)title.textContent=value; else text(title,".hint","col.unavail"); }
+          text(li,"[data-copen]","col.open");
+          const rm=li.querySelector("[data-crm]"); if(rm)rm.setAttribute("aria-label",T("col.remove"));
+        });
+      });
+    }
+    if(ctx){
+      const title=$("#col-pickTitle"); if(title)title.textContent=T("col.pickTitle")+(ctx.label?" · "+ctx.label:"");
+      const body=$("#col-pickBody"), input=$("#col-newIn");
+      if(input){ input.placeholder=T("col.newPh"); input.setAttribute("aria-label",T("col.newPh")); }
+      text(body,"#col-newBtn","col.create");
+      if(body){
+        const hints=body.querySelectorAll(":scope > .hint");
+        if(!list.length&&hints.length)hints[0].textContent=T("col.none");
+        if(hints.length)hints[hints.length-1].textContent=T("col.hint");
+      }
+    }
+  }
+  document.addEventListener("i18n:change",repaintLanguage);
   window.COLLECTIONS={pick,register,init,paint:paintManager,list:get};
 })();

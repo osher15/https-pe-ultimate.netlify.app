@@ -1,0 +1,7 @@
+
+— Saved data across reloads —
+  ok  #1 — updates and deletions survive reload instead of fixture reseeding
+  ok  #2 — a new test context still starts from its own fixture
+  ok  #3 — cleared app data is not recreated by the fixture on reload
+
+עברו 3 בדיקות

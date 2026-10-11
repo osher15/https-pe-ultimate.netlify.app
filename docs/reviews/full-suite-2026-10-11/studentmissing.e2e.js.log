@@ -1,0 +1,9 @@
+
+— Missing tests in My Students —
+  ok  #1 — own class and stable pupil ID determine missing tests; zero is a result
+  ok  #2 — completed selection is explicit
+  ok  #3 — no class is not presented as complete
+  ok  #4 — renaming the class preserves the missing list
+  ok  #5 — section is translated in every UI language and fits a narrow phone
+
+עברו 5 בדיקות

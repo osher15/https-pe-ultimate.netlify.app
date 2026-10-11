@@ -1,0 +1,36 @@
+✔ all 108 variants conserve integer allocations across 9 pace/transition combinations (33.535833ms)
+✔ REGRESSION: fractional allocation must return or reject without blocking (53.262865ms)
+✖ current games have usable grade/pupil metadata; an empty filter preserves all 42 (1.01812ms)
+✔ fingerprint hashes exact UTF-8 file bytes, including whitespace and encrypted envelope (8.513822ms)
+✔ fingerprint absence is graceful when Web Crypto is unavailable (2.578208ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 198.426984
+
+✖ failing tests:
+
+test at tests/review/timing-library-review.test.js:41:1
+✖ current games have usable grade/pupil metadata; an empty filter preserves all 42 (1.01812ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  44 !== 42
+  
+      at TestContext.<anonymous> (/workspace/scratch/24fa7d46cf03/order-check/tests/review/timing-library-review.test.js:42:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 44,
+    expected: 42,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

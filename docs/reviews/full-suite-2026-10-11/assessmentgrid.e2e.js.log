@@ -1,0 +1,13 @@
+
+— Dated assessment measurement grid —
+  ok  #1 — multi-pupil/date save adds attempts, keeps old history and manual grades, survives reload and updates exports
+  ok  #2 — date range, fractional counts and zero times reject a whole batch while zero repetitions save
+  ok  #3 — actual quota failure preserves full history and all draft cells; retry succeeds once
+  ok  #4 — external measurement/policy changes and moved/duplicate pupils never receive stale entries
+  ok  #5 — period-exempt cells are disabled and no blank/exempt cells invent records
+  ok  #6 — dirty Escape/Back/Close requires a choice and cancellation preserves all cells
+  ok  #7 — pupil report limits grid to one stable identity; corrupted outer data cannot open a writer
+  ok  #8 — full backup restore and simulated native mirror preserve appended results and grades
+  ok  #9 — five languages and phone/desktop grid retain labels, stable IDs and contained horizontal scrolling
+
+עברו 9 בדיקות
