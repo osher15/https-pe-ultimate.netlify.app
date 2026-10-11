@@ -139,7 +139,7 @@ function reload(s,now=Date.now()){
  tick(s,now);s.deadline=null;s.timeout=null;if(s.status!=='final')s.status=s.remaining?'paused':'periodEnd';return s;
 }
 function valid(s){
- if(!s||s.version!==1||typeof s.id!=='string'||s.id.length>100||!['basketball','football','handball','custom'].includes(s.sport))return false;
+ if(!s||s.version!==1||typeof s.id!=='string'||!s.id.trim()||s.id.length>100||!['basketball','football','handball','custom'].includes(s.sport))return false;
  const ints=(a,max)=>Array.isArray(a)&&a.length===2&&a.every(n=>Number.isInteger(n)&&n>=0&&n<=max);
  if(!ints(s.scores,999)||!ints(s.fouls,99)||!ints(s.timeouts,999))return false;
  if(!Array.isArray(s.names)||s.names.length!==2||!s.names.every(x=>typeof x==='string'&&x.length<=40))return false;
@@ -149,9 +149,13 @@ function valid(s){
  if(s.deadline!==null&&!Number.isFinite(s.deadline))return false;
  if(s.timeout!==null&&(!s.timeout||typeof s.timeout!=='object'||![0,1].includes(s.timeout.team)||!Number.isFinite(s.timeout.remaining)||s.timeout.remaining<0||s.timeout.remaining>180000||!Number.isFinite(s.timeout.deadline)))return false;
  if(!Array.isArray(s.periods)||s.periods.length>50||!Array.isArray(s.history)||s.history.length>40)return false;
- if(!s.periods.every((p,i)=>p.n===i+1&&ints(p.score,999)&&ints(p.total,999)&&ints(p.fouls,99)))return false;
+ if(!s.periods.every((p,i)=>p&&p.n===i+1&&ints(p.score,999)&&ints(p.total,999)&&ints(p.fouls,99)))return false;
  let totals=[0,0];for(const p of s.periods){totals=totals.map((v,i)=>v+p.score[i]);if(totals.some((v,i)=>v!==p.total[i]))return false;}
- return totals.every((v,i)=>v<=s.scores[i]);
+ if(s.periods.length!==(s.status==='final'?s.period:s.period-1))return false;
+ if(s.status==='final'&&(s.deadline!==null||s.timeout!==null||!Number.isFinite(s.ended)))return false;
+ if(s.status==='running'&&(s.deadline===null||s.timeout!==null))return false;
+ if(s.status!=='running'&&s.deadline!==null)return false;
+ return totals.every((v,i)=>s.status==='final'?v===s.scores[i]:v<=s.scores[i]);
 }
 const API={create,tick,action,reload,valid,copy,base,snapshot};
 if(typeof module!=='undefined'&&module.exports)module.exports=API;else root.PEScoreEngine=API;
@@ -169,7 +173,7 @@ ru:{title:'Табло',display:'Режим показа',offline:'БЕЗ ИНТ�
 ar:{title:'لوحة النتائج',display:'وضع العرض',offline:'يعمل دون إنترنت',fouls:'الأخطاء',timeout:'وقت مستقطع',closeTimeout:'إنهاء الوقت المستقطع',edit:'تعديل النتيجة / الوقت',hint:'مفتاح المسافة: تشغيل / إيقاف · تُصفّر أخطاء الفريق في كل فترة',undo:'تراجع',finish:'إنهاء المباراة',new:'مباراة جديدة',export:'تصدير النتيجة',periodScores:'نتائج الفترات',period:'الفترة',total:'المجموع',savedMatches:'المباريات المحفوظة',clearArchive:'حذف المباريات المحفوظة',exitDisplay:'الخروج من العرض',teamA:'الفريق الأزرق',teamB:'الفريق الأحمر',sport:'الرياضة',basketball:'كرة السلة',football:'كرة القدم',handball:'كرة اليد',custom:'مخصص',format:'نظام المباراة',quarters:'أرباع',halves:'شوطان',periodCount:'عدد الفترات',duration:'دقائق كل فترة',overtimeMinutes:'دقائق الوقت الإضافي',timeoutSeconds:'الوقت المستقطع بالثواني',school:'الإعدادات المدرسية قابلة للتعديل وليست قواعد رسمية للمنافسات.',cancel:'إلغاء',create:'إنشاء المباراة',minutes:'دقائق',seconds:'ثوانٍ',editNote:'التعديل يوقف الساعة. تبقى الفترات المكتملة محفوظة؛ استخدم التراجع لإلغاء آخر إجراء. تعديل النتيجة النهائية يعيد فتح المباراة؛ أنهِها مجدداً بعد التصحيح.',apply:'تطبيق',start:'تشغيل',pause:'إيقاف',paused:'متوقفة',running:'المباراة جارية',periodEnd:'انتهت الفترة',final:'النتيجة النهائية',quarter:'الربع',half:'الشوط',overtime:'وقت إضافي',next:'الفترة التالية',addOvertime:'إضافة وقت إضافي',saved:'محفوظ على هذا الجهاز',unsaved:'لم يُحفظ — صدّر نسخة قبل الإغلاق',restored:'استُعيدت المباراة؛ الساعة متوقفة',damaged:'تعذرت قراءة البيانات. لم تُستبدل البيانات الأصلية.',replace:'استبدال المباراة الحالية؟ صدّرها أولاً إن أردت الاحتفاظ بها.',early:'إنهاء الفترة قبل وصول الساعة إلى الصفر؟',confirmFinish:'إنهاء المباراة وحفظ النتيجة النهائية؟',cleared:'حذف جميع النتائج المحفوظة؟ تبقى المباراة الحالية.',noMatches:'لا توجد مباريات مكتملة بعد',download:'JSON',downloaded:'طُلب التصدير. تحقق من التنزيلات.',failedDownload:'تعذر التصدير. حاول في المتصفح.',sound:'الصوت',soundOn:'الصوت مفعّل',soundOff:'الصوت متوقف',empty:'الفترة الحالية',notFullscreen:'وضع العرض مفعّل. الشاشة الكاملة غير متاحة هنا.',point:'النقاط',foul:'خطأ',loadWarning:'تغيرت اللوحة في علامة تبويب أخرى. أعد تحميل الصفحة.',saveConflict:'لم يُحفظ — تغيرت اللوحة في علامة تبويب أخرى. صدّر نسخة ثم أعد التحميل.',storageNote:'محلي فقط · آخر 20 مباراة · التصدير للنسخ الاحتياطي',tooMany:'الحد الأقصى 50 فترة'}
 };
 let lang='en',s=E.create(),records=[],sound=false,audio=null,corrupt=false,conflict=false,revision=null,persistOK=false,toastTimer;
-try{const pref=localStorage.getItem(PREF);if(L[pref])lang=pref;const raw=localStorage.getItem(KEY);if(raw){if(raw.length>1000000)throw Error('oversize');const n=JSON.parse(raw);if(!E.valid(n.current)||!Array.isArray(n.records)||n.records.length>20||!n.records.every(v=>E.valid({...v,history:[]})&&v.status==='final'))throw Error('invalid');s=E.reload(n.current);s.history=[];records=n.records;revision=n.revision;}}catch(e){corrupt=true;persistOK=false;}
+try{const pref=localStorage.getItem(PREF);if(L[pref])lang=pref;const raw=localStorage.getItem(KEY);if(raw){if(raw.length>1000000)throw Error('oversize');const n=JSON.parse(raw);if(n.version!==1||typeof n.revision!=='string'||!n.revision||!E.valid(n.current)||!Array.isArray(n.records)||n.records.length>20||!n.records.every(v=>E.valid({...v,history:[]})&&v.status==='final'))throw Error('invalid');if(new Set(n.records.map(v=>v.id)).size!==n.records.length)throw Error('duplicate');s=E.reload(n.current);s.history=[];records=n.records;revision=n.revision;}}catch(e){corrupt=true;persistOK=false;}
 const t=k=>L[lang][k]||L.en[k]||k;
 function notify(text){$('toast').textContent=text;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').textContent='',4500);}
 function store(){

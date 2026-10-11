@@ -54,3 +54,26 @@ frame.style.cssText='width:100%;height:80dvh;border:0;';
 Before release: reviewed host storage/backup adapter and schemas, lazy first-open offline cache/native packaging, five-language coach support, host language synchronization, explicit cid/group snapshots if needed, lifecycle/timer/animation cleanup, native exports and device checks. Do not infer sid/cid from team labels or assign grades automatically. Prototype storage is not included in the existing application's backup today.
 
 Scoreboard exposes `window.PEScoreboard.getState()`, `setLanguage(code)` and `exportResult()`. Its own document dispatches `pe-scoreboard:change`; this does not automatically cross the iframe boundary. On a same-origin frame, attach a host listener to `frame.contentDocument` after load. Coach has no public host bridge yet; add bounded state/language/lifecycle methods before host binding rather than relying on its internal variables or CSS selectors. No parent-message listener, authentication or cloud sync is implemented.
+
+## 2026-10-11 hardening (review branch only)
+
+Coach now supports EN/HE/AR/RU/ES, English first, with same-origin host hook
+`frame.contentWindow.PECoachBoard.setLanguage(code)` and read-only cloned
+`getState()`. The scoreboard's existing `PEScoreboard.setLanguage(code)` remains.
+Hooks are available; no host connection or cross-origin message listener was installed.
+Language changes preserve authored scenario/match content. New demonstrations use
+translated labels/cues; existing authored/imported text is not silently translated.
+Translations are AI-authored drafts awaiting native-language PE-teacher review.
+
+Coach import/restore rejects malformed flags, empty/duplicate/colliding IDs and
+excessive route-point totals; corrupted saved data remains untouched until explicit
+replacement. Save status follows actual persistence success. Scoreboard restore
+rejects impossible period/final-score state and duplicate archived match IDs.
+Existing stable match IDs, idempotent finalization, score Undo and deadline timing
+remain. Neither board imports student records or health/exemption notes.
+
+Browser check (installed Playwright; no new dependency):
+`node prototypes/pe-boards/checks/browser-boards.cjs`.
+22/22 Chromium browser cases passed on320/390px across five languages, including RTL,
+quota injection and invalid import. 38/38 dependency-free verification cases passed.
+These are synthetic browser/VM checks, not physical-device, native or field evidence.

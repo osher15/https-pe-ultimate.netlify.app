@@ -59,8 +59,8 @@ function declaration(name){
  throw Error('Unclosed declaration: '+name);
 }
 const coachContext={};vm.createContext(coachContext);
-const constants=['const sports=','const exampleNames='].map(prefix=>coachSource.split('\n').find(x=>x.startsWith(prefix))).join('\n');
-vm.runInContext("let lang='en';const clone=x=>JSON.parse(JSON.stringify(x));const t=k=>k==='newTitle'?'My coaching scenario':k;\n"+constants+'\n'+['id','formation','fresh','pathPosition','positionsAt','validate','demo'].map(declaration).join('\n')+'\nglobalThis.API={fresh,pathPosition,positionsAt,validate,demo,sports};',coachContext);
+const constants=['const sports=','const exampleNames=','const demoWords='].map(prefix=>coachSource.split('\n').find(x=>x.startsWith(prefix))).join('\n');
+vm.runInContext("let lang='en';const clone=x=>JSON.parse(JSON.stringify(x));const t=k=>k==='newTitle'?'My coaching scenario':k;\n"+constants+'\n'+['demoText','id','formation','fresh','pathPosition','positionsAt','validate','demo'].map(declaration).join('\n')+'\nglobalThis.API={fresh,pathPosition,positionsAt,validate,demo,sports};',coachContext);
 const C=coachContext.API;
 for(const sport of ['basketball','football','volleyball','handball'])for(let i=0;i<3;i++)test('coach '+sport+' demonstration '+(i+1)+' validates, round-trips and preserves phase continuity',()=>{
  const s=C.demo(sport,i);C.validate(s);C.validate(JSON.parse(JSON.stringify(s)));
@@ -79,3 +79,21 @@ test('coach rejects corrupted schema, duplicate IDs, bad routes and volleyball d
 });
 test('coach dribble preserves ball offset and interpolates distance',()=>{const s=C.demo('basketball',1),p=s.phases[0],route=p.commands.find(c=>c.type==='dribble');const start=p.entities.find(e=>e.id===route.entityId),ball=p.entities.find(e=>e.id===route.ballId);const mid=C.positionsAt(p,.5),playerMid=mid.find(e=>e.id===start.id),ballMid=mid.find(e=>e.id===ball.id);assert.equal(ballMid.x-playerMid.x,ball.x-start.x);assert.equal(ballMid.y-playerMid.y,ball.y-start.y);assert.equal(playerMid.x,(route.points[0].x+route.points.at(-1).x)/2);});
 test('both files have unique element IDs and no runtime remote assets',()=>{for(const html of [boardHTML,coachHTML]){const nodes=parseNodes(html),ids=nodes.map(n=>n.id).filter(Boolean);assert.equal(ids.length,new Set(ids).size);assert(!/<script[^>]+src=|<link[^>]+href=|<img[^>]+src=|@import|fetch\(/i.test(html));}});
+test('coach rejects empty/colliding route IDs, nonboolean portrait and oversized point graphs',()=>{
+ let s=C.demo('basketball',0);s.phases[0].entities[0].id='';assert.throws(()=>C.validate(s));
+ s=C.demo('basketball',0);s.portrait='false';assert.throws(()=>C.validate(s));
+ s=C.demo('basketball',0);s.phases[0].commands[1].id=s.phases[0].commands[0].id;assert.throws(()=>C.validate(s));
+ s=C.demo('basketball',0);s.phases[0].commands[0].id=s.phases[0].entities[0].id;assert.throws(()=>C.validate(s));
+ s=C.demo('basketball',0);s.phases[0].drawings=Array.from({length:11},(_,i)=>({id:'draw'+i,type:'draw',points:Array.from({length:2000},()=>({x:1,y:1}))}));assert.throws(()=>C.validate(s));
+});
+test('score restore rejects empty ID, impossible final totals, missing periods and malformed period rows',()=>{
+ let s=E.create();s.id='';assert(!E.valid(s));s=E.create();s.period=2;assert(!E.valid(s));
+ s=E.create();E.action(s,'finish');s.scores[0]=1;assert(!E.valid(s));s=E.create();s.periods=[null];assert(!E.valid(s));
+ s=E.create();s.status='running';assert(!E.valid(s));
+});
+test('all five coach UI dictionaries have exact key coverage',()=>{
+ const line=coachSource.split('\n').find(l=>l.startsWith('const text='));
+ const assign=coachSource.split('\n').find(l=>l.startsWith('Object.assign(text,'));
+ const ctx={};vm.createContext(ctx);vm.runInContext(line+'\n'+assign+'\nglobalThis.dict=text;',ctx);
+ for(const lang of ['en','he','ar','ru','es'])assert.deepEqual(Object.keys(ctx.dict[lang]).sort(),Object.keys(ctx.dict.en).sort(),lang);
+});
