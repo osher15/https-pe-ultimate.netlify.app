@@ -1,0 +1,535 @@
+{
+  "language": "en",
+  "source_catalog": [
+    {
+      "url": "https://www.ihf.info/media-center/news/amended-rules-game-enforced-1-july-2025",
+      "access": "directly opened HTML page; section text visible",
+      "version": "accessed 2026-10-12",
+      "sections": "Rule 7:3 amendment summary, lines 30–32",
+      "limits": "supports only the three-step handball rule"
+    },
+    {
+      "url": "https://elht.nhs.uk/services/integrated-msk-pain-and-rheumatology-service/patient-information/exercises/lower-limb-videos",
+      "access": "directly opened HTML page; section text visible",
+      "version": "accessed 2026-10-12",
+      "sections": "Video 27 seated knee extensions (lines 17–19); Video 28 Bridging (lines 21–22); disclaimer lines 103–105",
+      "limits": "clinical exercise terminology only; source says use only when instructed by a trained medical professional"
+    },
+    {
+      "url": "https://msk-bexley.nhs.uk/conditions/knee-pain/knee-osteoarthritis",
+      "access": "directly opened HTML page; section text visible",
+      "version": "accessed 2026-10-12",
+      "sections": "Exercise section: seated knee extension and bridge, lines 128–144",
+      "limits": "clinical source and differing exercise prescriptions; not used to validate PE card dosage or suitability"
+    },
+    {
+      "url": "https://shapeamerica.org/standards/pe/new-pe-standards/",
+      "access": "directly opened official professional-standard HTML; relevant indicators text-visible",
+      "version": "2024 National Physical Education Standards; accessed 2026-10-12",
+      "sections": "Grades 6–8+ indicators 1.8.12–1.8.13, lines 238–242",
+      "limits": "Terminology/standards only; does not validate individual card technique, equipment, setup, dose, safety or suitability."
+    },
+    {
+      "url": "https://www.ihf.info/sites/default/files/2020-03/H%40S_Booklet_1.pdf",
+      "access": "search-indexed primary-source excerpt; direct open failed (internal fetch error)",
+      "version": "IHF Handball at School teacher guidelines, indexed 2026-10-12",
+      "sections": "Passing guidance, indexed result; no page independently verified",
+      "limits": "Research lead only, not used as card evidence."
+    },
+    {
+      "url": "https://www.badmintonengland.co.uk/wp-content/uploads/2021/02/return_to_play_schools_guidance_v4-1.pdf",
+      "access": "search-indexed primary-source excerpt; direct open returned no readable text",
+      "version": "Badminton England school guidance, indexed 2026-10-12",
+      "sections": "Overhead clear, underarm lift, other lesson-plan headings in search excerpts; page numbers not independently verified",
+      "limits": "Research lead only, not used as card evidence."
+    },
+    {
+      "url": "https://openphysed.org/wp-content/uploads/2015/10/P-03-03-LMS-Activities_01_JugglingScarfExploration11.pdf",
+      "access": "search-indexed curriculum excerpt; primary page open failed with 404",
+      "version": "OPEN Physical Education activity material, indexed 2026-10-12",
+      "sections": "Gallop as locomotor skill, indexed excerpt; no page independently verified",
+      "limits": "Research lead only, not used as card evidence."
+    }
+  ],
+  "cards": [
+    {
+      "item_id": "DR-037",
+      "exact_card_term": "Hand-to-hand ball transfer around the waist",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 8–13; soft ball small enough for secure two-handed handling, 2×2 m per pupil. Goal: hand transfers around body without throwing or large trunk rotation.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-039",
+      "exact_card_term": "Walk over low soft obstacles",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 8–13; pair in a 2×8 m lane, three soft collapsible obstacles up to 10 cm high, 1.5 m apart. Goal: lift foot enough to clear while walking under control.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-045",
+      "exact_card_term": "outside-foot touch while dribbling",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–15; pair, soft football, two markers in 3×7 m lane. Goal: guide diagonally outward using outside of foot without a hard kick.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-047",
+      "exact_card_term": "one-handed shoulder pass in handball",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–16; pair, soft ball securely held in one hand, 3×6 m lane. Distance 3 m. Goal: opposite-foot step and directed one-hand release.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "IHF Teaching Handball, Volume 1 indexed text describes ball arm behind/over head, above shoulder level, opposite-foot step; PDF open failed, so not counted as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-048",
+      "exact_card_term": "three-step handball catch-and-pass sequence",
+      "evidence": [
+        {
+          "url": "https://www.ihf.info/media-center/news/amended-rules-game-enforced-1-july-2025",
+          "section": "Rule 7:3 amendment summary, lines 30–32 of the directly opened IHF page",
+          "claim_supported": "IHF explicitly states a maximum of three steps with the ball after receiving it from another player or catching it after bouncing.",
+          "claim_not_supported": "The card’s stationary catch, walking-only marker path, stopped pass, teaching progression and activity setup are not validated by this rule.",
+          "access_type": "directly opened HTML; exact section and lines visible"
+        }
+      ],
+      "status": "precise",
+      "observation": "Card-specific rules, sequence, setup, timing, scoring and adaptations are original editorial choices. Source supports only the identified term or broad foundation. No located source corroborates bespoke game mechanics/workshop procedures. Teacher review and local safety/suitability review remain required.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-049",
+      "exact_card_term": "underarm badminton opening stroke/service",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–16; pair, badminton racket and shuttle, 3×8 m lane. 2×2 m target begins 3 m away. Goal: release and contact below waist towards target; no net or forward receiver.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "Badminton England school guidance indexed listing mentions underarm lift lessons; PDF open returned no readable body, so not counted as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-050",
+      "exact_card_term": "two-handed backhand-side stroke",
+      "evidence": [
+        {
+          "url": "https://shapeamerica.org/standards/pe/new-pe-standards/",
+          "section": "Grades 6–8+, indicator 1.8.12, lines 238–240",
+          "claim_supported": "PE standards name forehand and backhand strokes using short- or long-handled implements.",
+          "claim_not_supported": "Does not specify a two-handed grip, a bounced feed, tennis-specific backhand mechanics, foam-ball equipment, or the card’s 3-attempt dose.",
+          "access_type": "directly opened official professional-standard HTML; exact indicator visible"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The broad backhand-stroke label has a direct professional-standard match. The card’s two-handed grip, gentle bounced feed, short forward action, exact target/distance and low-dose practice remain unverified editorial details.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed racket-sport governing-body coaching source for the exact two-handed backhand variant was verified.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-051",
+      "exact_card_term": "Soft-stick ball slalom",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–15; pair, soft-bladed play stick, foam ball, three flat markers 2 m apart; 3×10 m lane. Goal: guide alternating directions without lifting blade.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-053",
+      "exact_card_term": "Forward gallop with a fixed leading foot",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 8–12; pair in 2×10 m lane, 6 m travel and 4 m slowing. Goal: repeating forward step and trailing-foot close with same foot leading.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "OPEN Physical Education indexed teaching material names galloping as a locomotor skill; direct page retrieval failed, so not counted as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-055",
+      "exact_card_term": "Hands-and-knees travel on a padded lane",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 9–14; pair, continuous secure 2×6 m mat lane with 3 m travel segment. Goal: move on hands and knees without rushing or collapsing trunk.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-056",
+      "exact_card_term": "small supine hip lift",
+      "evidence": [
+        {
+          "url": "https://elht.nhs.uk/services/integrated-msk-pain-and-rheumatology-service/patient-information/exercises/lower-limb-videos",
+          "section": "Video 28 “Bridging”, lines 21–22; directly opened page",
+          "claim_supported": "A clinical source names a supine bridging exercise, a related movement family.",
+          "claim_not_supported": "It does not establish that this small-range hip lift is equivalent to the bridge, or support the card’s one-second pause/four-repetition dose or PE suitability.",
+          "access_type": "directly opened HTML; exact section and lines visible"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Card-specific rules, sequence, setup, timing, scoring and adaptations are original editorial choices. Source supports only the identified term or broad foundation. No located source corroborates bespoke game mechanics/workshop procedures. Teacher review and local safety/suitability review remain required.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-057",
+      "exact_card_term": "seated knee extension",
+      "evidence": [
+        {
+          "url": "https://elht.nhs.uk/services/integrated-msk-pain-and-rheumatology-service/patient-information/exercises/lower-limb-videos",
+          "section": "Video 27 “Knee Extensions in Sitting”, lines 17–19; directly opened page",
+          "claim_supported": "The NHS page names a seated knee-extension exercise.",
+          "claim_not_supported": "The card’s partial range, two-second hold, four repetitions, rest schedule and standing/non-clinical PE suitability are not supported; source cautions exercises are for clinician instruction.",
+          "access_type": "directly opened HTML; exact section and lines visible"
+        }
+      ],
+      "status": "precise",
+      "observation": "Card-specific rules, sequence, setup, timing, scoring and adaptations are original editorial choices. Source supports only the identified term or broad foundation. No located source corroborates bespoke game mechanics/workshop procedures. Teacher review and local safety/suitability review remain required.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-059",
+      "exact_card_term": "Floor bounce, clap and catch",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 8–13; soft bouncy ball, 2×2 m each. Goal: time a brief action during bounce and catch with both hands.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-060",
+      "exact_card_term": "Simultaneous exchange of two rolling balls",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–15; pair, two foam balls, 3×5 m lane. Face each other standing or seated 2 m apart. Two separate rolling tracks marked with flat strips. Goal: release one ball and receive another without collisions.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-061",
+      "exact_card_term": "Small-jump high catch — rebound preparation",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–16; pair, foam ball and flat centre marker in a 4×4 m area. Goal: time a catch above the forehead and land under control. Comfortable two-foot landing is a prerequisite.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-062",
+      "exact_card_term": "Defensive approach and stop facing a ball holder",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 12–17; pair, ball and two markers in a 3×8 m lane. Ball holder stands 5 m from the start; stop line is 2 m before them. Goal: establish a defensive stance without invading their space.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-065",
+      "exact_card_term": "Handball throw from a small one-step jump",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 13–17; pair, foam ball, secured catching net and 5×12 m lane. Goal: release while airborne and land with control. Prior throwing and landing competence required.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-068",
+      "exact_card_term": "Overhead badminton stroke from a high feed",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 13–17; pair, racket, shuttle and 5×12 m lane. Goal: contact above the hitting shoulder and send forwards. A comfortable grip is required.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "Badminton England indexed school lesson material includes overhead clear and overhead smash; PDF open returned no readable body, so not counted as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-069",
+      "exact_card_term": "forehand volley with a foam ball",
+      "evidence": [
+        {
+          "url": "https://shapeamerica.org/standards/pe/new-pe-standards/",
+          "section": "Grades 6–8+, indicator 1.8.13, lines 240–242",
+          "claim_supported": "PE standards name volleys with short- and long-handled implements in practice tasks and modified net/wall games.",
+          "claim_not_supported": "Does not identify a forehand volley technique, foam ball, tennis/racket context, feed, contact point, or this card’s task/dose.",
+          "access_type": "directly opened official professional-standard HTML; exact indicator visible"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The general implement-volley term is directly supported. The card’s specific forehand form, foam-ball feed, station geometry, repetitions and coaching cues are not corroborated by this standard.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-076",
+      "exact_card_term": "Supported split-stance knee bend",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 12–17; pair, stable wall and 2×3 m space. Goal: controlled lowering and rising with feet staying in place, without weights.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-077",
+      "exact_card_term": "Short lateral lunge and return to centre",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 12–17; pair and 3×3 m space. Goal: transfer weight sideways and return under control without twisting the knee.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-078",
+      "exact_card_term": "Side-lying leg lift with a steady pelvis",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–17; pair, mat and 2×3 m space. Goal: move the leg sideways without rolling backwards.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-079",
+      "exact_card_term": "Brief side support on forearm and knees",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 13–17; pair, mat and 2×3 m space. Goal: hold a short side-support position while breathing normally. Comfortable forearm support required.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-009",
+      "exact_card_term": "Three in a row with movement and team decisions",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 9–16; 6 participants in two teams. Mark a 3×3 grid with metre-wide cells; provide 3 beanbags per team with different symbols. Waiting line 2 m from the grid; total area 5×8 m. Goal: choose moves to complete a line of 3.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-010",
+      "exact_card_term": "Light-ball circle — a sequence involving everyone",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 9–16; 4–6 participants, light beach ball and place markers in a 4 m diameter circle within a 6×6 m area. Goal: a shared contact sequence involving everyone.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-011",
+      "exact_card_term": "Signal and movement — walk or freeze",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 8–14; 8–16 participants, an even number, working in pairs. Each pair has a 2×6 m lane with a metre gap from adjacent lanes; observer stands outside. Two large cards: circle and triangle. Goal: select the correct response while controlling movement.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-009",
+      "exact_card_term": "Workshop: agreed signals for safe passing",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–17; groups of 4, foam ball, paper and pencil. A 4×6 m space; passer and receiver 3 m apart, two recorders outside the passing line. Goal: design and test clear communication, not fast passing totals.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-010",
+      "exact_card_term": "Personal walking-pace lab",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–17; 4–12 participants, flat markers, timer and personal sheet. A 10×10 m square route with clear 2 m margins. Goal: choose and adjust pace according to comfort and control, without fitness comparisons.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-013",
+      "exact_card_term": "Palm bounce-ball — a paired rally",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–16; pair and bouncy foam ball. Two 3×3 m halves separated by a metre-wide neutral strip; a clear metre margin around the court. Goal: cooperative returns after a bounce.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-014",
+      "exact_card_term": "Collecting gates through cooperative foot passes",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–16; 4 participants, soft football and 6 soft cones. In a 14×14 m area, mark 3 gates 1.5 m wide, at least 3 m apart and from boundaries. Each gate has a different symbol. Goal: pass through every gate and involve everyone.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-014",
+      "exact_card_term": "Planning a short tournament with equal playing time",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–17; 8 participants in four pairs, two foam balls and fixture sheet. Two 3×8 m lanes separated by 2 m; each has a flat metre-wide gate 3 m from the start. Goal: build a turn schedule without a pair waiting more than one round.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-023",
+      "exact_card_term": "Who leads the movement",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 8–15; 6 participants in a 6 m diameter circle within a clear 8×8 m area. Goal: identify a leader through observation and timing. Agree on three comfortable actions: stepping in place, clapping and elbow bends/extensions.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-022",
+      "exact_card_term": "Walking soft-stick game — pass to goal",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 12–17; 6 players in two threes, 6 soft play sticks and foam ball. Field 16×10 m with 2 m margins and a flat 2 m goal centred on each end line. Prior control of stick stopping and pushing required. Goal: open passing lanes and finish with a push.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-015",
+      "exact_card_term": "Cooperative ball steering on a fabric sheet",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 9–16; 6–8 participants, intact strong 3×3 m fabric sheet and light foam ball. Four flat fabric markers securely attached, one near each side, half a metre from the edge. Clear 6×6 m area. Goal: guide the ball together without dropping it.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-020",
+      "exact_card_term": "Walking flag transfer between two bases",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–17; 8 players in two fours, 3 marked beanbags per team. A 20×12 m area split into halves. A 2×2 m base at each end and clear 2 m outer margins. Goal: bring an original opposing bag to your own base.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-018",
+      "exact_card_term": "Walking football with two target goals",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–17; 6 players in two threes, soft ball and 8 cones. Field 16×12 m with clear 2 m margins. On each end line, two 2 m goals separated by 4 m, with 2 m to each corner. Each team defends two and attacks the opposite two. Goal: recognise open scoring space.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-019",
+      "exact_card_term": "Growing movement chain — remember together",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 8–15; 4–6 participants. Each has a 2×2 m square with a metre gap from others. Choose from four actions: two marching steps; a clap in front; comfortable elbow bend and extension; right hand to left shoulder then left hand to right shoulder. Goal: remember. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-024",
+      "exact_card_term": "Ball journey in channels — connect and advance",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–17; 4 participants, 4 light channels about 40 cm long and at least 10 cm internal width, foam ball about 6 cm across and wide stable container. Smooth edges; 3×6 m lane, container 3 m from start. Goal: deliver through connected channels.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-016",
+      "exact_card_term": "Leading one minute of movement — clear instructions",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–17; 4 participants. Four 2×2 m movement squares with metre gaps within a 5×5 m area; timer and teacher-written action cards. Goal: lead clearly and check that others can follow.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-021",
+      "exact_card_term": "Shooting and risk choice — team score",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 10–17; 4 participants, light ball and secured hoop at adapted height. Clear 6×6 m area. Shooting marks 1.5 and 2.5 m from the point directly beneath the rim centre. Goal: choose distance based on likelihood and points.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-013",
+      "exact_card_term": "Participation map — who gets the ball",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 12–17; 6 participants labelled A–F, foam ball and tally sheet. A 6×6 m area; 4 play and two observe outside. Goal: identify reception distribution and test a participation rule.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-011",
+      "exact_card_term": "Equipment lab — comparing two passing balls",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–17; 4 participants, two soft balls of different sizes, paper and pencil. A 4×6 m area; passer and receiver 3 m apart, two recorders to the side. Goal: choose equipment through experience and describe differences.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-015",
+      "exact_card_term": "Timing lab — one journey, two measurements",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–17; 4 participants, two stopwatches, sheet and flat markers. Lane 2 m wide and 14 m long: 10 m between timing lines plus 2 m clear before and after. Goal: notice measurement differences and define consistent start/finish, not test speed.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-012",
+      "exact_card_term": "Workshop: resolving a sporting disagreement",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No directly accessed primary source was found corroborating this card-specific Ages 11–17; 4 participants, foam ball, 4 markers and recording sheet. A 5×5 m space. Goal: practise stopping, factual description and agreed restart without deciding who is 'to blame'.. Its exact sequence, equipment, layout, dose/scoring and adaptations remain editorial choices and require teacher review; no source-backed safety or individual suitability claim is made.",
+      "teacher_native_review": "pending",
+      "research_lead": "No directly accessed primary source in this audit corroborates this exact term/variant. Search lead(s), if any, are not treated as evidence.",
+      "overall_pass": false
+    }
+  ],
+  "root_review_date": "2026-10-12 Asia/Jerusalem",
+  "report_language": "en"
+}

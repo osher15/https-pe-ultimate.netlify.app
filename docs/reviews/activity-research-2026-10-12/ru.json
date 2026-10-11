@@ -1,0 +1,1317 @@
+{
+  "language": "ru",
+  "audit_language": "Russian",
+  "corpus": "120 saved complete RU card bodies; each record read from current-cards-2026-10-11.json",
+  "audit_date": "2026-10-12",
+  "source_catalog": [
+    {
+      "id": "edsoo-frp-2025-5-9",
+      "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+      "version": "Federal Working Program, Physical Education, grades 5–9; June 2025 PDF, 342 pages",
+      "sections": "Retrieved/searchable exact passages: pp.7–10 (volleyball, basketball, football), pp.18–21 (rope/jump and catch-after-rebound), pp.26–29 (learning outcomes), pp.40–41 (handball catching), pp.76–77 and 131 (football foot surfaces/ball control), pp.204 (takeoff/landing), pp.247–253 (sports skill lesson sequences), p.263 (single-leg balance). Searches for relay-baton terms, table tennis and «галоп» returned no matching text.",
+      "access": "full PDF text retrieved via web open/find; open returned 342-page PDF with extracted text. Specifically searched skill terms and opened their exact returned lines.",
+      "limits": "Curriculum evidence supports listed vocabulary/skill categories only. It does not validate custom game rules, exact technique cues beyond stated passages, target dimensions, repetitions, time, age selection, workload, safety arrangements or adaptations. It is not the 1–4 grade program. Negative searches are not proof of absence from all Russian PE literature; they indicate no matching text in this retrieved PDF index."
+    },
+    {
+      "id": "badminton",
+      "url": "https://www.badm.ru/index.php?page_id=15",
+      "version": "Rules of sport “Badminton”; relevant service sections (indexed search excerpt; federation page accessible, linked PDF access intermittent)",
+      "sections": "Rules of sport “Badminton”",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Formal terminology «подача» is used in badminton rules. Does not show DR-049 is a formal serve or validate its adapted mechanics. Not counted as card-level evidence in this follow-up."
+    },
+    {
+      "id": "volleyball",
+      "url": "https://www.junior.volley.ru/federation/documents/",
+      "version": "Official volleyball rules listing",
+      "sections": "Official volleyball rules listing",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Federation lists official rule documents. Listing alone does not validate adapted PE activities or technique cues. Not counted as card-level evidence in this follow-up."
+    },
+    {
+      "id": "football",
+      "url": "https://www.rfs.ru/news/222756?mobile=no",
+      "version": "Laws of the Game 2025/26, RFU-published Russian translation (as listed in prior audit)",
+      "sections": "Laws of the Game 2025/26, RFU-published Russian translation (as listed in prior audit)",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Supports formal football vocabulary; small-sided adaptations remain custom. Not counted as card-level evidence in this follow-up."
+    },
+    {
+      "id": "handball",
+      "url": "https://rushandball.ru/referee",
+      "version": "Rules of handball approved by Ministry of Sport order 152 (2023), linked from federation referee/documents page",
+      "sections": "Rules of handball approved by Ministry of Sport order 152 (2023), linked from federation referee/documents page",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Supports formal handball terminology; adapted school tasks remain custom. Not counted as card-level evidence in this follow-up."
+    },
+    {
+      "id": "table_tennis",
+      "url": "https://old.ttfr.ru/rus/2/",
+      "version": "Rules of play, sections 2.2.2, 2.6.3, 2.13.1 (prior audit section mapping; direct text not newly retrieved)",
+      "sections": "Rules of play, sections 2.2.2, 2.6.3, 2.13.1 (prior audit section mapping",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Formal net/service vocabulary; no validation of coaching cues or modified tasks. Not counted as card-level evidence in this follow-up."
+    },
+    {
+      "id": "athletics",
+      "url": "https://rusathletics.info/wp-content/uploads/2023/03/pravila_legkaya_atletika_2023.pdf",
+      "version": "Athletics competition rules PDF (prior audit; direct text not retrieved in this follow-up)",
+      "sections": "Athletics competition rules PDF (prior audit",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Competition terminology context only; does not establish school foam-implement instructions. Not counted as card-level evidence in this follow-up."
+    },
+    {
+      "id": "basketball",
+      "url": "https://old.russiabasket.ru/federation/documents",
+      "version": "Basketball federation documents listing; official interpretations PDF (prior audit; intermittent PDF access)",
+      "sections": "Basketball federation documents listing",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Rule terminology context only; no card-specific adaptations. Not counted as card-level evidence in this follow-up."
+    },
+    {
+      "id": "curriculum14",
+      "url": "https://edsoo.ru/wp-content/uploads/2023/09/frp-fizkultura-1-4_klassy-1.pdf",
+      "version": "Federal Working Program, Physical Education, grades 1–4 (2023), badminton module pp. ~147–150 and general safety/learning outcomes; prior audit reports PDF section opens timed out/direct 502",
+      "sections": "Federal Working Program, Physical Education, grades 1–4 (2023), badminton module pp. ~147–150 and general safety/learning outcomes",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Indexed/source lead only in this follow-up; broad curriculum context, not proof of a card-specific term, dosage, layout, technique or safety condition. Not counted as card-level evidence in this follow-up."
+    },
+    {
+      "id": "curriculum59",
+      "url": "https://edsoo.ru/wp-content/uploads/2023/09/frp-fizicheskaya-kultura_5-9-klassy.pdf",
+      "version": "Federal Working Program, Physical Education, grades 5–9 (2023), sport modules; prior audit reports PDF section opens timed out/direct 502",
+      "sections": "Federal Working Program, Physical Education, grades 5–9 (2023), sport modules",
+      "access": "research lead only; prior report/search record; relevant source passage not retrieved in this follow-up",
+      "limits": "Indexed/source lead only in this follow-up; broad curriculum context. 2023 edition may have been superseded; no 2025 edition verified. Not counted as card-level evidence in this follow-up."
+    }
+  ],
+  "cards": [
+    {
+      "item_id": "AC-014",
+      "exact_card_term": "План короткого турнира с равным игровым временем",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-046",
+      "exact_card_term": "Передача в стенку в футболе с выходом на приём",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 9–10, 26, 273; retrieved PDF lines 327–329, 910–915, 10731–10761",
+          "claim_supported": "The curriculum uses the football skill terms «остановка и передача мяча» and specifies passing a rolling ball over varied distances/directions. This supports the general football pass/receive terminology.",
+          "claim_not_supported": "It does not prescribe wall passes, the card’s route, target location, setup, doses or exact cue «выход на приём».",
+          "access_type": "retrieved primary PDF text (2025 federal working program; exact text lines/printed page references listed)"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Terminology foundation only; custom wall-pass sequence and «выход на приём» remain unverified.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-045",
+      "exact_card_term": "Смена направления внешней стороной стопы",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 76, 131; retrieved PDF lines 2924–2929, 5169–5184",
+          "claim_supported": "The curriculum names football dribbling with changes in direction and use of the external part of the instep (внешней частью подъема).",
+          "claim_not_supported": "It does not state the card’s exact phrase «внешней стороной стопы» or validate its cue, direction-change method or dose. The terminology differs from the curriculum wording and needs PE teacher review.",
+          "access_type": "retrieved primary PDF text (2025 federal working program; exact text lines/printed page references listed)"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The nearby official wording is «внешней частью подъема», not the card’s «внешней стороной стопы»; flag for Russian PE teacher terminology review.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-033",
+      "exact_card_term": "Подтягивание мяча подошвой и поворот на четверть оборота",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "p. 76; retrieved PDF lines 2924–2929",
+          "claim_supported": "The curriculum mentions ball control turns and stopping a ball with the sole (подошвой).",
+          "claim_not_supported": "It does not specify the card’s sole-pull action, quarter-turn, posture, movement sequence, age, repetition count or dose.",
+          "access_type": "retrieved primary PDF text (2025 federal working program; exact text lines/printed page references listed)"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Only the general football ball-control/sole vocabulary is supported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-068",
+      "exact_card_term": "Удар сверху в бадминтоне после высокой подачи рукой",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 106–110; retrieved PDF lines 4160–4211, 4255–4288",
+          "claim_supported": "The federal program includes a badminton module for grades 5–9 and describes it as a curricular sport module.",
+          "claim_not_supported": "The retrieved sections do not mention the card’s «удар сверху» or «высокая подача рукой», nor validate its technique or task setup.",
+          "access_type": "retrieved primary PDF text (2025 federal working program; exact text lines/printed page references listed)"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Only badminton curricular context is established; the precise stroke terminology is unverified.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-018",
+      "exact_card_term": "Вращение скакалки и перешагивание",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 18, 20–21; retrieved PDF lines 626–627, 705–706, 730–731",
+          "claim_supported": "The curriculum uses the term «гимнастическая скакалка» and includes jumps with a rope.",
+          "claim_not_supported": "It does not validate this card’s rotation-stop-step cycle, its no-jump progression, cycle count, time, or safety spacing.",
+          "access_type": "retrieved primary PDF text (2025 federal working program; exact text lines/printed page references listed)"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Equipment/activity vocabulary only; this adapted progression remains custom.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-008",
+      "exact_card_term": "Подготовка и проверка станции передач",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-005",
+      "exact_card_term": "Лаборатория судейства: линия, решение и возобновление",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-023",
+      "exact_card_term": "Кто ведёт движение",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-006",
+      "exact_card_term": "Навигация шагом по карте и символам",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-013",
+      "exact_card_term": "Скольжение рукой вперёд на четвереньках",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-004",
+      "exact_card_term": "Трое передающих против перехватчика",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-015",
+      "exact_card_term": "Удержание мяча на ракетке при ходьбе",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-014",
+      "exact_card_term": "Сбор ворот совместными передачами ногой",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-016",
+      "exact_card_term": "Удар ногой и пробежка против возврата мяча — раздельные зоны",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-011",
+      "exact_card_term": "Сигнал и движение — идти или замереть",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-041",
+      "exact_card_term": "Перевод мяча перед собой при ведении",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 9, 26, 20; retrieved PDF lines 315–319, 910–911, 695–700",
+          "claim_supported": "The curriculum names basketball dribbling in different directions and chest passes; it includes varied-direction ball handling.",
+          "claim_not_supported": "It does not specify a front crossover or validate this card’s hand-change cue, height, repetitions or dose.",
+          "access_type": "retrieved primary PDF text (2025 federal working program; exact text lines/printed page references listed)"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Basketball dribbling context is supported; the exact crossover cue is not specified in the retrieved passage.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-022",
+      "exact_card_term": "Игра мягкими клюшками шагом — передача к воротам",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-017",
+      "exact_card_term": "Ближе к метке — точность и выбор",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-062",
+      "exact_card_term": "Защитное сближение и остановка перед игроком с мячом",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No exact supporting passage found in the retrieved 2025 grades 5–9 program passages. Match against its sport/curriculum cannot be assumed; rules/roles, adaptations, safety and dimensions remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-021",
+      "exact_card_term": "Прокатывание мяча ракеткой через ворота",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-010",
+      "exact_card_term": "Круг с лёгким мячом — участвуют все",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-080",
+      "exact_card_term": "Бросок мешочка снизу по дуге в цель",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-058",
+      "exact_card_term": "Мягкое растяжение икры с опорой на стену",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-010",
+      "exact_card_term": "Лаборатория личного темпа ходьбы",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-074",
+      "exact_card_term": "Короткая серия подскоков на одной ноге",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-040",
+      "exact_card_term": "Работа рук для бега из устойчивой стойки",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-043",
+      "exact_card_term": "Ловля и остановка на две ноги",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 40, 204; retrieved PDF lines 1497–1499 list two-hand catching in place and jump in handball; p.204 lines 8129–8130 describe jumping off one foot and landing on both.",
+          "claim_supported": "Attests catch terminology and a two-foot landing pattern separately in curriculum text.",
+          "claim_not_supported": "Does not join these into the card’s catch-hop-stop task or validate its two-second hold, ball feed, pace, repetitions or safety.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Separate catching/landing terms supported; combined coordination task is custom.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-004",
+      "exact_card_term": "Спроектировать и проверить доступный маршрут",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-063",
+      "exact_card_term": "Прокат мяча подошвой в сторону к другой ноге",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-023",
+      "exact_card_term": "Отведение таза назад к стене",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-037",
+      "exact_card_term": "Передача мяча из руки в руку вокруг пояса",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-001",
+      "exact_card_term": "Прокати мяч в зачётную зону",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-077",
+      "exact_card_term": "Короткий выпад в сторону и возврат к центру",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-070",
+      "exact_card_term": "Бросок мягкого летающего диска бэкхендом",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-060",
+      "exact_card_term": "Одновременный обмен двумя катящимися мячами",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-065",
+      "exact_card_term": "Бросок в гандболе с небольшого прыжка после шага",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-003",
+      "exact_card_term": "Совместная серия ловли через низкую сетку",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-059",
+      "exact_card_term": "Отскок от пола, хлопок и ловля",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "p.20; retrieved PDF lines 719–721 explicitly says throw small ball at wall with subsequent catch after bounce from wall/floor.",
+          "claim_supported": "Directly supports the general “throw/bounce then catch” activity sequence after floor rebound.",
+          "claim_not_supported": "Does not include clap during rebound, this ball type, one-bounce restriction, pace or dose.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Core catch-after-rebound pattern is supported; clap and constraints are custom.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-036",
+      "exact_card_term": "Передача двумя руками сверху",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-009",
+      "exact_card_term": "Передача сверху над собой и ловля",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 7, 250–251; retrieved PDF text says volleyball reception/pass with two hands above («сверху») at rest/in movement.",
+          "claim_supported": "The curriculum explicitly uses «прием и передача ... двумя руками сверху» in volleyball. Supports the technical term “верхняя передача”.",
+          "claim_not_supported": "Does not establish self-setting above oneself, catch after one touch, or the card’s height/attempt count.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Term/category supported only; self-set-then-catch is a modified drill.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-054",
+      "exact_card_term": "Перекат тела в сторону на мате",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-027",
+      "exact_card_term": "Подбивание волана и ловля",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-015",
+      "exact_card_term": "Совместное управление мячом на полотне",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-009",
+      "exact_card_term": "Три в ряд: движение и командный выбор",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-053",
+      "exact_card_term": "Галоп вперёд с постоянной ведущей ногой",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Unsupported in the retrieved source; seek primary school PE terminology reference.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-055",
+      "exact_card_term": "Передвижение на четвереньках по мягкой дорожке",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-051",
+      "exact_card_term": "Ведение мяча мягкой клюшкой между метками",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-048",
+      "exact_card_term": "Ловля, три шага и передача",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-079",
+      "exact_card_term": "Короткий боковой упор на предплечье и колени",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-026",
+      "exact_card_term": "Прикрывание мяча положением корпуса без контакта",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-073",
+      "exact_card_term": "Шаги подхода, толчок одной ногой и приземление на две",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "p.204; retrieved PDF lines 8129–8130 state short jumps taking off on one foot and landing on both.",
+          "claim_supported": "Directly supports the one-foot takeoff/two-foot landing movement pattern.",
+          "claim_not_supported": "Does not specify approach steps, card’s drill progression, height, attempts or target group.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Movement pattern directly attested; card-specific approach and dose remain custom.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-020",
+      "exact_card_term": "Перенос флагов шагом между двумя базами",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-008",
+      "exact_card_term": "Подбрасывание платка и ловля другой рукой",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-005",
+      "exact_card_term": "Салки шагом со сменой ролей",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-030",
+      "exact_card_term": "Прокатывание вертикального обруча по дорожке",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-002",
+      "exact_card_term": "Лаборатория обратной связи: наблюдай и пробуй снова",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-064",
+      "exact_card_term": "Смягчение мяча бедром после собственного подброса",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-067",
+      "exact_card_term": "Вертикальный прыжок для блокирования без сетки",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-016",
+      "exact_card_term": "Бросок в корзину с места с близкого расстояния",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-004",
+      "exact_card_term": "Передача с отскоком стоящему партнёру",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-018",
+      "exact_card_term": "Футбол шагом с выбором из двух ворот",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-019",
+      "exact_card_term": "Растущая цепочка движений — запоминаем вместе",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-035",
+      "exact_card_term": "Верхняя подача с места в свободную зону",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-003",
+      "exact_card_term": "Исследование точности и расстояния",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-006",
+      "exact_card_term": "Отжимание от стены стоя",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-061",
+      "exact_card_term": "Ловля высокого мяча в небольшом прыжке — подготовка к подбору",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "p.40; retrieved PDF lines 1497–1499 list catching a high ball and catching with both hands in a jump, in the handball technical content.",
+          "claim_supported": "The curriculum explicitly includes high-ball catching and two-hand catch in a jump.",
+          "claim_not_supported": "Does not support the card’s basketball rebound framing, small-jump cue, feed, repetitions or “подбор” adaptation.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Catch/high-ball/jump components directly attested in handball context; card’s cross-sport use is custom.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-008",
+      "exact_card_term": "Командный поиск пар с передвижением",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-012",
+      "exact_card_term": "Командное сбивание мягких целей пасом ногой",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-020",
+      "exact_card_term": "Два платка: поочерёдные броски и ловля",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-044",
+      "exact_card_term": "Подготовка к броску снизу после одного шага",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-010",
+      "exact_card_term": "Нижняя подача в свободную зону",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 7, 26, 249; retrieved PDF lines 239–240 and 912–913, plus p.249 sequence names «прямая нижняя подача».",
+          "claim_supported": "The federal program uses volleyball «прямая нижняя подача мяча», so «нижняя подача» is an attested Russian PE term.",
+          "claim_not_supported": "The source specifies a straight underhand serve in the curriculum, not card’s free-zone target, its setup or adaptations.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Term supported; free-zone target and adapted task rules remain custom.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-007",
+      "exact_card_term": "Защити линию катящимся мячом",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-002",
+      "exact_card_term": "Передачи в зачётную зону без контакта",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-050",
+      "exact_card_term": "Удар с закрытой стороны двумя руками после отскока",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-047",
+      "exact_card_term": "Передача одной рукой от плеча в гандболе",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-007",
+      "exact_card_term": "Перенос веса и касание метки стопой",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "p. 263; retrieved PDF lines 10390–10396 list «равновесие на одной ноге» within a gymnastics balance-beam sequence.",
+          "claim_supported": "Supports the general Russian PE balance term «равновесие на одной ноге».",
+          "claim_not_supported": "Does not describe the card’s weight transfer, floor marker, foot tap, repetitions or whether the same balance demand is appropriate for its intended age.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Only single-leg balance vocabulary is supported; the card-specific weight-shift task is not.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-024",
+      "exact_card_term": "Скольжение пяткой лёжа с контролем таза",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-014",
+      "exact_card_term": "Подъём на носки двух ног с контролем",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-039",
+      "exact_card_term": "Ходьба через низкие мягкие препятствия",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-017",
+      "exact_card_term": "Бросок в стену и ловля отскока",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "p.20; retrieved PDF lines 719–721 specify small-ball throws at a wall and subsequent catch after rebound from wall/floor.",
+          "claim_supported": "Directly supports the basic wall-throw and rebound-catch sequence.",
+          "claim_not_supported": "Does not validate card’s target, ball substitutions, repetitions, pace or safety distances.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Basic movement sequence directly attested; custom drill setup remains unverified.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-078",
+      "exact_card_term": "Подъём ноги лёжа на боку при устойчивом тазе",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-049",
+      "exact_card_term": "Начальный удар по волану снизу",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Badminton curriculum text retrieved but did not establish «удар снизу» as a formal serve; federation rules PDF page was not retrieved in this pass. Keep as terminology question for a Russian PE teacher or badminton specialist.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-001",
+      "exact_card_term": "Опорная нога и направление передачи",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-024",
+      "exact_card_term": "Путь мяча по желобам — соединяем и движемся",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-006",
+      "exact_card_term": "Совместная эстафета с распределением мешочков",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-016",
+      "exact_card_term": "Ведение минуты движения — понятные инструкции",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-021",
+      "exact_card_term": "Бросок в корзину и выбор риска — общий счёт",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-019",
+      "exact_card_term": "Приставные шаги без скрещивания ног",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-052",
+      "exact_card_term": "Короткий блок с закрытой стороны в настольном теннисе",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant retrieved primary passage establishes the title’s table-tennis term «блок» in this adapted task. Keep terminology unresolved pending a Russian table-tennis specialist.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-013",
+      "exact_card_term": "Карта участия — кто получает мяч",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-011",
+      "exact_card_term": "Лаборатория инвентаря — сравнение двух мячей для передачи",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-003",
+      "exact_card_term": "Выход к мячу и передача снизу",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 7, 249–251; PDF text retrieved by find; p.251 specifies reception/pass with two hands from below in place and while moving.",
+          "claim_supported": "The federal program names volleyball «прием и передача мяча двумя руками снизу» and describes the skill in place and movement. This supports the lower two-hand pass term.",
+          "claim_not_supported": "Does not validate the card’s approach/exit route, exact forearm contact cue, repetitions, timing or its adapted drill.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The specific “снизу” passing term is attested; card’s approach/exit and execution details are custom.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-031",
+      "exact_card_term": "Один прыжок через скакалку двумя ногами",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 18, 20; retrieved PDF lines 626–627 and 703–706 name rope jumping; p.20 also names two-foot jumping.",
+          "claim_supported": "The curriculum includes «прыжки через ... скакалкой» and jumps on both feet. Supports rope-jump activity and the general two-foot-jump vocabulary.",
+          "claim_not_supported": "Does not explicitly specify a single two-foot rope cycle or validate timing, equipment length, dose, or the card’s progression.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Basic movement terminology supported; specific single-cycle task is custom.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-011",
+      "exact_card_term": "Согласование противоположных руки и ноги на месте",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-015",
+      "exact_card_term": "Лаборатория времени — один проход, два измерения",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-057",
+      "exact_card_term": "Контролируемое разгибание колена сидя",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-025",
+      "exact_card_term": "Прямая передача двумя руками от груди",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 7, 247–248; retrieved PDF lines 9813–9840 explicitly name basketball two-hand chest pass, stationary and moving.",
+          "claim_supported": "Exact curriculum technical term «передача мяча двумя руками от груди» in basketball.",
+          "claim_not_supported": "Does not validate exact card distance, soft ball substitution, target height, success threshold, age or dose.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Core technical term has direct curriculum match; all card-specific constraints remain editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-056",
+      "exact_card_term": "Небольшой подъём таза лёжа",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-042",
+      "exact_card_term": "Короткое отступление с ведением после осмотра",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-069",
+      "exact_card_term": "Удар справа с лёта поролоновым мячом",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-012",
+      "exact_card_term": "Ходьба по линии: пятка перед носком",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-001",
+      "exact_card_term": "Создаём последовательность на восемь счётов",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-072",
+      "exact_card_term": "Метание поролонового копья с места",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-002",
+      "exact_card_term": "Передача внутренней стороной стопы через ворота",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-005",
+      "exact_card_term": "Передача эстафетной палочки со зрительным контролем",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Unsupported as to baton-transfer technique; general relay mention is not treated as evidence.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-034",
+      "exact_card_term": "Удар подъёмом в ворота без вратаря",
+      "evidence": [
+        {
+          "url": "https://edsoo.ru/wp-content/uploads/2025/06/22_frp_fizkultura-5-9-klassy_25062025_itog-na-sajt.pdf",
+          "section": "pp. 76, 131; retrieved PDF lines 2929–2930 and 5169–5173 list football kicks with the inner, middle and outer parts of the instep.",
+          "claim_supported": "The curriculum names «удары по мячу ногой» with «средней частью подъема» among football technical actions. Supports the instep-kick family of terms.",
+          "claim_not_supported": "Does not specify this card’s single-step approach, lace-contact cue, gate, distance or safety arrangement.",
+          "access_type": "retrieved primary PDF text from 2025 Federal Working Program, PE grades 5–9 (342 pages); exact passage/page or search outcome recorded"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Football instep-kick terminology is supported; exact cue and setup remain unverified.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-076",
+      "exact_card_term": "Сгибание коленей в разножке с опорой",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-066",
+      "exact_card_term": "Направленный вниз удар в волейболе с места",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-012",
+      "exact_card_term": "Мастерская решения спортивного разногласия",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-007",
+      "exact_card_term": "Оценка расстояния шагами и измерением",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-028",
+      "exact_card_term": "Удар справа в настольном теннисе после своего отскока",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Unsupported; requires a retrieved table-tennis federation or curriculum text.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-071",
+      "exact_card_term": "Толкание поролонового мяча одной рукой от плеча",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-038",
+      "exact_card_term": "Поочерёдный шаг с подскоком",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-032",
+      "exact_card_term": "Остановка катящегося мяча мягкой игровой клюшкой",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-075",
+      "exact_card_term": "Лёгкий бег с ровным ритмом шагов между метками",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-013",
+      "exact_card_term": "Мяч с отскоком и ладонями — парный розыгрыш",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-009",
+      "exact_card_term": "Мастерская согласованных сигналов для безопасной передачи",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-022",
+      "exact_card_term": "Обманное движение корпусом и выход без мяча",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-029",
+      "exact_card_term": "Два завершающих шага разбега без прыжка",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "No relevant primary-source passage was retrieved for this card in the current RU follow-up. Existing source listings or access-failed PDFs remain research leads only; teacher/native review pending.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    }
+  ],
+  "overall_note": "Updated 2026-10-12: the 2025 grades 5–9 federal PE curriculum was retrieved as searchable PDF text and checked against named movement terms. Eighteen cards have narrow foundation_only evidence, 102 are unsupported, and none are marked precise. Foundation evidence applies only to the exact technical term/pattern claimed; no task mechanics, custom wording, dimensions, timing, repetitions, age suitability, workload, safety arrangement, adaptations or efficacy are approved by this source. DR-005 relay-baton handover, DR-028 table-tennis forehand, DR-053 gallop, DR-049 badminton «удар снизу», and DR-052 table-tennis «блок» remain unsupported/unresolved in this retrieved source. The grades 1–4 program was not retrieved.",
+  "root_review_date": "2026-10-12 Asia/Jerusalem",
+  "report_language": "en"
+}

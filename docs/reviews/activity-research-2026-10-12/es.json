@@ -1,0 +1,2150 @@
+{
+  "language": "es",
+  "scope": "English-language handoff documenting Spanish source evidence for all 120 saved Spanish activity cards. Each complete saved body was reviewed individually; no card, root ledger or Notion entry was changed.",
+  "source_catalog": [
+    {
+      "id": "fiba_pivot_es",
+      "url": "https://www.fiba.basketball/es/news/bcl-21-22-news-tough-calls-gameday-5",
+      "organization": "FIBA",
+      "version": "material oficial en español con referencia al Art. 25.1.2; referencia técnica consultada para concepto de pivote, no certificación de vigencia normativa a octubre de 2026",
+      "sections": "Article 25.1.2 (“pivote” and “pie de pivote”), reproduced in an official FIBA Spanish-language rules analysis; the parent reviewer separately verified a Spanish pivot reference at p. 21.",
+      "access_type": "Official Spanish excerpt; direct open of the queried FIBA analysis returned HTTP 403, so only indexed text was available in this pass.",
+      "limits": "Supports the pivot-foot term/concept only for DR-001. It does not validate the drill or establish which rule edition applies in October 2026. The parent-verified page reference is a research lead, not claimed as re-read here."
+    },
+    {
+      "id": "fivb_coach_es",
+      "url": "https://www.fivb.com/wp-content/uploads/2024/03/FIVB_Coach_Manual_ES.pdf",
+      "organization": "FIVB",
+      "version": "Manual para Entrenadores Nivel I, PDF oficial en español (publicado/rastreado en 2024)",
+      "sections": "Chapter V, “Voleibol para Principiantes”: distinguishes high-hand/finger and forearm passes; section D describes underhand serve (p. 59). Chapter VI identifies service, attack, reception and block as core techniques.",
+      "access_type": "Official Spanish-language PDF with indexed excerpts; direct open failed due to the 16 MB file size, so no full-PDF or page-by-page access is claimed.",
+      "limits": "Narrow term/concept evidence only for mapped cards. No adapted mechanics, rules, ages, dosage, equipment, safety or outcomes are validated."
+    },
+    {
+      "id": "rfet_development_es",
+      "url": "https://tenisxetapas.rfet.es/desarrollo",
+      "organization": "Real Federación Española de Tenis",
+      "version": "tenisXetapas, etapa de desarrollo; versión web consultada/indexada en 2026",
+      "sections": "“Desarrollo,” lines 52–61: stage context, forehand/backhand, contact in front near waist height and beginning service technique. Lines 32–50 list activities including “Tres en raya.”",
+      "access_type": "Official Spanish RFET HTML directly opened; relevant lines inspected.",
+      "limits": "Development-stage context and the name of a listed game only; does not validate a specific session or custom mechanics."
+    },
+    {
+      "id": "rfet_strokes_es",
+      "url": "https://tenisxetapas.rfet.es/avanzado1",
+      "organization": "Real Federación Española de Tenis",
+      "version": "tenisXetapas, avanzado1; versión web consultada/indexada en 2026",
+      "sections": "“Tipos de Golpe,” lines 35–44, including “Golpe Revés dos manos” and “Volea Derecha.”",
+      "access_type": "Official Spanish RFET HTML directly opened; relevant lines inspected.",
+      "limits": "Names/categories only; no exercise design, dosage or safety validation."
+    },
+    {
+      "id": "world_athletics_javelin_es",
+      "url": "https://worldathletics.org/es/kids-athletics/teaching-athletics/precision-javelin",
+      "organization": "World Athletics",
+      "version": "World Athletics Kids’ Athletics, Teaching athletics; Spanish page indexed in October 2026; current page/version date not stated.",
+      "sections": "Kids’ Athletics activity “El lanzamiento de jabalina con precisión,” Level 2; controlled object and turn-taking are described in the indexed Spanish page excerpt.",
+      "access_type": "Official Spanish World Athletics HTML indexed excerpt; full page was not opened.",
+      "limits": "Terminology/activity-context evidence only for DR-072; the card uses a different implement and protocol, which remain editorial."
+    },
+    {
+      "id": "boe_primary_efp_678_2022",
+      "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+      "organization": "Spanish State Gazette / Ministry of Education",
+      "version": "Order EFP/678/2022; primary-stage curriculum for the Ministry’s management area",
+      "sections": "Physical Education, basic motor skills and practice competencies: lines 1698–1713 (locomotor/non-locomotor/manipulative skills, balance, rules, inclusive interaction); lines 1877–1889 (motor project planning, accident prevention, decision-making, space/time perception and initiation of sport-specific motor skills).",
+      "access_type": "official_html_directly_opened; relevant sections verified in page text",
+      "limits": "General curriculum foundation only. It does not certify any card-specific technique, mechanics, age band, repetitions, duration, space, equipment, adaptation, threshold, safety protocol or medical suitability. Its primary-school scope is not a validation of cards for older pupils."
+    },
+    {
+      "id": "fesba_glossary",
+      "url": "https://www.badminton.es/page/10964/Glosario-Oficial-de-la-Federacion-Espanola-de-Badminton",
+      "organization": "Federación Española de Bádminton (FESBA)",
+      "version": "Official Spanish Badminton Federation glossary; web page consulted October 2026",
+      "sections": "Official glossary entries include “Golpeo de mano alta” (line 232), “Golpeo de mano baja” (line 199), “Saque alto” (line 216), “Saque corto” (line 268) and “Volante” (line 270).",
+      "access_type": "Official Spanish HTML directly opened; lines 157–277 inspected.",
+      "limits": "Terminology only. It does not validate an adapted drill, feed, modified equipment, dimensions, age, dosage or safety."
+    },
+    {
+      "id": "rfetm_fibe_training_curriculum",
+      "url": "https://www.rfetm.es/documents/descargas/Convocatoria_N_1_2_y_3_FIBE.pdf",
+      "organization": "Real Federación Española de Tenis de Mesa (RFETM), Escuela Nacional de Entrenadores / FIBE",
+      "version": "Historical coach-training syllabus; the source was indexed in 2013, but the exact issue date is not established.",
+      "sections": "Technical and tactical syllabus, p. 6, lines 203–213: includes “Golpe plano de derecha y de revés” and “Bloqueo de derecha y de revés.”",
+      "access_type": "Official federation PDF directly opened; 21-page document and p. 6 text inspected.",
+      "limits": "Supports table-tennis stroke names/categories only. It is not evidence for the cards’ self-feed, bounce, dosage, ages, space or safety."
+    }
+  ],
+  "cards": [
+    {
+      "item_id": "DR-001",
+      "exact_card_term": "Pie de pivote y línea de pase",
+      "evidence": [
+        {
+          "url": "https://www.fiba.basketball/es/news/bcl-21-22-news-tough-calls-gameday-5",
+          "section": "Article 25.1.2 (“pivote” and “pie de pivote”), quoted in the official FIBA Spanish-language analysis.",
+          "claim_supported": "Supports the Spanish rule term and concept of a pivot foot remaining at its ground-contact point during a pivot.",
+          "claim_not_supported": "The source does not validate this drill’s quarter-turn, passing cues, organization, age, dosage, space, equipment, adaptation, safety or medical suitability.",
+          "access_type": "official FIBA Spanish-language excerpt; direct page open returned HTTP 403; indexed text only"
+        }
+      ],
+      "status": "precise",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pie de pivote y línea de pase”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-002",
+      "exact_card_term": "Pase con el interior del pie por una puerta",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pase con el interior del pie por una puerta”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-003",
+      "exact_card_term": "Colocación y pase de antebrazos",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Full saved body read individually. The Spanish card is titled “Colocación y pase de antebrazos”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "agent_proposed_status": "precise",
+      "unverified_source_leads": [
+        {
+          "url": "https://www.fivb.com/wp-content/uploads/2024/03/FIVB_Coach_Manual_ES.pdf",
+          "section": "FIVB Coaches Manual Level I, Chapter V on beginner volleyball; indexed passage distinguishes forearm pass from high-hand pass.",
+          "claim_supported": "Supports the Spanish name and technical category “pase de antebrazos” in volleyball.",
+          "claim_not_supported": "It does not validate this card’s feed, target, dimensions, repetitions, organization, age, adaptation, safety or medical suitability.",
+          "access_type": "official Spanish-language PDF; indexed text excerpt only, full PDF direct open failed due to file size"
+        }
+      ],
+      "root_review": "Full PDF exceeds web extraction limit; direct download403. Indexed terminology proposal not independently reproduced by root; not promoted.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-004",
+      "exact_card_term": "Pase picado a un receptor inmóvil",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pase picado a un receptor inmóvil”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-005",
+      "exact_card_term": "Entrega visual del testigo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Entrega visual del testigo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-006",
+      "exact_card_term": "Flexión de brazos de pie contra la pared",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Flexión de brazos de pie contra la pared”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-017",
+      "exact_card_term": "Lanzar a la pared y recibir el rebote",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Lanzar a la pared y recibir el rebote”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-018",
+      "exact_card_term": "Girar la cuerda y pasar caminando",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Girar la cuerda y pasar caminando”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-019",
+      "exact_card_term": "Pasos laterales sin cruzar los pies",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pasos laterales sin cruzar los pies”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-020",
+      "exact_card_term": "Dos pañuelos: lanzamientos alternos y recepciones",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Dos pañuelos: lanzamientos alternos y recepciones”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-021",
+      "exact_card_term": "Impulsar una pelota con raqueta por una puerta",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Impulsar una pelota con raqueta por una puerta”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-022",
+      "exact_card_term": "Finta corporal y salida sin balón",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Finta corporal y salida sin balón”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-045",
+      "exact_card_term": "Cambio de dirección con exterior del pie",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Cambio de dirección con exterior del pie”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-046",
+      "exact_card_term": "Pared de fútbol y movimiento para recibir",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pared de fútbol y movimiento para recibir”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-047",
+      "exact_card_term": "Pase de hombro con una mano en balonmano",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pase de hombro con una mano en balonmano”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-048",
+      "exact_card_term": "Recibir, dar tres pasos y pasar",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Recibir, dar tres pasos y pasar”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-049",
+      "exact_card_term": "Golpe inicial de volante por abajo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Golpe inicial de volante por abajo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-050",
+      "exact_card_term": "Revés a dos manos tras un bote alimentado",
+      "evidence": [
+        {
+          "url": "https://tenisxetapas.rfet.es/avanzado1",
+          "section": "RFET advanced-stage site, “Tipos de Golpe,” line 38, expressly lists “Golpe Revés dos manos.”",
+          "claim_supported": "Supports the exact RFET stroke category “two-handed backhand” named by this card.",
+          "claim_not_supported": "It does not validate the card’s feed, shortened swing, target, repetitions, space, age, safety or medical suitability.",
+          "access_type": "official Spanish RFET HTML directly opened"
+        }
+      ],
+      "status": "precise",
+      "observation": "Full saved body read individually. The Spanish card is titled “Revés a dos manos tras un bote alimentado”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-023",
+      "exact_card_term": "Llevar la cadera atrás hacia una pared",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Llevar la cadera atrás hacia una pared”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-024",
+      "exact_card_term": "Deslizar el talón tumbado con control de pelvis",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Deslizar el talón tumbado con control de pelvis”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-005",
+      "exact_card_term": "Pilla-pilla caminando con cambio de roles",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pilla-pilla caminando con cambio de roles”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-006",
+      "exact_card_term": "Relevo cooperativo para distribuir saquitos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Relevo cooperativo para distribuir saquitos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-005",
+      "exact_card_term": "Laboratorio de arbitraje: línea, decisión y reinicio",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Laboratorio de arbitraje: línea, decisión y reinicio”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-006",
+      "exact_card_term": "Orientación caminando con mapa y símbolos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Orientación caminando con mapa y símbolos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-033",
+      "exact_card_term": "Arrastre con la planta y giro de un cuarto de vuelta",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Arrastre con la planta y giro de un cuarto de vuelta”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-034",
+      "exact_card_term": "Golpeo de empeine a portería sin portero",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Golpeo de empeine a portería sin portero”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-035",
+      "exact_card_term": "Saque por arriba desde parado hacia espacio libre",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Saque por arriba desde parado hacia espacio libre”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-036",
+      "exact_card_term": "Pase por encima de la cabeza con dos manos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pase por encima de la cabeza con dos manos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-037",
+      "exact_card_term": "Pasar el balón entre manos alrededor de la cintura",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pasar el balón entre manos alrededor de la cintura”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-038",
+      "exact_card_term": "Desplazamiento alternando paso y salto sobre el mismo pie",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Desplazamiento alternando paso y salto sobre el mismo pie”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-039",
+      "exact_card_term": "Caminar sobre obstáculos bajos y blandos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Caminar sobre obstáculos bajos y blandos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-040",
+      "exact_card_term": "Acción de brazos para correr desde postura estable",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Acción de brazos para correr desde postura estable”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-041",
+      "exact_card_term": "Cambio de mano frontal en el bote",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Cambio de mano frontal en el bote”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-042",
+      "exact_card_term": "Bote de retroceso corto tras comprobar espacio",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Bote de retroceso corto tras comprobar espacio”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-043",
+      "exact_card_term": "Recepción y parada sobre dos pies",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Recepción y parada sobre dos pies”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-044",
+      "exact_card_term": "Preparación de entrada con un paso y lanzamiento por debajo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Preparación de entrada con un paso y lanzamiento por debajo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-007",
+      "exact_card_term": "Transferencia de peso y alcance con el pie",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Transferencia de peso y alcance con el pie”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-008",
+      "exact_card_term": "Lanzar un pañuelo y recibir con la otra mano",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Lanzar un pañuelo y recibir con la otra mano”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-001",
+      "exact_card_term": "Rodar hacia zonas de puntuación",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Rodar hacia zonas de puntuación”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-002",
+      "exact_card_term": "Pases a una zona de marca sin contacto",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pases a una zona de marca sin contacto”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-001",
+      "exact_card_term": "Crear una secuencia de ocho tiempos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Crear una secuencia de ocho tiempos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-002",
+      "exact_card_term": "Laboratorio de feedback: observar, describir y repetir",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Laboratorio de feedback: observar, describir y repetir”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-025",
+      "exact_card_term": "Pase de pecho directo con dos manos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pase de pecho directo con dos manos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-026",
+      "exact_card_term": "Proteger el balón con la posición corporal sin contacto",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Proteger el balón con la posición corporal sin contacto”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-027",
+      "exact_card_term": "Elevar un volante con raqueta y atraparlo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Elevar un volante con raqueta y atraparlo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-028",
+      "exact_card_term": "Derecha de tenis de mesa con bote propio",
+      "evidence": [
+        {
+          "url": "https://www.rfetm.es/documents/descargas/Convocatoria_N_1_2_y_3_FIBE.pdf",
+          "section": "RFETM/FIBE coach-training syllabus, PDF page7 (tool P6), technical elements, lines203–213.",
+          "claim_supported": "Supports “forehand/right-side stroke” as a recognized table-tennis stroke category.",
+          "claim_not_supported": "It does not validate this card’s self-bounce, contact cue, target, repetitions, age, space, safety or medical suitability.",
+          "access_type": "official federation PDF directly opened; page 6 text inspected"
+        }
+      ],
+      "status": "precise",
+      "observation": "Full saved body read individually. The Spanish card is titled “Derecha de tenis de mesa con bote propio”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-029",
+      "exact_card_term": "Dos pasos finales de aproximación sin salto",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Dos pasos finales de aproximación sin salto”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-030",
+      "exact_card_term": "Rodar un aro vertical por un pasillo propio",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Rodar un aro vertical por un pasillo propio”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-003",
+      "exact_card_term": "Recepciones cooperativas sobre red baja",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Recepciones cooperativas sobre red baja”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-004",
+      "exact_card_term": "Tres pasadores frente a un interceptor",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Tres pasadores frente a un interceptor”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-009",
+      "exact_card_term": "Autocolocación y recepción",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Full saved body read individually. The Spanish card is titled “Autocolocación y recepción”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "agent_proposed_status": "precise",
+      "unverified_source_leads": [
+        {
+          "url": "https://www.fivb.com/wp-content/uploads/2024/03/FIVB_Coach_Manual_ES.pdf",
+          "section": "FIVB Coaches Manual Level I, Chapter V, “Voleibol para Principiantes”; indexed passage distinguishes “pase de dedos / pase de manos altas” from forearm pass.",
+          "claim_supported": "Supports the high-hand/finger-pass category used in the card’s skill description, but not the self-feed or subsequent catch as task design.",
+          "claim_not_supported": "It does not validate the self-toss, target, repetitions, organization, age, adaptation, safety or medical suitability.",
+          "access_type": "official Spanish-language PDF; indexed text excerpt only, full PDF direct open failed due to file size"
+        }
+      ],
+      "root_review": "Full PDF exceeds web extraction limit; direct download403. Indexed terminology proposal not independently reproduced by root; not promoted.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-010",
+      "exact_card_term": "Saque de abajo hacia espacio libre",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Full saved body read individually. The Spanish card is titled “Saque de abajo hacia espacio libre”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "agent_proposed_status": "precise",
+      "unverified_source_leads": [
+        {
+          "url": "https://www.fivb.com/wp-content/uploads/2024/03/FIVB_Coach_Manual_ES.pdf",
+          "section": "FIVB Coaches Manual Level I, Chapter V, section D, “Introducción al saque de abajo (pase a una mano),” p. 59; indexed PDF text.",
+          "claim_supported": "Supports the Spanish term/category “saque de abajo” in volleyball.",
+          "claim_not_supported": "It does not validate the target, scoring threshold, feed, distances, organization, age, dosage, adaptation, safety or medical suitability.",
+          "access_type": "official Spanish-language PDF; indexed text excerpt only, full PDF direct open failed due to file size"
+        }
+      ],
+      "root_review": "Full PDF exceeds web extraction limit; direct download403. Indexed terminology proposal not independently reproduced by root; not promoted.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-011",
+      "exact_card_term": "Coordinación de brazo y pierna opuestos al marchar",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Coordinación de brazo y pierna opuestos al marchar”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-012",
+      "exact_card_term": "Caminar en línea con talón delante de punta",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Caminar en línea con talón delante de punta”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-013",
+      "exact_card_term": "Deslizar una mano desde cuadrupedia",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Deslizar una mano desde cuadrupedia”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-014",
+      "exact_card_term": "Elevación controlada de ambos talones",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Elevación controlada de ambos talones”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-015",
+      "exact_card_term": "Equilibrar una pelota de espuma sobre una raqueta al caminar",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Equilibrar una pelota de espuma sobre una raqueta al caminar”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-016",
+      "exact_card_term": "Tiro cercano de baloncesto desde parado sin salto",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Tiro cercano de baloncesto desde parado sin salto”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-003",
+      "exact_card_term": "Investigación de precisión y distancia",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Investigación de precisión y distancia”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-004",
+      "exact_card_term": "Diseñar y probar un recorrido de movimiento accesible",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Diseñar y probar un recorrido de movimiento accesible”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-031",
+      "exact_card_term": "Un salto de cuerda con ambos pies",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Un salto de cuerda con ambos pies”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-032",
+      "exact_card_term": "Frenar una pelota rodada con un stick blando",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Frenar una pelota rodada con un stick blando”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-007",
+      "exact_card_term": "Defender la línea con pelota rodada",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Defender la línea con pelota rodada”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-008",
+      "exact_card_term": "Parejas de símbolos en movimiento cooperativo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Parejas de símbolos en movimiento cooperativo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-007",
+      "exact_card_term": "Estimar distancia con pasos y medición",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Estimar distancia con pasos y medición”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-008",
+      "exact_card_term": "Montar y comprobar una estación de pases",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Montar y comprobar una estación de pases”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-051",
+      "exact_card_term": "Conducción con stick blando entre marcas",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Conducción con stick blando entre marcas”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-052",
+      "exact_card_term": "Bloqueo de revés en tenis de mesa con envío suave",
+      "evidence": [
+        {
+          "url": "https://www.rfetm.es/documents/descargas/Convocatoria_N_1_2_y_3_FIBE.pdf",
+          "section": "RFETM/FIBE coach-training syllabus, PDF page7 (tool P6), technical elements, lines203–213.",
+          "claim_supported": "Supports the named backhand block category in table tennis.",
+          "claim_not_supported": "It does not validate the card’s gentle feed, compact return, repetitions, age, space, safety or medical suitability.",
+          "access_type": "official federation PDF directly opened; page 6 text inspected"
+        }
+      ],
+      "status": "precise",
+      "observation": "Full saved body read individually. The Spanish card is titled “Bloqueo de revés en tenis de mesa con envío suave”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-053",
+      "exact_card_term": "Galope hacia delante con pie guía fijo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Galope hacia delante con pie guía fijo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-054",
+      "exact_card_term": "Rodar lateralmente sobre colchoneta",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Rodar lateralmente sobre colchoneta”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-055",
+      "exact_card_term": "Avance en cuadrupedia por recorrido acolchado",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Avance en cuadrupedia por recorrido acolchado”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-056",
+      "exact_card_term": "Pequeña elevación de cadera tumbado",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pequeña elevación de cadera tumbado”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-014",
+      "exact_card_term": "Planificar un torneo breve con tiempo de juego igual",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Planificar un torneo breve con tiempo de juego igual”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-068",
+      "exact_card_term": "Golpe de bádminton por encima de la cabeza con envío alto",
+      "evidence": [
+        {
+          "url": "https://www.badminton.es/page/10964/Glosario-Oficial-de-la-Federacion-Espanola-de-Badminton",
+          "section": "FESBA Official Glossary, line 232, “Golpeo de mano alta.”",
+          "claim_supported": "Supports the Spanish category for a badminton overhead/high-hand stroke.",
+          "claim_not_supported": "It does not validate the card’s feed, direction cue, adapted space, repetitions, age, safety or medical suitability.",
+          "access_type": "official Spanish FESBA HTML directly opened; lines 157–277 inspected"
+        }
+      ],
+      "status": "precise",
+      "observation": "Full saved body read individually. The Spanish card is titled “Golpe de bádminton por encima de la cabeza con envío alto”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-023",
+      "exact_card_term": "Quién dirige el movimiento",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Quién dirige el movimiento”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-014",
+      "exact_card_term": "Recoger puertas mediante pases cooperativos con el pie",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Recoger puertas mediante pases cooperativos con el pie”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-016",
+      "exact_card_term": "Patada y recorrido de ida y vuelta frente al retorno del balón",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Patada y recorrido de ida y vuelta frente al retorno del balón”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-011",
+      "exact_card_term": "Señal y movimiento — caminar o quedarse quieto",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Señal y movimiento — caminar o quedarse quieto”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-022",
+      "exact_card_term": "Juego con sticks blandos andando — pasar hacia portería",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Juego con sticks blandos andando — pasar hacia portería”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-017",
+      "exact_card_term": "Más cerca de la marca — precisión y decisión",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Más cerca de la marca — precisión y decisión”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-062",
+      "exact_card_term": "Aproximación defensiva y parada ante quien tiene el balón",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Aproximación defensiva y parada ante quien tiene el balón”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-010",
+      "exact_card_term": "Círculo de balón ligero — una secuencia con todos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Círculo de balón ligero — una secuencia con todos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-080",
+      "exact_card_term": "Lanzamiento bajo de saquito en arco a una diana",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Lanzamiento bajo de saquito en arco a una diana”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-058",
+      "exact_card_term": "Estiramiento suave de pantorrilla con pared",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Estiramiento suave de pantorrilla con pared”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-010",
+      "exact_card_term": "Laboratorio de ritmo personal al caminar",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Laboratorio de ritmo personal al caminar”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-074",
+      "exact_card_term": "Saltos cortos consecutivos sobre el mismo pie",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Saltos cortos consecutivos sobre el mismo pie”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-063",
+      "exact_card_term": "Rodar el balón lateralmente con la planta hacia el otro pie",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Rodar el balón lateralmente con la planta hacia el otro pie”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-077",
+      "exact_card_term": "Zancada lateral corta y regreso al centro",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Zancada lateral corta y regreso al centro”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-070",
+      "exact_card_term": "Lanzamiento de revés con disco blando",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Lanzamiento de revés con disco blando”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-060",
+      "exact_card_term": "Intercambio simultáneo de dos pelotas rodadas",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Intercambio simultáneo de dos pelotas rodadas”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-065",
+      "exact_card_term": "Lanzamiento de balonmano con salto pequeño tras un paso",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Lanzamiento de balonmano con salto pequeño tras un paso”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-059",
+      "exact_card_term": "Bote, palmada y recepción",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Bote, palmada y recepción”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-015",
+      "exact_card_term": "Guiar juntos un balón sobre una tela",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Guiar juntos un balón sobre una tela”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-009",
+      "exact_card_term": "Tres en línea con movimiento y decisiones de equipo",
+      "evidence": [
+        {
+          "url": "https://tenisxetapas.rfet.es/desarrollo",
+          "section": "RFET development-stage site, “Desarrollo 6-8,” line 34, lists “Tres en raya.”",
+          "claim_supported": "RFET names a three-in-a-row game as Tres en raya; this card uses Tres en línea. Naming/concept comparison only, not literal wording identity or movement rules.",
+          "claim_not_supported": "The card’s team adaptation, movement, board size, turn-taking, rules, age, safety and medical suitability are not supported by that source.",
+          "access_type": "official Spanish RFET HTML directly opened"
+        }
+      ],
+      "status": "precise",
+      "observation": "Full saved body read individually. The Spanish card is titled “Tres en línea con movimiento y decisiones de equipo”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-079",
+      "exact_card_term": "Apoyo lateral breve sobre antebrazo y rodillas",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Apoyo lateral breve sobre antebrazo y rodillas”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-073",
+      "exact_card_term": "Pasos de aproximación, impulso con un pie y caída con ambos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pasos de aproximación, impulso con un pie y caída con ambos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-020",
+      "exact_card_term": "Traslado de banderas andando entre dos bases",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Traslado de banderas andando entre dos bases”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-064",
+      "exact_card_term": "Amortiguar con el muslo un balón lanzado por uno mismo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Amortiguar con el muslo un balón lanzado por uno mismo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-067",
+      "exact_card_term": "Salto vertical de bloqueo sin red",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Full saved body read individually. The Spanish card is titled “Salto vertical de bloqueo sin red”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "agent_proposed_status": "precise",
+      "unverified_source_leads": [
+        {
+          "url": "https://www.fivb.com/wp-content/uploads/2024/03/FIVB_Coach_Manual_ES.pdf",
+          "section": "FIVB Coaches Manual Level I, Chapter VI, basic individual techniques, section on “Bloqueo”; indexed PDF text.",
+          "claim_supported": "Supports the volleyball block category named in this card.",
+          "claim_not_supported": "It does not validate a jump without a net, landing requirements, repetition count, space, age, safety or medical suitability.",
+          "access_type": "official Spanish-language PDF; indexed text excerpt only, full PDF direct open failed due to file size"
+        }
+      ],
+      "root_review": "Full PDF exceeds web extraction limit; direct download403. Indexed terminology proposal not independently reproduced by root; not promoted.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-018",
+      "exact_card_term": "Fútbol andando con elección entre dos porterías",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Fútbol andando con elección entre dos porterías”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-019",
+      "exact_card_term": "Cadena creciente de movimientos — recordar juntos",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Cadena creciente de movimientos — recordar juntos”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-061",
+      "exact_card_term": "Recepción alta con salto pequeño — preparación del rebote",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Recepción alta con salto pequeño — preparación del rebote”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-012",
+      "exact_card_term": "Derribo de blancos blandos mediante pases con el pie",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Derribo de blancos blandos mediante pases con el pie”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-078",
+      "exact_card_term": "Elevación de pierna de lado con pelvis estable",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Elevación de pierna de lado con pelvis estable”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-024",
+      "exact_card_term": "Viaje de pelota por canales — unir y avanzar",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Viaje de pelota por canales — unir y avanzar”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-016",
+      "exact_card_term": "Dirigir un minuto de movimiento — instrucciones claras",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Dirigir un minuto de movimiento — instrucciones claras”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-021",
+      "exact_card_term": "Tiro y elección de riesgo — puntuación colectiva",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Tiro y elección de riesgo — puntuación colectiva”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-013",
+      "exact_card_term": "Mapa de participación — quién recibe el balón",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Mapa de participación — quién recibe el balón”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-011",
+      "exact_card_term": "Laboratorio de material — comparar dos balones para pasar",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Laboratorio de material — comparar dos balones para pasar”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-015",
+      "exact_card_term": "Laboratorio de cronometraje — un recorrido, dos mediciones",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Laboratorio de cronometraje — un recorrido, dos mediciones”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-057",
+      "exact_card_term": "Extensión controlada de rodilla sentado",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Extensión controlada de rodilla sentado”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-069",
+      "exact_card_term": "Volea de derecha con pelota de espuma",
+      "evidence": [
+        {
+          "url": "https://tenisxetapas.rfet.es/avanzado1",
+          "section": "RFET advanced-stage site, “Tipos de Golpe,” lines 35–44; expressly lists “Volea Derecha.”",
+          "claim_supported": "Supports the RFET name/category “volea de derecha.”",
+          "claim_not_supported": "It does not validate the foam-ball variation, feeder position, repetitions, space, age, safety or medical suitability.",
+          "access_type": "official Spanish RFET HTML directly opened"
+        }
+      ],
+      "status": "precise",
+      "observation": "Full saved body read individually. The Spanish card is titled “Volea de derecha con pelota de espuma”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-072",
+      "exact_card_term": "Lanzamiento de jabalina de espuma desde parado",
+      "evidence": [
+        {
+          "url": "https://worldathletics.org/es/kids-athletics/teaching-athletics/precision-javelin",
+          "section": "World Athletics Kids’ Athletics, “El lanzamiento de jabalina con precisión,” Level 2; Spanish-language activity emphasizes controlled target throws in turns.",
+          "claim_supported": "Official page title identifies a javelin-throw activity. Root confirms naming only, not the page-body control/turns claims.",
+          "claim_not_supported": "It does not validate this foam implement, stationary release, throw area, collection protocol, dosage, age, safety or medical suitability.",
+          "access_type": "official Spanish World Athletics HTML indexed excerpt; full page not opened"
+        }
+      ],
+      "status": "precise",
+      "observation": "Full saved body read individually. The Spanish card is titled “Lanzamiento de jabalina de espuma desde parado”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-076",
+      "exact_card_term": "Flexión de rodillas en posición escalonada con apoyo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Flexión de rodillas en posición escalonada con apoyo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-066",
+      "exact_card_term": "Golpeo descendente de voleibol desde parado",
+      "evidence": [],
+      "status": "unsupported",
+      "observation": "Full saved body read individually. The Spanish card is titled “Golpeo descendente de voleibol desde parado”. The cited source supports only the narrow term/category described in the evidence; the exercise design remains editorial.",
+      "teacher_native_review": "pending",
+      "agent_proposed_status": "precise",
+      "unverified_source_leads": [
+        {
+          "url": "https://www.fivb.com/wp-content/uploads/2024/03/FIVB_Coach_Manual_ES.pdf",
+          "section": "FIVB Coaches Manual Level I, Chapter VI on basic individual techniques; indexed text identifies attack actions and remate as volleyball techniques.",
+          "claim_supported": "Supports the general volleyball attack-hit category associated with this downward hit.",
+          "claim_not_supported": "It does not validate the standing variation, trajectory, force, target, repetitions, space, age, safety or medical suitability.",
+          "access_type": "official Spanish-language PDF; indexed text excerpt only, full PDF direct open failed due to file size"
+        }
+      ],
+      "root_review": "Full PDF exceeds web extraction limit; direct download403. Indexed terminology proposal not independently reproduced by root; not promoted.",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-012",
+      "exact_card_term": "Taller para resolver un desacuerdo deportivo",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Taller para resolver un desacuerdo deportivo”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-071",
+      "exact_card_term": "Empuje de pelota de espuma con una mano desde el hombro",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Empuje de pelota de espuma con una mano desde el hombro”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-075",
+      "exact_card_term": "Carrera suave con ritmo uniforme entre marcas",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Carrera suave con ritmo uniforme entre marcas”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-013",
+      "exact_card_term": "Pelota con bote y palmas — intercambio por parejas",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Pelota con bote y palmas — intercambio por parejas”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-009",
+      "exact_card_term": "Taller de señales acordadas para pasar con seguridad",
+      "evidence": [
+        {
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-12066",
+          "section": "Physical Education, organization and management, lines 1877–1880 (motor-project planning and accident prevention).",
+          "claim_supported": "Supports the general curriculum relevance of planning motor practice and considering accident prevention; it does not validate this card’s specific procedure.",
+          "claim_not_supported": "The curriculum does not establish this card’s exact sport technique, mechanics, custom rules, age band, dosage, dimensions, equipment, adaptations, success threshold, safety protocol or medical suitability.",
+          "access_type": "official_html_directly_opened"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "Full saved body read individually. The Spanish card is titled “Taller de señales acordadas para pasar con seguridad”. No source here precisely substantiates its card-specific technique or game rule; the official curriculum provides only broad pedagogical foundation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    }
+  ],
+  "counts": {
+    "cards_reviewed": 120,
+    "precise": 13,
+    "foundation_only": 107,
+    "unsupported": 0
+  },
+  "limitations": [
+    "A precise status supports only the term or narrowly stated concept in its evidence; it is not a card-wide verification.",
+    "For other cards, the national curriculum is recorded as broad foundation only; exact technical and game-rule source proof remains missing.",
+    "Custom mechanics, rules, age bands, duration, repetitions, dimensions, equipment, progressions, adaptations, thresholds, and safety remain editorial pending teacher review and field testing.",
+    "Teacher and native-speaker review remain pending for all cards.",
+    "This artifact is not a safety, copyright, current-rules, exercise-suitability or medical certificate."
+  ],
+  "root_review_date": "2026-10-12 Asia/Jerusalem",
+  "report_language": "en"
+}

@@ -92,3 +92,11 @@ Current counts: EN76 mapped/44 pending; AR5/115; RU0/120; ES0/120. All480 observ
 49 adjudications and48 historical full-body receipts remain. No overall pass. This
 is a precise progress checkpoint, not completion of the strict source-coverage request.
 Teacher and native-human approval remain outstanding for every language.
+
+## Follow-through supersedes source counts above
+
+See2026-10-12-activity-source-followthrough.md. All399 prior gaps received per-card
+source investigations;14 narrow term/concept mappings were root-checked. Current
+source counts: EN78/42 pending; AR9/111; RU0/120; ES8/112. Total385 remain without
+precise corroboration. Broad foundations and rejected source leads are retained
+separately; no overall card pass and no native/teacher sign-off. No new source edits.
