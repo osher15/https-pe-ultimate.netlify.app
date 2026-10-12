@@ -77,7 +77,9 @@ module.exports={title:"Assessment requirements editor",tests:[
     await page.locator("#as-save").click();eq(await config(page),before);ok(await page.locator("#as-modal").isVisible());ok((await page.locator("#as-error").innerText()).includes("failed"));
   }),allow:/\[אחסון\].*assessment\.policies/},
   check("native mirror includes requirements after saving",{...seed,__native:"android"},async page=>{
-    await open(page);await choose(page);await page.locator("#as-save").click();await page.waitForTimeout(1200);
+    await open(page);await choose(page);await page.locator("#as-save").click();
+    /* wait for the native mirror write itself (up to 15 s) instead of a fixed pause: under load it can take longer than 1.2 s */
+    await page.waitForFunction(()=>{try{const f=JSON.parse(localStorage.getItem("__fakefs")||"{}")["LIBRARY/pe-ultimate-data.json"];return !!f&&!!JSON.parse(f).data["peultimate.assessment.policies"];}catch(e){return false;}},null,{timeout:15000});
     const value=await page.evaluate(()=>{
       const files=JSON.parse(localStorage.getItem("__fakefs")||"{}");
       return JSON.parse(JSON.parse(files["LIBRARY/pe-ultimate-data.json"]).data["peultimate.assessment.policies"]);
