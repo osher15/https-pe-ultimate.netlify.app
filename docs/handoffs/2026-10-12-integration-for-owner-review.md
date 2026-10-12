@@ -14,16 +14,17 @@ Reserved files/sections: none beyond the integration itself; no new product feat
 5. Volleyball Hebrew: "מסירה עילית" -> "מסירה עליונה", "מגע עילי" -> "מגע עליון" (owner terminology decision from 2026-10-08, applied mechanically; Hebrew arrays only).
 6. Docs/prototypes only from Codex branches: standalone scoreboard + coach board (`prototypes/pe-boards/`, not connected to the app), storage/participation specs, activity-bank audits and evidence, A1-A4 self-review and owner merge order, candidate-integration notes, report action plan, safe review.
 
-## NOT integrated (needs an owner decision)
-- `ccr-2c03659c-pv87t4` (lesson-bank objectives with a "The student can..." lead-in in all 5 languages, plus Hebrew catch terminology: תפיסה / קבלת מסירה / השתלטות על הכדור, "תפיסה רכה" instead of "ידיים רכות"). It was written on main before PR #47 and edits the same objective lines that #47 rewrote: a trial merge gives 76 conflicting hunks in the six bank files. Resolving them by hand would silently choose between two owner-reviewed texts, so nothing was merged. Options: (a) keep #47 wording; (b) redo the lead-in on top of #47 text, sport by sport, with owner review; (c) apply only the term decisions. In the integrated text "קליטה" (66) and "ידיים רכות" (7) are still present.
-- Lesson mode, class-lookup speed-up and demo-follows-language from draft PR #44 (`ccr-d9e82175-eul5wi`): the owner approved splitting only the packaging; these UI changes need their own branch from current main and regression run. Not started.
-- `codex/pr44-triage`, `codex/audits*`, `codex/continuation-2026-10-06`, `codex/lessonbank-validation`: older review branches, behind main by 5-20 commits; their useful content is already covered by the full-suite branch. Not merged.
-- Old Claude branches from September (`claude/zero-phase-program`, `ccr-a28d3aba`, `claude/handoff-review-guidance`, ...): 100+ commits behind main, superseded.
+## Owner decisions applied on 2026-10-12 (after the first integration)
+- Lesson bank: every objective (60 lessons x 5 languages) opens with the student lead-in ("התלמיד יצליח ל…", "The student can …", "يستطيع الطالب أن …", "Ученик сможет …", "El alumno será capaz de …"; a short role clause may come first). he/en were rewritten on top of the PR #47 text (not on the old text); ar/ru/es objectives come from `ccr-2c03659c-pv87t4`. Basketball 05's "By the end of the lesson:" header line was dropped. Guard: `tests/unit/lessonbankobjectives.test.js`.
+- Hebrew terminology: no "ידיים רכות" (now "תפיסה רכה"); catching in basketball/handball is "תפיסה" (was "קליטה"); football uses "קבלת מסירה"; volleyball keeps "קבלה".
+- Not applied from that branch: the Basketball 03 split into "ready stance" + "passing angle" (a content change, not wording). BB-03 keeps #47's single support-angle objective.
+- PR #44: the lesson mode, class-lookup speed-up and demo-follows-language work was merged into this same branch (no extra branch). `rename9` #14 was adjusted because My Students now opens on the active lesson's class.
+- PRs #26-#33 and #35 closed (their heads are ancestors of main). #44 and #47 are superseded by this branch.
 
 ## Validation commands and results
-- `npm test`: 718 / 718 pass, 0 fail.
+- `npm test`: 756 / 756 pass, 0 fail.
 - `node build-standalone.js` twice: `index.html`, `Hamegrash.html`, `sw.js` hashes identical.
-- Browser: see "Browser results" below.
+- Browser: see "Browser results" below. Final run after the lesson-bank and #44 changes: 69 entries, 658 checks passed, 0 failed, 0 not run (an earlier run of the same code had assessmenteditor #11 fail twice under load; it passed 3/3 alone and in the final run, so it is a timing flake of the 1.2 s native-mirror wait, not fixed).
 
 ## Browser results
 `node tests/review/run-chunked.cjs` in 3 shards (one fresh browser per suite, Chromium via Playwright, localhost, synthetic data): 67 entries (65 registered suites, the historical claude-review suite, and the offline/lazy probe): 651 checks passed, 0 failed, 0 not run. Not a CI run and not a phone test.
