@@ -20,7 +20,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 
 | Language | Name (≤30) | Short (≤80) | Full (≤4000) |
 |---|---|---|---|
-| English (default) | 15 | 81 | 1460 |
+| English (default) | 15 | 78 | 1460 |
 | עברית | 15 | 61 | 1042 |
 | العربية | 15 | 64 | 1175 |
 | Русский | 15 | 66 | 1471 |
@@ -34,7 +34,7 @@ PE Ultimate App
 
 **Short description**
 
-Fitness tests, beep test, photo-finish and lesson plans for teachers and coaches.
+Fitness tests, beep test, photo-finish, lesson plans for teachers and coaches.
 
 **Full description**
 
