@@ -701,6 +701,34 @@ function variantFit(v,alloc,opts){
   if(!sr||!(alloc>0))return {known:false};
   var f=fitSteps(sr,alloc,opts); f.sr=sr; return f;
 }
+// Automatic generation only. Choose an integer split from the available pool;
+// a long block with explicit free play is preferable to an impossible short block.
+// Timing ranges remain pedagogical drafts. Unknown/empty pools never block editing.
+function automaticBlockCount(pool,minutes,opts,noEq){
+  var all=Array.isArray(pool)?pool:[], total=wholeMinutes(minutes);
+  var available=all.filter(function(v){ return !variantEquipConflicts(v,noEq).length; });
+  if(!available.length)available=all;
+  if(!available.length||!total)return 1;
+  var best=1, bestOver=Infinity, bestGap=Infinity;
+  for(var count=1;count<=Math.min(3,available.length,total);count++){
+    var per=Math.floor(total/count), over=0, gap=0;
+    for(var slot=0;slot<count;slot++){
+      var alloc=slot===count-1?total-per*(count-1):per;
+      available.forEach(function(v){
+        var f=variantFit(v,alloc,opts);
+        if(f.known){
+          if(f.status==="over")over=Math.max(over,f.gap);
+          gap+=f.gap||0;
+        }
+      });
+    }
+    gap/=count;
+    if(over<bestOver||(over===bestOver&&gap<bestGap)){
+      best=count; bestOver=over; bestGap=gap;
+    }
+  }
+  return best;
+}
 /* ---------- ציוד זמין ושיקולי זמן משותפים לבונה הידני ולמחולל ----------
    רשימת תיבות הציוד (אותה רשימה כמו במחולל המהיר, נבדקת מול index.html),
    והחלון היעיל של החלק העיקרי בבונה הידני לפי מבנה העבודה ומספר התרגילים.
@@ -3085,7 +3113,7 @@ return {
   leadSnoozeUntil:leadSnoozeUntil, leadPayload:leadPayload, leadAckOk:leadAckOk,
   foldSearch:foldSearch, searchMatch:searchMatch,
   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
-  variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
+  variantEquipConflicts:variantEquipConflicts, variantFit:variantFit, automaticBlockCount:automaticBlockCount,
   stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, normGameMine:normGameMine, addGameMine:addGameMine, delGameMine:delGameMine, MINE_MAX:MINE_MAX, MINE_PER_GAME:MINE_PER_GAME, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
   normCollections:normCollections, colAdd:colAdd, colRename:colRename, colDelete:colDelete, colToggle:colToggle, colsOf:colsOf, COL_MAX:COL_MAX, COL_ITEMS:COL_ITEMS, COL_NAME:COL_NAME,
   libSave:libSave, libUndo:libUndo, bankToPlan:bankToPlan, bankSectionMinutes:bankSectionMinutes, PLAN_LIB_MAX:PLAN_LIB_MAX,

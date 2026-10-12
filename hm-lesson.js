@@ -441,9 +441,8 @@ window.LESSON=(function(){
     const pool=T.main[grade]||T.main.mid;
     const chosenSubs=o.subs.filter(s=>pool.some(v=>v.sub===s));
     let mainBlocks;
-    /* שיעור ארוך (שעה וחצי וכד׳): בלי בחירה ידנית של תתי־נושאים נבחרים כמה בלוקים
-       עיקריים שונים, כל אחד בין כ-18 ל-27 דק׳ — כדי שלא יישאר זמן ריק */
-    const nBlocks=chosenSubs.length||(mainMin<=31?1:(mainMin<=54?2:3));   /* לפי נתוני ההתאמה: בלוק של 19–27 דק׳ מתאים לכמעט כל נושא וכיתה, מ-31 ומעלה ומתחת ל-17 כמעט לא */
+    // Explicit subtopics remain the teacher's choice; only automatic splitting uses fit.
+    const nBlocks=chosenSubs.length||window.HMDATA.automaticBlockCount(pool,mainMin,o.time,o.noEq);
     const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/nBlocks),time:o.time};
     if(chosenSubs.length){
       mainBlocks=chosenSubs.map(s=>pickVariant(pool.filter(v=>v.sub===s),T.id,grade,pickCtx));
