@@ -24,7 +24,7 @@ Not verified here: the new release job has not run yet (the sandbox has no Andro
 ## 3. Owner decisions needed before any submission
 
 1. **Package / bundle ID** (`app.netlify.peultimate` was temporary and is now `io.github.osher15.peultimate` and permanent after first upload; changing it later means a new app).
-2. **Target audience** (staff only, or mixed with Families requirements, because student mode exists).
+2. **Target audience** — decided 2026-10-12: adults only (18+), PE teachers, fitness trainers and sports coaches; not Kids/Families (student mode is explained in the review notes).
 3. **Age rating answers**, including the fitness/health question.
 4. **Export compliance answers** (AES-GCM backup encryption).
 5. **Data safety / App Privacy wording** (drafts in the readiness doc §6).

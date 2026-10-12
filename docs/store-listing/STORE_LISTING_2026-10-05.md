@@ -6,7 +6,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 
 ## Before you paste anything
 
-- **Package ID and audience are still owner decisions** (`docs/NATIVE_RELEASE_CHECKLIST.md` §3). The text assumes a tool for teachers; if you choose a mixed audience with the Families requirements, tell me and I will adjust the wording.
+- **Package ID and audience are still owner decisions** (`docs/NATIVE_RELEASE_CHECKLIST.md` §3). Audience decided 2026-10-12: adults only (PE teachers, fitness trainers, sports coaches); Gemini task G1 widens the wording.
 - The lesson bank is not mentioned on purpose: its import and expansion are on hold and its plans are marked draft in the app.
 - "Estimated VO₂max" and the closing note keep fitness figures framed as education, as the Health apps declaration requires (readiness doc §5).
 - Screenshots must come from the real app on a device after the device pass; none exist yet.

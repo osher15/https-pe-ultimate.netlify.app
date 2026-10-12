@@ -25,7 +25,7 @@ Every day the account and first signed build are delayed delays the public launc
 | B2 | Package ID `io.github.osher15.peultimate` confirmed as permanent | In `main`; the owner must confirm, it can never change after upload | Owner |
 | B3 | Upload key (`upload.jks`) created and backed up outside the repo, Play App Signing on | Not done | Owner, Claude gives exact steps |
 | B4 | Signed release AAB built from the unsigned CI artifact | CI job exists (`native.yml`); first real run must be checked | Claude (verify run, signing steps), Owner (signs) |
-| B5 | Target audience decision (teachers only vs. mixed/Families) | Open | Owner |
+| B5 | Target audience | **Decided 2026-10-12 by the owner: adults only (18+) — PE teachers, fitness trainers, club/sport coaches and anyone professionally involved in sport. Not Kids, not Families.** Student mode (pupils view the records board on the teacher's device) is declared in the review notes; the app is not directed at children | Owner enters it in the console |
 | B6 | Age-rating questionnaire answers (including the fitness/health question) | Draft in readiness doc §6-7 | Owner confirms; Codex cross-checks against the code |
 | B7 | Data safety form + privacy policy store sentence ("deleting the app deletes its data; back up first"; no page-load logging inside the app) | Drafted in readiness doc §6; sentence not yet on `privacy.html` | Claude (privacy page), Codex (code cross-check), Owner submits |
 | B8 | Health-apps / fitness declaration wording (fitness figures framed as education) | Drafted | Owner |
@@ -52,17 +52,17 @@ Constraints from `AGENTS.md`: no payments, no paid services, no required account
 
 | # | Item | Who |
 |---|---|---|
-| M1 | One-sentence positioning + 3 benefits (offline, fast on the field, you keep your data) in 5 languages | Gemini draft, Owner approves |
+| M1 | One-sentence positioning + 3 benefits (offline, fast on the field, you keep your data) in 5 languages, aimed at PE teachers, fitness trainers and sports coaches | Gemini draft, Owner approves |
 | M2 | Landing page on the existing site (`index.html` meta already added in #45): add store badge/link slot and a "get the app" section, screenshots | Claude (page), Gemini (copy) |
 | M3 | 30-45 s demo video from the real app (screen recording of: start lesson, attendance, beep test, photo-finish). Source clips exist on branch `marketing-assets` | Owner records; Gemini writes script/captions |
-| M4 | Teacher outreach list: PE teacher groups (Hebrew first), Facebook/WhatsApp groups, PE teacher training colleges, mentors; one short message per channel | Gemini draft, Owner sends |
+| M4 | Outreach list: PE teacher groups (Hebrew first), fitness-trainer and sports-club coach groups, club managers, Facebook/WhatsApp groups, PE teacher training colleges, mentors; one short message per channel | Gemini draft, Owner sends |
 | M5 | Simple feedback loop: in-app contact form is optional and non-intrusive; add a link to a short public form only if the owner wants one | Owner decides |
 | M6 | ASO: title/short description keyword check, 5 languages | Gemini |
 | M7 | Post-launch: first-week checklist (reply to reviews, watch crashes, fix top 3 issues) | Everyone |
 
 ## 5. Work split
 
-- **Owner**: B1, B2, B3 (signing), B5, B8, B11, B12, B13, P1, P5, M3 recording, merges. Nothing else blocks on others once B1-B3 are done.
+- **Owner**: B1, B2, B3 (signing), B8, B11, B12, B13, P1, P5, M3 recording, merges. Nothing else blocks on others once B1-B3 are done.
 - **Claude** (repo work): B4, B7 privacy page, B10 screenshots, P3 bug fixes, M2 landing page, Issue #53 (Excel pupil import) stays queued behind launch blockers.
 - **Codex / GPT** (review and evidence): `docs/handoffs/2026-10-12-codex-launch-tasks.md`.
 - **Gemini** (language and marketing text): `docs/handoffs/2026-10-12-gemini-launch-tasks.md`.

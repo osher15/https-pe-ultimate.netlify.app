@@ -139,6 +139,8 @@ without a code. Student mode shows only the records board. The contact form is o
 
 ## 7. Audience — do not declare "adults only" blindly
 
+**Owner decision, 2026-10-12: adults only (18+), staff/professional tool for PE teachers, fitness trainers and sports coaches; not Kids, not Families.** Student mode stays and is explained in the review notes; no data is collected from pupils. The paragraph below is the original analysis.
+
 Teachers are the users, but in **student mode** pupils (often under 13–18) view the records board
 and submit a record on the teacher's device. In the store, anyone can download the app. Choose
 deliberately: a staff tool (18+ target, not in the Kids category or Families program), or a mixed
