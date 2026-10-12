@@ -31,6 +31,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Personal editable copy of a lesson, bank-to-copy (#21 item 5, #24) | Claude | hm-lesson.js save/update/undo/bankCopy; hm-data.js libSave/libUndo/bankToPlan; index.html #ls-update/#ls-bankCopy; pc.* keys; .ls-src. Handoff: docs/handoffs/2026-10-07-personal-copy.md |
 | Personal collections (#21 item 3) | Claude | hm-collections.js (new); hm-data.js col* helpers; hm-know.js games chips/button; hm-lesson.js row/bank buttons and resolvers; col.* keys; BK_LABELS entry. Handoff: docs/handoffs/2026-10-07-collections.md |
 | Pupil import from Excel (.xlsx), Issue #53 | Claude | hm-new.js pupil import handler; index.html #stu-fileImport; hm-tests.js xlsx reader moved to a shared helper (no behavior change); new reader file + build/SW registration; stu.xl* keys; focused tests. Not started |
+| Google Play launch support, Issue #54 | Claude / Codex / Gemini | Claude: privacy.html store sentence, store screenshots, landing "get the app" section, release AAB verification. Codex: tasks C1-C5 in docs/handoffs/2026-10-12-codex-launch-tasks.md (docs/tests/tools only). Gemini: tasks G1-G6 in docs/handoffs/2026-10-12-gemini-launch-tasks.md (docs/marketing/ only). Plan: docs/LAUNCH_PLAN_2026-10-12.md |
 
 No blanket ownership of hm-data.js or all translation files: reserve bounded sections, rebase against accepted changes and rebuild outputs.
 When a file overlaps, serialize edits or agree distinct sections in the task record. A branch is not an automatic lock.
