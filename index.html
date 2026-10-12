@@ -17,9 +17,9 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="d78c5ec4">
+<meta name="hm-build" content="68ac0fcc">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
-<link rel="stylesheet" href="hm-styles.css?v=c7e4ae2e">
+<link rel="stylesheet" href="hm-styles.css?v=0d9d7588">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-native.js?v=6c53d8bd"></script>
 <script src="hm-backup-restore.js?v=f1a05be7"></script>
@@ -28,7 +28,7 @@
 <script src="hm-terms.js?v=0a0c7bd8"></script>
 <script src="hm-texts.js?v=4abfb47e"></script>
 <script src="hm-i18n.js?v=0a9cb659"></script>
-<script src="hm-app.js?v=64b59a25"></script>
+<script src="hm-app.js?v=68c30c53"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
 <script src="hm-know.js?v=4c80ae28"></script>
@@ -328,7 +328,7 @@
     <div class="card">
       <div class="row" style="justify-content:space-between">
         <h2 style="margin:0"><span class="dot"></span> מסלולים ומתחרים</h2>
-        <div class="row"><button class="btn sm acc" id="pf-loadCls" data-i18n="pf.loadCls">👥 טען כיתה</button>
+        <div class="row pf-setup-only"><button class="btn sm acc" id="pf-loadCls" data-i18n="pf.loadCls">👥 טען כיתה</button>
         <button class="btn sm" id="pf-pasteNames" data-i18n="pf.paste">📋 הדבק רשימה</button>
         <button class="btn sm ghost" id="pf-editNames" data-i18n="pf.editNames">✎ ערוך שמות</button>
         <button class="btn sm ghost" id="pf-numbers" data-i18n="pf.numbers">🔢 מספרי חזה</button></div>
@@ -339,9 +339,9 @@
         <div class="row"><button class="btn sm acc" id="pf-pasteGo" data-i18n="pf.pasteGo">✓ טען למסלולים</button>
           <button class="btn sm ghost" id="pf-pasteNo" data-i18n="ask.cancel">ביטול</button></div>
       </div>
-      <div class="field" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
+      <div class="field pf-setup-only" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
       <div class="pf-runchips" id="pf-chips" style="margin-top:10px"></div>
-      <div class="hint" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
+      <div class="hint pf-setup-only" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
     </div>
     <div class="card">
       <h2><span class="dot"></span> רצועת סריקה (Slit-Scan) · ציר אופקי = זמן</h2>

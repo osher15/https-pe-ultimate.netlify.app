@@ -1976,3 +1976,12 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
   #lsBar .lsb-lbl,#lsBar .lsb-plan{display:none}
   #lsBar .btn.sm{padding-inline:9px;white-space:nowrap}
 }
+
+/* Photo-finish while a race is running: only the clock, stop/reset, the manual fallback and the
+   lane taps stay. Setup tools, the mode switch, the tool tabs and the app's bottom bar return when
+   the race stops, so a tap cannot leave or reconfigure a race in progress. */
+body.pf-racing #view-photo .pf-tabs,
+body.pf-racing #pf-modes,
+body.pf-racing #pf-pasteBox,
+body.pf-racing #view-photo .pf-setup-only{display:none!important}
+body.pf-racing[data-mod="photo"] .nav{display:none}

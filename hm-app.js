@@ -3647,6 +3647,8 @@ const PF=(function(){
     prevFrac=0; prevMt=0;
     lineActive=false; lastFire=-1e9;
     $("#pf-gun").innerHTML="⏹ עצור מקצה";
+    /* מקצה רץ: מסתירים את כלי ההכנה ואת סרגל הניווט (hm-styles.css, body.pf-racing) */
+    document.body.classList.add("pf-racing");
     const fg=$("#pf-fsGun"); if(fg){ fg.textContent="⏹ עצור"; fg.classList.remove("go"); }
     LS.set("pf.totalRaces",LS.get("pf.totalRaces",0)+1);
     keepAwake(true); clockLoop();
@@ -3657,6 +3659,7 @@ const PF=(function(){
     const fc=$("#pf-fsClock"); if(fc)fc.textContent=t;
     race.raf=requestAnimationFrame(clockLoop); }
   function stopRace(){ race.on=false; race.armed=false; sim.active=false; micStop();
+    document.body.classList.remove("pf-racing");
     cancelAnimationFrame(race.raf); cancelAnimationFrame(sim.raf); keepAwake(false);
     $("#pf-gun").textContent="🔫 זינוק"; renderFullStrip(); refreshLaneSel();
     const fg=$("#pf-fsGun"); if(fg){ fg.textContent="🔫 זינוק"; fg.classList.add("go"); } }

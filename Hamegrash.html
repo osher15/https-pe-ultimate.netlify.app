@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="d78c5ec4">
+<meta name="hm-build" content="68ac0fcc">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -2001,6 +2001,15 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
   #lsBar .btn.sm{padding-inline:9px;white-space:nowrap}
 }
 
+/* Photo-finish while a race is running: only the clock, stop/reset, the manual fallback and the
+   lane taps stay. Setup tools, the mode switch, the tool tabs and the app's bottom bar return when
+   the race stops, so a tap cannot leave or reconfigure a race in progress. */
+body.pf-racing #view-photo .pf-tabs,
+body.pf-racing #pf-modes,
+body.pf-racing #pf-pasteBox,
+body.pf-racing #view-photo .pf-setup-only{display:none!important}
+body.pf-racing[data-mod="photo"] .nav{display:none}
+
 </style>
 </head>
 <body>
@@ -2275,7 +2284,7 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
     <div class="card">
       <div class="row" style="justify-content:space-between">
         <h2 style="margin:0"><span class="dot"></span> מסלולים ומתחרים</h2>
-        <div class="row"><button class="btn sm acc" id="pf-loadCls" data-i18n="pf.loadCls">👥 טען כיתה</button>
+        <div class="row pf-setup-only"><button class="btn sm acc" id="pf-loadCls" data-i18n="pf.loadCls">👥 טען כיתה</button>
         <button class="btn sm" id="pf-pasteNames" data-i18n="pf.paste">📋 הדבק רשימה</button>
         <button class="btn sm ghost" id="pf-editNames" data-i18n="pf.editNames">✎ ערוך שמות</button>
         <button class="btn sm ghost" id="pf-numbers" data-i18n="pf.numbers">🔢 מספרי חזה</button></div>
@@ -2286,9 +2295,9 @@ body{padding-left:var(--safe-area-inset-left,env(safe-area-inset-left));padding-
         <div class="row"><button class="btn sm acc" id="pf-pasteGo" data-i18n="pf.pasteGo">✓ טען למסלולים</button>
           <button class="btn sm ghost" id="pf-pasteNo" data-i18n="ask.cancel">ביטול</button></div>
       </div>
-      <div class="field" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
+      <div class="field pf-setup-only" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
       <div class="pf-runchips" id="pf-chips" style="margin-top:10px"></div>
-      <div class="hint" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
+      <div class="hint pf-setup-only" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
     </div>
     <div class="card">
       <h2><span class="dot"></span> רצועת סריקה (Slit-Scan) · ציר אופקי = זמן</h2>
@@ -21424,6 +21433,8 @@ const PF=(function(){
     prevFrac=0; prevMt=0;
     lineActive=false; lastFire=-1e9;
     $("#pf-gun").innerHTML="⏹ עצור מקצה";
+    /* מקצה רץ: מסתירים את כלי ההכנה ואת סרגל הניווט (hm-styles.css, body.pf-racing) */
+    document.body.classList.add("pf-racing");
     const fg=$("#pf-fsGun"); if(fg){ fg.textContent="⏹ עצור"; fg.classList.remove("go"); }
     LS.set("pf.totalRaces",LS.get("pf.totalRaces",0)+1);
     keepAwake(true); clockLoop();
@@ -21434,6 +21445,7 @@ const PF=(function(){
     const fc=$("#pf-fsClock"); if(fc)fc.textContent=t;
     race.raf=requestAnimationFrame(clockLoop); }
   function stopRace(){ race.on=false; race.armed=false; sim.active=false; micStop();
+    document.body.classList.remove("pf-racing");
     cancelAnimationFrame(race.raf); cancelAnimationFrame(sim.raf); keepAwake(false);
     $("#pf-gun").textContent="🔫 זינוק"; renderFullStrip(); refreshLaneSel();
     const fg=$("#pf-fsGun"); if(fg){ fg.textContent="🔫 זינוק"; fg.classList.add("go"); } }

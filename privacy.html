@@ -59,7 +59,9 @@ li{margin:.25em 0}
 </ul>
 <h2>תלמידים</h2>
 <p>במצב תלמיד אפשר לצפות בלוח השיאים ולהגיש שיא לאישור המורה באותו מכשיר. לא נאספים פרטי קשר מתלמידים. המורה או בית הספר אחראים לכך שיש להם רשות לנתוני התלמידים שהם מזינים ולכל שיתוף שהם מגדירים.</p>
-<<h2>מחיקת נתונים במכשיר</h2>
+<h2>באפליקציה מ-Google Play או מ-App Store</h2>
+<p>באפליקציה שהותקנה מהחנות, מחיקת האפליקציה מוחקת את הנתונים שלה במכשיר. אם הגיבוי של אנדרואיד מופעל במכשיר, אנדרואיד עשוי להעתיק את נתוני האפליקציה, כולל נתוני תלמידים, לגיבוי בחשבון הגוגל <b>שלכם</b>, ולהחזיר אותם בהתקנה מחדש. זה גיבוי שלכם שמנוהל על ידי גוגל לפי הגדרות המכשיר, והמפעיל אין לו גישה אליו. לכן מומלץ גם ליצור קובץ גיבוי לפני מחיקה או החלפת מכשיר. רישום השרת הרגיל של Netlify (כתובת IP, פרטי דפדפן) חל על האתר בדפדפן; בתוך האפליקציה הדבר היחיד שנשלח למפעיל הוא טופס יצירת הקשר או בקשת המחיקה האופציונליים, ורק בלחיצה. שירותים אופציונליים שהמורה מגדיר בעצמו, כמו סנכרון שיאים לגיליון שלו או גיבוי לדרייב שלו, נשלחים לחשבון של המורה ולא למפעיל.</p>
+<h2>מחיקת נתונים במכשיר</h2>
 <p>אלה שלושה דברים שונים: (1) פרטי הקשר ב-Netlify — נמחקים בבקשת מחיקה, כמתואר למעלה; (2) הנתונים במכשיר — את פריטים בודדים ואת כל השיאים אפשר למחוק מתוך האפליקציה, ומחיקת נתוני האתר בדפדפן מוחקת את כל הנתונים במכשיר (הסרת אייקון האפליקציה לבדה עלולה להשאיר אותם בדפדפן); (3) גיבויים ששמרתם כקובץ או ב-Google Drive שלכם — הם אצלכם בלבד, המפעיל לא רואה אותם, ואתם מוחקים אותם שם.</p>
 <h2>אבטחה</h2>
 <p>האתר מוגש ב-HTTPS. גיבוי לקובץ יכול להיות מוצפן בסיסמה (AES-GCM, מפתח שנגזר מהסיסמה במכשיר; הסיסמה לא נשמרת), וגיבוי לדרייב תמיד מוצפן. קוד המורה מגן מפני שימוש מזדמן במכשיר — הוא אינו חשבון.</p>
@@ -97,7 +99,9 @@ li{margin:.25em 0}
 </ul>
 <h2>Students</h2>
 <p>Student mode lets a student view the records board and submit a record for the teacher's approval on the same device. No contact details are collected from students. The teacher or school is responsible for having permission for the student data they enter and for any sharing they set up.</p>
-<<h2>Deleting data on the device</h2>
+<h2>In the app from Google Play or the App Store</h2>
+<p>In the app installed from a store, deleting the app deletes its data on the device. If Android backup is turned on for the device, Android may copy the app's data, including pupil data, to the backup in <b>your own</b> Google account and bring it back on reinstall. That backup is yours, managed by Google under your device settings; the operator has no access to it. Also save a backup file before deleting the app or changing device. The standard Netlify server logging (IP address, browser details) applies to the website in a browser; inside the app, the only thing sent to the operator is the optional contact or deletion form, and only when you tap send. Optional services the teacher sets up, such as records sync to their own Google Sheet or a backup to their own Drive, go to the teacher's own account and not to the operator.</p>
+<h2>Deleting data on the device</h2>
 <p>These are three different things: (1) contact details on Netlify — deleted on a deletion request, as above; (2) data on the device — individual items and all records can be deleted in the app, and clearing the site’s data in the browser deletes all data on the device (removing the app icon alone may leave it in the browser); (3) backups you saved as a file or to your own Google Drive — they are yours alone, the operator cannot see them, and you delete them there.</p>
 <h2>Security</h2>
 <p>The site is served over HTTPS. File backups can be password-encrypted (AES-GCM with a key derived on the device; the password is not stored), and Drive backups are always encrypted. The teacher code protects against casual use of the device — it is not an account.</p>
@@ -135,7 +139,9 @@ li{margin:.25em 0}
 </ul>
 <h2>الطلاب</h2>
 <p>في وضع الطالب يمكن عرض لوحة الأرقام القياسية وتقديم رقم لموافقة المعلّم على الجهاز نفسه. لا تُجمع بيانات تواصل من الطلاب. المعلّم أو المدرسة مسؤولان عن امتلاك الإذن ببيانات الطلاب التي يُدخلانها وبأي مشاركة يُعدّانها.</p>
-<<h2>حذف البيانات على الجهاز</h2>
+<h2>في التطبيق من Google Play أو App Store</h2>
+<p>في التطبيق المثبّت من المتجر، يؤدي حذف التطبيق إلى حذف بياناته على الجهاز. إذا كان النسخ الاحتياطي لأندرويد مفعّلًا على الجهاز، فقد ينسخ أندرويد بيانات التطبيق، بما فيها بيانات الطلاب، إلى النسخة الاحتياطية في حساب Google <b>الخاص بك</b> ويعيدها عند إعادة التثبيت. هذه النسخة ملكك وتديرها Google وفق إعدادات جهازك، ولا يصل إليها المشغّل. احفظ أيضًا ملف نسخ احتياطي قبل حذف التطبيق أو تغيير الجهاز. يسري سجلّ خادم Netlify المعتاد (عنوان IP وتفاصيل المتصفح) على الموقع في المتصفح؛ أما داخل التطبيق فالشيء الوحيد الذي يُرسل إلى المشغّل هو نموذج التواصل أو طلب الحذف الاختياري، وعند الضغط على إرسال فقط. أما الخدمات الاختيارية التي يعدّها المعلّم بنفسه، مثل مزامنة الأرقام إلى جدول Google الخاص به أو النسخ الاحتياطي إلى Drive الخاص به، فتذهب إلى حسابه هو وليس إلى المشغّل.</p>
+<h2>حذف البيانات على الجهاز</h2>
 <p>هذه ثلاثة أمور مختلفة: (1) بيانات التواصل على Netlify — تُحذف عند طلب الحذف كما ورد أعلاه؛ (2) البيانات على الجهاز — يمكن حذف عناصر مفردة وجميع الأرقام القياسية من داخل التطبيق، ومسح بيانات الموقع في المتصفح يحذف كل البيانات على الجهاز (إزالة أيقونة التطبيق وحدها قد تُبقيها في المتصفح)؛ (3) النسخ الاحتياطية التي حفظتها كملف أو في Google Drive الخاص بك — هي لديك فقط، لا يراها المشغّل، وأنت من يحذفها هناك.</p>
 <h2>الأمان</h2>
 <p>يُقدَّم الموقع عبر HTTPS. يمكن تشفير النسخة الاحتياطية بكلمة مرور (AES-GCM بمفتاح مشتق على الجهاز؛ لا تُحفظ كلمة المرور)، والنسخ إلى Drive مشفّر دائمًا. رمز المعلّم يحمي من الاستخدام العابر للجهاز — وليس حسابًا.</p>
@@ -173,7 +179,9 @@ li{margin:.25em 0}
 </ul>
 <h2>Ученики</h2>
 <p>В режиме ученика можно смотреть таблицу рекордов и отправить рекорд на утверждение учителю на том же устройстве. Контакты учеников не собираются. Учитель или школа отвечают за то, чтобы у них было право на данные учеников, которые они вводят, и на любую настроенную ими передачу.</p>
-<<h2>Удаление данных на устройстве</h2>
+<h2>В приложении из Google Play или App Store</h2>
+<p>В приложении, установленном из магазина, удаление приложения удаляет его данные на устройстве. Если на устройстве включено резервное копирование Android, Android может копировать данные приложения, включая данные учеников, в резервную копию в <b>вашем</b> аккаунте Google и вернуть их при переустановке. Эта копия ваша, ею управляет Google по настройкам вашего устройства, у оператора к ней доступа нет. Перед удалением приложения или сменой устройства также сохраните резервную копию в файл. Обычный журнал сервера Netlify (IP-адрес, данные браузера) относится к сайту в браузере; внутри приложения оператору отправляется только необязательная форма обратной связи или запрос на удаление, и только по нажатию кнопки отправки. Необязательные сервисы, которые учитель настраивает сам, например синхронизация рекордов с его Google-таблицей или резервная копия на его Drive, отправляют данные в аккаунт учителя, а не оператору.</p>
+<h2>Удаление данных на устройстве</h2>
 <p>Это три разные вещи: (1) контактные данные в Netlify — удаляются по запросу на удаление, как описано выше; (2) данные на устройстве — отдельные записи и все рекорды можно удалить в приложении, а очистка данных сайта в браузере стирает все данные на устройстве (удаление только значка приложения может оставить их в браузере); (3) резервные копии, которые вы сохранили в файл или на свой Google Диск, — они только у вас, оператор их не видит, и удаляете их там вы.</p>
 <h2>Безопасность</h2>
 <p>Сайт работает по HTTPS. Резервную копию в файл можно зашифровать паролем (AES-GCM, ключ выводится на устройстве; пароль не сохраняется), копия на Диск шифруется всегда. Код учителя защищает от случайного использования устройства — это не учётная запись.</p>
@@ -211,7 +219,9 @@ li{margin:.25em 0}
 </ul>
 <h2>Alumnado</h2>
 <p>En el modo alumno se puede ver la tabla de récords y enviar un récord para que lo apruebe el docente en el mismo dispositivo. No se recogen datos de contacto del alumnado. El docente o el centro son responsables de contar con permiso para los datos del alumnado que introducen y para cualquier intercambio que configuren.</p>
-<<h2>Borrar datos del dispositivo</h2>
+<h2>En la app de Google Play o App Store</h2>
+<p>En la app instalada desde una tienda, borrar la app borra sus datos en el dispositivo. Si la copia de seguridad de Android está activada en el dispositivo, Android puede copiar los datos de la app, incluidos los del alumnado, a la copia de seguridad de <b>tu propia</b> cuenta de Google y recuperarlos al reinstalar. Esa copia es tuya, la gestiona Google según los ajustes de tu dispositivo y el operador no tiene acceso a ella. Guarda también una copia de seguridad en un archivo antes de borrar la app o cambiar de dispositivo. El registro habitual del servidor de Netlify (dirección IP, datos del navegador) se aplica al sitio web en un navegador; dentro de la app, lo único que se envía al operador es el formulario opcional de contacto o de solicitud de borrado, y solo al pulsar enviar. Los servicios opcionales que configura el docente, como la sincronización de marcas con su propia hoja de Google o una copia en su propio Drive, van a la cuenta del docente y no al operador.</p>
+<h2>Borrar datos del dispositivo</h2>
 <p>Son tres cosas distintas: (1) los datos de contacto en Netlify: se borran con una solicitud de borrado, como se indica arriba; (2) los datos del dispositivo: en la app se pueden borrar elementos sueltos y todos los récords, y borrar los datos del sitio en el navegador elimina todos los datos del dispositivo (quitar solo el icono de la app puede dejarlos en el navegador); (3) las copias que guardaste en un archivo o en tu propio Google Drive: solo las tienes tú, el operador no las ve y eres tú quien las borra allí.</p>
 <h2>Seguridad</h2>
 <p>El sitio se sirve por HTTPS. La copia en archivo puede cifrarse con contraseña (AES-GCM, con una clave derivada en el dispositivo; la contraseña no se guarda) y la copia en Drive siempre va cifrada. El código del docente protege frente al uso casual del dispositivo; no es una cuenta.</p>
