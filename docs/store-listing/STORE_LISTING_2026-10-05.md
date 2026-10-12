@@ -12,7 +12,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 - Screenshots must come from the real app on a device after the device pass; none exist yet.
 - Default language for the listing: English (matches the app's default for new installs).
 
-> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 31 tests). Arabic was reviewed by Gemini too (first pass, needs a human native speaker). Russian and Spanish are NOT yet reviewed; their test count was corrected to 31 mechanically.
+> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 31 tests). Arabic was reviewed by Gemini too (first pass, needs a human native speaker). Russian too (first pass, needs a human native speaker). Spanish is NOT yet reviewed; their test count was corrected to 31 mechanically.
 
 > 2026-10-12: the photo-finish line no longer claims millisecond accuracy. Per `docs/handoffs/2026-10-09-report-review-claude-action-plan.md` there is no certification or controlled accuracy study, so listing text must not promise precise or certified timing. Character counts below are from before this edit: re-measure.
 
@@ -23,7 +23,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 | English (default) | 15 | 81 | 1460 |
 | עברית | 15 | 61 | 1042 |
 | العربية | 15 | 64 | 1175 |
-| Русский | 15 | 67 | 1308 |
+| Русский | 15 | 66 | 1471 |
 | Español | 15 | 80 | 1340 |
 
 ## English (default) (`en`)
@@ -140,25 +140,25 @@ PE Ultimate App
 
 **Short description**
 
-Тесты, бип-тест, фотофиниш и планы уроков для учителей физкультуры.
+Тесты, бип-тест, фотофиниш и планы уроков для учителей и тренеров.
 
 **Full description**
 
 ```text
-PE Ultimate — полевой набор для учителей физической культуры. Всё работает на телефоне или планшете, без аккаунта и без интернета, в зале и на стадионе.
+PE Ultimate — бесплатный полевой набор для учителей физической культуры, фитнес-тренеров и спортивных инструкторов. Всё работает на телефоне или планшете, без аккаунта и без интернета, в зале и на стадионе.
 
 ЧТО МОЖНО ДЕЛАТЬ
-• 31 тестов физической подготовки: несколько попыток на ученика, карточка ученика, школьные нормативы
+• 31 тест физической подготовки: несколько попыток на ученика, карточка ученика, школьные нормативы
 • Бип-тест (Léger) с оценкой VO₂max и нормативами на основе FITNESSGRAM
 • Фотофиниш: хронометраж камерой — практичный полевой инструмент, не сертифицированный хронометраж
-• Планы уроков: быстрый генератор и пошаговый ручной конструктор
-• Списки классов, оценки, структура оценки и учебные группы
-• Таблицы рекордов, игры и база знаний со ссылками на источники
+• Планы уроков: быстрый генератор и пошаговый конструктор с черновиками уроков
+• Списки классов, оценки (с ручным редактированием), посещаемость, расписание и таймер живого урока
+• Таблицы рекордов, библиотека игр и база знаний со ссылками на источники
 • Режим ученика: ученики видят таблицу рекордов и добавляют рекорд на вашем устройстве
 • Экспорт результатов в Excel/CSV, печать или сохранение в PDF
 
 ДАННЫЕ ОСТАЮТСЯ У ВАС
-Без регистрации и без нашего сервера. Ученики, результаты и оценки хранятся на вашем устройстве. Резервную копию можно сохранить в файл (при желании с шифрованием), чтобы иметь копию или перенести данные на другое устройство.
+Без регистрации и без нашего сервера. Ученики, результаты и оценки хранятся локально на вашем устройстве. Резервную копию можно сохранить в файл (при желании с шифрованием), чтобы иметь копию или перенести данные на другое устройство.
 
 ПЯТЬ ЯЗЫКОВ
 Русский, английский, иврит, арабский и испанский, с автоматическим направлением текста. Часть переводов — черновики, ещё не проверенные носителями языка.
