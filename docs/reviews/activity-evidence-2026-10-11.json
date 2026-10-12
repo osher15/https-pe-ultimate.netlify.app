@@ -13,8 +13,8 @@
     },
     "ru": {
       "cards": 120,
-      "explicit_source_mapping": 0,
-      "mapping_pending": 120
+      "explicit_source_mapping": 2,
+      "mapping_pending": 118
     },
     "es": {
       "cards": 120,
@@ -6851,7 +6851,8 @@
         "item_id": "DR-045",
         "status": "foundation_only",
         "scope": "Term/concept investigation only; no overall card pass or teacher/native-human approval."
-      }
+      },
+      "targeted_source_followup": "docs/reviews/activity-research-2026-10-12/ru-targeted-followup.json"
     },
     {
       "language": "ru",
@@ -6908,21 +6909,25 @@
       "title": "DR-048 — Ловля, три шага и передача",
       "body_sha256": "8804a72287896ba52c33c5f8a263455fa046ce1f578495f8a06c39ec80f54471",
       "card_specific_observation": "The sequence is catch, walk three steps with the ball, stop, and pass to a ready player; the text explicitly says it teaches a sequence rather than all official rules. Distance markers are teacher-adjusted to avoid forced stride length.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "Russian rule names a maximum of three steps with the ball after receiving it or catching after dribbling.",
+          "url": "https://rushandball.ru/documents/get/163",
+          "section": "2026-04-20 Order345 version, PDF page39 (index38), Rule7.3; directly retrieved lines1328–1329",
+          "access": "direct primary PDF text; current header checked because cached first response and federation link caption described an older 2023 version",
+          "limitations": "Does not mandate exactly three steps on every play or approve the custom walking sequence, marker spacing or stop/pass pause."
+        }
+      ],
+      "source_status": "root-checked narrow term/concept evidence; human approval pending",
       "teacher_native_review": "pending",
       "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "Ловля, три шага и передача",
-        "finding": "Follow-through investigated this exact card; only limited foundation support or no corroborating section located. Exact technical wording/modified task remains unverified.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass."
-      },
       "source_followthrough": {
         "report": "docs/reviews/activity-research-2026-10-12/ru.json",
         "item_id": "DR-048",
-        "status": "unsupported",
+        "status": "precise",
         "scope": "Term/concept investigation only; no overall card pass or teacher/native-human approval."
-      }
+      },
+      "targeted_source_followup": "docs/reviews/activity-research-2026-10-12/ru-targeted-followup.json"
     },
     {
       "language": "ru",
@@ -6945,7 +6950,8 @@
         "item_id": "DR-049",
         "status": "unsupported",
         "scope": "Term/concept investigation only; no overall card pass or teacher/native-human approval."
-      }
+      },
+      "targeted_source_followup": "docs/reviews/activity-research-2026-10-12/ru-targeted-followup.json"
     },
     {
       "language": "ru",
@@ -6977,21 +6983,25 @@
       "title": "DR-051 — Ведение мяча мягкой клюшкой между метками",
       "body_sha256": "5a4732873f39814d54d11cc5159fcc25a97a344220e4e9c5f85decb7bc9698d2",
       "card_specific_observation": "Learners use two hands and keep a soft hook near the floor while guiding a foam ball through a three-marker zigzag at walking pace. The card excludes striking, tackling, nearby observers, and hard-stick substitution.",
-      "term_to_source_evidence": [],
-      "source_status": "PENDING: language-report bibliography is not a per-card term-to-source mapping",
+      "term_to_source_evidence": [
+        {
+          "term_or_claim": "Russian IFF beginner guide identifies soft blades for ball dribbling and expressly names dribbling through training cones.",
+          "url": "https://archive.floorball.sport/cloudfront/2018/08/Start-up-kit_Russian.pdf",
+          "section": "PDF page6 (index5), Крюк; PDF page13 (index12), Exercise1D",
+          "access": "direct primary PDF text; 32-page Russian beginner guide, historic teaching material, not a current rules certificate",
+          "limitations": "Card uses a foam ball, flat marks, walking and no shots. Its ages, spacing, counts and adapted safety remain authored; equipment is not inferred interchangeable with regulation floorball gear."
+        }
+      ],
+      "source_status": "root-checked narrow term/concept evidence; human approval pending",
       "teacher_native_review": "pending",
       "overall_pass": false,
-      "source_gap": {
-        "card_term_to_verify": "Ведение мяча мягкой клюшкой между метками",
-        "finding": "Follow-through investigated this exact card; only limited foundation support or no corroborating section located. Exact technical wording/modified task remains unverified.",
-        "scope": "Mechanics, timing, safety and adaptations remain draft; no overall pass."
-      },
       "source_followthrough": {
         "report": "docs/reviews/activity-research-2026-10-12/ru.json",
         "item_id": "DR-051",
-        "status": "unsupported",
+        "status": "precise",
         "scope": "Term/concept investigation only; no overall card pass or teacher/native-human approval."
-      }
+      },
+      "targeted_source_followup": "docs/reviews/activity-research-2026-10-12/ru-targeted-followup.json"
     },
     {
       "language": "ru",
@@ -7016,7 +7026,8 @@
         "item_id": "DR-052",
         "status": "unsupported",
         "scope": "Term/concept investigation only; no overall card pass or teacher/native-human approval."
-      }
+      },
+      "targeted_source_followup": "docs/reviews/activity-research-2026-10-12/ru-targeted-followup.json"
     },
     {
       "language": "ru",
@@ -12735,7 +12746,7 @@
     }
   ],
   "new_source_sections": 9,
-  "source_mapping_missing_total": 385,
+  "source_mapping_missing_total": 383,
   "source_followthrough_2026_10_12": {
     "investigated": 399,
     "new_root_verified_narrow_mappings": 14,
@@ -12759,5 +12770,24 @@
     "exact_corroboration_remaining": 385,
     "full_card_passes": 0,
     "new_source_edits": 0
+  },
+  "targeted_source_followup_2026_10_12": {
+    "investigated_ids": [
+      "ru/DR-045",
+      "ru/DR-048",
+      "ru/DR-049",
+      "ru/DR-051",
+      "ru/DR-052"
+    ],
+    "promoted_ids": [
+      "ru/DR-048",
+      "ru/DR-051"
+    ],
+    "new_root_verified_narrow_mappings": 2,
+    "current_total_mapped": 97,
+    "exact_corroboration_remaining": 383,
+    "full_card_passes": 0,
+    "new_source_edits": 0,
+    "report": "docs/reviews/activity-research-2026-10-12/ru-targeted-followup.json"
   }
 }
