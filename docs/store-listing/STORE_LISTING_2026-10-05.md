@@ -12,7 +12,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 - Screenshots must come from the real app on a device after the device pass; none exist yet.
 - Default language for the listing: English (matches the app's default for new installs).
 
-> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Other languages are NOT yet reviewed; their test count was corrected to 31 mechanically.
+> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 31 tests). Arabic, Russian and Spanish are NOT yet reviewed; their test count was corrected to 31 mechanically.
 
 > 2026-10-12: the photo-finish line no longer claims millisecond accuracy. Per `docs/handoffs/2026-10-09-report-review-claude-action-plan.md` there is no certification or controlled accuracy study, so listing text must not promise precise or certified timing. Character counts below are from before this edit: re-measure.
 
@@ -21,7 +21,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 | Language | Name (≤30) | Short (≤80) | Full (≤4000) |
 |---|---|---|---|
 | English (default) | 15 | 81 | 1460 |
-| עברית | 15 | 65 | 953 |
+| עברית | 15 | 61 | 1042 |
 | العربية | 15 | 68 | 1057 |
 | Русский | 15 | 67 | 1308 |
 | Español | 15 | 80 | 1340 |
@@ -70,20 +70,20 @@ PE Ultimate App
 
 **Short description**
 
-מבחני כושר, ביפ טסט, פוטו־פיניש ומערכי שיעור למורים לחינוך גופני.
+מבחני כושר, ביפ טסט, פוטו־פיניש ומערכי שיעור למורים ולמאמנים.
 
 **Full description**
 
 ```text
-PE Ultimate היא ערכת שטח למורים לחינוך גופני. הכול רץ בטלפון או בטאבלט, בלי חשבון ובלי אינטרנט, בחדר הכושר ובמגרש.
+PE Ultimate היא ערכת שטח חינמית למורים לחינוך גופני, מאמני כושר ומדריכי ספורט. הכול רץ בטלפון או בטאבלט, בלי חשבון ובלי אינטרנט, בחדר הכושר ובמגרש.
 
 מה אפשר לעשות
 • 31 מבחני כושר עם כמה ניסיונות לכל תלמיד, כרטיס תלמיד ונורמות בית־ספריות
 • ביפ טסט (Léger) עם הערכת VO₂max ונורמות על בסיס FITNESSGRAM
 • פוטו־פיניש: מדידת זמנים במצלמה — כלי שטח מעשי, לא מדידה מוסמכת
-• מערכי שיעור: מחולל מהיר ובונה ידני שלב אחר שלב
-• רשימות כיתה, ציונים, מבנה ציון וקבוצות הוראה
-• לוחות שיאים, משחקים ומאגר ידע מצוטט
+• מערכי שיעור: מחולל מהיר ובונה ידני עם טיוטות של מערכים
+• רשימות כיתה, ציונים (עם עריכה ידנית), נוכחות, מערכת שעות וטיימר שיעור חי
+• לוחות שיאים, ספריית משחקים ומאגר ידע מצוטט
 • מצב תלמיד: התלמידים רואים את לוח השיאים ומוסיפים שיא במכשיר שלך
 • ייצוא תוצאות ל־Excel/CSV, והדפסה או שמירה כ־PDF
 
