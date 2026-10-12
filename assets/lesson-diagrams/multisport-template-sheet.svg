@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <style>
+    .title{font:700 24px Arial,sans-serif;fill:#111}.label{font:700 18px Arial,sans-serif;fill:#111}.line{stroke:#fff;stroke-width:4;fill:none}.dark{stroke:#111;stroke-width:4;fill:none}.thin{stroke:#fff;stroke-width:2;fill:none}.a{fill:#2563eb;stroke:#111;stroke-width:2}.b{fill:#dc2626;stroke:#111;stroke-width:2}.num{font:700 16px Arial,sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:middle}.ball{fill:#f59e0b;stroke:#111;stroke-width:2}
+  </style>
+  <rect width="1400" height="900" fill="#f8fafc"/>
+  <text x="40" y="45" class="title">PE Ultimate — Multisport Starter Templates</text>
+
+  <!-- Basketball full -->
+  <g transform="translate(40,80)"><text x="0" y="-12" class="label">Basketball — full court</text><rect width="400" height="300" rx="14" fill="#d8a55d" stroke="#111" stroke-width="4"/><line x1="200" y1="0" x2="200" y2="300" class="dark"/><circle cx="200" cy="150" r="42" class="dark"/><path d="M0 90 H80 V210 H0 M400 90 H320 V210 H400" class="dark"/><path d="M0 55 Q120 150 0 245 M400 55 Q280 150 400 245" class="dark"/><circle cx="34" cy="150" r="9" class="dark"/><circle cx="366" cy="150" r="9" class="dark"/></g>
+
+  <!-- Basketball half -->
+  <g transform="translate(500,80)"><text x="0" y="-12" class="label">Basketball — half court</text><rect width="300" height="300" rx="14" fill="#d8a55d" stroke="#111" stroke-width="4"/><path d="M95 0 V95 H205 V0" class="dark"/><path d="M25 0 Q150 190 275 0" class="dark"/><circle cx="150" cy="28" r="9" class="dark"/><polygon points="90,235 70,270 110,270" class="a"/><text x="90" y="257" class="num">1</text><rect x="190" y="232" width="38" height="38" rx="4" class="b"/><text x="209" y="251" class="num">2</text><circle cx="125" cy="215" r="11" class="ball"/></g>
+
+  <!-- Soccer full -->
+  <g transform="translate(860,80)"><text x="0" y="-12" class="label">Soccer — full field</text><rect width="500" height="300" rx="14" fill="#4fa55a" stroke="#111" stroke-width="4"/><line x1="250" y1="0" x2="250" y2="300" class="line"/><circle cx="250" cy="150" r="48" class="line"/><rect x="0" y="80" width="80" height="140" class="line"/><rect x="420" y="80" width="80" height="140" class="line"/><rect x="0" y="115" width="30" height="70" class="line"/><rect x="470" y="115" width="30" height="70" class="line"/></g>
+
+  <!-- Soccer half -->
+  <g transform="translate(40,460)"><text x="0" y="-12" class="label">Soccer — half field</text><rect width="400" height="300" rx="14" fill="#4fa55a" stroke="#111" stroke-width="4"/><rect x="100" y="0" width="200" height="90" class="line"/><rect x="155" y="0" width="90" height="38" class="line"/><path d="M145 90 Q200 155 255 90" class="line"/><polygon points="120,220 100,255 140,255" class="a"/><text x="120" y="242" class="num">9</text><rect x="250" y="215" width="38" height="38" rx="4" class="b"/><text x="269" y="234" class="num">4</text><circle cx="175" cy="205" r="11" class="ball"/></g>
+
+  <!-- Handball half -->
+  <g transform="translate(500,460)"><text x="0" y="-12" class="label">Handball — half court</text><rect width="360" height="300" rx="14" fill="#5aa8dc" stroke="#111" stroke-width="4"/><rect x="130" y="0" width="100" height="16" fill="#fff" stroke="#111" stroke-width="3"/><path d="M55 0 Q180 170 305 0" class="line"/><path d="M90 0 Q180 115 270 0" stroke="#fff" stroke-width="3" stroke-dasharray="10 8" fill="none"/><polygon points="100,225 80,260 120,260" class="a"/><text x="100" y="247" class="num">1</text><polygon points="180,195 160,230 200,230" class="a"/><text x="180" y="217" class="num">2</text><rect x="240" y="210" width="38" height="38" rx="4" class="b"/><text x="259" y="229" class="num">3</text></g>
+
+  <!-- Volleyball full -->
+  <g transform="translate(920,460)"><text x="0" y="-12" class="label">Volleyball — full court</text><rect width="440" height="300" rx="14" fill="#e5a05d" stroke="#111" stroke-width="4"/><line x1="0" y1="150" x2="440" y2="150" stroke="#111" stroke-width="8"/><line x1="0" y1="110" x2="440" y2="110" class="thin"/><line x1="0" y1="190" x2="440" y2="190" class="thin"/><polygon points="100,245 82,277 118,277" class="a"/><text x="100" y="264" class="num">1</text><polygon points="220,225 202,257 238,257" class="a"/><text x="220" y="244" class="num">6</text><polygon points="340,245 322,277 358,277" class="a"/><text x="340" y="264" class="num">5</text><rect x="82" y="45" width="36" height="36" rx="4" class="b"/><text x="100" y="63" class="num">4</text><rect x="202" y="65" width="36" height="36" rx="4" class="b"/><text x="220" y="83" class="num">3</text><rect x="322" y="45" width="36" height="36" rx="4" class="b"/><text x="340" y="63" class="num">2</text><circle cx="275" cy="210" r="11" class="ball"/></g>
+
+  <text x="40" y="835" class="label">Starter sheet only — future library should expand to 44 reusable templates and lesson-specific overlays.</text>
+</svg>
