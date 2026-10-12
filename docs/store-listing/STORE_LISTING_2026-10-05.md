@@ -12,13 +12,15 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 - Screenshots must come from the real app on a device after the device pass; none exist yet.
 - Default language for the listing: English (matches the app's default for new installs).
 
+> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Other languages are NOT yet reviewed; their test count was corrected to 31 mechanically.
+
 > 2026-10-12: the photo-finish line no longer claims millisecond accuracy. Per `docs/handoffs/2026-10-09-report-review-claude-action-plan.md` there is no certification or controlled accuracy study, so listing text must not promise precise or certified timing. Character counts below are from before this edit: re-measure.
 
 ## Counts
 
 | Language | Name (≤30) | Short (≤80) | Full (≤4000) |
 |---|---|---|---|
-| English (default) | 15 | 72 | 1258 |
+| English (default) | 15 | 81 | 1460 |
 | עברית | 15 | 65 | 953 |
 | العربية | 15 | 68 | 1057 |
 | Русский | 15 | 67 | 1308 |
@@ -32,25 +34,26 @@ PE Ultimate App
 
 **Short description**
 
-Fitness tests, beep test, photo-finish and lesson plans for PE teachers.
+Fitness tests, beep test, photo-finish and lesson plans for teachers and coaches.
 
 **Full description**
 
 ```text
-PE Ultimate is a field kit for physical education teachers. Everything runs on your phone or tablet, with no account and no internet needed in the gym or on the field.
+PE Ultimate is a free, offline field kit for physical education teachers, fitness trainers, and sports coaches. Everything runs on your phone or tablet, with no account and no internet needed in the gym or on the field.
 
 WHAT YOU CAN DO
-• 30 fitness tests with several attempts per student, student cards and school norms
+• 31 fitness tests with several attempts per student, student cards and school norms
 • Beep test (Léger) with an estimated VO₂max and FITNESSGRAM-based norms
 • Photo-finish: time runners with the phone camera (a practical field tool, not certified timing)
-• Lesson plans: a quick generator, plus a manual step-by-step builder
-• Class lists, grades, grade structure and teaching groups
-• Records boards, games and a cited knowledge base
+• Lesson plans: a quick generator, plus a manual step-by-step builder with draft lesson plans
+• Class lists, grades with manual override, grade structure, and teaching groups
+• Live lesson timer, timetable, and attendance tracking
+• Records boards, games library, and a cited knowledge base
 • Student mode: pupils see the records board and add a record on your device
 • Export results to Excel/CSV and print or save as PDF
 
 YOUR DATA STAYS WITH YOU
-There is no sign-up and no server of our own. Students, results and grades are stored on your device. Back up to a file (optionally encrypted) to keep a copy or move to another device.
+There is no sign-up and no server of our own. Students, results and grades are stored locally on your device. Back up to a file (optionally encrypted) to keep a copy or move to another device.
 
 FIVE LANGUAGES
 English, Hebrew, Arabic, Russian and Spanish, with automatic right-to-left or left-to-right layout. Some translations are drafts that have not yet been reviewed by native speakers.
@@ -75,7 +78,7 @@ PE Ultimate App
 PE Ultimate היא ערכת שטח למורים לחינוך גופני. הכול רץ בטלפון או בטאבלט, בלי חשבון ובלי אינטרנט, בחדר הכושר ובמגרש.
 
 מה אפשר לעשות
-• 30 מבחני כושר עם כמה ניסיונות לכל תלמיד, כרטיס תלמיד ונורמות בית־ספריות
+• 31 מבחני כושר עם כמה ניסיונות לכל תלמיד, כרטיס תלמיד ונורמות בית־ספריות
 • ביפ טסט (Léger) עם הערכת VO₂max ונורמות על בסיס FITNESSGRAM
 • פוטו־פיניש: מדידת זמנים במצלמה — כלי שטח מעשי, לא מדידה מוסמכת
 • מערכי שיעור: מחולל מהיר ובונה ידני שלב אחר שלב
@@ -110,7 +113,7 @@ PE Ultimate App
 PE Ultimate أداة ميدانية لمعلمي التربية البدنية. يعمل كل شيء على الهاتف أو الجهاز اللوحي، دون حساب ودون إنترنت، في الصالة أو في الملعب.
 
 ماذا يمكنك أن تفعل
-• 30 اختبار لياقة مع عدة محاولات لكل طالب، وبطاقة طالب ومعايير مدرسية
+• 31 اختبار لياقة مع عدة محاولات لكل طالب، وبطاقة طالب ومعايير مدرسية
 • اختبار البيب (Léger) مع تقدير VO₂max ومعايير مبنية على FITNESSGRAM
 • فوتو فينش: قياس الأزمنة بالكاميرا — أداة ميدانية عملية وليست قياسًا معتمدًا
 • خطط الدروس: مولّد سريع ومنشئ يدوي خطوة بخطوة
@@ -145,7 +148,7 @@ PE Ultimate App
 PE Ultimate — полевой набор для учителей физической культуры. Всё работает на телефоне или планшете, без аккаунта и без интернета, в зале и на стадионе.
 
 ЧТО МОЖНО ДЕЛАТЬ
-• 30 тестов физической подготовки: несколько попыток на ученика, карточка ученика, школьные нормативы
+• 31 тестов физической подготовки: несколько попыток на ученика, карточка ученика, школьные нормативы
 • Бип-тест (Léger) с оценкой VO₂max и нормативами на основе FITNESSGRAM
 • Фотофиниш: хронометраж камерой — практичный полевой инструмент, не сертифицированный хронометраж
 • Планы уроков: быстрый генератор и пошаговый ручной конструктор
@@ -180,7 +183,7 @@ Tests físicos, test del pitido, foto-finish y planes de clase para profes de EF
 PE Ultimate es un kit de campo para profesores de educación física. Todo funciona en tu teléfono o tableta, sin cuenta y sin internet, en el gimnasio o en la pista.
 
 QUÉ PUEDES HACER
-• 30 tests de condición física con varios intentos por alumno, ficha del alumno y baremos del centro
+• 31 tests de condición física con varios intentos por alumno, ficha del alumno y baremos del centro
 • Test del pitido (Léger) con estimación de VO₂max y baremos basados en FITNESSGRAM
 • Foto-finish: cronometra con la cámara — herramienta práctica de campo, no cronometraje certificado
 • Planes de clase: un generador rápido y un constructor manual paso a paso
@@ -217,7 +220,7 @@ The feature graphic text is English only and uses a system font; a Hebrew/Arabic
 ## Still needed from the owner
 
 1. Confirm the proposed `io.github.osher15.peultimate` package ID and intended audience before store submission. The ID is implemented on draft PR #44 and in the packaging-only proposal; owner approval, release signing and submission are not claimed.
-2. Approve or edit the wording (especially claims such as "30 fitness tests", which come from README.md).
+2. Approve or edit the wording (especially claims such as "31 fitness tests", which come from README.md).
 3. Real-device screenshots (phone, and tablet if offered).
 4. Store privacy sentence and Data safety answers (readiness doc §6).
 5. Native-speaker review of the four non-English texts before production.
