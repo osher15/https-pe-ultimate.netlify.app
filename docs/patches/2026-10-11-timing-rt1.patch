@@ -1,0 +1,229 @@
+diff --git a/hm-data.js b/hm-data.js
+index 0974b94..9d15356 100644
+--- a/hm-data.js
++++ b/hm-data.js
+@@ -701,6 +701,34 @@ function variantFit(v,alloc,opts){
+   if(!sr||!(alloc>0))return {known:false};
+   var f=fitSteps(sr,alloc,opts); f.sr=sr; return f;
+ }
++// Automatic generation only. Choose an integer split from the available pool;
++// a long block with explicit free play is preferable to an impossible short block.
++// Timing ranges remain pedagogical drafts. Unknown/empty pools never block editing.
++function automaticBlockCount(pool,minutes,opts,noEq){
++  var all=Array.isArray(pool)?pool:[], total=wholeMinutes(minutes);
++  var available=all.filter(function(v){ return !variantEquipConflicts(v,noEq).length; });
++  if(!available.length)available=all;
++  if(!available.length||!total)return 1;
++  var best=1, bestOver=Infinity, bestGap=Infinity;
++  for(var count=1;count<=Math.min(3,available.length,total);count++){
++    var per=Math.floor(total/count), over=0, gap=0;
++    for(var slot=0;slot<count;slot++){
++      var alloc=slot===count-1?total-per*(count-1):per;
++      available.forEach(function(v){
++        var f=variantFit(v,alloc,opts);
++        if(f.known){
++          if(f.status==="over")over=Math.max(over,f.gap);
++          gap+=f.gap||0;
++        }
++      });
++    }
++    gap/=count;
++    if(over<bestOver||(over===bestOver&&gap<bestGap)){
++      best=count; bestOver=over; bestGap=gap;
++    }
++  }
++  return best;
++}
+ /* ---------- ציוד זמין ושיקולי זמן משותפים לבונה הידני ולמחולל ----------
+    רשימת תיבות הציוד (אותה רשימה כמו במחולל המהיר, נבדקת מול index.html),
+    והחלון היעיל של החלק העיקרי בבונה הידני לפי מבנה העבודה ומספר התרגילים.
+@@ -3085,7 +3113,7 @@ return {
+   leadSnoozeUntil:leadSnoozeUntil, leadPayload:leadPayload, leadAckOk:leadAckOk,
+   foldSearch:foldSearch, searchMatch:searchMatch,
+   EQUIP_KEYS:EQUIP_KEYS, BALL_TYPES:BALL_TYPES, equipParts:equipParts, equipConflicts:equipConflicts, mergeEquip:mergeEquip,
+-  variantEquipConflicts:variantEquipConflicts, variantFit:variantFit,
++  variantEquipConflicts:variantEquipConflicts, variantFit:variantFit, automaticBlockCount:automaticBlockCount,
+   stepRanges:stepRanges, warmMinutes:warmMinutes, parseGameMeta:parseGameMeta, gameMatches:gameMatches, normGameMine:normGameMine, addGameMine:addGameMine, delGameMine:delGameMine, MINE_MAX:MINE_MAX, MINE_PER_GAME:MINE_PER_GAME, EQUIP_CHOICES:EQUIP_CHOICES, DEFAULT_EQ_AVAIL:DEFAULT_EQ_AVAIL, eqAvailList:eqAvailList, mainWindow:mainWindow, recommendWarm:recommendWarm, fitSteps:fitSteps, timeOpts:timeOpts, TIME_PACE:TIME_PACE, TIME_TRANS:TIME_TRANS,
+   normCollections:normCollections, colAdd:colAdd, colRename:colRename, colDelete:colDelete, colToggle:colToggle, colsOf:colsOf, COL_MAX:COL_MAX, COL_ITEMS:COL_ITEMS, COL_NAME:COL_NAME,
+   libSave:libSave, libUndo:libUndo, bankToPlan:bankToPlan, bankSectionMinutes:bankSectionMinutes, PLAN_LIB_MAX:PLAN_LIB_MAX,
+diff --git a/hm-lesson.js b/hm-lesson.js
+index 90c047d..6a84322 100644
+--- a/hm-lesson.js
++++ b/hm-lesson.js
+@@ -441,9 +441,8 @@ window.LESSON=(function(){
+     const pool=T.main[grade]||T.main.mid;
+     const chosenSubs=o.subs.filter(s=>pool.some(v=>v.sub===s));
+     let mainBlocks;
+-    /* שיעור ארוך (שעה וחצי וכד׳): בלי בחירה ידנית של תתי־נושאים נבחרים כמה בלוקים
+-       עיקריים שונים, כל אחד בין כ-18 ל-27 דק׳ — כדי שלא יישאר זמן ריק */
+-    const nBlocks=chosenSubs.length||(mainMin<=31?1:(mainMin<=54?2:3));   /* לפי נתוני ההתאמה: בלוק של 19–27 דק׳ מתאים לכמעט כל נושא וכיתה, מ-31 ומעלה ומתחת ל-17 כמעט לא */
++    // Explicit subtopics remain the teacher's choice; only automatic splitting uses fit.
++    const nBlocks=chosenSubs.length||window.HMDATA.automaticBlockCount(pool,mainMin,o.time,o.noEq);
+     const pickCtx={noEq:o.noEq,alloc:Math.floor(mainMin/nBlocks),time:o.time};
+     if(chosenSubs.length){
+       mainBlocks=chosenSubs.map(s=>pickVariant(pool.filter(v=>v.sub===s),T.id,grade,pickCtx));
+diff --git a/tests/unit/stage2.test.js b/tests/unit/stage2.test.js
+index 682cb72..8bb39ec 100644
+--- a/tests/unit/stage2.test.js
++++ b/tests/unit/stage2.test.js
+@@ -133,7 +133,10 @@ test("2.6b אורך שיעור: חימום, סיום ומשחק חסומים ב
+   assert.equal(D.warmMinutes(45,"normal"),8);
+   const src2=fs.readFileSync(path.join(__dirname,"../../hm-lesson.js"),"utf8");
+   assert.ok(/Math\.min\(8,Math\.max\(5,Math\.round\(o\.dur\*0\.11\)\)\)/.test(src2),"סיום מוגבל ל-8");
+-  assert.ok(/mainMin<=31\?1:\(mainMin<=54\?2:3\)/.test(src2),"בלוקים אוטומטיים לשיעור ארוך");
++  for(const topic of TOPICS)for(const grade of ["mid","high"]){
++    const n=D.automaticBlockCount(topic.main[grade],90-D.warmMinutes(90,"normal")-8,{});
++    assert.ok(n>=Math.min(2,topic.main[grade].length)&&n<=Math.min(3,topic.main[grade].length),topic.id+"/"+grade+": long lesson splits into 2–3 blocks, bounded by available variants");
++  }
+ });
+ 
+ test("2.6 זיהוי ציוד: «מזרנים» ברבים מזוהה, ו«או» היא חלופה כמו «/»",()=>{
+diff --git a/tests/unit/timing-block-count.test.js b/tests/unit/timing-block-count.test.js
+new file mode 100644
+index 0000000..ac09a58
+--- /dev/null
++++ b/tests/unit/timing-block-count.test.js
+@@ -0,0 +1,35 @@
++'use strict';
++const {test}=require('node:test'),assert=require('node:assert/strict');
++const path=require('path'),D=require('../../hm-data');
++const audit=require('../../tools/timing-audit-v2');
++const opts={pace:'normal',trans:'normal',water:true,weather:'normal'};
++const model=audit.loadModel(path.resolve(__dirname,'../..'));
++test('R-T1: 45-minute automatic split removes 70 avoidable overruns across 108 variants',()=>{
++ let variants=0,oldOver=0,newOver=0;
++ for(const t of model.topics)for(const grade of ['mid','high']){
++  const pool=t.main[grade];const old=audit.slots({...model,poolAware:false},45,false,'normal',pool.length);
++  const now=audit.slots(model,45,false,'normal',pool.length,pool,opts);
++  assert.equal(now.allocations.reduce((a,b)=>a+b,0),now.main);
++  for(const v of pool){variants++;if(old.allocations.some(n=>D.variantFit(v,n,opts).status==='over'))oldOver++;
++   if(now.allocations.some(n=>D.variantFit(v,n,opts).status==='over'))newOver++;
++   for(const n of now.allocations){const f=D.variantFit(v,n,opts);assert.ok(Number.isInteger(n));assert.ok(f.fitted.every(Number.isInteger));}
++  }
++ }
++ assert.equal(variants,108);assert.equal(oldOver,71);assert.equal(newOver,1); // One speed/high variant has a 34-minute minimum in a 32-minute window.
++});
++test('Automatic count reflects equipment-available pool and retains nonblocking fallback',()=>{
++ const small={n:'Small',d:['work'],t:[5],need:['כדור סל']};
++ const large={n:'Large',d:['work'],t:[20],need:['כדור רגל']};
++ assert.equal(D.automaticBlockCount([],30,opts),1);
++ assert.equal(D.automaticBlockCount([small,{...small,n:'Second'},large],20,opts),1);
++ assert.equal(D.automaticBlockCount([small,{...small,n:'Second'},large],20,opts,['כדור רגל']),2);
++ for(const mins of [0,NaN,Infinity,10.5,45])assert.ok(Number.isInteger(D.automaticBlockCount([small,large],mins,opts)));
++ const f=D.variantFit(small,30,opts);assert.equal(f.status,'short');assert.ok(f.gap>0,'free-play residual remains explicit');
++});
++test('Automatic split never has worse worst overrun than other allowed whole-minute counts',()=>{
++ for(const t of model.topics)for(const grade of ['mid','high'])for(const minutes of [8,16,31,32,54,55,74]){
++  const pool=t.main[grade],count=D.automaticBlockCount(pool,minutes,opts);
++  const worst=n=>{let over=0,per=Math.floor(minutes/n);for(let i=0;i<n;i++)for(const v of pool){let f=D.variantFit(v,i===n-1?minutes-per*(n-1):per,opts);if(f.status==='over')over=Math.max(over,f.gap);}return over;};
++  for(let n=1;n<=Math.min(3,pool.length);n++)assert.ok(worst(count)<=worst(n));
++ }
++});
+diff --git a/tools/audit-source.js b/tools/audit-source.js
+new file mode 100644
+index 0000000..51f577c
+--- /dev/null
++++ b/tools/audit-source.js
+@@ -0,0 +1,19 @@
++"use strict";
++// Read-only data extraction follows the existing unit-test VM pattern.
++const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
++const ROOT=path.resolve(__dirname,'..');
++function arrayFrom(file,name){
++ const src=fs.readFileSync(path.join(ROOT,file),'utf8');
++ const m=src.match(new RegExp('const '+name+'=\\[[\\s\\S]*?\\n\\];'));
++ if(!m)throw new Error('Cannot locate '+name+' in '+file);
++ return vm.runInNewContext('('+m[0].replace('const '+name+'=','').replace(/;$/,'')+')',{}, {timeout:2000});
++}
++function translations(){
++ const win={localStorage:{getItem:()=>null,setItem(){}},document:{documentElement:{setAttribute(){}},addEventListener(){},querySelectorAll:()=>[],querySelector:()=>null,body:null},addEventListener(){}};
++ win.window=win;const ctx=vm.createContext({...win,console,CustomEvent:function(){}});
++ for(const f of ['hm-terms.js','hm-texts.js','hm-i18n.js'])vm.runInContext(fs.readFileSync(path.join(ROOT,f),'utf8'),ctx,{filename:f,timeout:5000});
++ const I=ctx.window.I18N;
++ return {tr:s=>I.tr(s),set:l=>{try{I.set(l);}catch(e){if(!/dataset/.test(e.message))throw e;}if(I.lang()!==l)throw new Error('Language selection failed: '+l);}};
++}
++function cell(s){return String(s??'').replace(/\|/g,' / ').replace(/\r?\n/g,' ');}
++module.exports={ROOT,arrayFrom,translations,cell};
+diff --git a/tools/timing-audit-v2.js b/tools/timing-audit-v2.js
+new file mode 100644
+index 0000000..d91822f
+--- /dev/null
++++ b/tools/timing-audit-v2.js
+@@ -0,0 +1,77 @@
++"use strict";
++// Read-only candidate/slot analysis. Source-root selection never copies product data.
++const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),cp=require('node:child_process');
++const {cell}=require('./audit-source');
++const sum=a=>a.reduce((x,y)=>x+y,0);
++function loadModel(root){
++ root=path.resolve(root);const lesson=fs.readFileSync(path.join(root,'hm-lesson.js'),'utf8');
++ const m=lesson.match(/const TOPICS=\[[\s\S]*?\n\];/);
++ const block=lesson.match(/const nBlocks=chosenSubs\.length\|\|\(mainMin<=(\d+)\?1:\(mainMin<=(\d+)\?2:3\)\)/);
++ if(!m||(!block&&!lesson.includes('HMDATA.automaticBlockCount(')))throw new Error('Source does not contain the reviewed automatic block-count model');
++ const D=require(path.join(root,'hm-data.js'));
++ const topics=vm.runInNewContext('('+m[0].replace('const TOPICS=','').replace(/;$/,'')+')',{}, {timeout:2000});
++ const fields=['hm-data.js','hm-lesson.js'];
++ return {root,D,topics,thresholds:block?[+block[1],+block[2]]:[31,54],poolAware:!block,head:cp.execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),sourceBlobs:Object.fromEntries(fields.map(f=>[f,cp.execFileSync('git',['hash-object',f],{cwd:root,encoding:'utf8'}).trim()])),
++  transitionModel:fs.readFileSync(path.join(root,'hm-data.js'),'utf8').includes('TIME_TRANS[opts.trans]-1')?'relative to normal':'absolute transition overhead'};
++}
++function slots(model,length,withGame,weather,poolSize,pool,opts){
++ const warm=model.D.warmMinutes(length,weather),cool=Math.min(8,Math.max(5,Math.round(length*.11))),game=withGame?Math.min(15,Math.max(6,Math.round(length*.16))):0;
++ const shortened=length-warm-cool-game<18&&warm>5;
++ const actualWarm=shortened?5:warm,main=Math.max(8,length-actualWarm-cool-game),want=main<=model.thresholds[0]?1:main<=model.thresholds[1]?2:3;
++ const count=model.poolAware?model.D.automaticBlockCount(pool,main,opts):Math.min(want,poolSize),per=Math.floor(main/count);
++ return {warm:actualWarm,cool,game,main,count,allocations:Array.from({length:count},(_,i)=>i===count-1?main-per*(count-1):per)};
++}
++function audit(root){
++ const model=loadModel(root),rows=[],variants=[];
++ for(const t of model.topics)for(const grade of ['mid','high'])for(const [i,v] of (t.main[grade]||[]).entries())variants.push({id:t.id+'/'+grade+'/'+(i+1),name:v.n,topic:t.id,grade,v,poolSize:t.main[grade].length,pool:t.main[grade]});
++ for(const item of variants)for(const length of [45,50,60,90])for(const withGame of [false,true])for(const weather of ['normal','cold','hot'])for(const pace of Object.keys(model.D.TIME_PACE))for(const trans of Object.keys(model.D.TIME_TRANS))for(const water of [false,true]){
++  const split=slots(model,length,withGame,weather,item.poolSize,item.pool,{pace,trans,water,weather});
++  split.allocations.forEach((allocated,i)=>{
++   const f=model.D.variantFit(item.v,allocated,{pace,trans,water,weather});
++   if(!f.known)throw new Error('Missing timing for '+item.id);
++   const total=sum(f.fitted)+f.overhead;
++   rows.push({id:item.id,name:item.name,length,withGame,weather,pace,trans,water,slot:i+1,blocks:split.count,window:split.main,allocated,base:f.base,min:f.min,max:f.max,fitted:f.fitted,overhead:f.overhead,total,status:f.status,free:f.status==='short'?f.gap:0,over:f.status==='over'?f.gap:0,
++    atMin:f.fitted.flatMap((x,j)=>x===Math.ceil(f.sr.lo[j])?[j+1]:[]),atMax:f.fitted.flatMap((x,j)=>x===Math.floor(f.sr.hi[j])?[j+1]:[])});
++  });
++ }
++ const summaries=[45,50,60,90].map(length=>{
++  const cases=rows.filter(r=>r.length===length),free=cases.map(r=>r.free);
++  return {length,cases:cases.length,cannotFitVariants:new Set(cases.filter(r=>r.status==='over').map(r=>r.id)).size,exact:cases.filter(r=>r.status==='exact').length,over:cases.filter(r=>r.status==='over').length,under:cases.filter(r=>r.status==='short').length,
++   freeTotal:sum(free),freeMean:sum(free)/free.length,freeMax:Math.max(...free)};
++ });
++ const scan=Array.from({length:33},(_,i)=>i+8).map(allocated=>{
++  const f=variants.map(x=>model.D.variantFit(x.v,allocated,{pace:'normal',trans:'normal',water:true,weather:'normal'}));
++  return {allocated,exact:f.filter(x=>x.status==='exact').length,over:f.filter(x=>x.status==='over').length,under:f.filter(x=>x.status==='short').length,pools:new Set(variants.map(x=>x.topic+'|'+x.grade)).size,fittingPools:new Set(variants.filter((x,i)=>f[i].status==='exact').map(x=>x.topic+'|'+x.grade)).size};
++ });
++ return {head:model.head,sourceBlobs:model.sourceBlobs,thresholds:model.thresholds,poolAware:model.poolAware,transitionModel:model.transitionModel,variantCount:variants.length,rows,summaries,scan};
++}
++function reportModel(a,title){
++ const out=['## '+title,'','Head: `'+a.head+'`; source blobs: '+Object.entries(a.sourceBlobs).map(([f,h])=>'`'+f+':'+h+'`').join(', ')+'.','',
++  'Automatic selection: '+(a.poolAware?'pool-aware fit scoring (legacy thresholds retained for comparison)':a.thresholds.join(' / ')+' min thresholds')+'. Transition semantics: '+a.transitionModel+'. Actual variants: '+a.variantCount+'.','',
++  '| Lesson | Candidate-slot cases | Cannot-fit variants (any case) | Exact share | Cannot fit / under | Free-play mean / max per candidate slot |','|---|---:|---:|---:|---|---|'];
++ for(const s of a.summaries)out.push('| '+[s.length,s.cases,s.cannotFitVariants+'/'+a.variantCount,(100*s.exact/s.cases).toFixed(2)+'%',s.over+' / '+s.under,s.freeMean.toFixed(2)+' / '+s.freeMax].join(' | ')+' |');
++ out.push('','Free-play totals below are sums across hypothetical candidate cases, not minutes in a single school timetable. Exact percentages are coverage of enumerated options, not production probabilities.','',
++  '| Block allocation | Exact variants (normal pace/transitions, water on, normal weather) | Fitting topic/grade pools | Cannot fit | Under |','|---:|---:|---:|---:|---:|');
++ for(const s of a.scan)out.push('| '+[s.allocated,s.exact+'/'+a.variantCount,s.fittingPools+'/'+s.pools,s.over,s.under].join(' | ')+' |');
++ out.push('','### All variants by lesson length','',
++  'Each row aggregates optional game on/off × 3 weather choices × 3 paces × 3 transition choices × water on/off and every actual block slot. Equipment constraints/random feedback choice are not selection probabilities; each variant is a candidate, not repeated identical blocks in a real plan. A selected optional game is assumed available; unavailable-game minutes returned to the last block are outside this model.','',
++  '| Variant | Lesson | Cases | Blocks / allocation range | Recommended | Fitted total range | Exact / cannot-fit / under | Free-play total / mean / max | Standard slot 1: allocated / steps / overhead |','|---|---:|---:|---|---:|---|---|---|---|');
++ const groups=new Map();for(const r of a.rows){const k=r.id+'|'+r.length;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r);}
++ const range=x=>Math.min(...x)+'–'+Math.max(...x);
++ for(const list of groups.values()){
++  const r=list.find(x=>!x.withGame&&x.weather==='normal'&&x.pace==='normal'&&x.trans==='normal'&&x.water&&x.slot===1),frees=list.map(x=>x.free);
++  out.push('| '+[r.id+' '+r.name,r.length,list.length,[...new Set(list.map(x=>x.blocks))].sort().join(',')+' / '+range(list.map(x=>x.allocated)),r.base,range(list.map(x=>x.total)),['exact','over','short'].map(st=>list.filter(x=>x.status===st).length).join(' / '),sum(frees)+' / '+(sum(frees)/frees.length).toFixed(2)+' / '+Math.max(...frees),r.allocated+' / '+r.fitted.join('+')+' / '+r.overhead].map(cell).join(' | ')+' |');
++ }
++ return out.join('\n');
++}
++function markdown(a,b){return ['# Timing overrun audit v2 — 2026-10-07','',
++ 'Read-only arithmetic on draft timings. Actual field duration is unknown. Requested historical model and newer model are reported separately; neither is merged by this audit.','',
++ 'Lengths: 45/50/60/90. Outdoor weather uses warmMinutes; warm-up is capped by the source helper, cool-down at 8, optional game at 15. Automatic main-window thresholds are read from the source. The main window is split evenly, with the remainder in the final slot; all variants are checked in every possible slot. Manual subtopic selection and random plan selection are not simulated. Steps fit in whole minutes inside displayed half-minute ranges. Cannot-fit means the minimum rounded step sum exceeds a slot allocation; under means free-play fills the residual.','',
++ reportModel(a,'Requested handoff snapshot'),b?'\n'+reportModel(b,'Latest timing snapshot at audit start'):'','',
++ '## Quick-check comparison','',
++ 'Historical 18–31 minute scan: '+a.scan.filter(s=>s.allocated>=18&&s.allocated<=31).map(s=>s.allocated+'='+s.exact+'/'+a.variantCount).join('; ')+'. The general best-window claim is reproduced approximately, not a constant 90 variants.',
++ b?'Latest 19–27 minute scan, pools with at least one exact fit: '+b.scan.filter(s=>s.allocated>=19&&s.allocated<=27).map(s=>s.allocated+'='+s.fittingPools+'/'+s.pools).join('; ')+'. At 16 and 29 minutes: '+b.scan.filter(s=>[16,29].includes(s.allocated)).map(s=>s.allocated+'='+s.fittingPools+'/'+s.pools+' pools ('+s.exact+'/'+b.variantCount+' variants)').join('; ')+'.':'','',
++ '## Recommendations for Claude','',
++ 'Review candidate fit by topic/grade before treating automatic thresholds as universally suitable. Retain source version on every finding. Free play is an explicit generator fallback; a nonzero residual is not itself a defect. Fixed-protocol wording still needs teacher approval. No data or product file was edited.',''].join('\n');}
++if(require.main===module){const args=process.argv.slice(2),get=k=>args[args.indexOf(k)+1];if(!args.includes('--root'))throw new Error('Use --root <reviewed worktree>');const a=audit(get('--root')),b=args.includes('--compare')?audit(get('--compare')):null;process.stdout.write(args.includes('--json')?JSON.stringify({requested:a,latest:b},null,2)+'\n':markdown(a,b));}
++module.exports={loadModel,slots,audit,markdown};
