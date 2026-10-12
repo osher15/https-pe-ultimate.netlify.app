@@ -26,7 +26,7 @@ Reserved files/sections: none beyond the integration itself; no new product feat
 - Browser: see "Browser results" below.
 
 ## Browser results
-(filled in after the run)
+`node tests/review/run-chunked.cjs` in 3 shards (one fresh browser per suite, Chromium via Playwright, localhost, synthetic data): 67 entries (65 registered suites, the historical claude-review suite, and the offline/lazy probe): 651 checks passed, 0 failed, 0 not run. Not a CI run and not a phone test.
 
 ## CI / emulation / physical-device evidence
 Local desktop Chromium only (Playwright, localhost, synthetic data). No GitHub Actions run on this head yet, no native compile, no phone/tablet check.
