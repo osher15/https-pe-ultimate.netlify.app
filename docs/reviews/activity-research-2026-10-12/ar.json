@@ -1,0 +1,1984 @@
+{
+  "language": "ar",
+  "scope": "Follow-through on all 115 previously mapping-pending Arabic cards. The full saved card bodies are the supplied snapshot; five previously root-verified mappings were excluded. This is a source-term audit, not card approval. Relevant PDF sections were individually searched/read; selected pages were rendered for visual RTL/OCR verification. No Notion page was refetched.",
+  "source_catalog": [
+    {
+      "source_id": "palestine_grade5_pe_teacher_guide_2017",
+      "title": "دليل معلم التربية الرياضية للصف الخامس الأساسي",
+      "publisher": "Palestinian Ministry of Education and Higher Education; official Palestinian Educational Portal",
+      "version": "Experimental edition, 2017; adopted beginning academic year 2017/18 (cover and p. 2, as recorded in the supplied prior audit).",
+      "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+      "portal_url": "https://elearn.edu.ps/c5_guides/",
+      "access": "Official Grade 5 portal lists the PE teacher guide; direct PDF downloaded/supplied locally. The PDF has 144 content pages; page labels match printed numbers in inspected sections. PDF pages 14–34, 35–46, 47–58, 59–74, 75–88, 89–115, 116–128 and 129–141 were rendered as contact sheets and searched in the text layer. Key term pages 17, 20–24, 30, 37–39, 49–52, 62–65, 69, 77–80, 91–103, 105–108, 119–120, 124, 132, 137, 139–140 were read; selected pages including 21–24, 50–52, 91–92, 100–101, 108, 119–120, 132 and 139 were visually inspected. RTL OCR is imperfect; extracted text was cross-checked against rendered pages when terminology mattered.",
+      "sections": "Teaching methods pp. 9–11; PE objectives pp. 12–13; fitness/health pp. 14–34 (strength p. 17, flexibility pp. 18–19, walking pp. 20–22, climbing/jumping pp. 23–24, running/walking activities pp. 30–32); football pp. 35–46 (inside-foot pass p. 37, inside-foot shot and sole control pp. 38–39); basketball pp. 47–58 (chest pass p. 49, stationary/moving dribble p. 50, lay-up pp. 51–52, stationary shooting named p. 52); volleyball pp. 59–74 (overhead pass p. 62, forearm pass p. 63, underhand serve pp. 64–65; no spike/block technique found); handball pp. 75–88 (reception pp. 77–78, whip pass pp. 79–81, group passing games pp. 86–87); athletics pp. 89–103 (running form pp. 91–92, long-jump measurement pp. 94/99, relay activity p. 97, hurdle/jump activities pp. 100–103); gymnastics pp. 104–115 (rolls pp. 105–107, balance beam p. 108); table tennis pp. 116–128 (forehand p. 119, backhand p. 120, racket ball-bouncing while walking p. 124); badminton pp. 129–141 (footwork p. 132, lesson aims p. 135, beanbag toss/catch p. 137, lateral movement games and movement cues pp. 139–140).",
+      "limits": "A 2017 experimental Grade 5 teacher guide, not a current universal standard. Direct term matches support only the named skill or movement stated in the evidence; broader matches support only that movement family. Similarity does not validate a modified exercise/game. No age bands, equipment substitutions, custom rules, dimensions, times, repetitions, dosage, safety controls, adaptations or outcomes are certified. No medical treatment or dosage advice."
+    }
+  ],
+  "cards": [
+    {
+      "item_id": "DR-001",
+      "exact_card_term": "قدم الارتكاز وفتح خط التمرير",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 47–58, basketball unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic primary-source support was found here for “pivot foot” or this fixed-foot pivot drill; chest-pass context does not fill that gap.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide covers chest passing, dribbling and lay-ups; no pivot-foot term/rule was located. No Arabic primary-source support was found here for “pivot foot” or this fixed-foot pivot drill; chest-pass context does not fill that gap.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-004",
+      "exact_card_term": "تمريرة مرتدة إلى مستقبل ثابت",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 47–58, basketball unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic primary-source support was found for a basketball bounce pass or this one-bounce target height/placement.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide covers chest passing, dribbling and lay-ups; no bounce-pass technique was located. No Arabic primary-source support was found for a basketball bounce pass or this one-bounce target height/placement.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-005",
+      "exact_card_term": "تبادل عصا التتابع مع الرؤية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 97 (relay activity) and pp. 98–99 (athletics games)",
+          "claim_supported": "The guide includes a relay activity in which a runner transfers a plastic hoop to the next runner.",
+          "claim_not_supported": "It is a running relay with a hoop; it does not prescribe a stationary, visual baton handover or this card’s grip/release cues.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes a relay activity in which a runner transfers a plastic hoop to the next runner. It is a running relay with a hoop; it does not prescribe a stationary, visual baton handover or this card’s grip/release cues.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-006",
+      "exact_card_term": "ثني المرفقين والدفع أمام الجدار",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 17, muscular strength and child exercise conditions",
+          "claim_supported": "The guide discusses muscle strength and calls for appropriate technique, preparation, equipment and safety when developing strength in children.",
+          "claim_not_supported": "It does not describe wall push-ups, this repetition range, breath timing, or the card’s shoulder/wrist stop criteria.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide discusses muscle strength and calls for appropriate technique, preparation, equipment and safety when developing strength in children. It does not describe wall push-ups, this repetition range, breath timing, or the card’s shoulder/wrist stop criteria.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-007",
+      "exact_card_term": "نقل الوزن ولمس علامة بالقدم",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 22–24, stair-climbing and balance activities",
+          "claim_supported": "The guide discusses balance during movement and supported stair-climbing activities.",
+          "claim_not_supported": "It does not describe a single-leg weight shift to touch a floor marker or this card’s support options and success count.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide discusses balance during movement and supported stair-climbing activities. It does not describe a single-leg weight shift to touch a floor marker or this card’s support options and success count.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-008",
+      "exact_card_term": "رمي منديل والتقاطه باليد المقابلة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 69, volleyball warm-up and “throw and catch” game",
+          "claim_supported": "The guide includes throwing a ball and catching it after movement or a teammate’s throw.",
+          "claim_not_supported": "The source uses balls, not a scarf; it does not specify opposite-hand catching, the card’s height, or its personal-space rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes throwing a ball and catching it after movement or a teammate’s throw. The source uses balls, not a scarf; it does not specify opposite-hand catching, the card’s height, or its personal-space rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-001",
+      "exact_card_term": "دحرجة الكرة إلى مناطق النقاط",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 35–46, football skills and small games",
+          "claim_supported": "No source claim is recorded for the exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source support found for this hand-rolling accuracy game, its target zones, point values or collection rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The section covers football passing, ball-running and kicking; no hand-rolled target-zone scoring game was located. No Arabic source support found for this hand-rolling accuracy game, its target zones, point values or collection rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-002",
+      "exact_card_term": "تمرير إلى منطقة النهاية دون احتكاك",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 86–87, handball passing games",
+          "claim_supported": "The guide presents small handball games that use passing among teammates.",
+          "claim_not_supported": "It does not support this end-zone objective, non-contact rule, boundary dimensions or scoring.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide presents small handball games that use passing among teammates. It does not support this end-zone objective, non-contact rule, boundary dimensions or scoring.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-001",
+      "exact_card_term": "ابتكار تسلسل حركي من ثماني عدات",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 10–11, teaching methods",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact support was located for inventing/evaluating an eight-count movement sequence.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide describes divergent discovery and student-selected levels, not an eight-count choreographic sequence. No exact support was located for inventing/evaluating an eight-count movement sequence.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-002",
+      "exact_card_term": "مختبر التغذية الراجعة: لاحظ وصف وأعد المحاولة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 10, reciprocal and self-check teaching methods",
+          "claim_supported": "The guide describes paired performer/observer practice, observation against a task list, feedback and role exchange.",
+          "claim_not_supported": "It does not validate this card’s prompt wording, observation rubric, time plan or learning outcome.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes paired performer/observer practice, observation against a task list, feedback and role exchange. It does not validate this card’s prompt wording, observation rubric, time plan or learning outcome.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-003",
+      "exact_card_term": "سلسلة التقاط فوق شبكة منخفضة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 60–64 and 69–72, volleyball passes, serving and ball games",
+          "claim_supported": "The guide covers overhead and forearm passes and ball games in a volleyball unit.",
+          "claim_not_supported": "It does not establish this low-net catching sequence, one-bounce rule, group rotations or scoring.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide covers overhead and forearm passes and ball games in a volleyball unit. It does not establish this low-net catching sequence, one-bounce rule, group rotations or scoring.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-004",
+      "exact_card_term": "ثلاثة ممررين أمام معترض المسارات",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 79–87, handball receiving/passing and small games",
+          "claim_supported": "The guide describes handball catching, passing and passing games.",
+          "claim_not_supported": "It does not describe this three-passer/interceptor setup, lane boundaries, or the card’s scoring and role rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes handball catching, passing and passing games. It does not describe this three-passer/interceptor setup, lane boundaries, or the card’s scoring and role rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-011",
+      "exact_card_term": "تنسيق الذراع والرجل المقابلة في المكان",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 22, stair-climbing technique",
+          "claim_supported": "The guide pairs arm swing with the opposite leg during step-up movement to support balance.",
+          "claim_not_supported": "The card is a stationary coordination drill; it does not reproduce the guide’s stair-climbing task.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide pairs arm swing with the opposite leg during step-up movement to support balance. The card is a stationary coordination drill; it does not reproduce the guide’s stair-climbing task.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-012",
+      "exact_card_term": "المشي على خط والكعب أمام الأصابع",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 21, suggested walking activities",
+          "claim_supported": "The guide names walking on straight, curved and field lines.",
+          "claim_not_supported": "It does not specify tandem heel-to-toe placement, a 3 m corridor or the card’s accuracy criterion.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide names walking on straight, curved and field lines. It does not specify tandem heel-to-toe placement, a 3 m corridor or the card’s accuracy criterion.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-013",
+      "exact_card_term": "إزلاق اليد للأمام من الارتكاز الرباعي",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 14–34, fitness/health unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No matching Arabic technique source was found for this quadruped shoulder-mobility drill.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The reviewed unit covers walking, climbing, strength and flexibility; no quadruped arm-slide drill was located. No matching Arabic technique source was found for this quadruped shoulder-mobility drill.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-014",
+      "exact_card_term": "رفع الكعبين والنزول بتحكم",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 23, stair-climbing activity",
+          "claim_supported": "The guide mentions climbing stairs on the balls of the feet.",
+          "claim_not_supported": "This is not a controlled standing heel-raise/lower repetition, and it does not substantiate the card’s balance or dose.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide mentions climbing stairs on the balls of the feet. This is not a controlled standing heel-raise/lower repetition, and it does not substantiate the card’s balance or dose.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-015",
+      "exact_card_term": "موازنة كرة إسفنجية على مضرب أثناء المشي",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 124, table-tennis warm-up “bounce your balloon/ball”",
+          "claim_supported": "The guide describes bouncing a table-tennis ball on a racket while walking forward.",
+          "claim_not_supported": "The card balances a foam ball without bouncing; the source uses a different ball, pace and task.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes bouncing a table-tennis ball on a racket while walking forward. The card balances a foam ball without bouncing; the source uses a different ball, pace and task.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-016",
+      "exact_card_term": "تصويب كرة السلة من الثبات عن قرب دون وثب",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 52, basketball lesson prerequisites",
+          "claim_supported": "The Arabic source explicitly names shooting from a stationary position as prior knowledge in its lay-up lesson.",
+          "claim_not_supported": "It supports this core term only; the close-range/no-jump variant, target, repetitions and safety setup are card-specific.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "precise",
+      "observation": "Direct term match for stationary basketball shooting; the close-range/no-jump exercise version and its custom criteria remain unsupported by this source.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-003",
+      "exact_card_term": "استقصاء الدقة والمسافة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 94 and p. 99, long-jump measurement activities",
+          "claim_supported": "The athletics unit measures jump distance and uses marked landing zones.",
+          "claim_not_supported": "It does not support this inquiry design comparing throw accuracy/distance or the card’s measurement procedure.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The athletics unit measures jump distance and uses marked landing zones. It does not support this inquiry design comparing throw accuracy/distance or the card’s measurement procedure.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-004",
+      "exact_card_term": "تصميم مسار حركة ميسر واختباره",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 10–11, differentiated and multilevel teaching; p. 13, Grade 5 objectives",
+          "claim_supported": "The guide describes tasks with multiple difficulty levels and selecting a level to suit learners.",
+          "claim_not_supported": "It does not describe designing and field-testing an accessible movement route or validate this card’s accessibility checks.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes tasks with multiple difficulty levels and selecting a level to suit learners. It does not describe designing and field-testing an accessible movement route or validate this card’s accessibility checks.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-017",
+      "exact_card_term": "رمي الكرة إلى الجدار والتقاط ارتدادها",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 69, ball-throwing and catching activities",
+          "claim_supported": "The guide includes throwing a ball and catching it after flight.",
+          "claim_not_supported": "It does not describe a wall rebound, bounce-count rule or the card’s space/safety dimensions.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes throwing a ball and catching it after flight. It does not describe a wall rebound, bounce-count rule or the card’s space/safety dimensions.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-018",
+      "exact_card_term": "تدوير الحبل ثم تخطيه بخطوة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 23–24, stair/jump and rope-climbing activities",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "Rope climbing/jumping is materially different from this jump-rope timing drill; no exact Arabic support found.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide describes stair jumps and climbing a suspended rope; it does not describe turning a rope for skipping. Rope climbing/jumping is materially different from this jump-rope timing drill; no exact Arabic support found.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-019",
+      "exact_card_term": "خطوات جانبية دون تقاطع القدمين",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "Palestinian Grade5 PE guide2017, PDF/printed page139, sequential activity specifying lateral movement without crossed feet; badminton context.",
+          "claim_supported": "The guide directly describes lateral footwork without crossing the feet.",
+          "claim_not_supported": "It supports the core movement term only; this card’s corridor, turn/return pattern, pace and adaptation are not in the source.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "precise",
+      "observation": "The guide directly describes lateral footwork without crossing the feet. It supports the core movement term only; this card’s corridor, turn/return pattern, pace and adaptation are not in the source.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-020",
+      "exact_card_term": "منديلان: إطلاق متعاقب والتقاط",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 69, ball-throwing and catching activities",
+          "claim_supported": "The guide includes repeated toss-and-catch practice.",
+          "claim_not_supported": "It uses balls and does not describe two-object alternating juggling, scarves or the card’s timing and adaptations.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes repeated toss-and-catch practice. It uses balls and does not describe two-object alternating juggling, scarves or the card’s timing and adaptations.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-021",
+      "exact_card_term": "دفع كرة بالمضرب عبر بوابة أرضية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 116–128 and 129–141, racket-sport units",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for this stick-and-ball gate-push technique.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide describes table-tennis/badminton racket skills; it does not include floor hockey/stick-ball pushing through a gate. No Arabic source match found for this stick-and-ball gate-push technique.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-022",
+      "exact_card_term": "خداع بالجسم وخروج دون كرة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 35–46, football skills and small games",
+          "claim_supported": "The football unit covers passing, ball-running and football games.",
+          "claim_not_supported": "No exact body-feint-without-ball cue or the card’s three-role cycle was located in this unit.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The football unit covers passing, ball-running and football games. No exact body-feint-without-ball cue or the card’s three-role cycle was located in this unit.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-023",
+      "exact_card_term": "إرجاع الحوض نحو الجدار",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 14–34, fitness/health unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for this hip-hinge movement or its cues.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit discusses general fitness and muscle strength; no hip-hinge-to-wall exercise was located. No exact source support found for this hip-hinge movement or its cues.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-024",
+      "exact_card_term": "إزلاق الكعب مستلقيًا مع ضبط الحوض",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 14–34, fitness/health unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for this exercise or its pelvic-stability cue.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit discusses general fitness; no supine heel-slide/pelvic-control drill was located. No exact source support found for this exercise or its pelvic-stability cue.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-005",
+      "exact_card_term": "مطاردة بالمشي مع تبادل الأدوار",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 21–22, suggested walking activities",
+          "claim_supported": "The guide lists walking activities in lines, different directions and walking contests.",
+          "claim_not_supported": "It does not describe this tag/chase game, contact, role exchange or stop rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide lists walking activities in lines, different directions and walking contests. It does not describe this tag/chase game, contact, role exchange or stop rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-006",
+      "exact_card_term": "تتابع تعاوني لتوزيع الأكياس",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 97, athletics relay activity",
+          "claim_supported": "The guide includes a relay in which runners pass a plastic hoop.",
+          "claim_not_supported": "The card is a walking cooperative bag-distribution task; the relay mechanics, bag allocation and equal-time rules are different.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes a relay in which runners pass a plastic hoop. The card is a walking cooperative bag-distribution task; the relay mechanics, bag allocation and equal-time rules are different.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-005",
+      "exact_card_term": "مختبر التحكيم: الحد والقرار واستئناف اللعب",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 35–141, sport units/rules and small games",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source support located for the card’s arbitration protocol, restart choice, role rotation or conflict safeguards.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide includes sport rules and games, but no boundary/decision/restart simulation matching this activity. No source support located for the card’s arbitration protocol, restart choice, role rotation or conflict safeguards.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-006",
+      "exact_card_term": "تنقل بالمشي وفق خريطة ورموز",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 9–13, teaching methods and PE objectives",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for navigating a route by map symbols.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The general methods/objectives contain no map-and-symbol walking activity. No Arabic source match found for navigating a route by map symbols.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-026",
+      "exact_card_term": "حماية الكرة بوضع الجسم دون احتكاك",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 35–46, football unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for this body-position ball-protection technique.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The football unit covers passing, ball-running, shooting and sole control; no body-shielding/no-contact drill was located. No exact source support found for this body-position ball-protection technique.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-027",
+      "exact_card_term": "رفع الريشة بالمضرب ثم التقاطها",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 129–130, badminton unit aims and methods",
+          "claim_supported": "The guide names racket/shuttle familiarization through games and competitions.",
+          "claim_not_supported": "It does not describe lifting a shuttle with a racket and catching it by hand or the card’s hit count and safety controls.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide names racket/shuttle familiarization through games and competitions. It does not describe lifting a shuttle with a racket and catching it by hand or the card’s hit count and safety controls.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-028",
+      "exact_card_term": "ضربة أمامية في تنس الطاولة بعد إسقاط ذاتي",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 119, table tennis forehand stroke",
+          "claim_supported": "The guide directly names and describes the forehand-side table-tennis stroke.",
+          "claim_not_supported": "It does not validate the self-drop feed, foam/ball variant, target, repetitions or card safety controls.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "precise",
+      "observation": "The guide directly names and describes the forehand-side table-tennis stroke. It does not validate the self-drop feed, foam/ball variant, target, repetitions or card safety controls.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-029",
+      "exact_card_term": "خطوتا إنهاء الاقتراب للضرب الساحق دون وثب",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 59–74, volleyball unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic primary-source match found for the spike approach or this no-jump preparatory version.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit describes overhead/forearm passes and underhand serving; no spike/smash approach technique was located. No Arabic primary-source match found for the spike approach or this no-jump preparatory version.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-030",
+      "exact_card_term": "دحرجة طوق قائم في ممر فردي",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 9–13, teaching methods and PE objectives",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source match found for this hoop-control technique or its lane design.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "No upright hoop-rolling corridor drill was located in the guide. No source match found for this hoop-control technique or its lane design.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-031",
+      "exact_card_term": "وثبة واحدة بالقدمين عبر الحبل",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 23 and p. 113, two-foot jumping activities",
+          "claim_supported": "The guide includes jumping from stairs with both feet and a two-foot “rabbit jump.”",
+          "claim_not_supported": "It does not describe a single two-foot jump over a rope or the card’s landing/spacing setup.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes jumping from stairs with both feet and a two-foot “rabbit jump.” It does not describe a single two-foot jump over a rope or the card’s landing/spacing setup.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-014",
+      "exact_card_term": "تخطيط بطولة قصيرة بزمن لعب متساوٍ",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 12–13, PE objectives and participation in competitions",
+          "claim_supported": "The guide supports participation in school competitions and social learning.",
+          "claim_not_supported": "It does not prescribe designing a tournament or equalizing playing time, rounds, teams or schedule.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide supports participation in school competitions and social learning. It does not prescribe designing a tournament or equalizing playing time, rounds, teams or schedule.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-046",
+      "exact_card_term": "تمريرة حائط في كرة القدم واستلام الإعادة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 36–37, football inside-foot passing",
+          "claim_supported": "The guide names inside-foot passing and describes its basic execution.",
+          "claim_not_supported": "It does not prescribe a wall pass/rebound drill, spacing, target count or the card’s collection rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide names inside-foot passing and describes its basic execution. It does not prescribe a wall pass/rebound drill, spacing, target count or the card’s collection rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-045",
+      "exact_card_term": "تغيير الاتجاه بخارج القدم",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 35–46, football unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source support found for the outside-foot turn/change-direction modifier.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide names inside-foot passing/shooting, front-foot ball-running and sole control; it does not name an outside-foot direction-change technique. No Arabic source support found for the outside-foot turn/change-direction modifier.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-033",
+      "exact_card_term": "سحب الكرة بالنعل والدوران ربع دورة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 39, football, sole-of-foot ball control",
+          "claim_supported": "The guide names controlling/trapping the ball with the sole.",
+          "claim_not_supported": "It does not describe pulling the ball with the sole into a quarter-turn or this card’s stop cue and progression.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide names controlling/trapping the ball with the sole. It does not describe pulling the ball with the sole into a quarter-turn or this card’s stop cue and progression.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-068",
+      "exact_card_term": "ضربة علوية في الريشة من تغذية عالية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 129–141, badminton unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for this overhead badminton stroke or its feed.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit covers grip, ready stance, footwork, court and shuttle familiarization; no overhead stroke from a high feed was located. No exact source support found for this overhead badminton stroke or its feed.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-008",
+      "exact_card_term": "إعداد محطة تمرير وفحص جاهزيتها",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 9–13, teaching methods and PE objectives",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for the station setup/readiness checklist.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide covers lesson methods/objectives but no pass-station readiness inspection. No Arabic source match found for the station setup/readiness checklist.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-023",
+      "exact_card_term": "من يقود الحركة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 9–13, teaching methods",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source match found for the card’s leader role, movement pattern or switching rule.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide covers teacher/student methods but no leader-led “follow the movement” game with this format. No source match found for the card’s leader role, movement pattern or switching rule.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-014",
+      "exact_card_term": "جمع البوابات بتمريرات قدم تعاونية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 36–37 and pp. 42–44, football passing and small games",
+          "claim_supported": "The guide includes inside-foot passing and small football games using learned skills.",
+          "claim_not_supported": "It does not describe collecting gates through cooperative passes or this card’s turn/scoring rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes inside-foot passing and small football games using learned skills. It does not describe collecting gates through cooperative passes or this card’s turn/scoring rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-016",
+      "exact_card_term": "ركلة وذهاب وعودة مقابل إعادة الكرة — مساران منفصلان",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 42–44, football ball-running games",
+          "claim_supported": "The guide includes football games involving running with the ball and changing play.",
+          "claim_not_supported": "It does not prescribe this separated kick-and-return game or its paired lane/turn rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes football games involving running with the ball and changing play. It does not prescribe this separated kick-and-return game or its paired lane/turn rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-011",
+      "exact_card_term": "إشارة وحركة — مشي أو ثبات",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 21, walking activities with signal-led direction changes",
+          "claim_supported": "The guide includes walking with a sudden direction change in response to a signal.",
+          "claim_not_supported": "It does not validate this card’s freeze/stay game, cue semantics or scoring.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes walking with a sudden direction change in response to a signal. It does not validate this card’s freeze/stay game, cue semantics or scoring.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-041",
+      "exact_card_term": "تغيير يد التنطيط أمام الجسم",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 50, basketball, dribbling while stationary and moving",
+          "claim_supported": "The guide directly covers stationary and moving dribbling.",
+          "claim_not_supported": "It does not name or describe a cross-body change of hand; this exact modifier and its four-transfer criterion remain unsupported.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide directly covers stationary and moving dribbling. It does not name or describe a cross-body change of hand; this exact modifier and its four-transfer criterion remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-022",
+      "exact_card_term": "لعبة عصي لينة بالمشي — تمرير نحو الهدف",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 116–141, table-tennis/badminton units",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for this stick-ball skill/game.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "Racket units do not teach a soft stick, floor-ball dribbling or target passing. No Arabic source match found for this stick-ball skill/game.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-017",
+      "exact_card_term": "الأقرب إلى العلامة — دقة وقرار",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 89–103, athletics unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact support found for this card’s marker game, score rule or decision objective.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit includes long-jump distance measurement, not a closest-to-marker precision/decision contest. No exact support found for this card’s marker game, score rule or decision objective.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-062",
+      "exact_card_term": "الاقتراب الدفاعي والتوقف أمام حامل الكرة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 47–58, basketball unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact Arabic source support found for this defensive approach/controlled stop.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The reviewed basketball chapter covers passes, dribbling and shooting; no defensive close-out-to-stop technique was located. No exact Arabic source support found for this defensive approach/controlled stop.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-010",
+      "exact_card_term": "دائرة الكرة الخفيفة — تسلسل يشارك فيه الجميع",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 69–71, volleyball toss/catch and group passing activities",
+          "claim_supported": "The guide includes ball-toss/catch activities in circles and group passing activities.",
+          "claim_not_supported": "It does not validate this specific continuous light-ball sequence, its equal-participation rule or stopping/rotation mechanics.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes ball-toss/catch activities in circles and group passing activities. It does not validate this specific continuous light-ball sequence, its equal-participation rule or stopping/rotation mechanics.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-080",
+      "exact_card_term": "رمي كيس قماشي من أسفل بقوس نحو هدف",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 137, badminton warm-up using a beanbag/shuttle",
+          "claim_supported": "The guide describes tossing a beanbag or shuttle to a partner and catching it.",
+          "claim_not_supported": "It does not prescribe a one-hand underhand arcing throw toward a target or validate this card’s distance, score or safety setup.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes tossing a beanbag or shuttle to a partner and catching it. It does not prescribe a one-hand underhand arcing throw toward a target or validate this card’s distance, score or safety setup.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-058",
+      "exact_card_term": "إطالة لطيفة لبطة الساق بدعم جدار",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 18–19, flexibility and flexibility development",
+          "claim_supported": "The guide discusses flexibility and exercises intended to develop it.",
+          "claim_not_supported": "It does not specify a calf stretch against a wall, hold duration, range or this card’s support arrangement.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide discusses flexibility and exercises intended to develop it. It does not specify a calf stretch against a wall, hold duration, range or this card’s support arrangement.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-010",
+      "exact_card_term": "مختبر وتيرة المشي الشخصية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 20–21 and pp. 30–32, walking and run/walk activities",
+          "claim_supported": "The guide describes proper walking and alternating running/walking activities.",
+          "claim_not_supported": "It does not set a self-selected walking pace, perceived-effort scale or this card’s measurement procedure.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes proper walking and alternating running/walking activities. It does not set a self-selected walking pace, perceived-effort scale or this card’s measurement procedure.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-074",
+      "exact_card_term": "حجلات قصيرة متتابعة على القدم نفسها",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 100–101, running and hurdle/jump activities",
+          "claim_supported": "The athletics unit includes running, hurdles and repeated jumping activities.",
+          "claim_not_supported": "It does not prescribe consecutive hops on the same foot, balance repetitions or this card’s rest rule.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The athletics unit includes running, hurdles and repeated jumping activities. It does not prescribe consecutive hops on the same foot, balance repetitions or this card’s rest rule.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-040",
+      "exact_card_term": "حركة ذراعي الجري من وقوف ثابت",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 91–92, running form",
+          "claim_supported": "The guide describes reciprocal coordination between arm and leg movement during running.",
+          "claim_not_supported": "The card rehearses arm action while stationary; the guide does not specify this standstill drill.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes reciprocal coordination between arm and leg movement during running. The card rehearses arm action while stationary; the guide does not specify this standstill drill.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-043",
+      "exact_card_term": "التقاط الكرة والتوقف على القدمين",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 77–78, handball ball reception",
+          "claim_supported": "The guide describes receiving/catching a ball and moving the body to absorb a forceful pass.",
+          "claim_not_supported": "It does not describe a basketball-style two-foot stop after a catch or validate the card’s stop/balance criteria.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes receiving/catching a ball and moving the body to absorb a forceful pass. It does not describe a basketball-style two-foot stop after a catch or validate the card’s stop/balance criteria.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-063",
+      "exact_card_term": "دحرجة الكرة جانبيًا بأسفل القدم إلى القدم الأخرى",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 39, football, sole-of-foot ball control",
+          "claim_supported": "The guide describes contacting/control of a football with the sole.",
+          "claim_not_supported": "It does not describe a lateral sole roll from one foot to the other; the direction, changeover and criteria are card-specific.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes contacting/control of a football with the sole. It does not describe a lateral sole roll from one foot to the other; the direction, changeover and criteria are card-specific.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-037",
+      "exact_card_term": "نقل الكرة بين اليدين حول الخصر",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 47–58 and pp. 75–88, ball-skill units",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for this coordination drill.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "No around-the-waist hand-to-hand ball transfer drill was located in the basketball or handball units. No Arabic source match found for this coordination drill.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-077",
+      "exact_card_term": "اندفاع جانبي قصير والعودة إلى الوسط",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 132, badminton footwork; lateral lunge",
+          "claim_supported": "The guide describes lateral footwork and lunge movements.",
+          "claim_not_supported": "It does not prescribe this short lunge-and-return sequence, repetition count or wall/space arrangement.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes lateral footwork and lunge movements. It does not prescribe this short lunge-and-return sequence, repetition count or wall/space arrangement.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-070",
+      "exact_card_term": "رمي قرص طائر لين بظهر اليد",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 129–141, badminton unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic primary-source support found for a flying-disc backhand or its release cue.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide covers shuttle/racket skills but not a flying-disc backhand throw. No Arabic primary-source support found for a flying-disc backhand or its release cue.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-060",
+      "exact_card_term": "تبادل كرتين بالدحرجة المتزامنة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 35–141, sport skill units",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for paired simultaneous rolling or its coordination rule.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "No synchronized two-ball floor-rolling drill was located. No exact source support found for paired simultaneous rolling or its coordination rule.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-065",
+      "exact_card_term": "تصويب كرة اليد بقفزة صغيرة بعد خطوة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 75–88, handball unit skills",
+          "claim_supported": "The guide’s listed and illustrated handball skills in this unit include receiving, dribbling and the whip pass; no jump shot was found.",
+          "claim_not_supported": "It does not support a jump shot, step timing, shooting target or the card’s landing/dose rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide’s listed and illustrated handball skills in this unit include receiving, dribbling and the whip pass; no jump shot was found. It does not support a jump shot, step timing, shooting target or the card’s landing/dose rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-059",
+      "exact_card_term": "ارتداد أرضي وتصفيقة والتقاط",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 69, toss-and-catch warm-up activities",
+          "claim_supported": "The guide includes tossing a ball and catching it after flight.",
+          "claim_not_supported": "It does not describe a ground bounce followed by a clap, rebound timing or this card’s one-bounce rule.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes tossing a ball and catching it after flight. It does not describe a ground bounce followed by a clap, rebound timing or this card’s one-bounce rule.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-036",
+      "exact_card_term": "تمريرة من فوق الرأس باليدين",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 55, basketball passing activities; pp. 70–72, volleyball overhead passing",
+          "claim_supported": "The guide includes overhead ball passing activities and the overhead volleyball pass.",
+          "claim_not_supported": "It does not validate this exact two-handed throw-and-catch exercise, measured distance or card-specific repetitions.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes overhead ball passing activities and the overhead volleyball pass. It does not validate this exact two-handed throw-and-catch exercise, measured distance or card-specific repetitions.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-054",
+      "exact_card_term": "تدحرج الجسم جانبيًا على بساط",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "Palestinian Grade5 PE guide2017, PDF/printed page107, lower heading and body for the straight-body lateral roll; pages105–106 cover other rolls.",
+          "claim_supported": "The guide directly names and teaches a lateral gymnastics roll.",
+          "claim_not_supported": "The guide’s technique is not a certification of this card’s surface, progression, range, stopping rules or adaptations.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "precise",
+      "observation": "The guide directly names and teaches a lateral gymnastics roll. The guide’s technique is not a certification of this card’s surface, progression, range, stopping rules or adaptations.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-015",
+      "exact_card_term": "توجيه كرة جماعيًا على قطعة قماش",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 9–13, teaching methods/objectives",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source support found for this cloth-supported cooperative game or its movement rules.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide has broad participation objectives but no team ball-control-on-cloth activity. No source support found for this cloth-supported cooperative game or its movement rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-009",
+      "exact_card_term": "ثلاثة في صف مع الحركة والقرار الجماعي",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 9–13, teaching methods/objectives",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source match found for its placement, movement, turn and group-decision mechanics.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide has general PE and group-learning objectives but no three-in-a-row movement/decision game. No source match found for its placement, movement, turn and group-decision mechanics.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-053",
+      "exact_card_term": "عدو إيقاعي أمامي بقدم قائدة ثابتة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 91–92, running technique",
+          "claim_supported": "The guide describes arm-leg coordination and short/quick running steps.",
+          "claim_not_supported": "It does not specify this fixed-lead, rhythm-marked run or validate its pass count and pacing.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes arm-leg coordination and short/quick running steps. It does not specify this fixed-lead, rhythm-marked run or validate its pass count and pacing.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-055",
+      "exact_card_term": "تحرك على الكفين والركبتين بمسار مبطن",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 104–115, gymnastics; pp. 14–34, fitness",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for the padded crawling track or its course criteria.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The gymnastics section includes rolls/balance, and fitness section includes general conditioning; neither describes a hands-and-knees crawl course. No exact source support found for the padded crawling track or its course criteria.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-051",
+      "exact_card_term": "قيادة الكرة بعصا لينة بين علامات",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 116–141, racket-sport units",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for the stick-control task or slalom markers.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide has racket sports but no soft-stick ball-driving skill. No Arabic source match found for the stick-control task or slalom markers.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-048",
+      "exact_card_term": "التقاط وثلاث خطوات ثم تمرير",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 77–80, handball receiving and whip pass",
+          "claim_supported": "The guide describes catching/receiving and passing from a running or stationary position.",
+          "claim_not_supported": "No three-step allowance/rule or this card’s three-step sequence was located in the guide; that count is unsupported here.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes catching/receiving and passing from a running or stationary position. No three-step allowance/rule or this card’s three-step sequence was located in the guide; that count is unsupported here.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-079",
+      "exact_card_term": "ارتكاز جانبي قصير على الساعد والركبتين",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 14–34, fitness/health unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for the isometric side-support exercise or its dose.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit discusses strength and flexibility generally but no side plank on forearm/knees. No exact source support found for the isometric side-support exercise or its dose.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-073",
+      "exact_card_term": "خطوات اقتراب ثم ارتقاء بقدم وهبوط على القدمين",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 102–103, long jump approach/take-off sequence",
+          "claim_supported": "The guide describes a run-up and take-off sequence for a long jump.",
+          "claim_not_supported": "It does not prescribe this short approach drill or the card’s one-foot take-off/two-foot landing combination as a separate exercise.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes a run-up and take-off sequence for a long jump. It does not prescribe this short approach drill or the card’s one-foot take-off/two-foot landing combination as a separate exercise.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-020",
+      "exact_card_term": "نقل الأعلام بالمشي بين قاعدتين",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 22, walking with an object carried on the head; directions",
+          "claim_supported": "The guide includes walking with a carried object and walking forward/back/sideways.",
+          "claim_not_supported": "It does not describe carrying flags between bases, team roles or the card’s lane and scoring rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes walking with a carried object and walking forward/back/sideways. It does not describe carrying flags between bases, team roles or the card’s lane and scoring rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-064",
+      "exact_card_term": "امتصاص الكرة بالفخذ بعد رمية ذاتية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 35–46, football unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for thigh ball control after a self-toss.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The football unit includes foot-based ball control (including sole trapping); no thigh-trap technique was located. No Arabic source match found for thigh ball control after a self-toss.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-067",
+      "exact_card_term": "ارتقاء عمودي للصد دون شبكة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 59–74, volleyball unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source support found for the block action or this no-net vertical-jump drill.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide covers passes and underhand serve; no volleyball block/vertical block jump was located. No Arabic source support found for the block action or this no-net vertical-jump drill.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-018",
+      "exact_card_term": "كرة قدم بالمشي مع اختيار بوابتين",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 36–37 and pp. 42–44, football passing and ball-running",
+          "claim_supported": "The guide includes football passing and games using learned ball-running skills.",
+          "claim_not_supported": "It does not describe this walking-only two-gate game, its choice rule or cooperative scoring.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes football passing and games using learned ball-running skills. It does not describe this walking-only two-gate game, its choice rule or cooperative scoring.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-019",
+      "exact_card_term": "سلسلة حركات متنامية — نتذكر معًا",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 9–13, teaching methods/objectives",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source match found for the memory sequence, adding movements or recall rules.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide’s general objectives do not include a cumulative movement-memory sequence game. No source match found for the memory sequence, adding movements or recall rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-035",
+      "exact_card_term": "إرسال علوي من الثبات إلى مساحة خالية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 59–74, volleyball unit; pp. 64–65, underhand serve",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "The card’s overhead serve is a distinct technique; no Arabic primary-source support found for that modifier.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The source describes an underhand serve only in the inspected serve section; no overhead-serve technique was located. The card’s overhead serve is a distinct technique; no Arabic primary-source support found for that modifier.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-061",
+      "exact_card_term": "التقاط عالٍ بقفزة صغيرة — تمهيد للمتابعة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 69 (throw/catch) and pp. 100–101 (jump/hurdle activities)",
+          "claim_supported": "The guide separately includes ball throwing/catching and running/jumping activities.",
+          "claim_not_supported": "It does not combine them as this high-catch-with-small-jump progression or validate this card’s height, dose or safety.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide separately includes ball throwing/catching and running/jumping activities. It does not combine them as this high-catch-with-small-jump progression or validate this card’s height, dose or safety.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-008",
+      "exact_card_term": "لعبة أزواج الرموز بالحركة التعاونية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 9–13, teaching methods/objectives",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source support found for the symbol-matching movement mechanic or its cooperative rules.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "No movement game using symbol pairs was located. No source support found for the symbol-matching movement mechanic or its cooperative rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-012",
+      "exact_card_term": "إسقاط أهداف لينة بتمرير القدم جماعيًا",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 36–37, football inside-foot passing",
+          "claim_supported": "The guide names and describes passing with the inside of the foot.",
+          "claim_not_supported": "It does not validate a cooperative soft-target game, target sizes/counts or collection rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide names and describes passing with the inside of the foot. It does not validate a cooperative soft-target game, target sizes/counts or collection rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-044",
+      "exact_card_term": "التصويبة السلمية بخطوة واحدة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 51–52, basketball lay-up technique and lesson",
+          "claim_supported": "The guide describes a lay-up with approach step, take-off, knee lift and a one-hand shot.",
+          "claim_not_supported": "The card is a one-step preparatory drill with a small jump; the guide’s full lay-up sequence is not a validation of this simplification or the card dose/safety.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes a lay-up with approach step, take-off, knee lift and a one-hand shot. The card is a one-step preparatory drill with a small jump; the guide’s full lay-up sequence is not a validation of this simplification or the card dose/safety.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-007",
+      "exact_card_term": "حماية الخط بدحرجة الكرة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 35–46, football unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for the card’s line-protection objective or roll/return rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit covers football ball-running/passing/sole control but no “protect the line” ball-rolling game. No exact source support found for the card’s line-protection objective or roll/return rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-050",
+      "exact_card_term": "ضربة خلفية باليدين بعد ارتداد الكرة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 120, table tennis, backhand stroke",
+          "claim_supported": "The guide directly describes the backhand-side table-tennis stroke.",
+          "claim_not_supported": "It does not prescribe the card’s two-handed execution, self/partner bounce feed or its five-repetition criterion.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide directly describes the backhand-side table-tennis stroke. It does not prescribe the card’s two-handed execution, self/partner bounce feed or its five-repetition criterion.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-047",
+      "exact_card_term": "تمريرة كتف بيد واحدة في كرة اليد",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 79–80, handball whip pass from stationary or running position",
+          "claim_supported": "The guide describes a one-arm whip pass prepared near shoulder level.",
+          "claim_not_supported": "It does not use the card’s exact “shoulder pass” term or validate the sponge-ball variant, scoring, range or safety cues.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes a one-arm whip pass prepared near shoulder level. It does not use the card’s exact “shoulder pass” term or validate the sponge-ball variant, scoring, range or safety cues.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-039",
+      "exact_card_term": "المشي فوق عوائق لينة منخفضة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 21, walking activities; pp. 100–101, running/hurdle activities",
+          "claim_supported": "No source claim is recorded for the exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for the specific walk-over-obstacle movement or its card setup.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide includes walking between cones and running/jumping hurdles, but not walking over low soft obstacles. No Arabic source match found for the specific walk-over-obstacle movement or its card setup.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-078",
+      "exact_card_term": "رفع الرجل في الاستلقاء الجانبي مع ثبات الحوض",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 14–34, fitness/health unit",
+          "claim_supported": "No source claim is recorded for the exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source support found for this exercise or its stabilization cue.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit covers general strength and flexibility but no side-lying leg raise with pelvic stabilization. No Arabic source support found for this exercise or its stabilization cue.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-049",
+      "exact_card_term": "ضربة افتتاحية من أسفل بالريشة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 129–141, badminton unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for this low badminton serve.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide covers badminton grip, stance and footwork; no underhand serve/opening stroke technique was located. No Arabic source match found for this low badminton serve.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-024",
+      "exact_card_term": "رحلة كرة في قنوات — نوصل ونتقدم",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 86–87, handball group passing games",
+          "claim_supported": "The guide includes small group games using passes.",
+          "claim_not_supported": "It does not describe a cooperative ball-channel relay or the card’s lane-building and advancement rules.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes small group games using passes. It does not describe a cooperative ball-channel relay or the card’s lane-building and advancement rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-016",
+      "exact_card_term": "قيادة دقيقة حركة — تعليمات قصيرة واضحة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 10–11, student roles, reciprocal teaching and discovery methods",
+          "claim_supported": "The guide describes student participation in task execution, observation and teaching/learning decisions.",
+          "claim_not_supported": "It does not prescribe a student-led one-minute movement instruction activity or this clarity criterion.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes student participation in task execution, observation and teaching/learning decisions. It does not prescribe a student-led one-minute movement instruction activity or this clarity criterion.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-021",
+      "exact_card_term": "تصويب واختيار المخاطرة — نقاط جماعية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 51–52 and p. 55, basketball shooting/passing activities",
+          "claim_supported": "The guide includes lay-up, stationary shooting and basketball ball-skill activities.",
+          "claim_not_supported": "It does not support this group risk-choice scoring model, probability/strategy interpretation or custom point schedule.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes lay-up, stationary shooting and basketball ball-skill activities. It does not support this group risk-choice scoring model, probability/strategy interpretation or custom point schedule.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-052",
+      "exact_card_term": "صد خلفي في تنس الطاولة من تغذية لطيفة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 120, table-tennis backhand stroke",
+          "claim_supported": "The guide describes a backhand-side table-tennis stroke.",
+          "claim_not_supported": "It does not name or describe a backhand block/defensive receive, the soft feed, or the card’s accuracy criterion.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes a backhand-side table-tennis stroke. It does not name or describe a backhand block/defensive receive, the soft feed, or the card’s accuracy criterion.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-013",
+      "exact_card_term": "خريطة المشاركة — من تصله الكرة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 12–13, PE participation and social-development objectives",
+          "claim_supported": "The guide states broad goals for participation in sport and social development through movement.",
+          "claim_not_supported": "It does not describe mapping who receives a ball or validate this card’s sampling method and interpretation.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide states broad goals for participation in sport and social development through movement. It does not describe mapping who receives a ball or validate this card’s sampling method and interpretation.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-011",
+      "exact_card_term": "مختبر الأدوات — مقارنة كرتين في التمرير",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 47–58 and 116–128, basketball/table-tennis units",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source support found for the card’s ball-property comparison or inference method.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The units describe ball/racket skills but no structured comparison of two balls for passing. No source support found for the card’s ball-property comparison or inference method.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-015",
+      "exact_card_term": "مختبر التوقيت — عبور واحد وقياسان",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 89–103, athletics unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source match found for the card’s timing comparison or measurement protocol.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide measures long-jump distance but no single-crossing two-measure timing experiment. No source match found for the card’s timing comparison or measurement protocol.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-057",
+      "exact_card_term": "مد الركبة بتحكم من الجلوس",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 14–34, fitness/health unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for this seated knee-extension technique or dose.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit discusses fitness and strength generally but no controlled seated knee-extension exercise. No exact source support found for this seated knee-extension technique or dose.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-056",
+      "exact_card_term": "رفع صغير للحوض من الاستلقاء",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 14–34, fitness/health unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for the bridge movement, range, repetitions or cue.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit discusses fitness and strength generally but no supine pelvic-bridge exercise. No exact source support found for the bridge movement, range, repetitions or cue.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-042",
+      "exact_card_term": "التنطيط مع تراجع قصير بعد فحص المكان",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 50, basketball dribbling while stationary and moving",
+          "claim_supported": "The guide covers stationary and moving dribbling.",
+          "claim_not_supported": "It does not describe retreating while dribbling or a look-back cue; these card modifiers remain unsupported.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide covers stationary and moving dribbling. It does not describe retreating while dribbling or a look-back cue; these card modifiers remain unsupported.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-069",
+      "exact_card_term": "ضربة أمامية طائرة بكرة إسفنجية",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 116–141, racket-sport units",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source match found for this volley technique or foam-ball variant.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide covers table-tennis forehand/backhand and badminton footwork; no forehand volley with a foam ball was located. No Arabic source match found for this volley technique or foam-ball variant.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-072",
+      "exact_card_term": "رمي رمح إسفنجي من الثبات",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 89–103, athletics unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic source support found for the javelin-type throwing action.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The inspected athletics unit covers running, hurdles and long jump; no javelin/foam-javelin throw was located. No Arabic source support found for the javelin-type throwing action.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-034",
+      "exact_card_term": "ركل بوجه القدم نحو مرمى دون حارس",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 36–39, football shooting and ball skills",
+          "claim_supported": "The guide names football shooting with the inside of the foot and football ball-control skills.",
+          "claim_not_supported": "The card names an instep/foot-face kick; the guide’s inside-foot shot is a different contact surface and does not validate this exact kick, target or setup.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide names football shooting with the inside of the foot and football ball-control skills. The card names an instep/foot-face kick; the guide’s inside-foot shot is a different contact surface and does not validate this exact kick, target or setup.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-076",
+      "exact_card_term": "ثني الركبتين في وقفة متباعدة أمامًا وخلفًا مع دعم",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 14–34, fitness/health unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact source support found for this stance, knee-flexion movement or support arrangement.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit discusses muscle strength and fitness generally; no supported split-stance knee bend was located. No exact source support found for this stance, knee-flexion movement or support arrangement.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-066",
+      "exact_card_term": "ضرب الكرة الطائرة من الثبات نحو الأرض",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 59–74, volleyball unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic primary-source support found for the attack-hit mechanic or floor-target variant.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit covers overhead/forearm passing and underhand serving; no downward attack/spike hit was located. No Arabic primary-source support found for the attack-hit mechanic or floor-target variant.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-012",
+      "exact_card_term": "ورشة حل خلاف في موقف رياضي",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 12–13, self-control, responsibility and participation objectives",
+          "claim_supported": "The guide names self-control and positive social development/participation as PE goals.",
+          "claim_not_supported": "It does not prescribe the card’s conflict-resolution scenario, dialogue protocol, consent choices or debrief.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide names self-control and positive social development/participation as PE goals. It does not prescribe the card’s conflict-resolution scenario, dialogue protocol, consent choices or debrief.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-007",
+      "exact_card_term": "تقدير المسافة بالخطوات والقياس",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 94 and 99, athletics distance measurement",
+          "claim_supported": "The guide describes measuring long-jump distance and marked landing zones.",
+          "claim_not_supported": "It does not support estimating distance by step count or calculating average step length as in this card.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide describes measuring long-jump distance and marked landing zones. It does not support estimating distance by step count or calculating average step length as in this card.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-071",
+      "exact_card_term": "دفع كرة إسفنجية بيد واحدة من الكتف",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 89–103, athletics unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No source match found for a one-handed shoulder push throw, even in the foam-ball version.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The inspected athletics unit describes running, hurdles and long jump; no shot-put/push-throw technique was located. No source match found for a one-handed shoulder push throw, even in the foam-ball version.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-038",
+      "exact_card_term": "خطوة ثم حجلة بالتبادل",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 100–101, running and jumping/hurdle tasks",
+          "claim_supported": "The guide includes running and jumping over hurdles.",
+          "claim_not_supported": "It does not describe alternating step-hop on the same foot/other foot or the card’s rhythm, lane and repetition rules.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes running and jumping over hurdles. It does not describe alternating step-hop on the same foot/other foot or the card’s rhythm, lane and repetition rules.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-032",
+      "exact_card_term": "إيقاف كرة متدحرجة بعصا لعب لينة",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 116–141, racket-sport units",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No Arabic primary-source match found for stopping a rolling ball with a soft playing stick.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The guide contains racket sports, but no soft-stick ball stop/control technique. No Arabic primary-source match found for stopping a rolling ball with a soft playing stick.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "DR-075",
+      "exact_card_term": "جري خفيف بإيقاع خطوات منتظم بين العلامات",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 30–32 and pp. 91–92, run/walk activity and running form",
+          "claim_supported": "The guide includes alternating running and walking, and basic running form.",
+          "claim_not_supported": "It does not specify marker spacing for cadence, forced stride prevention, the card’s three crossings or its adaptations.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide includes alternating running and walking, and basic running form. It does not specify marker spacing for cadence, forced stride prevention, the card’s three crossings or its adaptations.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "GM-013",
+      "exact_card_term": "كرة مرتدة بالكفين — تسلسل ثنائي",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF pp. 59–74, volleyball unit",
+          "claim_supported": "No source claim is recorded for this exact card term; checked section was examined as a negative search and does not establish the technique.",
+          "claim_not_supported": "No exact Arabic source support found for palm-striking/bouncing or the card’s shared-score sequence.",
+          "access_type": "official direct PDF; relevant pages rendered and visually checked; extracted Arabic text used to locate passage"
+        }
+      ],
+      "status": "unsupported",
+      "observation": "The unit includes hand/forearm passes, but no cooperative palm-bounce sequence with these rally rules. No exact Arabic source support found for palm-striking/bouncing or the card’s shared-score sequence.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "item_id": "AC-009",
+      "exact_card_term": "ورشة إشارات متفق عليها للتمرير الآمن",
+      "evidence": [
+        {
+          "url": "https://elearnps.blob.core.windows.net/public/TeacherGuides/Dal5/DaleelSport05.pdf",
+          "section": "PDF p. 10, reciprocal feedback method; pp. 79–80, handball receiving/pass readiness",
+          "claim_supported": "The guide supports paired observation/feedback; the handball section warns against throwing without alerting a teammate.",
+          "claim_not_supported": "It does not define this two-signal code, stop word, emergency convention, trial scoring or the card’s accessibility adaptations.",
+          "access_type": "official direct PDF; relevant page text read from supplied copy; Arabic text extraction checked"
+        }
+      ],
+      "status": "foundation_only",
+      "observation": "The guide supports paired observation/feedback; the handball section warns against throwing without alerting a teammate. It does not define this two-signal code, stop word, emergency convention, trial scoring or the card’s accessibility adaptations.",
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    }
+  ],
+  "summary": {
+    "mapping_pending_cards_reviewed": 115,
+    "precise": 4,
+    "foundation_only": 62,
+    "unsupported": 49,
+    "previously_verified_excluded": 5
+  },
+  "overall_pass": false,
+  "root_review_date": "2026-10-12 Asia/Jerusalem",
+  "report_language": "en"
+}

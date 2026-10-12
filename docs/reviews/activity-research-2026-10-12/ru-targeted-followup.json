@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-12",
+  "language": "ru",
+  "report_language": "en",
+  "reservation": 6117104013,
+  "scope": "Five remaining cards; saved full-body read/hash match, no live read or edit. Two narrow mappings, not full-card sign-off.",
+  "cards": [
+    {
+      "language": "ru",
+      "item_id": "DR-045",
+      "body_sha256": "ccf7f1896d531a5fd704657bf59c43ab214990b3b89e1df84a58cee814dce6b0",
+      "full_saved_body_read": true,
+      "live_read": false,
+      "status": "foundation_only",
+      "observation": "Existing external-instep versus outside-foot terminology question retained. This pass found no new directly retrieved RFU coaching section resolving that modifier; do not infer an error merely from differing wording.",
+      "evidence": [],
+      "unverified_source_leads": [],
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "language": "ru",
+      "item_id": "DR-048",
+      "body_sha256": "8804a72287896ba52c33c5f8a263455fa046ce1f578495f8a06c39ec80f54471",
+      "full_saved_body_read": true,
+      "live_read": false,
+      "status": "precise",
+      "observation": "Narrow Russian three-step vocabulary verified. The saved body explicitly calls this a teaching sequence, not an official-rule test. No wording edit justified; maximum is not mandatory exact count.",
+      "evidence": [
+        {
+          "url": "https://rushandball.ru/documents/get/163",
+          "section": "2026-04-20 Order345 version, PDF page39 (index38), Rule7.3; directly retrieved lines1328–1329",
+          "claim_supported": "Russian rule names a maximum of three steps with the ball after receiving it or catching after dribbling.",
+          "claim_not_supported": "Does not mandate exactly three steps on every play or approve the custom walking sequence, marker spacing or stop/pass pause.",
+          "access_type": "direct primary PDF text; current header checked because cached first response and federation link caption described an older 2023 version"
+        }
+      ],
+      "unverified_source_leads": [],
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "language": "ru",
+      "item_id": "DR-049",
+      "body_sha256": "cf2d42122bc76b89912ad87e0deeeb29363105628da9154b395a483ded8f403a",
+      "full_saved_body_read": true,
+      "live_read": false,
+      "status": "unsupported",
+      "observation": "Full saved body states an adapted initial underhand contact, explicitly not an official service test. Current federation listing is accessible without www, but school DOC extraction unsupported and linked former education-registry PDF redirected to unrelated casino HTML. Neither is retained as skill evidence. No rename to formal service justified.",
+      "evidence": [],
+      "unverified_source_leads": [
+        {
+          "url": "https://badm.ru/index.php?page_id=283",
+          "outcome": "Federation school listing retrieved; linked 2012 DOC not extractable."
+        },
+        {
+          "url": "https://fgosreestr.ru/uploads/files/f6b2f19337bb9e919c2af9338c8b9c0f.pdf",
+          "outcome": "Rejected: redirected to unrelated HTML rather than education PDF; no contents used."
+        }
+      ],
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "language": "ru",
+      "item_id": "DR-051",
+      "body_sha256": "5a4732873f39814d54d11cc5159fcc25a97a344220e4e9c5f85decb7bc9698d2",
+      "full_saved_body_read": true,
+      "live_read": false,
+      "status": "precise",
+      "observation": "Narrow soft-blade/dribbling-between-markers concept verified in Russian IFF material. Custom school adaptations remain draft; no source routine or dosage imported.",
+      "evidence": [
+        {
+          "url": "https://archive.floorball.sport/cloudfront/2018/08/Start-up-kit_Russian.pdf",
+          "section": "PDF page6 (index5), Крюк; PDF page13 (index12), Exercise1D",
+          "claim_supported": "Russian IFF beginner guide identifies soft blades for ball dribbling and expressly names dribbling through training cones.",
+          "claim_not_supported": "Card uses a foam ball, flat marks, walking and no shots. Its ages, spacing, counts and adapted safety remain authored; equipment is not inferred interchangeable with regulation floorball gear.",
+          "access_type": "direct primary PDF text; 32-page Russian beginner guide, historic teaching material, not a current rules certificate"
+        }
+      ],
+      "unverified_source_leads": [],
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    },
+    {
+      "language": "ru",
+      "item_id": "DR-052",
+      "body_sha256": "a1e50d32acbe1e5047d93064f38ab416b9aa10073b690ce57bdf9af09d136a69",
+      "full_saved_body_read": true,
+      "live_read": false,
+      "status": "unsupported",
+      "observation": "Federation-hosted 2013 training collection search excerpt names block/подставка on the left. Both old.ttfr.ru and ttfr.ru PDF opens failed. Retain indexed lead only: handedness/closed face and the hand-toss adaptation remain unverified; no automatic replacement with left-side wording.",
+      "evidence": [],
+      "unverified_source_leads": [
+        {
+          "url": "https://old.ttfr.ru/docum/2013/metod_sbornik_1.pdf",
+          "outcome": "Indexed section contains block/подставка left vocabulary; direct PDF fetch failed on old and current host."
+        }
+      ],
+      "teacher_native_review": "pending",
+      "overall_pass": false
+    }
+  ],
+  "mapped_before": 95,
+  "mapped_after": 97,
+  "precise_gaps_before": 385,
+  "precise_gaps_after": 383,
+  "visual_evidence": "Screenshot retrieval attempted; no independent local PDF render receipt retained, so textual sections are the acceptance evidence.",
+  "source_access_warning": "Federation link caption and initial cached handball PDF were older; current 210-page text header identifies April2026 version. Only its Rule7.3 used. Former fgosreestr education PDF redirect rejected."
+}
