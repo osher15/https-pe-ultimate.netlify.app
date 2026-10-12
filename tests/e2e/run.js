@@ -69,7 +69,8 @@ const suites=[
   require("./demolang.e2e.js"),
   require("./lessonmode.e2e.js"),
   require("./pfracing.e2e.js"),
-  require("./pfheats.e2e.js")
+  require("./pfheats.e2e.js"),
+  require("./wipeall.e2e.js")
 ];
 run(suites).then(fail=>{
   if(fail)return process.exit(1);

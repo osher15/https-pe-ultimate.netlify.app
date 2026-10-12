@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="7c1ad997">
+<meta name="hm-build" content="d695c1a7">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -3838,6 +3838,9 @@ body.pf-racing[data-mod="photo"] .nav{display:none}
     </div>
     <div class="hint" id="set-bkStat" style="margin-top:8px"></div>
     <div class="hint hmn-only" data-i18n="bk.native" style="margin-top:6px">באפליקציה, «גבה הכל לקובץ» פותח את גיליון השיתוף: משם שומרים את הקובץ ב-Files, ב-Google Drive או במייל.</div>
+    <div class="hint hmn-only" data-i18n="wipe.googleBackup" style="margin-top:6px">באנדרואיד, אם הגיבוי של גוגל מופעל בהגדרות הטלפון, גוגל עשויה לשמור עותק של נתוני האפליקציה בחשבון שלך. את זה אתה שולט בו: הגדרות אנדרואיד ← Google ← גיבוי. קובץ גיבוי שנוצר כאן נפרד ובשליטתך.</div>
+    <div class="row" style="margin-top:12px"><button class="btn sm stop" id="set-wipeAll" data-i18n="wipe.btn">🗑 מחק את כל הנתונים מהמכשיר…</button></div>
+    <div class="hint" style="margin-top:4px" data-i18n="wipe.hint">מוחק כיתות, תלמידים, מדידות, ציונים, שיעורים, הגדרות וסרטונים מהמכשיר הזה בלבד. לפני כן תוצע יצירת קובץ גיבוי. קבצי גיבוי ששמרת מחוץ לאפליקציה לא נמחקים, וגם לא פרטי קשר שנשלחו בטופס.</div>
     <details class="bk-howto" style="margin-top:8px"><summary data-i18n="bk.howT">איך משחזרים במכשיר חדש?</summary>
       <ol class="hint" style="margin:6px 0 0;padding-inline-start:20px">
         <li data-i18n="bk.how1">פותחים את PE Ultimate במכשיר החדש ונכנסים כמורה.</li>
@@ -4248,6 +4251,12 @@ function writeSnap(){
   return call("Filesystem","writeFile",{path:SNAP_FILE,data:body,directory:SNAP_DIR,encoding:"utf8",recursive:true})
     .catch(function(e){ dirty=true; try{ console.warn("[HMN] snapshot",e); }catch(x){} });
 }
+/* מחיקת כל הנתונים: עוצרים את הכתיבה של העותק ומוחקים אותו, אחרת הוא היה משחזר את הנתונים בהפעלה הבאה */
+function wipeSnap(){
+  mirrorReady=false; dirty=false; if(tm){ clearTimeout(tm); tm=null; }
+  if(!NATIVE)return Promise.resolve();
+  return call("Filesystem","deleteFile",{path:SNAP_FILE,directory:SNAP_DIR}).catch(function(){});
+}
 function markDirty(){
   dirty=true;
   if(mirrorReady&&!tm)tm=setTimeout(writeSnap,1500);
@@ -4349,7 +4358,7 @@ if(NATIVE){
 }
 
 window.HMN={native:NATIVE,platform:PLATFORM,site:SITE,saveFile:saveFile,postForm:postForm,
-  awake:awake,say:say,flush:writeSnap,_docWindow:docWindow};
+  awake:awake,say:say,flush:writeSnap,wipe:wipeSnap,_docWindow:docWindow};
 })();
 
 ;
@@ -14534,6 +14543,7 @@ en:{
   "pf.slit":"Slit width ·", "pf.minT":"Min. gap (s)",
   "pf.gunDist":"Microphone distance from the starter (m)",
   "pf.loadCls":"👥 Load class",
+  "wipe.googleBackup":"On Android, if Google Backup is on in your phone settings, Google may keep a copy of the app's data in your Google account. You control that in Android Settings → Google → Backup. A backup file made here is separate and under your control.","wipe.btn":"🗑 Delete all data from this device…","wipe.hint":"Deletes classes, students, measurements, grades, lessons, settings and videos from this device only. You are offered a backup file first. Backup files you saved outside the app are not deleted, and neither are contact details sent through the form.","wipe.noData":"There is no data to delete","wipe.title":"Delete all data from this device","wipe.msg1":"All classes, students, measurements, grades, lessons, settings and videos will be deleted from this device. This cannot be undone. Creating a backup file first is recommended.","wipe.backupOpt":"Create a backup file before deleting (recommended)","wipe.cont":"Continue","wipe.msg2b":"The backup was created. Make sure the file is saved somewhere safe (Files / Drive / computer) before you continue. After deleting, nothing can be restored without it.","wipe.msg2":"No backup was created. After deleting, nothing can be restored.","wipe.word":"delete","wipe.ok":"🗑 Delete everything",
   "pf.quickDist":"Heat distance (m)","pf.distOther":"other","pf.nextHeat":"⏭ Next heat · {0} runners left","pf.heatLoaded":"Heat loaded: {0} runners · {1} left","pf.heatSaved":"The previous heat was saved to the archive","pf.loadNote":"Choose who runs. More than 9 are loaded as heats — 9 lanes at a time, then «Next heat». You can load the same class again for another event.",
   "pf.paste":"📋 Paste list", "pf.editNames":"✎ Edit names",
   "pf.sanity":"✅ One-minute sanity check — before every race",
@@ -15403,6 +15413,7 @@ ar:{
   "pf.tStrip":"🎞 صورة النهاية", "pf.tRes":"🏁 النتائج",
   "pf.tLaps":"🔄 اللفّات",
   "pf.line":"موضع خط النهاية", "pf.loadCls":"👥 تحميل صف",
+  "wipe.googleBackup":"على أندرويد، إذا كان النسخ الاحتياطي من Google مفعّلًا في إعدادات الهاتف، فقد تحتفظ Google بنسخة من بيانات التطبيق في حسابك. أنت من يتحكم بذلك: إعدادات أندرويد ← Google ← النسخ الاحتياطي. ملف النسخ الاحتياطي الذي يُنشأ هنا منفصل وتحت سيطرتك.","wipe.btn":"🗑 حذف كل البيانات من الجهاز…","wipe.hint":"يحذف الصفوف والطلاب والقياسات والعلامات والدروس والإعدادات والفيديوهات من هذا الجهاز فقط. سيُعرض عليك إنشاء ملف نسخ احتياطي أولًا. ملفات النسخ الاحتياطي التي حفظتها خارج التطبيق لا تُحذف، ولا بيانات التواصل المرسلة عبر النموذج.","wipe.noData":"لا توجد بيانات للحذف","wipe.title":"حذف كل البيانات من الجهاز","wipe.msg1":"سيتم حذف كل الصفوف والطلاب والقياسات والعلامات والدروس والإعدادات والفيديوهات من هذا الجهاز. لا يمكن التراجع. يُنصح بإنشاء ملف نسخ احتياطي أولًا.","wipe.backupOpt":"إنشاء ملف نسخ احتياطي قبل الحذف (موصى به)","wipe.cont":"متابعة","wipe.msg2b":"تم إنشاء النسخة الاحتياطية. تأكد من حفظ الملف في مكان آمن (Files / Drive / الحاسوب) قبل المتابعة. بعد الحذف لا يمكن الاستعادة بدونه.","wipe.msg2":"لم تُنشأ نسخة احتياطية. بعد الحذف لا يمكن الاستعادة.","wipe.word":"حذف","wipe.ok":"🗑 حذف كل شيء",
   "pf.quickDist":"مسافة السباق (م)","pf.distOther":"أخرى","pf.nextHeat":"⏭ السباق التالي · بقي {0} متسابقين","pf.heatLoaded":"تم تحميل السباق: {0} متسابقين · بقي {1}","pf.heatSaved":"تم حفظ السباق السابق في الأرشيف","pf.loadNote":"اختر من يركض. أكثر من 9 يُحمَّلون على دفعات — 9 مسارات في كل مرة، ثم «السباق التالي». يمكنك تحميل الصف نفسه مرة أخرى لسباق آخر.",
   "pf.board":"النتائج الرسمية",
   "stu.tabList":"👥 طلابي", "stu.tabGrades":"📊 العلامات", "stu.title":"طلابي",
@@ -16295,6 +16306,7 @@ ru:{
   "pf.tLaps":"🔄 Круги",
   "pf.line":"Положение линии финиша", "pf.sens":"Чувствительность ·",
   "pf.loadCls":"👥 Загрузить класс",
+  "wipe.googleBackup":"На Android, если в настройках телефона включено резервное копирование Google, Google может хранить копию данных приложения в вашем аккаунте. Это вы контролируете: Настройки Android → Google → Резервное копирование. Файл резервной копии, созданный здесь, отдельный и под вашим контролем.","wipe.btn":"🗑 Удалить все данные с устройства…","wipe.hint":"Удаляет классы, учеников, измерения, оценки, уроки, настройки и видео только с этого устройства. Сначала вам предложат создать файл резервной копии. Файлы резервных копий, сохранённые вне приложения, не удаляются, как и контакты, отправленные через форму.","wipe.noData":"Нет данных для удаления","wipe.title":"Удаление всех данных с устройства","wipe.msg1":"Все классы, ученики, измерения, оценки, уроки, настройки и видео будут удалены с этого устройства. Это нельзя отменить. Рекомендуем сначала создать файл резервной копии.","wipe.backupOpt":"Создать файл резервной копии перед удалением (рекомендуется)","wipe.cont":"Продолжить","wipe.msg2b":"Резервная копия создана. Убедитесь, что файл сохранён в надёжном месте (Files / Drive / компьютер), прежде чем продолжить. После удаления без него ничего не восстановить.","wipe.msg2":"Резервная копия не создавалась. После удаления восстановить ничего нельзя.","wipe.word":"удалить","wipe.ok":"🗑 Удалить всё",
   "pf.quickDist":"Дистанция забега (м)","pf.distOther":"другая","pf.nextHeat":"⏭ Следующий забег · осталось {0}","pf.heatLoaded":"Забег загружен: {0} бегунов · осталось {1}","pf.heatSaved":"Предыдущий забег сохранён в архив","pf.loadNote":"Выберите, кто бежит. Если больше 9, они загружаются забегами — по 9 дорожек, затем «Следующий забег». Тот же класс можно загрузить снова для другой дисциплины.",
   "pf.board":"Официальные результаты",
   "stu.tabList":"👥 Мои ученики", "stu.tabGrades":"📊 Оценки", "stu.title":"Мои ученики",
@@ -17201,6 +17213,7 @@ es:{
   "pf.minT":"Separación mín. (s)",
   "pf.gunDist":"Distancia del micrófono al juez de salida (m)",
   "pf.loadCls":"👥 Cargar grupo",
+  "wipe.googleBackup":"En Android, si la copia de seguridad de Google está activada en los ajustes del teléfono, Google puede guardar una copia de los datos de la app en tu cuenta. Eso lo controlas tú: Ajustes de Android → Google → Copia de seguridad. El archivo de copia creado aquí es independiente y está bajo tu control.","wipe.btn":"🗑 Eliminar todos los datos de este dispositivo…","wipe.hint":"Elimina grupos, alumnado, mediciones, notas, sesiones, ajustes y vídeos solo de este dispositivo. Antes se te ofrece crear un archivo de copia. Los archivos de copia que guardaste fuera de la app no se borran, ni tampoco los datos de contacto enviados por el formulario.","wipe.noData":"No hay datos que eliminar","wipe.title":"Eliminar todos los datos de este dispositivo","wipe.msg1":"Se eliminarán de este dispositivo todos los grupos, alumnado, mediciones, notas, sesiones, ajustes y vídeos. No se puede deshacer. Se recomienda crear antes un archivo de copia.","wipe.backupOpt":"Crear un archivo de copia antes de eliminar (recomendado)","wipe.cont":"Continuar","wipe.msg2b":"La copia se creó. Asegúrate de que el archivo esté guardado en un lugar seguro (Files / Drive / ordenador) antes de continuar. Tras eliminar, sin él no se puede restaurar nada.","wipe.msg2":"No se creó copia. Tras eliminar no se puede restaurar nada.","wipe.word":"eliminar","wipe.ok":"🗑 Eliminar todo",
   "pf.quickDist":"Distancia de la serie (m)","pf.distOther":"otra","pf.nextHeat":"⏭ Siguiente serie · quedan {0}","pf.heatLoaded":"Serie cargada: {0} corredores · quedan {1}","pf.heatSaved":"La serie anterior se guardó en el archivo","pf.loadNote":"Elige quién corre. Si son más de 9 se cargan por series: 9 calles cada vez y luego «Siguiente serie». Puedes cargar el mismo grupo otra vez para otra prueba.",
   "pf.paste":"📋 Pegar lista",
   "pf.editNames":"✎ Editar nombres",
@@ -19947,8 +19960,8 @@ function wireBackup(){
   bkStat();
   $("#set-bkEnc").checked=!!LS.get("bk.enc",false);
   $("#set-bkEnc").addEventListener("change",e=>LS.set("bk.enc",e.target.checked));
-  $("#set-bkExport").addEventListener("click",async()=>{
-    if(!bkKeys().length){ toast("אין עדיין נתונים לגיבוי"); return; }
+  async function bkExportNow(){
+    if(!bkKeys().length){ toast("אין עדיין נתונים לגיבוי"); return false; }
     toast("אוסף נתונים…");
     const snap=await bkSnapshotFull();
     const mediaNote=snap.idb&&snap.idb.count?(" · "+snap.idb.count+" שיאים"):"";
@@ -19958,17 +19971,46 @@ function wireBackup(){
       const fp=await bkSave(snap,false);
       LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); bkStat();
       toast("✓ גובו "+Object.keys(snap.data).length+" קבוצות נתונים"+mediaNote+omitNote+" · הקובץ אינו מוצפן"+bkFpNote(fp));
-      return;
+      return true;
     }
-    if(!(window.crypto&&crypto.subtle)){ toast("הדפדפן הזה לא תומך בהצפנה — הסר את הסימון"); return; }
-    const pass=await bkAskPass("new"); if(pass===null)return;
+    if(!(window.crypto&&crypto.subtle)){ toast("הדפדפן הזה לא תומך בהצפנה — הסר את הסימון"); return false; }
+    const pass=await bkAskPass("new"); if(pass===null)return false;
     toast("מצפין…");
     try{
       const enc=await bkEncrypt(snap,pass);
       const fp=await bkSave(enc,true);
       LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); bkStat();
       toast("🔐 גובה מוצפן"+mediaNote+omitNote+" — בלי הסיסמה אי אפשר לפתוח"+bkFpNote(fp));
-    }catch(err){ toast("ההצפנה נכשלה: "+err.message); }
+      return true;
+    }catch(err){ toast("ההצפנה נכשלה: "+err.message); return false; }
+  }
+  $("#set-bkExport").addEventListener("click",()=>{ bkExportNow(); });
+
+  /* ---- מחיקת כל הנתונים מהמכשיר ----
+     שני שלבים: (1) בחירה אם לגבות לקובץ לפני כן — מסומן כברירת מחדל; (2) אישור סופי עם הקלדת מילה.
+     המחיקה כוללת את localStorage של האפליקציה, את מסד הסרטונים ואת העותק הפנימי בתיקיית האפליקציה
+     (בלעדיו הנתונים היו חוזרים בהפעלה הבאה). קבצי גיבוי שנשמרו מחוץ לאפליקציה לא נמחקים. */
+  async function wipeAllData(){
+    try{ if(window.HMN&&window.HMN.wipe)await window.HMN.wipe(); }catch(e){}
+    try{ const be=STORE||MEMFALLBACK, ks=[];
+      for(let i=0;i<be.length;i++){ const k=be.key(i); if(k&&k.indexOf(BK_PREFIX)===0)ks.push(k); }
+      ks.forEach(k=>be.removeItem(k)); }catch(e){}
+    try{ sessionStorage.clear(); }catch(e){}
+    await new Promise(res=>{ try{ const q=indexedDB.deleteDatabase(BRAND.idbName); q.onsuccess=q.onerror=q.onblocked=()=>res(); }catch(e){ res(); } setTimeout(res,2500); });
+    location.replace(location.pathname);
+  }
+  const wipeBtn=$("#set-wipeAll");
+  if(wipeBtn)wipeBtn.addEventListener("click",async()=>{
+    if(!bkKeys().length){ toast(t("wipe.noData","אין נתונים למחיקה")); return; }
+    const r1=await ask({title:t("wipe.title","מחיקת כל הנתונים מהמכשיר"),msg:t("wipe.msg1","תימחקנה כל הכיתות, התלמידים, המדידות, הציונים, השיעורים, ההגדרות והסרטונים מהמכשיר הזה. אי אפשר לבטל. מומלץ ליצור קודם קובץ גיבוי."),
+      fields:[{type:"checks",options:[["bk",t("wipe.backupOpt","צור קובץ גיבוי לפני המחיקה (מומלץ)")]],value:["bk"]}],ok:t("wipe.cont","המשך")});
+    if(r1==null)return;
+    const wantBk=Array.isArray(r1)&&r1.indexOf("bk")>=0;
+    if(wantBk){ const ok=await bkExportNow(); if(!ok)return; }
+    const r2=await ask({title:t("wipe.title","מחיקת כל הנתונים מהמכשיר"),msg:wantBk?t("wipe.msg2b","הגיבוי נוצר. ודא שהקובץ נשמר במקום בטוח (Files / Drive / מחשב) לפני שממשיכים. אחרי המחיקה אי אפשר לשחזר בלעדיו."):t("wipe.msg2","לא נוצר גיבוי. אחרי המחיקה אי אפשר לשחזר."),
+      word:t("wipe.word","מחק"),danger:true,ok:t("wipe.ok","🗑 מחק הכל")});
+    if(r2==null)return;
+    await wipeAllData();
   });
   $("#set-bkImport").addEventListener("click",()=>$("#set-bkFile").click());
   $("#set-bkFile").addEventListener("change",e=>{

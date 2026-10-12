@@ -132,6 +132,12 @@ function writeSnap(){
   return call("Filesystem","writeFile",{path:SNAP_FILE,data:body,directory:SNAP_DIR,encoding:"utf8",recursive:true})
     .catch(function(e){ dirty=true; try{ console.warn("[HMN] snapshot",e); }catch(x){} });
 }
+/* מחיקת כל הנתונים: עוצרים את הכתיבה של העותק ומוחקים אותו, אחרת הוא היה משחזר את הנתונים בהפעלה הבאה */
+function wipeSnap(){
+  mirrorReady=false; dirty=false; if(tm){ clearTimeout(tm); tm=null; }
+  if(!NATIVE)return Promise.resolve();
+  return call("Filesystem","deleteFile",{path:SNAP_FILE,directory:SNAP_DIR}).catch(function(){});
+}
 function markDirty(){
   dirty=true;
   if(mirrorReady&&!tm)tm=setTimeout(writeSnap,1500);
@@ -233,5 +239,5 @@ if(NATIVE){
 }
 
 window.HMN={native:NATIVE,platform:PLATFORM,site:SITE,saveFile:saveFile,postForm:postForm,
-  awake:awake,say:say,flush:writeSnap,_docWindow:docWindow};
+  awake:awake,say:say,flush:writeSnap,wipe:wipeSnap,_docWindow:docWindow};
 })();

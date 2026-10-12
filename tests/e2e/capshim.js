@@ -23,6 +23,7 @@ function capShim(platform){
       return {uri:"file:///fake/"+o.directory+"/"+o.path}; },
     "Filesystem.readFile":function(o){ var f=fs(), k=o.directory+"/"+o.path;
       if(!(k in f))throw {message:"File does not exist."}; return {data:f[k]}; },
+    "Filesystem.deleteFile":function(o){ var f=fs(), k=o.directory+"/"+o.path; if(!(k in f))throw {message:"File does not exist."}; delete f[k]; put(f); return {}; },
     "Share.share":function(){ if(window.__shareCancel)throw {message:"Share canceled"}; return {activityType:"fake"}; },
     "CapacitorHttp.request":function(){ return window.__httpReply||{status:200,data:"<html>peu-contact-received-v1</html>"}; }
   };

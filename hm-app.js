@@ -2140,8 +2140,8 @@ function wireBackup(){
   bkStat();
   $("#set-bkEnc").checked=!!LS.get("bk.enc",false);
   $("#set-bkEnc").addEventListener("change",e=>LS.set("bk.enc",e.target.checked));
-  $("#set-bkExport").addEventListener("click",async()=>{
-    if(!bkKeys().length){ toast("אין עדיין נתונים לגיבוי"); return; }
+  async function bkExportNow(){
+    if(!bkKeys().length){ toast("אין עדיין נתונים לגיבוי"); return false; }
     toast("אוסף נתונים…");
     const snap=await bkSnapshotFull();
     const mediaNote=snap.idb&&snap.idb.count?(" · "+snap.idb.count+" שיאים"):"";
@@ -2151,17 +2151,46 @@ function wireBackup(){
       const fp=await bkSave(snap,false);
       LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); bkStat();
       toast("✓ גובו "+Object.keys(snap.data).length+" קבוצות נתונים"+mediaNote+omitNote+" · הקובץ אינו מוצפן"+bkFpNote(fp));
-      return;
+      return true;
     }
-    if(!(window.crypto&&crypto.subtle)){ toast("הדפדפן הזה לא תומך בהצפנה — הסר את הסימון"); return; }
-    const pass=await bkAskPass("new"); if(pass===null)return;
+    if(!(window.crypto&&crypto.subtle)){ toast("הדפדפן הזה לא תומך בהצפנה — הסר את הסימון"); return false; }
+    const pass=await bkAskPass("new"); if(pass===null)return false;
     toast("מצפין…");
     try{
       const enc=await bkEncrypt(snap,pass);
       const fp=await bkSave(enc,true);
       LS.set("bk.last",new Date().toLocaleDateString(H_LOC())); bkStat();
       toast("🔐 גובה מוצפן"+mediaNote+omitNote+" — בלי הסיסמה אי אפשר לפתוח"+bkFpNote(fp));
-    }catch(err){ toast("ההצפנה נכשלה: "+err.message); }
+      return true;
+    }catch(err){ toast("ההצפנה נכשלה: "+err.message); return false; }
+  }
+  $("#set-bkExport").addEventListener("click",()=>{ bkExportNow(); });
+
+  /* ---- מחיקת כל הנתונים מהמכשיר ----
+     שני שלבים: (1) בחירה אם לגבות לקובץ לפני כן — מסומן כברירת מחדל; (2) אישור סופי עם הקלדת מילה.
+     המחיקה כוללת את localStorage של האפליקציה, את מסד הסרטונים ואת העותק הפנימי בתיקיית האפליקציה
+     (בלעדיו הנתונים היו חוזרים בהפעלה הבאה). קבצי גיבוי שנשמרו מחוץ לאפליקציה לא נמחקים. */
+  async function wipeAllData(){
+    try{ if(window.HMN&&window.HMN.wipe)await window.HMN.wipe(); }catch(e){}
+    try{ const be=STORE||MEMFALLBACK, ks=[];
+      for(let i=0;i<be.length;i++){ const k=be.key(i); if(k&&k.indexOf(BK_PREFIX)===0)ks.push(k); }
+      ks.forEach(k=>be.removeItem(k)); }catch(e){}
+    try{ sessionStorage.clear(); }catch(e){}
+    await new Promise(res=>{ try{ const q=indexedDB.deleteDatabase(BRAND.idbName); q.onsuccess=q.onerror=q.onblocked=()=>res(); }catch(e){ res(); } setTimeout(res,2500); });
+    location.replace(location.pathname);
+  }
+  const wipeBtn=$("#set-wipeAll");
+  if(wipeBtn)wipeBtn.addEventListener("click",async()=>{
+    if(!bkKeys().length){ toast(t("wipe.noData","אין נתונים למחיקה")); return; }
+    const r1=await ask({title:t("wipe.title","מחיקת כל הנתונים מהמכשיר"),msg:t("wipe.msg1","תימחקנה כל הכיתות, התלמידים, המדידות, הציונים, השיעורים, ההגדרות והסרטונים מהמכשיר הזה. אי אפשר לבטל. מומלץ ליצור קודם קובץ גיבוי."),
+      fields:[{type:"checks",options:[["bk",t("wipe.backupOpt","צור קובץ גיבוי לפני המחיקה (מומלץ)")]],value:["bk"]}],ok:t("wipe.cont","המשך")});
+    if(r1==null)return;
+    const wantBk=Array.isArray(r1)&&r1.indexOf("bk")>=0;
+    if(wantBk){ const ok=await bkExportNow(); if(!ok)return; }
+    const r2=await ask({title:t("wipe.title","מחיקת כל הנתונים מהמכשיר"),msg:wantBk?t("wipe.msg2b","הגיבוי נוצר. ודא שהקובץ נשמר במקום בטוח (Files / Drive / מחשב) לפני שממשיכים. אחרי המחיקה אי אפשר לשחזר בלעדיו."):t("wipe.msg2","לא נוצר גיבוי. אחרי המחיקה אי אפשר לשחזר."),
+      word:t("wipe.word","מחק"),danger:true,ok:t("wipe.ok","🗑 מחק הכל")});
+    if(r2==null)return;
+    await wipeAllData();
   });
   $("#set-bkImport").addEventListener("click",()=>$("#set-bkFile").click());
   $("#set-bkFile").addEventListener("change",e=>{
