@@ -12,7 +12,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 - Screenshots must come from the real app on a device after the device pass; none exist yet.
 - Default language for the listing: English (matches the app's default for new installs).
 
-> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 31 tests). Arabic, Russian and Spanish are NOT yet reviewed; their test count was corrected to 31 mechanically.
+> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 31 tests). Arabic was reviewed by Gemini too (first pass, needs a human native speaker). Russian and Spanish are NOT yet reviewed; their test count was corrected to 31 mechanically.
 
 > 2026-10-12: the photo-finish line no longer claims millisecond accuracy. Per `docs/handoffs/2026-10-09-report-review-claude-action-plan.md` there is no certification or controlled accuracy study, so listing text must not promise precise or certified timing. Character counts below are from before this edit: re-measure.
 
@@ -22,7 +22,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 |---|---|---|---|
 | English (default) | 15 | 81 | 1460 |
 | עברית | 15 | 61 | 1042 |
-| العربية | 15 | 68 | 1057 |
+| العربية | 15 | 64 | 1175 |
 | Русский | 15 | 67 | 1308 |
 | Español | 15 | 80 | 1340 |
 
@@ -105,25 +105,25 @@ PE Ultimate App
 
 **Short description**
 
-اختبارات لياقة وبيب تست وفوتو فينش وخطط دروس لمعلمي التربية البدنية.
+اختبارات لياقة وبيب تست وفوتو فينش وخطط دروس للمعلمين والمدربين.
 
 **Full description**
 
 ```text
-PE Ultimate أداة ميدانية لمعلمي التربية البدنية. يعمل كل شيء على الهاتف أو الجهاز اللوحي، دون حساب ودون إنترنت، في الصالة أو في الملعب.
+PE Ultimate أداة ميدانية مجانية لمعلمي التربية البدنية، مدربي اللياقة، والمدربين الرياضيين. يعمل كل شيء على الهاتف أو الجهاز اللوحي، دون حساب ودون إنترنت، في الصالة أو في الملعب.
 
 ماذا يمكنك أن تفعل
 • 31 اختبار لياقة مع عدة محاولات لكل طالب، وبطاقة طالب ومعايير مدرسية
 • اختبار البيب (Léger) مع تقدير VO₂max ومعايير مبنية على FITNESSGRAM
 • فوتو فينش: قياس الأزمنة بالكاميرا — أداة ميدانية عملية وليست قياسًا معتمدًا
-• خطط الدروس: مولّد سريع ومنشئ يدوي خطوة بخطوة
-• قوائم الصفوف والعلامات وهيكل العلامة ومجموعات التدريس
-• لوحات الأرقام القياسية وألعاب وقاعدة معرفة موثّقة بالمصادر
+• خطط الدروس: مولّد سريع ومنشئ يدوي مع مسودات لخطط الدروس
+• قوائم الصفوف، العلامات (مع تعديل يدوي)، الحضور، جدول الحصص، ومؤقت الدرس المباشر
+• لوحات الأرقام القياسية، مكتبة ألعاب، وقاعدة معرفة موثّقة بالمصادر
 • وضع الطالب: يرى الطلاب لوحة الأرقام القياسية ويضيفون رقمًا على جهازك
 • تصدير النتائج إلى Excel/CSV والطباعة أو الحفظ بصيغة PDF
 
 بياناتك تبقى معك
-لا تسجيل ولا خادم خاص بنا. تُحفظ أسماء الطلاب والنتائج والعلامات على جهازك. يمكنك النسخ الاحتياطي إلى ملف (مع تشفير اختياري) للاحتفاظ بنسخة أو للانتقال إلى جهاز آخر.
+لا تسجيل ولا خادم خاص بنا. تُحفظ أسماء الطلاب والنتائج والعلامات محليًا على جهازك. يمكنك النسخ الاحتياطي إلى ملف (مع تشفير اختياري) للاحتفاظ بنسخة أو للانتقال إلى جهاز آخر.
 
 خمس لغات
 العربية والعبرية والإنجليزية والروسية والإسبانية، مع اتجاه كتابة تلقائي. بعض الترجمات مسودات لم يراجعها بعد متحدثون أصليون.
