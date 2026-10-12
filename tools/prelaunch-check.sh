@@ -4,7 +4,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 command -v node >/dev/null || { echo "node missing" >&2; exit 1; }
 command -v npm >/dev/null || { echo "npm missing" >&2; exit 1; }
-if command -v sha256sum >/dev/null; then HASH=(sha256sum)\nelif command -v shasum >/dev/null; then HASH=(shasum -a 256)\nelse echo "SHA-256 tool missing" >&2; exit 1; fi
+if command -v sha256sum >/dev/null; then HASH=(sha256sum)
+elif command -v shasum >/dev/null; then HASH=(shasum -a 256)
+else echo "SHA-256 tool missing" >&2; exit 1; fi
 echo "[1/5] npm test"
 npm test
 echo "[2/5] standalone build"
