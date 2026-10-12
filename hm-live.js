@@ -127,7 +127,7 @@ function paintPick(root){
     '</div></details>'+
     '<div class="hx-sec">'+esc(t("live.noClassTools","כלים בלי כיתה"))+'</div>'+
     '<div class="lv-tiles">'+
-      tile("meas","🏅",t("live.tMeas","מדידה"),t("live.tMeasSub","31 מבחני כושר"))+
+      tile("meas","🏅",t("live.tMeas","מדידה"),t("live.tMeasSub","35 מבחני כושר"))+
       tile("beep","🎵",t("live.tBeep","ביפ טסט"),t("live.tBeepSub","זינוק ורישום נשירה"))+
       tile("photo","📷",t("live.tPhoto","פיניש"),t("live.tPhotoSub","מצלמה ומסלולים"))+
       tile("timer","⏲",t("live.tTimer","טיימר"),t("live.tTimerSub","אינטרוולים · תחנות"))+
@@ -170,7 +170,7 @@ function paintLive(root,a){
     (att&&att.total&&!att.marked?'<button class="btn acc big lv-allin" id="lv-allIn">✓ '+esc(t("live.allIn","כולם נוכחים"))+' ('+att.total+')</button>':"")+
     '<div class="lv-tiles">'+
       tile("att","✅",t("live.tAtt","נוכחות"),attSub,attBadge)+
-      tile("meas","🏅",t("live.tMeas","מדידה"),meas?meas+" "+t("live.measDone","מדידות בשיעור"):t("live.tMeasSub","31 מבחני כושר"))+
+      tile("meas","🏅",t("live.tMeas","מדידה"),meas?meas+" "+t("live.measDone","מדידות בשיעור"):t("live.tMeasSub","35 מבחני כושר"))+
       tile("beep","🎵",t("live.tBeep","ביפ טסט"),t("live.tBeepSub","זינוק ורישום נשירה"))+
       tile("photo","📷",t("live.tPhoto","פיניש"),t("live.tPhotoSub","מצלמה ומסלולים"))+
       tile("timer","⏲",t("live.tTimer","טיימר"),t("live.tTimerSub","אינטרוולים · תחנות"))+

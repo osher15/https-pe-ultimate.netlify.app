@@ -4025,12 +4025,13 @@ const PF=(function(){
     /* כותרת ברירת המחדל בשפת הממשק; כותרת שהמורה כתב — כפי שנכתבה */
     $("#pf-setTitle").value=META.title===PF_TITLE_DEF?trUI(META.title):META.title; $("#pf-setRound").value=META.round;
     $("#pf-setDist").value=META.dist; $("#pf-setDate").value=META.date; $("#pf-setWind").value=META.wind;
+    if(window.__pfPaintDist)window.__pfPaintDist();
   }
   function saveMeta(){
     const ti=$("#pf-setTitle").value.trim();
     META={title:ti===trUI(PF_TITLE_DEF)?PF_TITLE_DEF:(ti||"מקצה"),round:$("#pf-setRound").value,
       dist:+$("#pf-setDist").value||0,date:$("#pf-setDate").value,wind:$("#pf-setWind").value};
-    LS.set("pf.meta",META); renderMeta(); toast("הפרטים נשמרו");
+    LS.set("pf.meta",META); renderMeta(); if(window.__pfPaintDist)window.__pfPaintDist(); toast("הפרטים נשמרו");
   }
 
   /* ---------- tabs & init ---------- */
@@ -4192,21 +4193,69 @@ const PF=(function(){
     /* טעינת כיתה — אותה רשימה שמשמשת את מבחני הכושר, כדי שהשמות בלוח
        התוצאות יהיו זהים לאלה שבמעקב ולא גרסה מוקלדת מחדש. המסלולים
        מוגבלים ל-9, ולכן הבורר מוגבל לתשעה נבחרים — מקצה אחרי מקצה. */
+    /* מקצים: כיתה שלמה נטענת כרשימה, ומוצגים ממנה עד 9 מסלולים בכל פעם. «המקצה הבא» שומר
+       את המקצה שהסתיים בארכיון (אם יש בו זמנים ועוד לא נשמר) וטוען את הבאים בתור. */
+    let heatPool=LS.get("pf.pool",{names:[],i:0,n:0});
+    const heatLeft=()=>Math.max(0,(heatPool.names||[]).length-(heatPool.i+heatPool.n));
+    function paintHeatBtn(){
+      const b=$("#pf-nextHeat"); if(!b)return;
+      const left=heatLeft(); b.hidden=!left;
+      if(left)b.textContent=t("pf.nextHeat","⏭ המקצה הבא · נותרו {0} רצים").replace("{0}",left);
+    }
+    function showHeat(chunk){
+      laneN=Math.max(2,Math.min(9,chunk.length));
+      LS.set("pf.laneN",laneN);
+      $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
+      buildLanes(false);
+      lanes.forEach((l,i)=>{ l.name=chunk[i]||l.name; });
+      persistNames(); renderChips(); renderBoard(); refreshLaneSel();
+      if(mode==="sim"&&!race.on)drawSimIdle();
+    }
     $("#pf-loadCls").addEventListener("click",()=>{
       if(!window.FT||!window.FT.pick){toast("בורר הכיתה לא זמין");return;}
-      window.FT.pick({title:"טעינת מקצה מכיתה", max:9,
-        note:"בחר את הרצים של המקצה הזה — עד 9 מסלולים. אפשר לחזור ולטעון מקצה נוסף מאותה כיתה.",
+      window.FT.pick({title:"טעינת מקצה מכיתה",
+        note:t("pf.loadNote","בחר מי רץ. יותר מ-9 נטענים כמקצים — 9 מסלולים בכל פעם, ואז «המקצה הבא». אפשר לטעון שוב את אותה כיתה למקצה אחר."),
         onPick:(list)=>{
-          laneN=Math.max(2,Math.min(9,list.length));
-          LS.set("pf.laneN",laneN);
-          $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
-          buildLanes(false);
-          lanes.forEach((l,i)=>{ l.name=list[i]||l.name; });
-          persistNames(); renderChips(); renderBoard(); refreshLaneSel();
-          if(mode==="sim"&&!race.on)drawSimIdle();
-          toast("נטענו "+list.length+" רצים למסלולים");
+          const first=list.slice(0,9);
+          heatPool={names:list.slice(),i:0,n:first.length}; LS.set("pf.pool",heatPool);
+          showHeat(first); paintHeatBtn();
+          toast(t("pf.heatLoaded","נטען מקצה: {0} רצים · נותרו {1}").replace("{0}",first.length).replace("{1}",heatLeft()));
         }});
     });
+    $("#pf-nextHeat").addEventListener("click",()=>{
+      if(race.on||!heatLeft())return;
+      const done=finished();
+      if(done.length){
+        const sig=a=>JSON.stringify(a.map(r=>[r.lane,r.name,+(+r.time).toFixed(3)]));
+        const top=arcList()[0];
+        if(!top||sig(top.results)!==sig(done)){ arcSave(); toast(t("pf.heatSaved","המקצה הקודם נשמר לארכיון")); }
+      }
+      const start=heatPool.i+heatPool.n, size=Math.max(2,Math.min(9,laneN));
+      const chunk=heatPool.names.slice(start,start+size);
+      heatPool={names:heatPool.names,i:start,n:chunk.length}; LS.set("pf.pool",heatPool);
+      resetRace(); showHeat(chunk); paintHeatBtn();
+      toast(t("pf.heatLoaded","נטען מקצה: {0} רצים · נותרו {1}").replace("{0}",chunk.length).replace("{1}",heatLeft()));
+    });
+    paintHeatBtn();
+    /* מרחק המקצה: צ'יפים לערכים נפוצים + הקלדה חופשית (קיצור). משפיע על הכותרת, על התעודות ועל
+       המבחן שאליו נשלחים הזמנים. */
+    const DIST_PRESETS=[60,80,100,200,400,600,800,1000,1500,1600,2000];
+    function paintDist(){
+      const box=$("#pf-distChips"); if(!box)return;
+      box.innerHTML=DIST_PRESETS.map(d=>'<button type="button" class="btn sm'+(+META.dist===d?' acc':' ghost')+'" data-d="'+d+'">'+d+'</button>').join("");
+      $$("#pf-distChips [data-d]").forEach(b=>b.addEventListener("click",()=>setDist(+b.dataset.d)));
+      const q=$("#pf-quickDist"); if(q&&document.activeElement!==q)q.value=DIST_PRESETS.includes(+META.dist)?"":(META.dist||"");
+    }
+    function setDist(v){
+      v=Math.round(+v); if(!(v>0)||v>100000)return;
+      META={...META,dist:v}; LS.set("pf.meta",META);
+      const sd=$("#pf-setDist"); if(sd)sd.value=v;
+      renderMeta(); paintDist();
+    }
+    $("#pf-quickDist").addEventListener("change",e=>{ const v=Math.round(+String(e.target.value).replace(/[^\d.]/g,"")); if(v>0)setDist(v); else paintDist(); });
+    $("#pf-quickDist").addEventListener("focus",e=>{ try{ e.target.select(); }catch(err){} });
+    window.__pfPaintDist=paintDist;
+    paintDist();
     /* הדבקת רשימת שמות */
     /* שדה בתוך הכרטיס, ולא prompt() — רשימה ארוכה מודבקת ונבדקת במקום */
     const pasteBox=$("#pf-pasteBox");
@@ -4220,6 +4269,7 @@ const PF=(function(){
       const list=txt.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);
       if(!list.length){ toast(t("pf.pasteEmpty","הדבק לפחות שם אחד")); return; }
       pasteBox.hidden=true; $("#pf-pasteTxt").value="";
+      heatPool={names:[],i:0,n:0}; LS.set("pf.pool",heatPool); paintHeatBtn();
       laneN=Math.max(2,Math.min(9,list.length));
       LS.set("pf.laneN",laneN);
       $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
@@ -4272,7 +4322,7 @@ const PF=(function(){
     /* זמן ספרינט מגיע ישר למבחן המרחק המתאים. רק מרחקים שיש להם מבחן
        בקטלוג נשלחים — «85 מ׳» אינו מבחן, ולכן עדיף להגיד את זה מפורש
        מאשר להמציא לו מבחן קרוב ולזהם את הנורמה. */
-    const PF_DIST_TEST={60:"r60",100:"r100",300:"r300",600:"r600",1000:"r1000",1500:"r1500",2000:"r2000"};
+    const PF_DIST_TEST={60:"r60",80:"r80",100:"r100",300:"r300",400:"r400",600:"r600",800:"r800",1000:"r1000",1500:"r1500",1600:"r1600",2000:"r2000"};
     $("#pf-toFt").addEventListener("click",()=>{
       const list=finished();
       if(!list.length){toast("אין תוצאות לשלוח");return;}
@@ -4432,7 +4482,8 @@ const PF=(function(){
           measured:vclk.fps?Math.round(vclk.fps*10)/10:0, rvfc:!!vclk.rvfc};
       }catch(e){ return {supported:false,error:String(e)}; }
     },
-    _test:{thresholds:s2=>{sens=s2;return thresholds()},nextUnfinished:()=>nextUnfinished(),
+    _test:{setTimes:ts=>{ ts.forEach((v,i)=>{ if(lanes[i]){ lanes[i].time=v; lanes[i].src="test"; } }); renderChips(); renderBoard(); },
+      thresholds:s2=>{sens=s2;return thresholds()},nextUnfinished:()=>nextUnfinished(),
       setLanes:l=>{lanes=l},windIllegal:w=>{META.wind=w;return windIllegal()},
       crossAt,precisionOf,micLagSec,paintArmed,soundLag:d=>{LS.set("pf.gunDist",d);return soundLagSec()},
       camMediaNow:()=>camMediaNow(),

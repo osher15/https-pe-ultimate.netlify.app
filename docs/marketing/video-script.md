@@ -6,13 +6,13 @@ Length 40-45 s, no voice-over, screen recording of the real app. Record in **dem
 |---|---|---|---|
 | 0:00-0:05 | Open the app on **Today**. Tap **Start lesson** on the next lesson. | Run your day offline | ניהול היום, גם בלי אינטרנט |
 | 0:05-0:12 | Live lesson screen opens. Tap **Everyone's here**. | Attendance in one tap | נוכחות בלחיצה אחת |
-| 0:12-0:20 | Tap **Measure** (fitness tests). Scroll slowly through the test list. | 31 fitness tests | 31 מבחני כושר |
+| 0:12-0:20 | Tap **Measure** (fitness tests). Scroll slowly through the test list. | 35 fitness tests | 35 מבחני כושר |
 | 0:20-0:32 | Tap **Back to lesson**, open **Beep test**, tap **Start**, let it run 6-8 seconds (stage, timer and speed visible). | Built-in beep test | ביפ טסט מובנה |
 | 0:32-0:40 | Tap **Pause**, then **Classes** in the bottom bar: the class hub with students and measurements. | Classes and results on your device | כיתות ותוצאות במכשיר שלך |
 | 0:40-0:45 | Cut to the app logo. Add the Google Play badge **only after the app is live**; until then show the app name only. | Free. No account needed. | חינם. בלי הרשמה. |
 
 ## What was changed from Gemini's draft
-- "30+ fitness tests & norms" -> "31 fitness tests": the app has 31 tests, and the norms wording is still waiting for the owner's decision.
+- "30+ fitness tests & norms" -> "35 fitness tests": the app has 35 tests, and the norms wording is still waiting for the owner's decision.
 - "All student data in one place" -> "Classes and results on your device": truer to the privacy promise.
 - "Stop test" -> "Pause": the button in the app is Pause/Reset.
 - Added the missing "Back to lesson" step between fitness tests and beep test.

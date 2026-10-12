@@ -6,17 +6,17 @@ Each message is under 600 characters (count shown). Honest tone, no pressure. `[
 
 **עברית** (317 chars)
 
-חברים, בניתי את PE Ultimate App – ערכת עבודה חינמית למורים לחינוך גופני שעובדת אופליין במגרש. יש בה 31 מבחני כושר, ביפ טסט, נוכחות, מערכי שיעור (טיוטות), פוטו־פיניש וניהול ציונים. הכול נשמר אצלכם בטלפון, בלי הרשמה ובלי אינטרנט. אני מריץ בדיקה סגורה ב-Google Play ואשמח לפידבק כן מהשטח. מי שרוצה להתנסות: [LINK]. תודה!
+חברים, בניתי את PE Ultimate App – ערכת עבודה חינמית למורים לחינוך גופני שעובדת אופליין במגרש. יש בה 35 מבחני כושר, ביפ טסט, נוכחות, מערכי שיעור (טיוטות), פוטו־פיניש וניהול ציונים. הכול נשמר אצלכם בטלפון, בלי הרשמה ובלי אינטרנט. אני מריץ בדיקה סגורה ב-Google Play ואשמח לפידבק כן מהשטח. מי שרוצה להתנסות: [LINK]. תודה!
 
 **English** (353 chars)
 
-Hi everyone, I built PE Ultimate App, a free offline toolkit for PE teachers. It has 31 fitness tests, a beep test, attendance, lesson plans (drafts), photo-finish and grades. Everything stays on your phone, with no account and no internet needed. I'm running a closed test on Google Play and would love honest field feedback. Join here: [LINK]. Thanks!
+Hi everyone, I built PE Ultimate App, a free offline toolkit for PE teachers. It has 35 fitness tests, a beep test, attendance, lesson plans (drafts), photo-finish and grades. Everything stays on your phone, with no account and no internet needed. I'm running a closed test on Google Play and would love honest field feedback. Join here: [LINK]. Thanks!
 
 ## (b) Fitness trainers / sports-club coaches
 
 **עברית** (270 chars)
 
-היי, רציתי לשתף כלי חינמי שבניתי – PE Ultimate. אפליקציה שעובדת בלי רשת, שומרת את הנתונים רק במכשיר שלכם, ויש בה כרטיס אישי לכל מתאמן או תלמיד עם תוצאות והיסטוריה, ביפ טסט, טיימרים ו-31 מבחני כושר. אני מחפש מאמנים לפידבק ראשוני בבדיקה סגורה. אשמח לשמוע מה דעתכם: [LINK].
+היי, רציתי לשתף כלי חינמי שבניתי – PE Ultimate. אפליקציה שעובדת בלי רשת, שומרת את הנתונים רק במכשיר שלכם, ויש בה כרטיס אישי לכל מתאמן או תלמיד עם תוצאות והיסטוריה, ביפ טסט, טיימרים ו-35 מבחני כושר. אני מחפש מאמנים לפידבק ראשוני בבדיקה סגורה. אשמח לשמוע מה דעתכם: [LINK].
 
 **English** (340 chars)
 

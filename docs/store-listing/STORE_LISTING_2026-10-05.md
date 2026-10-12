@@ -12,7 +12,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 - Screenshots must come from the real app on a device after the device pass; none exist yet.
 - Default language for the listing: English (matches the app's default for new installs).
 
-> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 31 tests). Arabic was reviewed by Gemini too (first pass, needs a human native speaker). Russian too (first pass, needs a human native speaker). Spanish too (first pass, needs a human native speaker). All five full descriptions now come from the Gemini review; their test count was corrected to 31 mechanically.
+> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (35 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 35 tests). Arabic was reviewed by Gemini too (first pass, needs a human native speaker). Russian too (first pass, needs a human native speaker). Spanish too (first pass, needs a human native speaker). All five full descriptions now come from the Gemini review; their test count was corrected to 31 mechanically.
 
 > 2026-10-12: the photo-finish line no longer claims millisecond accuracy. Per `docs/handoffs/2026-10-09-report-review-claude-action-plan.md` there is no certification or controlled accuracy study, so listing text must not promise precise or certified timing. Character counts below are from before this edit: re-measure.
 
@@ -44,7 +44,7 @@ Fitness tests, beep test, photo-finish, lesson plans for teachers and coaches.
 PE Ultimate is a free, offline field kit for physical education teachers, fitness trainers, and sports coaches. Everything runs on your phone or tablet, with no account and no internet needed in the gym or on the field.
 
 WHAT YOU CAN DO
-• 31 fitness tests with several attempts per student, student cards and reference norms you can adjust
+• 35 fitness tests with several attempts per student, student cards and reference norms you can adjust
 • Beep test (Léger) with an estimated VO₂max and reference norms for guidance
 • Photo-finish: time runners with the phone camera (a practical field tool, not certified timing)
 • Lesson plans: a quick generator, plus a manual step-by-step builder with draft lesson plans
@@ -80,7 +80,7 @@ PE Ultimate App
 PE Ultimate היא ערכת שטח חינמית למורים לחינוך גופני, מאמני כושר ומדריכי ספורט. הכול רץ בטלפון או בטאבלט, בלי חשבון ובלי אינטרנט, בחדר הכושר ובמגרש.
 
 מה אפשר לעשות
-• 31 מבחני כושר עם כמה ניסיונות לכל תלמיד, כרטיס תלמיד ונורמות ייחוס שאפשר להתאים
+• 35 מבחני כושר עם כמה ניסיונות לכל תלמיד, כרטיס תלמיד ונורמות ייחוס שאפשר להתאים
 • ביפ טסט (Léger) עם הערכת VO₂max ונורמות ייחוס להדרכה
 • פוטו־פיניש: מדידת זמנים במצלמה — כלי שטח מעשי, לא מדידה מוסמכת
 • מערכי שיעור: מחולל מהיר ובונה ידני עם טיוטות של מערכים
@@ -115,7 +115,7 @@ PE Ultimate App
 PE Ultimate أداة ميدانية مجانية لمعلمي التربية البدنية، مدربي اللياقة، والمدربين الرياضيين. يعمل كل شيء على الهاتف أو الجهاز اللوحي، دون حساب ودون إنترنت، في الصالة أو في الملعب.
 
 ماذا يمكنك أن تفعل
-• 31 اختبار لياقة مع عدة محاولات لكل طالب، وبطاقة طالب ومعايير مرجعية قابلة للتعديل
+• 35 اختبار لياقة مع عدة محاولات لكل طالب، وبطاقة طالب ومعايير مرجعية قابلة للتعديل
 • اختبار البيب (Léger) مع تقدير VO₂max ومعايير مرجعية للإرشاد
 • فوتو فينش: قياس الأزمنة بالكاميرا — أداة ميدانية عملية وليست قياسًا معتمدًا
 • خطط الدروس: مولّد سريع ومنشئ يدوي مع مسودات لخطط الدروس
@@ -150,7 +150,7 @@ PE Ultimate App
 PE Ultimate — бесплатный полевой набор для учителей физической культуры, фитнес-тренеров и спортивных инструкторов. Всё работает на телефоне или планшете, без аккаунта и без интернета, в зале и на стадионе.
 
 ЧТО МОЖНО ДЕЛАТЬ
-• 31 тест физической подготовки: несколько попыток на ученика, карточка ученика, справочные нормативы с возможностью настройки
+• 35 тестов физической подготовки: несколько попыток на ученика, карточка ученика, справочные нормативы с возможностью настройки
 • Бип-тест (Léger) с оценкой VO₂max и справочными нормативами для ориентира
 • Фотофиниш: хронометраж камерой — практичный полевой инструмент, не сертифицированный хронометраж
 • Планы уроков: быстрый генератор и пошаговый конструктор с черновиками уроков
@@ -185,7 +185,7 @@ Tests físicos, pitido, foto-finish y planes de clase para docentes y monitores.
 PE Ultimate es un kit de campo gratuito para profesores de educación física, entrenadores de fitness y monitores deportivos. Todo funciona en tu teléfono o tableta, sin cuenta y sin internet, en el gimnasio o en la pista.
 
 QUÉ PUEDES HACER
-• 31 tests de condición física con varios intentos por alumno, ficha del alumno y baremos de referencia ajustables
+• 35 tests de condición física con varios intentos por alumno, ficha del alumno y baremos de referencia ajustables
 • Test del pitido (Léger) con estimación de VO₂max y baremos de referencia orientativos
 • Foto-finish: cronometra con la cámara — herramienta práctica de campo, no cronometraje certificado
 • Planes de clase: un generador rápido y un constructor manual con borradores de planes
@@ -222,7 +222,7 @@ The feature graphic text is English only and uses a system font; a Hebrew/Arabic
 ## Still needed from the owner
 
 1. Confirm the proposed `io.github.osher15.peultimate` package ID and intended audience before store submission. The ID is implemented on draft PR #44 and in the packaging-only proposal; owner approval, release signing and submission are not claimed.
-2. Approve or edit the wording (especially claims such as "31 fitness tests", which come from README.md).
+2. Approve or edit the wording (especially claims such as "35 fitness tests", which come from README.md).
 3. Real-device screenshots (phone, and tablet if offered).
 4. Store privacy sentence and Data safety answers (readiness doc §6).
 5. Native-speaker review of the four non-English texts before production.

@@ -17,18 +17,18 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="68ac0fcc">
+<meta name="hm-build" content="7c1ad997">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
-<link rel="stylesheet" href="hm-styles.css?v=0d9d7588">
+<link rel="stylesheet" href="hm-styles.css?v=70d6587e">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-native.js?v=6c53d8bd"></script>
 <script src="hm-backup-restore.js?v=f1a05be7"></script>
 <script src="hm-data.js?v=df1af914"></script>
 <script src="hm-assessment-data.js?v=016c9c1c"></script>
-<script src="hm-terms.js?v=0a0c7bd8"></script>
-<script src="hm-texts.js?v=4abfb47e"></script>
-<script src="hm-i18n.js?v=0a9cb659"></script>
-<script src="hm-app.js?v=68c30c53"></script>
+<script src="hm-terms.js?v=4f73fba7"></script>
+<script src="hm-texts.js?v=c3cdc837"></script>
+<script src="hm-i18n.js?v=c7ac8efc"></script>
+<script src="hm-app.js?v=39cc5bb5"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
 <script src="hm-know.js?v=4c80ae28"></script>
@@ -46,7 +46,7 @@
 <script type="text/plain" data-lb="fitness" data-src="hm-lessonbank-fitness.js?v=ffa71bd4"></script>
 <script src="hm-lesson.js?v=1a85fb5a"></script>
 <script src="hm-build.js?v=908876ec"></script>
-<script src="hm-tests.js?v=2a932896"></script>
+<script src="hm-tests.js?v=0117e2b7"></script>
 <script src="hm-new.js?v=978be972"></script>
 <script src="hm-assessment.js?v=5fad1d30"></script>
 <script src="hm-xlsx.js?v=3199b8b7"></script>
@@ -54,7 +54,7 @@
 <script src="hm-assessment-student-report.js?v=79f38133"></script>
 <script src="hm-assessment-paste.js?v=d23810e0"></script>
 <script src="hm-assessment-grid.js?v=e1b3a456"></script>
-<script src="hm-live.js?v=c4f246ca"></script>
+<script src="hm-live.js?v=799b59ac"></script>
 <script src="hm-hub.js?v=1e6ba46b"></script>
 </helmet>
 <div class="app" dir="rtl">
@@ -340,6 +340,10 @@
           <button class="btn sm ghost" id="pf-pasteNo" data-i18n="ask.cancel">ביטול</button></div>
       </div>
       <div class="field pf-setup-only" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
+      <div class="field pf-setup-only" style="margin-top:8px"><label for="pf-quickDist" data-i18n="pf.quickDist">מרחק המקצה (מ׳)</label>
+        <div class="pf-distchips" id="pf-distChips"></div>
+        <input type="text" inputmode="numeric" id="pf-quickDist" style="width:130px;margin-top:6px" data-i18n-placeholder="pf.distOther" placeholder="אחר"></div>
+      <div class="row pf-setup-only" style="margin-top:8px"><button class="btn sm acc" id="pf-nextHeat" hidden></button></div>
       <div class="pf-runchips" id="pf-chips" style="margin-top:10px"></div>
       <div class="hint pf-setup-only" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
     </div>
@@ -1582,7 +1586,7 @@
   </details>
 
   <details class="info-sec" data-info="ft"><summary data-i18n="info.ft.s">🏅 מבחני כושר</summary>
-    <p class="info-w" data-i18n="info.ft.w">הלב של האפליקציה: 31 מבחנים עם שעון ומונה. בוחרים כיתה ומבחן, ומזינים תוצאה לכל תלמיד.</p>
+    <p class="info-w" data-i18n="info.ft.w">הלב של האפליקציה: 35 מבחנים עם שעון ומונה. בוחרים כיתה ומבחן, ומזינים תוצאה לכל תלמיד.</p>
     <ul class="info-l" data-i18n="info.ft.l">
       <li><b>🏅 מבחנים</b> המסך שבו מודדים בפועל. כל תוצאה נשמרת לתלמיד ולא נמחקת.</li>
       <li><b>📊 מדד הכושר</b> ציון כושר כולל לכל תלמיד מול הנורמות.</li>

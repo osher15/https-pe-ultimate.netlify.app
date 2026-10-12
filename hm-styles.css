@@ -1985,3 +1985,8 @@ body.pf-racing #pf-modes,
 body.pf-racing #pf-pasteBox,
 body.pf-racing #view-photo .pf-setup-only{display:none!important}
 body.pf-racing[data-mod="photo"] .nav{display:none}
+
+/* photo-finish: distance chips */
+.pf-distchips{display:flex;flex-wrap:wrap;gap:6px}
+.pf-distchips .btn{min-width:48px;padding-inline:10px}
+#pf-nextHeat[hidden]{display:none!important}

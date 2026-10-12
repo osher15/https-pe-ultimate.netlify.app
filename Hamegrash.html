@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="68ac0fcc">
+<meta name="hm-build" content="7c1ad997">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -2010,6 +2010,11 @@ body.pf-racing #pf-pasteBox,
 body.pf-racing #view-photo .pf-setup-only{display:none!important}
 body.pf-racing[data-mod="photo"] .nav{display:none}
 
+/* photo-finish: distance chips */
+.pf-distchips{display:flex;flex-wrap:wrap;gap:6px}
+.pf-distchips .btn{min-width:48px;padding-inline:10px}
+#pf-nextHeat[hidden]{display:none!important}
+
 </style>
 </head>
 <body>
@@ -2296,6 +2301,10 @@ body.pf-racing[data-mod="photo"] .nav{display:none}
           <button class="btn sm ghost" id="pf-pasteNo" data-i18n="ask.cancel">ביטול</button></div>
       </div>
       <div class="field pf-setup-only" style="margin-top:6px"><label>מספר מסלולים · <b id="pf-laneCountVal">4</b></label><input type="range" id="pf-laneCount" min="2" max="9" value="4"></div>
+      <div class="field pf-setup-only" style="margin-top:8px"><label for="pf-quickDist" data-i18n="pf.quickDist">מרחק המקצה (מ׳)</label>
+        <div class="pf-distchips" id="pf-distChips"></div>
+        <input type="text" inputmode="numeric" id="pf-quickDist" style="width:130px;margin-top:6px" data-i18n-placeholder="pf.distOther" placeholder="אחר"></div>
+      <div class="row pf-setup-only" style="margin-top:8px"><button class="btn sm acc" id="pf-nextHeat" hidden></button></div>
       <div class="pf-runchips" id="pf-chips" style="margin-top:10px"></div>
       <div class="hint pf-setup-only" style="margin-top:8px">הקשה על מסלול = רישום חצייה עכשיו · מקשים 1–9 = אותו דבר מהמקלדת.</div>
     </div>
@@ -3538,7 +3547,7 @@ body.pf-racing[data-mod="photo"] .nav{display:none}
   </details>
 
   <details class="info-sec" data-info="ft"><summary data-i18n="info.ft.s">🏅 מבחני כושר</summary>
-    <p class="info-w" data-i18n="info.ft.w">הלב של האפליקציה: 31 מבחנים עם שעון ומונה. בוחרים כיתה ומבחן, ומזינים תוצאה לכל תלמיד.</p>
+    <p class="info-w" data-i18n="info.ft.w">הלב של האפליקציה: 35 מבחנים עם שעון ומונה. בוחרים כיתה ומבחן, ומזינים תוצאה לכל תלמיד.</p>
     <ul class="info-l" data-i18n="info.ft.l">
       <li><b>🏅 מבחנים</b> המסך שבו מודדים בפועל. כל תוצאה נשמרת לתלמיד ולא נמחקת.</li>
       <li><b>📊 מדד הכושר</b> ציון כושר כולל לכל תלמיד מול הנורמות.</li>
@@ -7774,6 +7783,10 @@ window.I18N_TERMS={
 "כל הכיתה, בלי לבדוק נוכחות":["Whole class, without checking attendance", "الصف كله، دون التحقق من الحضور", "Весь класс, без проверки посещаемости", "Todo el grupo, sin comprobar asistencia"],
 "נמלאו {0} ציונים לפי נוכחות · {1}":["{0} grades filled in from attendance · {1}", "تم ملء {0} علامات حسب الحضور · {1}", "Заполнено оценок по посещаемости: {0} · {1}", "Se han rellenado {0} notas según la asistencia · {1}"],
 "(לקבוצת למידה מכמה כיתות)":["(for a learning group drawn from several classes)", "(لمجموعة تعلّم من عدة صفوف)", "(для учебной группы из нескольких классов)", "(para un grupo de aprendizaje de varios grupos)"],
+"80 מטר":["80 m", "80 م", "80 м", "80 m"],
+"400 מטר":["400 m", "400 م", "400 м", "400 m"],
+"800 מטר":["800 m", "800 م", "800 м", "800 m"],
+"1600 מטר":["1600 m", "1600 م", "1600 м", "1600 m"],
 "100 מטר":["100 m", "100 م", "100 м", "100 m"],
 "1000 מטר":["1000 m", "1000 م", "1000 м", "1000 m"],
 "15 מ׳":["15 m", "15 م", "15 м", "15 m"],
@@ -10139,6 +10152,10 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "נוספו {0} תלמידים מ-{1} כיתות":["{0} students added from {1} classes", "تمت إضافة {0} طلاب من {1} صفوف", "Добавлено {0} учеников из {1} классов", "Se han añadido {0} alumnos de {1} grupos"],
 "הושלמו פרטים לתלמידים שכבר היו כאן":["Details filled in for students who were already here", "تم استكمال بيانات الطلاب الموجودين مسبقًا", "Дополнены данные учеников, которые уже были в списке", "Se han completado los datos del alumnado que ya estaba"],
 "אין רשימות כיתה להביא מהן — העלה רשימה במבחני הכושר":["No class rosters to bring in — upload a roster in Fitness tests", "لا توجد قوائم صفوف لجلبها — ارفع قائمة في اختبارات اللياقة", "Нет списков классов для загрузки — загрузите список в «Тестах физподготовки»", "No hay listas de grupo que traer: sube una lista en Pruebas de condición física"],
+"מנוחה מלאה בין ניסיונות. מרחק נפוץ בחטיבת הביניים.":["Full rest between attempts. A common middle-school distance.", "راحة كاملة بين المحاولات. مسافة شائعة في المرحلة الإعدادية.", "Полный отдых между попытками. Распространённая дистанция в средней школе.", "Descanso completo entre intentos. Distancia habitual en secundaria."],
+"הקפה אחת במסלול. מבחן סבולת אנאירובית — הסבר לתלמידים לא לצאת מהר מדי.":["One lap of the track. An anaerobic endurance test — tell students not to start too fast.", "دورة واحدة في المضمار. اختبار تحمّل لاهوائي — اشرح للطلاب ألا ينطلقوا بسرعة زائدة.", "Один круг трека. Тест анаэробной выносливости — объясните ученикам, чтобы не стартовали слишком быстро.", "Una vuelta a la pista. Prueba de resistencia anaeróbica: pide al alumnado que no salga demasiado rápido."],
+"שתי הקפות במסלול 400. חלק את הכיתה לקבוצות — אחת רצה, השנייה סופרת הקפות.":["Two laps of a 400 m track. Split the class into groups — one runs, the other counts laps.", "دورتان في مضمار 400 م. قسّم الصف إلى مجموعات — واحدة تركض والأخرى تعدّ الدورات.", "Два круга по треку 400 м. Разделите класс на группы: одна бежит, другая считает круги.", "Dos vueltas a una pista de 400 m. Divide el grupo: unos corren y otros cuentan vueltas."],
+"ארבע הקפות במסלול 400 (מייל). ודא שתייה זמינה לפני ואחרי.":["Four laps of a 400 m track (a mile). Make sure water is available before and after.", "أربع دورات في مضمار 400 م (ميل). تأكد من توفر الماء قبل الجري وبعده.", "Четыре круга по треку 400 м (миля). Обеспечьте воду до и после.", "Cuatro vueltas a una pista de 400 m (una milla). Asegúrate de que haya agua antes y después."],
 "זינוק גבוה או נמוך. מדידה עד חציית הקו בחזה. לדיוק גבוה — השתמש במודול «פוטו־פיניש».":["High or crouch start. Time until the chest crosses the line. For high accuracy — use the «Photo-finish» module.", "انطلاق عالٍ أو منخفض. القياس حتى عبور الصدر للخط. لدقة عالية — استخدم وحدة «تصوير خط النهاية».", "Высокий или низкий старт. Время фиксируется, когда грудь пересекает линию. Для высокой точности используйте модуль «Фотофиниш».", "Salida alta o baja. Se cronometra hasta que el pecho cruza la línea. Para máxima precisión, usa el módulo «Foto-finish»."],
 "מנוחה מלאה בין ניסיונות — מהירות מתאמנים כשרעננים.":["Full rest between attempts — speed is trained when fresh.", "راحة تامة بين المحاولات — السرعة تُدرَّب والجسم منتعش.", "Полный отдых между попытками — быстроту тренируют в свежем состоянии.", "Descanso completo entre intentos: la velocidad se entrena en fresco."],
 "מבחן סבולת אנאירובית. הסבר לתלמידים לצאת מבוקר — רובם יוצאים מהר מדי.":["Anaerobic endurance test. Tell students to start in control — most set off too fast.", "اختبار تحمّل لاهوائي. اشرح للطلاب أن ينطلقوا بشكل مضبوط — معظمهم ينطلقون بسرعة زائدة.", "Тест анаэробной выносливости. Объясните ученикам, что стартовать нужно сдержанно — большинство начинают слишком быстро.", "Prueba de resistencia anaeróbica. Explica al alumnado que salga controlado: la mayoría sale demasiado rápido."],
@@ -14459,7 +14476,7 @@ en:{
   "live.startCls":"Start lesson",
   "live.noClassTools":"Tools without a class",
   "live.tMeas":"Measure",
-  "live.tMeasSub":"31 fitness tests",
+  "live.tMeasSub":"35 fitness tests",
   "live.tBeep":"Beep test",
   "live.tBeepSub":"Start and record drop-outs",
   "live.tPhoto":"Photo finish",
@@ -14517,6 +14534,7 @@ en:{
   "pf.slit":"Slit width ·", "pf.minT":"Min. gap (s)",
   "pf.gunDist":"Microphone distance from the starter (m)",
   "pf.loadCls":"👥 Load class",
+  "pf.quickDist":"Heat distance (m)","pf.distOther":"other","pf.nextHeat":"⏭ Next heat · {0} runners left","pf.heatLoaded":"Heat loaded: {0} runners · {1} left","pf.heatSaved":"The previous heat was saved to the archive","pf.loadNote":"Choose who runs. More than 9 are loaded as heats — 9 lanes at a time, then «Next heat». You can load the same class again for another event.",
   "pf.paste":"📋 Paste list", "pf.editNames":"✎ Edit names",
   "pf.sanity":"✅ One-minute sanity check — before every race",
   "pf.board":"Official results",
@@ -14685,7 +14703,7 @@ en:{
   "info.home.w":"Three steps, once, and you're ready to work.",
   "info.home.l":"<li><b>Teacher code</b> is set on first sign-in, and protects the teacher area when the phone changes hands.</li><li><b>🎬 Demo mode</b> on the sign-in screen — a sample class with results, so you can see how everything works before entering real students. Clear it with one tap.</li><li><b>One real class</b> — «Fitness tests» → pick year and number → «👥 Roster». From then on the same roster is available on every other screen.</li>",
   "info.ft.s":"🏅 Fitness tests",
-  "info.ft.w":"The heart of the app: 31 tests with a stopwatch and counter. Pick a class and a test, and enter a result for each student.",
+  "info.ft.w":"The heart of the app: 35 tests with a stopwatch and counter. Pick a class and a test, and enter a result for each student.",
   "info.ft.l":"<li><b>🏅 Tests</b> the screen where you actually measure. Every result is saved to the student and never deleted.</li><li><b>📊 Fitness index</b> an overall fitness score for each student against the norms.</li><li><b>🏅 PE badge</b> who meets the requirements and what they still need.</li><li><b>📋 What the class is missing</b> who has already been measured in each test and who hasn't — instead of searching through lists.</li><li><b>📈 Progress insights</b> for each test: how many improved, how many declined, how many unchanged.</li>",
   "info.lesson.s":"📋 Lesson plans",
   "info.lesson.w":"A complete plan — warm-up, stations, game and cool-down — in one tap or built by hand.",
@@ -15342,7 +15360,7 @@ ar:{
   "live.startCls":"ابدأ الدرس",
   "live.noClassTools":"أدوات من دون صف",
   "live.tMeas":"قياس",
-  "live.tMeasSub":"31 اختبار لياقة",
+  "live.tMeasSub":"35 اختبار لياقة",
   "live.tBeep":"اختبار البيب",
   "live.tBeepSub":"الانطلاق وتسجيل الانسحاب",
   "live.tPhoto":"تصوير خط النهاية",
@@ -15385,6 +15403,7 @@ ar:{
   "pf.tStrip":"🎞 صورة النهاية", "pf.tRes":"🏁 النتائج",
   "pf.tLaps":"🔄 اللفّات",
   "pf.line":"موضع خط النهاية", "pf.loadCls":"👥 تحميل صف",
+  "pf.quickDist":"مسافة السباق (م)","pf.distOther":"أخرى","pf.nextHeat":"⏭ السباق التالي · بقي {0} متسابقين","pf.heatLoaded":"تم تحميل السباق: {0} متسابقين · بقي {1}","pf.heatSaved":"تم حفظ السباق السابق في الأرشيف","pf.loadNote":"اختر من يركض. أكثر من 9 يُحمَّلون على دفعات — 9 مسارات في كل مرة، ثم «السباق التالي». يمكنك تحميل الصف نفسه مرة أخرى لسباق آخر.",
   "pf.board":"النتائج الرسمية",
   "stu.tabList":"👥 طلابي", "stu.tabGrades":"📊 العلامات", "stu.title":"طلابي",
   "stu.search":"بحث", "stu.sort":"ترتيب", "stu.add":"+ إضافة طلاب",
@@ -15572,7 +15591,7 @@ ar:{
   "info.home.w":"ثلاث خطوات، مرة واحدة، وتصبح جاهزًا للعمل.",
   "info.home.l":"<li><b>رمز المعلّم</b> يُحدَّد عند الدخول الأول، ويحمي منطقة المعلّم حين ينتقل الهاتف بين الأيدي.</li><li><b>🎬 وضع العرض التوضيحي</b> في شاشة الدخول — صف نموذجي بنتائج، لترى كيف يعمل كل شيء قبل إدخال طلاب حقيقيين. يُمسح بضغطة واحدة.</li><li><b>صف حقيقي واحد</b> — «اختبارات اللياقة» ← اختر الطبقة والرقم ← «👥 القائمة». من هنا تتوفّر القائمة نفسها في كل الشاشات الأخرى.</li>",
   "info.ft.s":"🏅 اختبارات اللياقة",
-  "info.ft.w":"قلب التطبيق: 31 اختبارًا مع ساعة إيقاف وعدّاد. اختر صفًا واختبارًا، وأدخل نتيجة لكل طالب.",
+  "info.ft.w":"قلب التطبيق: 35 اختبارًا مع ساعة إيقاف وعدّاد. اختر صفًا واختبارًا، وأدخل نتيجة لكل طالب.",
   "info.ft.l":"<li><b>🏅 الاختبارات</b> الشاشة التي تقيس فيها فعلًا. كل نتيجة تُحفظ للطالب ولا تُحذف.</li><li><b>📊 مؤشّر اللياقة</b> علامة لياقة شاملة لكل طالب مقابل المعايير.</li><li><b>🏅 شارة التربية البدنية</b> من يستوفي المتطلبات وما الذي ينقصه.</li><li><b>📋 ما ينقص الصف</b> من قيس في كل اختبار ومن لم يُقَس بعد — بدل البحث في القوائم.</li><li><b>📈 مؤشّرات التقدّم</b> لكل اختبار: كم تحسّن، كم تراجع، كم بلا تغيير.</li>",
   "info.lesson.s":"📋 خطط الدروس",
   "info.lesson.w":"خطة كاملة — إحماء، محطات، لعبة وختام — بضغطة واحدة أو ببناء يدوي.",
@@ -16229,7 +16248,7 @@ ru:{
   "live.startCls":"Начать урок",
   "live.noClassTools":"Инструменты без класса",
   "live.tMeas":"Замер",
-  "live.tMeasSub":"31 тест физподготовки",
+  "live.tMeasSub":"35 тестов физподготовки",
   "live.tBeep":"Бип-тест",
   "live.tBeepSub":"Старт и отметка выбывших",
   "live.tPhoto":"Фотофиниш",
@@ -16276,6 +16295,7 @@ ru:{
   "pf.tLaps":"🔄 Круги",
   "pf.line":"Положение линии финиша", "pf.sens":"Чувствительность ·",
   "pf.loadCls":"👥 Загрузить класс",
+  "pf.quickDist":"Дистанция забега (м)","pf.distOther":"другая","pf.nextHeat":"⏭ Следующий забег · осталось {0}","pf.heatLoaded":"Забег загружен: {0} бегунов · осталось {1}","pf.heatSaved":"Предыдущий забег сохранён в архив","pf.loadNote":"Выберите, кто бежит. Если больше 9, они загружаются забегами — по 9 дорожек, затем «Следующий забег». Тот же класс можно загрузить снова для другой дисциплины.",
   "pf.board":"Официальные результаты",
   "stu.tabList":"👥 Мои ученики", "stu.tabGrades":"📊 Оценки", "stu.title":"Мои ученики",
   "stu.search":"Поиск", "stu.sort":"Сортировка", "stu.add":"+ Добавить учеников",
@@ -16452,7 +16472,7 @@ ru:{
   "info.home.w":"Три шага, один раз — и можно работать.",
   "info.home.l":"<li><b>Код учителя</b> задаётся при первом входе и защищает зону учителя, когда телефон переходит из рук в руки.</li><li><b>🎬 Демо-режим</b> на экране входа — учебный класс с результатами, чтобы увидеть, как всё работает, до ввода реальных учеников. Очищается одним нажатием.</li><li><b>Один настоящий класс</b> — «Тесты физподготовки» → выберите параллель и номер → «👥 Список». С этого момента тот же список доступен на всех остальных экранах.</li>",
   "info.ft.s":"🏅 Тесты физподготовки",
-  "info.ft.w":"Сердце приложения: 31 тест с секундомером и счётчиком. Выберите класс и тест и введите результат каждому ученику.",
+  "info.ft.w":"Сердце приложения: 35 тестов с секундомером и счётчиком. Выберите класс и тест и введите результат каждому ученику.",
   "info.ft.l":"<li><b>🏅 Тесты</b> экран, где идут реальные измерения. Каждый результат сохраняется за учеником и не удаляется.</li><li><b>📊 Индекс физподготовки</b> общая оценка физподготовки каждого ученика относительно норм.</li><li><b>🏅 Значок по физкультуре</b> кто выполняет требования и чего ему не хватает.</li><li><b>📋 Чего не хватает классу</b> кто уже прошёл каждый тест, а кто ещё нет, — вместо поиска по спискам.</li><li><b>📈 Динамика</b> по каждому тесту: сколько улучшились, сколько ухудшились, сколько без изменений.</li>",
   "info.lesson.s":"📋 Планы уроков",
   "info.lesson.w":"Полный план — разминка, станции, игра и заключение — одним нажатием или вручную.",
@@ -17109,7 +17129,7 @@ es:{
   "live.startCls":"Empezar sesión",
   "live.noClassTools":"Herramientas sin grupo",
   "live.tMeas":"Medir",
-  "live.tMeasSub":"31 pruebas de condición física",
+  "live.tMeasSub":"35 pruebas de condición física",
   "live.tBeep":"Test de la bip",
   "live.tBeepSub":"Salida y registro de abandonos",
   "live.tPhoto":"Foto-finish",
@@ -17181,6 +17201,7 @@ es:{
   "pf.minT":"Separación mín. (s)",
   "pf.gunDist":"Distancia del micrófono al juez de salida (m)",
   "pf.loadCls":"👥 Cargar grupo",
+  "pf.quickDist":"Distancia de la serie (m)","pf.distOther":"otra","pf.nextHeat":"⏭ Siguiente serie · quedan {0}","pf.heatLoaded":"Serie cargada: {0} corredores · quedan {1}","pf.heatSaved":"La serie anterior se guardó en el archivo","pf.loadNote":"Elige quién corre. Si son más de 9 se cargan por series: 9 calles cada vez y luego «Siguiente serie». Puedes cargar el mismo grupo otra vez para otra prueba.",
   "pf.paste":"📋 Pegar lista",
   "pf.editNames":"✎ Editar nombres",
   "pf.sanity":"✅ Comprobación de un minuto — antes de cada carrera",
@@ -17370,7 +17391,7 @@ es:{
   "info.home.w":"Tres pasos, una sola vez, y a trabajar.",
   "info.home.l":"<li><b>El código docente</b> se crea en la primera entrada y protege la zona docente cuando el móvil pasa de mano en mano.</li><li><b>🎬 Modo demostración</b> en la pantalla de entrada — un grupo de ejemplo con resultados, para ver cómo funciona todo antes de introducir alumnado real. Se borra con un toque.</li><li><b>Un grupo real</b> — «Pruebas de condición física» → elige curso y número → «👥 Lista». Desde ese momento la misma lista está disponible en todas las demás pantallas.</li>",
   "info.ft.s":"🏅 Pruebas de condición física",
-  "info.ft.w":"El corazón de la aplicación: 31 pruebas con cronómetro y contador. Elige un grupo y una prueba, e introduce un resultado para cada alumno.",
+  "info.ft.w":"El corazón de la aplicación: 35 pruebas con cronómetro y contador. Elige un grupo y una prueba, e introduce un resultado para cada alumno.",
   "info.ft.l":"<li><b>🏅 Pruebas</b> la pantalla donde se mide de verdad. Cada resultado se guarda en el alumno y no se borra.</li><li><b>📊 Índice de condición física</b> una puntuación global de condición física de cada alumno frente a los baremos.</li><li><b>🏅 Insignia de Educación Física</b> quién cumple los requisitos y qué le falta.</li><li><b>📋 Qué le falta al grupo</b> quién ya ha hecho cada prueba y quién no — en lugar de buscar en listas.</li><li><b>📈 Evolución</b> por prueba: cuántos mejoraron, cuántos empeoraron, cuántos sin cambios.</li>",
   "info.lesson.s":"📋 Planes de sesión",
   "info.lesson.w":"Un plan completo — calentamiento, estaciones, juego y vuelta a la calma — con un toque o construido a mano.",
@@ -21811,12 +21832,13 @@ const PF=(function(){
     /* כותרת ברירת המחדל בשפת הממשק; כותרת שהמורה כתב — כפי שנכתבה */
     $("#pf-setTitle").value=META.title===PF_TITLE_DEF?trUI(META.title):META.title; $("#pf-setRound").value=META.round;
     $("#pf-setDist").value=META.dist; $("#pf-setDate").value=META.date; $("#pf-setWind").value=META.wind;
+    if(window.__pfPaintDist)window.__pfPaintDist();
   }
   function saveMeta(){
     const ti=$("#pf-setTitle").value.trim();
     META={title:ti===trUI(PF_TITLE_DEF)?PF_TITLE_DEF:(ti||"מקצה"),round:$("#pf-setRound").value,
       dist:+$("#pf-setDist").value||0,date:$("#pf-setDate").value,wind:$("#pf-setWind").value};
-    LS.set("pf.meta",META); renderMeta(); toast("הפרטים נשמרו");
+    LS.set("pf.meta",META); renderMeta(); if(window.__pfPaintDist)window.__pfPaintDist(); toast("הפרטים נשמרו");
   }
 
   /* ---------- tabs & init ---------- */
@@ -21978,21 +22000,69 @@ const PF=(function(){
     /* טעינת כיתה — אותה רשימה שמשמשת את מבחני הכושר, כדי שהשמות בלוח
        התוצאות יהיו זהים לאלה שבמעקב ולא גרסה מוקלדת מחדש. המסלולים
        מוגבלים ל-9, ולכן הבורר מוגבל לתשעה נבחרים — מקצה אחרי מקצה. */
+    /* מקצים: כיתה שלמה נטענת כרשימה, ומוצגים ממנה עד 9 מסלולים בכל פעם. «המקצה הבא» שומר
+       את המקצה שהסתיים בארכיון (אם יש בו זמנים ועוד לא נשמר) וטוען את הבאים בתור. */
+    let heatPool=LS.get("pf.pool",{names:[],i:0,n:0});
+    const heatLeft=()=>Math.max(0,(heatPool.names||[]).length-(heatPool.i+heatPool.n));
+    function paintHeatBtn(){
+      const b=$("#pf-nextHeat"); if(!b)return;
+      const left=heatLeft(); b.hidden=!left;
+      if(left)b.textContent=t("pf.nextHeat","⏭ המקצה הבא · נותרו {0} רצים").replace("{0}",left);
+    }
+    function showHeat(chunk){
+      laneN=Math.max(2,Math.min(9,chunk.length));
+      LS.set("pf.laneN",laneN);
+      $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
+      buildLanes(false);
+      lanes.forEach((l,i)=>{ l.name=chunk[i]||l.name; });
+      persistNames(); renderChips(); renderBoard(); refreshLaneSel();
+      if(mode==="sim"&&!race.on)drawSimIdle();
+    }
     $("#pf-loadCls").addEventListener("click",()=>{
       if(!window.FT||!window.FT.pick){toast("בורר הכיתה לא זמין");return;}
-      window.FT.pick({title:"טעינת מקצה מכיתה", max:9,
-        note:"בחר את הרצים של המקצה הזה — עד 9 מסלולים. אפשר לחזור ולטעון מקצה נוסף מאותה כיתה.",
+      window.FT.pick({title:"טעינת מקצה מכיתה",
+        note:t("pf.loadNote","בחר מי רץ. יותר מ-9 נטענים כמקצים — 9 מסלולים בכל פעם, ואז «המקצה הבא». אפשר לטעון שוב את אותה כיתה למקצה אחר."),
         onPick:(list)=>{
-          laneN=Math.max(2,Math.min(9,list.length));
-          LS.set("pf.laneN",laneN);
-          $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
-          buildLanes(false);
-          lanes.forEach((l,i)=>{ l.name=list[i]||l.name; });
-          persistNames(); renderChips(); renderBoard(); refreshLaneSel();
-          if(mode==="sim"&&!race.on)drawSimIdle();
-          toast("נטענו "+list.length+" רצים למסלולים");
+          const first=list.slice(0,9);
+          heatPool={names:list.slice(),i:0,n:first.length}; LS.set("pf.pool",heatPool);
+          showHeat(first); paintHeatBtn();
+          toast(t("pf.heatLoaded","נטען מקצה: {0} רצים · נותרו {1}").replace("{0}",first.length).replace("{1}",heatLeft()));
         }});
     });
+    $("#pf-nextHeat").addEventListener("click",()=>{
+      if(race.on||!heatLeft())return;
+      const done=finished();
+      if(done.length){
+        const sig=a=>JSON.stringify(a.map(r=>[r.lane,r.name,+(+r.time).toFixed(3)]));
+        const top=arcList()[0];
+        if(!top||sig(top.results)!==sig(done)){ arcSave(); toast(t("pf.heatSaved","המקצה הקודם נשמר לארכיון")); }
+      }
+      const start=heatPool.i+heatPool.n, size=Math.max(2,Math.min(9,laneN));
+      const chunk=heatPool.names.slice(start,start+size);
+      heatPool={names:heatPool.names,i:start,n:chunk.length}; LS.set("pf.pool",heatPool);
+      resetRace(); showHeat(chunk); paintHeatBtn();
+      toast(t("pf.heatLoaded","נטען מקצה: {0} רצים · נותרו {1}").replace("{0}",chunk.length).replace("{1}",heatLeft()));
+    });
+    paintHeatBtn();
+    /* מרחק המקצה: צ'יפים לערכים נפוצים + הקלדה חופשית (קיצור). משפיע על הכותרת, על התעודות ועל
+       המבחן שאליו נשלחים הזמנים. */
+    const DIST_PRESETS=[60,80,100,200,400,600,800,1000,1500,1600,2000];
+    function paintDist(){
+      const box=$("#pf-distChips"); if(!box)return;
+      box.innerHTML=DIST_PRESETS.map(d=>'<button type="button" class="btn sm'+(+META.dist===d?' acc':' ghost')+'" data-d="'+d+'">'+d+'</button>').join("");
+      $$("#pf-distChips [data-d]").forEach(b=>b.addEventListener("click",()=>setDist(+b.dataset.d)));
+      const q=$("#pf-quickDist"); if(q&&document.activeElement!==q)q.value=DIST_PRESETS.includes(+META.dist)?"":(META.dist||"");
+    }
+    function setDist(v){
+      v=Math.round(+v); if(!(v>0)||v>100000)return;
+      META={...META,dist:v}; LS.set("pf.meta",META);
+      const sd=$("#pf-setDist"); if(sd)sd.value=v;
+      renderMeta(); paintDist();
+    }
+    $("#pf-quickDist").addEventListener("change",e=>{ const v=Math.round(+String(e.target.value).replace(/[^\d.]/g,"")); if(v>0)setDist(v); else paintDist(); });
+    $("#pf-quickDist").addEventListener("focus",e=>{ try{ e.target.select(); }catch(err){} });
+    window.__pfPaintDist=paintDist;
+    paintDist();
     /* הדבקת רשימת שמות */
     /* שדה בתוך הכרטיס, ולא prompt() — רשימה ארוכה מודבקת ונבדקת במקום */
     const pasteBox=$("#pf-pasteBox");
@@ -22006,6 +22076,7 @@ const PF=(function(){
       const list=txt.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);
       if(!list.length){ toast(t("pf.pasteEmpty","הדבק לפחות שם אחד")); return; }
       pasteBox.hidden=true; $("#pf-pasteTxt").value="";
+      heatPool={names:[],i:0,n:0}; LS.set("pf.pool",heatPool); paintHeatBtn();
       laneN=Math.max(2,Math.min(9,list.length));
       LS.set("pf.laneN",laneN);
       $("#pf-laneCount").value=laneN; $("#pf-laneCountVal").textContent=laneN;
@@ -22058,7 +22129,7 @@ const PF=(function(){
     /* זמן ספרינט מגיע ישר למבחן המרחק המתאים. רק מרחקים שיש להם מבחן
        בקטלוג נשלחים — «85 מ׳» אינו מבחן, ולכן עדיף להגיד את זה מפורש
        מאשר להמציא לו מבחן קרוב ולזהם את הנורמה. */
-    const PF_DIST_TEST={60:"r60",100:"r100",300:"r300",600:"r600",1000:"r1000",1500:"r1500",2000:"r2000"};
+    const PF_DIST_TEST={60:"r60",80:"r80",100:"r100",300:"r300",400:"r400",600:"r600",800:"r800",1000:"r1000",1500:"r1500",1600:"r1600",2000:"r2000"};
     $("#pf-toFt").addEventListener("click",()=>{
       const list=finished();
       if(!list.length){toast("אין תוצאות לשלוח");return;}
@@ -22218,7 +22289,8 @@ const PF=(function(){
           measured:vclk.fps?Math.round(vclk.fps*10)/10:0, rvfc:!!vclk.rvfc};
       }catch(e){ return {supported:false,error:String(e)}; }
     },
-    _test:{thresholds:s2=>{sens=s2;return thresholds()},nextUnfinished:()=>nextUnfinished(),
+    _test:{setTimes:ts=>{ ts.forEach((v,i)=>{ if(lanes[i]){ lanes[i].time=v; lanes[i].src="test"; } }); renderChips(); renderBoard(); },
+      thresholds:s2=>{sens=s2;return thresholds()},nextUnfinished:()=>nextUnfinished(),
       setLanes:l=>{lanes=l},windIllegal:w=>{META.wind=w;return windIllegal()},
       crossAt,precisionOf,micLagSec,paintArmed,soundLag:d=>{LS.set("pf.gunDist",d);return soundLagSec()},
       camMediaNow:()=>camMediaNow(),
@@ -48166,16 +48238,24 @@ const TESTS=[
   {id:"r60",  em:"⚡", name:"60 מטר",   cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
    hint:"זינוק גבוה או נמוך. מדידה עד חציית הקו בחזה. לדיוק גבוה — השתמש במודול «פוטו־פיניש».",
    link:"photo"},
+  {id:"r80",  em:"⚡", name:"80 מטר",   cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
+   hint:"מנוחה מלאה בין ניסיונות. מרחק נפוץ בחטיבת הביניים.", link:"photo"},
   {id:"r100", em:"⚡", name:"100 מטר",  cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
    hint:"מנוחה מלאה בין ניסיונות — מהירות מתאמנים כשרעננים.", link:"photo"},
   {id:"r300", em:"🏃", name:"300 מטר",  cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
    hint:"מבחן סבולת אנאירובית. הסבר לתלמידים לצאת מבוקר — רובם יוצאים מהר מדי."},
+  {id:"r400", em:"🏃", name:"400 מטר",  cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
+   hint:"הקפה אחת במסלול. מבחן סבולת אנאירובית — הסבר לתלמידים לא לצאת מהר מדי."},
   {id:"r600", em:"🏃", name:"600 מטר",  cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
    hint:"המרחק הנפוץ בחטיבה. הקפה וחצי במסלול 400."},
+  {id:"r800", em:"🏃", name:"800 מטר",  cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
+   hint:"שתי הקפות במסלול 400. חלק את הכיתה לקבוצות — אחת רצה, השנייה סופרת הקפות."},
   {id:"r1000",em:"🏃", name:"1000 מטר", cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
    hint:"שתיים וחצי הקפות. חלק את הכיתה לשתי קבוצות — אחת רצה, השנייה סופרת הקפות."},
   {id:"r1500",em:"🏃", name:"1500 מטר", cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
    hint:"כמעט 4 הקפות. שווה למנות סופר הקפות לכל רץ."},
+  {id:"r1600",em:"🏃", name:"1600 מטר", cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
+   hint:"ארבע הקפות במסלול 400 (מייל). ודא שתייה זמינה לפני ואחרי."},
   {id:"r2000",em:"🏃", name:"2000 מטר", cat:"run", kind:"clock", dir:"low",  unit:"שנ׳",
    hint:"5 הקפות. לתיכון בעיקר — ודא שתייה זמינה לפני ואחרי."},
   {id:"shut", em:"🔀", name:"ריצת שאטל 10×5 מ׳", cat:"run", kind:"clock", dir:"low", unit:"שנ׳",
@@ -53050,7 +53130,7 @@ function paintPick(root){
     '</div></details>'+
     '<div class="hx-sec">'+esc(t("live.noClassTools","כלים בלי כיתה"))+'</div>'+
     '<div class="lv-tiles">'+
-      tile("meas","🏅",t("live.tMeas","מדידה"),t("live.tMeasSub","31 מבחני כושר"))+
+      tile("meas","🏅",t("live.tMeas","מדידה"),t("live.tMeasSub","35 מבחני כושר"))+
       tile("beep","🎵",t("live.tBeep","ביפ טסט"),t("live.tBeepSub","זינוק ורישום נשירה"))+
       tile("photo","📷",t("live.tPhoto","פיניש"),t("live.tPhotoSub","מצלמה ומסלולים"))+
       tile("timer","⏲",t("live.tTimer","טיימר"),t("live.tTimerSub","אינטרוולים · תחנות"))+
@@ -53093,7 +53173,7 @@ function paintLive(root,a){
     (att&&att.total&&!att.marked?'<button class="btn acc big lv-allin" id="lv-allIn">✓ '+esc(t("live.allIn","כולם נוכחים"))+' ('+att.total+')</button>':"")+
     '<div class="lv-tiles">'+
       tile("att","✅",t("live.tAtt","נוכחות"),attSub,attBadge)+
-      tile("meas","🏅",t("live.tMeas","מדידה"),meas?meas+" "+t("live.measDone","מדידות בשיעור"):t("live.tMeasSub","31 מבחני כושר"))+
+      tile("meas","🏅",t("live.tMeas","מדידה"),meas?meas+" "+t("live.measDone","מדידות בשיעור"):t("live.tMeasSub","35 מבחני כושר"))+
       tile("beep","🎵",t("live.tBeep","ביפ טסט"),t("live.tBeepSub","זינוק ורישום נשירה"))+
       tile("photo","📷",t("live.tPhoto","פיניש"),t("live.tPhotoSub","מצלמה ומסלולים"))+
       tile("timer","⏲",t("live.tTimer","טיימר"),t("live.tTimerSub","אינטרוולים · תחנות"))+

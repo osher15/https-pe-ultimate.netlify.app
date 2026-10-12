@@ -16,7 +16,7 @@ Counts were measured with a script on 2026-10-12 (characters including spaces).
 ## Changes, all languages
 1. **Audience widened** from "PE teachers" to "PE teachers, fitness trainers and sports coaches" (owner decision 2026-10-12: adults 18+). Short descriptions say "teachers and coaches".
 2. **Accuracy claim removed** from photo-finish: "down to the millisecond" -> "a practical field tool, not certified timing" (no accuracy study exists).
-3. **Test count 30 -> 31** (31 tests in `hm-tests.js`, "31 fitness tests" in the app).
+3. **Test count 30 -> 31** (35 tests in `hm-tests.js`, "35 fitness tests" in the app).
 4. **Lesson plans marked as drafts** ("manual step-by-step builder with draft lesson plans").
 5. **Features added that exist in the app:** live lesson timer, timetable, attendance, manual grade override, games library.
 6. **Hyphen/format fixes:** citation markers `[span_N](start_span)...` that Gemini attached to every sentence were stripped.
