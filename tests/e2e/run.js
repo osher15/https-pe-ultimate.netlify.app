@@ -65,7 +65,9 @@ const suites=[
   require("./lang30.e2e.js"),
   require("./stage1.e2e.js"),
   require("./stage2.e2e.js"),
-  require("./lessonbank.e2e.js")
+  require("./lessonbank.e2e.js"),
+  require("./demolang.e2e.js"),
+  require("./lessonmode.e2e.js")
 ];
 run(suites).then(fail=>{
   if(fail)return process.exit(1);

@@ -23,7 +23,7 @@ Not verified here: the new release job has not run yet (the sandbox has no Andro
 
 ## 3. Owner decisions needed before any submission
 
-1. **Package / bundle ID** (`app.netlify.peultimate` is temporary and permanent after first upload; changing it later means a new app).
+1. **Package / bundle ID** (`app.netlify.peultimate` was temporary and is now `io.github.osher15.peultimate` and permanent after first upload; changing it later means a new app).
 2. **Target audience** (staff only, or mixed with Families requirements, because student mode exists).
 3. **Age rating answers**, including the fitness/health question.
 4. **Export compliance answers** (AES-GCM backup encryption).

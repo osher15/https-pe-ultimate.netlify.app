@@ -173,7 +173,7 @@ const percentile=window.HMDATA.percentile;
    ============================================================ */
 window.FT=(function(){
   let inited=false;
-  let st={grade:"ז",num:1,gid:null,test:null,sort:"todo",tab:"tests"};
+  let st={grade:"ז",num:1,gid:null,test:null,sort:"todo",tab:"tests",showPick:false};
   let clk={on:false,t0:0,raf:0,paused:0};      /* השעון המשותף לכיתה */
   /* הקפות של המקצה הנוכחי: {שם: [זמן הקפה 1, 2, ...]}. חי בזיכרון בזמן
      המקצה; הזמן הסופי נשמר כרגיל, והפערים נשמרים איתו לצפייה מאוחרת. */
@@ -213,7 +213,7 @@ window.FT=(function(){
     return r;
   }
   /* הרישום דורש store בסגנון hm-data; עוטפים את LS פעם אחת. */
-  const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v)};
+  const clsStore={get:(k,d)=>LS().get(k,d===undefined?null:d),set:(k,v)=>LS().set(k,v),raw:k=>LS().raw?LS().raw(k):undefined};
   function registerCls(c){ try{ return DATA.registerClass(clsStore,c); }catch(e){ return null; } }
   /* תווית → זהות, דרך הרישום: כיתה ששמה שונה שומרת על המזהה שלה.
      כשהיא לא רשומה — נגזר מהתווית, כמו קודם. */
@@ -483,6 +483,24 @@ window.FT=(function(){
         `<button data-gid="${esc(g.id)}" class="${st.gid===g.id?"on":""}">👥 ${esc(g.name)}</button>`).join("")+
         `<button data-join="1" class="ghost">🔗 ${esc(H().t("grp.joinBtn","חבר כיתות"))}</button>`;
     }
+    /* מצב שיעור: השיעור הפעיל הוא בכיתה הזאת, ולכן אין מה לבחור.
+       בוררי השכבה והמספר מתקפלים לשורה אחת, והמבחנים עולים לראש
+       המסך. «החלף כיתה» פותח את הבוררים כמו תמיד. */
+    const act=H().session&&H().session.active?H().session.active():null;
+    const lessonMode=!!(act&&act.cid&&act.cid===cidOf(c))&&!st.showPick;
+    const pick=$("#ft-pick");
+    pick.classList.toggle("ft-lessonMode",lessonMode);
+    let lrow=$("#ft-lessonRow");
+    if(!lrow){
+      lrow=document.createElement("div"); lrow.id="ft-lessonRow"; lrow.className="ft-lessonRow";
+      const h2=pick.querySelector(".card h2"); if(h2)h2.after(lrow);
+    }
+    lrow.hidden=!lessonMode;
+    if(lessonMode){
+      lrow.innerHTML=`<div class="grow">▶ <b>${esc(H().t("lm.active","שיעור פעיל"))}</b> · ${esc(disp(c))} · ${rst.length} ${esc(H().t("lm.students","תלמידים"))}</div>`+
+        `<button class="btn sm ghost" id="ft-showPick">${esc(H().t("lm.changeCls","החלף כיתה"))}</button>`;
+      lrow.querySelector("#ft-showPick").onclick=()=>{ st.showPick=true; renderPicker(); };
+    }
     $("#ft-clsName").textContent=(G?"👥 ":"")+disp(c);
     $("#ft-clsInfo").textContent=G
       ? DATA.groupSummary(clsStore,c)+" · "+rst.length+" תלמידים"
@@ -650,7 +668,7 @@ window.FT=(function(){
         delta=`<span class="dl ${imp?"up":"down"}">${imp?"▲":"▼"} ${fmtVal(T,Math.abs(r.val-pv.val))}</span>`;
       }
       return `<div class="ft-row${r?" done":""}" data-n="${esc(k)}" data-nm="${esc(s.name)}">
-        <div class="nm" data-card="${esc(k)}" title="כרטיס התלמיד">${esc(s.name)}${
+        <div class="nm" data-card="${esc(k)}" title="${esc(H().t("ft.cardTitle","כרטיס התלמיד"))}">${esc(s.name)}${
           isG(c)&&s.cls?`<span class="ccls">${esc(disp(s.cls))}</span>`:""}${
           all.length?`<span class="pv">${
             bst?`⭐ הטוב: ${fmtVal(T,bst.val)}`:""}${all.length>1?` · ${all.length} ניסיונות`:""}</span>`:""}</div>
@@ -666,14 +684,14 @@ window.FT=(function(){
              במקום ללחוץ שישים פעם. type=text ולא number: number מחזיר
              מחרוזת ריקה באמצע הקלדה, וזה כבר עלה לנו פעם בשדה אחר. */
           ? `<div class="ft-step">
-               <button class="plus" data-inc="${esc(k)}" aria-label="חזרה אחת">+</button>
-               <button class="by5" data-inc5="${esc(k)}" aria-label="חמש חזרות">+5</button>
+               <button class="plus" data-inc="${esc(k)}" aria-label="${esc(H().t("ft.repOne","חזרה אחת"))}">+</button>
+               <button class="by5" data-inc5="${esc(k)}" aria-label="${esc(H().t("ft.repFive","חמש חזרות"))}">+5</button>
                <input class="cnt" type="text" inputmode="numeric" dir="ltr"
-                 data-cnt="${esc(k)}" aria-label="מספר חזרות"
+                 data-cnt="${esc(k)}" aria-label="${esc(H().t("ft.repCount","מספר חזרות"))}"
                  value="${pendingNew[k]?"":(Math.round((openAttempt(c,T.id,s)||{}).val||0)||"")}"
                  placeholder="0">
-               <button data-dec="${esc(k)}" aria-label="פחות אחת">−</button>
-               <button class="by5" data-dec5="${esc(k)}" aria-label="פחות חמש">−5</button>
+               <button data-dec="${esc(k)}" aria-label="${esc(H().t("ft.repMinusOne","פחות אחת"))}">−</button>
+               <button class="by5" data-dec5="${esc(k)}" aria-label="${esc(H().t("ft.repMinusFive","פחות חמש"))}">−5</button>
              </div>`
           : `<input class="ft-num" type="number" inputmode="decimal" step="0.1" min="0"
                data-val="${esc(k)}" value="${pendingNew[k]?"":((openAttempt(c,T.id,s)||{}).val??"")}" placeholder="${esc(T.unit)}">`}
@@ -2418,7 +2436,7 @@ window.FT=(function(){
   function applyLessonCls(){
     const a=(H().session&&H().session.active())||null;
     if(!a||st.lessonId===a.id)return false;
-    st.lessonId=a.id;
+    st.lessonId=a.id; st.showPick=false;
     /* שיעור בקבוצה — המבחנים נפתחים על הקבוצה כולה */
     if(isG(a.cid)&&DATA.groupOf(clsStore,a.cid)){
       const changed=st.gid!==a.cid; st.gid=a.cid;

@@ -35,7 +35,7 @@ window.STU=(function(){
                    כיתה מוכרת מחזירה את המזהה הרשום גם אם שמה השתנה;
                    כיתה חדשה נרשמת; תווית ריקה → null (תלמיד בלי כיתה).
      ============================================================ */
-  const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v)};
+  const store={get:(k,d)=>H().LS.get(k,d===undefined?null:d),set:(k,v)=>H().LS.set(k,v),raw:k=>H().LS.raw?H().LS.raw(k):undefined};
   const cidOf=s=>window.HMDATA.cidOfStudent(s,store);
   const cidFor=c=>window.HMDATA.resolveClassId(store,c,true);
   /* הכיתות שברשימה, לפי זהות: [{cid,name,n}] ממוין לפי שם. השם מגיע
@@ -88,8 +88,18 @@ window.STU=(function(){
     (Array.isArray(rs)?rs:[]).forEach(r=>{ if(r&&r.sid&&r.test!=="beep")m[r.sid]=(m[r.sid]||0)+1; });
     return m;
   }
+  /* מצב שיעור: בשיעור פעיל «התלמידים שלי» נפתח על כיתת השיעור ולא על
+     «כל הכיתות». פעם אחת לכל שיעור — בחירה של המורה אחר כך נשמרת. */
+  let lessonF=null;
+  function applyLessonFilter(list){
+    let a=null; try{ a=H().session&&H().session.active?H().session.active():null; }catch(e){}
+    if(!a||!a.cid||a.id===lessonF)return;
+    lessonF=a.id;
+    if(list.some(s=>inF(s,a.cid)))clsF=a.cid;
+  }
   function render(){
     const {$, $$, esc}=H(); const list=load();
+    applyLessonFilter(list);
     /* הבורר מציג שמות אבל נושא מזהים: הערך הוא cid, התווית היא השם. */
     const classes=classList(list);
     $("#stu-classSel").innerHTML=classOpts(list,classes,clsF);
@@ -1276,7 +1286,10 @@ window.HMBootNew=function(){
   const unlockTeacher=()=>{
     sessionStorage.setItem(BRAND.ns+"unlocked","1");
     H0.setRole("teacher");
-    $("#lockOv").classList.remove("on"); toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
+    $("#lockOv").classList.remove("on");
+    /* באמצע שיעור המורה חוזר לשיעור — בלי הודעה שמכסה את התחתית */
+    const inLesson=(()=>{ try{ return !!(H0.session&&H0.session.active&&H0.session.active()); }catch(e){ return false; } })();
+    if(!inLesson)toast(H0.t?H0.t("lock.welcome","ברוך הבא, המאמן 👋"):"ברוך הבא, המאמן 👋");
     maybeRemindLead();
   };
   paintLeadLang();
@@ -1397,12 +1410,25 @@ window.HMBootNew=function(){
       rl.textContent=want==="he"?H0.t("ui.demoReloadHe","↻ טען את ההדגמה מחדש בעברית")
         :H0.t("ui.demoReloadEn","↻ טען את ההדגמה מחדש באנגלית"); }
   }
-  document.addEventListener("i18n:change",paintDemoBar);
+  /* ההדגמה היא נתונים מומצאים בלבד (מזהים demoN ו-dmN) — לכן כשהשפה משתנה
+     מחליפים את שמות ההדגמה לשפה החדשה אוטומטית, בלי כפתור. נתונים אמיתיים
+     ושאר הרשומות לא נוגעים. המסך הנוכחי מצויר מחדש מהנתונים החדשים,
+     בלי טעינת דף — כדי לא לקטוע שיעור או הקלדה. */
+  function syncDemoLang(){
+    if(!demoOn()||demoLang()===demoLangFor())return;
+    seedDemo(demoLangFor());
+    paintDemoBar();
+    const mod=document.body.dataset.mod;
+    /* רק מסכי נתונים שמציגים שמות תלמידים; מסכים אחרים מציירים את עצמם כבר באירוע השפה */
+    if(["ft","cls","stu","tools","rec"].includes(mod))
+      setTimeout(()=>{ if(document.body.dataset.mod===mod){ try{ H0.go(mod); }catch(e){} } },0);
+  }
+  document.addEventListener("i18n:change",()=>{ paintDemoBar(); setTimeout(syncDemoLang,0); });
   const demoBtn=$("#lock-demo");
   if(demoBtn)demoBtn.addEventListener("click",()=>{
     if(hasRealData()&&!demoOn()){
-      toast("יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם");
-      H0.ask({msg:"במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר.",alert:true,ok:"הבנתי"});
+      toast(H0.t("ui.demoHasData","יש כבר נתונים במכשיר — ההדגמה לא תרוץ מעליהם"));
+      H0.ask({msg:H0.t("ui.demoHasDataQ","במכשיר הזה כבר יש נתונים אמיתיים.\n\nמצב הדגמה זורע כיתה מומצאת, ולכן הוא פועל רק על מכשיר ריק — כדי שלא תתערבב עם תלמידים אמיתיים.\n\nכדי לראות הדגמה: גבה את הנתונים (הגדרות ← גיבוי), נקה, והפעל הדגמה. אחר כך שחזר."),alert:true,ok:H0.t("ui.demoGotIt","הבנתי")});
       return;
     }
     if(!demoOn())seedDemo(demoLangFor());
@@ -1426,6 +1452,7 @@ window.HMBootNew=function(){
     clearDemo(); toast(H0.t("ui.demoCleared","נתוני ההדגמה נמחקו")); setTimeout(()=>location.reload(),600);
   });
   paintDemoBar();
+  syncDemoLang();
 
   /* מעבר למצב תלמיד מתוך האפליקציה (מוסרים את המכשיר לכיתה) */
   const handBtn=$("#rec-handBtn");
