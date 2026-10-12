@@ -12,7 +12,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 - Screenshots must come from the real app on a device after the device pass; none exist yet.
 - Default language for the listing: English (matches the app's default for new installs).
 
-> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 31 tests). Arabic was reviewed by Gemini too (first pass, needs a human native speaker). Russian too (first pass, needs a human native speaker). Spanish is NOT yet reviewed; their test count was corrected to 31 mechanically.
+> 2026-10-12: the English full description was reviewed by Gemini (audience widened, draft lesson plans, timer/timetable/attendance and games added) and the test count corrected from 30 to 31 (31 tests in `hm-tests.js`). Hebrew was reviewed by Gemini the same way (audience, draft plans, 31 tests). Arabic was reviewed by Gemini too (first pass, needs a human native speaker). Russian too (first pass, needs a human native speaker). Spanish too (first pass, needs a human native speaker). All five full descriptions now come from the Gemini review; their test count was corrected to 31 mechanically.
 
 > 2026-10-12: the photo-finish line no longer claims millisecond accuracy. Per `docs/handoffs/2026-10-09-report-review-claude-action-plan.md` there is no certification or controlled accuracy study, so listing text must not promise precise or certified timing. Character counts below are from before this edit: re-measure.
 
@@ -24,7 +24,7 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 | עברית | 15 | 61 | 1042 |
 | العربية | 15 | 64 | 1175 |
 | Русский | 15 | 66 | 1471 |
-| Español | 15 | 80 | 1340 |
+| Español | 15 | 79 | 1503 |
 
 ## English (default) (`en`)
 
@@ -175,25 +175,25 @@ PE Ultimate App
 
 **Short description**
 
-Tests físicos, test del pitido, foto-finish y planes de clase para profes de EF.
+Tests físicos, pitido, foto-finish y planes de clase para docentes y monitores.
 
 **Full description**
 
 ```text
-PE Ultimate es un kit de campo para profesores de educación física. Todo funciona en tu teléfono o tableta, sin cuenta y sin internet, en el gimnasio o en la pista.
+PE Ultimate es un kit de campo gratuito para profesores de educación física, entrenadores de fitness y monitores deportivos. Todo funciona en tu teléfono o tableta, sin cuenta y sin internet, en el gimnasio o en la pista.
 
 QUÉ PUEDES HACER
 • 31 tests de condición física con varios intentos por alumno, ficha del alumno y baremos del centro
 • Test del pitido (Léger) con estimación de VO₂max y baremos basados en FITNESSGRAM
 • Foto-finish: cronometra con la cámara — herramienta práctica de campo, no cronometraje certificado
-• Planes de clase: un generador rápido y un constructor manual paso a paso
-• Listas de clase, notas, estructura de la nota y grupos de enseñanza
-• Tablas de récords, juegos y una base de conocimiento con fuentes citadas
+• Planes de clase: un generador rápido y un constructor manual con borradores de planes
+• Listas de clase, notas (con edición manual), asistencia, horario y temporizador de clase en vivo
+• Tablas de récords, biblioteca de juegos y una base de conocimiento con fuentes citadas
 • Modo alumno: los alumnos ven la tabla de récords y añaden un récord en tu dispositivo
 • Exporta resultados a Excel/CSV e imprime o guarda en PDF
 
 TUS DATOS SE QUEDAN CONTIGO
-Sin registro y sin servidor propio. Alumnos, resultados y notas se guardan en tu dispositivo. Haz una copia de seguridad en un archivo (con cifrado opcional) para conservarla o pasar a otro dispositivo.
+Sin registro y sin servidor propio. Alumnos, resultados y notas se guardan localmente en tu dispositivo. Haz una copia de seguridad en un archivo (con cifrado opcional) para conservarla o pasar a otro dispositivo.
 
 CINCO IDIOMAS
 Español, inglés, hebreo, árabe y ruso, con dirección de texto automática. Algunas traducciones son borradores aún no revisados por hablantes nativos.
