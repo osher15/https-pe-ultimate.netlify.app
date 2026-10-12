@@ -12,6 +12,8 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 - Screenshots must come from the real app on a device after the device pass; none exist yet.
 - Default language for the listing: English (matches the app's default for new installs).
 
+> 2026-10-12: the photo-finish line no longer claims millisecond accuracy. Per `docs/handoffs/2026-10-09-report-review-claude-action-plan.md` there is no certification or controlled accuracy study, so listing text must not promise precise or certified timing. Character counts below are from before this edit: re-measure.
+
 ## Counts
 
 | Language | Name (≤30) | Short (≤80) | Full (≤4000) |
@@ -40,7 +42,7 @@ PE Ultimate is a field kit for physical education teachers. Everything runs on y
 WHAT YOU CAN DO
 • 30 fitness tests with several attempts per student, student cards and school norms
 • Beep test (Léger) with an estimated VO₂max and FITNESSGRAM-based norms
-• Photo-finish: time runs with the camera, down to the millisecond
+• Photo-finish: time runners with the phone camera (a practical field tool, not certified timing)
 • Lesson plans: a quick generator, plus a manual step-by-step builder
 • Class lists, grades, grade structure and teaching groups
 • Records boards, games and a cited knowledge base
@@ -75,7 +77,7 @@ PE Ultimate היא ערכת שטח למורים לחינוך גופני. הכו�
 מה אפשר לעשות
 • 30 מבחני כושר עם כמה ניסיונות לכל תלמיד, כרטיס תלמיד ונורמות בית־ספריות
 • ביפ טסט (Léger) עם הערכת VO₂max ונורמות על בסיס FITNESSGRAM
-• פוטו־פיניש: מדידת זמנים במצלמה, עד רמת המילישנייה
+• פוטו־פיניש: מדידת זמנים במצלמה — כלי שטח מעשי, לא מדידה מוסמכת
 • מערכי שיעור: מחולל מהיר ובונה ידני שלב אחר שלב
 • רשימות כיתה, ציונים, מבנה ציון וקבוצות הוראה
 • לוחות שיאים, משחקים ומאגר ידע מצוטט
@@ -110,7 +112,7 @@ PE Ultimate أداة ميدانية لمعلمي التربية البدنية. 
 ماذا يمكنك أن تفعل
 • 30 اختبار لياقة مع عدة محاولات لكل طالب، وبطاقة طالب ومعايير مدرسية
 • اختبار البيب (Léger) مع تقدير VO₂max ومعايير مبنية على FITNESSGRAM
-• فوتو فينش: قياس الأزمنة بالكاميرا بدقة الميلي ثانية
+• فوتو فينش: قياس الأزمنة بالكاميرا — أداة ميدانية عملية وليست قياسًا معتمدًا
 • خطط الدروس: مولّد سريع ومنشئ يدوي خطوة بخطوة
 • قوائم الصفوف والعلامات وهيكل العلامة ومجموعات التدريس
 • لوحات الأرقام القياسية وألعاب وقاعدة معرفة موثّقة بالمصادر
@@ -145,7 +147,7 @@ PE Ultimate — полевой набор для учителей физичес
 ЧТО МОЖНО ДЕЛАТЬ
 • 30 тестов физической подготовки: несколько попыток на ученика, карточка ученика, школьные нормативы
 • Бип-тест (Léger) с оценкой VO₂max и нормативами на основе FITNESSGRAM
-• Фотофиниш: хронометраж камерой с точностью до миллисекунды
+• Фотофиниш: хронометраж камерой — практичный полевой инструмент, не сертифицированный хронометраж
 • Планы уроков: быстрый генератор и пошаговый ручной конструктор
 • Списки классов, оценки, структура оценки и учебные группы
 • Таблицы рекордов, игры и база знаний со ссылками на источники
@@ -180,7 +182,7 @@ PE Ultimate es un kit de campo para profesores de educación física. Todo funci
 QUÉ PUEDES HACER
 • 30 tests de condición física con varios intentos por alumno, ficha del alumno y baremos del centro
 • Test del pitido (Léger) con estimación de VO₂max y baremos basados en FITNESSGRAM
-• Foto-finish: cronometra con la cámara, hasta el milisegundo
+• Foto-finish: cronometra con la cámara — herramienta práctica de campo, no cronometraje certificado
 • Planes de clase: un generador rápido y un constructor manual paso a paso
 • Listas de clase, notas, estructura de la nota y grupos de enseñanza
 • Tablas de récords, juegos y una base de conocimiento con fuentes citadas
