@@ -216,6 +216,8 @@ module.exports={title:"שלב 9 — שם מהרישום ושינוי שם",tests
     "stu.list":[{id:"d",name:"אורח",cls:"",cid:null,cidAmbig:"no-class",sex:"boys",age:13,tests:[]}]
   }),async page=>{
     await go(page,"stu");
+    /* the seed has an active lesson in ח׳1, so My Students opens on that class; this check is about a pupil without a class */
+    await page.evaluate(()=>{ const s=document.getElementById("stu-classSel"); s.value=""; s.dispatchEvent(new Event("change")); }); await page.waitForTimeout(300);
     await page.evaluate(()=>document.querySelector('#stu-list .stu-row[data-id="d"]').click()); await page.waitForTimeout(400);
     await page.evaluate(()=>{ document.getElementById("stu-fCls").value="ח׳1"; document.getElementById("stu-fSave").click(); }); await page.waitForTimeout(400);
     let s=await page.evaluate(()=>window.HM.LS.get("stu.list",[])[0]);
