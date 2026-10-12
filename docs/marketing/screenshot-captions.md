@@ -14,3 +14,6 @@ Rules applied: max 6 words, only features that exist, no accuracy/norm claims. E
 | 8 | Games library (not captured yet) | Games with levels and tasks | משחקים עם דרגות קושי ומשימות | ألعاب بمستويات ومهام | Игры с уровнями и заданиями | Juegos con niveles y tareas |
 
 Photo-finish is deliberately not captioned or screenshotted (no accuracy study; the emulated camera is a black frame).
+
+## Gemini's own proposals for rows 6-8 (not used)
+"Monitor individual student progress offline", "Encrypted backups to protect data", "Practical games and professional knowledge". Not used because: backup encryption is optional in the app (so "Encrypted backups" overclaims), "professional knowledge" is vague, and the first two exceed six words. The Hebrew glosses were kept in mind for wording.
