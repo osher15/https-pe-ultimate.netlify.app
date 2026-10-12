@@ -1,0 +1,12 @@
+diff --git a/sw.js b/sw.js
+index f325e01..03766ec 100644
+--- a/sw.js
++++ b/sw.js
+@@ -44,6 +44,7 @@ const SHELL = [
+   "./hm-qr.js?v=82eb96ad",
+   "./hm-howto.js?v=cc1c5bf0",
+   "./hm-know.js?v=4c80ae28",
++  "./hm-collections.js",
+   "./hm-tools.js?v=0baf385d",
+   "./hm-plans.js?v=20cf74cb",
+   "./hm-lessonbank.js?v=bd6597ac",

@@ -1,0 +1,22 @@
+diff --git a/docs/NATIVE_RELEASE_CHECKLIST.md b/docs/NATIVE_RELEASE_CHECKLIST.md
+index 908a33e..0c5cb46 100644
+--- a/docs/NATIVE_RELEASE_CHECKLIST.md
++++ b/docs/NATIVE_RELEASE_CHECKLIST.md
+@@ -32,6 +32,17 @@ Not verified here: the new release job has not run yet (the sandbox has no Andro
+ 7. **Store-specific privacy sentence** ("deleting the app deletes its data; back up first").
+ 8. **Accounts**: Apple Developer Program (99 USD/year), Google Play Console (25 USD once). Only after the device tests below.
+ 
++## Package-ID migration gate (packaging-only proposal, 2026-10-11)
++
++The proposed `io.github.osher15.peultimate` identity is a **new app**, installed beside
++`app.netlify.peultimate`; it is not an in-place update and cannot read the old app's
++private storage automatically. Before switching: create an encrypted backup in the
++old app, retain the file and password, install the new-ID app, restore there, and
++verify classes, sid/cid, results, manual grades and language before removing the old
++install. Keep the old install and backup until the owner verifies recovery.
++The same-ID upgrade checks below do not prove this migration. Migration has not
++been physically tested; do not mark the device checklist passed.
++
+ ## 4. Signing and upload (owner only)
+ 
+ Android:
