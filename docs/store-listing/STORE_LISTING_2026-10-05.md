@@ -16,15 +16,17 @@ App name is **PE Ultimate App** in every language (a brand name, 15 characters, 
 
 > 2026-10-12: the photo-finish line no longer claims millisecond accuracy. Per `docs/handoffs/2026-10-09-report-review-claude-action-plan.md` there is no certification or controlled accuracy study, so listing text must not promise precise or certified timing. Character counts below are from before this edit: re-measure.
 
+> 2026-10-12 (owner decision: keep norms, wording must need no licence): the listing no longer uses the FITNESSGRAM name (a registered trademark of The Cooper Institute; the official FitnessGram app exists) and says "reference norms for guidance, adjustable". The in-app About screen keeps the attribution and now states non-affiliation. Character counts below were re-measured after this edit.
+
 ## Counts
 
 | Language | Name (≤30) | Short (≤80) | Full (≤4000) |
 |---|---|---|---|
-| English (default) | 15 | 78 | 1460 |
-| עברית | 15 | 61 | 1042 |
-| العربية | 15 | 64 | 1175 |
-| Русский | 15 | 66 | 1471 |
-| Español | 15 | 79 | 1503 |
+| English (default) | 15 | 78 | 1483 |
+| עברית | 15 | 61 | 1043 |
+| العربية | 15 | 64 | 1182 |
+| Русский | 15 | 66 | 1502 |
+| Español | 15 | 79 | 1521 |
 
 ## English (default) (`en`)
 
@@ -42,8 +44,8 @@ Fitness tests, beep test, photo-finish, lesson plans for teachers and coaches.
 PE Ultimate is a free, offline field kit for physical education teachers, fitness trainers, and sports coaches. Everything runs on your phone or tablet, with no account and no internet needed in the gym or on the field.
 
 WHAT YOU CAN DO
-• 31 fitness tests with several attempts per student, student cards and school norms
-• Beep test (Léger) with an estimated VO₂max and FITNESSGRAM-based norms
+• 31 fitness tests with several attempts per student, student cards and reference norms you can adjust
+• Beep test (Léger) with an estimated VO₂max and reference norms for guidance
 • Photo-finish: time runners with the phone camera (a practical field tool, not certified timing)
 • Lesson plans: a quick generator, plus a manual step-by-step builder with draft lesson plans
 • Class lists, grades with manual override, grade structure, and teaching groups
@@ -78,8 +80,8 @@ PE Ultimate App
 PE Ultimate היא ערכת שטח חינמית למורים לחינוך גופני, מאמני כושר ומדריכי ספורט. הכול רץ בטלפון או בטאבלט, בלי חשבון ובלי אינטרנט, בחדר הכושר ובמגרש.
 
 מה אפשר לעשות
-• 31 מבחני כושר עם כמה ניסיונות לכל תלמיד, כרטיס תלמיד ונורמות בית־ספריות
-• ביפ טסט (Léger) עם הערכת VO₂max ונורמות על בסיס FITNESSGRAM
+• 31 מבחני כושר עם כמה ניסיונות לכל תלמיד, כרטיס תלמיד ונורמות ייחוס שאפשר להתאים
+• ביפ טסט (Léger) עם הערכת VO₂max ונורמות ייחוס להדרכה
 • פוטו־פיניש: מדידת זמנים במצלמה — כלי שטח מעשי, לא מדידה מוסמכת
 • מערכי שיעור: מחולל מהיר ובונה ידני עם טיוטות של מערכים
 • רשימות כיתה, ציונים (עם עריכה ידנית), נוכחות, מערכת שעות וטיימר שיעור חי
@@ -113,8 +115,8 @@ PE Ultimate App
 PE Ultimate أداة ميدانية مجانية لمعلمي التربية البدنية، مدربي اللياقة، والمدربين الرياضيين. يعمل كل شيء على الهاتف أو الجهاز اللوحي، دون حساب ودون إنترنت، في الصالة أو في الملعب.
 
 ماذا يمكنك أن تفعل
-• 31 اختبار لياقة مع عدة محاولات لكل طالب، وبطاقة طالب ومعايير مدرسية
-• اختبار البيب (Léger) مع تقدير VO₂max ومعايير مبنية على FITNESSGRAM
+• 31 اختبار لياقة مع عدة محاولات لكل طالب، وبطاقة طالب ومعايير مرجعية قابلة للتعديل
+• اختبار البيب (Léger) مع تقدير VO₂max ومعايير مرجعية للإرشاد
 • فوتو فينش: قياس الأزمنة بالكاميرا — أداة ميدانية عملية وليست قياسًا معتمدًا
 • خطط الدروس: مولّد سريع ومنشئ يدوي مع مسودات لخطط الدروس
 • قوائم الصفوف، العلامات (مع تعديل يدوي)، الحضور، جدول الحصص، ومؤقت الدرس المباشر
@@ -148,8 +150,8 @@ PE Ultimate App
 PE Ultimate — бесплатный полевой набор для учителей физической культуры, фитнес-тренеров и спортивных инструкторов. Всё работает на телефоне или планшете, без аккаунта и без интернета, в зале и на стадионе.
 
 ЧТО МОЖНО ДЕЛАТЬ
-• 31 тест физической подготовки: несколько попыток на ученика, карточка ученика, школьные нормативы
-• Бип-тест (Léger) с оценкой VO₂max и нормативами на основе FITNESSGRAM
+• 31 тест физической подготовки: несколько попыток на ученика, карточка ученика, справочные нормативы с возможностью настройки
+• Бип-тест (Léger) с оценкой VO₂max и справочными нормативами для ориентира
 • Фотофиниш: хронометраж камерой — практичный полевой инструмент, не сертифицированный хронометраж
 • Планы уроков: быстрый генератор и пошаговый конструктор с черновиками уроков
 • Списки классов, оценки (с ручным редактированием), посещаемость, расписание и таймер живого урока
@@ -183,8 +185,8 @@ Tests físicos, pitido, foto-finish y planes de clase para docentes y monitores.
 PE Ultimate es un kit de campo gratuito para profesores de educación física, entrenadores de fitness y monitores deportivos. Todo funciona en tu teléfono o tableta, sin cuenta y sin internet, en el gimnasio o en la pista.
 
 QUÉ PUEDES HACER
-• 31 tests de condición física con varios intentos por alumno, ficha del alumno y baremos del centro
-• Test del pitido (Léger) con estimación de VO₂max y baremos basados en FITNESSGRAM
+• 31 tests de condición física con varios intentos por alumno, ficha del alumno y baremos de referencia ajustables
+• Test del pitido (Léger) con estimación de VO₂max y baremos de referencia orientativos
 • Foto-finish: cronometra con la cámara — herramienta práctica de campo, no cronometraje certificado
 • Planes de clase: un generador rápido y un constructor manual con borradores de planes
 • Listas de clase, notas (con edición manual), asistencia, horario y temporizador de clase en vivo

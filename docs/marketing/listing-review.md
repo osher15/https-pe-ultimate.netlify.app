@@ -5,11 +5,11 @@ The corrected texts are in `docs/store-listing/STORE_LISTING_2026-10-05.md` (nam
 ## Measured limits (Google Play: name 30, short 80, full 4000)
 | Language | Name | Short | Full | Limits |
 |---|---|---|---|---|
-| English (default) (`en`) | 15 | 78 | 1460 | OK |
-| עברית (`he`) | 15 | 61 | 1042 | OK |
-| العربية (`ar`) | 15 | 64 | 1175 | OK |
-| Русский (`ru`) | 15 | 66 | 1471 | OK |
-| Español (`es`) | 15 | 79 | 1503 | OK |
+| English (default) (`en`) | 15 | 78 | 1483 | OK |
+| עברית (`he`) | 15 | 61 | 1043 | OK |
+| العربية (`ar`) | 15 | 64 | 1182 | OK |
+| Русский (`ru`) | 15 | 66 | 1502 | OK |
+| Español (`es`) | 15 | 79 | 1521 | OK |
 
 Counts were measured with a script on 2026-10-12 (characters including spaces).
 
@@ -24,6 +24,6 @@ Counts were measured with a script on 2026-10-12 (characters including spaces).
 
 ## Needs a human decision or native speaker
 - Arabic, Russian, Spanish: first pass, `[NATIVE REVIEW]` (the Spanish and Arabic change notes Gemini attached mark them).
-- **Norms wording:** every language still says "school norms" / "FITNESSGRAM-based norms". Project rule: norms need a source and licence. Owner decides to keep, soften ("norms you can configure") or remove.
+- **Norms wording (decided 2026-10-12):** kept, but the listing now says "reference norms for guidance, adjustable" and no longer uses the FITNESSGRAM name (registered trademark of The Cooper Institute). The in-app About screen keeps the attribution and states non-affiliation.
 - **"cited knowledge base":** every language says it; verify it is true before submission.
 - **VO₂max** is described as an estimate for education (kept).

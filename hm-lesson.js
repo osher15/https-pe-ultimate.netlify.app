@@ -1015,8 +1015,13 @@ window.LESSON=(function(){
   /* סטטוס התוכן: מיובא כמות שהוא, ושום דבר לא מסומן כנסקר בלי שאדם סקר אותו */
   function bankStatusHtml(){
     const LB=window.LESSONBANK, P=LB&&LB.meta&&LB.meta.provenance, st=(P&&P.reviewStatus)||"imported";
+    /* content and order are the author's own; Hebrew/English were reviewed by the author, the other languages are
+       unproofread translations: say so, and point to the reviewed versions for safety instructions */
+    const lang=bankLang(), reviewed=lang==="he"||lang==="en";
     const msg=st==="draft"||st==="imported"
-      ?H().t("lb.draft","טיוטה: המערכים מיובאים כפי שנכתבו ועדיין לא עברו בדיקה מקצועית, עריכת שפת־אם ופיילוט בשטח. אפשר לעיין ולהשתמש בשיקול דעתכם.")
+      ?(reviewed
+        ?H().t("lb.draftOk","טיוטה: המערכים מקוריים, והתוכן והסדר נסקרו על ידי המחבר. עדיין לא נוסו בפיילוט בשטח. אפשר לעיין ולהשתמש בשיקול דעתכם.")
+        :H().t("lb.draftTr","טיוטה: המערכים מקוריים, והתוכן והסדר זהים לגרסאות בעברית ובאנגלית שנסקרו על ידי המחבר. התרגום הזה טרם עבר הגהה של דובר שפת אם ועלולות להיות בו טעויות ניסוח או הקלדה. אם משהו לא ברור, בעיקר הנחיית בטיחות, בדקו מול הגרסה בעברית או באנגלית."))
       :"";
     return msg?`<div class="hint ls-bank-draft" data-status="${H().esc(st)}">${H().esc(msg)}</div>`:"";
   }
