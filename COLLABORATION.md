@@ -30,6 +30,7 @@ Owner coordinates merges and deployments. Both assistants may implement scoped t
 | Narrower timing ranges, 8-min round floor, 45/50/60/90 lessons, transitions included in step times (#19) | Claude | hm-data.js stepRanges/fitSteps/warmMinutes/mainWindow/overheadFull; hm-lesson.js gen/duration presets; index.html #ls-dur. Handoff: docs/handoffs/2026-10-07-timing-ranges.md |
 | Personal editable copy of a lesson, bank-to-copy (#21 item 5, #24) | Claude | hm-lesson.js save/update/undo/bankCopy; hm-data.js libSave/libUndo/bankToPlan; index.html #ls-update/#ls-bankCopy; pc.* keys; .ls-src. Handoff: docs/handoffs/2026-10-07-personal-copy.md |
 | Personal collections (#21 item 3) | Claude | hm-collections.js (new); hm-data.js col* helpers; hm-know.js games chips/button; hm-lesson.js row/bank buttons and resolvers; col.* keys; BK_LABELS entry. Handoff: docs/handoffs/2026-10-07-collections.md |
+| Pupil import from Excel (.xlsx), Issue #53 | Claude | hm-new.js pupil import handler; index.html #stu-fileImport; hm-tests.js xlsx reader moved to a shared helper (no behavior change); new reader file + build/SW registration; stu.xl* keys; focused tests. Not started |
 
 No blanket ownership of hm-data.js or all translation files: reserve bounded sections, rebase against accepted changes and rebuild outputs.
 When a file overlaps, serialize edits or agree distinct sections in the task record. A branch is not an automatic lock.
