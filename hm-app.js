@@ -767,6 +767,7 @@ SETTINGS_OPEN=openSettings;
 $("#set-save").addEventListener("click",()=>{ SET.school=$("#set-school").value.trim(); SET.sound=$("#set-sound").checked; SET.voice=$("#set-voice").checked; SET.wake=$("#set-wake").checked;
   SET.driveForm=$("#set-driveForm").value.trim(); SET.driveFolder=$("#set-driveFolder").value.trim();
   SET.syncUrl=$("#set-syncUrl").value.trim(); SET.syncCode=$("#set-syncCode").value.trim();
+  if(SET.syncUrl&&!/^https:\/\//i.test(SET.syncUrl)){ SET.syncUrl=""; toast(t("sync.https","כתובת הסנכרון חייבת להתחיל ב-https://")); $("#set-syncUrl").value=""; }
   saveSet(); modal("setModal",false); toast(t("set.saved","ההגדרות נשמרו"));
   if(typeof REC!=="undefined"&&REC.applyRole)REC.applyRole(); });
   wireBackup(); wireGDrive(); wireAbout(); wirePurge(); wireStorageWarn();
@@ -2179,6 +2180,18 @@ function wireBackup(){
     await new Promise(res=>{ try{ const q=indexedDB.deleteDatabase(BRAND.idbName); q.onsuccess=q.onerror=q.onblocked=()=>res(); }catch(e){ res(); } setTimeout(res,2500); });
     location.replace(location.pathname);
   }
+  /* גיבוי אוטומטי של אנדרואיד: בחירת המורה, כבוי כברירת מחדל. הדגל נשמר בצד הנייטיב (PEBackup). */
+  (function(){
+    const row=$("#set-autoBkRow"), cb=$("#set-autoBk"), ab=window.HMN&&window.HMN.autoBackup;
+    if(!row||!cb||!ab||!ab.supported)return;
+    row.style.display="";
+    ab.get().then(on=>{ cb.checked=!!on; });
+    cb.addEventListener("change",async()=>{
+      const want=cb.checked;
+      try{ const now=await ab.set(want); cb.checked=!!now; toast(now?t("autobk.on","הגיבוי האוטומטי של אנדרואיד הופעל"):t("autobk.off","הגיבוי האוטומטי של אנדרואיד כובה")); }
+      catch(e){ cb.checked=!want; toast(t("autobk.fail","לא הצלחנו לשנות את ההגדרה")); }
+    });
+  })();
   const wipeBtn=$("#set-wipeAll");
   if(wipeBtn)wipeBtn.addEventListener("click",async()=>{
     if(!bkKeys().length){ toast(t("wipe.noData","אין נתונים למחיקה")); return; }
@@ -4633,8 +4646,10 @@ const REC=(function(){
     return {id:r.id,sport:r.sport,name:r.name,cls:r.cls||"",value:r.value,status:r.status,
       src:r.src||"",ts:r.ts,mts:r.mts||Date.now(),hasVideo:!!r.video};
   }
+  /* סנכרון רשומות שולח שמות תלמידים: רק כתובת https:// (בלי הצפנה בהעברה לא שולחים) */
+  const syncUrlOk=u=>/^https:\/\//i.test(String(u||"").trim());
   async function syncPush(payload){
-    if(!SET.syncUrl)return;
+    if(!SET.syncUrl||!syncUrlOk(SET.syncUrl))return;
     try{
       await fetch(SET.syncUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
         body:JSON.stringify(Object.assign({code:SET.syncCode||""},payload))});
@@ -4642,6 +4657,7 @@ const REC=(function(){
   }
   async function syncPull(){
     if(!SET.syncUrl)return {ok:false,reason:"לא הוגדרה כתובת סנכרון"};
+    if(!syncUrlOk(SET.syncUrl))return {ok:false,reason:t("sync.https","כתובת הסנכרון חייבת להתחיל ב-https://")};
     try{
       const url=SET.syncUrl+(SET.syncUrl.includes("?")?"&":"?")+"code="+encodeURIComponent(SET.syncCode||"");
       const res=await fetch(url);
