@@ -17,18 +17,18 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="d695c1a7">
+<meta name="hm-build" content="4e6fa7ca">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
 <link rel="stylesheet" href="hm-styles.css?v=70d6587e">
 <script src="hm-brand.js?v=4f30e0e9"></script>
-<script src="hm-native.js?v=2725d6cd"></script>
+<script src="hm-native.js?v=3048ae99"></script>
 <script src="hm-backup-restore.js?v=f1a05be7"></script>
 <script src="hm-data.js?v=df1af914"></script>
 <script src="hm-assessment-data.js?v=016c9c1c"></script>
 <script src="hm-terms.js?v=4f73fba7"></script>
 <script src="hm-texts.js?v=c3cdc837"></script>
-<script src="hm-i18n.js?v=d966b590"></script>
-<script src="hm-app.js?v=1ffd35fa"></script>
+<script src="hm-i18n.js?v=79712910"></script>
+<script src="hm-app.js?v=539e8b40"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
 <script src="hm-know.js?v=4c80ae28"></script>
@@ -1877,7 +1877,10 @@
     </div>
     <div class="hint" id="set-bkStat" style="margin-top:8px"></div>
     <div class="hint hmn-only" data-i18n="bk.native" style="margin-top:6px">באפליקציה, «גבה הכל לקובץ» פותח את גיליון השיתוף: משם שומרים את הקובץ ב-Files, ב-Google Drive או במייל.</div>
-    <div class="hint hmn-only" data-i18n="wipe.googleBackup" style="margin-top:6px">באנדרואיד, אם הגיבוי של גוגל מופעל בהגדרות הטלפון, גוגל עשויה לשמור עותק של נתוני האפליקציה בחשבון שלך. את זה אתה שולט בו: הגדרות אנדרואיד ← Google ← גיבוי. קובץ גיבוי שנוצר כאן נפרד ובשליטתך.</div>
+    <div id="set-autoBkRow" style="display:none;margin-top:10px">
+      <label class="chk"><input type="checkbox" id="set-autoBk"> <span data-i18n="autobk.label">גיבוי אוטומטי של אנדרואיד (Google)</span></label>
+      <div class="hint" data-i18n="autobk.hint" style="margin-top:4px">כבוי כברירת מחדל. כשמדליקים, אנדרואיד עשוי להעתיק את נתוני האפליקציה, כולל נתוני תלמידים, לגיבוי בחשבון הגוגל שלך, ולשחזר אותם בטלפון חדש או אחרי התקנה מחדש. כשכבוי, אנדרואיד לא מעתיק אותם. עותק שכבר נשמר קודם אפשר למחוק ב: הגדרות אנדרואיד ← Google ← גיבוי. קובץ גיבוי וגיבוי ל-Drive מתוך האפליקציה אינם מושפעים.</div>
+    </div>
     <div class="row" style="margin-top:12px"><button class="btn sm stop" id="set-wipeAll" data-i18n="wipe.btn">🗑 מחק את כל הנתונים מהמכשיר…</button></div>
     <div class="hint" style="margin-top:4px" data-i18n="wipe.hint">מוחק כיתות, תלמידים, מדידות, ציונים, שיעורים, הגדרות וסרטונים מהמכשיר הזה בלבד. לפני כן תוצע יצירת קובץ גיבוי. קבצי גיבוי ששמרת מחוץ לאפליקציה לא נמחקים, וגם לא פרטי קשר שנשלחו בטופס.</div>
     <details class="bk-howto" style="margin-top:8px"><summary data-i18n="bk.howT">איך משחזרים במכשיר חדש?</summary>

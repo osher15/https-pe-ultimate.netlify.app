@@ -238,6 +238,20 @@ if(NATIVE){
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",afterBoot); else afterBoot();
 }
 
+/* ---------- 6. גיבוי אוטומטי של אנדרואיד (Auto Backup): בחירת המורה, כבוי כברירת מחדל ----------
+   הפלאגין PEBackup (Java, native/android) שומר דגל; ה-BackupAgent לא מעתיק כלום כשהוא כבוי. */
+var autoBackup={
+  supported:NATIVE&&PLATFORM==="android",
+  get:function(){
+    if(!autoBackup.supported)return Promise.resolve(false);
+    return call("PEBackup","getAutoBackup").then(function(r){ return !!(r&&r.enabled); },function(){ return false; });
+  },
+  set:function(on){
+    if(!autoBackup.supported)return Promise.resolve(false);
+    return call("PEBackup","setAutoBackup",{enabled:!!on}).then(function(r){ return !!(r&&r.enabled); });
+  }
+};
+
 window.HMN={native:NATIVE,platform:PLATFORM,site:SITE,saveFile:saveFile,postForm:postForm,
-  awake:awake,say:say,flush:writeSnap,wipe:wipeSnap,_docWindow:docWindow};
+  awake:awake,say:say,flush:writeSnap,wipe:wipeSnap,autoBackup:autoBackup,_docWindow:docWindow};
 })();

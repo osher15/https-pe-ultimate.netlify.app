@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="d695c1a7">
+<meta name="hm-build" content="4e6fa7ca">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -3838,7 +3838,10 @@ body.pf-racing[data-mod="photo"] .nav{display:none}
     </div>
     <div class="hint" id="set-bkStat" style="margin-top:8px"></div>
     <div class="hint hmn-only" data-i18n="bk.native" style="margin-top:6px">באפליקציה, «גבה הכל לקובץ» פותח את גיליון השיתוף: משם שומרים את הקובץ ב-Files, ב-Google Drive או במייל.</div>
-    <div class="hint hmn-only" data-i18n="wipe.googleBackup" style="margin-top:6px">באנדרואיד, אם הגיבוי של גוגל מופעל בהגדרות הטלפון, גוגל עשויה לשמור עותק של נתוני האפליקציה בחשבון שלך. את זה אתה שולט בו: הגדרות אנדרואיד ← Google ← גיבוי. קובץ גיבוי שנוצר כאן נפרד ובשליטתך.</div>
+    <div id="set-autoBkRow" style="display:none;margin-top:10px">
+      <label class="chk"><input type="checkbox" id="set-autoBk"> <span data-i18n="autobk.label">גיבוי אוטומטי של אנדרואיד (Google)</span></label>
+      <div class="hint" data-i18n="autobk.hint" style="margin-top:4px">כבוי כברירת מחדל. כשמדליקים, אנדרואיד עשוי להעתיק את נתוני האפליקציה, כולל נתוני תלמידים, לגיבוי בחשבון הגוגל שלך, ולשחזר אותם בטלפון חדש או אחרי התקנה מחדש. כשכבוי, אנדרואיד לא מעתיק אותם. עותק שכבר נשמר קודם אפשר למחוק ב: הגדרות אנדרואיד ← Google ← גיבוי. קובץ גיבוי וגיבוי ל-Drive מתוך האפליקציה אינם מושפעים.</div>
+    </div>
     <div class="row" style="margin-top:12px"><button class="btn sm stop" id="set-wipeAll" data-i18n="wipe.btn">🗑 מחק את כל הנתונים מהמכשיר…</button></div>
     <div class="hint" style="margin-top:4px" data-i18n="wipe.hint">מוחק כיתות, תלמידים, מדידות, ציונים, שיעורים, הגדרות וסרטונים מהמכשיר הזה בלבד. לפני כן תוצע יצירת קובץ גיבוי. קבצי גיבוי ששמרת מחוץ לאפליקציה לא נמחקים, וגם לא פרטי קשר שנשלחו בטופס.</div>
     <details class="bk-howto" style="margin-top:8px"><summary data-i18n="bk.howT">איך משחזרים במכשיר חדש?</summary>
@@ -4357,8 +4360,22 @@ if(NATIVE){
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",afterBoot); else afterBoot();
 }
 
+/* ---------- 6. גיבוי אוטומטי של אנדרואיד (Auto Backup): בחירת המורה, כבוי כברירת מחדל ----------
+   הפלאגין PEBackup (Java, native/android) שומר דגל; ה-BackupAgent לא מעתיק כלום כשהוא כבוי. */
+var autoBackup={
+  supported:NATIVE&&PLATFORM==="android",
+  get:function(){
+    if(!autoBackup.supported)return Promise.resolve(false);
+    return call("PEBackup","getAutoBackup").then(function(r){ return !!(r&&r.enabled); },function(){ return false; });
+  },
+  set:function(on){
+    if(!autoBackup.supported)return Promise.resolve(false);
+    return call("PEBackup","setAutoBackup",{enabled:!!on}).then(function(r){ return !!(r&&r.enabled); });
+  }
+};
+
 window.HMN={native:NATIVE,platform:PLATFORM,site:SITE,saveFile:saveFile,postForm:postForm,
-  awake:awake,say:say,flush:writeSnap,wipe:wipeSnap,_docWindow:docWindow};
+  awake:awake,say:say,flush:writeSnap,wipe:wipeSnap,autoBackup:autoBackup,_docWindow:docWindow};
 })();
 
 ;
@@ -14543,7 +14560,7 @@ en:{
   "pf.slit":"Slit width ·", "pf.minT":"Min. gap (s)",
   "pf.gunDist":"Microphone distance from the starter (m)",
   "pf.loadCls":"👥 Load class",
-  "wipe.googleBackup":"On Android, if Google Backup is on in your phone settings, Google may keep a copy of the app's data in your Google account. You control that in Android Settings → Google → Backup. A backup file made here is separate and under your control.","wipe.btn":"🗑 Delete all data from this device…","wipe.hint":"Deletes classes, students, measurements, grades, lessons, settings and videos from this device only. You are offered a backup file first. Backup files you saved outside the app are not deleted, and neither are contact details sent through the form.","wipe.noData":"There is no data to delete","wipe.title":"Delete all data from this device","wipe.msg1":"All classes, students, measurements, grades, lessons, settings and videos will be deleted from this device. This cannot be undone. Creating a backup file first is recommended.","wipe.backupOpt":"Create a backup file before deleting (recommended)","wipe.cont":"Continue","wipe.msg2b":"The backup was created. Make sure the file is saved somewhere safe (Files / Drive / computer) before you continue. After deleting, nothing can be restored without it.","wipe.msg2":"No backup was created. After deleting, nothing can be restored.","wipe.word":"delete","wipe.ok":"🗑 Delete everything",
+  "autobk.label":"Android automatic backup (Google)","autobk.hint":"Off by default. When on, Android may copy the app's data, including pupil data, to a backup in your Google account and restore it on a new phone or after reinstalling. When off, Android does not copy it. A copy saved earlier can be deleted in Android Settings → Google → Backup. Backup files and Drive backups made inside the app are not affected.","autobk.on":"Android automatic backup turned on","autobk.off":"Android automatic backup turned off","autobk.fail":"Could not change the setting","sync.https":"The sync address must start with https://","wipe.btn":"🗑 Delete all data from this device…","wipe.hint":"Deletes classes, students, measurements, grades, lessons, settings and videos from this device only. You are offered a backup file first. Backup files you saved outside the app are not deleted, and neither are contact details sent through the form.","wipe.noData":"There is no data to delete","wipe.title":"Delete all data from this device","wipe.msg1":"All classes, students, measurements, grades, lessons, settings and videos will be deleted from this device. This cannot be undone. Creating a backup file first is recommended.","wipe.backupOpt":"Create a backup file before deleting (recommended)","wipe.cont":"Continue","wipe.msg2b":"The backup was created. Make sure the file is saved somewhere safe (Files / Drive / computer) before you continue. After deleting, nothing can be restored without it.","wipe.msg2":"No backup was created. After deleting, nothing can be restored.","wipe.word":"delete","wipe.ok":"🗑 Delete everything",
   "pf.quickDist":"Heat distance (m)","pf.distOther":"other","pf.nextHeat":"⏭ Next heat · {0} runners left","pf.heatLoaded":"Heat loaded: {0} runners · {1} left","pf.heatSaved":"The previous heat was saved to the archive","pf.loadNote":"Choose who runs. More than 9 are loaded as heats — 9 lanes at a time, then «Next heat». You can load the same class again for another event.",
   "pf.paste":"📋 Paste list", "pf.editNames":"✎ Edit names",
   "pf.sanity":"✅ One-minute sanity check — before every race",
@@ -15413,7 +15430,7 @@ ar:{
   "pf.tStrip":"🎞 صورة النهاية", "pf.tRes":"🏁 النتائج",
   "pf.tLaps":"🔄 اللفّات",
   "pf.line":"موضع خط النهاية", "pf.loadCls":"👥 تحميل صف",
-  "wipe.googleBackup":"على أندرويد، إذا كان النسخ الاحتياطي من Google مفعّلًا في إعدادات الهاتف، فقد تحتفظ Google بنسخة من بيانات التطبيق في حسابك. أنت من يتحكم بذلك: إعدادات أندرويد ← Google ← النسخ الاحتياطي. ملف النسخ الاحتياطي الذي يُنشأ هنا منفصل وتحت سيطرتك.","wipe.btn":"🗑 حذف كل البيانات من الجهاز…","wipe.hint":"يحذف الصفوف والطلاب والقياسات والعلامات والدروس والإعدادات والفيديوهات من هذا الجهاز فقط. سيُعرض عليك إنشاء ملف نسخ احتياطي أولًا. ملفات النسخ الاحتياطي التي حفظتها خارج التطبيق لا تُحذف، ولا بيانات التواصل المرسلة عبر النموذج.","wipe.noData":"لا توجد بيانات للحذف","wipe.title":"حذف كل البيانات من الجهاز","wipe.msg1":"سيتم حذف كل الصفوف والطلاب والقياسات والعلامات والدروس والإعدادات والفيديوهات من هذا الجهاز. لا يمكن التراجع. يُنصح بإنشاء ملف نسخ احتياطي أولًا.","wipe.backupOpt":"إنشاء ملف نسخ احتياطي قبل الحذف (موصى به)","wipe.cont":"متابعة","wipe.msg2b":"تم إنشاء النسخة الاحتياطية. تأكد من حفظ الملف في مكان آمن (Files / Drive / الحاسوب) قبل المتابعة. بعد الحذف لا يمكن الاستعادة بدونه.","wipe.msg2":"لم تُنشأ نسخة احتياطية. بعد الحذف لا يمكن الاستعادة.","wipe.word":"حذف","wipe.ok":"🗑 حذف كل شيء",
+  "autobk.label":"النسخ الاحتياطي التلقائي في أندرويد (Google)","autobk.hint":"مُعطّل افتراضيًا. عند التفعيل قد ينسخ أندرويد بيانات التطبيق، بما فيها بيانات الطلاب، إلى نسخة احتياطية في حساب Google الخاص بك ويستعيدها على هاتف جديد أو بعد إعادة التثبيت. عند التعطيل لا ينسخها أندرويد. يمكن حذف نسخة محفوظة سابقًا من: إعدادات أندرويد ← Google ← النسخ الاحتياطي. ملفات النسخ الاحتياطي والنسخ إلى Drive من داخل التطبيق لا تتأثر.","autobk.on":"تم تفعيل النسخ الاحتياطي التلقائي في أندرويد","autobk.off":"تم تعطيل النسخ الاحتياطي التلقائي في أندرويد","autobk.fail":"تعذّر تغيير الإعداد","sync.https":"يجب أن يبدأ عنوان المزامنة بـ https://","wipe.btn":"🗑 حذف كل البيانات من الجهاز…","wipe.hint":"يحذف الصفوف والطلاب والقياسات والعلامات والدروس والإعدادات والفيديوهات من هذا الجهاز فقط. سيُعرض عليك إنشاء ملف نسخ احتياطي أولًا. ملفات النسخ الاحتياطي التي حفظتها خارج التطبيق لا تُحذف، ولا بيانات التواصل المرسلة عبر النموذج.","wipe.noData":"لا توجد بيانات للحذف","wipe.title":"حذف كل البيانات من الجهاز","wipe.msg1":"سيتم حذف كل الصفوف والطلاب والقياسات والعلامات والدروس والإعدادات والفيديوهات من هذا الجهاز. لا يمكن التراجع. يُنصح بإنشاء ملف نسخ احتياطي أولًا.","wipe.backupOpt":"إنشاء ملف نسخ احتياطي قبل الحذف (موصى به)","wipe.cont":"متابعة","wipe.msg2b":"تم إنشاء النسخة الاحتياطية. تأكد من حفظ الملف في مكان آمن (Files / Drive / الحاسوب) قبل المتابعة. بعد الحذف لا يمكن الاستعادة بدونه.","wipe.msg2":"لم تُنشأ نسخة احتياطية. بعد الحذف لا يمكن الاستعادة.","wipe.word":"حذف","wipe.ok":"🗑 حذف كل شيء",
   "pf.quickDist":"مسافة السباق (م)","pf.distOther":"أخرى","pf.nextHeat":"⏭ السباق التالي · بقي {0} متسابقين","pf.heatLoaded":"تم تحميل السباق: {0} متسابقين · بقي {1}","pf.heatSaved":"تم حفظ السباق السابق في الأرشيف","pf.loadNote":"اختر من يركض. أكثر من 9 يُحمَّلون على دفعات — 9 مسارات في كل مرة، ثم «السباق التالي». يمكنك تحميل الصف نفسه مرة أخرى لسباق آخر.",
   "pf.board":"النتائج الرسمية",
   "stu.tabList":"👥 طلابي", "stu.tabGrades":"📊 العلامات", "stu.title":"طلابي",
@@ -16306,7 +16323,7 @@ ru:{
   "pf.tLaps":"🔄 Круги",
   "pf.line":"Положение линии финиша", "pf.sens":"Чувствительность ·",
   "pf.loadCls":"👥 Загрузить класс",
-  "wipe.googleBackup":"На Android, если в настройках телефона включено резервное копирование Google, Google может хранить копию данных приложения в вашем аккаунте. Это вы контролируете: Настройки Android → Google → Резервное копирование. Файл резервной копии, созданный здесь, отдельный и под вашим контролем.","wipe.btn":"🗑 Удалить все данные с устройства…","wipe.hint":"Удаляет классы, учеников, измерения, оценки, уроки, настройки и видео только с этого устройства. Сначала вам предложат создать файл резервной копии. Файлы резервных копий, сохранённые вне приложения, не удаляются, как и контакты, отправленные через форму.","wipe.noData":"Нет данных для удаления","wipe.title":"Удаление всех данных с устройства","wipe.msg1":"Все классы, ученики, измерения, оценки, уроки, настройки и видео будут удалены с этого устройства. Это нельзя отменить. Рекомендуем сначала создать файл резервной копии.","wipe.backupOpt":"Создать файл резервной копии перед удалением (рекомендуется)","wipe.cont":"Продолжить","wipe.msg2b":"Резервная копия создана. Убедитесь, что файл сохранён в надёжном месте (Files / Drive / компьютер), прежде чем продолжить. После удаления без него ничего не восстановить.","wipe.msg2":"Резервная копия не создавалась. После удаления восстановить ничего нельзя.","wipe.word":"удалить","wipe.ok":"🗑 Удалить всё",
+  "autobk.label":"Автоматическое резервное копирование Android (Google)","autobk.hint":"По умолчанию выключено. Если включить, Android может копировать данные приложения, включая данные учеников, в резервную копию в вашем аккаунте Google и восстанавливать их на новом телефоне или после переустановки. Когда выключено, Android их не копирует. Ранее сохранённую копию можно удалить: Настройки Android → Google → Резервное копирование. Файлы резервных копий и копии на Drive, созданные в приложении, это не затрагивает.","autobk.on":"Автоматическое резервное копирование Android включено","autobk.off":"Автоматическое резервное копирование Android выключено","autobk.fail":"Не удалось изменить настройку","sync.https":"Адрес синхронизации должен начинаться с https://","wipe.btn":"🗑 Удалить все данные с устройства…","wipe.hint":"Удаляет классы, учеников, измерения, оценки, уроки, настройки и видео только с этого устройства. Сначала вам предложат создать файл резервной копии. Файлы резервных копий, сохранённые вне приложения, не удаляются, как и контакты, отправленные через форму.","wipe.noData":"Нет данных для удаления","wipe.title":"Удаление всех данных с устройства","wipe.msg1":"Все классы, ученики, измерения, оценки, уроки, настройки и видео будут удалены с этого устройства. Это нельзя отменить. Рекомендуем сначала создать файл резервной копии.","wipe.backupOpt":"Создать файл резервной копии перед удалением (рекомендуется)","wipe.cont":"Продолжить","wipe.msg2b":"Резервная копия создана. Убедитесь, что файл сохранён в надёжном месте (Files / Drive / компьютер), прежде чем продолжить. После удаления без него ничего не восстановить.","wipe.msg2":"Резервная копия не создавалась. После удаления восстановить ничего нельзя.","wipe.word":"удалить","wipe.ok":"🗑 Удалить всё",
   "pf.quickDist":"Дистанция забега (м)","pf.distOther":"другая","pf.nextHeat":"⏭ Следующий забег · осталось {0}","pf.heatLoaded":"Забег загружен: {0} бегунов · осталось {1}","pf.heatSaved":"Предыдущий забег сохранён в архив","pf.loadNote":"Выберите, кто бежит. Если больше 9, они загружаются забегами — по 9 дорожек, затем «Следующий забег». Тот же класс можно загрузить снова для другой дисциплины.",
   "pf.board":"Официальные результаты",
   "stu.tabList":"👥 Мои ученики", "stu.tabGrades":"📊 Оценки", "stu.title":"Мои ученики",
@@ -17213,7 +17230,7 @@ es:{
   "pf.minT":"Separación mín. (s)",
   "pf.gunDist":"Distancia del micrófono al juez de salida (m)",
   "pf.loadCls":"👥 Cargar grupo",
-  "wipe.googleBackup":"En Android, si la copia de seguridad de Google está activada en los ajustes del teléfono, Google puede guardar una copia de los datos de la app en tu cuenta. Eso lo controlas tú: Ajustes de Android → Google → Copia de seguridad. El archivo de copia creado aquí es independiente y está bajo tu control.","wipe.btn":"🗑 Eliminar todos los datos de este dispositivo…","wipe.hint":"Elimina grupos, alumnado, mediciones, notas, sesiones, ajustes y vídeos solo de este dispositivo. Antes se te ofrece crear un archivo de copia. Los archivos de copia que guardaste fuera de la app no se borran, ni tampoco los datos de contacto enviados por el formulario.","wipe.noData":"No hay datos que eliminar","wipe.title":"Eliminar todos los datos de este dispositivo","wipe.msg1":"Se eliminarán de este dispositivo todos los grupos, alumnado, mediciones, notas, sesiones, ajustes y vídeos. No se puede deshacer. Se recomienda crear antes un archivo de copia.","wipe.backupOpt":"Crear un archivo de copia antes de eliminar (recomendado)","wipe.cont":"Continuar","wipe.msg2b":"La copia se creó. Asegúrate de que el archivo esté guardado en un lugar seguro (Files / Drive / ordenador) antes de continuar. Tras eliminar, sin él no se puede restaurar nada.","wipe.msg2":"No se creó copia. Tras eliminar no se puede restaurar nada.","wipe.word":"eliminar","wipe.ok":"🗑 Eliminar todo",
+  "autobk.label":"Copia de seguridad automática de Android (Google)","autobk.hint":"Desactivada por defecto. Si la activas, Android puede copiar los datos de la app, incluidos los del alumnado, en una copia de tu cuenta de Google y restaurarlos en un teléfono nuevo o tras reinstalar. Si está desactivada, Android no los copia. Una copia guardada antes se puede borrar en Ajustes de Android → Google → Copia de seguridad. Los archivos de copia y las copias en Drive hechas desde la app no se ven afectados.","autobk.on":"Copia de seguridad automática de Android activada","autobk.off":"Copia de seguridad automática de Android desactivada","autobk.fail":"No se pudo cambiar el ajuste","sync.https":"La dirección de sincronización debe empezar por https://","wipe.btn":"🗑 Eliminar todos los datos de este dispositivo…","wipe.hint":"Elimina grupos, alumnado, mediciones, notas, sesiones, ajustes y vídeos solo de este dispositivo. Antes se te ofrece crear un archivo de copia. Los archivos de copia que guardaste fuera de la app no se borran, ni tampoco los datos de contacto enviados por el formulario.","wipe.noData":"No hay datos que eliminar","wipe.title":"Eliminar todos los datos de este dispositivo","wipe.msg1":"Se eliminarán de este dispositivo todos los grupos, alumnado, mediciones, notas, sesiones, ajustes y vídeos. No se puede deshacer. Se recomienda crear antes un archivo de copia.","wipe.backupOpt":"Crear un archivo de copia antes de eliminar (recomendado)","wipe.cont":"Continuar","wipe.msg2b":"La copia se creó. Asegúrate de que el archivo esté guardado en un lugar seguro (Files / Drive / ordenador) antes de continuar. Tras eliminar, sin él no se puede restaurar nada.","wipe.msg2":"No se creó copia. Tras eliminar no se puede restaurar nada.","wipe.word":"eliminar","wipe.ok":"🗑 Eliminar todo",
   "pf.quickDist":"Distancia de la serie (m)","pf.distOther":"otra","pf.nextHeat":"⏭ Siguiente serie · quedan {0}","pf.heatLoaded":"Serie cargada: {0} corredores · quedan {1}","pf.heatSaved":"La serie anterior se guardó en el archivo","pf.loadNote":"Elige quién corre. Si son más de 9 se cargan por series: 9 calles cada vez y luego «Siguiente serie». Puedes cargar el mismo grupo otra vez para otra prueba.",
   "pf.paste":"📋 Pegar lista",
   "pf.editNames":"✎ Editar nombres",
@@ -18587,6 +18604,7 @@ SETTINGS_OPEN=openSettings;
 $("#set-save").addEventListener("click",()=>{ SET.school=$("#set-school").value.trim(); SET.sound=$("#set-sound").checked; SET.voice=$("#set-voice").checked; SET.wake=$("#set-wake").checked;
   SET.driveForm=$("#set-driveForm").value.trim(); SET.driveFolder=$("#set-driveFolder").value.trim();
   SET.syncUrl=$("#set-syncUrl").value.trim(); SET.syncCode=$("#set-syncCode").value.trim();
+  if(SET.syncUrl&&!/^https:\/\//i.test(SET.syncUrl)){ SET.syncUrl=""; toast(t("sync.https","כתובת הסנכרון חייבת להתחיל ב-https://")); $("#set-syncUrl").value=""; }
   saveSet(); modal("setModal",false); toast(t("set.saved","ההגדרות נשמרו"));
   if(typeof REC!=="undefined"&&REC.applyRole)REC.applyRole(); });
   wireBackup(); wireGDrive(); wireAbout(); wirePurge(); wireStorageWarn();
@@ -19999,6 +20017,18 @@ function wireBackup(){
     await new Promise(res=>{ try{ const q=indexedDB.deleteDatabase(BRAND.idbName); q.onsuccess=q.onerror=q.onblocked=()=>res(); }catch(e){ res(); } setTimeout(res,2500); });
     location.replace(location.pathname);
   }
+  /* גיבוי אוטומטי של אנדרואיד: בחירת המורה, כבוי כברירת מחדל. הדגל נשמר בצד הנייטיב (PEBackup). */
+  (function(){
+    const row=$("#set-autoBkRow"), cb=$("#set-autoBk"), ab=window.HMN&&window.HMN.autoBackup;
+    if(!row||!cb||!ab||!ab.supported)return;
+    row.style.display="";
+    ab.get().then(on=>{ cb.checked=!!on; });
+    cb.addEventListener("change",async()=>{
+      const want=cb.checked;
+      try{ const now=await ab.set(want); cb.checked=!!now; toast(now?t("autobk.on","הגיבוי האוטומטי של אנדרואיד הופעל"):t("autobk.off","הגיבוי האוטומטי של אנדרואיד כובה")); }
+      catch(e){ cb.checked=!want; toast(t("autobk.fail","לא הצלחנו לשנות את ההגדרה")); }
+    });
+  })();
   const wipeBtn=$("#set-wipeAll");
   if(wipeBtn)wipeBtn.addEventListener("click",async()=>{
     if(!bkKeys().length){ toast(t("wipe.noData","אין נתונים למחיקה")); return; }
@@ -22453,8 +22483,10 @@ const REC=(function(){
     return {id:r.id,sport:r.sport,name:r.name,cls:r.cls||"",value:r.value,status:r.status,
       src:r.src||"",ts:r.ts,mts:r.mts||Date.now(),hasVideo:!!r.video};
   }
+  /* סנכרון רשומות שולח שמות תלמידים: רק כתובת https:// (בלי הצפנה בהעברה לא שולחים) */
+  const syncUrlOk=u=>/^https:\/\//i.test(String(u||"").trim());
   async function syncPush(payload){
-    if(!SET.syncUrl)return;
+    if(!SET.syncUrl||!syncUrlOk(SET.syncUrl))return;
     try{
       await fetch(SET.syncUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
         body:JSON.stringify(Object.assign({code:SET.syncCode||""},payload))});
@@ -22462,6 +22494,7 @@ const REC=(function(){
   }
   async function syncPull(){
     if(!SET.syncUrl)return {ok:false,reason:"לא הוגדרה כתובת סנכרון"};
+    if(!syncUrlOk(SET.syncUrl))return {ok:false,reason:t("sync.https","כתובת הסנכרון חייבת להתחיל ב-https://")};
     try{
       const url=SET.syncUrl+(SET.syncUrl.includes("?")?"&":"?")+"code="+encodeURIComponent(SET.syncCode||"");
       const res=await fetch(url);
