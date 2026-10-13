@@ -1,7 +1,7 @@
 # Task handoff
 Date: 2026-10-13
 Owner: Claude (written for Codex / GPT to continue; owner does the device-only items)
-Base commit: task branch `claude/new-session-rjxqxl` at fa9f29e (not merged to main; verify before starting)
+Base commit: main fa9f29e (verified: fa9f29e is the head of origin/main)
 Branch / PR: new task branch per AGENTS.md; no PR unless the owner asks
 Task / priority / status: Finish everything that can be done without a physical phone. Status: open.
 Reserved files/sections: none reserved yet. Before editing, reserve exact files in an Issue (or record the blocker here if GitHub write access is unavailable).
@@ -33,7 +33,7 @@ Not demonstrated in either recording:
 3. Photo-finish results surviving a real force-close and reopen (only the Android recent-apps screen was opened).
 4. Photo-finish timing accuracy against an independent reference clock.
 
-Open question: in this checkout `fa9f29e` is the head of the task branch, not main. Confirm which commit the APK was built from (CI run, `git log`). If it was older, the delete-all feature may simply not have been in that APK.
+Note: `fa9f29e` is the head of origin/main (verified 2026-10-13), so the delete-all feature is in that commit. Still confirm the APK's commit from the CI run.
 
 ## Part A: work Codex can do without a phone
 
