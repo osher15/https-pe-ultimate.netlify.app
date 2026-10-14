@@ -1,0 +1,149 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FIT-00-D1",
+  "family": "FIT-00",
+  "sport": "fitness",
+  "template": "fit-stations",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "Fixture FIT-00-D1: players start in the marked positions and follow the numbered paths on the fit-stations template."
+  },
+  "group_shown": "whole-class",
+  "title": {
+    "he": "תרחיש בדיקה: fit-stations",
+    "en": "Test fixture: fit-stations",
+    "ar": "نموذج اختبار: fit-stations",
+    "ru": "Тестовый пример: fit-stations",
+    "es": "Ejemplo de prueba: fit-stations"
+  },
+  "alt": {
+    "he": "תרחיש בדיקה סינתטי לתבנית fit-stations, לא תרשים שיעור. משולשים 1 ו-2 של קבוצה א׳, ריבוע 1 של קבוצה ב׳, כדור, שני קונוסים, אזור המתנה W, תחנה 1 והמורה. החצים הממוספרים מראים את סדר התנועה.",
+    "en": "Synthetic test fixture for template fit-stations, not a lesson diagram. Team A triangles 1 and 2, team B square 1, a ball, two cones, waiting zone W, station 1 and the teacher. Numbered arrows show the order of dribble, pass and movement.",
+    "ar": "نموذج اختبار اصطناعي للقالب fit-stations، وليس رسمًا لدرس. مثلثا الفريق أ رقم 1 و2، ومربع الفريق ب رقم 1، وكرة، وقمعان، ومنطقة انتظار W، ومحطة 1، والمعلّم. الأسهم المرقمة تبين ترتيب الحركة.",
+    "ru": "Синтетический тестовый пример для шаблона fit-stations, не схема урока. Треугольники 1 и 2 команды А, квадрат 1 команды Б, мяч, два конуса, зона ожидания W, станция 1 и учитель. Номера у стрелок показывают порядок действий.",
+    "es": "Ejemplo de prueba sintético para la plantilla fit-stations, no es un diagrama de clase. Triángulos 1 y 2 del equipo A, cuadrado 1 del equipo B, un balón, dos conos, zona de espera W, estación 1 y el docente. Las flechas numeradas indican el orden."
+  },
+  "objects": [
+    {
+      "type": "zone",
+      "x": 40,
+      "y": 40,
+      "w": 20,
+      "h": 20,
+      "label": "W"
+    },
+    {
+      "type": "station",
+      "n": 1,
+      "x": 25,
+      "y": 30
+    },
+    {
+      "type": "station",
+      "n": 2,
+      "x": 75,
+      "y": 30
+    },
+    {
+      "type": "station",
+      "n": 3,
+      "x": 75,
+      "y": 70
+    },
+    {
+      "type": "station",
+      "n": 4,
+      "x": 25,
+      "y": 70
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 25,
+      "y": 48
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 75,
+      "y": 48
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 75,
+      "y": 86
+    },
+    {
+      "type": "ball",
+      "x": 31,
+      "y": 52
+    },
+    {
+      "type": "cone",
+      "x": 50,
+      "y": 30
+    },
+    {
+      "type": "cone",
+      "x": 50,
+      "y": 70
+    },
+    {
+      "type": "teacher",
+      "x": 50,
+      "y": 50
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        25,
+        48
+      ],
+      "to": [
+        69,
+        30
+      ],
+      "via": [
+        [
+          50,
+          18
+        ]
+      ],
+      "order": 1
+    },
+    {
+      "kind": "dribble",
+      "from": [
+        75,
+        48
+      ],
+      "to": [
+        75,
+        61
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        75,
+        86
+      ],
+      "to": [
+        30,
+        72
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Synthetic fixture: waiting zone W is outside the working paths.",
+  "notes": "Test fixture for renderer and validator coverage. Not lesson content.",
+  "status": "fixture"
+}
