@@ -1,0 +1,131 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "VB-00-D2",
+  "family": "VB-00",
+  "sport": "volleyball",
+  "template": "vb-half",
+  "anchor": {
+    "section": "appliedGame",
+    "step": 1,
+    "quote_en": "Fixture VB-00-D2: players start in the marked positions and follow the numbered paths on the vb-half template."
+  },
+  "group_shown": "representative",
+  "title": {
+    "he": "תרחיש בדיקה: vb-half",
+    "en": "Test fixture: vb-half",
+    "ar": "نموذج اختبار: vb-half",
+    "ru": "Тестовый пример: vb-half",
+    "es": "Ejemplo de prueba: vb-half"
+  },
+  "alt": {
+    "he": "תרחיש בדיקה סינתטי לתבנית vb-half, לא תרשים שיעור. משולשים 1 ו-2 של קבוצה א׳, ריבוע 1 של קבוצה ב׳, כדור, שני קונוסים, אזור המתנה W, תחנה 1 והמורה. החצים הממוספרים מראים את סדר התנועה.",
+    "en": "Synthetic test fixture for template vb-half, not a lesson diagram. Team A triangles 1 and 2, team B square 1, a ball, two cones, waiting zone W, station 1 and the teacher. Numbered arrows show the order of dribble, pass and movement.",
+    "ar": "نموذج اختبار اصطناعي للقالب vb-half، وليس رسمًا لدرس. مثلثا الفريق أ رقم 1 و2، ومربع الفريق ب رقم 1، وكرة، وقمعان، ومنطقة انتظار W، ومحطة 1، والمعلّم. الأسهم المرقمة تبين ترتيب الحركة.",
+    "ru": "Синтетический тестовый пример для шаблона vb-half, не схема урока. Треугольники 1 и 2 команды А, квадрат 1 команды Б, мяч, два конуса, зона ожидания W, станция 1 и учитель. Номера у стрелок показывают порядок действий.",
+    "es": "Ejemplo de prueba sintético para la plantilla vb-half, no es un diagrama de clase. Triángulos 1 y 2 del equipo A, cuadrado 1 del equipo B, un balón, dos conos, zona de espera W, estación 1 y el docente. Las flechas numeradas indican el orden."
+  },
+  "objects": [
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 60,
+      "w": 9,
+      "h": 30,
+      "label": "W"
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 25,
+      "y": 75
+    },
+    {
+      "type": "ball",
+      "x": 29,
+      "y": 80
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 80,
+      "y": 45
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 55,
+      "y": 25
+    },
+    {
+      "type": "cone",
+      "x": 30,
+      "y": 15
+    },
+    {
+      "type": "cone",
+      "x": 30,
+      "y": 90
+    },
+    {
+      "type": "station",
+      "n": 1,
+      "x": 52,
+      "y": 84
+    },
+    {
+      "type": "teacher",
+      "x": 62,
+      "y": 97
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        25,
+        75
+      ],
+      "to": [
+        42,
+        60
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        42,
+        60
+      ],
+      "to": [
+        80,
+        45
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        55,
+        25
+      ],
+      "to": [
+        70,
+        30
+      ],
+      "via": [
+        [
+          62,
+          18
+        ]
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Synthetic fixture: waiting zone W is outside the working paths.",
+  "notes": "Test fixture for renderer and validator coverage. Not lesson content.",
+  "status": "fixture"
+}

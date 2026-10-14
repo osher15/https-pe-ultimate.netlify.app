@@ -1,0 +1,131 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-00-D3",
+  "family": "FB-00",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "appliedGame",
+    "step": 1,
+    "quote_en": "Fixture FB-00-D3: players start in the marked positions and follow the numbered paths on the fb-grid template."
+  },
+  "group_shown": "representative",
+  "title": {
+    "he": "תרחיש בדיקה: fb-grid",
+    "en": "Test fixture: fb-grid",
+    "ar": "نموذج اختبار: fb-grid",
+    "ru": "Тестовый пример: fb-grid",
+    "es": "Ejemplo de prueba: fb-grid"
+  },
+  "alt": {
+    "he": "תרחיש בדיקה סינתטי לתבנית fb-grid, לא תרשים שיעור. משולשים 1 ו-2 של קבוצה א׳, ריבוע 1 של קבוצה ב׳, כדור, שני קונוסים, אזור המתנה W, תחנה 1 והמורה. החצים הממוספרים מראים את סדר התנועה.",
+    "en": "Synthetic test fixture for template fb-grid, not a lesson diagram. Team A triangles 1 and 2, team B square 1, a ball, two cones, waiting zone W, station 1 and the teacher. Numbered arrows show the order of dribble, pass and movement.",
+    "ar": "نموذج اختبار اصطناعي للقالب fb-grid، وليس رسمًا لدرس. مثلثا الفريق أ رقم 1 و2، ومربع الفريق ب رقم 1، وكرة، وقمعان، ومنطقة انتظار W، ومحطة 1، والمعلّم. الأسهم المرقمة تبين ترتيب الحركة.",
+    "ru": "Синтетический тестовый пример для шаблона fb-grid, не схема урока. Треугольники 1 и 2 команды А, квадрат 1 команды Б, мяч, два конуса, зона ожидания W, станция 1 и учитель. Номера у стрелок показывают порядок действий.",
+    "es": "Ejemplo de prueba sintético para la plantilla fb-grid, no es un diagrama de clase. Triángulos 1 y 2 del equipo A, cuadrado 1 del equipo B, un balón, dos conos, zona de espera W, estación 1 y el docente. Las flechas numeradas indican el orden."
+  },
+  "objects": [
+    {
+      "type": "zone",
+      "x": 20,
+      "y": 0,
+      "w": 30,
+      "h": 7,
+      "label": "W"
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 20,
+      "y": 25
+    },
+    {
+      "type": "ball",
+      "x": 24,
+      "y": 30
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 75,
+      "y": 30
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 60,
+      "y": 70
+    },
+    {
+      "type": "cone",
+      "x": 30,
+      "y": 70
+    },
+    {
+      "type": "cone",
+      "x": 70,
+      "y": 80
+    },
+    {
+      "type": "station",
+      "n": 1,
+      "x": 82,
+      "y": 84
+    },
+    {
+      "type": "teacher",
+      "x": 50,
+      "y": 97
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        20,
+        25
+      ],
+      "to": [
+        45,
+        40
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        45,
+        40
+      ],
+      "to": [
+        75,
+        30
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        60,
+        70
+      ],
+      "to": [
+        50,
+        52
+      ],
+      "via": [
+        [
+          64,
+          58
+        ]
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Synthetic fixture: waiting zone W is outside the working paths.",
+  "notes": "Test fixture for renderer and validator coverage. Not lesson content.",
+  "status": "fixture"
+}
