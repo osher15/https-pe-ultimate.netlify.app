@@ -354,6 +354,7 @@ function findPlacements(dir) {
 // - the same title in one language on two scenes of one family is an error;
 // - a ball drawn on top of a player hides the player's number (warning).
 var BALL_OVERLAP = 2.5;
+var ORPHAN_TOL = 3;
 
 function validateAcrossScenes(scenes) {
   var issues = new Issues();
@@ -372,6 +373,23 @@ function validateAcrossScenes(scenes) {
         var key = s.family + '\u0000' + title;
         if (titleSeen[key]) issues.error('title-dup', s.id + ' title.' + l, 'same title as ' + titleSeen[key] + ' in family ' + s.family);
         else titleSeen[key] = s.id;
+      }
+    });
+  });
+  // A move/dribble path must start at a player or where an earlier path ended; otherwise it is a leftover arrow.
+  valid.forEach(function (s) {
+    if (!Array.isArray(s.objects) || !Array.isArray(s.paths)) return;
+    var near = function (a, b) { return Math.abs(a[0] - b[0]) <= ORPHAN_TOL && Math.abs(a[1] - b[1]) <= ORPHAN_TOL; };
+    var starts = s.objects.filter(function (o) { return isObj(o) && (o.type === 'player' || o.type === 'teacher' || o.type === 'station' || o.type === 'cone') && isNum(o.x) && isNum(o.y); })
+      .map(function (o) { return [o.x, o.y]; });
+    s.paths.forEach(function (pt, i) {
+      if (!isObj(pt) || (pt.kind !== 'move' && pt.kind !== 'dribble') || !Array.isArray(pt.from)) return;
+      var ord = isNum(pt.order) ? pt.order : 1;
+      var ends = s.paths.filter(function (q, j) {
+        return j !== i && isObj(q) && Array.isArray(q.to) && (isNum(q.order) ? q.order : 1) < ord;
+      }).map(function (q) { return q.to; });
+      if (!starts.concat(ends).some(function (p) { return near(p, pt.from); })) {
+        issues.warn('path-orphan', s.id + ' paths[' + i + ']', pt.kind + ' starts at (' + pt.from.join(',') + ') where there is no player and no earlier path ends; remove it or start it at the player');
       }
     });
   });

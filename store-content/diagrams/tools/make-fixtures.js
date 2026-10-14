@@ -59,7 +59,7 @@ const F = [
     [{ kind: 'dribble', from: [8, 50], to: [40, 50], order: 1 }, { kind: 'pass', from: [40, 50], to: [50, 25], order: 2 }, { kind: 'move', from: [85, 85], to: [60, 88], via: [[75, 93]], order: 2 }]],
   ['AT-00', 'AT-00-D3', 'at-throw', 'appliedGame', 2, 'representative',
     [zone(0, 72, 9, 26, 'W'), P('A', 1, 12, 50), ball(16, 54), P('A', 2, 5, 62), P('B', 1, 92, 4), cone(20, 30), cone(20, 70), st(1, 40, 92), te(25, 85)],
-    [{ kind: 'dribble', from: [5, 85], to: [5, 62], order: 1 }, { kind: 'pass', from: [12, 50], to: [70, 50], order: 2 }, { kind: 'move', from: [92, 4], to: [60, 3], via: [[76, 1]], order: 3 }]],
+    [{ kind: 'dribble', from: [5, 62], to: [5, 85], order: 1 }, { kind: 'pass', from: [12, 50], to: [70, 50], order: 2 }, { kind: 'move', from: [92, 4], to: [60, 3], via: [[76, 1]], order: 3 }]],
   ['FIT-00', 'FIT-00-D1', 'fit-stations', 'mainA', 1, 'whole-class',
     [zone(40, 40, 20, 20, 'W'), st(1, 25, 30), st(2, 75, 30), st(3, 75, 70), st(4, 25, 70), P('A', 1, 25, 48), P('A', 2, 75, 48), P('B', 1, 75, 86), ball(31, 52), cone(50, 30), cone(50, 70), te(50, 50)],
     [{ kind: 'move', from: [25, 48], to: [69, 30], via: [[50, 18]], order: 1 }, { kind: 'dribble', from: [75, 48], to: [75, 61], order: 2 }, { kind: 'pass', from: [75, 86], to: [30, 72], order: 2 }]],

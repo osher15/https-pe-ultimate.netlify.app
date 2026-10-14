@@ -115,6 +115,8 @@ Columns, exactly: `family,diagram_id,section,step,template,group_shown,reason,op
 - **Error `title-dup`:** the same title is used by two scenes of one family in one language.
 - **Warning `ball-overlap`:** a ball within 2.5 units of a player's centre hides the player's number. Put the ball
   about 3 units from the carrier, for example (x+3, y+3).
+- **Warning `path-orphan`:** a `move` or `dribble` path must start within 3 units of a player, teacher, station or cone, or of
+  the end of a path with a lower `order` (stations and cones also count as start points). Otherwise it is a leftover arrow.
 
 ## 3. Coordinates and conventions
 

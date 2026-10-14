@@ -399,3 +399,16 @@ test('cross-scene: a ball on top of a player is a warning', () => {
   a.objects = a.objects.map((o) => (o.type === 'ball' ? { type: 'ball', x: 21, y: 31 } : o));
   assert.deepEqual(xcodes(V.validateAcrossScenes([a])), ['warning:ball-overlap']);
 });
+
+test('cross-scene: a move/dribble starting at no player and no earlier path end is a warning', () => {
+  const a = base();
+  a.paths.push({ kind: 'move', from: [63, 77], to: [83, 77], order: 1 });
+  assert.deepEqual(xcodes(V.validateAcrossScenes([a])), ['warning:path-orphan']);
+});
+
+test('cross-scene: a move may start where an earlier-order path ended', () => {
+  const a = base();
+  a.paths.push({ kind: 'move', from: [20, 70], to: [40, 80], order: 3 }); // pass (order 2) ended at A2 (20,70)
+  a.paths.push({ kind: 'dribble', from: [45, 30], to: [50, 20], order: 3 }); // dribble (order 1) ended at (45,30)
+  assert.deepEqual(V.validateAcrossScenes([a]), []);
+});
