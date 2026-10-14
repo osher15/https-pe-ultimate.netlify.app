@@ -1,0 +1,1095 @@
+<!doctype html>
+<!--
+PE TOOLS · 20 m SHUTTLE RUN (BEEP TEST) · standalone tool · version 0.9.0 · 2026-10-14
+
+One self-contained HTML file. Open it in a modern browser. All code, styles and
+translations are embedded. No server, CDN, web font, framework, account or network
+request. Beeps are synthesized with Web Audio (no audio files).
+
+Protocol: Léger LA, Mercier D, Gadoury C, Lambert J. The multistage 20 metre shuttle
+run test for aerobic fitness. J Sports Sci. 1988;6(2):93-101. Default start 8.5 km/h,
++0.5 km/h per level, levels of about 60 s. Shuttle length (15/20 m) and level-1 speed
+(4.0-10.0 km/h) stay configurable, as in the source module. The schedule algorithm is
+copied from the source module (buildSchedule) and is checked against it in
+checks/shuttle-run.test.cjs. VO2max is an ESTIMATE (Léger 1988 equation), not a
+medical test. No norm or threshold table is shipped; teachers may enter their own.
+
+Data: stored only in this browser under the key prefix "pe-shuttle.v1"
+(pe-shuttle.v1 = settings, runner list, results, own thresholds;
+pe-shuttle.v1.lang = language). No class roster, no student records, no grades,
+no app storage keys. "Clear all data" removes every key this tool wrote.
+
+Test hooks (for the automated checks only): window.PEShuttle.getState(),
+setLanguage(code), exportCSV(), __test.useFakeClock(), __test.advance(seconds),
+__test.audioContexts().
+
+TRANSLATIONS (native review needed): English is the source. Keys listed in
+REUSED_FROM_APP below reuse the PE app's existing EN/HE/AR/RU/ES wording (sometimes
+lightly adapted: "stage" became "level", "student" became "runner"). Every other
+key in he/ar/ru/es is a NEW AI-drafted string that needs native PE-teacher review
+before sale.
+-->
+<html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="referrer" content="no-referrer"><title>PE Tools · 20 m Shuttle Run (Beep Test)</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1018;--panel:#151e2b;--panel2:#101925;--line:#2e3b50;--muted:#a8b7c9;--ink:#f5f8ff;--lime:#d2f565;--blue:#76b6ff;--red:#ff9b93;--amber:#ffd27a}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;overflow-x:hidden}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;min-height:44px;border:1px solid var(--line);border-radius:12px;background:#202c3d;color:var(--ink);padding:9px 14px;font-weight:650;touch-action:manipulation}
+button:hover:not(:disabled){background:#2c3b50}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+button:disabled{opacity:.4;cursor:default}
+input,select,textarea{color:var(--ink);background:#0d1520;border:1px solid #52637a;border-radius:10px;padding:9px 10px;min-height:44px;min-width:0;max-width:100%}
+textarea{width:100%;min-height:96px;resize:vertical}
+.app{max-width:1060px;margin:auto;padding:16px clamp(12px,3vw,28px) max(24px,env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.brand{font-weight:850;font-size:17px;letter-spacing:.03em;min-width:0}
+.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.06em;font-weight:500}
+.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.top-actions select{width:auto}
+h1{font-size:clamp(21px,4vw,30px);line-height:1.2;margin:0 0 12px;overflow-wrap:anywhere}
+.sr{position:absolute;top:0;inset-inline-start:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.board{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px clamp(12px,3vw,26px);box-shadow:0 16px 50px #0003}
+.board.flash{animation:flash .35s ease-out}
+@keyframes flash{from{box-shadow:0 0 0 4px var(--lime)}to{box-shadow:0 16px 50px #0003}}
+@media (prefers-reduced-motion:reduce){.board.flash{animation:none}}
+.boardtop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:99px;padding:4px 11px;font-size:12px;font-weight:650;white-space:nowrap}
+.pill.status:before{content:'';width:8px;height:8px;border-radius:50%;background:#8997ab}
+.pill.status.running:before{background:var(--lime)}.pill.status.paused:before{background:var(--amber)}.pill.status.done:before{background:var(--blue)}
+.pill.std{color:var(--lime);border-color:#58663b}.pill.mod{color:var(--amber);border-color:#6b5a32}
+.num{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 8px}
+.cell{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:8px 10px;text-align:center;min-width:0}
+.lb{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.hero .vl{font-size:clamp(54px,15vw,112px);font-weight:850;line-height:1.05;letter-spacing:-.03em}
+.hero .level .vl{color:var(--lime)}
+.cd{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:8px 12px;text-align:center}
+.cd .vl{font-size:clamp(34px,9vw,64px);font-weight:800;line-height:1.1}
+.cd.ready .vl{color:var(--amber)}
+.bar{height:8px;background:#26334a;border-radius:8px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:var(--lime);border-radius:8px}
+[dir=rtl] .bar i{margin-inline-start:0}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.stats .vl{font-size:clamp(20px,4.6vw,30px);font-weight:800;line-height:1.2;overflow-wrap:anywhere}
+.stats .unit{font-size:11px;color:var(--muted);font-weight:600}
+.lvlprog{margin-top:8px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.controls button{flex:1 1 90px}
+.primary{background:var(--lime);color:#111b05;border-color:var(--lime);flex-grow:2!important}
+.primary:hover:not(:disabled){background:#e3ff88}
+.drop{width:100%;margin-top:10px;min-height:60px;font-size:18px;background:#6b2730;border-color:#a5434d}
+.drop:hover:not(:disabled){background:#843039}
+.chips,.lanes{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.chips button{min-height:44px;padding:6px 12px;max-width:100%;overflow-wrap:anywhere;font-weight:600}
+.chips button.done,.lanes button.done{background:transparent;color:var(--muted);text-decoration:line-through}
+.chips small,.lanes small{display:block;font-size:11px;color:var(--muted);text-decoration:none}
+.lanes button{min-width:52px;font-size:19px}
+.hint{color:var(--muted);font-size:12px;margin:8px 0 0}
+.notice{margin-top:10px;border:1px solid #6b5a32;background:#2a2312;color:var(--amber);border-radius:12px;padding:9px 12px;font-size:13px}
+.cite{margin-top:10px;font-size:12px;color:var(--muted)}
+.below{margin-top:14px;border:1px solid var(--line);border-radius:16px;background:var(--panel2)}
+.below>summary{cursor:pointer;padding:12px 16px;font-weight:700;min-height:48px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.below>summary .sum{color:var(--muted);font-weight:500;font-size:12px}
+.below .bd{padding:0 14px 14px}
+.card{margin-top:14px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);padding:12px 14px}
+.cardtop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.cardtop h2{font-size:17px;margin:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:5px;font-size:13px;min-width:0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:transparent;min-width:56px}
+.seg button.on{background:#2d4a1c;color:var(--lime)}
+.stepper{display:inline-flex;align-items:center;gap:6px}
+.stepper button{width:44px;padding:0;font-size:20px}
+.stepper .val{min-width:52px;text-align:center;font-weight:800;font-size:18px}
+.check{display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px}
+.check input{min-height:auto;width:20px;height:20px}
+.warn{margin-top:10px;border:1px solid #6b5a32;background:#2a2312;color:var(--amber);border-radius:12px;padding:8px 12px;font-size:13px}
+.tablewrap{position:relative;overflow-x:auto;max-width:100%;margin-top:10px;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:13px}
+th,td{text-align:center;padding:8px 5px;border-bottom:1px solid var(--line);white-space:nowrap}
+thead th{color:var(--muted);font-weight:600}
+td input.nm{background:none;border:0;border-bottom:1px dashed var(--line);border-radius:0;min-height:36px;width:120px;padding:4px;color:var(--ink)}
+td .x{min-height:36px;min-width:40px;padding:4px 8px;background:transparent}
+tr.lvlrow td{background:#13261a;color:var(--lime);font-weight:700}
+.empty{text-align:center;padding:14px;color:var(--muted);font-size:13px}
+.bandrow{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-top:8px}
+.bandrow input[type=number]{width:110px}
+.save{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:6px;margin-top:16px}
+.save:before{content:'●';font-size:10px;color:var(--lime)}
+.save.error{color:var(--red)}.save.error:before{color:var(--red)}
+.footer{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.danger{color:#ffb5ae;background:transparent}
+.danger.armed{background:#6b2730;color:var(--ink)}
+dialog{background:#15202e;color:var(--ink);border:1px solid #52637a;border-radius:18px;padding:20px;width:min(620px,calc(100% - 20px));max-height:90dvh;overflow:auto}
+dialog::backdrop{background:#000b}
+dialog h2{font-size:21px;margin:0 0 10px}
+dialog p{margin:8px 0;font-size:14px;overflow-wrap:anywhere}
+dialog .meta{color:var(--muted);font-size:13px}
+.dialogactions{display:flex;justify-content:flex-end;margin-top:14px}
+#toast{position:fixed;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--ink);color:#101824;box-shadow:0 6px 20px #0006;padding:8px 10px 8px 16px;border-radius:14px;font-weight:650;z-index:20;max-width:calc(100% - 24px);width:max-content;display:none;align-items:center;gap:10px;font-size:14px}
+#toast.show{display:flex}
+#toast button{min-height:38px;background:#101824;color:var(--lime);border-color:#101824;padding:4px 12px}
+.only-present{display:none}
+/* Gym display (presentation mode): only the live board, very large. */
+body.present .app>:not(#board){display:none!important}
+body.present .app{max-width:none;padding:0}
+body.present #board{position:fixed;inset:0;border-radius:0;overflow:auto;padding:12px max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));display:flex;flex-direction:column}
+body.present .only-present{display:inline-flex}
+body.present .hero .vl{font-size:clamp(70px,min(24vw,19vh),300px)}
+body.present .cd .vl{font-size:clamp(40px,min(12vw,9vh),160px)}
+body.present .stats .vl{font-size:clamp(22px,min(5vw,5vh),64px)}
+body.present .lvlprog,body.present .stats .unit{display:none}
+body.present #toast{top:max(12px,env(safe-area-inset-top));bottom:auto}
+body.present .drop{min-height:72px;font-size:22px}
+body.present .keys,body.present .cite{display:none}
+@media (min-width:900px){body.present .hero{grid-template-columns:1fr 1fr}}
+@media (max-width:420px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.controls button{flex-basis:30%}}
+</style></head>
+<body>
+<div class="app" id="app">
+<header>
+  <div class="brand">PE Tools<small data-t="tagline">Multistage shuttle run timer · Léger et al. (1988) protocol</small></div>
+  <div class="top-actions">
+    <label class="sr" for="language" data-t="language">Language</label>
+    <select id="language" aria-label="Language"><option value="en">English</option><option value="he">עברית</option><option value="ar">العربية</option><option value="ru">Русский</option><option value="es">Español</option></select>
+    <button id="presentBtn" type="button" data-t="present">⛶ Gym display</button>
+    <button id="aboutBtn" type="button" data-t="about">About</button>
+  </div>
+</header>
+<h1 id="title" data-t="appName">20 m Shuttle Run (Beep Test)</h1>
+
+<section class="board" id="board" aria-live="off">
+  <div class="boardtop">
+    <span class="pill status" id="statusPill">Ready to start</span>
+    <span class="pill std" id="protoPill">Léger 1988 protocol</span>
+    <button class="only-present" id="exitPresent" type="button" data-t="exitPresent">✕ Exit display</button>
+  </div>
+  <div class="hero">
+    <div class="cell level"><div class="lb" data-t="level">Level</div><div class="vl num" id="levelVal">1</div></div>
+    <div class="cell shuttle"><div class="lb" data-t="shuttle">Shuttle</div><div class="vl num" id="shuttleVal">1/7</div></div>
+  </div>
+  <div class="cd" id="cdBox"><div class="lb" id="cdLabel">Next beep</div><div class="vl num" id="cdVal">—</div><div class="bar"><i id="shBar"></i></div></div>
+  <div class="stats">
+    <div class="cell"><div class="lb" data-t="time">Time</div><div class="vl num" id="timeVal">00:00</div></div>
+    <div class="cell"><div class="lb" data-t="speed">Speed</div><div class="vl num" id="speedVal">8.5</div><div class="unit" data-t="kmh">km/h</div></div>
+    <div class="cell"><div class="lb" data-t="distance">Distance</div><div class="vl num" id="distVal">0</div><div class="unit" data-t="m">m</div></div>
+    <div class="cell"><div class="lb" data-t="vo2">VO₂max estimate</div><div class="vl num" id="vo2Val">—</div><div class="unit">ml·kg⁻¹·min⁻¹</div></div>
+  </div>
+  <div class="lvlprog"><div class="lb" data-t="levelProgress">Progress within level</div><div class="bar"><i id="lvlBar"></i></div></div>
+  <div class="controls">
+    <button class="primary" id="startBtn" type="button">▶ Start</button>
+    <button id="stopBtn" type="button" data-t="stop" disabled>■ Stop</button>
+    <button id="resetBtn" type="button" data-t="reset" disabled>↺ Reset</button>
+  </div>
+  <button class="drop" id="dropBtn" type="button" data-t="drop" disabled>Record drop-out · runner stopped</button>
+  <div class="chips" id="runnerChips"></div>
+  <div class="lanes" id="lanes"></div>
+  <p class="hint" id="runnerHint"></p>
+  <div class="notice" id="notice" role="status" hidden></div>
+  <p class="hint keys" data-t="keys">Keyboard: Space = start/pause · Enter = record drop-out</p>
+  <p class="cite" id="citeLine">Protocol: Léger, Mercier, Gadoury &amp; Lambert, J Sports Sci 6(2):93–101, 1988. VO₂max is an estimate, not a medical test.</p>
+</section>
+
+<details class="below" id="runnersFold"><summary><span data-t="runners">Runners for this test</span> <span class="sum" id="runnersSum"></span></summary><div class="bd">
+  <p class="hint" data-t="runnersHint">Optional. Type names or bib numbers, one per line. Tap a runner when they stop. Stored only on this device; clear the list after the test.</p>
+  <label class="sr" for="runnersText" data-t="runners">Runners for this test</label>
+  <textarea id="runnersText" rows="5" spellcheck="false" autocomplete="off"></textarea>
+  <div class="footer"><button id="runnersApply" type="button" data-t="runnersApply">✓ Use this list</button><button id="runnersClear" type="button" class="danger" data-t="runnersClear">✕ Clear list</button></div>
+  <div class="row" style="margin-top:10px">
+    <label class="check"><input type="checkbox" id="laneMode"> <span data-t="lanesMode">Record by lane number</span></label>
+    <div class="field" style="width:130px"><label for="laneN" data-t="lanesN">How many lanes</label><input type="number" id="laneN" min="2" max="20" value="8" inputmode="numeric"></div>
+  </div>
+</div></details>
+
+<details class="below" id="setupFold"><summary><span data-t="setup">Test setup</span> <span class="sum num" id="setupSum"></span></summary><div class="bd">
+  <p class="hint" id="lockedHint" hidden data-t="locked">Reset the clock to change the course or speed.</p>
+  <div class="row">
+    <div class="field"><span data-t="courseLen">Shuttle length</span><div class="seg" id="distSeg"><button type="button" data-d="15" class="num">15 m</button><button type="button" data-d="20" class="num">20 m</button></div></div>
+    <div class="field"><span data-t="startSpeed">Level 1 speed (km/h)</span><div class="stepper"><button type="button" id="spMinus" aria-label="−0.5">−</button><div class="val num" id="spVal">8.5</div><button type="button" id="spPlus" aria-label="+0.5">+</button></div></div>
+    <button type="button" id="spStd" data-t="stdBtn">↺ Léger 1988 (20 m, 8.5)</button>
+  </div>
+  <div class="warn" id="warnBox" hidden></div>
+  <div class="row" style="margin-top:12px">
+    <div class="field" style="width:150px"><label for="age" data-t="age">Age for VO₂max</label><input type="number" id="age" min="6" max="18" value="13" inputmode="numeric"></div>
+    <div class="field" style="width:150px"><label for="countdown" data-t="countdownSet">Get-ready countdown</label><select id="countdown"><option value="0">0</option><option value="3">3 s</option><option value="5">5 s</option><option value="10">10 s</option></select></div>
+  </div>
+  <p class="hint" data-t="ageHint">Age in years, 6–18 (use 18 for adults). Used only for the VO₂max estimate.</p>
+  <div class="row" style="margin-top:6px">
+    <label class="check"><input type="checkbox" id="sound"> <span data-t="sound">Beeps</span></label>
+    <label class="check"><input type="checkbox" id="voice"> <span data-t="voice">Spoken level announcements</span></label>
+  </div>
+  <p class="hint" data-t="voiceHint">Spoken announcements use a voice built into this device, if one exists for the selected language. Beeps never need a network.</p>
+</div></details>
+
+<section class="card" id="resultsCard">
+  <div class="cardtop">
+    <h2 data-t="results">Results</h2>
+    <div class="row" style="align-items:center">
+      <div class="seg"><button type="button" id="sortOrder" data-t="byOrder">By order</button><button type="button" id="sortDist" data-t="byDist">By distance</button></div>
+      <button type="button" id="csvBtn" data-t="csv">⬇ CSV</button>
+    </div>
+  </div>
+  <div class="tablewrap"><table id="resTable"><thead><tr><th data-t="thRank">#</th><th data-t="thName">Name</th><th data-t="thLevel">Level·shuttle</th><th data-t="thDist">Distance</th><th data-t="thTime">Time</th><th data-t="thSpeed">Speed</th><th data-t="thVo2">VO₂max est.</th><th id="thBand" data-t="thBand">Reference</th><th><span class="sr" data-t="del">Delete</span></th></tr></thead><tbody id="resBody"></tbody></table></div>
+  <div class="empty" id="resEmpty" data-t="empty">No entries yet. When a runner stops, press the drop-out button or tap their name.</div>
+  <div class="footer"><button type="button" id="undoBtn" data-t="undoLast" disabled>↩ Undo last entry</button><button type="button" id="clearResults" class="danger" data-t="clearResults" disabled>🗑 Clear results</button></div>
+</section>
+
+<details class="below" id="refFold"><summary data-t="refTable">📋 Full level and distance table</summary><div class="bd"><div class="tablewrap" id="refWrap"></div></div></details>
+
+<details class="below" id="bandsFold"><summary><span data-t="bands">My reference thresholds (optional)</span> <span class="sum" id="bandsSum"></span></summary><div class="bd">
+  <p class="hint" data-t="bandsHint">No reference values are included. You may enter your own thresholds, for example from your school's guidelines. Each result shows the highest threshold it reaches. Stored only on this device.</p>
+  <div class="row"><div class="field"><label for="bandMetric" data-t="bandsMetric">Compare by</label><select id="bandMetric"><option value="dist" data-t="metricDist">Distance (m)</option><option value="vo2" data-t="metricVo2">VO₂max estimate</option></select></div>
+  <button type="button" id="bandAdd" data-t="bandAdd">+ Add threshold</button></div>
+  <div id="bandList"></div>
+</div></details>
+
+<div class="save" id="saveStatus" role="status">Saved on this device</div>
+<div class="footer"><button type="button" id="clearAll" class="danger" data-t="clearAll">Delete all data on this device</button></div>
+</div>
+
+<dialog id="aboutDialog" aria-labelledby="aboutTitle">
+  <h2 id="aboutTitle" data-t="aboutTitle">About this tool</h2>
+  <p class="meta"><span id="aboutName">PE Tools · 20 m Shuttle Run (Beep Test)</span> · <span id="aboutVersion" class="num">0.9.0</span></p>
+  <p data-t="licence">Licence terms: to be set by the publisher before sale.</p>
+  <p><b data-t="citeLabel">Protocol and equation</b><br><span lang="en" dir="ltr">Léger LA, Mercier D, Gadoury C, Lambert J. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci. 1988;6(2):93–101.</span></p>
+  <p data-t="protoNote">Default protocol: 20 m shuttles, level 1 at 8.5 km/h, +0.5 km/h per level, each level about one minute.</p>
+  <p data-t="vo2Note">VO₂max is an estimate from the Léger et al. (1988) equation: 31.025 + 3.238·S − 3.248·A + 0.1536·A·S, where S is the speed (km/h) of the level in which the last full shuttle was completed and A is age in years. It is shown for the 20 m course only. It is not a medical test or a diagnosis.</p>
+  <p data-t="noNorms">No norm or threshold table is included. Any thresholds you enter are your own.</p>
+  <p data-t="privacy">Privacy: the tool works offline, has no account and sends nothing over the network. Settings, the runner list and results are stored only in this browser on this device (storage key prefix "pe-shuttle.v1"). Export a CSV to keep a copy. "Delete all data on this device" removes everything.</p>
+  <p data-t="safety">Safety: this is a maximal running test. Check that runners are fit to take part, warm up first, and stop anyone who feels unwell. Audio timing depends on the device; check volume and beeps before testing a group.</p>
+  <p data-t="independent">Independent tool. Not an official, certified or endorsed test product.</p>
+  <p class="meta" data-t="reviewNote">Hebrew, Arabic, Russian and Spanish texts are drafts awaiting native-speaker review.</p>
+  <div class="dialogactions"><button type="button" id="aboutClose" data-t="close">Close</button></div>
+</dialog>
+<div id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastUndo" hidden>Undo</button></div>
+
+<script>
+/* ===== ENGINE: pure logic, storage adapter and dictionaries (no DOM). ===== */
+(function(root){
+'use strict';
+var VERSION='0.9.0';
+var STAGE_SEC=60, MAX_SPEED=18.0, DEFAULT_START=8.5, STD_START=8.5, STD_DIST=20;
+var DISTANCES=[15,20], COUNTDOWNS=[0,3,5,10];
+var KEY='pe-shuttle.v1', LANG_KEY='pe-shuttle.v1.lang', CORRUPT_KEY='pe-shuttle.v1.corrupt';
+var LANGS=['en','he','ar','ru','es'], RTL=['he','ar'];
+var MAX_RESULTS=60, MAX_RUNNERS=60, MAX_BANDS=6, NAME_MAX=40, LABEL_MAX=30;
+
+function speedKmh(startSpeed,L){return startSpeed+0.5*(L-1);}
+function clampStart(v){v=Number(v);if(!isFinite(v))return DEFAULT_START;return Math.min(10,Math.max(4,Math.round(v*2)/2));}
+function clampAge(v){v=Math.round(Number(v));if(!isFinite(v))return 13;return Math.min(18,Math.max(6,v));}
+function clampLanes(v){v=Math.round(Number(v));if(!isFinite(v))return 8;return Math.min(20,Math.max(2,v));}
+
+/* Schedule: same algorithm and floating-point order as the source module's buildSchedule(). */
+function buildSchedule(distance,startSpeed){
+  var beeps=[],t=0,cum=0;
+  var levels=Math.round((MAX_SPEED-startSpeed)/0.5)+1;
+  for(var L=1;L<=levels;L++){
+    var st=distance/(speedKmh(startSpeed,L)/3.6);
+    var n=Math.max(2,Math.round(STAGE_SEC/st));
+    for(var s2=1;s2<=n;s2++){t+=st;cum++;
+      beeps.push({idx:cum,level:L,shInLvl:s2,shTot:n,cum:cum*distance,t:t,speed:speedKmh(startSpeed,L),levelEnd:(s2===n),last:false});
+    }
+  }
+  beeps[beeps.length-1].last=true;
+  return beeps;
+}
+function levelSummary(beeps){
+  var out=[],cur=null;
+  beeps.forEach(function(b){
+    if(!cur||cur.level!==b.level){var from=cur?cur.endT:0;cur={level:b.level,shuttles:b.shTot,speed:b.speed,startT:from,endT:from};out.push(cur);}
+    cur.endT=b.t;cur.duration=cur.endT-cur.startT;cur.shuttleSec=cur.duration/cur.shuttles;
+  });
+  return out;
+}
+/* Léger et al. (1988): VO2max = 31.025 + 3.238 S - 3.248 A + 0.1536 A S. Same as the source module. */
+function vo2max(speed,age){return 31.025+3.238*speed-3.248*age+0.1536*age*speed;}
+function isStandard(distance,startSpeed){return distance===STD_DIST&&startSpeed===STD_START;}
+function completedCount(beeps,el){var lo=0,hi=beeps.length;while(lo<hi){var m=(lo+hi)>>1;if(beeps[m].t<=el)lo=m+1;else hi=m;}return lo;}
+/* Audio cue list on the test clock (seconds; negative = get-ready countdown). */
+function buildCues(beeps,countdown){
+  var cues=[];
+  for(var i=countdown;i>=1;i--)cues.push({t:-i,kind:'pip'});
+  cues.push({t:0,kind:'start'});
+  beeps.forEach(function(b){
+    cues.push({t:b.t,kind:(b.last||b.levelEnd)?'level':'shuttle',idx:b.idx,level:b.level,last:b.last});
+    if(b.levelEnd&&!b.last&&b.t-3>0)cues.push({t:b.t-3,kind:'warn',level:b.level+1});
+  });
+  cues.sort(function(a,b){return a.t-b.t;});
+  return cues;
+}
+/* Live display values for an elapsed time (seconds). */
+function snapshot(beeps,el,distance,age){
+  var done=el>0?completedCount(beeps,el):0;
+  var last=beeps[beeps.length-1];
+  var finished=el>=last.t;
+  var cur=beeps[Math.min(done,beeps.length-1)];
+  var prevT=done>0?beeps[done-1].t:0;
+  var nextIn=finished?0:Math.max(0,cur.t-Math.max(el,0));
+  var shuttleSec=cur.t-(cur.idx>1?beeps[cur.idx-2].t:0);
+  var lastDone=done>0?beeps[done-1]:null;
+  var vo2=null;
+  if(lastDone&&distance===20){var v=vo2max(lastDone.speed,age);if(v>0)vo2=v;}
+  return {done:done,finished:finished,countdown:el<0?Math.ceil(-el-1e-9):0,level:cur.level,shuttle:cur.shInLvl,shTot:cur.shTot,
+    speed:cur.speed,distance:done*distance,time:Math.max(0,el),nextIn:nextIn,
+    shuttleFrac:finished?1:Math.min(1,Math.max(0,1-nextIn/shuttleSec)),
+    levelFrac:((finished?cur.shInLvl:cur.shInLvl-1)/cur.shTot),
+    lastLevel:lastDone?lastDone.level:0,lastShuttle:lastDone?lastDone.shInLvl:0,vo2:vo2,prevT:prevT};
+}
+/* Drop-out record: level/shuttle of the last completed shuttle (as in the source module). */
+function makeResult(beeps,el,distance,startSpeed,name,id){
+  var done=el>0?completedCount(beeps,el):0;
+  var lb=done>0?beeps[done-1]:{level:1,shInLvl:0,speed:startSpeed};
+  return {id:String(id),name:String(name).slice(0,NAME_MAX),level:lb.level,sh:lb.shInLvl,dist:done*distance,time:+Math.max(0,el).toFixed(1),speed:lb.speed,course:distance,start:startSpeed};
+}
+function resultVo2(r,age){if(!r||r.course!==20||!(r.dist>0))return null;var v=vo2max(r.speed,age);return v>0?v:null;}
+function bandFor(value,bands){
+  if(value==null||!bands||!bands.length)return null;
+  var best=null;
+  bands.forEach(function(b){if(value>=b.min&&(!best||b.min>best.min))best=b;});
+  return best;
+}
+function fmtMS(sec){sec=Math.max(0,Math.floor(sec+1e-9));var m=Math.floor(sec/60),s=sec%60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
+function csvCell(v){
+  if(typeof v==='number')return isFinite(v)?String(v):'';
+  var s=v==null?'':String(v);
+  if(/^[=+\-@\t\r]/.test(s))s="'"+s; /* spreadsheet formula injection guard */
+  if(/[",;\n\r]/.test(s))s='"'+s.replace(/"/g,'""')+'"';
+  return s;
+}
+function toCSV(rows){return '﻿'+rows.map(function(r){return r.map(csvCell).join(',');}).join('\r\n')+'\r\n';}
+function parseRunners(text){
+  var seen={},out=[];
+  String(text||'').split(/\r?\n/).forEach(function(line){
+    var n=line.replace(/\s+/g,' ').trim().slice(0,NAME_MAX);
+    if(n&&!seen[n.toLowerCase()]&&out.length<MAX_RUNNERS){seen[n.toLowerCase()]=1;out.push(n);}
+  });
+  return out;
+}
+function defaultState(){
+  return {v:1,settings:{dist:20,start:DEFAULT_START,age:13,countdown:5,sound:true,voice:true,laneMode:false,laneN:8,sort:'order'},
+    runners:[],results:[],bands:{metric:'dist',list:[]}};
+}
+function sanitize(raw){
+  var d=defaultState();
+  if(!raw||typeof raw!=='object')return d;
+  var s=raw.settings&&typeof raw.settings==='object'?raw.settings:{};
+  d.settings.dist=DISTANCES.indexOf(Number(s.dist))>=0?Number(s.dist):20;
+  d.settings.start=s.start==null?DEFAULT_START:clampStart(s.start);
+  d.settings.age=s.age==null?13:clampAge(s.age);
+  d.settings.countdown=COUNTDOWNS.indexOf(Number(s.countdown))>=0?Number(s.countdown):5;
+  d.settings.sound=s.sound!==false;d.settings.voice=s.voice!==false;
+  d.settings.laneMode=s.laneMode===true;d.settings.laneN=clampLanes(s.laneN==null?8:s.laneN);
+  d.settings.sort=s.sort==='dist'?'dist':'order';
+  if(Array.isArray(raw.runners))d.runners=parseRunners(raw.runners.filter(function(x){return typeof x==='string';}).join('\n'));
+  if(Array.isArray(raw.results))d.results=raw.results.filter(function(r){
+    return r&&typeof r==='object'&&typeof r.name==='string'&&(typeof r.id==='string'||typeof r.id==='number')&&
+      Number.isInteger(r.level)&&r.level>=1&&r.level<=40&&Number.isInteger(r.sh)&&r.sh>=0&&r.sh<=40&&
+      isFinite(r.dist)&&r.dist>=0&&isFinite(r.time)&&r.time>=0&&isFinite(r.speed)&&r.speed>=4&&r.speed<=19;
+  }).slice(0,MAX_RESULTS).map(function(r){return {id:String(r.id),name:r.name.slice(0,NAME_MAX),level:r.level,sh:r.sh,dist:+r.dist,time:+r.time,speed:+r.speed,
+    course:DISTANCES.indexOf(Number(r.course))>=0?Number(r.course):20,start:r.start==null?DEFAULT_START:clampStart(r.start)};});
+  var b=raw.bands&&typeof raw.bands==='object'?raw.bands:{};
+  d.bands.metric=b.metric==='vo2'?'vo2':'dist';
+  if(Array.isArray(b.list))d.bands.list=b.list.filter(function(x){return x&&typeof x==='object'&&typeof x.label==='string'&&isFinite(x.min)&&x.min!==null&&x.min>=0;})
+    .slice(0,MAX_BANDS).map(function(x){return {label:x.label.slice(0,LABEL_MAX),min:+x.min};});
+  return d;
+}
+/* Storage adapter. Never throws. Only touches keys that start with "pe-shuttle.v1". */
+function createStore(getStorage){
+  var st=null,status={ok:true,reason:null,readOnly:false};
+  try{st=typeof getStorage==='function'?getStorage():getStorage;}catch(e){st=null;}
+  if(!st){status.ok=false;status.reason='unavailable';}
+  function load(){
+    if(!st)return defaultState();
+    var raw=null;
+    try{raw=st.getItem(KEY);}catch(e){status.ok=false;status.reason='unavailable';return defaultState();}
+    if(raw==null)return defaultState();
+    try{return sanitize(JSON.parse(raw));}
+    catch(e){
+      /* Keep the unreadable copy aside instead of silently overwriting it. */
+      try{st.setItem(CORRUPT_KEY,raw);status.reason='corrupt';}
+      catch(e2){status.readOnly=true;status.ok=false;status.reason='corruptReadOnly';}
+      return defaultState();
+    }
+  }
+  function save(state){
+    if(!st||status.readOnly){status.ok=false;if(!status.reason)status.reason='unavailable';return false;}
+    try{st.setItem(KEY,JSON.stringify(state));status.ok=true;if(status.reason!=='corrupt')status.reason=null;return true;}
+    catch(e){status.ok=false;status.reason='failed';return false;}
+  }
+  function loadLang(){try{var l=st&&st.getItem(LANG_KEY);return LANGS.indexOf(l)>=0?l:null;}catch(e){return null;}}
+  function saveLang(l){try{if(st&&!status.readOnly){st.setItem(LANG_KEY,l);return true;}}catch(e){}return false;}
+  function clear(){
+    if(!st)return false;
+    try{[KEY,LANG_KEY,CORRUPT_KEY].forEach(function(k){st.removeItem(k);});status.readOnly=false;status.ok=true;status.reason=null;return true;}
+    catch(e){status.ok=false;status.reason='failed';return false;}
+  }
+  return {load:load,save:save,loadLang:loadLang,saveLang:saveLang,clear:clear,status:status};
+}
+
+/* Keys whose wording is reused (sometimes lightly adapted) from the PE app's existing
+   translations (hm-i18n.js bt.*, hm-terms.js, hm-texts.js). All other he/ar/ru/es
+   strings are NEW drafts and need native PE-teacher review. */
+var REUSED_FROM_APP=['stReady','stRunning','stPaused','stFinished','time','speed','levelProgress','start','pause','resume','reset',
+  'drop','keys','protoMod','lanesMode','lanesN','setup','courseLen','startSpeed','byOrder','byDist','undoLast','refTable','close',
+  'thRank','thLevel','laneName','sayStart','sayEnd'];
+
+var L={
+en:{
+appName:'20 m Shuttle Run (Beep Test)',tagline:'Multistage shuttle run timer · Léger et al. (1988) protocol',language:'Language',
+present:'⛶ Gym display',exitPresent:'✕ Exit display',about:'About',close:'Close',
+stReady:'Ready to start',stGetReady:'Get ready',stRunning:'Test running',stPaused:'Paused',stStopped:'Stopped',stFinished:'Finished',
+level:'Level',shuttle:'Shuttle',nextBeep:'Next beep in (s)',getReady:'Get ready',time:'Time',speed:'Speed',distance:'Distance',
+vo2:'VO₂max estimate',kmh:'km/h',m:'m',levelProgress:'Progress within level',
+start:'▶ Start',pause:'⏸ Pause',resume:'▶ Resume',stop:'■ Stop',reset:'↺ Reset',drop:'🛑 Record drop-out · runner stopped',
+keys:'Keyboard: Space = start/pause · Enter = record drop-out',
+cite:'Protocol: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. VO₂max is an estimate, not a medical test.',
+protoStd:'Léger 1988 protocol',protoMod:'Modified protocol',
+warnMod:'⚠️ Modified protocol (Léger 1988 uses 20 m and 8.5 km/h at level 1). Results are not comparable with the standard protocol; treat VO₂max values as rough estimates.',
+vo2Only20:'The VO₂max estimate is shown for the 20 m course only.',
+runners:'Runners for this test',runnersHint:'Optional. Type names or bib numbers, one per line. Tap a runner when they stop. Stored only on this device; clear the list after the test.',
+runnersApply:'✓ Use this list',runnersClear:'✕ Clear list',runnersLeft:'{0} of {1} still running · tap a runner when they stop',
+runnersNone:'Tip: add runner names or bib numbers under "Runners for this test", or use lane numbers.',runnersCleared:'Runner list cleared',runnersSaved:'{0} runners ready',
+lanesMode:'Record by lane number',lanesN:'How many lanes',
+setup:'Test setup',courseLen:'Shuttle length',startSpeed:'Level 1 speed (km/h)',stdBtn:'↺ Léger 1988 (20 m, 8.5)',
+age:'Age for VO₂max',ageHint:'Age in years, 6–18 (use 18 for adults). Used only for the VO₂max estimate.',
+countdownSet:'Get-ready countdown',sound:'Beeps',voice:'Spoken level announcements',
+voiceHint:'Spoken announcements use a voice built into this device, if one exists for the selected language. Beeps never need a network.',
+locked:'Reset the clock to change the course or speed.',
+results:'Results',byOrder:'By order',byDist:'By distance',csv:'⬇ CSV',undoLast:'↩ Undo last entry',clearResults:'🗑 Clear results',
+empty:'No entries yet. When a runner stops, press the drop-out button or tap their name.',
+thRank:'#',thName:'Name',thLevel:'Level·shuttle',thDist:'Distance (m)',thTime:'Time',thSpeed:'Speed (km/h)',thVo2:'VO₂max est.',thBand:'Reference',del:'Delete',editName:'Edit name',
+refTable:'📋 Full level and distance table',refLevel:'Level',refShuttles:'Shuttles',refSpeed:'Speed (km/h)',refShuttleTime:'Shuttle time (s)',refCumDist:'Total distance (m)',refCumTime:'Total time',
+bands:'My reference thresholds (optional)',
+bandsHint:'No reference values are included. You may enter your own thresholds, for example from your school\'s guidelines. Each result shows the highest threshold it reaches. Stored only on this device.',
+bandsMetric:'Compare by',metricDist:'Distance (m)',metricVo2:'VO₂max estimate',bandLabel:'Label',bandMin:'Minimum',bandAdd:'+ Add threshold',bandRemove:'Remove',bandsCount:'{0} set',
+aboutTitle:'About this tool',licence:'Licence terms: to be set by the publisher before sale.',citeLabel:'Protocol and equation',
+protoNote:'Default protocol: 20 m shuttles, level 1 at 8.5 km/h, +0.5 km/h per level, each level about one minute.',
+vo2Note:'VO₂max is an estimate from the Léger et al. (1988) equation: 31.025 + 3.238·S − 3.248·A + 0.1536·A·S, where S is the speed (km/h) of the level in which the last full shuttle was completed and A is age in years. It is shown for the 20 m course only. It is not a medical test or a diagnosis.',
+noNorms:'No norm or threshold table is included. Any thresholds you enter are your own.',
+privacy:'Privacy: the tool works offline, has no account and sends nothing over the network. Settings, the runner list and results are stored only in this browser on this device (storage key prefix "pe-shuttle.v1"). Export a CSV to keep a copy. "Delete all data on this device" removes everything.',
+safety:'Safety: this is a maximal running test. Check that runners are fit to take part, warm up first, and stop anyone who feels unwell. Audio timing depends on the device; check volume and beeps before testing a group.',
+independent:'Independent tool. Not an official, certified or endorsed test product.',
+reviewNote:'Hebrew, Arabic, Russian and Spanish texts are drafts awaiting native-speaker review.',
+clearAll:'Delete all data on this device',clearAllArm:'Tap again to delete settings, runners and results',clearedAll:'All data deleted from this device',
+saveOk:'Saved on this device',saveFail:'Not saved: storage is blocked or full on this device. Export a CSV to keep results.',
+saveCorrupt:'Saved data could not be read. It was set aside and a fresh start was made.',saveReadOnly:'Saved data could not be read and was left untouched. Changes are not saved until you delete all data.',
+notStarted:'The test has not started yet',full:'The results list is full ({0})',recorded:'{0} — {1} m · level {2}',undo:'Undo',
+undone:'Last entry removed',resultsCleared:'Results cleared',stopped:'Test stopped',clockReset:'Clock reset (results kept)',
+audioInterrupted:'Sound was interrupted by the device. The test is paused — press Resume.',audioNone:'Sound is not available in this browser. Use a separate whistle or turn on another device.',
+csvNone:'No results to export',csvDone:'CSV file created',
+runnerN:'Runner {0}',laneName:'Lane {0}',
+sayStart:'Test starting',sayLevel:'Level {0}',sayLevelSoon:'Level {0} in three',sayEnd:'End of the test. Well done!',
+csvNo:'No.',csvName:'Name',csvLevel:'Level',csvShuttle:'Shuttle',csvDist:'Distance (m)',csvTime:'Time (s)',csvSpeed:'Speed (km/h)',
+csvVo2:'VO2max estimate (ml/kg/min)',csvBand:'Own reference',csvAge:'Age used',csvCourse:'Shuttle length (m)',csvStart:'Level 1 speed (km/h)',csvDate:'Exported',csvFile:'shuttle-run'
+},
+he:{
+appName:'ריצה הלוך-חזור 20 מ׳ (ביפ טסט)',tagline:'שעון למבחן ריצה הלוך-חזור מדורג · פרוטוקול Léger ושות׳ (1988)',language:'שפה',
+present:'⛶ תצוגת אולם',exitPresent:'✕ יציאה מהתצוגה',about:'אודות',close:'סגור',
+stReady:'מוכן לזינוק',stGetReady:'היכונו',stRunning:'המבחן רץ',stPaused:'מושהה',stStopped:'נעצר',stFinished:'הסתיים',
+level:'שלב',shuttle:'מקטע',nextBeep:'הביפ הבא בעוד (שנ׳)',getReady:'היכונו',time:'זמן',speed:'מהירות',distance:'מרחק',
+vo2:'הערכת VO₂max',kmh:'קמ״ש',m:'מ׳',levelProgress:'התקדמות בשלב',
+start:'▶ זינוק',pause:'⏸ השהה',resume:'▶ המשך',stop:'■ עצור',reset:'↺ איפוס',drop:'🛑 רישום נשירה · הרץ עצר',
+keys:'קיצורים: רווח = התחל/השהה · Enter = רישום נשירה',
+cite:'פרוטוקול: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. ‏VO₂max הוא הערכה, לא בדיקה רפואית.',
+protoStd:'פרוטוקול Léger 1988',protoMod:'פרוטוקול מותאם',
+warnMod:'⚠️ פרוטוקול מותאם (ב-Léger 1988: מסלול 20 מ׳ ו-8.5 קמ״ש בשלב 1). התוצאות אינן ברות השוואה לפרוטוקול התקני; ערכי VO₂max הם הערכה גסה בלבד.',
+vo2Only20:'הערכת VO₂max מוצגת רק למסלול 20 מ׳.',
+runners:'רצים במבחן הזה',runnersHint:'רשות. הקלידו שמות או מספרי חזייה, אחד בכל שורה. הקישו על רץ כשהוא עוצר. נשמר רק במכשיר הזה; נקו את הרשימה אחרי המבחן.',
+runnersApply:'✓ השתמש ברשימה',runnersClear:'✕ נקה רשימה',runnersLeft:'{0} מתוך {1} עדיין רצים · הקישו על רץ כשהוא עוצר',
+runnersNone:'טיפ: הוסיפו שמות או מספרי חזייה ב«רצים במבחן הזה», או השתמשו במספרי מסלול.',runnersCleared:'רשימת הרצים נוקתה',runnersSaved:'{0} רצים מוכנים',
+lanesMode:'רישום לפי מספר מסלול',lanesN:'כמה מסלולים',
+setup:'הגדרת המבחן',courseLen:'אורך מסלול',startSpeed:'מהירות שלב 1 (קמ״ש)',stdBtn:'↺ Léger 1988 ‏(20 מ׳, 8.5)',
+age:'גיל להערכת VO₂max',ageHint:'גיל בשנים, 6–18 (למבוגרים: 18). משמש רק להערכת VO₂max.',
+countdownSet:'ספירה לאחור לפני זינוק',sound:'ביפים',voice:'כריזה קולית של שלבים',
+voiceHint:'הכריזה משתמשת בקול המובנה במכשיר, אם קיים לשפה שנבחרה. הביפים אף פעם לא צריכים רשת.',
+locked:'אפסו את השעון כדי לשנות מסלול או מהירות.',
+results:'לוח תוצאות',byOrder:'לפי סדר',byDist:'לפי מרחק',csv:'⬇ CSV',undoLast:'↩ בטל רישום אחרון',clearResults:'🗑 נקה תוצאות',
+empty:'אין עדיין רישומים. כשרץ עוצר, לחצו על כפתור הנשירה או הקישו על שמו.',
+thRank:'דירוג',thName:'שם',thLevel:'שלב·מקטע',thDist:'מרחק (מ׳)',thTime:'זמן',thSpeed:'מהירות (קמ״ש)',thVo2:'הערכת VO₂max',thBand:'סף אישי',del:'מחק',editName:'עריכת שם',
+refTable:'📋 טבלת שלבים ומרחקים מלאה',refLevel:'שלב',refShuttles:'מקטעים',refSpeed:'מהירות (קמ״ש)',refShuttleTime:'זמן מקטע (שנ׳)',refCumDist:'מרחק מצטבר (מ׳)',refCumTime:'זמן מצטבר',
+bands:'ספי ייחוס שלי (רשות)',
+bandsHint:'לא כלולים ערכי ייחוס. אפשר להזין ספים משלכם, למשל מהנחיות בית הספר. כל תוצאה תציג את הסף הגבוה ביותר שהיא עוברת. נשמר רק במכשיר הזה.',
+bandsMetric:'השוואה לפי',metricDist:'מרחק (מ׳)',metricVo2:'הערכת VO₂max',bandLabel:'תווית',bandMin:'מינימום',bandAdd:'+ הוסף סף',bandRemove:'הסר',bandsCount:'{0} מוגדרים',
+aboutTitle:'אודות הכלי',licence:'תנאי הרישיון: ייקבעו על ידי המפרסם לפני המכירה.',citeLabel:'פרוטוקול ומשוואה',
+protoNote:'פרוטוקול ברירת המחדל: מקטעים של 20 מ׳, שלב 1 ב-8.5 קמ״ש, ‎+0.5 קמ״ש בכל שלב, כל שלב כדקה.',
+vo2Note:'‏VO₂max הוא הערכה לפי המשוואה של Léger ושות׳ (1988): ‎31.025 + 3.238·S − 3.248·A + 0.1536·A·S, כאשר S היא המהירות (קמ״ש) של השלב שבו הושלם המקטע המלא האחרון ו-A הוא הגיל בשנים. מוצג רק למסלול 20 מ׳. זו אינה בדיקה רפואית ואינה אבחנה.',
+noNorms:'לא כלולה טבלת נורמות או ספים. כל סף שתזינו הוא שלכם.',
+privacy:'פרטיות: הכלי עובד בלי רשת, בלי חשבון ולא שולח דבר. ההגדרות, רשימת הרצים והתוצאות נשמרים רק בדפדפן הזה במכשיר הזה (קידומת מפתח האחסון "pe-shuttle.v1"). ייצאו CSV כדי לשמור עותק. «מחיקת כל הנתונים במכשיר» מוחקת הכול.',
+safety:'בטיחות: זה מבחן ריצה מרבי. ודאו שהרצים כשירים להשתתף, חממו קודם, ועצרו כל מי שמרגיש לא טוב. תזמון השמע תלוי במכשיר; בדקו עוצמה וביפים לפני מבחן קבוצתי.',
+independent:'כלי עצמאי. אינו מוצר מבחן רשמי, מוסמך או מאושר.',
+reviewNote:'הטקסטים בעברית, ערבית, רוסית וספרדית הם טיוטות הממתינות לבדיקת דוברי השפה.',
+clearAll:'מחיקת כל הנתונים במכשיר',clearAllArm:'הקישו שוב כדי למחוק הגדרות, רצים ותוצאות',clearedAll:'כל הנתונים נמחקו מהמכשיר',
+saveOk:'נשמר במכשיר הזה',saveFail:'לא נשמר: האחסון חסום או מלא במכשיר הזה. ייצאו CSV כדי לשמור תוצאות.',
+saveCorrupt:'לא ניתן היה לקרוא את הנתונים השמורים. הם הועברו הצידה והתחלנו מחדש.',saveReadOnly:'לא ניתן היה לקרוא את הנתונים השמורים והם נשארו כמו שהם. שינויים לא נשמרים עד שתמחקו את כל הנתונים.',
+notStarted:'המבחן עוד לא התחיל',full:'לוח התוצאות מלא ({0})',recorded:'{0} — {1} מ׳ · שלב {2}',undo:'בטל',
+undone:'הרישום האחרון בוטל',resultsCleared:'התוצאות נוקו',stopped:'המבחן נעצר',clockReset:'השעון אופס (הלוח נשמר)',
+audioInterrupted:'השמע נקטע על ידי המכשיר. המבחן הושהה — לחצו «המשך».',audioNone:'אין שמע בדפדפן הזה. השתמשו במשרוקית או במכשיר אחר.',
+csvNone:'אין תוצאות לייצוא',csvDone:'קובץ CSV נוצר',
+runnerN:'רץ {0}',laneName:'מסלול {0}',
+sayStart:'המבחן מתחיל',sayLevel:'שלב {0}',sayLevelSoon:'שלב {0} בעוד שלוש',sayEnd:'סוף המבחן. כל הכבוד!',
+csvNo:'מס׳',csvName:'שם',csvLevel:'שלב',csvShuttle:'מקטע',csvDist:'מרחק (מ)',csvTime:'זמן (שנ)',csvSpeed:'מהירות (קמ"ש)',
+csvVo2:'הערכת VO2max (מ"ל/ק"ג/דקה)',csvBand:'סף אישי',csvAge:'גיל בחישוב',csvCourse:'אורך מסלול (מ)',csvStart:'מהירות שלב 1 (קמ"ש)',csvDate:'יוצא',csvFile:'shuttle-run'
+},
+ar:{
+appName:'الجري المكوكي 20 م (اختبار البيب)',tagline:'مؤقّت لاختبار الجري المكوكي متعدد المراحل · بروتوكول Léger وزملائه (1988)',language:'اللغة',
+present:'⛶ عرض الصالة',exitPresent:'✕ الخروج من العرض',about:'حول',close:'إغلاق',
+stReady:'جاهز للانطلاق',stGetReady:'استعدّوا',stRunning:'الاختبار جارٍ',stPaused:'متوقف مؤقتًا',stStopped:'تم الإيقاف',stFinished:'انتهى',
+level:'المرحلة',shuttle:'الشوط',nextBeep:'الصافرة التالية بعد (ث)',getReady:'استعدّوا',time:'الزمن',speed:'السرعة',distance:'المسافة',
+vo2:'تقدير VO₂max',kmh:'كم/س',m:'م',levelProgress:'التقدّم داخل المرحلة',
+start:'▶ انطلاق',pause:'⏸ إيقاف مؤقت',resume:'▶ متابعة',stop:'■ إيقاف',reset:'↺ تصفير',drop:'🛑 تسجيل انسحاب · العدّاء توقّف',
+keys:'اختصارات: مسافة = انطلاق/إيقاف مؤقت · Enter = تسجيل انسحاب',
+cite:'البروتوكول: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. ‏VO₂max تقدير وليس فحصًا طبيًا.',
+protoStd:'بروتوكول Léger 1988',protoMod:'بروتوكول معدّل',
+warnMod:'⚠️ بروتوكول معدّل (في Léger 1988: مسار 20 م و8.5 كم/س في المرحلة 1). النتائج غير قابلة للمقارنة مع البروتوكول القياسي؛ قيم VO₂max تقدير تقريبي فقط.',
+vo2Only20:'يُعرض تقدير VO₂max لمسار 20 م فقط.',
+runners:'العدّاؤون في هذا الاختبار',runnersHint:'اختياري. اكتب الأسماء أو أرقام الصدريات، واحدًا في كل سطر. اضغط على العدّاء عندما يتوقف. يُحفظ على هذا الجهاز فقط؛ امسح القائمة بعد الاختبار.',
+runnersApply:'✓ استخدم هذه القائمة',runnersClear:'✕ مسح القائمة',runnersLeft:'{0} من {1} ما زالوا يجرون · اضغط على العدّاء عندما يتوقف',
+runnersNone:'نصيحة: أضف أسماء العدّائين أو أرقام الصدريات في «العدّاؤون في هذا الاختبار»، أو استخدم أرقام المسارات.',runnersCleared:'تم مسح قائمة العدّائين',runnersSaved:'{0} عدّاءً جاهزون',
+lanesMode:'التسجيل حسب رقم المسار',lanesN:'كم مسارًا',
+setup:'إعداد الاختبار',courseLen:'طول المسار',startSpeed:'سرعة المرحلة 1 (كم/س)',stdBtn:'↺ Léger 1988 ‏(20 م، 8.5)',
+age:'العمر لتقدير VO₂max',ageHint:'العمر بالسنوات، 6–18 (للبالغين: 18). يُستخدم لتقدير VO₂max فقط.',
+countdownSet:'عدّ تنازلي قبل الانطلاق',sound:'الصافرات',voice:'إعلان صوتي للمراحل',
+voiceHint:'يستخدم الإعلان الصوتي صوتًا مدمجًا في الجهاز إن وُجد للغة المختارة. الصافرات لا تحتاج إلى شبكة أبدًا.',
+locked:'صفّر الساعة لتغيير المسار أو السرعة.',
+results:'لوحة النتائج',byOrder:'حسب الترتيب',byDist:'حسب المسافة',csv:'⬇ CSV',undoLast:'↩ تراجع عن آخر تسجيل',clearResults:'🗑 مسح النتائج',
+empty:'لا تسجيلات بعد. عندما يتوقف عدّاء، اضغط زر الانسحاب أو اضغط على اسمه.',
+thRank:'الترتيب',thName:'الاسم',thLevel:'مرحلة·شوط',thDist:'المسافة (م)',thTime:'الزمن',thSpeed:'السرعة (كم/س)',thVo2:'تقدير VO₂max',thBand:'مرجعي',del:'حذف',editName:'تعديل الاسم',
+refTable:'📋 جدول المراحل والمسافات الكامل',refLevel:'المرحلة',refShuttles:'الأشواط',refSpeed:'السرعة (كم/س)',refShuttleTime:'زمن الشوط (ث)',refCumDist:'المسافة الكلية (م)',refCumTime:'الزمن الكلي',
+bands:'عتباتي المرجعية (اختياري)',
+bandsHint:'لا توجد قيم مرجعية مضمّنة. يمكنك إدخال عتباتك الخاصة، مثلًا من إرشادات مدرستك. تعرض كل نتيجة أعلى عتبة تبلغها. يُحفظ على هذا الجهاز فقط.',
+bandsMetric:'المقارنة حسب',metricDist:'المسافة (م)',metricVo2:'تقدير VO₂max',bandLabel:'التسمية',bandMin:'الحد الأدنى',bandAdd:'+ إضافة عتبة',bandRemove:'إزالة',bandsCount:'{0} محددة',
+aboutTitle:'حول هذه الأداة',licence:'شروط الترخيص: يحددها الناشر قبل البيع.',citeLabel:'البروتوكول والمعادلة',
+protoNote:'البروتوكول الافتراضي: أشواط 20 م، المرحلة 1 بسرعة 8.5 كم/س، وزيادة 0.5 كم/س في كل مرحلة، ومدة كل مرحلة نحو دقيقة.',
+vo2Note:'‏VO₂max تقدير وفق معادلة Léger وزملائه (1988): ‎31.025 + 3.238·S − 3.248·A + 0.1536·A·S، حيث S سرعة المرحلة (كم/س) التي أُكمل فيها آخر شوط كامل وA العمر بالسنوات. يُعرض لمسار 20 م فقط. ليس فحصًا طبيًا ولا تشخيصًا.',
+noNorms:'لا يتضمن جدول معايير أو عتبات. أي عتبات تُدخلها هي عتباتك الخاصة.',
+privacy:'الخصوصية: تعمل الأداة دون شبكة ودون حساب ولا ترسل شيئًا. تُحفظ الإعدادات وقائمة العدّائين والنتائج في هذا المتصفح على هذا الجهاز فقط (بادئة مفتاح التخزين "pe-shuttle.v1"). صدّر ملف CSV للاحتفاظ بنسخة. «حذف كل البيانات على هذا الجهاز» يحذف كل شيء.',
+safety:'السلامة: هذا اختبار جري قصوي. تأكد من أهلية العدّائين للمشاركة، وقم بالإحماء أولًا، وأوقف كل من يشعر بتوعك. يعتمد توقيت الصوت على الجهاز؛ افحص مستوى الصوت والصافرات قبل اختبار مجموعة.',
+independent:'أداة مستقلة. ليست منتج اختبار رسميًا أو معتمدًا أو مصادقًا عليه.',
+reviewNote:'النصوص العبرية والعربية والروسية والإسبانية مسودات بانتظار مراجعة متحدثين أصليين.',
+clearAll:'حذف كل البيانات على هذا الجهاز',clearAllArm:'اضغط مرة أخرى لحذف الإعدادات والعدّائين والنتائج',clearedAll:'تم حذف كل البيانات من هذا الجهاز',
+saveOk:'محفوظ على هذا الجهاز',saveFail:'لم يُحفظ: التخزين محظور أو ممتلئ على هذا الجهاز. صدّر ملف CSV للاحتفاظ بالنتائج.',
+saveCorrupt:'تعذّرت قراءة البيانات المحفوظة. نُقلت جانبًا وبدأنا من جديد.',saveReadOnly:'تعذّرت قراءة البيانات المحفوظة وتُركت كما هي. لن تُحفظ التغييرات حتى تحذف كل البيانات.',
+notStarted:'لم يبدأ الاختبار بعد',full:'لوحة النتائج ممتلئة ({0})',recorded:'{0} — {1} م · المرحلة {2}',undo:'تراجع',
+undone:'تم حذف آخر تسجيل',resultsCleared:'تم مسح النتائج',stopped:'تم إيقاف الاختبار',clockReset:'تم تصفير الساعة (النتائج محفوظة)',
+audioInterrupted:'قطع الجهاز الصوت. الاختبار متوقف مؤقتًا — اضغط «متابعة».',audioNone:'الصوت غير متاح في هذا المتصفح. استخدم صافرة أو جهازًا آخر.',
+csvNone:'لا نتائج للتصدير',csvDone:'تم إنشاء ملف CSV',
+runnerN:'عدّاء {0}',laneName:'المسار {0}',
+sayStart:'الاختبار يبدأ',sayLevel:'المرحلة {0}',sayLevelSoon:'المرحلة {0} بعد ثلاث',sayEnd:'انتهى الاختبار. أحسنتم!',
+csvNo:'رقم',csvName:'الاسم',csvLevel:'المرحلة',csvShuttle:'الشوط',csvDist:'المسافة (م)',csvTime:'الزمن (ث)',csvSpeed:'السرعة (كم/س)',
+csvVo2:'تقدير VO2max (مل/كغ/د)',csvBand:'عتبة مرجعية',csvAge:'العمر المستخدم',csvCourse:'طول المسار (م)',csvStart:'سرعة المرحلة 1 (كم/س)',csvDate:'تاريخ التصدير',csvFile:'shuttle-run'
+},
+ru:{
+appName:'Челночный бег 20 м (бип-тест)',tagline:'Таймер многоступенчатого челночного бега · протокол Léger и соавт. (1988)',language:'Язык',
+present:'⛶ Экран для зала',exitPresent:'✕ Выйти из экрана',about:'О программе',close:'Закрыть',
+stReady:'Готов к старту',stGetReady:'Приготовиться',stRunning:'Тест идёт',stPaused:'Пауза',stStopped:'Остановлен',stFinished:'Завершён',
+level:'Ступень',shuttle:'Отрезок',nextBeep:'Следующий сигнал через (с)',getReady:'Приготовиться',time:'Время',speed:'Скорость',distance:'Дистанция',
+vo2:'Оценка VO₂max',kmh:'км/ч',m:'м',levelProgress:'Прогресс в ступени',
+start:'▶ Старт',pause:'⏸ Пауза',resume:'▶ Продолжить',stop:'■ Стоп',reset:'↺ Сброс',drop:'🛑 Сход · бегун остановился',
+keys:'Клавиши: Пробел = старт/пауза · Enter = запись схода',
+cite:'Протокол: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. VO₂max — оценка, а не медицинский тест.',
+protoStd:'Протокол Léger 1988',protoMod:'Изменённый протокол',
+warnMod:'⚠️ Изменённый протокол (в Léger 1988: 20 м и 8,5 км/ч на 1-й ступени). Результаты несопоставимы со стандартным протоколом; значения VO₂max — лишь грубая оценка.',
+vo2Only20:'Оценка VO₂max показывается только для отрезка 20 м.',
+runners:'Бегуны в этом тесте',runnersHint:'Необязательно. Введите имена или номера, по одному в строке. Нажмите на бегуна, когда он остановится. Хранится только на этом устройстве; очистите список после теста.',
+runnersApply:'✓ Использовать список',runnersClear:'✕ Очистить список',runnersLeft:'{0} из {1} ещё бегут · нажмите на бегуна, когда он остановится',
+runnersNone:'Совет: добавьте имена или номера в разделе «Бегуны в этом тесте» или используйте номера дорожек.',runnersCleared:'Список бегунов очищен',runnersSaved:'Бегунов готово: {0}',
+lanesMode:'Запись по номеру дорожки',lanesN:'Сколько дорожек',
+setup:'Настройка теста',courseLen:'Длина отрезка',startSpeed:'Скорость 1-й ступени (км/ч)',stdBtn:'↺ Léger 1988 (20 м, 8,5)',
+age:'Возраст для VO₂max',ageHint:'Возраст в годах, 6–18 (для взрослых: 18). Используется только для оценки VO₂max.',
+countdownSet:'Обратный отсчёт перед стартом',sound:'Сигналы',voice:'Голосовое объявление ступеней',
+voiceHint:'Голосовые объявления используют встроенный голос устройства, если он есть для выбранного языка. Сигналам сеть никогда не нужна.',
+locked:'Сбросьте секундомер, чтобы изменить отрезок или скорость.',
+results:'Результаты',byOrder:'По порядку',byDist:'По дистанции',csv:'⬇ CSV',undoLast:'↩ Отменить последнюю запись',clearResults:'🗑 Очистить результаты',
+empty:'Записей пока нет. Когда бегун остановится, нажмите кнопку схода или его имя.',
+thRank:'Место',thName:'Имя',thLevel:'Ступень·отрезок',thDist:'Дистанция (м)',thTime:'Время',thSpeed:'Скорость (км/ч)',thVo2:'Оценка VO₂max',thBand:'Ориентир',del:'Удалить',editName:'Изменить имя',
+refTable:'📋 Полная таблица ступеней и дистанций',refLevel:'Ступень',refShuttles:'Отрезков',refSpeed:'Скорость (км/ч)',refShuttleTime:'Время отрезка (с)',refCumDist:'Общая дистанция (м)',refCumTime:'Общее время',
+bands:'Мои ориентиры (необязательно)',
+bandsHint:'Справочные значения не включены. Вы можете ввести собственные пороги, например из рекомендаций вашей школы. Для каждого результата показывается наивысший достигнутый порог. Хранится только на этом устройстве.',
+bandsMetric:'Сравнивать по',metricDist:'Дистанция (м)',metricVo2:'Оценка VO₂max',bandLabel:'Название',bandMin:'Минимум',bandAdd:'+ Добавить порог',bandRemove:'Удалить',bandsCount:'задано: {0}',
+aboutTitle:'О программе',licence:'Условия лицензии: будут определены издателем до продажи.',citeLabel:'Протокол и формула',
+protoNote:'Протокол по умолчанию: отрезки 20 м, 1-я ступень 8,5 км/ч, +0,5 км/ч на каждой ступени, каждая ступень около минуты.',
+vo2Note:'VO₂max — оценка по формуле Léger и соавт. (1988): 31.025 + 3.238·S − 3.248·A + 0.1536·A·S, где S — скорость (км/ч) ступени, на которой завершён последний полный отрезок, A — возраст в годах. Показывается только для отрезка 20 м. Это не медицинский тест и не диагноз.',
+noNorms:'Таблица норм или порогов не включена. Любые введённые вами пороги — ваши собственные.',
+privacy:'Конфиденциальность: программа работает без сети и без учётной записи и ничего не отправляет. Настройки, список бегунов и результаты хранятся только в этом браузере на этом устройстве (префикс ключа хранения "pe-shuttle.v1"). Экспортируйте CSV, чтобы сохранить копию. «Удалить все данные на этом устройстве» удаляет всё.',
+safety:'Безопасность: это тест на максимальную нагрузку. Убедитесь, что бегуны допущены к участию, проведите разминку и остановите любого, кто плохо себя чувствует. Точность звука зависит от устройства; проверьте громкость и сигналы перед тестом группы.',
+independent:'Независимая программа. Не является официальным, сертифицированным или одобренным тестовым продуктом.',
+reviewNote:'Тексты на иврите, арабском, русском и испанском — черновики, ожидающие проверки носителями языка.',
+clearAll:'Удалить все данные на этом устройстве',clearAllArm:'Нажмите ещё раз, чтобы удалить настройки, бегунов и результаты',clearedAll:'Все данные удалены с этого устройства',
+saveOk:'Сохранено на этом устройстве',saveFail:'Не сохранено: хранилище заблокировано или заполнено. Экспортируйте CSV, чтобы сохранить результаты.',
+saveCorrupt:'Сохранённые данные не удалось прочитать. Они отложены, начата новая запись.',saveReadOnly:'Сохранённые данные не удалось прочитать, они оставлены без изменений. Изменения не сохраняются, пока вы не удалите все данные.',
+notStarted:'Тест ещё не начался',full:'Список результатов заполнен ({0})',recorded:'{0} — {1} м · ступень {2}',undo:'Отменить',
+undone:'Последняя запись удалена',resultsCleared:'Результаты очищены',stopped:'Тест остановлен',clockReset:'Секундомер сброшен (результаты сохранены)',
+audioInterrupted:'Устройство прервало звук. Тест на паузе — нажмите «Продолжить».',audioNone:'Звук недоступен в этом браузере. Используйте свисток или другое устройство.',
+csvNone:'Нет результатов для экспорта',csvDone:'Файл CSV создан',
+runnerN:'Бегун {0}',laneName:'Дорожка {0}',
+sayStart:'Тест начинается',sayLevel:'Ступень {0}',sayLevelSoon:'Ступень {0} через три',sayEnd:'Тест окончен. Молодцы!',
+csvNo:'№',csvName:'Имя',csvLevel:'Ступень',csvShuttle:'Отрезок',csvDist:'Дистанция (м)',csvTime:'Время (с)',csvSpeed:'Скорость (км/ч)',
+csvVo2:'Оценка VO2max (мл/кг/мин)',csvBand:'Свой ориентир',csvAge:'Возраст в расчёте',csvCourse:'Длина отрезка (м)',csvStart:'Скорость 1-й ступени (км/ч)',csvDate:'Экспорт',csvFile:'shuttle-run'
+},
+es:{
+appName:'Carrera de ida y vuelta de 20 m (test de pitidos)',tagline:'Cronómetro de la prueba de ida y vuelta por niveles · protocolo de Léger et al. (1988)',language:'Idioma',
+present:'⛶ Pantalla de gimnasio',exitPresent:'✕ Salir de la pantalla',about:'Acerca de',close:'Cerrar',
+stReady:'Listo para empezar',stGetReady:'Preparados',stRunning:'Prueba en curso',stPaused:'En pausa',stStopped:'Detenida',stFinished:'Terminada',
+level:'Nivel',shuttle:'Tramo',nextBeep:'Próximo pitido en (s)',getReady:'Preparados',time:'Tiempo',speed:'Velocidad',distance:'Distancia',
+vo2:'VO₂máx estimado',kmh:'km/h',m:'m',levelProgress:'Progreso dentro del nivel',
+start:'▶ Empezar',pause:'⏸ Pausa',resume:'▶ Continuar',stop:'■ Detener',reset:'↺ Reiniciar',drop:'🛑 Registrar abandono · el corredor se detuvo',
+keys:'Atajos: Espacio = empezar/pausa · Enter = registrar abandono',
+cite:'Protocolo: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. El VO₂máx es una estimación, no una prueba médica.',
+protoStd:'Protocolo Léger 1988',protoMod:'Protocolo modificado',
+warnMod:'⚠️ Protocolo modificado (Léger 1988 usa 20 m y 8,5 km/h en el nivel 1). Los resultados no son comparables con el protocolo estándar; los valores de VO₂máx son solo una estimación aproximada.',
+vo2Only20:'El VO₂máx estimado solo se muestra para el recorrido de 20 m.',
+runners:'Corredores de esta prueba',runnersHint:'Opcional. Escribe nombres o dorsales, uno por línea. Toca a un corredor cuando se detenga. Se guarda solo en este dispositivo; borra la lista después de la prueba.',
+runnersApply:'✓ Usar esta lista',runnersClear:'✕ Borrar lista',runnersLeft:'{0} de {1} siguen corriendo · toca a un corredor cuando se detenga',
+runnersNone:'Consejo: añade nombres o dorsales en «Corredores de esta prueba» o usa números de calle.',runnersCleared:'Lista de corredores borrada',runnersSaved:'{0} corredores listos',
+lanesMode:'Registrar por número de calle',lanesN:'Cuántas calles',
+setup:'Configuración de la prueba',courseLen:'Longitud del tramo',startSpeed:'Velocidad del nivel 1 (km/h)',stdBtn:'↺ Léger 1988 (20 m, 8,5)',
+age:'Edad para el VO₂máx',ageHint:'Edad en años, 6–18 (adultos: 18). Solo se usa para el VO₂máx estimado.',
+countdownSet:'Cuenta atrás antes de la salida',sound:'Pitidos',voice:'Anuncio hablado de niveles',
+voiceHint:'Los anuncios hablados usan una voz integrada en el dispositivo, si existe para el idioma elegido. Los pitidos nunca necesitan red.',
+locked:'Reinicia el reloj para cambiar el recorrido o la velocidad.',
+results:'Resultados',byOrder:'Por orden',byDist:'Por distancia',csv:'⬇ CSV',undoLast:'↩ Deshacer el último registro',clearResults:'🗑 Borrar resultados',
+empty:'Aún no hay registros. Cuando un corredor se detenga, pulsa el botón de abandono o toca su nombre.',
+thRank:'Puesto',thName:'Nombre',thLevel:'Nivel·tramo',thDist:'Distancia (m)',thTime:'Tiempo',thSpeed:'Velocidad (km/h)',thVo2:'VO₂máx est.',thBand:'Referencia',del:'Eliminar',editName:'Editar nombre',
+refTable:'📋 Tabla completa de niveles y distancias',refLevel:'Nivel',refShuttles:'Tramos',refSpeed:'Velocidad (km/h)',refShuttleTime:'Tiempo por tramo (s)',refCumDist:'Distancia total (m)',refCumTime:'Tiempo total',
+bands:'Mis umbrales de referencia (opcional)',
+bandsHint:'No se incluyen valores de referencia. Puedes introducir tus propios umbrales, por ejemplo de las pautas de tu centro. Cada resultado muestra el umbral más alto que alcanza. Se guarda solo en este dispositivo.',
+bandsMetric:'Comparar por',metricDist:'Distancia (m)',metricVo2:'VO₂máx estimado',bandLabel:'Etiqueta',bandMin:'Mínimo',bandAdd:'+ Añadir umbral',bandRemove:'Quitar',bandsCount:'{0} definidos',
+aboutTitle:'Acerca de esta herramienta',licence:'Términos de licencia: los fijará el editor antes de la venta.',citeLabel:'Protocolo y ecuación',
+protoNote:'Protocolo predeterminado: tramos de 20 m, nivel 1 a 8,5 km/h, +0,5 km/h por nivel, cada nivel dura aproximadamente un minuto.',
+vo2Note:'El VO₂máx es una estimación con la ecuación de Léger et al. (1988): 31.025 + 3.238·S − 3.248·A + 0.1536·A·S, donde S es la velocidad (km/h) del nivel en el que se completó el último tramo entero y A es la edad en años. Solo se muestra para el recorrido de 20 m. No es una prueba médica ni un diagnóstico.',
+noNorms:'No se incluye ninguna tabla de baremos o umbrales. Los umbrales que introduzcas son tuyos.',
+privacy:'Privacidad: la herramienta funciona sin conexión, sin cuenta y no envía nada por la red. La configuración, la lista de corredores y los resultados se guardan solo en este navegador de este dispositivo (prefijo de clave de almacenamiento "pe-shuttle.v1"). Exporta un CSV para conservar una copia. «Eliminar todos los datos de este dispositivo» lo borra todo.',
+safety:'Seguridad: es una prueba de carrera máxima. Comprueba que los corredores pueden participar, calienta antes y detén a cualquiera que se encuentre mal. La precisión del sonido depende del dispositivo; comprueba el volumen y los pitidos antes de evaluar a un grupo.',
+independent:'Herramienta independiente. No es un producto de prueba oficial, certificado ni avalado.',
+reviewNote:'Los textos en hebreo, árabe, ruso y español son borradores pendientes de revisión por hablantes nativos.',
+clearAll:'Eliminar todos los datos de este dispositivo',clearAllArm:'Toca de nuevo para eliminar configuración, corredores y resultados',clearedAll:'Todos los datos se eliminaron de este dispositivo',
+saveOk:'Guardado en este dispositivo',saveFail:'No guardado: el almacenamiento está bloqueado o lleno en este dispositivo. Exporta un CSV para conservar los resultados.',
+saveCorrupt:'No se pudieron leer los datos guardados. Se apartaron y se empezó de cero.',saveReadOnly:'No se pudieron leer los datos guardados y se dejaron intactos. Los cambios no se guardan hasta que elimines todos los datos.',
+notStarted:'La prueba aún no ha empezado',full:'La lista de resultados está llena ({0})',recorded:'{0} — {1} m · nivel {2}',undo:'Deshacer',
+undone:'Último registro eliminado',resultsCleared:'Resultados borrados',stopped:'Prueba detenida',clockReset:'Reloj reiniciado (resultados conservados)',
+audioInterrupted:'El dispositivo interrumpió el sonido. La prueba está en pausa: pulsa Continuar.',audioNone:'El sonido no está disponible en este navegador. Usa un silbato u otro dispositivo.',
+csvNone:'No hay resultados para exportar',csvDone:'Archivo CSV creado',
+runnerN:'Corredor {0}',laneName:'Calle {0}',
+sayStart:'Empieza la prueba',sayLevel:'Nivel {0}',sayLevelSoon:'Nivel {0} en tres',sayEnd:'Fin de la prueba. ¡Muy bien!',
+csvNo:'N.º',csvName:'Nombre',csvLevel:'Nivel',csvShuttle:'Tramo',csvDist:'Distancia (m)',csvTime:'Tiempo (s)',csvSpeed:'Velocidad (km/h)',
+csvVo2:'VO2máx estimado (ml/kg/min)',csvBand:'Referencia propia',csvAge:'Edad usada',csvCourse:'Longitud del tramo (m)',csvStart:'Velocidad del nivel 1 (km/h)',csvDate:'Exportado',csvFile:'shuttle-run'
+}};
+
+var API={VERSION:VERSION,STAGE_SEC:STAGE_SEC,MAX_SPEED:MAX_SPEED,DEFAULT_START:DEFAULT_START,STD_START:STD_START,STD_DIST:STD_DIST,
+  DISTANCES:DISTANCES,COUNTDOWNS:COUNTDOWNS,KEY:KEY,LANG_KEY:LANG_KEY,CORRUPT_KEY:CORRUPT_KEY,LANGS:LANGS,RTL:RTL,
+  MAX_RESULTS:MAX_RESULTS,MAX_RUNNERS:MAX_RUNNERS,MAX_BANDS:MAX_BANDS,NAME_MAX:NAME_MAX,
+  speedKmh:speedKmh,clampStart:clampStart,clampAge:clampAge,clampLanes:clampLanes,buildSchedule:buildSchedule,levelSummary:levelSummary,
+  vo2max:vo2max,isStandard:isStandard,completedCount:completedCount,buildCues:buildCues,snapshot:snapshot,makeResult:makeResult,
+  resultVo2:resultVo2,bandFor:bandFor,fmtMS:fmtMS,csvCell:csvCell,toCSV:toCSV,parseRunners:parseRunners,defaultState:defaultState,
+  sanitize:sanitize,createStore:createStore,L:L,REUSED_FROM_APP:REUSED_FROM_APP};
+if(typeof module==='object'&&module&&module.exports)module.exports=API;
+root.PEShuttleEngine=API;
+})(this);
+</script>
+<script>
+/* ===== APP: DOM, audio, clock, wake lock, presentation mode. ===== */
+(function(){
+'use strict';
+var E=window.PEShuttleEngine;
+var $=function(id){return document.getElementById(id);};
+var storageRef=null;try{storageRef=window.localStorage;}catch(e){storageRef=null;}
+var store=E.createStore(function(){return storageRef;});
+var S=store.load();
+var lang=store.loadLang()||'en';
+var beeps=[],cues=[];
+/* Test-clock state. elapsed (s) = clockNow() - startRef while running; negative during the get-ready countdown. */
+var phase='idle',running=false,startRef=0,offset=0,cueIdx=0,speechIdx=0,raf=0,timer=0;
+var fakeNow=null,flashDone=-1;
+var ac=null,acCount=0,scheduled=[],wake=null,toastTimer=0,toastUndo=null,armTimer=0;
+
+function t(key){var d=E.L[lang]||E.L.en,s=d[key];if(s==null)s=E.L.en[key];if(s==null)s=key;
+  for(var i=1;i<arguments.length;i++)s=s.split('{'+(i-1)+'}').join(String(arguments[i]));return s;}
+function fmt1(v){return v.toFixed(1);}
+function clockNow(){return fakeNow!==null?fakeNow:performance.now()/1000;}
+function elapsed(){return running?clockNow()-startRef:offset;}
+
+/* ---------- persistence ---------- */
+function save(){store.save(S);paintSave();}
+function paintSave(){
+  var st=store.status,el=$('saveStatus');
+  var msg=st.ok?(st.reason==='corrupt'?t('saveCorrupt'):t('saveOk')):(st.reason==='corruptReadOnly'?t('saveReadOnly'):t('saveFail'));
+  el.textContent=msg;el.classList.toggle('error',!st.ok);
+}
+
+/* ---------- audio (Web Audio, created only on a user gesture) ---------- */
+function audio(){
+  if(ac)return ac;
+  var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
+  try{ac=new C();acCount++;ac.onstatechange=onAudioState;}catch(e){ac=null;}
+  return ac;
+}
+function unlockAudio(){
+  var c=audio();if(!c)return;
+  if(c.state!=='running'&&c.resume){try{c.resume().catch(function(){});}catch(e){}}
+  try{var b=c.createBuffer(1,1,22050),src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start(0);}catch(e){}
+}
+function onAudioState(){
+  if(!ac)return;
+  if(running&&fakeNow===null&&S.settings.sound&&(ac.state==='suspended'||ac.state==='interrupted')){
+    pause();showNotice(t('audioInterrupted'));
+  }
+}
+function tone(at,freq,dur,vol,type){
+  if(!ac||!S.settings.sound)return;
+  try{
+    var o=ac.createOscillator(),g=ac.createGain();
+    o.type=type||'square';o.frequency.value=freq;
+    g.gain.setValueAtTime(0,at);g.gain.linearRampToValueAtTime(vol,at+0.01);
+    g.gain.setValueAtTime(vol,at+dur-0.03);g.gain.linearRampToValueAtTime(0,at+dur);
+    o.connect(g);g.connect(ac.destination);o.start(at);o.stop(at+dur+0.02);
+    scheduled.push({g:g,end:at+dur+0.05});
+  }catch(e){}
+}
+function cancelScheduled(){scheduled.forEach(function(x){try{x.g.disconnect();}catch(e){}});scheduled=[];}
+function playCue(c,at){
+  if(c.kind==='shuttle')tone(at,1000,0.15,0.5);
+  else if(c.kind==='level'){tone(at,1500,0.16,0.55);tone(at+0.2,1500,0.16,0.55);tone(at+0.4,1500,0.16,0.55);}
+  else if(c.kind==='start')tone(at,760,0.4,0.5);
+  else if(c.kind==='pip')tone(at,880,0.08,0.4,'sine');
+  else if(c.kind==='warn'){tone(at,1320,0.09,0.45,'sine');tone(at+0.15,1320,0.09,0.45,'sine');}
+}
+function scheduler(){
+  var el=elapsed(),look=document.hidden?2.0:0.15;
+  if(ac){var n=ac.currentTime;scheduled=scheduled.filter(function(x){return x.end>n;});}
+  while(cueIdx<cues.length&&cues[cueIdx].t<=el+look){
+    var c=cues[cueIdx++];
+    if(c.t<el-0.05)continue; /* stale (only after a large jump of a test clock) */
+    if(ac&&S.settings.sound)playCue(c,ac.currentTime+Math.max(0.02,c.t-el));
+  }
+  /* Spoken cues follow the same list, at their own time (not ahead). */
+  while(speechIdx<cues.length&&cues[speechIdx].t<=el){
+    var sc=cues[speechIdx++];
+    if(sc.t<el-0.5)continue;
+    if(sc.kind==='start')say(t('sayStart'));
+    else if(sc.kind==='warn')say(t('sayLevelSoon',sc.level));
+    else if(sc.kind==='level'&&!sc.last)say(t('sayLevel',sc.level+1));
+  }
+}
+
+/* ---------- speech (device voices only; skipped when none is local) ---------- */
+function say(text){
+  if(!S.settings.voice||!window.speechSynthesis||fakeNow!==null)return;
+  try{
+    var vs=speechSynthesis.getVoices().filter(function(v){return v.localService&&v.lang&&v.lang.toLowerCase().indexOf(lang)===0;});
+    if(!vs.length)return;
+    var u=new SpeechSynthesisUtterance(text);u.voice=vs[0];u.lang=vs[0].lang;speechSynthesis.cancel();speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ---------- wake lock ---------- */
+function keepAwake(on){
+  try{
+    if(on){if(!wake&&navigator.wakeLock&&document.visibilityState==='visible')navigator.wakeLock.request('screen').then(function(w){wake=w;w.addEventListener('release',function(){wake=null;});}).catch(function(){});}
+    else if(wake){wake.release().catch(function(){});wake=null;}
+  }catch(e){}
+}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&running)keepAwake(true);});
+
+/* ---------- schedule ---------- */
+function rebuild(){
+  beeps=E.buildSchedule(S.settings.dist,S.settings.start);
+  cues=E.buildCues(beeps,S.settings.countdown);
+  if($('refFold').open)buildRef();
+}
+function buildRef(){
+  var sum=E.levelSummary(beeps),h='<table><thead><tr><th>'+esc(t('refLevel'))+'</th><th>'+esc(t('refShuttles'))+'</th><th>'+esc(t('refSpeed'))+'</th><th>'+esc(t('refShuttleTime'))+'</th><th>'+esc(t('refCumDist'))+'</th><th>'+esc(t('refCumTime'))+'</th></tr></thead><tbody>';
+  var d=S.settings.dist,cum=0;
+  sum.forEach(function(r){cum+=r.shuttles*d;h+='<tr><td class="num">'+r.level+'</td><td class="num">'+r.shuttles+'</td><td class="num">'+fmt1(r.speed)+'</td><td class="num">'+r.shuttleSec.toFixed(2)+'</td><td class="num">'+cum+'</td><td class="num">'+E.fmtMS(r.endT)+'</td></tr>';});
+  $('refWrap').innerHTML=h+'</tbody></table>';
+}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+/* ---------- engine controls ---------- */
+function setPhase(p){phase=p;paintControls();}
+function start(){
+  if(running||phase==='stopped'||phase==='finished'||!beeps.length)return;
+  unlockAudio();
+  if(!ac&&S.settings.sound)showNotice(t('audioNone'));else hideNotice();
+  if(phase==='idle'){offset=-S.settings.countdown;flashDone=-1;}
+  startRef=clockNow()-offset;
+  var el=offset;cueIdx=0;while(cueIdx<cues.length&&cues[cueIdx].t<el-0.001)cueIdx++;
+  speechIdx=cueIdx;
+  running=true;setPhase(el<0?'countdown':'running');keepAwake(true);
+  timer=setInterval(tick,25);loop();
+}
+function pause(){
+  if(!running)return;
+  offset=elapsed();running=false;clearInterval(timer);cancelAnimationFrame(raf);cancelScheduled();keepAwake(false);
+  setPhase('paused');render();
+}
+function stop(){
+  if(phase==='idle'||phase==='stopped'||phase==='finished')return;
+  if(running)pause();
+  setPhase('stopped');render();
+  toast(t('stopped'),function(){if(phase==='stopped'){setPhase('paused');render();}});
+}
+function reset(){
+  var el=elapsed(),wasPhase=phase;
+  running=false;clearInterval(timer);cancelAnimationFrame(raf);cancelScheduled();keepAwake(false);
+  offset=0;cueIdx=0;speechIdx=0;flashDone=-1;
+  setPhase('idle');render();
+  if(wasPhase!=='idle')toast(t('clockReset'),function(){if(phase!=='idle'||running)return;offset=el;setPhase(wasPhase==='finished'?'finished':(wasPhase==='stopped'?'stopped':'paused'));render();});
+}
+function finish(){
+  offset=beeps[beeps.length-1].t;running=false;clearInterval(timer);cancelAnimationFrame(raf);keepAwake(false);
+  setPhase('finished');say(t('sayEnd'));render();
+}
+function tick(){
+  if(!running)return;
+  var el=elapsed();
+  if(phase==='countdown'&&el>=0)setPhase('running');
+  scheduler();
+  if(el>=beeps[beeps.length-1].t)finish();
+}
+function loop(){render();if(running)raf=requestAnimationFrame(loop);}
+
+/* ---------- rendering ---------- */
+function render(){
+  if(!beeps.length)return;
+  var el=elapsed(),s=E.snapshot(beeps,el,S.settings.dist,S.settings.age);
+  $('levelVal').textContent=s.level;
+  $('shuttleVal').textContent=s.shuttle+'/'+s.shTot;
+  var cd=$('cdBox'),inCd=(phase==='countdown'||(phase==='paused'&&el<0));
+  cd.classList.toggle('ready',inCd);
+  $('cdLabel').textContent=inCd?t('getReady'):t('nextBeep');
+  $('cdVal').textContent=inCd?String(s.countdown):(phase==='idle'?'—':(s.finished?'0.0':fmt1(s.nextIn)));
+  $('shBar').style.width=(inCd||phase==='idle'?0:s.shuttleFrac*100)+'%';
+  $('lvlBar').style.width=(phase==='idle'?0:s.levelFrac*100)+'%';
+  $('timeVal').textContent=E.fmtMS(s.time);
+  $('speedVal').textContent=fmt1(s.speed);
+  $('distVal').textContent=String(s.distance);
+  $('vo2Val').textContent=s.vo2==null?'—':fmt1(s.vo2);
+  if(running&&s.done!==flashDone&&s.done>0){flashDone=s.done;var b=$('board');b.classList.remove('flash');void b.offsetWidth;b.classList.add('flash');}
+  paintStatus();
+}
+function paintStatus(){
+  var p=$('statusPill'),map={idle:'stReady',countdown:'stGetReady',running:'stRunning',paused:'stPaused',stopped:'stStopped',finished:'stFinished'};
+  p.textContent=t(map[phase]);
+  p.className='pill status'+(phase==='running'||phase==='countdown'?' running':phase==='paused'?' paused':(phase==='stopped'||phase==='finished')?' done':'');
+}
+function paintControls(){
+  var sb=$('startBtn');
+  sb.textContent=running?t('pause'):(phase==='paused'?t('resume'):t('start'));
+  sb.disabled=(phase==='stopped'||phase==='finished');
+  $('stopBtn').disabled=!(running||phase==='paused');
+  $('resetBtn').disabled=(phase==='idle'||running);
+  var canDrop=phase==='running'||((phase==='paused'||phase==='stopped'||phase==='finished')&&offset>0);
+  $('dropBtn').disabled=!canDrop||S.results.length>=E.MAX_RESULTS;
+  var locked=phase!=='idle';
+  document.querySelectorAll('#distSeg button').forEach(function(b){b.disabled=locked;});
+  ['spMinus','spPlus','spStd','countdown'].forEach(function(id){$(id).disabled=locked;});
+  $('lockedHint').hidden=!locked;
+  paintStatus();
+}
+function paintSetup(){
+  var st=S.settings;
+  document.querySelectorAll('#distSeg button').forEach(function(b){b.classList.toggle('on',+b.dataset.d===st.dist);b.textContent=b.dataset.d+' '+t('m');});
+  $('spVal').textContent=fmt1(st.start);
+  $('age').value=st.age;$('countdown').value=String(st.countdown);
+  $('sound').checked=st.sound;$('voice').checked=st.voice;
+  $('laneMode').checked=st.laneMode;$('laneN').value=st.laneN;
+  var std=E.isStandard(st.dist,st.start),pill=$('protoPill');
+  pill.textContent=std?t('protoStd'):t('protoMod');pill.className='pill '+(std?'std':'mod');
+  var warn=[];if(!std)warn.push(t('warnMod'));if(st.dist!==20)warn.push(t('vo2Only20'));
+  $('warnBox').hidden=!warn.length;$('warnBox').textContent=warn.join(' ');
+  $('setupSum').textContent=st.dist+' '+t('m')+' · '+fmt1(st.start)+' '+t('kmh')+' · '+(std?t('protoStd'):t('protoMod'));
+  $('sortOrder').classList.toggle('on',st.sort==='order');$('sortDist').classList.toggle('on',st.sort==='dist');
+}
+function resultOf(name){for(var i=0;i<S.results.length;i++)if(S.results[i].name===name)return S.results[i];return null;}
+function paintRunners(){
+  var box=$('runnerChips'),hint=$('runnerHint');
+  box.innerHTML='';
+  S.runners.forEach(function(n){
+    var r=resultOf(n),b=document.createElement('button');b.type='button';b.className=r?'done':'';b.disabled=!!r;
+    b.textContent=n;if(r){var sm=document.createElement('small');sm.className='num';sm.textContent=r.dist+' '+t('m');b.appendChild(sm);}
+    b.addEventListener('click',function(){registerDrop(n);});box.appendChild(b);
+  });
+  var lanes=$('lanes');lanes.innerHTML='';
+  if(S.settings.laneMode){for(var i=1;i<=S.settings.laneN;i++)(function(i){
+    var nm=t('laneName',i),r=resultOf(nm),b=document.createElement('button');b.type='button';b.className='num'+(r?' done':'');b.disabled=!!r;b.textContent=String(i);
+    b.setAttribute('aria-label',nm);if(r){var sm=document.createElement('small');sm.textContent=r.dist+' '+t('m');b.appendChild(sm);}
+    b.addEventListener('click',function(){registerDrop(nm);});lanes.appendChild(b);})(i);}
+  if(S.runners.length){var left=S.runners.filter(function(n){return !resultOf(n);}).length;hint.textContent=t('runnersLeft',left,S.runners.length);}
+  else hint.textContent=S.settings.laneMode?'':t('runnersNone');
+  $('runnersSum').textContent=S.runners.length?'('+S.runners.length+')':'';
+  if(document.activeElement!==$('runnersText'))$('runnersText').value=S.runners.join('\n');
+}
+function paintResults(){
+  var body=$('resBody'),age=S.settings.age,bands=S.bands.list,metric=S.bands.metric;
+  var ranked=S.results.slice().sort(function(a,b){return b.dist-a.dist||a.time-b.time;});
+  var rankOf={};ranked.forEach(function(r,i){rankOf[r.id]=i+1;});
+  var view=S.settings.sort==='dist'?ranked:S.results;
+  $('thBand').hidden=!bands.length;
+  body.innerHTML='';
+  view.forEach(function(r){
+    var v=E.resultVo2(r,age),band=E.bandFor(metric==='vo2'?v:r.dist,bands);
+    var tr=document.createElement('tr');
+    var cells=[String(rankOf[r.id]),null,r.level+'·'+r.sh,String(r.dist),E.fmtMS(r.time),fmt1(r.speed),v==null?'—':fmt1(v)];
+    cells.forEach(function(c,i){var td=document.createElement('td');
+      if(i===1){var inp=document.createElement('input');inp.className='nm';inp.value=r.name;inp.maxLength=E.NAME_MAX;inp.setAttribute('aria-label',t('editName'));
+        inp.addEventListener('change',function(){var nv=inp.value.replace(/\s+/g,' ').trim().slice(0,E.NAME_MAX);if(nv){r.name=nv;save();paintRunners();}else inp.value=r.name;});td.appendChild(inp);}
+      else{td.className='num';td.textContent=c;}
+      tr.appendChild(td);});
+    var tb=document.createElement('td');tb.hidden=!bands.length;tb.textContent=band?band.label:'—';tr.appendChild(tb);
+    var td=document.createElement('td'),x=document.createElement('button');x.type='button';x.className='x';x.textContent='✕';x.setAttribute('aria-label',t('del')+' '+r.name);
+    x.addEventListener('click',function(){var was=S.results.slice();S.results=S.results.filter(function(q){return q.id!==r.id;});save();paintAll();
+      toast(t('undone'),function(){S.results=was;save();paintAll();});});
+    td.appendChild(x);tr.appendChild(td);body.appendChild(tr);
+  });
+  $('resEmpty').hidden=!!S.results.length;
+  $('undoBtn').disabled=!S.results.length;$('clearResults').disabled=!S.results.length;
+}
+function paintBands(){
+  var list=$('bandList');list.innerHTML='';
+  $('bandMetric').value=S.bands.metric;
+  S.bands.list.forEach(function(b,i){
+    var row=document.createElement('div');row.className='bandrow';
+    var f1=document.createElement('label');f1.className='field';f1.style.flex='1 1 140px';var s1=document.createElement('span');s1.textContent=t('bandLabel');
+    var lab=document.createElement('input');lab.type='text';lab.maxLength=30;lab.value=b.label;f1.appendChild(s1);f1.appendChild(lab);
+    var f2=document.createElement('label');f2.className='field';var s2=document.createElement('span');s2.textContent=t('bandMin');
+    var min=document.createElement('input');min.type='number';min.min='0';min.step=S.bands.metric==='vo2'?'0.1':'20';min.value=String(b.min);min.inputMode='decimal';f2.appendChild(s2);f2.appendChild(min);
+    var rm=document.createElement('button');rm.type='button';rm.className='danger';rm.textContent=t('bandRemove');
+    lab.addEventListener('change',function(){b.label=lab.value.trim().slice(0,30)||b.label;lab.value=b.label;save();paintResults();});
+    min.addEventListener('change',function(){var v=parseFloat(min.value);if(isFinite(v)&&v>=0)b.min=v;min.value=String(b.min);save();paintResults();});
+    rm.addEventListener('click',function(){S.bands.list.splice(i,1);save();paintBands();paintResults();});
+    row.appendChild(f1);row.appendChild(f2);row.appendChild(rm);list.appendChild(row);
+  });
+  $('bandAdd').disabled=S.bands.list.length>=E.MAX_BANDS;
+  $('bandsSum').textContent=S.bands.list.length?'('+t('bandsCount',S.bands.list.length)+')':'';
+}
+function paintAll(){paintSetup();paintRunners();paintResults();paintBands();paintControls();render();paintSave();}
+
+/* ---------- results ---------- */
+function registerDrop(name){
+  var el=elapsed();
+  if(S.results.length>=E.MAX_RESULTS){toast(t('full',E.MAX_RESULTS));return;}
+  if(phase==='idle'||el<=0){toast(t('notStarted'));return;}
+  var n=name;
+  if(!n){var k=1;while(resultOf(t('runnerN',k)))k++;n=t('runnerN',k);}
+  var r=E.makeResult(beeps,el,S.settings.dist,S.settings.start,n,Date.now().toString(36)+Math.random().toString(36).slice(2,7));
+  S.results.push(r);save();paintRunners();paintResults();paintControls();
+  if(ac&&S.settings.sound)tone(ac.currentTime+0.02,440,0.16,0.4,'square');
+  toast(t('recorded',r.name,r.dist,r.level),function(){S.results=S.results.filter(function(q){return q.id!==r.id;});save();paintAll();});
+}
+function exportCSV(){
+  if(!S.results.length){toast(t('csvNone'));return null;}
+  var st=S.settings,age=st.age,date=new Date(),stamp=date.toISOString().slice(0,16).replace('T',' ');
+  var rows=[[t('csvNo'),t('csvName'),t('csvLevel'),t('csvShuttle'),t('csvDist'),t('csvTime'),t('csvSpeed'),t('csvVo2'),t('csvBand'),t('csvAge'),t('csvCourse'),t('csvStart'),t('csvDate')]];
+  S.results.forEach(function(r,i){var v=E.resultVo2(r,age),band=E.bandFor(S.bands.metric==='vo2'?v:r.dist,S.bands.list);
+    rows.push([i+1,r.name,r.level,r.sh,r.dist,+r.time.toFixed(1),+r.speed.toFixed(1),v==null?'':+v.toFixed(1),band?band.label:'',age,r.course,+r.start.toFixed(1),stamp]);});
+  var csv=E.toCSV(rows),name=t('csvFile')+'-'+date.toISOString().slice(0,10)+'-'+String(date.getHours()).padStart(2,'0')+String(date.getMinutes()).padStart(2,'0')+'.csv';
+  try{
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},4000);
+    toast(t('csvDone'));
+  }catch(e){}
+  return {name:name,csv:csv};
+}
+
+/* ---------- toasts and notices (never blocking) ---------- */
+function toast(msg,undoFn){
+  $('toastMsg').textContent=msg;toastUndo=undoFn||null;
+  var ub=$('toastUndo');ub.hidden=!undoFn;ub.textContent=t('undo');
+  $('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){$('toast').classList.remove('show');toastUndo=null;},undoFn?7000:3200);
+}
+$('toastUndo').addEventListener('click',function(){var f=toastUndo;toastUndo=null;$('toast').classList.remove('show');if(f)f();});
+function showNotice(m){var n=$('notice');n.textContent=m;n.hidden=false;}
+function hideNotice(){$('notice').hidden=true;}
+
+/* ---------- language ---------- */
+function applyLanguage(code){
+  if(E.LANGS.indexOf(code)<0)code='en';lang=code;
+  var root=document.documentElement;root.lang=code;root.dir=E.RTL.indexOf(code)>=0?'rtl':'ltr';
+  document.querySelectorAll('[data-t]').forEach(function(n){n.textContent=t(n.dataset.t);});
+  $('language').value=code;
+  document.title='PE Tools · '+t('appName');$('aboutName').textContent='PE Tools · '+t('appName');
+  $('citeLine').textContent=t('cite');$('aboutVersion').textContent=E.VERSION;
+  $('language').setAttribute('aria-label',t('language'));
+  paintAll();
+}
+
+/* ---------- presentation mode ---------- */
+function setPresent(on){
+  document.body.classList.toggle('present',on);
+  if(on){var r=document.documentElement;try{if(r.requestFullscreen&&!document.fullscreenElement)r.requestFullscreen().catch(function(){});}catch(e){}}
+  else{try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(function(){});}catch(e){}}
+}
+document.addEventListener('fullscreenchange',function(){if(!document.fullscreenElement&&document.body.classList.contains('present'))document.body.classList.remove('present');});
+
+/* ---------- wiring ---------- */
+$('startBtn').addEventListener('click',function(){running?pause():start();});
+$('stopBtn').addEventListener('click',stop);
+$('resetBtn').addEventListener('click',reset);
+$('dropBtn').addEventListener('click',function(){registerDrop();});
+$('presentBtn').addEventListener('click',function(){setPresent(true);});
+$('exitPresent').addEventListener('click',function(){setPresent(false);});
+$('aboutBtn').addEventListener('click',function(){var d=$('aboutDialog');if(d.showModal)d.showModal();else d.setAttribute('open','');});
+$('aboutClose').addEventListener('click',function(){var d=$('aboutDialog');if(d.close)d.close();else d.removeAttribute('open');});
+$('language').addEventListener('change',function(e){applyLanguage(e.target.value);store.saveLang(lang);paintSave();});
+document.querySelectorAll('#distSeg button').forEach(function(b){b.addEventListener('click',function(){if(phase!=='idle')return;S.settings.dist=+b.dataset.d;save();rebuild();paintAll();});});
+function changeStart(v){if(phase!=='idle')return;S.settings.start=E.clampStart(v);save();rebuild();paintAll();}
+$('spMinus').addEventListener('click',function(){changeStart(S.settings.start-0.5);});
+$('spPlus').addEventListener('click',function(){changeStart(S.settings.start+0.5);});
+$('spStd').addEventListener('click',function(){if(phase!=='idle')return;S.settings.dist=E.STD_DIST;S.settings.start=E.STD_START;save();rebuild();paintAll();});
+$('age').addEventListener('change',function(e){S.settings.age=E.clampAge(e.target.value);e.target.value=S.settings.age;save();render();paintResults();});
+$('countdown').addEventListener('change',function(e){if(phase!=='idle')return;var v=+e.target.value;S.settings.countdown=E.COUNTDOWNS.indexOf(v)>=0?v:5;save();rebuild();});
+$('sound').addEventListener('change',function(e){S.settings.sound=e.target.checked;if(!S.settings.sound)cancelScheduled();save();});
+$('voice').addEventListener('change',function(e){S.settings.voice=e.target.checked;if(!e.target.checked&&window.speechSynthesis)try{speechSynthesis.cancel();}catch(x){}save();});
+$('laneMode').addEventListener('change',function(e){S.settings.laneMode=e.target.checked;save();paintRunners();});
+$('laneN').addEventListener('change',function(e){S.settings.laneN=E.clampLanes(e.target.value);e.target.value=S.settings.laneN;save();paintRunners();});
+$('runnersApply').addEventListener('click',function(){S.runners=E.parseRunners($('runnersText').value);save();$('runnersText').blur();paintRunners();toast(t('runnersSaved',S.runners.length));});
+$('runnersClear').addEventListener('click',function(){if(!S.runners.length&&!$('runnersText').value)return;var was=S.runners.slice();S.runners=[];$('runnersText').value='';save();paintRunners();
+  toast(t('runnersCleared'),function(){S.runners=was;save();paintRunners();});});
+$('sortOrder').addEventListener('click',function(){S.settings.sort='order';save();paintSetup();paintResults();});
+$('sortDist').addEventListener('click',function(){S.settings.sort='dist';save();paintSetup();paintResults();});
+$('csvBtn').addEventListener('click',exportCSV);
+$('undoBtn').addEventListener('click',function(){if(!S.results.length)return;S.results.pop();save();paintAll();toast(t('undone'));});
+$('clearResults').addEventListener('click',function(){if(!S.results.length)return;var was=S.results.slice();S.results=[];save();paintAll();
+  toast(t('resultsCleared'),function(){S.results=was;save();paintAll();});});
+$('refFold').addEventListener('toggle',function(){if($('refFold').open)buildRef();});
+$('bandMetric').addEventListener('change',function(e){S.bands.metric=e.target.value==='vo2'?'vo2':'dist';save();paintBands();paintResults();});
+$('bandAdd').addEventListener('click',function(){if(S.bands.list.length>=E.MAX_BANDS)return;S.bands.list.push({label:String.fromCharCode(65+S.bands.list.length),min:0});save();paintBands();paintResults();});
+$('clearAll').addEventListener('click',function(){
+  var b=$('clearAll');
+  if(!b.classList.contains('armed')){b.classList.add('armed');b.textContent=t('clearAllArm');clearTimeout(armTimer);armTimer=setTimeout(function(){b.classList.remove('armed');b.textContent=t('clearAll');},5000);return;}
+  clearTimeout(armTimer);b.classList.remove('armed');b.textContent=t('clearAll');
+  if(running)pause();
+  store.clear();S=E.defaultState();offset=0;setPhase('idle');rebuild();paintAll();toast(t('clearedAll'));
+});
+document.addEventListener('keydown',function(e){
+  var tg=e.target,tag=tg&&tg.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(tg&&tg.isContentEditable))return;
+  /* Shortcuts act globally, also when focus rests on the main board buttons after a tap;
+     other buttons (chips, lanes, folds) keep their native keyboard activation. */
+  var mainBtn=tg&&['startBtn','stopBtn','resetBtn','dropBtn'].indexOf(tg.id)>=0;
+  if((tag==='BUTTON'||tag==='SUMMARY'||tag==='A')&&!mainBtn)return;
+  if($('aboutDialog').open)return;
+  if(e.code==='Space'){e.preventDefault();if(running)pause();else start();}
+  else if(e.code==='Enter'){e.preventDefault();if(!$('dropBtn').disabled)registerDrop();}
+  else if(e.code==='Escape'&&document.body.classList.contains('present'))setPresent(false);
+});
+
+/* ---------- public hooks (state copy, language, export; test-only clock) ---------- */
+window.PEShuttle={
+  getState:function(){return JSON.parse(JSON.stringify({version:E.VERSION,lang:lang,phase:phase,running:running,elapsed:elapsed(),
+    settings:S.settings,runners:S.runners,results:S.results,bands:S.bands,storage:store.status,audioContexts:acCount}));},
+  setLanguage:function(code){applyLanguage(code);store.saveLang(lang);paintSave();},
+  exportCSV:exportCSV,
+  __test:{
+    useFakeClock:function(t0){fakeNow=typeof t0==='number'?t0:1000;},
+    advance:function(sec){if(fakeNow===null)throw Error('fake clock off');var step=0.05,end=fakeNow+sec;while(fakeNow<end-1e-9){fakeNow=Math.min(end,fakeNow+step);tick();}fakeNow=end;tick();render();return elapsed();},
+    audioContexts:function(){return acCount;}
+  }
+};
+
+rebuild();applyLanguage(lang);
+})();
+</script>
+</body></html>
