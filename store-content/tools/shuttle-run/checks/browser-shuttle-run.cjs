@@ -256,6 +256,66 @@ const state = page => page.evaluate(() => window.PEShuttle.getState());
       } finally { await context.close(); }
     });
 
+    /* 7. 15 m adapted course: supported option, info (not warning), no VO2max; all 5 languages. */
+    for (const lang of LANGS) await check(`15 m adapted course ${lang} 390x844: adapted badge, info box, no modified warning, VO2 hidden`, async () => {
+      const { context, page, errors } = await newPage(browser, VIEWPORTS[1]);
+      try {
+        await page.selectOption('#language', lang);
+        await page.click('#setupFold summary');
+        await page.click('#distSeg button[data-d="15"]');
+        const ui = await page.evaluate(() => ({ pill: document.getElementById('protoPill').textContent, cls: document.getElementById('protoPill').className,
+          warnHidden: document.getElementById('warnBox').hidden, infoHidden: document.getElementById('infoBox').hidden, info: document.getElementById('infoBox').textContent,
+          sum: document.getElementById('setupSum').textContent, dir: document.documentElement.dir }));
+        assert.equal(ui.cls, 'pill adapt'); assert.equal(ui.warnHidden, true, 'no modified-protocol warning at 15 m / 8.5');
+        assert.equal(ui.infoHidden, false); assert.ok(ui.info.includes('15') && ui.info.includes('20'), ui.info);
+        assert.ok(ui.sum.includes(ui.pill), 'setup summary uses the adapted label');
+        assert.equal(ui.dir, ['he', 'ar'].includes(lang) ? 'rtl' : 'ltr');
+        assert.ok(ui.pill.includes('15'), 'adapted badge names the 15 m course: ' + ui.pill);
+        if (lang === 'en') { assert.equal(ui.pill, 'Adapted 15 m course'); assert.match(ui.info, /positive experience of success/); }
+        await noHScroll(page);
+        await page.evaluate(() => { const b = document.getElementById('infoBox'); b.scrollIntoView({ block: 'center' }); });
+        if (lang === 'ar') await page.screenshot({ path: path.join(SHOTS, `390x844-ar-15m-setup.png`) });
+        // Run and record: VO2max stays hidden on the 15 m course.
+        await page.evaluate(() => window.PEShuttle.__test.useFakeClock());
+        await page.click('#startBtn');
+        await page.evaluate(() => window.PEShuttle.__test.advance(5 + 130));
+        assert.equal(await page.textContent('#vo2Val'), '—');
+        await page.click('#dropBtn');
+        const s = await state(page); assert.equal(s.results[0].course, 15);
+        const vo2Cell = await page.evaluate(() => document.querySelector('#resBody tr td:nth-child(7)').textContent.trim());
+        assert.ok(vo2Cell === '' || vo2Cell === '—', 'no VO2 in the result row, got ' + vo2Cell);
+        // A non-standard start speed on 15 m is still a modified protocol.
+        await page.click('#stopBtn');
+        await page.click('#resetBtn');
+        await page.click('#spPlus');
+        const mod = await page.evaluate(() => ({ cls: document.getElementById('protoPill').className, warnHidden: document.getElementById('warnBox').hidden, infoHidden: document.getElementById('infoBox').hidden }));
+        assert.deepEqual(mod, { cls: 'pill mod', warnHidden: false, infoHidden: false });
+        assert.deepEqual(errors, []);
+      } finally { await context.close(); }
+    });
+
+    /* 8. About panel: owner-approved AI translation notice in every language, no "draft" wording. */
+    for (const lang of LANGS) await check(`About panel ${lang}: AI translation notice and 15 m note, no review/draft wording`, async () => {
+      const { context, page, errors } = await newPage(browser, VIEWPORTS[1]);
+      try {
+        await page.selectOption('#language', lang);
+        await page.click('#aboutBtn');
+        const about = await page.evaluate(() => ({ note: document.querySelector('#aboutDialog [data-t="aiNote"]').textContent, text: document.getElementById('aboutDialog').innerText,
+          open: document.getElementById('aboutDialog').open }));
+        assert.equal(about.open, true);
+        const marker = { en: 'Translations were produced with AI.', he: 'בינה מלאכותית', ar: 'الذكاء الاصطناعي', ru: 'с помощью ИИ', es: 'con IA' }[lang];
+        assert.ok(about.note.includes(marker), about.note);
+        assert.ok(about.text.includes('15'), 'About explains the 15 m course');
+        assert.doesNotMatch(about.text, /native|awaiting|draft|טיוטות|مسودات|черновик|borrador/i);
+        await noHScroll(page);
+        if (lang === 'he' || lang === 'en') {
+          await page.evaluate(() => { const d = document.getElementById('aboutDialog'); d.scrollTop = d.scrollHeight; });
+          await page.screenshot({ path: path.join(SHOTS, `390x844-${lang}-about.png`) });
+        }
+        assert.deepEqual(errors, []);
+      } finally { await context.close(); }
+    });
+
     await check('offline: no request left file:// in any case', async () => { assert.deepEqual(external, []); });
   } finally { await browser.close(); }
   console.log(`\n${pass} passed, ${fail} failed. Screenshots: ${SHOTS}`);

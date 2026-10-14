@@ -100,6 +100,47 @@ test('start speed is clamped to 4.0-10.0 in 0.5 steps (as in the source module)'
   assert.equal(E.isStandard(20, 8.5), true); assert.equal(E.isStandard(20, 8.0), false); assert.equal(E.isStandard(15, 8.5), false);
 });
 
+test('15 m is a supported adapted course (not "modified"); non-standard start speeds are still modified', () => {
+  assert.equal(E.protocolKind(20, 8.5), 'std');
+  assert.equal(E.protocolKind(15, 8.5), 'adapted');
+  assert.equal(E.protocolKind(20, 8.0), 'mod');
+  assert.equal(E.protocolKind(15, 9.0), 'mod');
+  assert.equal(E.protocolKind(15, 4.0), 'mod');
+  // The 15 m setup shows the adapted-course info (not the modified-protocol warning).
+  assert.match(SCRIPTS[1], /\$\('infoBox'\)\.hidden=st\.dist===20/);
+  assert.match(SCRIPTS[1], /kind==='mod'\?t\(st\.dist===20\?'warnMod':'warnModSpeed'\)/);
+  for (const l of E.LANGS) {
+    const d = E.L[l];
+    assert.ok(d.info15.includes('15') && d.info15.includes('20') && /VO₂m[aá]x/.test(d.info15), `${l}.info15 mentions 15 m, 20 m and VO2max`);
+    assert.ok(d.protoAdapted.includes('15'), `${l}.protoAdapted`);
+    assert.notEqual(d.protoAdapted, d.protoMod, `${l}: adapted label differs from modified`);
+  }
+  assert.match(E.L.en.info15, /younger pupils or pupils with disabilities/);
+  assert.match(E.L.en.info15, /positive experience of success/);
+  assert.match(E.L.en.info15, /not comparable with the 20 m course; no VO₂max estimate/);
+  assert.match(HTML, /<p data-t="info15">/, 'About panel explains the 15 m course');
+});
+
+test('owner-approved AI translation notice in all five languages; no "pending native review" text', () => {
+  const want = {
+    en: 'Translations were produced with AI. The professional content is accurate and was reviewed by several teachers and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology errors are possible.',
+  };
+  assert.equal(E.L.en.aiNote, want.en);
+  const markers = { he: 'בינה מלאכותית', ar: 'الذكاء الاصطناعي', ru: 'ИИ', es: 'IA' };
+  const ministry = { he: 'משרד החינוך', ar: 'وزارة التربية والتعليم', ru: 'Министерства образования', es: 'Ministerio de Educación' };
+  for (const l of ['he', 'ar', 'ru', 'es']) {
+    assert.ok(E.L[l].aiNote.includes(markers[l]), `${l}.aiNote mentions AI`);
+    assert.ok(E.L[l].aiNote.includes(ministry[l]), `${l}.aiNote mentions the Ministry of Education`);
+  }
+  assert.match(HTML, /<p class="meta" data-t="aiNote">Translations were produced with AI\./);
+  assert.equal('reviewNote' in E.L.en, false);
+  const README = fs.readFileSync(path.join(TOOL, 'README.md'), 'utf8');
+  assert.ok(README.includes(want.en), 'README carries the notice');
+  for (const text of [README, ...E.LANGS.flatMap(l => Object.values(E.L[l]))]) {
+    assert.doesNotMatch(text, /native[- ](speaker |PE-teacher )?review|awaiting|draft translation|borradores|черновик|טיוטות|مسودات/i);
+  }
+});
+
 test('VO2max estimate uses the Léger 1988 equation (same as the app) with hand-checked values', () => {
   const cases = [[10, 12, 42.861], [12.5, 18, 47.596], [11, 13, 46.3838], [8.5, 10, 39.124]];
   for (const [S, A, want] of cases) {

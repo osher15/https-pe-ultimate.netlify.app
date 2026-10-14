@@ -8,7 +8,7 @@ request. Beeps are synthesized with Web Audio (no audio files).
 
 Protocol: Léger LA, Mercier D, Gadoury C, Lambert J. The multistage 20 metre shuttle
 run test for aerobic fitness. J Sports Sci. 1988;6(2):93-101. Default start 8.5 km/h,
-+0.5 km/h per level, levels of about 60 s. Shuttle length (15/20 m) and level-1 speed
++0.5 km/h per level, levels of about 60 s. Shuttle length (20 m, or the adapted 15 m course) and level-1 speed
 (4.0-10.0 km/h) stay configurable, as in the source module. The schedule algorithm is
 copied from the source module (buildSchedule) and is checked against it in
 checks/shuttle-run.test.cjs. VO2max is an ESTIMATE (Léger 1988 equation), not a
@@ -23,11 +23,11 @@ Test hooks (for the automated checks only): window.PEShuttle.getState(),
 setLanguage(code), exportCSV(), __test.useFakeClock(), __test.advance(seconds),
 __test.audioContexts().
 
-TRANSLATIONS (native review needed): English is the source. Keys listed in
-REUSED_FROM_APP below reuse the PE app's existing EN/HE/AR/RU/ES wording (sometimes
-lightly adapted: "stage" became "level", "student" became "runner"). Every other
-key in he/ar/ru/es is a NEW AI-drafted string that needs native PE-teacher review
-before sale.
+TRANSLATIONS: English is the source. Keys listed in REUSED_FROM_APP below reuse the
+PE app's existing EN/HE/AR/RU/ES wording (sometimes lightly adapted: "stage" became
+"level", "student" became "runner"). Every other key in he/ar/ru/es is a NEW
+AI-translated string. The About panel carries the owner-approved translation notice
+(key aiNote).
 -->
 <html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="referrer" content="no-referrer"><title>PE Tools · 20 m Shuttle Run (Beep Test)</title>
 <style>
@@ -57,7 +57,7 @@ h1{font-size:clamp(21px,4vw,30px);line-height:1.2;margin:0 0 12px;overflow-wrap:
 .pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:99px;padding:4px 11px;font-size:12px;font-weight:650;white-space:nowrap}
 .pill.status:before{content:'';width:8px;height:8px;border-radius:50%;background:#8997ab}
 .pill.status.running:before{background:var(--lime)}.pill.status.paused:before{background:var(--amber)}.pill.status.done:before{background:var(--blue)}
-.pill.std{color:var(--lime);border-color:#58663b}.pill.mod{color:var(--amber);border-color:#6b5a32}
+.pill.std{color:var(--lime);border-color:#58663b}.pill.mod{color:var(--amber);border-color:#6b5a32}.pill.adapt{color:var(--blue);border-color:#35506f}
 .num{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
 .hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 8px}
 .cell{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:8px 10px;text-align:center;min-width:0}
@@ -105,6 +105,7 @@ h1{font-size:clamp(21px,4vw,30px);line-height:1.2;margin:0 0 12px;overflow-wrap:
 .stepper .val{min-width:52px;text-align:center;font-weight:800;font-size:18px}
 .check{display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px}
 .check input{min-height:auto;width:20px;height:20px}
+.info{margin-top:10px;border:1px solid #35506f;background:#122133;color:var(--ink);border-radius:12px;padding:8px 12px;font-size:13px}
 .warn{margin-top:10px;border:1px solid #6b5a32;background:#2a2312;color:var(--amber);border-radius:12px;padding:8px 12px;font-size:13px}
 .tablewrap{position:relative;overflow-x:auto;max-width:100%;margin-top:10px;-webkit-overflow-scrolling:touch}
 table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:13px}
@@ -211,6 +212,7 @@ body.present .keys,body.present .cite{display:none}
     <button type="button" id="spStd" data-t="stdBtn">↺ Léger 1988 (20 m, 8.5)</button>
   </div>
   <div class="warn" id="warnBox" hidden></div>
+  <div class="info" id="infoBox" hidden></div>
   <div class="row" style="margin-top:12px">
     <div class="field" style="width:150px"><label for="age" data-t="age">Age for VO₂max</label><input type="number" id="age" min="6" max="18" value="13" inputmode="numeric"></div>
     <div class="field" style="width:150px"><label for="countdown" data-t="countdownSet">Get-ready countdown</label><select id="countdown"><option value="0">0</option><option value="3">3 s</option><option value="5">5 s</option><option value="10">10 s</option></select></div>
@@ -255,12 +257,13 @@ body.present .keys,body.present .cite{display:none}
   <p data-t="licence">Licence terms: to be set by the publisher before sale.</p>
   <p><b data-t="citeLabel">Protocol and equation</b><br><span lang="en" dir="ltr">Léger LA, Mercier D, Gadoury C, Lambert J. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci. 1988;6(2):93–101.</span></p>
   <p data-t="protoNote">Default protocol: 20 m shuttles, level 1 at 8.5 km/h, +0.5 km/h per level, each level about one minute.</p>
+  <p data-t="info15">Adapted 15 m course: for younger pupils or pupils with disabilities, so they can complete the test at a reasonably good level without being eliminated too early — the goal is a positive experience of success. Results are not comparable with the 20 m course; no VO₂max estimate.</p>
   <p data-t="vo2Note">VO₂max is an estimate from the Léger et al. (1988) equation: 31.025 + 3.238·S − 3.248·A + 0.1536·A·S, where S is the speed (km/h) of the level in which the last full shuttle was completed and A is age in years. It is shown for the 20 m course only. It is not a medical test or a diagnosis.</p>
   <p data-t="noNorms">No norm or threshold table is included. Any thresholds you enter are your own.</p>
   <p data-t="privacy">Privacy: the tool works offline, has no account and sends nothing over the network. Settings, the runner list and results are stored only in this browser on this device (storage key prefix "pe-shuttle.v1"). Export a CSV to keep a copy. "Delete all data on this device" removes everything.</p>
   <p data-t="safety">Safety: this is a maximal running test. Check that runners are fit to take part, warm up first, and stop anyone who feels unwell. Audio timing depends on the device; check volume and beeps before testing a group.</p>
   <p data-t="independent">Independent tool. Not an official, certified or endorsed test product.</p>
-  <p class="meta" data-t="reviewNote">Hebrew, Arabic, Russian and Spanish texts are drafts awaiting native-speaker review.</p>
+  <p class="meta" data-t="aiNote">Translations were produced with AI. The professional content is accurate and was reviewed by several teachers and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology errors are possible.</p>
   <div class="dialogactions"><button type="button" id="aboutClose" data-t="close">Close</button></div>
 </dialog>
 <div id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastUndo" hidden>Undo</button></div>
@@ -306,6 +309,9 @@ function levelSummary(beeps){
 /* Léger et al. (1988): VO2max = 31.025 + 3.238 S - 3.248 A + 0.1536 A S. Same as the source module. */
 function vo2max(speed,age){return 31.025+3.238*speed-3.248*age+0.1536*age*speed;}
 function isStandard(distance,startSpeed){return distance===STD_DIST&&startSpeed===STD_START;}
+/* 'std' = Léger 1988 (20 m, 8.5 km/h). 'adapted' = the supported 15 m course at the standard start speed
+   (for younger pupils or pupils with disabilities; no VO2max estimate). Anything else = 'mod'. */
+function protocolKind(distance,startSpeed){if(startSpeed!==STD_START)return 'mod';return distance===STD_DIST?'std':distance===15?'adapted':'mod';}
 function completedCount(beeps,el){var lo=0,hi=beeps.length;while(lo<hi){var m=(lo+hi)>>1;if(beeps[m].t<=el)lo=m+1;else hi=m;}return lo;}
 /* Audio cue list on the test clock (seconds; negative = get-ready countdown). */
 function buildCues(beeps,countdown){
@@ -430,7 +436,7 @@ function createStore(getStorage){
 
 /* Keys whose wording is reused (sometimes lightly adapted) from the PE app's existing
    translations (hm-i18n.js bt.*, hm-terms.js, hm-texts.js). All other he/ar/ru/es
-   strings are NEW drafts and need native PE-teacher review. */
+   strings are NEW and AI-translated. */
 var REUSED_FROM_APP=['stReady','stRunning','stPaused','stFinished','time','speed','levelProgress','start','pause','resume','reset',
   'drop','keys','protoMod','lanesMode','lanesN','setup','courseLen','startSpeed','byOrder','byDist','undoLast','refTable','close',
   'thRank','thLevel','laneName','sayStart','sayEnd'];
@@ -447,7 +453,8 @@ keys:'Keyboard: Space = start/pause · Enter = record drop-out',
 cite:'Protocol: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. VO₂max is an estimate, not a medical test.',
 protoStd:'Léger 1988 protocol',protoMod:'Modified protocol',
 warnMod:'⚠️ Modified protocol (Léger 1988 uses 20 m and 8.5 km/h at level 1). Results are not comparable with the standard protocol; treat VO₂max values as rough estimates.',
-vo2Only20:'The VO₂max estimate is shown for the 20 m course only.',
+protoAdapted:'Adapted 15 m course',warnModSpeed:'⚠️ Modified protocol: the level 1 speed differs from Léger 1988 (8.5 km/h).',
+info15:'Adapted 15 m course: for younger pupils or pupils with disabilities, so they can complete the test at a reasonably good level without being eliminated too early — the goal is a positive experience of success. Results are not comparable with the 20 m course; no VO₂max estimate.',
 runners:'Runners for this test',runnersHint:'Optional. Type names or bib numbers, one per line. Tap a runner when they stop. Stored only on this device; clear the list after the test.',
 runnersApply:'✓ Use this list',runnersClear:'✕ Clear list',runnersLeft:'{0} of {1} still running · tap a runner when they stop',
 runnersNone:'Tip: add runner names or bib numbers under "Runners for this test", or use lane numbers.',runnersCleared:'Runner list cleared',runnersSaved:'{0} runners ready',
@@ -471,7 +478,7 @@ noNorms:'No norm or threshold table is included. Any thresholds you enter are yo
 privacy:'Privacy: the tool works offline, has no account and sends nothing over the network. Settings, the runner list and results are stored only in this browser on this device (storage key prefix "pe-shuttle.v1"). Export a CSV to keep a copy. "Delete all data on this device" removes everything.',
 safety:'Safety: this is a maximal running test. Check that runners are fit to take part, warm up first, and stop anyone who feels unwell. Audio timing depends on the device; check volume and beeps before testing a group.',
 independent:'Independent tool. Not an official, certified or endorsed test product.',
-reviewNote:'Hebrew, Arabic, Russian and Spanish texts are drafts awaiting native-speaker review.',
+aiNote:'Translations were produced with AI. The professional content is accurate and was reviewed by several teachers and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology errors are possible.',
 clearAll:'Delete all data on this device',clearAllArm:'Tap again to delete settings, runners and results',clearedAll:'All data deleted from this device',
 saveOk:'Saved on this device',saveFail:'Not saved: storage is blocked or full on this device. Export a CSV to keep results.',
 saveCorrupt:'Saved data could not be read. It was set aside and a fresh start was made.',saveReadOnly:'Saved data could not be read and was left untouched. Changes are not saved until you delete all data.',
@@ -495,7 +502,8 @@ keys:'קיצורים: רווח = התחל/השהה · Enter = רישום נשי�
 cite:'פרוטוקול: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. ‏VO₂max הוא הערכה, לא בדיקה רפואית.',
 protoStd:'פרוטוקול Léger 1988',protoMod:'פרוטוקול מותאם',
 warnMod:'⚠️ פרוטוקול מותאם (ב-Léger 1988: מסלול 20 מ׳ ו-8.5 קמ״ש בשלב 1). התוצאות אינן ברות השוואה לפרוטוקול התקני; ערכי VO₂max הם הערכה גסה בלבד.',
-vo2Only20:'הערכת VO₂max מוצגת רק למסלול 20 מ׳.',
+protoAdapted:'מסלול מותאם 15 מ׳',warnModSpeed:'⚠️ פרוטוקול מותאם: מהירות שלב 1 שונה מ-Léger 1988 ‏(8.5 קמ״ש).',
+info15:'מסלול מותאם של 15 מ׳: לתלמידים צעירים או לתלמידים עם מוגבלויות, כדי שיוכלו להשלים את המבחן ברמה טובה יחסית בלי לפרוש מוקדם מדי — המטרה היא חוויית הצלחה חיובית. התוצאות אינן ברות השוואה למסלול 20 מ׳; אין הערכת VO₂max.',
 runners:'רצים במבחן הזה',runnersHint:'רשות. הקלידו שמות או מספרי חזייה, אחד בכל שורה. הקישו על רץ כשהוא עוצר. נשמר רק במכשיר הזה; נקו את הרשימה אחרי המבחן.',
 runnersApply:'✓ השתמש ברשימה',runnersClear:'✕ נקה רשימה',runnersLeft:'{0} מתוך {1} עדיין רצים · הקישו על רץ כשהוא עוצר',
 runnersNone:'טיפ: הוסיפו שמות או מספרי חזייה ב«רצים במבחן הזה», או השתמשו במספרי מסלול.',runnersCleared:'רשימת הרצים נוקתה',runnersSaved:'{0} רצים מוכנים',
@@ -519,7 +527,7 @@ noNorms:'לא כלולה טבלת נורמות או ספים. כל סף שתזי
 privacy:'פרטיות: הכלי עובד בלי רשת, בלי חשבון ולא שולח דבר. ההגדרות, רשימת הרצים והתוצאות נשמרים רק בדפדפן הזה במכשיר הזה (קידומת מפתח האחסון "pe-shuttle.v1"). ייצאו CSV כדי לשמור עותק. «מחיקת כל הנתונים במכשיר» מוחקת הכול.',
 safety:'בטיחות: זה מבחן ריצה מרבי. ודאו שהרצים כשירים להשתתף, חממו קודם, ועצרו כל מי שמרגיש לא טוב. תזמון השמע תלוי במכשיר; בדקו עוצמה וביפים לפני מבחן קבוצתי.',
 independent:'כלי עצמאי. אינו מוצר מבחן רשמי, מוסמך או מאושר.',
-reviewNote:'הטקסטים בעברית, ערבית, רוסית וספרדית הם טיוטות הממתינות לבדיקת דוברי השפה.',
+aiNote:'התרגומים הופקו בעזרת בינה מלאכותית. התוכן המקצועי מדויק, נבדק על ידי כמה מורים ונבחן מול תוכניות הלימודים של משרד החינוך מכל הכיוונים; ייתכנו טעויות קטנות בהגהה, בתחביר או במינוח.',
 clearAll:'מחיקת כל הנתונים במכשיר',clearAllArm:'הקישו שוב כדי למחוק הגדרות, רצים ותוצאות',clearedAll:'כל הנתונים נמחקו מהמכשיר',
 saveOk:'נשמר במכשיר הזה',saveFail:'לא נשמר: האחסון חסום או מלא במכשיר הזה. ייצאו CSV כדי לשמור תוצאות.',
 saveCorrupt:'לא ניתן היה לקרוא את הנתונים השמורים. הם הועברו הצידה והתחלנו מחדש.',saveReadOnly:'לא ניתן היה לקרוא את הנתונים השמורים והם נשארו כמו שהם. שינויים לא נשמרים עד שתמחקו את כל הנתונים.',
@@ -543,7 +551,8 @@ keys:'اختصارات: مسافة = انطلاق/إيقاف مؤقت · Enter =
 cite:'البروتوكول: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. ‏VO₂max تقدير وليس فحصًا طبيًا.',
 protoStd:'بروتوكول Léger 1988',protoMod:'بروتوكول معدّل',
 warnMod:'⚠️ بروتوكول معدّل (في Léger 1988: مسار 20 م و8.5 كم/س في المرحلة 1). النتائج غير قابلة للمقارنة مع البروتوكول القياسي؛ قيم VO₂max تقدير تقريبي فقط.',
-vo2Only20:'يُعرض تقدير VO₂max لمسار 20 م فقط.',
+protoAdapted:'مسار مُكيَّف 15 م',warnModSpeed:'⚠️ بروتوكول معدّل: سرعة المرحلة 1 تختلف عن Léger 1988 ‏(8.5 كم/س).',
+info15:'مسار مُكيَّف بطول 15 م: للتلاميذ الأصغر سنًا أو التلاميذ ذوي الإعاقة، ليتمكّنوا من إكمال الاختبار بمستوى جيد نسبيًا دون أن يُستبعدوا مبكرًا — الهدف تجربة نجاح إيجابية. النتائج غير قابلة للمقارنة مع مسار 20 م؛ لا يوجد تقدير لـ VO₂max.',
 runners:'العدّاؤون في هذا الاختبار',runnersHint:'اختياري. اكتب الأسماء أو أرقام الصدريات، واحدًا في كل سطر. اضغط على العدّاء عندما يتوقف. يُحفظ على هذا الجهاز فقط؛ امسح القائمة بعد الاختبار.',
 runnersApply:'✓ استخدم هذه القائمة',runnersClear:'✕ مسح القائمة',runnersLeft:'{0} من {1} ما زالوا يجرون · اضغط على العدّاء عندما يتوقف',
 runnersNone:'نصيحة: أضف أسماء العدّائين أو أرقام الصدريات في «العدّاؤون في هذا الاختبار»، أو استخدم أرقام المسارات.',runnersCleared:'تم مسح قائمة العدّائين',runnersSaved:'{0} عدّاءً جاهزون',
@@ -567,7 +576,7 @@ noNorms:'لا يتضمن جدول معايير أو عتبات. أي عتبات 
 privacy:'الخصوصية: تعمل الأداة دون شبكة ودون حساب ولا ترسل شيئًا. تُحفظ الإعدادات وقائمة العدّائين والنتائج في هذا المتصفح على هذا الجهاز فقط (بادئة مفتاح التخزين "pe-shuttle.v1"). صدّر ملف CSV للاحتفاظ بنسخة. «حذف كل البيانات على هذا الجهاز» يحذف كل شيء.',
 safety:'السلامة: هذا اختبار جري قصوي. تأكد من أهلية العدّائين للمشاركة، وقم بالإحماء أولًا، وأوقف كل من يشعر بتوعك. يعتمد توقيت الصوت على الجهاز؛ افحص مستوى الصوت والصافرات قبل اختبار مجموعة.',
 independent:'أداة مستقلة. ليست منتج اختبار رسميًا أو معتمدًا أو مصادقًا عليه.',
-reviewNote:'النصوص العبرية والعربية والروسية والإسبانية مسودات بانتظار مراجعة متحدثين أصليين.',
+aiNote:'أُنتجت الترجمات بمساعدة الذكاء الاصطناعي. المحتوى المهني دقيق، وقد راجعه عدد من المعلمين وتمت مطابقته مع مناهج وزارة التربية والتعليم من جميع الجوانب؛ قد توجد أخطاء صغيرة في التدقيق اللغوي أو الصياغة أو المصطلحات.',
 clearAll:'حذف كل البيانات على هذا الجهاز',clearAllArm:'اضغط مرة أخرى لحذف الإعدادات والعدّائين والنتائج',clearedAll:'تم حذف كل البيانات من هذا الجهاز',
 saveOk:'محفوظ على هذا الجهاز',saveFail:'لم يُحفظ: التخزين محظور أو ممتلئ على هذا الجهاز. صدّر ملف CSV للاحتفاظ بالنتائج.',
 saveCorrupt:'تعذّرت قراءة البيانات المحفوظة. نُقلت جانبًا وبدأنا من جديد.',saveReadOnly:'تعذّرت قراءة البيانات المحفوظة وتُركت كما هي. لن تُحفظ التغييرات حتى تحذف كل البيانات.',
@@ -591,7 +600,8 @@ keys:'Клавиши: Пробел = старт/пауза · Enter = запис
 cite:'Протокол: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. VO₂max — оценка, а не медицинский тест.',
 protoStd:'Протокол Léger 1988',protoMod:'Изменённый протокол',
 warnMod:'⚠️ Изменённый протокол (в Léger 1988: 20 м и 8,5 км/ч на 1-й ступени). Результаты несопоставимы со стандартным протоколом; значения VO₂max — лишь грубая оценка.',
-vo2Only20:'Оценка VO₂max показывается только для отрезка 20 м.',
+protoAdapted:'Адаптированный отрезок 15 м',warnModSpeed:'⚠️ Изменённый протокол: скорость 1-й ступени отличается от Léger 1988 (8,5 км/ч).',
+info15:'Адаптированный отрезок 15 м: для младших учеников или учеников с инвалидностью, чтобы они могли пройти тест на достаточно хорошем уровне и не выбыть слишком рано. Цель — положительный опыт успеха. Результаты несопоставимы с отрезком 20 м; оценка VO₂max не рассчитывается.',
 runners:'Бегуны в этом тесте',runnersHint:'Необязательно. Введите имена или номера, по одному в строке. Нажмите на бегуна, когда он остановится. Хранится только на этом устройстве; очистите список после теста.',
 runnersApply:'✓ Использовать список',runnersClear:'✕ Очистить список',runnersLeft:'{0} из {1} ещё бегут · нажмите на бегуна, когда он остановится',
 runnersNone:'Совет: добавьте имена или номера в разделе «Бегуны в этом тесте» или используйте номера дорожек.',runnersCleared:'Список бегунов очищен',runnersSaved:'Бегунов готово: {0}',
@@ -615,7 +625,7 @@ noNorms:'Таблица норм или порогов не включена. Л
 privacy:'Конфиденциальность: программа работает без сети и без учётной записи и ничего не отправляет. Настройки, список бегунов и результаты хранятся только в этом браузере на этом устройстве (префикс ключа хранения "pe-shuttle.v1"). Экспортируйте CSV, чтобы сохранить копию. «Удалить все данные на этом устройстве» удаляет всё.',
 safety:'Безопасность: это тест на максимальную нагрузку. Убедитесь, что бегуны допущены к участию, проведите разминку и остановите любого, кто плохо себя чувствует. Точность звука зависит от устройства; проверьте громкость и сигналы перед тестом группы.',
 independent:'Независимая программа. Не является официальным, сертифицированным или одобренным тестовым продуктом.',
-reviewNote:'Тексты на иврите, арабском, русском и испанском — черновики, ожидающие проверки носителями языка.',
+aiNote:'Переводы выполнены с помощью ИИ. Профессиональное содержание точное: его проверили несколько учителей и всесторонне сверили с учебными программами Министерства образования; возможны небольшие ошибки корректуры, синтаксиса или терминологии.',
 clearAll:'Удалить все данные на этом устройстве',clearAllArm:'Нажмите ещё раз, чтобы удалить настройки, бегунов и результаты',clearedAll:'Все данные удалены с этого устройства',
 saveOk:'Сохранено на этом устройстве',saveFail:'Не сохранено: хранилище заблокировано или заполнено. Экспортируйте CSV, чтобы сохранить результаты.',
 saveCorrupt:'Сохранённые данные не удалось прочитать. Они отложены, начата новая запись.',saveReadOnly:'Сохранённые данные не удалось прочитать, они оставлены без изменений. Изменения не сохраняются, пока вы не удалите все данные.',
@@ -639,7 +649,8 @@ keys:'Atajos: Espacio = empezar/pausa · Enter = registrar abandono',
 cite:'Protocolo: Léger, Mercier, Gadoury & Lambert, J Sports Sci 6(2):93–101, 1988. El VO₂máx es una estimación, no una prueba médica.',
 protoStd:'Protocolo Léger 1988',protoMod:'Protocolo modificado',
 warnMod:'⚠️ Protocolo modificado (Léger 1988 usa 20 m y 8,5 km/h en el nivel 1). Los resultados no son comparables con el protocolo estándar; los valores de VO₂máx son solo una estimación aproximada.',
-vo2Only20:'El VO₂máx estimado solo se muestra para el recorrido de 20 m.',
+protoAdapted:'Recorrido adaptado de 15 m',warnModSpeed:'⚠️ Protocolo modificado: la velocidad del nivel 1 difiere de Léger 1988 (8,5 km/h).',
+info15:'Recorrido adaptado de 15 m: para alumnado más joven o con discapacidad, para que pueda completar la prueba a un nivel razonablemente bueno sin quedar eliminado demasiado pronto; el objetivo es una experiencia positiva de éxito. Los resultados no son comparables con el recorrido de 20 m; no se calcula el VO₂máx.',
 runners:'Corredores de esta prueba',runnersHint:'Opcional. Escribe nombres o dorsales, uno por línea. Toca a un corredor cuando se detenga. Se guarda solo en este dispositivo; borra la lista después de la prueba.',
 runnersApply:'✓ Usar esta lista',runnersClear:'✕ Borrar lista',runnersLeft:'{0} de {1} siguen corriendo · toca a un corredor cuando se detenga',
 runnersNone:'Consejo: añade nombres o dorsales en «Corredores de esta prueba» o usa números de calle.',runnersCleared:'Lista de corredores borrada',runnersSaved:'{0} corredores listos',
@@ -663,7 +674,7 @@ noNorms:'No se incluye ninguna tabla de baremos o umbrales. Los umbrales que int
 privacy:'Privacidad: la herramienta funciona sin conexión, sin cuenta y no envía nada por la red. La configuración, la lista de corredores y los resultados se guardan solo en este navegador de este dispositivo (prefijo de clave de almacenamiento "pe-shuttle.v1"). Exporta un CSV para conservar una copia. «Eliminar todos los datos de este dispositivo» lo borra todo.',
 safety:'Seguridad: es una prueba de carrera máxima. Comprueba que los corredores pueden participar, calienta antes y detén a cualquiera que se encuentre mal. La precisión del sonido depende del dispositivo; comprueba el volumen y los pitidos antes de evaluar a un grupo.',
 independent:'Herramienta independiente. No es un producto de prueba oficial, certificado ni avalado.',
-reviewNote:'Los textos en hebreo, árabe, ruso y español son borradores pendientes de revisión por hablantes nativos.',
+aiNote:'Las traducciones se han hecho con IA. El contenido profesional es correcto: lo revisaron varios docentes y se contrastó desde todos los ángulos con los currículos del Ministerio de Educación; puede haber pequeños errores de corrección, sintaxis o terminología.',
 clearAll:'Eliminar todos los datos de este dispositivo',clearAllArm:'Toca de nuevo para eliminar configuración, corredores y resultados',clearedAll:'Todos los datos se eliminaron de este dispositivo',
 saveOk:'Guardado en este dispositivo',saveFail:'No guardado: el almacenamiento está bloqueado o lleno en este dispositivo. Exporta un CSV para conservar los resultados.',
 saveCorrupt:'No se pudieron leer los datos guardados. Se apartaron y se empezó de cero.',saveReadOnly:'No se pudieron leer los datos guardados y se dejaron intactos. Los cambios no se guardan hasta que elimines todos los datos.',
@@ -681,7 +692,7 @@ var API={VERSION:VERSION,STAGE_SEC:STAGE_SEC,MAX_SPEED:MAX_SPEED,DEFAULT_START:D
   DISTANCES:DISTANCES,COUNTDOWNS:COUNTDOWNS,KEY:KEY,LANG_KEY:LANG_KEY,CORRUPT_KEY:CORRUPT_KEY,LANGS:LANGS,RTL:RTL,
   MAX_RESULTS:MAX_RESULTS,MAX_RUNNERS:MAX_RUNNERS,MAX_BANDS:MAX_BANDS,NAME_MAX:NAME_MAX,
   speedKmh:speedKmh,clampStart:clampStart,clampAge:clampAge,clampLanes:clampLanes,buildSchedule:buildSchedule,levelSummary:levelSummary,
-  vo2max:vo2max,isStandard:isStandard,completedCount:completedCount,buildCues:buildCues,snapshot:snapshot,makeResult:makeResult,
+  vo2max:vo2max,isStandard:isStandard,protocolKind:protocolKind,completedCount:completedCount,buildCues:buildCues,snapshot:snapshot,makeResult:makeResult,
   resultVo2:resultVo2,bandFor:bandFor,fmtMS:fmtMS,csvCell:csvCell,toCSV:toCSV,parseRunners:parseRunners,defaultState:defaultState,
   sanitize:sanitize,createStore:createStore,L:L,REUSED_FROM_APP:REUSED_FROM_APP};
 if(typeof module==='object'&&module&&module.exports)module.exports=API;
@@ -895,11 +906,13 @@ function paintSetup(){
   $('age').value=st.age;$('countdown').value=String(st.countdown);
   $('sound').checked=st.sound;$('voice').checked=st.voice;
   $('laneMode').checked=st.laneMode;$('laneN').value=st.laneN;
-  var std=E.isStandard(st.dist,st.start),pill=$('protoPill');
-  pill.textContent=std?t('protoStd'):t('protoMod');pill.className='pill '+(std?'std':'mod');
-  var warn=[];if(!std)warn.push(t('warnMod'));if(st.dist!==20)warn.push(t('vo2Only20'));
-  $('warnBox').hidden=!warn.length;$('warnBox').textContent=warn.join(' ');
-  $('setupSum').textContent=st.dist+' '+t('m')+' · '+fmt1(st.start)+' '+t('kmh')+' · '+(std?t('protoStd'):t('protoMod'));
+  var kind=E.protocolKind(st.dist,st.start),pill=$('protoPill');
+  var label=kind==='std'?t('protoStd'):kind==='adapted'?t('protoAdapted'):t('protoMod');
+  pill.textContent=label;pill.className='pill '+(kind==='adapted'?'adapt':kind);
+  var warn=kind==='mod'?t(st.dist===20?'warnMod':'warnModSpeed'):'';
+  $('warnBox').hidden=!warn;$('warnBox').textContent=warn;
+  $('infoBox').hidden=st.dist===20;$('infoBox').textContent=st.dist===20?'':t('info15');
+  $('setupSum').textContent=(kind==='adapted'?'':st.dist+' '+t('m')+' · ')+fmt1(st.start)+' '+t('kmh')+' · '+label;
   $('sortOrder').classList.toggle('on',st.sort==='order');$('sortDist').classList.toggle('on',st.sort==='dist');
 }
 function resultOf(name){for(var i=0;i<S.results.length;i++)if(S.results[i].name===name)return S.results[i];return null;}

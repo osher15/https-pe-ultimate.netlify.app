@@ -93,23 +93,27 @@ These exercises reuse another exercise's rig figure, as in the app: `pushincline
 `rdl`→hinge, `latpull` and `pullup`→pulldown. Drawing dedicated figures for `wall`, `skip`, `hollow`
 and `inchworm` would improve accuracy.
 
-## Translations — review needed
+## Translations
 
-Of the 103 UI strings, 71 are taken verbatim from the app's dictionaries. All 47 exercises (names,
+Shown in the About panel in all five languages (owner-approved wording, 2026-10-14; keys
+`about.i18nH` / `about.i18n`):
+
+> Translations were produced with AI. The professional content is accurate and was reviewed by several teachers and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology errors are possible.
+
+Of the 105 UI strings, 71 are taken verbatim from the app's dictionaries. All 47 exercises (names,
 muscles, cues, mistakes), the equipment names and the units also come from the app. The extractor
 records the provenance of each string, and `data.test.cjs` re-derives every "app" string from
-`hm-terms.js` and `hm-texts.js`. The app's EN/AR/RU/ES are AI drafts themselves, so every language
-except Hebrew needs native PE-teacher review before sale.
+`hm-terms.js` and `hm-texts.js`. The app's EN/AR/RU/ES are themselves AI-translated.
 
 **Changed from the app (2):** `pre.quick` "Agile/Ловкий/Ágil" became "Quick/Быстрый/Rápido" (the
 Hebrew "זריז" here means a short workout). `lvl.medium` "Average/Средне/Regular" became
 "Intermediate/Средний/Intermedio".
 
-**New, written for this product (30), all 5 languages are drafts:** `brand`, `app.name`, `ui.lang`,
+**New, written for this product (32), AI-translated into the other languages:** `brand`, `app.name`, `ui.lang`,
 `ui.about`, `ui.sound`, `ui.voice`, `ui.voiceNA`, `ui.testSound`, `ui.full`, `ui.exitFull`, `t.pause`,
 `t.resume`, `t.skip`, `t.paused`, `t.remaining`, `t.custom`, `l.tap`, `l.noMedia`, `l.equip`,
 `st.blocked`, `safety.short`, `about.version`, `about.licenceH`, `about.licence`, `about.privacyH`,
-`about.privacy`, `about.mediaH`, `about.media`, `about.safety`, `about.offline`. The exact texts are in
+`about.privacy`, `about.mediaH`, `about.media`, `about.safety`, `about.offline`, `about.i18nH`, `about.i18n`. The exact texts are in
 `tools/extract-app-data.cjs` (`NEW`). The safety, privacy, licence and media texts also need owner or
 legal approval.
 
@@ -124,7 +128,7 @@ NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers
   node store-content/tools/interval-trainer/checks/browser.cjs      # SHOTS_DIR=… for screenshots
 ```
 
-- **Node checks (28):**
+- **Node checks (29):**
   - Every preset matches the app's `buildPhases` phase by phase. The checks cover the totals, the
     work/rest counts and custom cases.
   - Runner: pause, resume and skip, including skip while paused.
@@ -137,10 +141,11 @@ NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers
   - Five-language coverage: placeholders, and no Hebrew outside `he`.
   - Every used key exists and no key is unused.
   - Provenance against the app.
+  - The AI translation notice in all 5 languages and in this README; no draft/review wording.
   - Media hashes against `CREDITS.md`.
   - No coupling or network strings: `peultimate`, roster, `SESSION`, `FT`, `STU`, `cid`/`sid`,
     `http(s)://`, `fetch`, and similar.
-- **Browser (29, headless Chromium 141, `file://`):**
+- **Browser (34, headless Chromium 141, `file://`):**
   - Layout: 360×740, 390×844, 768×1024 and 1366×768 × 5 languages × 4 tabs. No horizontal scroll,
     correct `lang`/`dir`, no raw keys, no stray Hebrew, no page errors.
   - A Quick preset run at 40× with pause, resume and skip to the end. No AudioContext before a
@@ -153,6 +158,7 @@ NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers
   - Reload persistence of language, work time, sound, tab and station list, with only the own key
     used.
   - Blocked `localStorage` (in-memory run and a translated notice).
+  - About panel in all 5 languages: translation notice shown, no draft/review wording.
   - Offline `file://`: every request is `file://`.
 
 ## Limitations
@@ -161,5 +167,5 @@ Only headless Chromium was tested: no physical phone, no iOS Safari, no Firefox.
 timing on a locked or backgrounded phone, real full screen and wake-lock behaviour on devices, and
 speech voices per language were **not** verified. The timer is time-based and catches up after the
 tab is throttled, but cues for phases that pass while the tab is hidden are not replayed. iPhone
-Safari has no element full screen, so it uses the CSS display mode only. Translations other than
-Hebrew are unreviewed drafts.
+Safari has no element full screen, so it uses the CSS display mode only. Translations: see the
+notice under "Translations" above.

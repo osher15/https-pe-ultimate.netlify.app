@@ -231,6 +231,25 @@ async function waitFor(page, fn, arg, ms = 15000) { await page.waitForFunction(f
     await ctx.close();
   });
 
+  /* 7b. About panel: owner-approved AI translation notice in every language, no draft/review wording */
+  for (const lang of LANGS) await check(`about ${lang}: AI translation notice shown, no draft/review wording`, async () => {
+    const { ctx, page } = await newPage(browser, VIEWPORTS[1]);
+    await page.selectOption('#lang', lang);
+    await page.click('#about-btn');
+    const a = await page.evaluate(() => ({ open: document.getElementById('about-dlg').open, note: document.querySelector('#about-dlg [data-i18n="about.i18n"]').textContent,
+      text: document.getElementById('about-dlg').innerText, sw: document.documentElement.scrollWidth, w: innerWidth }));
+    const marker = { en: 'Translations were produced with AI.', he: 'בינה מלאכותית', ar: 'الذكاء الاصطناعي', ru: 'с помощью ИИ', es: 'con IA' }[lang];
+    assert(a.open, 'dialog open'); assert(a.note.includes(marker), 'notice: ' + a.note);
+    assert(!/native|awaiting|draft|טיוטות|مسودات|черновик|borrador/i.test(a.text), 'draft/review wording in About');
+    assert(a.sw <= a.w, 'horizontal scroll');
+    if (lang === 'he' || lang === 'en') {
+      await page.evaluate(() => { const b = document.querySelector('#about-dlg .dlg-b') || document.getElementById('about-dlg'); b.scrollTop = b.scrollHeight; document.getElementById('about-dlg').scrollTop = 1e6; });
+      await page.screenshot({ path: path.join(SHOTS, `about-390-${lang}.png`) });
+    }
+    assert(page.__errors.length === 0, page.__errors.join(' | '));
+    await ctx.close();
+  });
+
   /* 8. Offline from file:// — no request leaves file:// */
   await check('offline file://: loads, runs, opens library; every request is file://', async () => {
     const { ctx, page } = await newPage(browser, VIEWPORTS[2], { offline: true });
