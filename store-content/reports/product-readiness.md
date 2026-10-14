@@ -245,3 +245,20 @@ threshold table in the beep-test norms view and in several lesson texts (`hm-app
 lines 444, 1193, 1631, 2848, 2966). The app is heading to Google Play, so the owner should approve a separate,
 reserved app task: neutral wording and removal or replacement of the HFZ table. That task touches shared files
 (`hm-app.js`, `hm-texts.js`) and needs its own Issue reservation and review.
+
+## 12. Owner decisions — 2026-10-14 (second set)
+
+1. **Exercise media.** Every exercise in the library, in both the app and the store, gets an **animated drawn
+   cartoon figure** (not a real person) that performs the movement correctly, looping in 2–3 seconds. It replaces
+   the static rig GIFs and the Wikimedia photos. Pilot task C10 is running (`store-content/exercise-anim/`).
+2. **Interval trainer packaging.** Claude chooses. Plan: when the animated figures are available as small
+   animated SVGs, ship the trainer as a single self-contained HTML file if it stays under about 4 MB. Otherwise
+   ship a folder with `media/`.
+3. **Shuttle run, 15 m.** Approved as an adapted course for younger pupils or pupils with disabilities, so they
+   can complete the test at a reasonably good level and have an experience of success. No VO₂max estimate at
+   15 m (the equation is for 20 m). Task C11.
+4. **Licence, privacy and safety texts.** Claude explained the options to the owner. Owner decision pending.
+5. **Translations.** Approved without further native-speaker review. The user-facing statement says the
+   translations were made with AI, and that the professional content was reviewed by several teachers and checked
+   against Ministry of Education curricula, with minor proofreading, syntax or terminology errors possible. This is
+   the **owner's statement**; Claude did not verify the teacher review itself.
