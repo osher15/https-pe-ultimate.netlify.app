@@ -204,3 +204,44 @@ Screenshots reviewed by eye (full size, in scratch): scoreboard 360 EN and AR (t
 ## 10. Limitations
 
 Headless Chromium only (one engine, Chromium 141.0.7390.37 via Playwright 1.56.1). There was no WebKit or Firefox run, no physical device, no audible audio and no real file-system download UI. The language check compares visible strings with English and can miss strings that are the same in both languages. The beep-test translation check covers the initial view state only. Effort sizes are estimates: S ≈ ≤1 day, M ≈ 2–4 days, L ≈ 1–2+ weeks. The GitHub Issue #57 board was read (REST) but not modified.
+
+## 11. Owner decisions and rights check — 2026-10-14
+
+**Fitness tool = the interval trainer (`FIT`).** The owner decided this. The fitness-test runner is not a store product.
+- The 5 Wikimedia photos in `exercise-gifs/` (4 under CC BY-SA 4.0) are **excluded** from the store build. The
+  37 project-owned rig GIFs are used instead (see `exercise-gifs/CREDITS.md`). This avoids share-alike
+  obligations on a paid product. Exercises that have only a photo get a rig GIF later, or ship without media.
+
+**Beep test: neutral, no FITNESSGRAM.** The owner asked Claude to check the legal position and decide. What the
+public sources show (this is not legal advice):
+- **FITNESSGRAM** is a registered US trademark of The Cooper Institute, registration 1358533, registered and
+  renewed ([Justia record](https://trademark.justia.com/734/74/fitnessgram-73474929.html)).
+- A program guide that reproduces the Institute's notice says FITNESSGRAM® and **Healthy Fitness Zone®** are
+  trademarks of The Cooper Institute. It says the material is copyrighted, "not in the public domain", free only
+  within school programs, and "cannot be sold or distributed"
+  ([guide](https://www.longbranch.k12.nj.us/cms/lib/NJ01001766/Centricity/Domain/466/Teacher%20guide.pdf)). The
+  FitnessGram software is now owned by GreenLight Credentials, LLC
+  ([Cooper Quarterly 2022](https://uploads-ssl.webflow.com/62cc5493bad4821d71779067/6393513027694b10c991ff18_Q1-Cooper%20Quarterly_Spring2022.DIGITAL.pdf)).
+- **The test method is not theirs.** The 20 m multistage shuttle run was published by Léger & Lambert (1982) and
+  revised by Léger, Mercier, Gadoury & Lambert, *J Sports Sci* 6(2):93–101, 1988
+  ([PubMed 3184250](https://pubmed.ncbi.nlm.nih.gov/3184250/)): start at 8.5 km/h, plus 0.5 km/h every minute.
+  "PACER" is Cooper's adaptation within FitnessGram. No PACER registration was found, but the name is strongly
+  associated with their product.
+
+**Decision for the store product:**
+1. Name it **"20 m Shuttle Run (Beep Test)"** or "Multistage Shuttle Run". Do **not** use "FITNESSGRAM",
+   "PACER", "Healthy Fitness Zone"/"HFZ", Cooper's names or logos, and do not say "compatible with", "official" or
+   "approved".
+2. Implement the **Léger 1988 protocol** with a citation. The app already uses it: start speed + 0.5 km/h per
+   level, and VO₂max = 31.025 + 3.238·S − 3.248·A + 0.1536·A·S (`hm-app.js` ~2759, 2788). A method and an
+   equation are cited, not copied. Beeps are generated with Web Audio, so no recorded audio is reused.
+3. **No FITNESSGRAM/HFZ norm table** (`HFZ` in `hm-app.js` ~2789). The standalone tool shows level, shuttles,
+   distance, speed and a VO₂max *estimate*. Teachers may enter their own reference thresholds; none is shipped.
+   Peer-reviewed open norms can be added later, after a separate licence check.
+4. Copy must say: "estimate based on Léger et al. (1988); not a medical test".
+
+**Same exposure in the PE Ultimate app (not changed here).** The app names FITNESSGRAM® and ships the HFZ
+threshold table in the beep-test norms view and in several lesson texts (`hm-app.js` ~2787–3012; `hm-texts.js`
+lines 444, 1193, 1631, 2848, 2966). The app is heading to Google Play, so the owner should approve a separate,
+reserved app task: neutral wording and removal or replacement of the HFZ table. That task touches shared files
+(`hm-app.js`, `hm-texts.js`) and needs its own Issue reservation and review.

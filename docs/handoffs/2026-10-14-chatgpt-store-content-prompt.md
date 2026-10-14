@@ -212,13 +212,16 @@ Files under `store-content/copy/`:
   |---|---|
   | Tactics / coach board (standalone) | 39 |
   | Scoreboard (standalone) | 29 |
-  | Beep test (standalone) | 19 |
+  | 20 m Shuttle Run (beep test), standalone; Léger 1988 protocol | 19 |
   | Single-sport lesson pack (10 lessons, 5 languages, diagrams) | 49 each |
   | Lesson generator | 69 |
   | Drill / game / activity pack | 39 |
-  | Fitness tool | 59 |
+  | Interval trainer (timers, circuits, exercise library) | 59 |
   | Complete bundle (only after approval) | 149 |
   Mark the boards, beep test, generator and fitness tool as "readiness to be verified by Claude". Do not describe features you have not seen.
+  - **Beep test naming (owner decision 2026-10-14):** never write "FITNESSGRAM", "PACER", "Healthy Fitness Zone"/"HFZ" or "Cooper", and never say "compatible", "official" or "approved". Call it "20 m Shuttle Run (Beep Test)", cite Léger et al. (1988), and say "VO₂max estimate, not a medical test". **No norm tables.**
+  - "Fitness tool" means the **interval trainer**, not the fitness tests, and has **no student data**.
+  - Before writing copy, read `store-content/reports/product-readiness.md` (§7 "Do not claim" and §11).
 - `faq.en.md`: about 20 Q&As. Cover offline use, languages, devices, what is in each pack, licence for one teacher/school (a draft for the owner's decision), updates, and refunds. For refunds, say that the statutory rights of the buyer's country apply. **Do not promise "no refunds" or "zero refunds".** Say that there is no subscription (one-time purchase), no student data in the tools, and no account required.
 - `support-kb.en.md`: 15–25 short troubleshooting articles (install/open, print, language/RTL, lost local data and export, browser support).
 - `legal-checklist.en.md`: a checklist of the questions the owner must settle before selling. Cover the seller entity and receipts/VAT, payment provider, terms, privacy, licence text, consumer refund law (Israel + EU if selling there), and rights status of content. **This is not legal advice. Say so.**
