@@ -82,10 +82,10 @@ const TESTS=[
    hint:"שני קווים במרחק 10 מ׳, ארבעה מעברים. נגיעה ביד בקו בכל היפוך — לא ״כמעט״."},
 
   /* ---------- סבולת ---------- */
-  {id:"cooper",em:"🫁", name:"מבחן קופר — 12 דקות", cat:"endur", kind:"value", dir:"high", unit:"מ׳", dur:720,
+  {id:"cooper",em:"🫁", name:"ריצת 12 דקות", cat:"endur", kind:"value", dir:"high", unit:"מ׳", dur:720,
    hint:"12 דקות ריצה רציפה, רושמים את המרחק. הפעל את הספירה לאחור, ובסוף הזן לכל תלמיד את המרחק."},
   {id:"beep", em:"🎵", name:"ביפ טסט (Léger)", cat:"endur", kind:"link", dir:"high", unit:"מ׳",
-   hint:"למבחן הביפ יש מודול ייעודי עם ביפים על שעון, VO₂max ונורמות FITNESSGRAM.", link:"beep"},
+   hint:"למבחן הביפ יש מודול ייעודי עם ביפים על שעון והערכת VO₂max.", link:"beep"},
   {id:"walk", em:"🚶", name:"הליכת מייל (Rockport)", cat:"endur", kind:"clock", dir:"low", unit:"שנ׳",
    hint:"1609 מ׳ בהליכה מהירה ככל האפשר — אלטרנטיבה לתלמיד שלא יכול לרוץ."},
 

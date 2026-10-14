@@ -284,7 +284,7 @@ test("הקבועים תואמים את חוזר המנכ״ל",()=>{
   assert.equal(D.OT_CORE_MIN,12);
 });
 
-/* ============ VO2max ואזורי בריאות ============ */
+/* ============ VO2max (Léger et al. 1988 estimate) ============ */
 
 test("נוסחת Léger — ערכי ייחוס",()=>{
   assert.equal(+D.vo2max(8.5,12).toFixed(2),35.24);
@@ -302,35 +302,87 @@ test("באותה מהירות, גיל גבוה יותר נותן VO2max נמוך
     "כך הנוסחה בנויה: הניכוי לפי גיל גובר על המקדם המשולב בטווח הזה");
 });
 
-test("אזורי FITNESSGRAM — גבולות מדויקים לבן בן 14",()=>{
-  /* [39.6, 42.5] — רצפה ואזור בריא */
-  assert.equal(D.healthZone(39.6,14,"boys").g,"סיכון בריאותי","בדיוק על הרצפה — עדיין בסיכון");
-  assert.equal(D.healthZone(39.7,14,"boys").g,"טעון שיפור");
-  assert.equal(D.healthZone(42.4,14,"boys").g,"טעון שיפור");
-  assert.equal(D.healthZone(42.5,14,"boys").g,"אזור בריא","בדיוק על הסף — כבר בריא");
-  assert.equal(D.healthZone(48.4,14,"boys").g,"אזור בריא");
-  assert.equal(D.healthZone(48.5,14,"boys").g,"מצוין","אזור בריא + 6.0");
+/* ============ School reference thresholds (#58) ============
+   No built-in standard table. Categories exist only where the teacher
+   entered a [lower, upper] pair for that sex and age. The numbers below
+   are arbitrary test fixtures, not a published standard. */
+
+const REFS={boys:{14:[40,45]},girls:{14:[35,40]}};
+
+test("no built-in standard table is exported",()=>{
+  assert.ok(!Object.keys(D).some(k=>/^HF/.test(k)),"no fixed threshold table export");
+  assert.equal(D.healthZone,undefined);
 });
 
-test("לבנות סף אחר לגמרי",()=>{
-  /* בנות בנות 14: [36.3, 39.4] · בנים בני 14: [39.6, 42.5] */
-  assert.equal(D.healthZone(39.4,14,"girls").g,"אזור בריא");
-  assert.equal(D.healthZone(39.4,14,"boys").g,"סיכון בריאותי","אותו ערך, מסקנה הפוכה לגמרי");
+test("empty default: no thresholds means no category, for every age and sex",()=>{
+  [null,undefined,{},{boys:{},girls:{}},"garbage",42].forEach(r=>{
+    for(let a=10;a<=18;a++)["boys","girls"].forEach(sx=>
+      assert.equal(D.refZone(45,a,sx,r),null,JSON.stringify(r)+" "+sx+" "+a));
+  });
+  assert.equal(D.refsEmpty(null),true);
+  assert.equal(D.refsEmpty(REFS),false);
 });
 
-test("גיל נחתך לטווח 10..18",()=>{
-  assert.equal(D.healthZone(38,7,"boys").g, D.healthZone(38,10,"boys").g,"מתחת ל-10 כמו 10");
-  assert.equal(D.healthZone(42,25,"boys").g,D.healthZone(42,18,"boys").g,"מעל 18 כמו 18");
+test("bands at the exact boundaries (boys 14: [40, 45])",()=>{
+  const g=v=>D.refZone(v,14,"boys",REFS).g;
+  const B=D.REF_BANDS;
+  assert.equal(g(39.9),B.wellBelow.g);
+  assert.equal(g(40),B.wellBelow.g,"exactly on the lower threshold is still the lowest band");
+  assert.equal(g(40.1),B.below.g);
+  assert.equal(g(44.9),B.below.g);
+  assert.equal(g(45),B.meets.g,"exactly on the upper threshold meets the reference");
+  assert.equal(g(50.9),B.meets.g);
+  assert.equal(g(45+D.REF_EXC),B.wellAbove.g,"upper + REF_EXC (app convention)");
+  assert.equal(D.REF_EXC,6.0);
+  assert.equal(D.refZone(51,14,"boys",REFS).k,"wellAbove");
 });
 
-test("גיל חסר נחשב 14, ומין חסר נחשב בן",()=>{
-  assert.equal(D.healthZone(41,null,"boys").g,D.healthZone(41,14,"boys").g);
-  assert.equal(D.healthZone(41,14,null).g,   D.healthZone(41,14,"boys").g);
-  assert.equal(D.healthZone(41,14,"").g,     D.healthZone(41,14,"boys").g);
+test("thresholds apply only to the sex and age they were entered for",()=>{
+  assert.equal(D.refZone(40,14,"girls",REFS).g,D.REF_BANDS.meets.g);
+  assert.equal(D.refZone(40,14,"boys",REFS).g,D.REF_BANDS.wellBelow.g,"same value, different sex");
+  assert.equal(D.refZone(40,15,"boys",REFS),null,"no pair for 15 → no category");
 });
 
-test("גיל עשרוני מעוגל",()=>{
-  assert.equal(D.healthZone(40,13.6,"boys").g,D.healthZone(40,14,"boys").g);
+test("age is rounded and clamped to 10..18; missing age = 14, missing sex = boys",()=>{
+  const R={boys:{10:[30,35],14:[40,45],18:[42,47]}};
+  assert.equal(D.refZone(36,7,"boys",R).k,"meets","below 10 uses the age-10 row");
+  assert.equal(D.refZone(46,25,"boys",R).k,"below","above 18 uses the age-18 row");
+  assert.equal(D.refZone(46,13.6,"boys",R).k,"meets","13.6 → 14");
+  assert.equal(D.refZone(46,null,"boys",R).k,"meets");
+  assert.equal(D.refZone(46,14,null,R).k,"meets");
+  assert.equal(D.refZone(46,14,"",R).k,"meets");
+});
+
+test("a non-positive or missing VO2max gives no category",()=>{
+  [0,-3,NaN,null,undefined,"45"].forEach(v=>assert.equal(D.refZone(v,14,"boys",REFS),null,String(v)));
+});
+
+test("refPairError rejects invalid input",()=>{
+  assert.equal(D.refPairError(40,45),null);
+  assert.equal(D.refPairError("40.5","45"),null,"numeric strings from inputs are accepted");
+  assert.equal(D.refPairError(20,70),null,"range bounds are inclusive");
+  assert.equal(D.refPairError("",45),"missing");
+  assert.equal(D.refPairError(40,""),"missing");
+  assert.equal(D.refPairError("abc",45),"missing");
+  assert.equal(D.refPairError(null,45),"missing");
+  assert.equal(D.refPairError(19.9,45),"range");
+  assert.equal(D.refPairError(40,70.1),"range");
+  assert.equal(D.refPairError(45,45),"order","lower must be strictly below upper");
+  assert.equal(D.refPairError(46,45),"order");
+});
+
+test("normRefs keeps only valid pairs and never invents a category",()=>{
+  const n=D.normRefs({boys:{9:[30,35],10:[30,35],11:[36,35],12:[10,35],13:["38.04","41.06"],19:[30,35],x:[30,35]},
+    girls:{14:[35]},other:{14:[35,40]}});
+  assert.deepEqual(n,{boys:{10:[30,35],13:[38,41.1]},girls:{}});
+  assert.equal(D.refZone(45,11,"boys",{boys:{11:[36,35]}}),null,"an invalid stored pair is ignored");
+});
+
+test("the VO2max estimate does not depend on thresholds",()=>{
+  const before=D.vo2max(11,14);
+  D.refZone(before,14,"boys",REFS);
+  assert.equal(D.vo2max(11,14),before);
+  assert.equal(+before.toFixed(2),44.83);
 });
 
 /* ============ BMI ============ */

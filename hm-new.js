@@ -6,11 +6,13 @@ function H_LOC(){ return (window.HM&&window.HM.loc)?window.HM.loc():"he-IL"; }
 function H_DEF(v,def){ return v===def&&window.I18N&&window.I18N.tr?window.I18N.tr(v):v; }
 /* מודולים חדשים: שיעור מלא (LESSON) · תלמידים (STU) · תזונה (NUT) · תוספות בית/נעילה */
 (function(){
-/* אזורי FITNESSGRAM ונוסחת Léger עברו ל-hm-data.js. הם מחשבים
-   מספר שמורה מציג לתלמיד כ«סיכון בריאותי» או «אזור בריא» — ולכן
-   הם חייבים להיות מכוסים בבדיקות, לא קבורים בתוך מודול DOM. */
-const HFZ=window.HMDATA.HFZ;
-const zoneOf=window.HMDATA.healthZone;
+/* The Léger VO2max estimate and the optional school reference thresholds
+   live in hm-data.js (covered by unit tests). There is no built-in standard
+   table (#58): zoneOf returns null unless the teacher entered thresholds for
+   that age/sex. Zone strings already stored on tests are historical and are
+   displayed as stored — never recomputed or rewritten. */
+const zoneOf=(v,age,sex)=>window.HMDATA.refZone(v,age,sex,
+  window.HMDATA.normRefs(window.HM&&window.HM.LS?window.HM.LS.get(window.HMDATA.REF_KEY,null):null));
 const vo2f=window.HMDATA.vo2max;
 const today=()=>new Date().toISOString().slice(0,10);
 const H=()=>window.HM;
@@ -106,8 +108,10 @@ window.STU=(function(){
     let view=list.filter(s=>window.HMDATA.searchMatch(s.name,q)&&inF(s,clsF));
     const withT=list.filter(s=>s.tests.length);
     const avg=withT.length?withT.reduce((a,s)=>a+(latest(s).vo2||0),0)/withT.length:0;
-    const below=withT.filter(s=>latest(s).zone==="סיכון בריאותי").length;
-    const falling=withT.filter(s=>trend(s)<0&&latest(s).zone!=="סיכון בריאותי").length;
+    /* Lowest band: the historical label or the current "well below reference" */
+    const low=z=>z==="סיכון בריאותי"||z===window.HMDATA.REF_BANDS.wellBelow.g;
+    const below=withT.filter(s=>low(latest(s).zone)).length;
+    const falling=withT.filter(s=>trend(s)<0&&!low(latest(s).zone)).length;
     $("#stu-count").textContent=list.length;
     $("#stu-avg").textContent=avg?avg.toFixed(1):"—";
     $("#stu-below").textContent=below;
@@ -161,7 +165,12 @@ window.STU=(function(){
     if(nBad)$("#stu-list").insertAdjacentHTML("beforeend",'<div class="hint" id="stu-bad">⚠ '+
       esc(H().t("stu.badRecs","רשומות פגומות ברשימה לא מוצגות, אבל נשמרות כפי שהן — גבו את הנתונים לפני כל שינוי."))+" ("+nBad+")</div>");
   }
-  function zoneColor(g){return {"מצוין":"#5cc8ff","אזור בריא":"#8fd96b","טעון שיפור":"#ffd166","סיכון בריאותי":"#ff6b81"}[g]||"#8a8da1";}
+  /* Historical labels (records saved before #58) keep their colours;
+     current labels come from HMDATA.REF_BANDS. */
+  function zoneColor(g){
+    const B=window.HMDATA.REF_BANDS, cur={}; Object.keys(B).forEach(k=>{ cur[B[k].g]=B[k].c; });
+    return cur[g]||{"מצוין":"#5cc8ff","אזור בריא":"#8fd96b","טעון שיפור":"#ffd166","סיכון בריאותי":"#ff6b81"}[g]||"#8a8da1";
+  }
   function chart(s){
     const T=s.tests; if(T.length<2)return '<div class="hint" style="text-align:center;padding:8px 0">גרף יופיע אחרי שתי ריצות ביפ ומעלה</div>';
     const W=440,Hh=120,P=26;
@@ -261,7 +270,9 @@ window.STU=(function(){
       if(s.cid){ if(s.cidAmbig)delete s.cidAmbig; } else s.cidAmbig="no-class";
       s.sex=$("#stu-fSex").value;
       s.age=+$("#stu-fAge").value||14; s.h=+$("#stu-fH").value||null; s.w=+$("#stu-fW").value||null;
-      s.tests.forEach(t=>{ if(t.speed)t.vo2=vo2f(t.speed,s.age); if(t.vo2)t.zone=zoneOf(t.vo2,s.age,s.sex).g; });
+      /* A stored zone string is a historical record and stays as it was;
+         only a test that has none gets one, and only if thresholds apply. */
+      s.tests.forEach(t=>{ if(t.speed)t.vo2=vo2f(t.speed,s.age); if(t.vo2&&!t.zone){ const z=zoneOf(t.vo2,s.age,s.sex); if(z)t.zone=z.g; } });
       save(list); render(); profile(id); toast("נשמר ✓");
     });
     /* ההודעה הישנה אמרה «וכל ההיסטוריה», אבל מדידות מבחני הכושר
@@ -310,7 +321,7 @@ window.STU=(function(){
       if(!s){ s={id:window.HMDATA.uid("s"),name:nm,cls:gid?"":(o.cls||""),cid:gid?null:(o.cid||null),sex,age,h:null,w:null,tests:[]}; list.push(s); }
       if(s.tests.some(t=>t.d===today()&&t.type==="ביפ"&&t.dist===r.dist))return;
       const v=vo2f(r.speed,s.age||age);
-      s.tests.push({d:today(),type:"ביפ",dist:r.dist,level:r.level+"·"+r.sh,speed:r.speed,vo2:v>0?v:null,zone:v>0?zoneOf(v,s.age||age,s.sex||sex).g:""});
+      s.tests.push({d:today(),type:"ביפ",dist:r.dist,level:r.level+"·"+r.sh,speed:r.speed,vo2:v>0?v:null,zone:v>0?((zoneOf(v,s.age||age,s.sex||sex)||{}).g||""):""});
       s.tests.sort((a,b)=>a.d.localeCompare(b.d)); n++;
     });
     save(list);

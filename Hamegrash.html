@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="4e6fa7ca">
+<meta name="hm-build" content="cbb70f5c">
 <title>PE Ultimate — Field Kit for PE Teachers</title>
 <style>
 @font-face{font-family:'Heebo';font-style:normal;font-display:swap;font-weight:100 900;
@@ -2191,7 +2191,7 @@ body.pf-racing[data-mod="photo"] .nav{display:none}
         <div class="seg" id="bt-distSeg"><button data-d="15">15 מ׳</button><button data-d="20" class="on">20 מ׳</button></div>
       </div>
       <div class="field"><label data-i18n="bt.speed">מהירות שלב 1 (קמ״ש)</label>
-        <div class="stepper" data-tip="מהירות ההתחלה בפרוטוקול התקני של Léger היא 8.0 קמ״ש למסלול 20 מ׳. שינוי שלה משנה את כל לוח הזמנים של הביפים, ולכן ערכי ה-VO₂max יוצגו כהערכה בלבד — הנורמות של FITNESSGRAM מבוססות על הפרוטוקול התקני."><button id="bt-spMinus">−</button><div class="val" id="bt-spVal">8.0</div><button id="bt-spPlus">+</button></div>
+        <div class="stepper" data-tip="מהירות ההתחלה בפרוטוקול התקני של Léger היא 8.0 קמ״ש למסלול 20 מ׳. שינוי שלה משנה את כל לוח הזמנים של הביפים, ולכן ערכי ה-VO₂max יוצגו כהערכה בלבד — משוואת ההערכה מבוססת על הפרוטוקול התקני."><button id="bt-spMinus">−</button><div class="val" id="bt-spVal">8.0</div><button id="bt-spPlus">+</button></div>
       </div>
       <button class="btn sm ghost" id="bt-spStd" data-i18n="bt.std">↺ תקני (8.0)</button>
       <span class="pill acc" id="bt-protoPill" data-i18n="bt.proto">פרוטוקול תקני</span>
@@ -2224,14 +2224,15 @@ body.pf-racing[data-mod="photo"] .nav{display:none}
       </div>
     </div>
     <div class="tblwrap"><table class="tbl" id="bt-tbl">
-      <thead><tr><th>דירוג</th><th>שם</th><th>שלב·מקטע</th><th>מרחק</th><th>זמן</th><th>מהירות</th><th>VO₂max</th><th>קטגוריה</th><th></th></tr></thead>
+      <thead><tr><th>דירוג</th><th>שם</th><th>שלב·מקטע</th><th>מרחק</th><th>זמן</th><th>מהירות</th><th>VO₂max <span data-i18n="bt.refsEst">(הערכה)</span></th><th>קטגוריה</th><th></th></tr></thead>
       <tbody id="bt-tbody"></tbody>
     </table></div>
+    <div class="hint" id="bt-estNote" style="margin-top:6px"></div>
     <div class="empty-state" id="bt-empty"><div class="big">🏁</div>אין עדיין רישומים.<br>בזמן הריצה — כשתלמיד עוצר, לחץ על כפתור הרישום והוא ייכנס ללוח.</div>
   </div>
 
   <details class="fold" id="bt-refFold"><summary data-i18n="bt.refTable">📋 טבלת שלבים ומרחקים מלאה</summary><div class="bd tblwrap" id="bt-refWrap"></div></details>
-  <details class="fold"><summary data-i18n="bt.normTable">📚 טבלת נורמות VO₂max (FITNESSGRAM®)</summary><div class="bd tblwrap" id="bt-normWrap"></div></details>
+  <details class="fold" id="bt-normFold"><summary data-i18n="bt.normTable">📚 ספי ייחוס של בית הספר (VO₂max)</summary><div class="bd tblwrap" id="bt-normWrap"></div></details>
 </section>
 
 <section class="view" id="view-photo">
@@ -3586,7 +3587,7 @@ body.pf-racing[data-mod="photo"] .nav{display:none}
   </details>
 
   <details class="info-sec" data-info="beep"><summary data-i18n="info.beep.s">🎵 ביפ טסט</summary>
-    <p class="info-w" data-i18n="info.beep.w">מריץ את מבחן הביפ בדיוק שעון אודיו, מחשב VO₂max ומשווה לנורמות FITNESSGRAM.</p>
+    <p class="info-w" data-i18n="info.beep.w">מריץ את מבחן הביפ בדיוק שעון אודיו ומעריך VO₂max לפי משוואת Léger (1988).</p>
     <ul class="info-l" data-i18n="info.beep.l">
       <li><b>טעינת כיתה</b> שולפת את הרשימה שכבר הזנתם — בלי להקליד שמות מחדש.</li>
       <li><b>רישום נשירה</b> לוחצים על התלמיד ברגע שעצר, והשלב נרשם לו.</li>
@@ -3664,9 +3665,9 @@ body.pf-racing[data-mod="photo"] .nav{display:none}
     <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a>
       · <a href="terms.html" target="_blank" rel="noopener" data-i18n="ab.termsLink">תנאי שימוש ↗</a></p></div>
   <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
-    <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
+    <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger ומשוואת ה-VO₂max (מבחן הביפ; Léger, Mercier, Gadoury ו-Lambert, J Sports Sci 1988) · «אות החינוך
       הגופני — סטנדרטים להערכת הישגי התלמידים», משרד החינוך, המזכירות הפדגוגית · תוכנית הלימודים
-      בחינוך גופני. הנורמות הבית־ספריות הן נתון של המורה ונשמרות במכשיר. האפליקציה אינה קשורה ל-Cooper Institute ואינה מאושרת על ידו; הנורמות הן ערכי ייחוס להדרכה בלבד.</p></div>
+      בחינוך גופני. הנורמות וספי הייחוס הבית־ספריים הם נתון של המורה ונשמרים במכשיר; האפליקציה אינה כוללת תקני כושר של גורם שלישי.</p></div>
   <div class="ab-sec"><b data-i18n="ab.builtT">🛠 נבנה עם</b>
     <p class="ab-p" data-i18n="ab.built">JavaScript, HTML ו-CSS בלבד — בלי ספריות חיצוניות ובלי שלב בנייה בדפדפן, כדי
       שהאפליקציה תיפתח מהר ותעבוד בשטח בלי רשת. פותח בשיתוף עם Claude Code.</p></div>
@@ -6141,24 +6142,76 @@ function otScore(rec){
   return {per:per,total:total,core:core,ok:total>=OT_PASS&&core>=OT_CORE_MIN};
 }
 
-/* ---- VO2max, אזור בריאות ו-BMI ---- */
-/* נוסחת Léger לריצת מעבורת: מהירות השלב וגיל התלמיד */
+/* ---- VO2max, school reference thresholds and BMI ---- */
+/* Léger et al. (1988) 20 m shuttle-run equation: stage speed and pupil age.
+   The result is an ESTIMATE of VO2max, not a measurement. */
 function vo2max(speed,age){ return 31.025+3.238*speed-3.248*age+0.1536*age*speed; }
-/* אזורי FITNESSGRAM לפי גיל ומין: [גבול תחתון, אזור בריא] */
-var HFZ={
-  boys:{10:[37.3,40.2],11:[37.3,40.2],12:[37.6,40.3],13:[38.6,41.1],14:[39.6,42.5],
-        15:[40.6,43.6],16:[41.0,44.1],17:[41.2,44.2],18:[41.2,44.3]},
-  girls:{10:[37.3,40.2],11:[37.3,40.2],12:[37.0,40.1],13:[36.6,39.7],14:[36.3,39.4],
-         15:[36.0,39.1],16:[35.8,38.9],17:[35.7,38.8],18:[35.3,38.6]}
+/* School reference thresholds (Issue #58).
+   The app ships NO built-in standard table. A teacher may enter optional
+   thresholds per sex and age (10–18): two numbers [lower, upper] in
+   ml·kg⁻¹·min⁻¹, stored locally under REF_KEY. Empty by default; with no
+   pair for an age/sex there is no category — only the VO2max estimate.
+   Bands when a pair exists: v ≤ lower · lower < v < upper · v ≥ upper ·
+   v ≥ upper + REF_EXC. REF_EXC is an app convention for the top band,
+   not a published standard. */
+var REF_KEY="bt.refs", REF_MIN=20, REF_MAX=70, REF_EXC=6.0, REF_AGE_MIN=10, REF_AGE_MAX=18;
+/* Stored Hebrew labels (Hebrew is the translation source; hm-terms.js maps them). */
+var REF_BANDS={
+  wellAbove:{g:"הרבה מעל הייחוס",c:"#5cc8ff"},
+  meets:    {g:"עומד בייחוס",c:"#8fd96b"},
+  below:    {g:"מתחת לייחוס",c:"#ffd166"},
+  wellBelow:{g:"הרבה מתחת לייחוס",c:"#ff6b81"}
 };
-var HFZ_EXC=6.0;
-function healthZone(v,age,sex){
-  var a=Math.max(10,Math.min(18,Math.round(age||14)));
-  var s=HFZ[sex==="girls"?"girls":"boys"][a], R=s[0], H=s[1];
-  if(v>=H+HFZ_EXC)return {g:"מצוין",c:"#5cc8ff"};
-  if(v>=H)return {g:"אזור בריא",c:"#8fd96b"};
-  if(v>R)return {g:"טעון שיפור",c:"#ffd166"};
-  return {g:"סיכון בריאותי",c:"#ff6b81"};
+/* Validate one [lower, upper] pair. null = valid; otherwise an error code:
+   "missing" (one side empty / not a number), "range" (outside REF_MIN..REF_MAX),
+   "order" (lower must be strictly below upper). Both sides empty is not an
+   error for the editor — it means "no threshold"; callers check that first. */
+function refPairError(lo,hi){
+  var num=function(x){ return typeof x==="number"?x:(typeof x==="string"&&x.trim()!==""?Number(x):NaN); };
+  var a=num(lo), b=num(hi);
+  if(!isFinite(a)||!isFinite(b))return "missing";
+  if(a<REF_MIN||a>REF_MAX||b<REF_MIN||b>REF_MAX)return "range";
+  if(!(a<b))return "order";
+  return null;
+}
+/* Sanitised copy of whatever is stored: only valid pairs for integer ages
+   10..18 survive, rounded to 0.1. Anything else (null, garbage, a bad pair)
+   is dropped, so a damaged value can never invent a category. */
+function normRefs(raw){
+  var out={boys:{},girls:{}};
+  if(!raw||typeof raw!=="object")return out;
+  ["boys","girls"].forEach(function(sx){
+    var src=raw[sx]; if(!src||typeof src!=="object")return;
+    for(var a=REF_AGE_MIN;a<=REF_AGE_MAX;a++){
+      var p=src[a]; if(!Array.isArray(p)||p.length!==2)continue;
+      if(refPairError(p[0],p[1]))continue;
+      out[sx][a]=[Math.round(Number(p[0])*10)/10,Math.round(Number(p[1])*10)/10];
+    }
+  });
+  return out;
+}
+function refsEmpty(refs){
+  var r=normRefs(refs);
+  return !Object.keys(r.boys).length&&!Object.keys(r.girls).length;
+}
+/* The pair that applies to a pupil, or null. Age is rounded and clamped to
+   10..18 (missing age = 14, missing sex = boys — the app's existing defaults). */
+function refPairFor(age,sex,refs){
+  var a=Math.max(REF_AGE_MIN,Math.min(REF_AGE_MAX,Math.round(age||14)));
+  var r=normRefs(refs);
+  return r[sex==="girls"?"girls":"boys"][a]||null;
+}
+/* Category for a VO2max estimate against the school's thresholds.
+   null when no thresholds apply or the value is not a positive number. */
+function refZone(v,age,sex,refs){
+  if(typeof v!=="number"||!isFinite(v)||v<=0)return null;
+  var p=refPairFor(age,sex,refs); if(!p)return null;
+  var R=p[0], H=p[1], b;
+  if(v>=H+REF_EXC)b="wellAbove";
+  else if(v>=H)b="meets";
+  else if(v>R)b="below";
+  else b="wellBelow";
+  return {g:REF_BANDS[b].g,c:REF_BANDS[b].c,k:b};
 }
 function bmi(h,w){ if(!(h>0&&w>0))return null; return w/Math.pow(h/100,2); }
 function bmiCategory(b){
@@ -7558,7 +7611,10 @@ return {
   clamp100:clamp100, scoreFromPoints:scoreFromPoints, percentile:percentile,
   normScore:normScore, relScore:relScore, scoreOne:scoreOne, REL_MIN:REL_MIN,
   otTheory:otTheory, otScore:otScore, OT_MAX:OT_MAX, OT_PASS:OT_PASS, OT_CORE_MIN:OT_CORE_MIN,
-  vo2max:vo2max, healthZone:healthZone, HFZ:HFZ, bmi:bmi, bmiCategory:bmiCategory,
+  vo2max:vo2max, REF_KEY:REF_KEY, REF_MIN:REF_MIN, REF_MAX:REF_MAX, REF_EXC:REF_EXC,
+  REF_AGE_MIN:REF_AGE_MIN, REF_AGE_MAX:REF_AGE_MAX, REF_BANDS:REF_BANDS, refPairError:refPairError,
+  normRefs:normRefs, refsEmpty:refsEmpty, refPairFor:refPairFor, refZone:refZone,
+  bmi:bmi, bmiCategory:bmiCategory,
   BK_APP:BK_APP, BK_V:BK_V, IDB_BUDGET:IDB_BUDGET,
   buildSnapshot:buildSnapshot, planMedia:planMedia, validateBackup:validateBackup, planRestore:planRestore
 };
@@ -7840,7 +7896,7 @@ window.I18N_TERMS={
 "Client ID של גוגל":["Google Client ID", "Client ID من Google", "Client ID Google", "Client ID de Google"],
 "EMOM — בכל דקה בשעון":["EMOM — every minute on the minute", "EMOM — في بداية كل دقيقة", "EMOM — каждую минуту", "EMOM — cada minuto"],
 "FIFA 11+ מקוצר":["FIFA 11+ (short)", "FIFA 11+ مختصر", "FIFA 11+ (сокращённая)", "FIFA 11+ reducido"],
-"FITNESSGRAM® — מבחני כושר ואזור בריאות (HFZ)":["FITNESSGRAM® — fitness tests and Healthy Fitness Zone (HFZ)", "FITNESSGRAM® — اختبارات اللياقة ومنطقة اللياقة الصحية (HFZ)", "FITNESSGRAM® — тесты и зона здоровой физподготовки (HFZ)", "FITNESSGRAM® — pruebas de condición física y zona saludable (HFZ)"],
+"ריצת מעבורת 20 מ׳ — הערכת כושר אירובי (Léger ואחרים, 1988)":["20 m shuttle run — estimating aerobic fitness (Léger et al., 1988)", "الجري المكوكي 20 م — تقدير اللياقة الهوائية (Léger وزملاؤه، 1988)", "Челночный бег 20 м — оценка аэробной выносливости (Léger и соавт., 1988)", "Carrera de ida y vuelta de 20 m — estimación de la condición aeróbica (Léger et al., 1988)"],
 "HIIT כיתתי":["Class HIIT", "HIIT صفّي", "HIIT для класса", "HIIT para la clase"],
 "HIIT קצר לכיתה (40/20)":["Short class HIIT (40/20)", "HIIT قصير للصف (40/20)", "Короткий HIIT для класса (40/20)", "HIIT corto para la clase (40/20)"],
 "IJBNPA — סיכום הראיות של WHO":["IJBNPA — WHO evidence summary", "IJBNPA — ملخص أدلة منظمة الصحة العالمية", "IJBNPA — сводка доказательств ВОЗ", "IJBNPA — resumen de la evidencia de la OMS"],
@@ -8369,7 +8425,7 @@ window.I18N_TERMS={
 "מבחן מלא":["Full test", "اختبار كامل", "Полный тест", "Prueba completa"],
 "מבחן מלא עם תפקידים":["Full test with roles", "اختبار كامل مع أدوار", "Полный тест с ролями", "Prueba completa con roles"],
 "מבחן עיוני":["Theory test", "اختبار نظري", "Теоретический тест", "Examen teórico"],
-"מבחן קופר — 12 דקות":["Cooper test — 12 minutes", "اختبار كوبر — 12 دقيقة", "Тест Купера — 12 минут", "Test de Cooper — 12 minutos"],
+"ריצת 12 דקות":["12-minute run", "الجري 12 دقيقة", "12-минутный бег", "Carrera de 12 minutos"],
 "מבחני כושר":["Fitness tests", "اختبارات اللياقة", "Тесты физподготовки", "Pruebas de condición física"],
 "מבחנים":["Tests", "الاختبارات", "Тесты", "Pruebas"],
 "מבחנים ומדידה":["Tests and measurement", "الاختبارات والقياس", "Тесты и измерения", "Pruebas y medición"],
@@ -8990,13 +9046,18 @@ window.I18N_TERMS={
 "הושלם":["Completed", "مكتمل", "Выполнено", "Completado"],
 "יום A":["Day A", "اليوم A", "День A", "Día A"],
 "יום B":["Day B", "اليوم B", "День B", "Día B"],
-"מהירות ההתחלה בפרוטוקול התקני של Léger היא 8.0 קמ״ש למסלול 20 מ׳. שינוי שלה משנה את כל לוח הזמנים של הביפים, ולכן ערכי ה-VO₂max יוצגו כהערכה בלבד — הנורמות של FITNESSGRAM מבוססות על הפרוטוקול התקני.":["The starting speed in the standard Léger protocol is 8.0 km/h for a 20 m lane. Changing it changes the whole beep schedule, so VO₂max values will be shown as an estimate only — the FITNESSGRAM norms are based on the standard protocol.", "سرعة البداية في بروتوكول Léger القياسي هي 8.0 كم/س لمسار 20 م. تغييرها يغيّر جدول الصافرات كله، ولذلك تُعرض قيم VO₂max كتقدير فقط — معايير FITNESSGRAM مبنية على البروتوكول القياسي.", "Начальная скорость в стандартном протоколе Léger — 8,0 км/ч для дорожки 20 м. Её изменение меняет всё расписание сигналов, поэтому значения VO₂max будут показаны только как оценка — нормы FITNESSGRAM основаны на стандартном протоколе.", "La velocidad inicial del protocolo estándar de Léger es 8,0 km/h para una calle de 20 m. Cambiarla modifica todo el calendario de pitidos, por lo que los valores de VO₂máx. se mostrarán solo como estimación: los baremos FITNESSGRAM se basan en el protocolo estándar."],
+"מהירות ההתחלה בפרוטוקול התקני של Léger היא 8.0 קמ״ש למסלול 20 מ׳. שינוי שלה משנה את כל לוח הזמנים של הביפים, ולכן ערכי ה-VO₂max יוצגו כהערכה בלבד — משוואת ההערכה מבוססת על הפרוטוקול התקני.":["The starting speed in the standard Léger protocol is 8.0 km/h for a 20 m lane. Changing it changes the whole beep schedule, so VO₂max values will be shown as an estimate only — the estimation equation is based on the standard protocol.", "سرعة البداية في بروتوكول Léger القياسي هي 8.0 كم/س لمسار 20 م. تغييرها يغيّر جدول الصافرات كله، ولذلك تُعرض قيم VO₂max كتقدير فقط — معادلة التقدير مبنية على البروتوكول القياسي.", "Начальная скорость в стандартном протоколе Léger — 8,0 км/ч для дорожки 20 м. Её изменение меняет всё расписание сигналов, поэтому значения VO₂max будут показаны только как оценка — уравнение оценки основано на стандартном протоколе.", "La velocidad inicial del protocolo estándar de Léger es 8,0 km/h para una calle de 20 m. Cambiarla modifica todo el calendario de pitidos, por lo que los valores de VO₂máx. se mostrarán solo como estimación: la ecuación de estimación se basa en el protocolo estándar."],
 "המרחק בין האקדח למצלמה, במטרים. הקול נוסע 343 מ׳ בשנייה, ולכן אם המצלמה עומדת 34 מ׳ מהזינוק היא שומעת את הירייה עשירית שנייה אחרי שהיא קרתה — והזמנים יוצאים קצרים מדי בדיוק בעשירית הזאת. הזנת המרחק מקזזת את זה.":["The distance between the starting gun and the camera, in metres. Sound travels 343 m per second, so if the camera stands 34 m from the start it hears the shot a tenth of a second after it happened — and the times come out too short by exactly that tenth. Entering the distance corrects for this.", "المسافة بين مسدس الانطلاق والكاميرا بالأمتار. ينتقل الصوت 343 م في الثانية، فإذا كانت الكاميرا على بُعد 34 م من خط الانطلاق فإنها تسمع الطلقة بعد عُشر ثانية من حدوثها — وتخرج الأزمنة أقصر من الحقيقة بهذا العُشر تمامًا. إدخال المسافة يعوّض ذلك.", "Расстояние от стартового пистолета до камеры, в метрах. Звук проходит 343 м в секунду, поэтому если камера стоит в 34 м от старта, она слышит выстрел на десятую секунды позже — и время получается короче ровно на эту десятую. Ввод расстояния это компенсирует.", "La distancia entre la pistola y la cámara, en metros. El sonido recorre 343 m por segundo, así que si la cámara está a 34 m de la salida oye el disparo una décima de segundo después de que ocurra, y los tiempos salen cortos justo en esa décima. Introducir la distancia lo compensa."],
 "כמה שינוי בתמונה נחשב «רץ עבר». נמוך מדי — צל, ענף או תלמיד ברקע נספרים כחצייה. גבוה מדי — רץ בחולצה בהירה על רקע בהיר לא נתפס. התחל ב-45, ואם יש חציות מדומות העלה בהדרגה.":["How much change in the image counts as «a runner crossed». Too low — a shadow, a branch or a student in the background counts as a crossing. Too high — a runner in a light shirt against a light background is missed. Start at 45, and if you get false crossings, raise it gradually.", "مقدار التغيّر في الصورة الذي يُعدّ «مرّ عدّاء». منخفض جدًا — يُحتسب ظلّ أو غصن أو طالب في الخلفية عبورًا. مرتفع جدًا — لا يُلتقط عدّاء بقميص فاتح على خلفية فاتحة. ابدأ بـ 45، وإن ظهرت عبورات وهمية فارفعه تدريجيًا.", "Какое изменение в кадре считается «бегун пересёк линию». Слишком низко — тень, ветка или ученик на фоне засчитываются как пересечение. Слишком высоко — бегун в светлой футболке на светлом фоне не распознаётся. Начните с 45 и при ложных срабатываниях постепенно повышайте.", "Cuánto cambio en la imagen cuenta como «pasó un corredor». Demasiado bajo: una sombra, una rama o un alumno al fondo cuentan como paso. Demasiado alto: no se detecta a un corredor con camiseta clara sobre fondo claro. Empieza en 45 y, si hay pasos falsos, súbelo poco a poco."],
 "שם הקריטריון":["Criterion name", "اسم المعيار", "Название критерия", "Nombre del criterio"],
 "תיאור קצר (אופציונלי)":["Short description (optional)", "وصف قصير (اختياري)", "Краткое описание (необязательно)", "Descripción breve (opcional)"],
 "למשל: לשים לב שדנה חוזרת מפציעה — תפקיד שיפוט בחלק הסופי":["e.g. Dana is coming back from an injury — give her a referee role in the final part", "مثلًا: الانتباه إلى أن دانا عائدة من إصابة — دور تحكيم في الجزء الأخير", "например: Дана возвращается после травмы — роль судьи в заключительной части", "p. ej.: Dana vuelve de una lesión — rol de árbitra en la parte final"],
 "מדידות כושר":["Fitness measurements", "قياسات اللياقة", "Измерения формы", "Mediciones de condición física"],
+"הרבה מעל הייחוס":["Well above reference", "أعلى بكثير من المرجع", "Значительно выше референсного уровня", "Muy por encima de la referencia"],
+"עומד בייחוס":["Meets reference", "يحقّق المرجع", "Соответствует референсному уровню", "Cumple la referencia"],
+"מתחת לייחוס":["Below reference", "دون المرجع", "Ниже референсного уровня", "Por debajo de la referencia"],
+"הרבה מתחת לייחוס":["Well below reference", "أدنى بكثير من المرجع", "Значительно ниже референсного уровня", "Muy por debajo de la referencia"],
+"ספי ייחוס של בית הספר":["School reference thresholds", "العتبات المرجعية للمدرسة", "Школьные референсные пороги", "Umbrales de referencia del centro"],
 };
 
 ;
@@ -9443,7 +9504,6 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "מסלול {0}":["Lane {0}", "المسار {0}", "Дорожка {0}", "Calle {0}"],
 "{0} מקטעים":["{0} shuttles", "{0} أشواط", "Отрезков: {0}", "{0} tramos"],
 "{0} קמ״ש":["{0} km/h", "{0} كم/س", "{0} км/ч", "{0} km/h"],
-"ערכים ב-VO₂max (ml·kg⁻¹·min⁻¹) · מבוסס FITNESSGRAM® (Cooper Institute) · \"אזור בריא\" = Healthy Fitness Zone, דרגת \"מצוין\" היא תוספת מעשית מעליו · גיל 9 מושווה לגיל 10.":["Values in VO₂max (ml·kg⁻¹·min⁻¹) · based on FITNESSGRAM® (Cooper Institute) · \"Healthy zone\" = Healthy Fitness Zone; the \"Excellent\" level is a practical addition above it · age 9 is compared with age 10.", "القيم بوحدة VO₂max (ml·kg⁻¹·min⁻¹) · مبنية على FITNESSGRAM® (Cooper Institute) · \"المنطقة الصحية\" = Healthy Fitness Zone، ومستوى \"ممتاز\" إضافة عملية فوقها · يُقارَن عمر 9 بعمر 10.", "Значения VO₂max (ml·kg⁻¹·min⁻¹) · на основе FITNESSGRAM® (Cooper Institute) · \"Здоровая зона\" = Healthy Fitness Zone, уровень \"Отлично\" — практическое дополнение над ней · возраст 9 лет сравнивается с 10 годами.", "Valores de VO₂max (ml·kg⁻¹·min⁻¹) · basados en FITNESSGRAM® (Cooper Institute) · \"Zona saludable\" = Healthy Fitness Zone; el nivel \"Excelente\" es un añadido práctico por encima · la edad de 9 años se compara con la de 10."],
 "לאפס את שעון המבחן? (הלוח נשמר)":["Reset the test clock? (The board is kept)", "تصفير ساعة الاختبار؟ (تُحفظ اللوحة)", "Сбросить таймер теста? (Таблица сохранится)", "¿Reiniciar el reloj de la prueba? (La tabla se conserva)"],
 "בורר הכיתה לא זמין":["Class selector unavailable", "أداة اختيار الصف غير متاحة", "Выбор класса недоступен", "Selector de grupo no disponible"],
 "הרשימה נטענת מ«מבחני כושר» — אותה רשימה בדיוק, בלי להקליד שוב.":["The list is loaded from «Fitness tests» — exactly the same list, no retyping.", "تُحمَّل القائمة من «اختبارات اللياقة» — القائمة نفسها تمامًا، دون إعادة كتابة.", "Список загружается из «Тесты физподготовки» — тот же самый список, без повторного ввода.", "La lista se carga desde «Pruebas de condición física»: exactamente la misma, sin volver a escribirla."],
@@ -10192,7 +10252,7 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "שני קווים במרחק 5 מ׳, 10 מעברים. כף רגל חייבת לחצות את הקו בכל מעבר.":["Two lines 5 m apart, 10 lengths. A foot must cross the line on every length.", "خطّان على بعد 5 م، 10 انتقالات. يجب أن تعبر القدم الخط في كل انتقال.", "Две линии на расстоянии 5 м, 10 отрезков. На каждом отрезке стопа должна пересечь линию.", "Dos líneas separadas 5 m, 10 recorridos. Un pie debe cruzar la línea en cada recorrido."],
 "שני קווים במרחק 10 מ׳, ארבעה מעברים. נגיעה ביד בקו בכל היפוך — לא ״כמעט״.":["Two lines 10 m apart, four lengths. Touch the line with a hand at every turn — not «almost».", "خطّان على بعد 10 م، أربعة انتقالات. لمس الخط باليد عند كل استدارة — وليس «تقريبًا».", "Две линии на расстоянии 10 м, четыре отрезка. На каждом развороте — касание линии рукой, а не «почти».", "Dos líneas separadas 10 m, cuatro recorridos. En cada cambio de sentido hay que tocar la línea con la mano, no «casi»."],
 "12 דקות ריצה רציפה, רושמים את המרחק. הפעל את הספירה לאחור, ובסוף הזן לכל תלמיד את המרחק.":["12 minutes of continuous running; record the distance. Start the countdown, and at the end enter each student's distance.", "12 دقيقة من الجري المتواصل، ونسجّل المسافة. شغّل العدّ التنازلي، وفي النهاية أدخل المسافة لكل طالب.", "12 минут непрерывного бега, фиксируется дистанция. Запустите обратный отсчёт, а в конце введите дистанцию каждого ученика.", "12 minutos de carrera continua; se anota la distancia. Pon en marcha la cuenta atrás y, al final, introduce la distancia de cada alumno."],
-"למבחן הביפ יש מודול ייעודי עם ביפים על שעון, VO₂max ונורמות FITNESSGRAM.":["The beep test has a dedicated module with timed beeps, VO₂max and FITNESSGRAM norms.", "لاختبار البيب وحدة مخصّصة مع نغمات مضبوطة التوقيت وVO₂max ومعايير FITNESSGRAM.", "Для бип-теста есть отдельный модуль с сигналами по времени, VO₂max и нормами FITNESSGRAM.", "La Course Navette tiene un módulo propio con pitidos cronometrados, VO₂max y baremos FITNESSGRAM."],
+"למבחן הביפ יש מודול ייעודי עם ביפים על שעון והערכת VO₂max.":["The beep test has a dedicated module with timed beeps and a VO₂max estimate.", "لاختبار البيب وحدة مخصّصة مع نغمات مضبوطة التوقيت وتقدير VO₂max.", "Для бип-теста есть отдельный модуль с сигналами по времени и оценкой VO₂max.", "La Course Navette tiene un módulo propio con pitidos cronometrados y una estimación del VO₂max."],
 "1609 מ׳ בהליכה מהירה ככל האפשר — אלטרנטיבה לתלמיד שלא יכול לרוץ.":["1609 m walking as fast as possible — an alternative for a student who can't run.", "1609 م مشيًا بأسرع ما يمكن — بديل للطالب الذي لا يستطيع الجري.", "1609 м быстрой ходьбой — альтернатива для ученика, который не может бегать.", "1609 m caminando lo más rápido posible: alternativa para el alumno que no puede correr."],
 "עד כשל או עד שהטכניקה נשברת. גוף קו ישר, חזה כמעט נוגע. אפשר לספור בזוגות.":["To failure or until technique breaks down. Body in a straight line, chest almost touching. Can be counted in pairs.", "حتى الفشل أو حتى تنهار التقنية. الجسم في خط مستقيم، والصدر يكاد يلمس الأرض. يمكن العدّ في أزواج.", "До отказа или до нарушения техники. Тело — прямая линия, грудь почти касается пола. Можно считать в парах.", "Hasta el fallo o hasta que se rompa la técnica. Cuerpo en línea recta, el pecho casi toca el suelo. Se puede contar por parejas."],
 "דקה על השעון — כמה חזרות נכנסות. מבחן אחר מ«עד כשל»: כאן נמדד גם הקצב, ולכן שתי התוצאות נשמרות בנפרד.":["One minute on the clock — how many reps you can fit in. A different test from «to failure»: pace is measured here too, so the two results are saved separately.", "دقيقة على الساعة — كم تكرارًا تنجز. اختبار مختلف عن «حتى الفشل»: هنا يُقاس الإيقاع أيضًا، ولذلك تُحفظ النتيجتان بشكل منفصل.", "Минута на часах — сколько повторений успеете. Это другой тест, чем «до отказа»: здесь измеряется и темп, поэтому результаты хранятся отдельно.", "Un minuto en el reloj: cuántas repeticiones caben. Es una prueba distinta de «hasta el fallo»: aquí también se mide el ritmo, así que los dos resultados se guardan por separado."],
@@ -10511,8 +10571,8 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "רקע למורה שרוצה להבין למה מספרים שונים מופיעים במקורות שונים.":["Background for the teacher who wants to understand why different numbers appear in different sources.", "خلفية للمعلّم الذي يريد أن يفهم لماذا تظهر أرقام مختلفة في مصادر مختلفة.", "Справка для учителя, который хочет понять, почему в разных источниках приводятся разные цифры.", "Contexto para el docente que quiere entender por qué aparecen cifras distintas en fuentes distintas."],
 "ארבעה סטנדרטים: (1) פיתוח מגוון מיומנויות מוטוריות; (2) יישום ידע על תנועה וכושר; (3) פיתוח מיומנויות חברתיות דרך תנועה; (4) פיתוח מיומנויות אישיות ובחירה בפעילות. במהדורה זו הורחב המושג ל״מסע האוריינות הגופנית״.":["Four standards: (1) developing a variety of motor skills; (2) applying knowledge of movement and fitness; (3) developing social skills through movement; (4) developing personal skills and choosing to be active. This edition expanded the concept into the “physical literacy journey”.", "أربعة معايير: (1) تطوير مجموعة متنوعة من المهارات الحركية؛ (2) تطبيق المعرفة المتعلقة بالحركة واللياقة؛ (3) تطوير المهارات الاجتماعية من خلال الحركة؛ (4) تطوير المهارات الشخصية واختيار ممارسة النشاط. وفي هذه الطبعة وُسِّع المفهوم إلى “رحلة الثقافة البدنية”.", "Четыре стандарта: (1) развитие разнообразных двигательных навыков; (2) применение знаний о движении и физической подготовке; (3) развитие социальных навыков через движение; (4) развитие личностных навыков и выбор активного образа жизни. В этом издании понятие расширено до «пути физической грамотности».", "Cuatro estándares: (1) desarrollar una variedad de habilidades motrices; (2) aplicar conocimientos sobre movimiento y condición física; (3) desarrollar habilidades sociales a través del movimiento; (4) desarrollar habilidades personales y elegir ser activo. En esta edición el concepto se amplió al “viaje de la alfabetización física”."],
 "מבנה מצוין לניסוח מטרות שיעור — כל מערך באפליקציה ממופה לארבעת הסטנדרטים האלה.":["An excellent framework for writing lesson objectives — every plan in the app is mapped to these four standards.", "إطار ممتاز لصياغة أهداف الدرس — كل خطة في التطبيق مربوطة بهذه المعايير الأربعة.", "Отличная основа для формулировки целей урока — каждый план в приложении соотнесён с этими четырьмя стандартами.", "Una estructura excelente para redactar los objetivos de la sesión — cada plan de la app está vinculado a estos cuatro estándares."],
-"סוללת מבחנים בריאותית: כושר אירובי, כוח שריר, סבולת שריר, גמישות והרכב גוף. הציון אינו השוואה לחברים אלא מול ״אזור הכושר הבריא״ לפי גיל ומין.":["A health-related test battery: aerobic capacity, muscular strength, muscular endurance, flexibility and body composition. The score is not a comparison with peers but against the “Healthy Fitness Zone” for age and sex.", "بطارية اختبارات صحية: اللياقة الهوائية، وقوة العضلات، وتحمّل العضلات، والمرونة، وتركيب الجسم. العلامة ليست مقارنة بالزملاء بل مقابل “منطقة اللياقة الصحية” حسب العمر والجنس.", "Батарея тестов, ориентированная на здоровье: аэробная выносливость, мышечная сила, мышечная выносливость, гибкость и состав тела. Результат сравнивается не с одноклассниками, а с «зоной здоровой физической подготовки» по возрасту и полу.", "Batería de pruebas orientada a la salud: capacidad aeróbica, fuerza muscular, resistencia muscular, flexibilidad y composición corporal. La nota no se compara con los compañeros, sino con la “Zona de Condición Física Saludable” según edad y sexo."],
-"הבסיס לנורמות שמוצגות במודול הביפ טסט ובמעקב התלמידים.":["The basis for the norms shown in the beep test module and in student tracking.", "الأساس للمعايير المعروضة في وحدة اختبار البيب وفي متابعة الطلاب.", "Основа норм, которые показаны в модуле бип-теста и в мониторинге учеников.", "La base de los baremos que se muestran en el módulo de la Course Navette y en el seguimiento del alumnado."],
+"Léger, Mercier, Gadoury ו-Lambert. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci 1988;6(2):93–101 (PubMed 3184250). מבחן מדורג: קצב הריצה עולה בכל שלב של כדקה, והמהירות בשלב האחרון יחד עם הגיל משמשת להערכת VO₂max.":["Léger, Mercier, Gadoury & Lambert. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci 1988;6(2):93–101 (PubMed 3184250). A graded test: the running pace rises with each stage of about one minute, and the speed of the last stage together with age is used to estimate VO₂max.", "Léger وMercier وGadoury وLambert. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci 1988;6(2):93–101 (PubMed 3184250). اختبار متدرّج: تزداد سرعة الجري في كل مرحلة مدتها نحو دقيقة، وتُستخدم سرعة المرحلة الأخيرة مع العمر لتقدير VO₂max.", "Léger, Mercier, Gadoury и Lambert. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci 1988;6(2):93–101 (PubMed 3184250). Ступенчатый тест: темп бега растёт с каждой ступенью длительностью около минуты, а скорость последней ступени вместе с возрастом используется для оценки VO₂max.", "Léger, Mercier, Gadoury y Lambert. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci 1988;6(2):93–101 (PubMed 3184250). Prueba progresiva: el ritmo de carrera aumenta en cada nivel de aproximadamente un minuto, y la velocidad del último nivel junto con la edad se usa para estimar el VO₂max."],
+"הבסיס למשוואת הערכת ה-VO₂max במודול הביפ טסט. ספי ייחוס לקטגוריות, אם בכלל, מוזנים על ידי בית הספר או המורה.":["The basis for the VO₂max estimate in the beep test module. Reference thresholds for categories, if any, are entered by the school or the teacher.", "الأساس لمعادلة تقدير VO₂max في وحدة اختبار البيب. العتبات المرجعية للفئات، إن وُجدت، تُدخلها المدرسة أو المعلّم.", "Основа уравнения оценки VO₂max в модуле бип-теста. Референсные пороги для категорий, если они нужны, вводит школа или учитель.", "La base de la ecuación de estimación del VO₂max en el módulo del test de la bip. Los umbrales de referencia para las categorías, si los hay, los introduce el centro o el docente."],
 "נייר העמדה הרשמי: אימון התנגדות מפוקח ומותאם בטוח ומועיל לילדים ולנוער, משפר כוח, מפחית פציעות ואינו פוגע בגדילה. הדגש הוא על טכניקה, התקדמות הדרגתית והשגחה — לא על משקל מרבי.":["The official position statement: supervised, age-appropriate resistance training is safe and beneficial for children and adolescents — it improves strength, reduces injuries and does not harm growth. The emphasis is on technique, gradual progression and supervision — not on maximum load.", "ورقة الموقف الرسمية: تدريب المقاومة المُشرَف عليه والملائم للعمر آمن ومفيد للأطفال والناشئين، يحسّن القوة ويقلّل الإصابات ولا يضرّ بالنمو. التركيز على التقنية والتدرّج والإشراف — لا على الوزن الأقصى.", "Официальная позиция: силовые тренировки под контролем и с учётом возраста безопасны и полезны для детей и подростков — повышают силу, снижают травматизм и не мешают росту. Акцент — на технике, постепенной прогрессии и контроле, а не на максимальном весе.", "La declaración de posición oficial: el entrenamiento de fuerza supervisado y adaptado es seguro y beneficioso para niños y adolescentes, mejora la fuerza, reduce las lesiones y no perjudica el crecimiento. El énfasis está en la técnica, la progresión gradual y la supervisión — no en la carga máxima."],
 "התשובה המקצועית להורה או מורה ששואל ״זה לא מסוכן לגיל הזה?״.":["The professional answer for a parent or teacher who asks “Isn't this dangerous at this age?”.", "الإجابة المهنية لوليّ أمر أو معلّم يسأل “أليس هذا خطيرًا في هذا العمر؟”.", "Профессиональный ответ родителю или учителю, который спрашивает: «Разве это не опасно в таком возрасте?».", "La respuesta profesional para la familia o el docente que pregunta “¿No es peligroso a esta edad?”."],
 "סקירות שיטתיות מראות ירידה של כ־30%–46% בשכיחות פציעות אצל קבוצות שמבצעות את החימום המובנה באופן קבוע, דרך שיפור שליטה נוירו־שרירית, יציבות ליבה ואגן וטכניקת נחיתה.":["Systematic reviews show a roughly 30%–46% reduction in injury rates in teams that do the structured warm-up regularly, through improved neuromuscular control, core and pelvic stability and landing technique.", "تُظهر المراجعات المنهجية انخفاضًا بنحو 30%–46% في معدّل الإصابات لدى الفرق التي تؤدّي الإحماء المنظّم بانتظام، من خلال تحسين التحكّم العصبي العضلي وثبات الجذع والحوض وتقنية الهبوط.", "Систематические обзоры показывают снижение частоты травм примерно на 30%–46% у команд, регулярно выполняющих эту структурированную разминку, — за счёт улучшения нервно-мышечного контроля, стабильности кора и таза и техники приземления.", "Las revisiones sistemáticas muestran una reducción de aproximadamente el 30%–46% en la incidencia de lesiones en los equipos que hacen este calentamiento estructurado de forma regular, gracias a la mejora del control neuromuscular, la estabilidad del core y la pelvis y la técnica de aterrizaje."],
@@ -10630,7 +10690,7 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "פתיחה (7 דק׳)":["Opening (7 min)", "الافتتاح (7 د)", "Начало (7 мин)", "Inicio (7 min)"],
 "תנועה ליד השולחן: ג׳אמפינג ג׳ק, ברכיים גבוהות, סיבובי כתפיים — 30/15 × 6.":["Movement by the desk: jumping jacks, high knees, shoulder circles — 30/15 × 6.", "حركة بجانب الطاولة: القفز فتحًا وضمًا، رفع الركبتين عاليًا، تدوير الكتفين — 30/15 × 6.", "Движение у парты: прыжки «звёздочка», бег с высоким подниманием бедра, вращения плечами — 30/15 × 6.", "Movimiento junto al pupitre: saltos de tijera, skipping, círculos de hombros — 30/15 × 6."],
 "עיקרי (20 דק׳)":["Main part (20 min)", "الجزء الرئيسي (20 د)", "Основная часть (20 мин)", "Parte principal (20 min)"],
-"אפשרות א׳: HIIT 40/20 במקום. אפשרות ב׳: משחקי חשיבה־תנועה מדף המשחקים. אפשרות ג׳: שיעור עיוני — קריאת נורמות FITNESSGRAM וניתוח תוצאות הכיתה.":["Option A: HIIT 40/20 on the spot. Option B: thinking-and-movement games from the games page. Option C: theory lesson — reading the FITNESSGRAM norms and analysing the class results.", "الخيار أ: HIIT 40/20 في المكان. الخيار ب: ألعاب تفكير وحركة من صفحة الألعاب. الخيار ج: درس نظري — قراءة معايير FITNESSGRAM وتحليل نتائج الصف.", "Вариант А: HIIT 40/20 на месте. Вариант Б: игры на мышление и движение со страницы игр. Вариант В: теоретический урок — разбор норм FITNESSGRAM и анализ результатов класса.", "Opción A: HIIT 40/20 en el sitio. Opción B: juegos de pensamiento y movimiento de la página de juegos. Opción C: sesión teórica — lectura de los baremos de FITNESSGRAM y análisis de los resultados del grupo."],
+"אפשרות א׳: HIIT 40/20 במקום. אפשרות ב׳: משחקי חשיבה־תנועה מדף המשחקים. אפשרות ג׳: שיעור עיוני — הסבר הערכת ה-VO₂max וניתוח תוצאות הכיתה.":["Option A: HIIT 40/20 on the spot. Option B: thinking-and-movement games from the games page. Option C: theory lesson — explaining the VO₂max estimate and analysing the class results.", "الخيار أ: HIIT 40/20 في المكان. الخيار ب: ألعاب تفكير وحركة من صفحة الألعاب. الخيار ج: درس نظري — شرح تقدير VO₂max وتحليل نتائج الصف.", "Вариант А: HIIT 40/20 на месте. Вариант Б: игры на мышление и движение со страницы игр. Вариант В: теоретический урок — объяснение оценки VO₂max и анализ результатов класса.", "Opción A: HIIT 40/20 en el sitio. Opción B: juegos de pensamiento y movimiento de la página de juegos. Opción C: sesión teórica — explicación de la estimación del VO₂max y análisis de los resultados del grupo."],
 "ידע (10 דק׳)":["Knowledge (10 min)", "المعرفة (10 د)", "Знания (10 мин)", "Conocimiento (10 min)"],
 "נושא אחד מפינת התזונה או ממאגר הידע + דיון קצר. תלמידים מנסחים יעד אישי לשבוע.":["One topic from the nutrition corner or the knowledge base + a short discussion. Students write a personal goal for the week.", "موضوع واحد من ركن التغذية أو من قاعدة المعرفة + نقاش قصير. يصوغ الطلاب هدفًا شخصيًا للأسبوع.", "Одна тема из уголка питания или базы знаний + короткое обсуждение. Ученики формулируют личную цель на неделю.", "Un tema del rincón de nutrición o de la base de conocimiento + breve debate. El alumnado formula un objetivo personal para la semana."],
 "סיום (8 דק׳)":["Closing (8 min)", "الختام (8 د)", "Заключительная часть (8 мин)", "Cierre (8 min)"],
@@ -11847,9 +11907,9 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "שלב 1 — חימום ותדריך: הסבר תפקיד שופטי הקו למי שיסיים מוקדם.":["Step 1 — Warm-up and briefing: explain the line judge role to those who finish early.", "الخطوة 1 — إحماء وإيجاز: شرح دور حكّام الخط لمن سينهي مبكرًا.", "Шаг 1 — Разминка и инструктаж: объяснить роль судьи на линии тем, кто закончит раньше.", "Paso 1 — Calentamiento e instrucciones: explicar la función de juez de línea a quienes terminen antes."],
 "שלב 2 — הרצת המבחן: כמו בחטיבה, עם כריזה קולית.":["Step 2 — Run the test: as in middle school, with voice announcements.", "الخطوة 2 — إجراء الاختبار: كما في المرحلة الإعدادية، مع الإعلانات الصوتية.", "Шаг 2 — Проведение теста: как в средней школе, с голосовыми объявлениями.", "Paso 2 — Realizar la prueba: como en secundaria, con anuncios por voz."],
 "שלב 3 — שופטי קו: תלמידים שסיימו מסייעים לוודא נגיעה בקו בזמן.":["Step 3 — Line judges: students who have finished help check that the line is touched on time.", "الخطوة 3 — حكّام الخط: يساعد الطلاب الذين أنهوا في التأكد من لمس الخط في الوقت المحدد.", "Шаг 3 — Судьи на линии: закончившие ученики помогают проверять касание линии вовремя.", "Paso 3 — Jueces de línea: el alumnado que ya terminó ayuda a comprobar que se pisa la línea a tiempo."],
-"שלב 4 — קריאת נורמות: בסיום — הצגת טבלת FITNESSGRAM והשוואה אישית לשנה שעברה.":["Step 4 — Reading the norms: at the end — show the FITNESSGRAM table and compare individually with last year.", "الخطوة 4 — قراءة المعايير: في النهاية — عرض جدول FITNESSGRAM ومقارنة فردية بالعام الماضي.", "Шаг 4 — Разбор нормативов: в конце — показать таблицу FITNESSGRAM и индивидуально сравнить с прошлым годом.", "Paso 4 — Lectura de baremos: al final, mostrar la tabla FITNESSGRAM y comparar individualmente con el año pasado."],
+"שלב 4 — קריאת התוצאות: בסיום — הסבר הערכת ה-VO₂max והשוואה אישית לשנה שעברה.":["Step 4 — Reading the results: at the end — explain the VO₂max estimate and compare individually with last year.", "الخطوة 4 — قراءة النتائج: في النهاية — شرح تقدير VO₂max ومقارنة فردية بالعام الماضي.", "Шаг 4 — Разбор результатов: в конце — объяснить оценку VO₂max и индивидуально сравнить с прошлым годом.", "Paso 4 — Lectura de resultados: al final, explicar la estimación del VO₂max y comparar individualmente con el año pasado."],
 "שלב 5 — יעד אישי: כל תלמיד רושם יעד למבחן הבא.":["Step 5 — Personal target: each student writes down a target for the next test.", "الخطوة 5 — هدف شخصي: يكتب كل طالب هدفًا للاختبار القادم.", "Шаг 5 — Личная цель: каждый ученик записывает цель на следующий тест.", "Paso 5 — Objetivo personal: cada alumno anota un objetivo para la próxima prueba."],
-"התוצאה עצמה מול אזור הכושר הבריא (HFZ)":["The result itself against the Healthy Fitness Zone (HFZ)", "النتيجة نفسها مقارنةً بمنطقة اللياقة الصحية (HFZ)", "Сам результат относительно зоны здоровой физической подготовленности (HFZ)", "El resultado en sí frente a la Zona de Condición Física Saludable (HFZ)"],
+"התוצאה עצמה מול ספי הייחוס של בית הספר, אם הוגדרו":["The result itself against the school's reference thresholds, if set", "النتيجة نفسها مقارنةً بالعتبات المرجعية للمدرسة، إن وُجدت", "Сам результат относительно референсных порогов школы, если они заданы", "El resultado en sí frente a los umbrales de referencia del centro, si se han definido"],
 "מגמה מול המדידה הקודמת של אותו תלמיד":["Trend compared with the same student's previous measurement", "الاتجاه مقارنةً بالقياس السابق للطالب نفسه", "Динамика по сравнению с предыдущим измерением того же ученика", "Tendencia respecto a la medición anterior del mismo alumno"],
 "יעד אישי במקום השוואה לנורמה; אפשרות לעצור בלי ציון שלילי.":["A personal target instead of comparison with the norm; option to stop without a negative grade.", "هدف شخصي بدل المقارنة بالمعيار؛ إمكانية التوقف دون علامة سلبية.", "Личная цель вместо сравнения с нормативом; можно остановиться без отрицательной оценки.", "Un objetivo personal en lugar de la comparación con el baremo; opción de parar sin nota negativa."],
 "מטרה אישית מעל התוצאה הקודמת.":["A personal target above the previous result.", "هدف شخصي أعلى من النتيجة السابقة.", "Личная цель выше предыдущего результата.", "Un objetivo personal por encima del resultado anterior."],
@@ -11965,7 +12025,7 @@ Object.assign(window.I18N_TERMS=window.I18N_TERMS||{},{
 "שלב 3 — פריז בריקוד (7 דק׳): תנועה חופשית וקפיאה בעצירת המוזיקה.":["Step 3 — Freeze dance (7 min): free movement, freezing when the music stops.", "الخطوة 3 — الرقص والتجمّد (7 د): حركة حرة والتجمّد عند توقف الموسيقى.", "Шаг 3 — Танцевальная «Замри» (7 мин): свободное движение и остановка, когда выключается музыка.", "Paso 3 — Baile congelado (7 min): movimiento libre y quedarse congelado al parar la música."],
 "ניתוח נתוני הכיתה":["Class data analysis", "تحليل بيانات الصف", "Анализ данных класса", "Análisis de los datos del grupo"],
 "שלב 1 — הצגת נתונים: תוצאות הביפ של הכיתה (בלי שמות) על הלוח.":["Step 1 — Present the data: the class's beep results (without names) on the board.", "الخطوة 1 — عرض البيانات: نتائج اختبار البيب للصف (دون أسماء) على اللوح.", "Шаг 1 — Показ данных: результаты бип-теста класса (без имён) на доске.", "Paso 1 — Presentar los datos: los resultados de la Course Navette del grupo (sin nombres) en la pizarra."],
-"שלב 2 — קריאת נורמות: טבלת FITNESSGRAM והבנת «אזור הכושר הבריא».":["Step 2 — Reading the norms: the FITNESSGRAM table and understanding the «Healthy Fitness Zone».", "الخطوة 2 — قراءة المعايير: جدول FITNESSGRAM وفهم «منطقة اللياقة الصحية».", "Шаг 2 — Разбор нормативов: таблица FITNESSGRAM и понятие «зона здоровой физической подготовленности».", "Paso 2 — Lectura de baremos: la tabla FITNESSGRAM y qué es la «Zona de Condición Física Saludable»."],
+"שלב 2 — קריאת התוצאות: מה אומרת הערכת ה-VO₂max ומה היא לא אומרת.":["Step 2 — Reading the results: what the VO₂max estimate tells us and what it does not.", "الخطوة 2 — قراءة النتائج: ما الذي يخبرنا به تقدير VO₂max وما الذي لا يخبرنا به.", "Шаг 2 — Разбор результатов: что говорит оценка VO₂max и чего она не говорит.", "Paso 2 — Lectura de resultados: qué dice la estimación del VO₂max y qué no dice."],
 "שלב 3 — ניסוח יעד: כל תלמיד כותב יעד אישי ויעד קבוצתי לכיתה.":["Step 3 — Setting goals: each student writes a personal goal and a group goal for the class.", "الخطوة 3 — صياغة الأهداف: يكتب كل طالب هدفًا شخصيًا وهدفًا جماعيًا للصف.", "Шаг 3 — Постановка целей: каждый ученик пишет личную цель и общую цель для класса.", "Paso 3 — Formular objetivos: cada alumno escribe un objetivo personal y otro común para el grupo."],
 "אימון במקום + ידע":["On-the-spot workout + knowledge", "تدريب في المكان + معرفة", "Тренировка на месте + знания", "Entrenamiento en el sitio + conocimiento"],
 "שלב 1 — 20 דק׳ אימון גוף מלא במקום: סבבי כוח וקרדיו קלים ליד השולחן.":["Step 1 — 20 min full-body workout on the spot: light strength and cardio rounds next to the desk.", "الخطوة 1 — 20 د تدريب لكامل الجسم في المكان: جولات خفيفة من القوة والكارديو بجانب الطاولة.", "Шаг 1 — 20 мин тренировки на всё тело на месте: лёгкие силовые и кардиораунды у парты.", "Paso 1 — 20 min de entrenamiento de cuerpo completo en el sitio: rondas suaves de fuerza y cardio junto al pupitre."],
@@ -14551,7 +14611,24 @@ en:{
   "bt.heat":"Heat roster", "bt.loadCls":"👥 Load class", "bt.clearCls":"✕ Clear",
   "bt.board":"Results", "bt.byOrder":"By order", "bt.byDist":"By distance",
   "bt.refTable":"📋 Full stage and distance table",
-  "bt.normTable":"📚 VO₂max norms table (FITNESSGRAM®)",
+  "bt.normTable":"📚 School reference thresholds (VO₂max)",
+  "bt.refsEst":"(estimate)",
+  "bt.refsEstNote":"VO₂max is an estimate from the Léger et al. (1988) shuttle-run equation, not a measurement.",
+  "bt.refsUsing":"Category based on the reference thresholds entered by the school — age {0}, {1}.",
+  "bt.refsNone":"No reference thresholds entered for age {0}, {1} — no category is shown.",
+  "bt.refsAge":"Age",
+  "bt.refsLower":"Lower threshold",
+  "bt.refsUpper":"Upper threshold",
+  "bt.refsIntro":"The app has no built-in standards table. You can enter your school's reference thresholds here — VO₂max in ml·kg⁻¹·min⁻¹, per age and sex: a lower and an upper threshold. The values come from the school or the teacher. Without thresholds only the VO₂max estimate is shown, with no category.",
+  "bt.refsSave":"💾 Save thresholds",
+  "bt.refsClear":"🗑 Clear all thresholds",
+  "bt.refsConv":"The +{0} offset for the top band is an app convention, not a published standard. Ages below 10 use the age-10 row. Allowed range: {1}–{2}.",
+  "bt.refsErrMissing":"Fill in both the lower and the upper threshold (or leave both empty).",
+  "bt.refsErrRange":"Values must be between {1} and {2}.",
+  "bt.refsErrOrder":"The lower threshold must be below the upper threshold.",
+  "bt.refsNotSaved":"Thresholds not saved — fix the highlighted rows",
+  "bt.refsSaved":"✓ Reference thresholds saved",
+  "bt.refsCleared":"Reference thresholds cleared",
 
   /* --- פוטו־פיניש --- */
   "pf.tStrip":"🎞 Finish image", "pf.tRes":"🏁 Results",
@@ -14742,7 +14819,7 @@ en:{
   "info.games.w":"Games for free time and the end of a lesson — with an objective, variations and safety points.",
   "info.games.l":"<li>Search by name, equipment or objective.</li><li>Any game can go straight into a lesson plan.</li>",
   "info.beep.s":"🎵 Beep test",
-  "info.beep.w":"Runs the beep test with audio-clock accuracy, calculates VO₂max and compares it with FITNESSGRAM norms.",
+  "info.beep.w":"Runs the beep test with audio-clock accuracy and estimates VO₂max with the Léger (1988) equation.",
   "info.beep.l":"<li><b>Load class</b> pulls in the roster you already entered — no retyping names.</li><li><b>Record drop-out</b> tap the student the moment they stop, and their stage is recorded.</li><li><b>🏅 Save to class</b> the result goes into the fitness tests, the student card and the fitness index.</li>",
   "info.photo.s":"📷 Photo-finish",
   "info.photo.w":"Times races with the phone camera and shows in the image who crossed first.",
@@ -14770,7 +14847,7 @@ en:{
   "ab.privT":"🔒 Privacy",
   "ab.priv":"Student data — rosters, attendance, grades and measurements — is stored on this device (localStorage and IndexedDB). <b>The app has no user accounts, and student data is not sent to the operator.</b> What does leave the device: (1) on every load — the site is served by Netlify, which keeps standard server logs (IP address, browser details, the requested URL); (2) your contact details — only if you choose to give them — to PE Ultimate's dedicated form with the app's operator (Netlify Forms); (3) only if you set it up: records sync to your own Google Sheet (student name, event, result, status) and an encrypted backup to your own Google Drive; (4) external links (YouTube, sources, a video-upload form) open only when you tap them. CSV export and file backup are always your own action. Clearing the site's data in the browser deletes everything on the device — that's why there's a backup.",
   "ab.srcT":"📚 Professional sources",
-  "ab.src":"Léger protocol (beep test) · FITNESSGRAM® norms by The Cooper Institute · «PE badge — standards for assessing student achievement», Israeli Ministry of Education, Pedagogical Secretariat · the physical education curriculum. School norms are the teacher's data and are stored on the device. The app is not affiliated with or endorsed by The Cooper Institute; norms are reference values for guidance only.",
+  "ab.src":"Léger protocol and VO₂max equation (beep test; Léger, Mercier, Gadoury & Lambert, J Sports Sci 1988) · «PE badge — standards for assessing student achievement», Israeli Ministry of Education, Pedagogical Secretariat · the physical education curriculum. School norms and reference thresholds are the teacher's data and are stored on the device; the app ships no third-party fitness standards.",
   "ab.builtT":"🛠 Built with",
   "ab.built":"JavaScript, HTML and CSS only — no external libraries and no build step in the browser, so the app opens fast and works in the field without a network. Developed together with Claude Code.",
   "ab.warnT":"⚠️ Disclaimer",
@@ -15531,7 +15608,24 @@ ar:{
   "bt.byOrder":"حسب الترتيب",
   "bt.byDist":"حسب المسافة",
   "bt.refTable":"📋 جدول المراحل والمسافات الكامل",
-  "bt.normTable":"📚 جدول معايير VO₂max (FITNESSGRAM®)",
+  "bt.normTable":"📚 عتبات مرجعية للمدرسة (VO₂max)",
+  "bt.refsEst":"(تقدير)",
+  "bt.refsEstNote":"VO₂max تقدير وفق معادلة اختبار الجري المكوكي لـ Léger وزملائه (1988)، وليس قياسًا.",
+  "bt.refsUsing":"الفئة حسب العتبات المرجعية التي أدخلتها المدرسة — العمر {0}، {1}.",
+  "bt.refsNone":"لم تُدخل عتبات مرجعية للعمر {0}، {1} — لا تُعرض فئة.",
+  "bt.refsAge":"العمر",
+  "bt.refsLower":"العتبة الدنيا",
+  "bt.refsUpper":"العتبة العليا",
+  "bt.refsIntro":"لا يتضمّن التطبيق جدول معايير مدمجًا. يمكنك إدخال العتبات المرجعية لمدرستك هنا — VO₂max بوحدة ml·kg⁻¹·min⁻¹، لكل عمر وجنس: عتبة دنيا وعتبة عليا. القيم مصدرها المدرسة أو المعلّم. بدون عتبات يُعرض تقدير VO₂max فقط، دون فئة.",
+  "bt.refsSave":"💾 حفظ العتبات",
+  "bt.refsClear":"🗑 مسح كل العتبات",
+  "bt.refsConv":"الإضافة +{0} للفئة العليا اصطلاح في التطبيق وليست معيارًا منشورًا. الأعمار دون 10 تستخدم صف العمر 10. النطاق المسموح: {1}–{2}.",
+  "bt.refsErrMissing":"أدخل العتبة الدنيا والعليا معًا (أو اترك كلتيهما فارغتين).",
+  "bt.refsErrRange":"يجب أن تكون القيم بين {1} و{2}.",
+  "bt.refsErrOrder":"يجب أن تكون العتبة الدنيا أقل من العتبة العليا.",
+  "bt.refsNotSaved":"لم تُحفظ العتبات — صحّح الصفوف المحدّدة",
+  "bt.refsSaved":"✓ حُفظت العتبات المرجعية",
+  "bt.refsCleared":"مُسحت العتبات المرجعية",
   "pf.sens":"حساسية الكشف ·",
   "pf.slit":"عرض الشقّ ·",
   "pf.minT":"أدنى فاصل (ث)",
@@ -15631,7 +15725,7 @@ ar:{
   "info.games.w":"ألعاب لأوقات الفراغ ولنهاية الدرس — مع هدف وتنويعات ونقاط سلامة.",
   "info.games.l":"<li>ابحث بالاسم أو الأدوات أو الهدف.</li><li>يمكن نقل أي لعبة مباشرة إلى خطة درس.</li>",
   "info.beep.s":"🎵 اختبار البيب",
-  "info.beep.w":"يشغّل اختبار البيب بدقّة ساعة الصوت، ويحسب VO₂max ويقارنه بمعايير FITNESSGRAM.",
+  "info.beep.w":"يشغّل اختبار البيب بدقّة ساعة الصوت، ويقدّر VO₂max بمعادلة Léger (1988).",
   "info.beep.l":"<li><b>تحميل صف</b> يجلب القائمة التي أدخلتها مسبقًا — بلا إعادة كتابة الأسماء.</li><li><b>تسجيل انسحاب</b> اضغط على الطالب لحظة توقّفه، فتُسجَّل مرحلته.</li><li><b>🏅 حفظ للصف</b> تدخل النتيجة إلى اختبارات اللياقة وبطاقة الطالب ومؤشّر اللياقة.</li>",
   "info.photo.s":"📷 تصوير خط النهاية",
   "info.photo.w":"يقيس أزمنة الجري بكاميرا الهاتف، ويُظهر في الصورة من عبر أولًا.",
@@ -15659,7 +15753,7 @@ ar:{
   "ab.privT":"🔒 الخصوصية",
   "ab.priv":"بيانات الطلاب — القوائم والحضور والعلامات والقياسات — محفوظة على هذا الجهاز (localStorage وIndexedDB). <b>لا توجد في التطبيق حسابات مستخدمين، ولا تُرسل بيانات الطلاب إلى المشغّل.</b> ما يخرج فعلًا من الجهاز: (1) عند كل تحميل — يُقدَّم الموقع من Netlify، التي تحتفظ بسجلات خادم عادية (عنوان IP، بيانات المتصفح، العنوان المطلوب)؛ (2) بيانات التواصل الخاصة بك — فقط إن اخترت تقديمها — إلى النموذج المخصّص لـ PE Ultimate لدى مشغّل التطبيق (Netlify Forms)؛ (3) فقط إن أعددت ذلك: مزامنة الأرقام القياسية مع Google Sheet الخاص بك (اسم الطالب، الفعالية، النتيجة، الحالة) ونسخة احتياطية مشفّرة إلى Google Drive الخاص بك؛ (4) الروابط الخارجية (YouTube، المصادر، نموذج رفع الفيديو) تُفتح فقط عند النقر. تصدير CSV والنسخ الاحتياطي إلى ملف دائمًا بمبادرة منك. مسح بيانات الموقع في المتصفح يحذف كل شيء من الجهاز — ولهذا توجد النسخة الاحتياطية.",
   "ab.srcT":"📚 مصادر مهنية",
-  "ab.src":"بروتوكول Léger (اختبار البيب) · معايير FITNESSGRAM® من Cooper Institute · «شارة التربية البدنية — معايير تقييم تحصيل الطلاب»، وزارة التربية والتعليم الإسرائيلية، السكرتارية التربوية · منهاج التربية البدنية. المعايير المدرسية بيانات المعلّم وتُحفظ على الجهاز. التطبيق غير تابع لـ Cooper Institute ولا معتمد منه؛ المعايير قيم مرجعية للإرشاد فقط.",
+  "ab.src":"بروتوكول Léger ومعادلة VO₂max (اختبار البيب؛ Léger وMercier وGadoury وLambert، J Sports Sci 1988) · «شارة التربية البدنية — معايير تقييم تحصيل الطلاب»، وزارة التربية والتعليم الإسرائيلية، السكرتارية التربوية · منهاج التربية البدنية. المعايير والعتبات المرجعية المدرسية بيانات المعلّم وتُحفظ على الجهاز؛ لا يتضمّن التطبيق معايير لياقة لجهات خارجية.",
   "ab.builtT":"🛠 بُني باستخدام",
   "ab.built":"JavaScript وHTML وCSS فقط — بلا مكتبات خارجية وبلا مرحلة بناء في المتصفح، ليفتح التطبيق بسرعة ويعمل في الميدان بلا شبكة. طُوِّر بالتعاون مع Claude Code.",
   "ab.warnT":"⚠️ إخلاء مسؤولية",
@@ -16416,7 +16510,24 @@ ru:{
   "bt.warn":"⚠️ Протокол отличается от стандартного (20 м, старт ≥ 8.0 км/ч) — значения VO₂max показаны только как оценка.",
   "bt.keys":"Клавиши: Пробел = старт/пауза · Enter = запись",
   "bt.refTable":"📋 Полная таблица ступеней и дистанций",
-  "bt.normTable":"📚 Таблица норм VO₂max (FITNESSGRAM®)",
+  "bt.normTable":"📚 Школьные референсные пороги (VO₂max)",
+  "bt.refsEst":"(оценка)",
+  "bt.refsEstNote":"VO₂max — оценка по уравнению челночного бега Léger и соавт. (1988), а не измерение.",
+  "bt.refsUsing":"Категория по референсным порогам, введённым школой — возраст {0}, {1}.",
+  "bt.refsNone":"Для возраста {0}, {1} пороги не введены — категория не показывается.",
+  "bt.refsAge":"Возраст",
+  "bt.refsLower":"Нижний порог",
+  "bt.refsUpper":"Верхний порог",
+  "bt.refsIntro":"В приложении нет встроенной таблицы стандартов. Здесь можно ввести референсные пороги вашей школы — VO₂max в ml·kg⁻¹·min⁻¹, по возрасту и полу: нижний и верхний порог. Значения задаёт школа или учитель. Без порогов показывается только оценка VO₂max, без категории.",
+  "bt.refsSave":"💾 Сохранить пороги",
+  "bt.refsClear":"🗑 Очистить все пороги",
+  "bt.refsConv":"Надбавка +{0} для верхней категории — соглашение приложения, а не опубликованный стандарт. Для возраста младше 10 используется строка 10 лет. Допустимый диапазон: {1}–{2}.",
+  "bt.refsErrMissing":"Заполните и нижний, и верхний порог (или оставьте оба пустыми).",
+  "bt.refsErrRange":"Значения должны быть от {1} до {2}.",
+  "bt.refsErrOrder":"Нижний порог должен быть меньше верхнего.",
+  "bt.refsNotSaved":"Пороги не сохранены — исправьте отмеченные строки",
+  "bt.refsSaved":"✓ Референсные пороги сохранены",
+  "bt.refsCleared":"Референсные пороги очищены",
   "pf.slit":"Ширина щели ·",
   "pf.minT":"Мин. интервал (с)",
   "pf.gunDist":"Расстояние микрофона от стартёра (м)",
@@ -16513,7 +16624,7 @@ ru:{
   "info.games.w":"Игры для перемен и конца урока — с целью, вариациями и правилами безопасности.",
   "info.games.l":"<li>Поиск по названию, инвентарю или цели.</li><li>Любую игру можно сразу перенести в план урока.</li>",
   "info.beep.s":"🎵 Бип-тест",
-  "info.beep.w":"Проводит бип-тест с точностью аудиочасов, рассчитывает VO₂max и сравнивает с нормами FITNESSGRAM.",
+  "info.beep.w":"Проводит бип-тест с точностью аудиочасов и оценивает VO₂max по уравнению Léger (1988).",
   "info.beep.l":"<li><b>Загрузить класс</b> подтягивает уже введённый список — без повторного набора имён.</li><li><b>Записать сход</b> нажмите на ученика в момент остановки, и его ступень будет записана.</li><li><b>🏅 Сохранить для класса</b> результат попадает в тесты физподготовки, карточку ученика и индекс физподготовки.</li>",
   "info.photo.s":"📷 Фотофиниш",
   "info.photo.w":"Измеряет время забега камерой телефона и показывает на снимке, кто пересёк линию первым.",
@@ -16541,7 +16652,7 @@ ru:{
   "ab.privT":"🔒 Конфиденциальность",
   "ab.priv":"Данные учеников — списки, посещаемость, оценки и измерения — хранятся на этом устройстве (localStorage и IndexedDB). <b>В приложении нет учётных записей, и данные учеников не передаются оператору.</b> Что всё же покидает устройство: (1) при каждой загрузке — сайт отдаётся с Netlify, где ведутся обычные журналы сервера (IP-адрес, данные браузера, запрошенный адрес); (2) ваши контактные данные — только если вы решили их оставить — в отдельную форму PE Ultimate у оператора приложения (Netlify Forms); (3) только если вы это настроили: синхронизация рекордов в вашу Google-таблицу (имя ученика, дисциплина, результат, статус) и зашифрованная копия на ваш Google Диск; (4) внешние ссылки (YouTube, источники, форма загрузки видео) открываются только по нажатию. Экспорт CSV и копия в файл — всегда ваше собственное действие. Очистка данных сайта в браузере удаляет всё на устройстве — поэтому есть резервная копия.",
   "ab.srcT":"📚 Профессиональные источники",
-  "ab.src":"Протокол Léger (бип-тест) · нормы FITNESSGRAM® от Cooper Institute · «Значок по физкультуре — стандарты оценки достижений учащихся», Министерство образования Израиля, Педагогический секретариат · учебная программа по физической культуре. Школьные нормы — данные учителя и хранятся на устройстве. Приложение не связано с Cooper Institute и не одобрено им; нормы — справочные значения только для ориентира.",
+  "ab.src":"Протокол Léger и уравнение VO₂max (бип-тест; Léger, Mercier, Gadoury и Lambert, J Sports Sci 1988) · «Значок по физкультуре — стандарты оценки достижений учащихся», Министерство образования Израиля, Педагогический секретариат · учебная программа по физической культуре. Школьные нормы и референсные пороги — данные учителя и хранятся на устройстве; приложение не содержит сторонних стандартов физической подготовленности.",
   "ab.builtT":"🛠 Сделано с помощью",
   "ab.built":"Только JavaScript, HTML и CSS — без внешних библиотек и без шага сборки в браузере, чтобы приложение быстро открывалось и работало в поле без сети. Разработано совместно с Claude Code.",
   "ab.warnT":"⚠️ Ограничение ответственности",
@@ -17220,7 +17331,24 @@ es:{
   "bt.byOrder":"Por orden",
   "bt.byDist":"Por distancia",
   "bt.refTable":"📋 Tabla completa de niveles y distancias",
-  "bt.normTable":"📚 Tabla de baremos de VO₂max (FITNESSGRAM®)",
+  "bt.normTable":"📚 Umbrales de referencia del centro (VO₂max)",
+  "bt.refsEst":"(estimación)",
+  "bt.refsEstNote":"El VO₂max es una estimación según la ecuación de carrera de ida y vuelta de Léger et al. (1988), no una medición.",
+  "bt.refsUsing":"Categoría según los umbrales de referencia introducidos por el centro — edad {0}, {1}.",
+  "bt.refsNone":"No hay umbrales de referencia para la edad {0}, {1}: no se muestra categoría.",
+  "bt.refsAge":"Edad",
+  "bt.refsLower":"Umbral inferior",
+  "bt.refsUpper":"Umbral superior",
+  "bt.refsIntro":"La app no incluye una tabla de estándares integrada. Aquí puedes introducir los umbrales de referencia de tu centro — VO₂max en ml·kg⁻¹·min⁻¹, por edad y sexo: un umbral inferior y uno superior. Los valores los aporta el centro o el docente. Sin umbrales solo se muestra la estimación de VO₂max, sin categoría.",
+  "bt.refsSave":"💾 Guardar umbrales",
+  "bt.refsClear":"🗑 Borrar todos los umbrales",
+  "bt.refsConv":"El +{0} de la banda superior es una convención de la app, no un estándar publicado. Las edades menores de 10 usan la fila de 10 años. Rango permitido: {1}–{2}.",
+  "bt.refsErrMissing":"Rellena el umbral inferior y el superior (o deja ambos vacíos).",
+  "bt.refsErrRange":"Los valores deben estar entre {1} y {2}.",
+  "bt.refsErrOrder":"El umbral inferior debe ser menor que el superior.",
+  "bt.refsNotSaved":"Umbrales no guardados: corrige las filas marcadas",
+  "bt.refsSaved":"✓ Umbrales de referencia guardados",
+  "bt.refsCleared":"Umbrales de referencia borrados",
   "pf.tStrip":"🎞 Imagen de llegada",
   "pf.tRes":"🏁 Resultados",
   "pf.tLaps":"🔄 Vueltas",
@@ -17433,7 +17561,7 @@ es:{
   "info.games.w":"Juegos para el recreo y el final de la sesión — con objetivo, variantes y pautas de seguridad.",
   "info.games.l":"<li>Busca por nombre, material u objetivo.</li><li>Cualquier juego puede pasar directamente a un plan de sesión.</li>",
   "info.beep.s":"🎵 Test de la bip",
-  "info.beep.w":"Ejecuta el test de la bip con la precisión de un reloj de audio, calcula el VO₂max y lo compara con los baremos FITNESSGRAM.",
+  "info.beep.w":"Ejecuta el test de la bip con la precisión de un reloj de audio y estima el VO₂max con la ecuación de Léger (1988).",
   "info.beep.l":"<li><b>Cargar grupo</b> trae la lista que ya introdujiste — sin volver a teclear nombres.</li><li><b>Registrar abandono</b> toca al alumno en cuanto se detiene, y se registra su nivel.</li><li><b>🏅 Guardar para la clase</b> el resultado entra en las pruebas de condición física, la ficha del alumno y el índice de condición física.</li>",
   "info.photo.s":"📷 Foto-finish",
   "info.photo.w":"Cronometra carreras con la cámara del móvil y muestra en la imagen quién cruzó primero.",
@@ -17461,7 +17589,7 @@ es:{
   "ab.privT":"🔒 Privacidad",
   "ab.priv":"Los datos del alumnado — listas, asistencia, notas y mediciones — se guardan en este dispositivo (localStorage e IndexedDB). <b>La app no tiene cuentas de usuario y los datos del alumnado no se envían al operador.</b> Lo que sí sale del dispositivo: (1) en cada carga, el sitio se sirve desde Netlify, que guarda registros de servidor habituales (dirección IP, datos del navegador, la dirección solicitada); (2) tus datos de contacto, solo si decides darlos, al formulario propio de PE Ultimate del operador de la app (Netlify Forms); (3) solo si lo configuras: sincronización de récords con tu propia hoja de Google (nombre del alumno, prueba, resultado, estado) y una copia cifrada en tu propio Google Drive; (4) los enlaces externos (YouTube, fuentes, un formulario de subida de vídeo) solo se abren al pulsarlos. La exportación CSV y la copia en archivo son siempre una acción tuya. Borrar los datos del sitio en el navegador elimina todo lo del dispositivo; por eso existe la copia de seguridad.",
   "ab.srcT":"📚 Fuentes profesionales",
-  "ab.src":"Protocolo de Léger (test de la bip) · baremos FITNESSGRAM® de The Cooper Institute · «Insignia de Educación Física — estándares para evaluar el rendimiento del alumnado», Ministerio de Educación de Israel, Secretaría Pedagógica · el currículo de Educación Física. Los baremos del centro son datos del docente y se guardan en el dispositivo. La app no está afiliada a The Cooper Institute ni respaldada por ella; los baremos son valores de referencia solo orientativos.",
+  "ab.src":"Protocolo y ecuación de VO₂max de Léger (test de la bip; Léger, Mercier, Gadoury y Lambert, J Sports Sci 1988) · «Insignia de Educación Física — estándares para evaluar el rendimiento del alumnado», Ministerio de Educación de Israel, Secretaría Pedagógica · el currículo de Educación Física. Los baremos y umbrales de referencia del centro son datos del docente y se guardan en el dispositivo; la app no incluye estándares de condición física de terceros.",
   "ab.builtT":"🛠 Hecho con",
   "ab.built":"Solo JavaScript, HTML y CSS — sin bibliotecas externas ni paso de compilación en el navegador, para que la aplicación abra rápido y funcione en la pista sin red. Desarrollada junto con Claude Code.",
   "ab.warnT":"⚠️ Aviso",
@@ -19756,7 +19884,7 @@ const BK_PREFIX=BRAND.ns;
 const BK_LABELS={"col.list":"אוספים אישיים","ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
-  "rec.pass":"קוד המורה","gm.mine":"הווריאציות שלי למשחקים","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
+  "rec.pass":"קוד המורה","gm.mine":"הווריאציות שלי למשחקים","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","bt.refs":"ספי ייחוס של בית הספר","pf.archive":"ארכיון מירוצים",
   "pf.names":"שמות המסלולים","settings":"הגדרות"};
 /* מפתחות שהם רישום מקומי על המכשיר עצמו ולא נתונים של המורה — אין
    טעם לשאת אותם בקובץ ולא להציג אותם בהשוואה. */
@@ -20621,21 +20749,12 @@ const BT=(function(){
     const fold=$("#bt-setupFold"); if(fold&&!isStandard())fold.open=true;
   }
 
-  /* ----- VO2 & FITNESSGRAM ----- */
-  function vo2max(speed,age){ return 31.025+3.238*speed-3.248*age+0.1536*age*speed; }
-  const HFZ={
-    boys:{10:[37.3,40.2],11:[37.3,40.2],12:[37.6,40.3],13:[38.6,41.1],14:[39.6,42.5],15:[40.6,43.6],16:[41.0,44.1],17:[41.2,44.2],18:[41.2,44.3]},
-    girls:{10:[37.3,40.2],11:[37.3,40.2],12:[37.0,40.1],13:[36.6,39.7],14:[36.3,39.4],15:[36.0,39.1],16:[35.8,38.9],17:[35.7,38.8],18:[35.3,38.6]}
-  };
-  const EXC=6.0;
-  function stdFor(age,sex){ const a=Math.max(10,Math.min(18,Math.round(age))); return HFZ[sex][a]; }
-  function classify(v,age,sex){
-    const s=stdFor(age,sex),R=s[0],H=s[1];
-    if(v>=H+EXC)return{g:"מצוין",c:"#19c3ff"};
-    if(v>=H)return{g:"אזור בריא",c:"#c8ff2e"};
-    if(v>R)return{g:"טעון שיפור",c:"#ffd23f"};
-    return{g:"סיכון בריאותי",c:"#ff4d5e"};
-  }
+  /* ----- VO2 estimate & optional school reference thresholds (#58) -----
+     No built-in standard table: categories exist only where the teacher
+     entered thresholds (DATA.refZone); otherwise only the estimate shows. */
+  function vo2max(speed,age){ return DATA.vo2max(speed,age); }
+  const refs=()=>DATA.normRefs(LS.get(DATA.REF_KEY,null));
+  function classify(v,age,sex){ return DATA.refZone(v,age,sex,refs()); }
 
   /* ----- audio (envelope tones, scheduled on audio clock) ----- */
   function tone(at,freq,dur,vol){
@@ -20802,10 +20921,11 @@ const BT=(function(){
     if(sortBy==="dist")view.sort((a,b)=>b.r.dist-a.r.dist||a.r.time-b.r.time);
     const ranked=[...results].sort((a,b)=>b.dist-a.dist||a.time-b.time);
     const rankOf=new Map(); ranked.forEach((r,i)=>rankOf.set(r.id,i+1));
+    const rf=refs();
     $("#bt-tbody").innerHTML=view.map(({r})=>{
       const rk=rankOf.get(r.id), medal=rk===1?"🥇":rk===2?"🥈":rk===3?"🥉":rk;
       const v=vo2max(r.speed,classAge), ok=r.dist>0&&v>0;
-      const cat=ok?classify(v,classAge,classSex):null;
+      const cat=ok?DATA.refZone(v,classAge,classSex,rf):null;
       return `<tr><td class="rk">${medal}</td>
         <td><input class="nm" data-id="${r.id}" value="${esc(r.name)}" style="background:none;border:none;border-bottom:1px dashed var(--line);color:var(--ink);font-family:'Rubik';font-size:13.5px;width:110px"></td>
         <td class="mono">${r.level}·${r.sh}</td><td class="mono">${r.dist.toLocaleString(H_LOC())} מ׳</td><td class="mono">${fmtMS(r.time)}</td>
@@ -20819,6 +20939,18 @@ const BT=(function(){
       $("#bt-regBtn").disabled=(running||elapsedOffset>0)?results.length>=30:true;
     }));
     $("#bt-undoBtn").disabled=!results.length;
+    paintEstNote(rf);
+  }
+  /* The line under the board says what the numbers are: always an estimate,
+     and a category only where the school entered thresholds for this age/sex. */
+  function paintEstNote(rf){
+    const el=$("#bt-estNote"); if(!el)return;
+    const sexW=trUI(classSex==="girls"?"בנות":"בנים");
+    const has=!!DATA.refPairFor(classAge,classSex,rf||refs());
+    el.textContent=t("bt.refsEstNote","VO₂max הוא הערכה לפי משוואת ריצת המעבורת של Léger ואחרים (1988), לא מדידה.")+" "+
+      (has?t("bt.refsUsing","הקטגוריה לפי ספי הייחוס שהזין בית הספר — גיל {0}, {1}.")
+          :t("bt.refsNone","לא הוזנו ספי ייחוס לגיל {0}, {1} — לא מוצגת קטגוריה."))
+        .replace("{0}",classAge).replace("{1}",sexW);
   }
 
   /* ----- reference & norms (פורמט המקור) ----- */
@@ -20837,16 +20969,76 @@ const BT=(function(){
     if(row){ row.classList.add("ref-cur");
       const det=$("#bt-refFold"); if(det&&det.open){const w=row.closest(".tblwrap")||row.parentElement;if(w)w.scrollTop=Math.max(0,row.offsetTop-w.clientHeight/2);} }
   }
+  /* School reference thresholds editor (#58). Replaces the old built-in
+     norms table: empty by default, values come from the school/teacher. */
   function buildNorms(){
+    const host=$("#bt-normWrap"); if(!host)return;
+    const rf=refs(), B=DATA.REF_BANDS, X=DATA.REF_EXC.toFixed(1);
+    const fmt=x=>x==null?"":Number(x).toFixed(1);
     function tbl(sex){
-      let h='<table class="tbl"><thead><tr><th>גיל</th><th><span class="dot" style="background:#ff4d5e"></span> סיכון בריאותי</th><th><span class="dot" style="background:#ffd23f"></span> טעון שיפור</th><th><span class="dot" style="background:#c8ff2e"></span> אזור בריא</th><th><span class="dot" style="background:#19c3ff"></span> מצוין</th></tr></thead><tbody>';
-      for(let a=10;a<=17;a++){ const s2=HFZ[sex][a],R=s2[0],H=s2[1];
-        h+=`<tr><td class="rk">${a}</td><td class="mono">≤ ${R.toFixed(1)}</td><td class="mono">${(R+0.1).toFixed(1)}–${(H-0.1).toFixed(1)}</td><td class="mono">${H.toFixed(1)}–${(H+EXC-0.1).toFixed(1)}</td><td class="mono">≥ ${(H+EXC).toFixed(1)}</td></tr>`; }
+      let h='<table class="tbl bt-refTbl" data-sex="'+sex+'"><thead><tr><th>'+esc(t("bt.refsAge","גיל"))+"</th><th>"+
+        esc(t("bt.refsLower","סף תחתון"))+"</th><th>"+esc(t("bt.refsUpper","סף עליון"))+"</th></tr></thead><tbody>";
+      for(let a=DATA.REF_AGE_MIN;a<=DATA.REF_AGE_MAX;a++){ const p=rf[sex][a]||[null,null];
+        const inp=(i,v)=>'<input type="number" inputmode="decimal" step="0.1" min="'+DATA.REF_MIN+'" max="'+DATA.REF_MAX+
+          '" class="bt-refIn" data-sex="'+sex+'" data-age="'+a+'" data-i="'+i+'" value="'+fmt(v)+'" aria-label="'+
+          esc(trUI(sex==="girls"?"בנות":"בנים")+" "+a+" · "+(i?t("bt.refsUpper","סף עליון"):t("bt.refsLower","סף תחתון")))+'" style="width:84px;background:var(--inset);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:7px 9px;font-family:inherit;font-size:14px">';
+        h+='<tr><td class="rk">'+a+"</td><td>"+inp(0,p[0])+"</td><td>"+inp(1,p[1])+"</td></tr>"; }
       return h+"</tbody></table>";
     }
-    $("#bt-normWrap").innerHTML='<h2 style="font-size:14px"><span class="dot"></span> בנים</h2>'+tbl("boys")+
-      '<h2 style="font-size:14px;margin-top:13px"><span class="dot"></span> בנות</h2>'+tbl("girls")+
-      '<div class="hint" style="margin-top:8px">ערכים ב-VO₂max (ml·kg⁻¹·min⁻¹) · מבוסס FITNESSGRAM® (Cooper Institute) · "אזור בריא" = Healthy Fitness Zone, דרגת "מצוין" היא תוספת מעשית מעליו · גיל 9 מושווה לגיל 10.</div>';
+    const dot=c=>'<span class="dot" style="background:'+c+'"></span> ';
+    host.innerHTML='<div class="hint" id="bt-refsIntro" style="margin-bottom:8px">'+
+        esc(t("bt.refsIntro","האפליקציה אינה כוללת טבלת תקן מובנית. אפשר להזין כאן ספי ייחוס של בית הספר — VO₂max ב-ml·kg⁻¹·min⁻¹, לכל גיל ומין: סף תחתון וסף עליון. הערכים מגיעים מבית הספר או מהמורה. בלי ספים מוצגת רק הערכת ה-VO₂max, בלי קטגוריה."))+"</div>"+
+      '<h2 style="font-size:14px"><span class="dot"></span> '+esc(trUI("בנים"))+"</h2>"+tbl("boys")+
+      '<h2 style="font-size:14px;margin-top:13px"><span class="dot"></span> '+esc(trUI("בנות"))+"</h2>"+tbl("girls")+
+      '<div class="hint" id="bt-refsErr" role="alert" style="display:none;color:#ff6b81;margin-top:8px"></div>'+
+      '<div class="row" style="margin-top:10px"><button class="btn sm acc" id="bt-refsSave">'+esc(t("bt.refsSave","💾 שמור ספים"))+
+      '</button><button class="btn sm ghost" id="bt-refsClear">'+esc(t("bt.refsClear","🗑 נקה את כל הספים"))+"</button></div>"+
+      '<div class="hint" id="bt-refsBands" style="margin-top:8px">'+
+        dot(B.wellBelow.c)+esc(trUI(B.wellBelow.g))+" ≤ "+esc(t("bt.refsLower","סף תחתון"))+" · "+
+        dot(B.below.c)+esc(trUI(B.below.g))+" · "+
+        dot(B.meets.c)+esc(trUI(B.meets.g))+" ≥ "+esc(t("bt.refsUpper","סף עליון"))+" · "+
+        dot(B.wellAbove.c)+esc(trUI(B.wellAbove.g))+" ≥ "+esc(t("bt.refsUpper","סף עליון"))+" + "+X+"<br>"+
+        esc(t("bt.refsConv","התוספת {0} לדרגה העליונה היא מוסכמה של האפליקציה, לא תקן מפורסם. גיל מתחת ל-10 משתמש בשורת גיל 10. טווח מותר: {1}–{2}.")
+          .replace("{0}",X).replace("{1}",DATA.REF_MIN).replace("{2}",DATA.REF_MAX))+"</div>";
+    $("#bt-refsSave").addEventListener("click",saveRefs);
+    $("#bt-refsClear").addEventListener("click",clearRefs);
+  }
+  /* Reads the editor, validates every row and saves only when all rows are
+     valid (both empty = no threshold for that age). Nothing is half-saved. */
+  function saveRefs(){
+    const out={boys:{},girls:{}}; let bad=null;
+    $$("#bt-normWrap .bt-refIn").forEach(i=>{ i.style.outline=""; i.removeAttribute("aria-invalid"); });
+    ["boys","girls"].forEach(sex=>{
+      for(let a=DATA.REF_AGE_MIN;a<=DATA.REF_AGE_MAX;a++){
+        const q=i=>$('#bt-normWrap .bt-refIn[data-sex="'+sex+'"][data-age="'+a+'"][data-i="'+i+'"]');
+        const lo=q(0).value.trim(), hi=q(1).value.trim();
+        if(lo===""&&hi==="")continue;
+        const err=DATA.refPairError(lo,hi);
+        if(err){ [q(0),q(1)].forEach(i=>{ i.style.outline="2px solid #ff6b81"; i.setAttribute("aria-invalid","true"); }); if(!bad)bad={err,sex,a}; continue; }
+        out[sex][a]=[+lo,+hi];
+      }
+    });
+    const box=$("#bt-refsErr");
+    if(bad){
+      const msg={missing:t("bt.refsErrMissing","יש למלא גם סף תחתון וגם סף עליון (או להשאיר את שניהם ריקים)."),
+        range:t("bt.refsErrRange","הערכים חייבים להיות בין {1} ל-{2}."),
+        order:t("bt.refsErrOrder","הסף התחתון חייב להיות נמוך מהסף העליון.")}[bad.err]
+        .replace("{1}",DATA.REF_MIN).replace("{2}",DATA.REF_MAX);
+      box.textContent=trUI(bad.sex==="girls"?"בנות":"בנים")+" "+bad.a+": "+msg; box.style.display="block";
+      toast(t("bt.refsNotSaved","הספים לא נשמרו — יש לתקן את השורות המסומנות"));
+      return;
+    }
+    box.style.display="none";
+    const clean=DATA.normRefs(out);
+    if(DATA.refsEmpty(clean))LS.set(DATA.REF_KEY,null); else LS.set(DATA.REF_KEY,clean);
+    buildNorms(); renderResults();
+    toast(t("bt.refsSaved","✓ ספי הייחוס נשמרו"));
+  }
+  function clearRefs(){
+    const was=LS.get(DATA.REF_KEY,null);
+    if(DATA.refsEmpty(was)){ buildNorms(); return; }
+    LS.set(DATA.REF_KEY,null); buildNorms(); renderResults();
+    undo(t("bt.refsCleared","ספי הייחוס נוקו"),()=>{ LS.set(DATA.REF_KEY,was); buildNorms(); renderResults(); });
   }
 
   /* ----- wiring ----- */
@@ -20991,8 +21183,11 @@ const BT=(function(){
       if(!results.length){toast("אין רישומים");return;}
       const sexHe=trUI(classSex==="boys"?"בנים":"בנות");
       const rows=[["מס","שם","שלב","מקטע","מרחק (מ)","זמן (שנ)","מהירות (קמ\"ש)","VO2max","דרגה","מין","גיל","מרחק לכיוון (מ)"]];
+      /* The category column stays; it is empty when no school thresholds apply. */
+      const rf=refs();
       results.forEach((r,i)=>{ const v=vo2max(r.speed,classAge), ok=r.dist>0&&v>0;
-        rows.push([i+1,r.name,r.level,r.sh,r.dist,r.time.toFixed(1),r.speed.toFixed(1),ok?v.toFixed(1):"",ok?trUI(classify(v,classAge,classSex).g):"",sexHe,classAge,distance]); });
+        const cat=ok?DATA.refZone(v,classAge,classSex,rf):null;
+        rows.push([i+1,r.name,r.level,r.sh,r.dist,r.time.toFixed(1),r.speed.toFixed(1),ok?v.toFixed(1):"",cat?trUI(cat.g):"",sexHe,classAge,distance]); });
       /* שם הקובץ נשא תאריך ולא כלום, ולכן שלושה מקצים באותו יום ירדו
          כ-«(1)», «(2)» ו«(3)» בתיקיית ההורדות. */
       const clsPart=String(clsUI(heat.cls||"")).replace(/[\\/:*?"<>|]/g,"").trim();
@@ -21011,6 +21206,7 @@ const BT=(function(){
       if(e.code==="Space"){e.preventDefault();running?pause():start();}
       else if(e.code==="Enter"){e.preventDefault();if(!$("#bt-regBtn").disabled)registerDrop();}
     });
+    document.addEventListener("i18n:change",()=>{ buildNorms(); paintEstNote(); });
     buildSchedule(); buildNorms(); reset(); renderResults(); renderHeat(); renderLanes();
   }
   return {init,_test:{buildSchedule:()=>{buildSchedule();return beeps},vo2max,classify,setProto:(d,s2)=>{distance=d;startSpeed=s2}}};
@@ -24327,12 +24523,14 @@ const SOURCES=[
    url:"https://www.shapeamerica.org/MemberPortal/standards/default.aspx",
    tags:["סטנדרטים","מטרות"]},
 
-  {id:"fitgram", org:"Cooper Institute", flag:"📏", region:"std",
-   title:"FITNESSGRAM® — מבחני כושר ואזור בריאות (HFZ)",
-   desc:"סוללת מבחנים בריאותית: כושר אירובי, כוח שריר, סבולת שריר, גמישות והרכב גוף. הציון אינו השוואה לחברים אלא מול ״אזור הכושר הבריא״ לפי גיל ומין.",
-   use:"הבסיס לנורמות שמוצגות במודול הביפ טסט ובמעקב התלמידים.",
-   url:"https://www.cooperinstitute.org/youth/fitnessgram",
-   tags:["מבחני כושר","נורמות"]},
+  /* id kept as "fitgram" so lesson plans saved with cur:"fitgram" still
+     resolve; the entry itself is the published Léger 1988 method (#58). */
+  {id:"fitgram", org:"Léger et al. 1988", flag:"📏", region:"std",
+   title:"ריצת מעבורת 20 מ׳ — הערכת כושר אירובי (Léger ואחרים, 1988)",
+   desc:"Léger, Mercier, Gadoury ו-Lambert. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci 1988;6(2):93–101 (PubMed 3184250). מבחן מדורג: קצב הריצה עולה בכל שלב של כדקה, והמהירות בשלב האחרון יחד עם הגיל משמשת להערכת VO₂max.",
+   use:"הבסיס למשוואת הערכת ה-VO₂max במודול הביפ טסט. ספי ייחוס לקטגוריות, אם בכלל, מוזנים על ידי בית הספר או המורה.",
+   url:"https://pubmed.ncbi.nlm.nih.gov/3184250/",
+   tags:["מבחני כושר","ביפ טסט"]},
 
   {id:"nsca-youth", org:"NSCA", flag:"🏋️", region:"std",
    title:"אימוני התנגדות לילדים ובני נוער — נייר עמדה",
@@ -24467,7 +24665,7 @@ const PROGRAMS=[
    dose:"45 דקות מלאות.",
    blocks:[
      {t:"פתיחה (7 דק׳)",x:"תנועה ליד השולחן: ג׳אמפינג ג׳ק, ברכיים גבוהות, סיבובי כתפיים — 30/15 × 6."},
-     {t:"עיקרי (20 דק׳)",x:"אפשרות א׳: HIIT 40/20 במקום. אפשרות ב׳: משחקי חשיבה־תנועה מדף המשחקים. אפשרות ג׳: שיעור עיוני — קריאת נורמות FITNESSGRAM וניתוח תוצאות הכיתה."},
+     {t:"עיקרי (20 דק׳)",x:"אפשרות א׳: HIIT 40/20 במקום. אפשרות ב׳: משחקי חשיבה־תנועה מדף המשחקים. אפשרות ג׳: שיעור עיוני — הסבר הערכת ה-VO₂max וניתוח תוצאות הכיתה."},
      {t:"ידע (10 דק׳)",x:"נושא אחד מפינת התזונה או ממאגר הידע + דיון קצר. תלמידים מנסחים יעד אישי לשבוע."},
      {t:"סיום (8 דק׳)",x:"מתיחות בישיבה ועמידה, נשימות, סבב משוב."}
    ],
@@ -45677,8 +45875,8 @@ const TOPICS=[
    goals:["מדידת סבולת אירובית (VO₂max)","תיעוד למעקב שנתי","הבנת המשמעות הבריאותית של התוצאה"],
    eq:["האפליקציה + רמקול חזק","מסלול 20 מ׳","מים"],
    main:{mid:[{sub:"מבחן מלא",n:"מבחן מלא + רישום",need:["רמקול"],t:[5, 12, 3, 4, 2],d:["שלב 1 — חימום קצר: 5 דק׳ הליכה־ריצה קלה, בלי לעייף לפני המבחן.","שלב 2 — הרצת המבחן: מודול «ביפ טסט» באפליקציה, כריזה קולית פעילה.","שלב 3 — רישום נשירות: כל תלמיד שנושר נרשם מיד עם השלב והמרחק.","שלב 4 — התאוששות: מי שסיים עובר להליכת התאוששות ושתייה, לא יושב.","שלב 5 — שמירה למעקב: התוצאות נשמרות במודול «התלמידים שלי» להשוואה עתידית."]}],
-    high:[{sub:"מבחן מלא עם תפקידים",n:"מבחן מלא עם שופטי קו",need:["רמקול"],t:[4, 12, 4, 5, 2],d:["שלב 1 — חימום ותדריך: הסבר תפקיד שופטי הקו למי שיסיים מוקדם.","שלב 2 — הרצת המבחן: כמו בחטיבה, עם כריזה קולית.","שלב 3 — שופטי קו: תלמידים שסיימו מסייעים לוודא נגיעה בקו בזמן.","שלב 4 — קריאת נורמות: בסיום — הצגת טבלת FITNESSGRAM והשוואה אישית לשנה שעברה.","שלב 5 — יעד אישי: כל תלמיד רושם יעד למבחן הבא."]}]},
-   assess:["התוצאה עצמה מול אזור הכושר הבריא (HFZ)","מגמה מול המדידה הקודמת של אותו תלמיד"],
+    high:[{sub:"מבחן מלא עם תפקידים",n:"מבחן מלא עם שופטי קו",need:["רמקול"],t:[4, 12, 4, 5, 2],d:["שלב 1 — חימום ותדריך: הסבר תפקיד שופטי הקו למי שיסיים מוקדם.","שלב 2 — הרצת המבחן: כמו בחטיבה, עם כריזה קולית.","שלב 3 — שופטי קו: תלמידים שסיימו מסייעים לוודא נגיעה בקו בזמן.","שלב 4 — קריאת התוצאות: בסיום — הסבר הערכת ה-VO₂max והשוואה אישית לשנה שעברה.","שלב 5 — יעד אישי: כל תלמיד רושם יעד למבחן הבא."]}]},
+   assess:["התוצאה עצמה מול ספי הייחוס של בית הספר, אם הוגדרו","מגמה מול המדידה הקודמת של אותו תלמיד"],
    diff:{low:"יעד אישי במקום השוואה לנורמה; אפשרות לעצור בלי ציון שלילי.",
          high:"מטרה אישית מעל התוצאה הקודמת.",
          ex:"שופט קו או מפעיל מערכת."},
@@ -45730,7 +45928,7 @@ const TOPICS=[
    goals:["שמירה על פעילות גם בלי מגרש","ידע יישומי על כושר ובריאות","הרגלי תנועה בסביבה מוגבלת"],
    eq:["מרחב ליד השולחן","רמקול"],
    main:{mid:[{sub:"כושר במרחב מצומצם",n:"HIIT ליד השולחן",t:[3, 9, 8],d:["שלב 1 — הדגמה: כל תרגיל מבוצע במרחב אישי קטן ליד הכיסא.","שלב 2 — סבב 1 (30/15): ג׳אמפינג ג׳ק · ברכיים גבוהות · סקוואט · פלאנק · מטפס הרים · כיסא קיר.","שלב 3 — סבב 2: אותה רשימה, בדיקה שהעצימות נשמרת."]},{sub:"משחקי קשב ותנועה",n:"משחקי חשיבה־תנועה",need:["רמקול"],t:[7, 7, 7],d:["שלב 1 — שמעון אומר גרסת כושר (7 דק׳): פקודות תנועה שמופעלות רק אחרי «שמעון אומר».","שלב 2 — זיכרון בתנועה (7 דק׳): כרטיסיות זוגות והליכה/ריצה קצרה בין ההיפוכים.","שלב 3 — פריז בריקוד (7 דק׳): תנועה חופשית וקפיאה בעצירת המוזיקה."]}],
-    high:[{sub:"ניתוח נתונים",n:"ניתוח נתוני הכיתה",t:[8, 8, 6],d:["שלב 1 — הצגת נתונים: תוצאות הביפ של הכיתה (בלי שמות) על הלוח.","שלב 2 — קריאת נורמות: טבלת FITNESSGRAM והבנת «אזור הכושר הבריא».","שלב 3 — ניסוח יעד: כל תלמיד כותב יעד אישי ויעד קבוצתי לכיתה."]},{sub:"תוכנית אישית",n:"אימון במקום + ידע",t:[20, 5, 8],r:[[12, 22], [3, 7], [4, 12]],d:["שלב 1 — 20 דק׳ אימון גוף מלא במקום: סבבי כוח וקרדיו קלים ליד השולחן.","שלב 2 — עיון בהנחיות: קריאה קצרה מהנחיות ה-WHO.","שלב 3 — בניית תוכנית: כל תלמיד בונה תוכנית תנועה שבועית אישית."]}]},
+    high:[{sub:"ניתוח נתונים",n:"ניתוח נתוני הכיתה",t:[8, 8, 6],d:["שלב 1 — הצגת נתונים: תוצאות הביפ של הכיתה (בלי שמות) על הלוח.","שלב 2 — קריאת התוצאות: מה אומרת הערכת ה-VO₂max ומה היא לא אומרת.","שלב 3 — ניסוח יעד: כל תלמיד כותב יעד אישי ויעד קבוצתי לכיתה."]},{sub:"תוכנית אישית",n:"אימון במקום + ידע",t:[20, 5, 8],r:[[12, 22], [3, 7], [4, 12]],d:["שלב 1 — 20 דק׳ אימון גוף מלא במקום: סבבי כוח וקרדיו קלים ליד השולחן.","שלב 2 — עיון בהנחיות: קריאה קצרה מהנחיות ה-WHO.","שלב 3 — בניית תוכנית: כל תלמיד בונה תוכנית תנועה שבועית אישית."]}]},
    assess:["השתתפות בתנאים לא אידיאליים","איכות התוכנית האישית שנבנתה"],
    diff:{low:"גרסה בישיבה לכל תרגיל.",
          high:"תוספת זמן או קצב.",
@@ -48339,10 +48537,10 @@ const TESTS=[
    hint:"שני קווים במרחק 10 מ׳, ארבעה מעברים. נגיעה ביד בקו בכל היפוך — לא ״כמעט״."},
 
   /* ---------- סבולת ---------- */
-  {id:"cooper",em:"🫁", name:"מבחן קופר — 12 דקות", cat:"endur", kind:"value", dir:"high", unit:"מ׳", dur:720,
+  {id:"cooper",em:"🫁", name:"ריצת 12 דקות", cat:"endur", kind:"value", dir:"high", unit:"מ׳", dur:720,
    hint:"12 דקות ריצה רציפה, רושמים את המרחק. הפעל את הספירה לאחור, ובסוף הזן לכל תלמיד את המרחק."},
   {id:"beep", em:"🎵", name:"ביפ טסט (Léger)", cat:"endur", kind:"link", dir:"high", unit:"מ׳",
-   hint:"למבחן הביפ יש מודול ייעודי עם ביפים על שעון, VO₂max ונורמות FITNESSGRAM.", link:"beep"},
+   hint:"למבחן הביפ יש מודול ייעודי עם ביפים על שעון והערכת VO₂max.", link:"beep"},
   {id:"walk", em:"🚶", name:"הליכת מייל (Rockport)", cat:"endur", kind:"clock", dir:"low", unit:"שנ׳",
    hint:"1609 מ׳ בהליכה מהירה ככל האפשר — אלטרנטיבה לתלמיד שלא יכול לרוץ."},
 
@@ -50987,11 +51185,13 @@ function H_LOC(){ return (window.HM&&window.HM.loc)?window.HM.loc():"he-IL"; }
 function H_DEF(v,def){ return v===def&&window.I18N&&window.I18N.tr?window.I18N.tr(v):v; }
 /* מודולים חדשים: שיעור מלא (LESSON) · תלמידים (STU) · תזונה (NUT) · תוספות בית/נעילה */
 (function(){
-/* אזורי FITNESSGRAM ונוסחת Léger עברו ל-hm-data.js. הם מחשבים
-   מספר שמורה מציג לתלמיד כ«סיכון בריאותי» או «אזור בריא» — ולכן
-   הם חייבים להיות מכוסים בבדיקות, לא קבורים בתוך מודול DOM. */
-const HFZ=window.HMDATA.HFZ;
-const zoneOf=window.HMDATA.healthZone;
+/* The Léger VO2max estimate and the optional school reference thresholds
+   live in hm-data.js (covered by unit tests). There is no built-in standard
+   table (#58): zoneOf returns null unless the teacher entered thresholds for
+   that age/sex. Zone strings already stored on tests are historical and are
+   displayed as stored — never recomputed or rewritten. */
+const zoneOf=(v,age,sex)=>window.HMDATA.refZone(v,age,sex,
+  window.HMDATA.normRefs(window.HM&&window.HM.LS?window.HM.LS.get(window.HMDATA.REF_KEY,null):null));
 const vo2f=window.HMDATA.vo2max;
 const today=()=>new Date().toISOString().slice(0,10);
 const H=()=>window.HM;
@@ -51087,8 +51287,10 @@ window.STU=(function(){
     let view=list.filter(s=>window.HMDATA.searchMatch(s.name,q)&&inF(s,clsF));
     const withT=list.filter(s=>s.tests.length);
     const avg=withT.length?withT.reduce((a,s)=>a+(latest(s).vo2||0),0)/withT.length:0;
-    const below=withT.filter(s=>latest(s).zone==="סיכון בריאותי").length;
-    const falling=withT.filter(s=>trend(s)<0&&latest(s).zone!=="סיכון בריאותי").length;
+    /* Lowest band: the historical label or the current "well below reference" */
+    const low=z=>z==="סיכון בריאותי"||z===window.HMDATA.REF_BANDS.wellBelow.g;
+    const below=withT.filter(s=>low(latest(s).zone)).length;
+    const falling=withT.filter(s=>trend(s)<0&&!low(latest(s).zone)).length;
     $("#stu-count").textContent=list.length;
     $("#stu-avg").textContent=avg?avg.toFixed(1):"—";
     $("#stu-below").textContent=below;
@@ -51142,7 +51344,12 @@ window.STU=(function(){
     if(nBad)$("#stu-list").insertAdjacentHTML("beforeend",'<div class="hint" id="stu-bad">⚠ '+
       esc(H().t("stu.badRecs","רשומות פגומות ברשימה לא מוצגות, אבל נשמרות כפי שהן — גבו את הנתונים לפני כל שינוי."))+" ("+nBad+")</div>");
   }
-  function zoneColor(g){return {"מצוין":"#5cc8ff","אזור בריא":"#8fd96b","טעון שיפור":"#ffd166","סיכון בריאותי":"#ff6b81"}[g]||"#8a8da1";}
+  /* Historical labels (records saved before #58) keep their colours;
+     current labels come from HMDATA.REF_BANDS. */
+  function zoneColor(g){
+    const B=window.HMDATA.REF_BANDS, cur={}; Object.keys(B).forEach(k=>{ cur[B[k].g]=B[k].c; });
+    return cur[g]||{"מצוין":"#5cc8ff","אזור בריא":"#8fd96b","טעון שיפור":"#ffd166","סיכון בריאותי":"#ff6b81"}[g]||"#8a8da1";
+  }
   function chart(s){
     const T=s.tests; if(T.length<2)return '<div class="hint" style="text-align:center;padding:8px 0">גרף יופיע אחרי שתי ריצות ביפ ומעלה</div>';
     const W=440,Hh=120,P=26;
@@ -51242,7 +51449,9 @@ window.STU=(function(){
       if(s.cid){ if(s.cidAmbig)delete s.cidAmbig; } else s.cidAmbig="no-class";
       s.sex=$("#stu-fSex").value;
       s.age=+$("#stu-fAge").value||14; s.h=+$("#stu-fH").value||null; s.w=+$("#stu-fW").value||null;
-      s.tests.forEach(t=>{ if(t.speed)t.vo2=vo2f(t.speed,s.age); if(t.vo2)t.zone=zoneOf(t.vo2,s.age,s.sex).g; });
+      /* A stored zone string is a historical record and stays as it was;
+         only a test that has none gets one, and only if thresholds apply. */
+      s.tests.forEach(t=>{ if(t.speed)t.vo2=vo2f(t.speed,s.age); if(t.vo2&&!t.zone){ const z=zoneOf(t.vo2,s.age,s.sex); if(z)t.zone=z.g; } });
       save(list); render(); profile(id); toast("נשמר ✓");
     });
     /* ההודעה הישנה אמרה «וכל ההיסטוריה», אבל מדידות מבחני הכושר
@@ -51291,7 +51500,7 @@ window.STU=(function(){
       if(!s){ s={id:window.HMDATA.uid("s"),name:nm,cls:gid?"":(o.cls||""),cid:gid?null:(o.cid||null),sex,age,h:null,w:null,tests:[]}; list.push(s); }
       if(s.tests.some(t=>t.d===today()&&t.type==="ביפ"&&t.dist===r.dist))return;
       const v=vo2f(r.speed,s.age||age);
-      s.tests.push({d:today(),type:"ביפ",dist:r.dist,level:r.level+"·"+r.sh,speed:r.speed,vo2:v>0?v:null,zone:v>0?zoneOf(v,s.age||age,s.sex||sex).g:""});
+      s.tests.push({d:today(),type:"ביפ",dist:r.dist,level:r.level+"·"+r.sh,speed:r.speed,vo2:v>0?v:null,zone:v>0?((zoneOf(v,s.age||age,s.sex||sex)||{}).g||""):""});
       s.tests.sort((a,b)=>a.d.localeCompare(b.d)); n++;
     });
     save(list);
