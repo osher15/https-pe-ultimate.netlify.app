@@ -1,0 +1,576 @@
+{
+  "summary": {
+    "pass": 55,
+    "fail": 2,
+    "evidence": "Headless Chromium (Playwright 1.56.1), loopback + file://; emulated viewports; no physical device, no audio output, no phone download UI",
+    "shots": "<scratch dir, not committed>"
+  },
+  "results": [
+    {
+      "name": "scoreboard layout 360x740 en",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#next ok-under-transient-toast",
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 360x740 he",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#next ok-under-transient-toast",
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 360x740 ar",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#next ok-under-transient-toast",
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 360x740 ru",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#next ok-under-transient-toast",
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 360x740 es",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#next ok-under-transient-toast",
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(29x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 390x844 en",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)",
+          "#undo ok-under-transient-toast",
+          "#finish ok-under-transient-toast"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 390x844 he",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)",
+          "#undo ok-under-transient-toast",
+          "#finish ok-under-transient-toast"
+        ],
+        "untranslatedEnglish": [
+          "SCOREBOARD / 01",
+          "Language",
+          "Blue team",
+          "Red team",
+          "Match restored; clock is paused"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 390x844 ar",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)",
+          "#undo ok-under-transient-toast",
+          "#finish ok-under-transient-toast"
+        ],
+        "untranslatedEnglish": [
+          "SCOREBOARD / 01",
+          "Language",
+          "Blue team",
+          "Red team",
+          "Match restored; clock is paused"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 390x844 ru",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)",
+          "#undo ok-under-transient-toast",
+          "#finish ok-under-transient-toast"
+        ],
+        "untranslatedEnglish": [
+          "SCOREBOARD / 01",
+          "Language",
+          "Blue team",
+          "Red team",
+          "Match restored; clock is paused"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 390x844 es",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "[data-action=\"score\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"score\"][data-team=\"1\"][data-delta=\"1\"] ok-small(32x46)",
+          "[data-action=\"foul\"][data-team=\"0\"][data-delta=\"1\"] ok-small(32x40)"
+        ],
+        "untranslatedEnglish": [
+          "SCOREBOARD / 01",
+          "Language",
+          "Blue team",
+          "Red team",
+          "Match restored; clock is paused"
+        ]
+      }
+    },
+    {
+      "name": "scoreboard layout 768x1024 en",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 768x1024 he",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 768x1024 ar",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 768x1024 ru",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 768x1024 es",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 1366x768 en",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 1366x768 he",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 1366x768 ar",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 1366x768 ru",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard layout 1366x768 es",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "coach layout 360x740 en",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 360x740 he",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 360x740 ar",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 360x740 ru",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickSport|#sport #quickSport ok-small(38x42)",
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 360x740 es",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 390x844 en",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 390x844 he",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ],
+        "untranslatedEnglish": [
+          "Language",
+          "Sport",
+          "Team for new players",
+          "Blue player count",
+          "Red player count",
+          "Example",
+          "Scenario title",
+          "Interactive coaching court",
+          "Animation progress",
+          "Phase coaching cue"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 390x844 ar",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ],
+        "untranslatedEnglish": [
+          "Language",
+          "Sport",
+          "Team for new players",
+          "Blue player count",
+          "Red player count",
+          "Example",
+          "Scenario title",
+          "Interactive coaching court",
+          "Animation progress",
+          "Phase coaching cue"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 390x844 ru",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ],
+        "untranslatedEnglish": [
+          "Language",
+          "Sport",
+          "Team for new players",
+          "Blue player count",
+          "Red player count",
+          "Example",
+          "Scenario title",
+          "Interactive coaching court",
+          "Animation progress",
+          "Phase coaching cue"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 390x844 es",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(31x42)"
+        ],
+        "untranslatedEnglish": [
+          "Language",
+          "Sport",
+          "Team for new players",
+          "Blue player count",
+          "Red player count",
+          "Example",
+          "Scenario title",
+          "Interactive coaching court",
+          "Animation progress",
+          "Phase coaching cue"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 768x1024 en",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(39x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 768x1024 he",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(39x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 768x1024 ar",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(39x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 768x1024 ru",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(39x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 768x1024 es",
+      "ok": true,
+      "info": {
+        "smallTargets": [
+          "#quickRotate|#rotate #quickRotate ok-small(39x42)"
+        ]
+      }
+    },
+    {
+      "name": "coach layout 1366x768 en",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "coach layout 1366x768 he",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "coach layout 1366x768 ar",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "coach layout 1366x768 ru",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "coach layout 1366x768 es",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard persistence: score + language survive reload",
+      "ok": true,
+      "info": {
+        "saveText": "لم يُحفظ — تغيرت اللوحة في علامة تبويب أخرى. صدّر نسخة ثم أع"
+      }
+    },
+    {
+      "name": "coach persistence: sport + language survive reload",
+      "ok": true,
+      "info": null
+    },
+    {
+      "name": "scoreboard keeps autosaving after a same-tab reload (no false \"another tab\" conflict)",
+      "ok": false,
+      "error": "displayed score not persisted after reload: {\"shown\":\"2\",\"stored\":\"1\",\"storageEventsSeenByNewDocument\":2,\"save\":\"Not saved — another tab has changed the board. Export your c\"}\n\n'1' !== '2'\n"
+    },
+    {
+      "name": "scoreboard first-ever open does not claim \"Match restored\"",
+      "ok": false,
+      "error": "first-open toast: Match restored; clock is paused\n+ actual - expected\n\n+ 'Match restored; clock is paused'\n- ''\n"
+    },
+    {
+      "name": "scoreboard export: JSON download event + valid content; archive download",
+      "ok": true,
+      "info": {
+        "file": "match-1791998044957-w7zzy7h.json",
+        "bytes": 713
+      }
+    },
+    {
+      "name": "coach export: JSON + PNG download events, JSON re-import round trip",
+      "ok": true,
+      "info": {
+        "json": "PE_Coach_Scenario.json",
+        "png": "PE_Coach_Board.png",
+        "pngSize": "1600x892",
+        "pngBytes": 147548
+      }
+    },
+    {
+      "name": "scoreboard storage getter throws (SecurityError): renders, works in memory, says unsaved",
+      "ok": true,
+      "info": {
+        "save": "לא נשמר — יש לייצא עותק לפני סגירה · שמירה מקומית · 20 המשחקים האחרונים · ייצוא לגיבוי",
+        "saveIsError": true,
+        "toast": "Saved data could not be read. A new board is available; the original saved data has not been overwritten."
+      }
+    },
+    {
+      "name": "scoreboard setItem quota error: no crash, unsaved state shown",
+      "ok": true,
+      "info": {
+        "save": "Not saved — export a copy before closing · Local only · Last 20 completed matches · Export for backup"
+      }
+    },
+    {
+      "name": "coach storage getter throws (SecurityError): renders, works in memory, says unsaved",
+      "ok": true,
+      "info": {
+        "autosave": "השמירה בדפדפן אינה זמינה. שמרו קובץ תרחיש כדי לשמור את העבודה."
+      }
+    },
+    {
+      "name": "coach setItem quota error: no crash, unsaved state shown",
+      "ok": true,
+      "info": {
+        "autosave": "Browser storage is unavailable. Use Save JSON to keep your work."
+      }
+    },
+    {
+      "name": "scoreboard print media screenshot + PDF",
+      "ok": true,
+      "info": {
+        "pdfPages": 2,
+        "pdfBytes": 245115,
+        "hasPrintCss": false
+      }
+    },
+    {
+      "name": "coach print media screenshot + PDF",
+      "ok": true,
+      "info": {
+        "pdfPages": 1,
+        "pdfBytes": 82229,
+        "hasPrintCss": true
+      }
+    },
+    {
+      "name": "scoreboard offline file:// (context offline, all requests recorded)",
+      "ok": true,
+      "info": {
+        "requests": 1
+      }
+    },
+    {
+      "name": "coach offline file:// (context offline, all requests recorded)",
+      "ok": true,
+      "info": {
+        "requests": 1
+      }
+    },
+    {
+      "name": "scoreboard display mode + sound toggle (no audio output verified)",
+      "ok": true,
+      "info": {
+        "soundPressed": "true",
+        "displayMode": true
+      }
+    },
+    {
+      "name": "coach demo playback runs and help dialog opens",
+      "ok": true,
+      "info": {
+        "progressAfter600ms": "79"
+      }
+    },
+    {
+      "name": "launcher index.html links both boards",
+      "ok": true,
+      "info": null
+    }
+  ],
+  "observations": [
+    {
+      "topic": "scoreboard JSON import",
+      "detail": "No file input / import UI: exported results cannot be re-imported."
+    },
+    {
+      "topic": "scoreboard print",
+      "detail": "No @media print rules: printing outputs the dark on-screen UI including buttons."
+    },
+    {
+      "topic": "scoreboard static",
+      "detail": {
+        "bytes": 52538,
+        "title": "PE Ultimate · Scoreboard",
+        "brandPEUltimate": true,
+        "licenceOrTermsText": false,
+        "versionOrAboutUI": false
+      }
+    },
+    {
+      "topic": "coach static",
+      "detail": {
+        "bytes": 84256,
+        "title": "PE Ultimate · Coach Board",
+        "brandPEUltimate": true,
+        "licenceOrTermsText": false,
+        "versionOrAboutUI": false
+      }
+    },
+    {
+      "topic": "external requests (all runs)",
+      "detail": "none"
+    }
+  ]
+}

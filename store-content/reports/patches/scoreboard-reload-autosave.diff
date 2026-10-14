@@ -1,0 +1,30 @@
+--- a/prototypes/pe-boards/PE_Ultimate_Scoreboard.html
++++ b/prototypes/pe-boards/PE_Ultimate_Scoreboard.html
+@@ -181,10 +181,11 @@
+  try{
+   const raw=localStorage.getItem(KEY),old=raw?JSON.parse(raw):null;
+   if((old?.revision??null)!==revision){conflict=true;persistOK=false;renderSave();notify(t('loadWarning'));return false;}
+-  const next=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);localStorage.setItem(KEY,JSON.stringify({version:1,revision:next,current:s,records}));revision=next;persistOK=true;
++  const next=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);localStorage.setItem(KEY,JSON.stringify({version:1,revision:next,current:s,records}));revision=next;persistOK=true;savedSig=sig();
+  }catch(e){persistOK=false;}
+  renderSave();return persistOK;
+ }
++let savedSig=null;function sig(){return JSON.stringify({current:s,records},(k,v)=>k==='remaining'||k==='history'?undefined:v);}
+ function renderSave(){const msg=conflict?'saveConflict':persistOK&&!corrupt?'saved':'unsaved';$('save').textContent=t(msg)+' · '+t('storageNote');$('save').classList.toggle('error',!persistOK||corrupt||conflict);}
+ function periodText(n){return n>s.count?t('overtime')+' '+(n-s.count):t(s.mode==='halves'?'half':'quarter')+' '+n;}
+ function clock(ms){const v=Math.ceil(ms/1000);return Math.floor(v/60).toString().padStart(2,'0')+':'+(v%60).toString().padStart(2,'0');}
+@@ -243,12 +244,12 @@
+ window.addEventListener('storage',ev=>{if(ev.key===KEY){if(s.deadline!==null){E.tick(s);s.deadline=null;s.status=s.remaining?'paused':'periodEnd';}s.timeout=null;conflict=true;persistOK=false;render();notify(t('loadWarning'));}});
+ let lastSave=Date.now();
+ setInterval(()=>{const status=s.status,timeout=!!s.timeout;renderClock();if(status!==s.status||timeout!==!!s.timeout){beep();store();render();}if(Date.now()-lastSave>5000&&(s.deadline!==null||s.timeout)){store();lastSave=Date.now();}},200);
+-window.addEventListener('pagehide',()=>{E.tick(s);store();});document.addEventListener('visibilitychange',()=>{E.tick(s);if(document.hidden)store();else render();});
++window.addEventListener('pagehide',()=>{E.tick(s);if(sig()!==savedSig)store();});document.addEventListener('visibilitychange',()=>{E.tick(s);if(document.hidden){if(sig()!==savedSig)store();}else render();});
+ /* Integration contract: isolated state + event; do not map team names to sid/cid.
+  Replace persistence with the host's approved adapter before embedding in its tab.
+  Provide destroy() when leaving the tab after splitting this file into a mounted module.
+  Current standalone file is not injected into PE Ultimate. */
+ window.PEScoreboard={getState:()=>E.snapshot(s),exportResult:()=>download(),setLanguage:code=>{if(!L[code])return false;lang=code;render();soundLabel();return true;},version:1};
+-if(!corrupt)store();render();soundLabel();if(corrupt)notify(t('damaged'));else if(revision)notify(t('restored'));
++const hadSaved=revision!==null;if(!corrupt)store();render();soundLabel();if(corrupt)notify(t('damaged'));else if(hadSaved)notify(t('restored'));
+ })();
+ </script></body></html>
