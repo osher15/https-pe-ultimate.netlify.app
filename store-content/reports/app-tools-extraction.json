@@ -1,0 +1,464 @@
+{
+  "generatedFrom": "working tree",
+  "modules": {
+    "beep": {
+      "label": "Beep test (BT, hm-app.js)",
+      "bytes": {
+        "js": 26673,
+        "markup": 7792
+      },
+      "storageKeys": [
+        "peultimate.bt.age",
+        "peultimate.bt.best",
+        "peultimate.bt.dist",
+        "peultimate.bt.heat",
+        "peultimate.bt.laneMode",
+        "peultimate.bt.laneN",
+        "peultimate.bt.profiles",
+        "peultimate.bt.results",
+        "peultimate.bt.sex",
+        "peultimate.bt.start"
+      ],
+      "globals": {
+        "window": [
+          "FT",
+          "STU"
+        ],
+        "viaHM": [],
+        "sharedHelpers": [
+          "LS",
+          "SET",
+          "saveSet",
+          "ac",
+          "AC",
+          "beep",
+          "say",
+          "keepAwake",
+          "toast",
+          "ask",
+          "undo",
+          "dlCSV",
+          "esc",
+          "fmtMS",
+          "t",
+          "trUI",
+          "clsUI",
+          "H_LOC",
+          "typingIn",
+          "SESSION"
+        ],
+        "hmData": []
+      },
+      "studentDataCoupling": {
+        "STU module": 3,
+        "FT.ingest / FT.pick (class results / roster picker)": 5,
+        "SESSION / live lesson": 1,
+        "cid / class identity": 7,
+        "class label (cls)": 15
+      },
+      "audio": {
+        "webAudioOscillator": true,
+        "audioFiles": [],
+        "speechSynthesis": true,
+        "wakeLock": true
+      },
+      "assets": [],
+      "externalUrls": [],
+      "hebrewStringLiterals": 91,
+      "i18nKeys": {
+        "count": 36,
+        "withAll4Translations": 36
+      },
+      "domIds": 48
+    },
+    "fitTrainer": {
+      "label": "Fitness trainer: interval timer, circuit generator, exercise library, dice (FIT, hm-app.js)",
+      "bytes": {
+        "js": 36376,
+        "markup": 6597
+      },
+      "storageKeys": [],
+      "globals": {
+        "window": [
+          "GAMES"
+        ],
+        "viaHM": [],
+        "sharedHelpers": [
+          "ac",
+          "beep",
+          "horn",
+          "say",
+          "keepAwake",
+          "toast",
+          "confetti",
+          "modal",
+          "t"
+        ],
+        "hmData": []
+      },
+      "studentDataCoupling": {
+        "GAMES bank": 1
+      },
+      "audio": {
+        "webAudioOscillator": true,
+        "audioFiles": [],
+        "speechSynthesis": true,
+        "wakeLock": true
+      },
+      "assets": [
+        "exercise-gifs/CREDITS.md",
+        "exercise-gifs/photo",
+        "exercise-gifs/photo/${e.id}.gif",
+        "exercise-gifs/rig",
+        "exercise-gifs/rig/${fig}.gif"
+      ],
+      "externalUrls": [],
+      "hebrewStringLiterals": 471,
+      "i18nKeys": {
+        "count": 0,
+        "withAll4Translations": 0
+      },
+      "domIds": 48
+    },
+    "fitnessTests": {
+      "label": "Fitness tests (FT, hm-tests.js)",
+      "bytes": {
+        "js": 168657,
+        "markup": 10661
+      },
+      "storageKeys": [
+        "peultimate.ft.idxTests",
+        "peultimate.ft.laps",
+        "peultimate.ft.last",
+        "peultimate.ft.normArchive",
+        "peultimate.ft.norms",
+        "peultimate.ft.ot",
+        "peultimate.ft.results",
+        "peultimate.ft.schoolBase",
+        "peultimate.ft.schoolPct",
+        "peultimate.ft.scoreMode",
+        "peultimate.grades.examCols",
+        "peultimate.grades.periods",
+        "peultimate.stu.list"
+      ],
+      "globals": {
+        "window": [
+          "FT",
+          "HM",
+          "HMDATA",
+          "I18N",
+          "REC",
+          "STU"
+        ],
+        "viaHM": [
+          "LS",
+          "SET",
+          "ac",
+          "actToast",
+          "ask",
+          "beep",
+          "clsUI",
+          "confetti",
+          "dlCSV",
+          "esc",
+          "fmtMSc",
+          "go",
+          "horn",
+          "isStudent",
+          "joinClasses",
+          "keepAwake",
+          "modal",
+          "onBack",
+          "openClassRename",
+          "paintSessionBar",
+          "say",
+          "session",
+          "snap",
+          "t",
+          "toast",
+          "trUI",
+          "undo"
+        ],
+        "sharedHelpers": [
+          "LS",
+          "esc",
+          "t",
+          "H_LOC"
+        ],
+        "hmData": [
+          "GRADES",
+          "NUMS",
+          "OT_CORE_MIN",
+          "OT_MAX",
+          "OT_PASS",
+          "clamp",
+          "clsKey",
+          "clsName",
+          "otScore",
+          "otTheory",
+          "parseCls",
+          "percentile",
+          "scoreFromPoints"
+        ]
+      },
+      "studentDataCoupling": {
+        "stu.list (student roster)": 7,
+        "STU module": 6,
+        "FT.ingest / FT.pick (class results / roster picker)": 3,
+        "SESSION / live lesson": 14,
+        "cid / class identity": 61,
+        "sid / student identity": 13,
+        "class label (cls)": 61
+      },
+      "audio": {
+        "webAudioOscillator": true,
+        "audioFiles": [],
+        "speechSynthesis": true,
+        "wakeLock": true
+      },
+      "assets": [],
+      "externalUrls": [],
+      "hebrewStringLiterals": 37,
+      "i18nKeys": {
+        "count": 17,
+        "withAll4Translations": 17
+      },
+      "domIds": 67
+    },
+    "lessonGenerator": {
+      "label": "Lesson generator (LESSON, hm-lesson.js)",
+      "bytes": {
+        "js": 167148,
+        "markup": 10555
+      },
+      "storageKeys": [
+        "peultimate.ft.last",
+        "peultimate.gm.open",
+        "peultimate.ls.eqAvail",
+        "peultimate.ls.feedback",
+        "peultimate.ls.lib",
+        "peultimate.ls.pickGame",
+        "peultimate.ls.recentVariants",
+        "peultimate.ls.target",
+        "peultimate.ls.timeOpts",
+        "peultimate.stu.list"
+      ],
+      "globals": {
+        "window": [
+          "COLLECTIONS",
+          "FT",
+          "GAMES",
+          "HM",
+          "HMDATA",
+          "I18N",
+          "KNOW",
+          "LBUILD",
+          "LESSON",
+          "LESSONBANK",
+          "LESSONDOCS",
+          "LIVE"
+        ],
+        "viaHM": [
+          "LS",
+          "SET",
+          "ac",
+          "assign",
+          "beep",
+          "esc",
+          "go",
+          "horn",
+          "keepAwake",
+          "loc",
+          "modal",
+          "openSesHist",
+          "paintHome",
+          "paintSessionBar",
+          "regStore",
+          "say",
+          "session",
+          "t",
+          "toast"
+        ],
+        "sharedHelpers": [
+          "ac",
+          "beep",
+          "horn",
+          "say",
+          "keepAwake",
+          "confetti",
+          "esc",
+          "go",
+          "t"
+        ],
+        "hmData": [
+          "automaticBlockCount",
+          "bankToPlan",
+          "classId",
+          "classOf",
+          "classes",
+          "eqAvailList",
+          "findClass",
+          "fitSteps",
+          "groupOf",
+          "isGroupRec",
+          "libSave",
+          "libUndo",
+          "studentsIn",
+          "timeOpts",
+          "warmMinutes"
+        ]
+      },
+      "studentDataCoupling": {
+        "stu.list (student roster)": 1,
+        "FT.ingest / FT.pick (class results / roster picker)": 3,
+        "SESSION / live lesson": 1,
+        "cid / class identity": 26,
+        "class label (cls)": 15,
+        "GAMES bank": 4,
+        "KNOW base": 2,
+        "lesson bank (bankCopy/LB)": 18
+      },
+      "audio": {
+        "webAudioOscillator": true,
+        "audioFiles": [],
+        "speechSynthesis": true,
+        "wakeLock": true
+      },
+      "assets": [],
+      "externalUrls": [],
+      "hebrewStringLiterals": 1141,
+      "i18nKeys": {
+        "count": 64,
+        "withAll4Translations": 64
+      },
+      "domIds": 48
+    }
+  },
+  "sharedRuntime": {
+    "hm-data.js": 171752,
+    "hm-i18n.js": 325665,
+    "hm-terms.js": 199221,
+    "hm-texts.js": 2042539,
+    "hm-styles.css": 141499,
+    "hm-app.js": 368004,
+    "hm-know.js": 127801
+  },
+  "exerciseGifsBytes": 6309057,
+  "browser": {
+    "evidence": "headless Chromium, generated Hamegrash.html on loopback, emulated 360x740 phone viewport; no device, no audible audio",
+    "views": {
+      "beep": {
+        "en": {
+          "visibleTextNodes": 1390,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "ar": {
+          "visibleTextNodes": 1390,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "ru": {
+          "visibleTextNodes": 1390,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "es": {
+          "visibleTextNodes": 1390,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        }
+      },
+      "fitTrainer": {
+        "en": {
+          "visibleTextNodes": 27,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "ar": {
+          "visibleTextNodes": 27,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "ru": {
+          "visibleTextNodes": 27,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "es": {
+          "visibleTextNodes": 27,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        }
+      },
+      "fitnessTests": {
+        "en": {
+          "visibleTextNodes": 184,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "ar": {
+          "visibleTextNodes": 184,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "ru": {
+          "visibleTextNodes": 184,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "es": {
+          "visibleTextNodes": 184,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        }
+      },
+      "lessonGenerator": {
+        "en": {
+          "visibleTextNodes": 128,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "ar": {
+          "visibleTextNodes": 128,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "ru": {
+          "visibleTextNodes": 128,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        },
+        "es": {
+          "visibleTextNodes": 128,
+          "hebrewLeft": 0,
+          "samples": [],
+          "overflowX": false
+        }
+      }
+    },
+    "external": [],
+    "beepAudio": {
+      "oscillatorsCreatedIn10_5s": 2,
+      "audioElementsCreated": 0,
+      "stage": "1 · 2/7",
+      "distance": "20 m",
+      "time": "00:10"
+    }
+  }
+}
