@@ -72,3 +72,19 @@ test("provenance: 'app' strings are the app's translations; new/changed strings 
   assert.equal(counts.changed, Object.keys(X.CHANGED).length);
   console.log("# strings: app=" + counts.app + " new=" + counts.new + " changed=" + counts.changed);
 });
+
+test("About: owner-approved AI translation notice in all five languages; no draft/review wording in UI or README", () => {
+  const want = "Translations were produced with AI. The professional content is accurate and was reviewed by several teachers and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology errors are possible.";
+  const row = D.i18n["about.i18n"];
+  rowOk(row, "about.i18n"); rowOk(D.i18n["about.i18nH"], "about.i18nH");
+  assert.equal(row[0], want);
+  const ai = ["AI", "בינה מלאכותית", "الذكاء الاصطناعي", "ИИ", "IA"];
+  const ministry = ["Ministry of Education", "משרד החינוך", "وزارة التربية والتعليم", "Министерства образования", "Ministerio de Educación"];
+  row.forEach((v, i) => { assert.ok(v.includes(ai[i]), D.langs[i] + " mentions AI"); assert.ok(v.includes(ministry[i]), D.langs[i] + " mentions the Ministry"); });
+  assert.match(HTML, /data-i18n="about\.i18n"/);
+  const README = require("fs").readFileSync(require("path").join(__dirname, "..", "README.md"), "utf8");
+  assert.ok(README.includes(want), "README carries the notice");
+  for (const text of [README, ...Object.values(D.i18n).flat()]) {
+    assert.doesNotMatch(text, /native[- ](speaker |PE-teacher )?review|review needed|unreviewed|awaiting|draft translation|are drafts|AI drafts/i);
+  }
+});
