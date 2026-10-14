@@ -19,3 +19,10 @@ Claude's 2026-10-14 review reports 300 lesson files (60 per language, he/en/ar/r
 
 ## Constraints
 No merge, deploy, app files or Notion edits. Include `[skip netlify]` on every new commit. Preserve raw source fidelity and distinguish checks executed from checks merely authored.
+
+## Follow-up 2026-10-15
+- Spanish BB-10 corrected from Notion, commit `62ae29ce60d14398ebd495e9fbe08c3182a7c8b6`.
+- Activity checker Notion UUID normalization corrected, commit `fb21cf0a8fc3c7788b64aefecfb2c63935d1e6e8`.
+- EN DR-021, DR-022, DR-023, DR-025, DR-026, DR-027 exported from their full Notion bodies in six separate branch commits. DR-024 was fetched but GitHub write blocked; retry later.
+- These six new files have `kind: drill` and correct source metadata. Existing EN files may lack `kind` and explicit body IDs. Do not rewrite source bodies to satisfy metadata validation.
+- No complete local checkout available (GitHub network DNS unavailable in container); full 300/600 validation and generated manifest remain unexecuted.
