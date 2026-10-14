@@ -1760,24 +1760,76 @@ function otScore(rec){
   return {per:per,total:total,core:core,ok:total>=OT_PASS&&core>=OT_CORE_MIN};
 }
 
-/* ---- VO2max, אזור בריאות ו-BMI ---- */
-/* נוסחת Léger לריצת מעבורת: מהירות השלב וגיל התלמיד */
+/* ---- VO2max, school reference thresholds and BMI ---- */
+/* Léger et al. (1988) 20 m shuttle-run equation: stage speed and pupil age.
+   The result is an ESTIMATE of VO2max, not a measurement. */
 function vo2max(speed,age){ return 31.025+3.238*speed-3.248*age+0.1536*age*speed; }
-/* אזורי FITNESSGRAM לפי גיל ומין: [גבול תחתון, אזור בריא] */
-var HFZ={
-  boys:{10:[37.3,40.2],11:[37.3,40.2],12:[37.6,40.3],13:[38.6,41.1],14:[39.6,42.5],
-        15:[40.6,43.6],16:[41.0,44.1],17:[41.2,44.2],18:[41.2,44.3]},
-  girls:{10:[37.3,40.2],11:[37.3,40.2],12:[37.0,40.1],13:[36.6,39.7],14:[36.3,39.4],
-         15:[36.0,39.1],16:[35.8,38.9],17:[35.7,38.8],18:[35.3,38.6]}
+/* School reference thresholds (Issue #58).
+   The app ships NO built-in standard table. A teacher may enter optional
+   thresholds per sex and age (10–18): two numbers [lower, upper] in
+   ml·kg⁻¹·min⁻¹, stored locally under REF_KEY. Empty by default; with no
+   pair for an age/sex there is no category — only the VO2max estimate.
+   Bands when a pair exists: v ≤ lower · lower < v < upper · v ≥ upper ·
+   v ≥ upper + REF_EXC. REF_EXC is an app convention for the top band,
+   not a published standard. */
+var REF_KEY="bt.refs", REF_MIN=20, REF_MAX=70, REF_EXC=6.0, REF_AGE_MIN=10, REF_AGE_MAX=18;
+/* Stored Hebrew labels (Hebrew is the translation source; hm-terms.js maps them). */
+var REF_BANDS={
+  wellAbove:{g:"הרבה מעל הייחוס",c:"#5cc8ff"},
+  meets:    {g:"עומד בייחוס",c:"#8fd96b"},
+  below:    {g:"מתחת לייחוס",c:"#ffd166"},
+  wellBelow:{g:"הרבה מתחת לייחוס",c:"#ff6b81"}
 };
-var HFZ_EXC=6.0;
-function healthZone(v,age,sex){
-  var a=Math.max(10,Math.min(18,Math.round(age||14)));
-  var s=HFZ[sex==="girls"?"girls":"boys"][a], R=s[0], H=s[1];
-  if(v>=H+HFZ_EXC)return {g:"מצוין",c:"#5cc8ff"};
-  if(v>=H)return {g:"אזור בריא",c:"#8fd96b"};
-  if(v>R)return {g:"טעון שיפור",c:"#ffd166"};
-  return {g:"סיכון בריאותי",c:"#ff6b81"};
+/* Validate one [lower, upper] pair. null = valid; otherwise an error code:
+   "missing" (one side empty / not a number), "range" (outside REF_MIN..REF_MAX),
+   "order" (lower must be strictly below upper). Both sides empty is not an
+   error for the editor — it means "no threshold"; callers check that first. */
+function refPairError(lo,hi){
+  var num=function(x){ return typeof x==="number"?x:(typeof x==="string"&&x.trim()!==""?Number(x):NaN); };
+  var a=num(lo), b=num(hi);
+  if(!isFinite(a)||!isFinite(b))return "missing";
+  if(a<REF_MIN||a>REF_MAX||b<REF_MIN||b>REF_MAX)return "range";
+  if(!(a<b))return "order";
+  return null;
+}
+/* Sanitised copy of whatever is stored: only valid pairs for integer ages
+   10..18 survive, rounded to 0.1. Anything else (null, garbage, a bad pair)
+   is dropped, so a damaged value can never invent a category. */
+function normRefs(raw){
+  var out={boys:{},girls:{}};
+  if(!raw||typeof raw!=="object")return out;
+  ["boys","girls"].forEach(function(sx){
+    var src=raw[sx]; if(!src||typeof src!=="object")return;
+    for(var a=REF_AGE_MIN;a<=REF_AGE_MAX;a++){
+      var p=src[a]; if(!Array.isArray(p)||p.length!==2)continue;
+      if(refPairError(p[0],p[1]))continue;
+      out[sx][a]=[Math.round(Number(p[0])*10)/10,Math.round(Number(p[1])*10)/10];
+    }
+  });
+  return out;
+}
+function refsEmpty(refs){
+  var r=normRefs(refs);
+  return !Object.keys(r.boys).length&&!Object.keys(r.girls).length;
+}
+/* The pair that applies to a pupil, or null. Age is rounded and clamped to
+   10..18 (missing age = 14, missing sex = boys — the app's existing defaults). */
+function refPairFor(age,sex,refs){
+  var a=Math.max(REF_AGE_MIN,Math.min(REF_AGE_MAX,Math.round(age||14)));
+  var r=normRefs(refs);
+  return r[sex==="girls"?"girls":"boys"][a]||null;
+}
+/* Category for a VO2max estimate against the school's thresholds.
+   null when no thresholds apply or the value is not a positive number. */
+function refZone(v,age,sex,refs){
+  if(typeof v!=="number"||!isFinite(v)||v<=0)return null;
+  var p=refPairFor(age,sex,refs); if(!p)return null;
+  var R=p[0], H=p[1], b;
+  if(v>=H+REF_EXC)b="wellAbove";
+  else if(v>=H)b="meets";
+  else if(v>R)b="below";
+  else b="wellBelow";
+  return {g:REF_BANDS[b].g,c:REF_BANDS[b].c,k:b};
 }
 function bmi(h,w){ if(!(h>0&&w>0))return null; return w/Math.pow(h/100,2); }
 function bmiCategory(b){
@@ -3177,7 +3229,10 @@ return {
   clamp100:clamp100, scoreFromPoints:scoreFromPoints, percentile:percentile,
   normScore:normScore, relScore:relScore, scoreOne:scoreOne, REL_MIN:REL_MIN,
   otTheory:otTheory, otScore:otScore, OT_MAX:OT_MAX, OT_PASS:OT_PASS, OT_CORE_MIN:OT_CORE_MIN,
-  vo2max:vo2max, healthZone:healthZone, HFZ:HFZ, bmi:bmi, bmiCategory:bmiCategory,
+  vo2max:vo2max, REF_KEY:REF_KEY, REF_MIN:REF_MIN, REF_MAX:REF_MAX, REF_EXC:REF_EXC,
+  REF_AGE_MIN:REF_AGE_MIN, REF_AGE_MAX:REF_AGE_MAX, REF_BANDS:REF_BANDS, refPairError:refPairError,
+  normRefs:normRefs, refsEmpty:refsEmpty, refPairFor:refPairFor, refZone:refZone,
+  bmi:bmi, bmiCategory:bmiCategory,
   BK_APP:BK_APP, BK_V:BK_V, IDB_BUDGET:IDB_BUDGET,
   buildSnapshot:buildSnapshot, planMedia:planMedia, validateBackup:validateBackup, planRestore:planRestore
 };

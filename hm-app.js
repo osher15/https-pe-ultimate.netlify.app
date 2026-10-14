@@ -1919,7 +1919,7 @@ const BK_PREFIX=BRAND.ns;
 const BK_LABELS={"col.list":"אוספים אישיים","ft.results":"תוצאות מבחני כושר","ft.roster":"רשימות כיתה (ישן)","ft.roster.v4":"ארכיון רשימות הכיתה","ft.norms":"טבלת נורמה",
   "ft.schoolBase":"בסיס הנורמה","ft.ot":"אות החינוך הגופני","ft.laps":"הקפות","stu.list":"תלמידים",
   "stu.grades":"ציונים","stu.weights":"מבנה הציון","rec.list":"שיאים","rec.sports":"ענפי השיאים",
-  "rec.pass":"קוד המורה","gm.mine":"הווריאציות שלי למשחקים","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","pf.archive":"ארכיון מירוצים",
+  "rec.pass":"קוד המורה","gm.mine":"הווריאציות שלי למשחקים","bt.results":"לוח ביפ טסט","bt.heat":"רשימת מקצה","bt.refs":"ספי ייחוס של בית הספר","pf.archive":"ארכיון מירוצים",
   "pf.names":"שמות המסלולים","settings":"הגדרות"};
 /* מפתחות שהם רישום מקומי על המכשיר עצמו ולא נתונים של המורה — אין
    טעם לשאת אותם בקובץ ולא להציג אותם בהשוואה. */
@@ -2784,21 +2784,12 @@ const BT=(function(){
     const fold=$("#bt-setupFold"); if(fold&&!isStandard())fold.open=true;
   }
 
-  /* ----- VO2 & FITNESSGRAM ----- */
-  function vo2max(speed,age){ return 31.025+3.238*speed-3.248*age+0.1536*age*speed; }
-  const HFZ={
-    boys:{10:[37.3,40.2],11:[37.3,40.2],12:[37.6,40.3],13:[38.6,41.1],14:[39.6,42.5],15:[40.6,43.6],16:[41.0,44.1],17:[41.2,44.2],18:[41.2,44.3]},
-    girls:{10:[37.3,40.2],11:[37.3,40.2],12:[37.0,40.1],13:[36.6,39.7],14:[36.3,39.4],15:[36.0,39.1],16:[35.8,38.9],17:[35.7,38.8],18:[35.3,38.6]}
-  };
-  const EXC=6.0;
-  function stdFor(age,sex){ const a=Math.max(10,Math.min(18,Math.round(age))); return HFZ[sex][a]; }
-  function classify(v,age,sex){
-    const s=stdFor(age,sex),R=s[0],H=s[1];
-    if(v>=H+EXC)return{g:"מצוין",c:"#19c3ff"};
-    if(v>=H)return{g:"אזור בריא",c:"#c8ff2e"};
-    if(v>R)return{g:"טעון שיפור",c:"#ffd23f"};
-    return{g:"סיכון בריאותי",c:"#ff4d5e"};
-  }
+  /* ----- VO2 estimate & optional school reference thresholds (#58) -----
+     No built-in standard table: categories exist only where the teacher
+     entered thresholds (DATA.refZone); otherwise only the estimate shows. */
+  function vo2max(speed,age){ return DATA.vo2max(speed,age); }
+  const refs=()=>DATA.normRefs(LS.get(DATA.REF_KEY,null));
+  function classify(v,age,sex){ return DATA.refZone(v,age,sex,refs()); }
 
   /* ----- audio (envelope tones, scheduled on audio clock) ----- */
   function tone(at,freq,dur,vol){
@@ -2965,10 +2956,11 @@ const BT=(function(){
     if(sortBy==="dist")view.sort((a,b)=>b.r.dist-a.r.dist||a.r.time-b.r.time);
     const ranked=[...results].sort((a,b)=>b.dist-a.dist||a.time-b.time);
     const rankOf=new Map(); ranked.forEach((r,i)=>rankOf.set(r.id,i+1));
+    const rf=refs();
     $("#bt-tbody").innerHTML=view.map(({r})=>{
       const rk=rankOf.get(r.id), medal=rk===1?"🥇":rk===2?"🥈":rk===3?"🥉":rk;
       const v=vo2max(r.speed,classAge), ok=r.dist>0&&v>0;
-      const cat=ok?classify(v,classAge,classSex):null;
+      const cat=ok?DATA.refZone(v,classAge,classSex,rf):null;
       return `<tr><td class="rk">${medal}</td>
         <td><input class="nm" data-id="${r.id}" value="${esc(r.name)}" style="background:none;border:none;border-bottom:1px dashed var(--line);color:var(--ink);font-family:'Rubik';font-size:13.5px;width:110px"></td>
         <td class="mono">${r.level}·${r.sh}</td><td class="mono">${r.dist.toLocaleString(H_LOC())} מ׳</td><td class="mono">${fmtMS(r.time)}</td>
@@ -2982,6 +2974,18 @@ const BT=(function(){
       $("#bt-regBtn").disabled=(running||elapsedOffset>0)?results.length>=30:true;
     }));
     $("#bt-undoBtn").disabled=!results.length;
+    paintEstNote(rf);
+  }
+  /* The line under the board says what the numbers are: always an estimate,
+     and a category only where the school entered thresholds for this age/sex. */
+  function paintEstNote(rf){
+    const el=$("#bt-estNote"); if(!el)return;
+    const sexW=trUI(classSex==="girls"?"בנות":"בנים");
+    const has=!!DATA.refPairFor(classAge,classSex,rf||refs());
+    el.textContent=t("bt.refsEstNote","VO₂max הוא הערכה לפי משוואת ריצת המעבורת של Léger ואחרים (1988), לא מדידה.")+" "+
+      (has?t("bt.refsUsing","הקטגוריה לפי ספי הייחוס שהזין בית הספר — גיל {0}, {1}.")
+          :t("bt.refsNone","לא הוזנו ספי ייחוס לגיל {0}, {1} — לא מוצגת קטגוריה."))
+        .replace("{0}",classAge).replace("{1}",sexW);
   }
 
   /* ----- reference & norms (פורמט המקור) ----- */
@@ -3000,16 +3004,76 @@ const BT=(function(){
     if(row){ row.classList.add("ref-cur");
       const det=$("#bt-refFold"); if(det&&det.open){const w=row.closest(".tblwrap")||row.parentElement;if(w)w.scrollTop=Math.max(0,row.offsetTop-w.clientHeight/2);} }
   }
+  /* School reference thresholds editor (#58). Replaces the old built-in
+     norms table: empty by default, values come from the school/teacher. */
   function buildNorms(){
+    const host=$("#bt-normWrap"); if(!host)return;
+    const rf=refs(), B=DATA.REF_BANDS, X=DATA.REF_EXC.toFixed(1);
+    const fmt=x=>x==null?"":Number(x).toFixed(1);
     function tbl(sex){
-      let h='<table class="tbl"><thead><tr><th>גיל</th><th><span class="dot" style="background:#ff4d5e"></span> סיכון בריאותי</th><th><span class="dot" style="background:#ffd23f"></span> טעון שיפור</th><th><span class="dot" style="background:#c8ff2e"></span> אזור בריא</th><th><span class="dot" style="background:#19c3ff"></span> מצוין</th></tr></thead><tbody>';
-      for(let a=10;a<=17;a++){ const s2=HFZ[sex][a],R=s2[0],H=s2[1];
-        h+=`<tr><td class="rk">${a}</td><td class="mono">≤ ${R.toFixed(1)}</td><td class="mono">${(R+0.1).toFixed(1)}–${(H-0.1).toFixed(1)}</td><td class="mono">${H.toFixed(1)}–${(H+EXC-0.1).toFixed(1)}</td><td class="mono">≥ ${(H+EXC).toFixed(1)}</td></tr>`; }
+      let h='<table class="tbl bt-refTbl" data-sex="'+sex+'"><thead><tr><th>'+esc(t("bt.refsAge","גיל"))+"</th><th>"+
+        esc(t("bt.refsLower","סף תחתון"))+"</th><th>"+esc(t("bt.refsUpper","סף עליון"))+"</th></tr></thead><tbody>";
+      for(let a=DATA.REF_AGE_MIN;a<=DATA.REF_AGE_MAX;a++){ const p=rf[sex][a]||[null,null];
+        const inp=(i,v)=>'<input type="number" inputmode="decimal" step="0.1" min="'+DATA.REF_MIN+'" max="'+DATA.REF_MAX+
+          '" class="bt-refIn" data-sex="'+sex+'" data-age="'+a+'" data-i="'+i+'" value="'+fmt(v)+'" aria-label="'+
+          esc(trUI(sex==="girls"?"בנות":"בנים")+" "+a+" · "+(i?t("bt.refsUpper","סף עליון"):t("bt.refsLower","סף תחתון")))+'" style="width:84px;background:var(--inset);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:7px 9px;font-family:inherit;font-size:14px">';
+        h+='<tr><td class="rk">'+a+"</td><td>"+inp(0,p[0])+"</td><td>"+inp(1,p[1])+"</td></tr>"; }
       return h+"</tbody></table>";
     }
-    $("#bt-normWrap").innerHTML='<h2 style="font-size:14px"><span class="dot"></span> בנים</h2>'+tbl("boys")+
-      '<h2 style="font-size:14px;margin-top:13px"><span class="dot"></span> בנות</h2>'+tbl("girls")+
-      '<div class="hint" style="margin-top:8px">ערכים ב-VO₂max (ml·kg⁻¹·min⁻¹) · מבוסס FITNESSGRAM® (Cooper Institute) · "אזור בריא" = Healthy Fitness Zone, דרגת "מצוין" היא תוספת מעשית מעליו · גיל 9 מושווה לגיל 10.</div>';
+    const dot=c=>'<span class="dot" style="background:'+c+'"></span> ';
+    host.innerHTML='<div class="hint" id="bt-refsIntro" style="margin-bottom:8px">'+
+        esc(t("bt.refsIntro","האפליקציה אינה כוללת טבלת תקן מובנית. אפשר להזין כאן ספי ייחוס של בית הספר — VO₂max ב-ml·kg⁻¹·min⁻¹, לכל גיל ומין: סף תחתון וסף עליון. הערכים מגיעים מבית הספר או מהמורה. בלי ספים מוצגת רק הערכת ה-VO₂max, בלי קטגוריה."))+"</div>"+
+      '<h2 style="font-size:14px"><span class="dot"></span> '+esc(trUI("בנים"))+"</h2>"+tbl("boys")+
+      '<h2 style="font-size:14px;margin-top:13px"><span class="dot"></span> '+esc(trUI("בנות"))+"</h2>"+tbl("girls")+
+      '<div class="hint" id="bt-refsErr" role="alert" style="display:none;color:#ff6b81;margin-top:8px"></div>'+
+      '<div class="row" style="margin-top:10px"><button class="btn sm acc" id="bt-refsSave">'+esc(t("bt.refsSave","💾 שמור ספים"))+
+      '</button><button class="btn sm ghost" id="bt-refsClear">'+esc(t("bt.refsClear","🗑 נקה את כל הספים"))+"</button></div>"+
+      '<div class="hint" id="bt-refsBands" style="margin-top:8px">'+
+        dot(B.wellBelow.c)+esc(trUI(B.wellBelow.g))+" ≤ "+esc(t("bt.refsLower","סף תחתון"))+" · "+
+        dot(B.below.c)+esc(trUI(B.below.g))+" · "+
+        dot(B.meets.c)+esc(trUI(B.meets.g))+" ≥ "+esc(t("bt.refsUpper","סף עליון"))+" · "+
+        dot(B.wellAbove.c)+esc(trUI(B.wellAbove.g))+" ≥ "+esc(t("bt.refsUpper","סף עליון"))+" + "+X+"<br>"+
+        esc(t("bt.refsConv","התוספת {0} לדרגה העליונה היא מוסכמה של האפליקציה, לא תקן מפורסם. גיל מתחת ל-10 משתמש בשורת גיל 10. טווח מותר: {1}–{2}.")
+          .replace("{0}",X).replace("{1}",DATA.REF_MIN).replace("{2}",DATA.REF_MAX))+"</div>";
+    $("#bt-refsSave").addEventListener("click",saveRefs);
+    $("#bt-refsClear").addEventListener("click",clearRefs);
+  }
+  /* Reads the editor, validates every row and saves only when all rows are
+     valid (both empty = no threshold for that age). Nothing is half-saved. */
+  function saveRefs(){
+    const out={boys:{},girls:{}}; let bad=null;
+    $$("#bt-normWrap .bt-refIn").forEach(i=>{ i.style.outline=""; i.removeAttribute("aria-invalid"); });
+    ["boys","girls"].forEach(sex=>{
+      for(let a=DATA.REF_AGE_MIN;a<=DATA.REF_AGE_MAX;a++){
+        const q=i=>$('#bt-normWrap .bt-refIn[data-sex="'+sex+'"][data-age="'+a+'"][data-i="'+i+'"]');
+        const lo=q(0).value.trim(), hi=q(1).value.trim();
+        if(lo===""&&hi==="")continue;
+        const err=DATA.refPairError(lo,hi);
+        if(err){ [q(0),q(1)].forEach(i=>{ i.style.outline="2px solid #ff6b81"; i.setAttribute("aria-invalid","true"); }); if(!bad)bad={err,sex,a}; continue; }
+        out[sex][a]=[+lo,+hi];
+      }
+    });
+    const box=$("#bt-refsErr");
+    if(bad){
+      const msg={missing:t("bt.refsErrMissing","יש למלא גם סף תחתון וגם סף עליון (או להשאיר את שניהם ריקים)."),
+        range:t("bt.refsErrRange","הערכים חייבים להיות בין {1} ל-{2}."),
+        order:t("bt.refsErrOrder","הסף התחתון חייב להיות נמוך מהסף העליון.")}[bad.err]
+        .replace("{1}",DATA.REF_MIN).replace("{2}",DATA.REF_MAX);
+      box.textContent=trUI(bad.sex==="girls"?"בנות":"בנים")+" "+bad.a+": "+msg; box.style.display="block";
+      toast(t("bt.refsNotSaved","הספים לא נשמרו — יש לתקן את השורות המסומנות"));
+      return;
+    }
+    box.style.display="none";
+    const clean=DATA.normRefs(out);
+    if(DATA.refsEmpty(clean))LS.set(DATA.REF_KEY,null); else LS.set(DATA.REF_KEY,clean);
+    buildNorms(); renderResults();
+    toast(t("bt.refsSaved","✓ ספי הייחוס נשמרו"));
+  }
+  function clearRefs(){
+    const was=LS.get(DATA.REF_KEY,null);
+    if(DATA.refsEmpty(was)){ buildNorms(); return; }
+    LS.set(DATA.REF_KEY,null); buildNorms(); renderResults();
+    undo(t("bt.refsCleared","ספי הייחוס נוקו"),()=>{ LS.set(DATA.REF_KEY,was); buildNorms(); renderResults(); });
   }
 
   /* ----- wiring ----- */
@@ -3154,8 +3218,11 @@ const BT=(function(){
       if(!results.length){toast("אין רישומים");return;}
       const sexHe=trUI(classSex==="boys"?"בנים":"בנות");
       const rows=[["מס","שם","שלב","מקטע","מרחק (מ)","זמן (שנ)","מהירות (קמ\"ש)","VO2max","דרגה","מין","גיל","מרחק לכיוון (מ)"]];
+      /* The category column stays; it is empty when no school thresholds apply. */
+      const rf=refs();
       results.forEach((r,i)=>{ const v=vo2max(r.speed,classAge), ok=r.dist>0&&v>0;
-        rows.push([i+1,r.name,r.level,r.sh,r.dist,r.time.toFixed(1),r.speed.toFixed(1),ok?v.toFixed(1):"",ok?trUI(classify(v,classAge,classSex).g):"",sexHe,classAge,distance]); });
+        const cat=ok?DATA.refZone(v,classAge,classSex,rf):null;
+        rows.push([i+1,r.name,r.level,r.sh,r.dist,r.time.toFixed(1),r.speed.toFixed(1),ok?v.toFixed(1):"",cat?trUI(cat.g):"",sexHe,classAge,distance]); });
       /* שם הקובץ נשא תאריך ולא כלום, ולכן שלושה מקצים באותו יום ירדו
          כ-«(1)», «(2)» ו«(3)» בתיקיית ההורדות. */
       const clsPart=String(clsUI(heat.cls||"")).replace(/[\\/:*?"<>|]/g,"").trim();
@@ -3174,6 +3241,7 @@ const BT=(function(){
       if(e.code==="Space"){e.preventDefault();running?pause():start();}
       else if(e.code==="Enter"){e.preventDefault();if(!$("#bt-regBtn").disabled)registerDrop();}
     });
+    document.addEventListener("i18n:change",()=>{ buildNorms(); paintEstNote(); });
     buildSchedule(); buildNorms(); reset(); renderResults(); renderHeat(); renderLanes();
   }
   return {init,_test:{buildSchedule:()=>{buildSchedule();return beeps},vo2max,classify,setProto:(d,s2)=>{distance=d;startSpeed=s2}}};

@@ -71,7 +71,8 @@ const suites=[
   require("./pfracing.e2e.js"),
   require("./pfheats.e2e.js"),
   require("./wipeall.e2e.js"),
-  require("./autobackup.e2e.js")
+  require("./autobackup.e2e.js"),
+  require("./fitref58.e2e.js")
 ];
 run(suites).then(fail=>{
   if(fail)return process.exit(1);

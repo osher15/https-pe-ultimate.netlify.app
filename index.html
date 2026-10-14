@@ -17,21 +17,21 @@
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1220">
-<meta name="hm-build" content="4e6fa7ca">
+<meta name="hm-build" content="cbb70f5c">
 <link rel="stylesheet" href="hm-fonts.css?v=a70ca9ac">
 <link rel="stylesheet" href="hm-styles.css?v=70d6587e">
 <script src="hm-brand.js?v=4f30e0e9"></script>
 <script src="hm-native.js?v=3048ae99"></script>
 <script src="hm-backup-restore.js?v=f1a05be7"></script>
-<script src="hm-data.js?v=df1af914"></script>
+<script src="hm-data.js?v=87ab82ee"></script>
 <script src="hm-assessment-data.js?v=016c9c1c"></script>
-<script src="hm-terms.js?v=4f73fba7"></script>
-<script src="hm-texts.js?v=c3cdc837"></script>
-<script src="hm-i18n.js?v=79712910"></script>
-<script src="hm-app.js?v=539e8b40"></script>
+<script src="hm-terms.js?v=a40b067f"></script>
+<script src="hm-texts.js?v=0d50149e"></script>
+<script src="hm-i18n.js?v=d2e311f9"></script>
+<script src="hm-app.js?v=b8f8993d"></script>
 <script src="hm-qr.js?v=82eb96ad"></script>
 <script src="hm-howto.js?v=cc1c5bf0"></script>
-<script src="hm-know.js?v=4c80ae28"></script>
+<script src="hm-know.js?v=c8a54d1c"></script>
 <script src="hm-collections.js?v=4e6a0204"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -44,10 +44,10 @@
 <script type="text/plain" data-lb="volleyball" data-src="hm-lessonbank-volleyball.js?v=916555c2"></script>
 <script type="text/plain" data-lb="athletics" data-src="hm-lessonbank-athletics.js?v=668ec1b2"></script>
 <script type="text/plain" data-lb="fitness" data-src="hm-lessonbank-fitness.js?v=ffa71bd4"></script>
-<script src="hm-lesson.js?v=1a85fb5a"></script>
+<script src="hm-lesson.js?v=f78b127d"></script>
 <script src="hm-build.js?v=908876ec"></script>
-<script src="hm-tests.js?v=0117e2b7"></script>
-<script src="hm-new.js?v=978be972"></script>
+<script src="hm-tests.js?v=4cca3120"></script>
+<script src="hm-new.js?v=e229d3aa"></script>
 <script src="hm-assessment.js?v=5fad1d30"></script>
 <script src="hm-xlsx.js?v=3199b8b7"></script>
 <script src="hm-assessment-report.js?v=394a2bae"></script>
@@ -230,7 +230,7 @@
         <div class="seg" id="bt-distSeg"><button data-d="15">15 מ׳</button><button data-d="20" class="on">20 מ׳</button></div>
       </div>
       <div class="field"><label data-i18n="bt.speed">מהירות שלב 1 (קמ״ש)</label>
-        <div class="stepper" data-tip="מהירות ההתחלה בפרוטוקול התקני של Léger היא 8.0 קמ״ש למסלול 20 מ׳. שינוי שלה משנה את כל לוח הזמנים של הביפים, ולכן ערכי ה-VO₂max יוצגו כהערכה בלבד — הנורמות של FITNESSGRAM מבוססות על הפרוטוקול התקני."><button id="bt-spMinus">−</button><div class="val" id="bt-spVal">8.0</div><button id="bt-spPlus">+</button></div>
+        <div class="stepper" data-tip="מהירות ההתחלה בפרוטוקול התקני של Léger היא 8.0 קמ״ש למסלול 20 מ׳. שינוי שלה משנה את כל לוח הזמנים של הביפים, ולכן ערכי ה-VO₂max יוצגו כהערכה בלבד — משוואת ההערכה מבוססת על הפרוטוקול התקני."><button id="bt-spMinus">−</button><div class="val" id="bt-spVal">8.0</div><button id="bt-spPlus">+</button></div>
       </div>
       <button class="btn sm ghost" id="bt-spStd" data-i18n="bt.std">↺ תקני (8.0)</button>
       <span class="pill acc" id="bt-protoPill" data-i18n="bt.proto">פרוטוקול תקני</span>
@@ -263,14 +263,15 @@
       </div>
     </div>
     <div class="tblwrap"><table class="tbl" id="bt-tbl">
-      <thead><tr><th>דירוג</th><th>שם</th><th>שלב·מקטע</th><th>מרחק</th><th>זמן</th><th>מהירות</th><th>VO₂max</th><th>קטגוריה</th><th></th></tr></thead>
+      <thead><tr><th>דירוג</th><th>שם</th><th>שלב·מקטע</th><th>מרחק</th><th>זמן</th><th>מהירות</th><th>VO₂max <span data-i18n="bt.refsEst">(הערכה)</span></th><th>קטגוריה</th><th></th></tr></thead>
       <tbody id="bt-tbody"></tbody>
     </table></div>
+    <div class="hint" id="bt-estNote" style="margin-top:6px"></div>
     <div class="empty-state" id="bt-empty"><div class="big">🏁</div>אין עדיין רישומים.<br>בזמן הריצה — כשתלמיד עוצר, לחץ על כפתור הרישום והוא ייכנס ללוח.</div>
   </div>
 
   <details class="fold" id="bt-refFold"><summary data-i18n="bt.refTable">📋 טבלת שלבים ומרחקים מלאה</summary><div class="bd tblwrap" id="bt-refWrap"></div></details>
-  <details class="fold"><summary data-i18n="bt.normTable">📚 טבלת נורמות VO₂max (FITNESSGRAM®)</summary><div class="bd tblwrap" id="bt-normWrap"></div></details>
+  <details class="fold" id="bt-normFold"><summary data-i18n="bt.normTable">📚 ספי ייחוס של בית הספר (VO₂max)</summary><div class="bd tblwrap" id="bt-normWrap"></div></details>
 </section>
 
 <section class="view" id="view-photo">
@@ -1625,7 +1626,7 @@
   </details>
 
   <details class="info-sec" data-info="beep"><summary data-i18n="info.beep.s">🎵 ביפ טסט</summary>
-    <p class="info-w" data-i18n="info.beep.w">מריץ את מבחן הביפ בדיוק שעון אודיו, מחשב VO₂max ומשווה לנורמות FITNESSGRAM.</p>
+    <p class="info-w" data-i18n="info.beep.w">מריץ את מבחן הביפ בדיוק שעון אודיו ומעריך VO₂max לפי משוואת Léger (1988).</p>
     <ul class="info-l" data-i18n="info.beep.l">
       <li><b>טעינת כיתה</b> שולפת את הרשימה שכבר הזנתם — בלי להקליד שמות מחדש.</li>
       <li><b>רישום נשירה</b> לוחצים על התלמיד ברגע שעצר, והשלב נרשם לו.</li>
@@ -1703,9 +1704,9 @@
     <p class="ab-p"><a href="privacy.html" target="_blank" rel="noopener" data-i18n="ab.privLink">מדיניות הפרטיות המלאה ↗</a>
       · <a href="terms.html" target="_blank" rel="noopener" data-i18n="ab.termsLink">תנאי שימוש ↗</a></p></div>
   <div class="ab-sec"><b data-i18n="ab.srcT">📚 מקורות מקצועיים</b>
-    <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger (מבחן הביפ) · נורמות FITNESSGRAM® של Cooper Institute · «אות החינוך
+    <p class="ab-p" data-i18n="ab.src">פרוטוקול Léger ומשוואת ה-VO₂max (מבחן הביפ; Léger, Mercier, Gadoury ו-Lambert, J Sports Sci 1988) · «אות החינוך
       הגופני — סטנדרטים להערכת הישגי התלמידים», משרד החינוך, המזכירות הפדגוגית · תוכנית הלימודים
-      בחינוך גופני. הנורמות הבית־ספריות הן נתון של המורה ונשמרות במכשיר. האפליקציה אינה קשורה ל-Cooper Institute ואינה מאושרת על ידו; הנורמות הן ערכי ייחוס להדרכה בלבד.</p></div>
+      בחינוך גופני. הנורמות וספי הייחוס הבית־ספריים הם נתון של המורה ונשמרים במכשיר; האפליקציה אינה כוללת תקני כושר של גורם שלישי.</p></div>
   <div class="ab-sec"><b data-i18n="ab.builtT">🛠 נבנה עם</b>
     <p class="ab-p" data-i18n="ab.built">JavaScript, HTML ו-CSS בלבד — בלי ספריות חיצוניות ובלי שלב בנייה בדפדפן, כדי
       שהאפליקציה תיפתח מהר ותעבוד בשטח בלי רשת. פותח בשיתוף עם Claude Code.</p></div>

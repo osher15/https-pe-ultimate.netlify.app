@@ -115,12 +115,14 @@ const SOURCES=[
    url:"https://www.shapeamerica.org/MemberPortal/standards/default.aspx",
    tags:["סטנדרטים","מטרות"]},
 
-  {id:"fitgram", org:"Cooper Institute", flag:"📏", region:"std",
-   title:"FITNESSGRAM® — מבחני כושר ואזור בריאות (HFZ)",
-   desc:"סוללת מבחנים בריאותית: כושר אירובי, כוח שריר, סבולת שריר, גמישות והרכב גוף. הציון אינו השוואה לחברים אלא מול ״אזור הכושר הבריא״ לפי גיל ומין.",
-   use:"הבסיס לנורמות שמוצגות במודול הביפ טסט ובמעקב התלמידים.",
-   url:"https://www.cooperinstitute.org/youth/fitnessgram",
-   tags:["מבחני כושר","נורמות"]},
+  /* id kept as "fitgram" so lesson plans saved with cur:"fitgram" still
+     resolve; the entry itself is the published Léger 1988 method (#58). */
+  {id:"fitgram", org:"Léger et al. 1988", flag:"📏", region:"std",
+   title:"ריצת מעבורת 20 מ׳ — הערכת כושר אירובי (Léger ואחרים, 1988)",
+   desc:"Léger, Mercier, Gadoury ו-Lambert. The multistage 20 metre shuttle run test for aerobic fitness. J Sports Sci 1988;6(2):93–101 (PubMed 3184250). מבחן מדורג: קצב הריצה עולה בכל שלב של כדקה, והמהירות בשלב האחרון יחד עם הגיל משמשת להערכת VO₂max.",
+   use:"הבסיס למשוואת הערכת ה-VO₂max במודול הביפ טסט. ספי ייחוס לקטגוריות, אם בכלל, מוזנים על ידי בית הספר או המורה.",
+   url:"https://pubmed.ncbi.nlm.nih.gov/3184250/",
+   tags:["מבחני כושר","ביפ טסט"]},
 
   {id:"nsca-youth", org:"NSCA", flag:"🏋️", region:"std",
    title:"אימוני התנגדות לילדים ובני נוער — נייר עמדה",
@@ -255,7 +257,7 @@ const PROGRAMS=[
    dose:"45 דקות מלאות.",
    blocks:[
      {t:"פתיחה (7 דק׳)",x:"תנועה ליד השולחן: ג׳אמפינג ג׳ק, ברכיים גבוהות, סיבובי כתפיים — 30/15 × 6."},
-     {t:"עיקרי (20 דק׳)",x:"אפשרות א׳: HIIT 40/20 במקום. אפשרות ב׳: משחקי חשיבה־תנועה מדף המשחקים. אפשרות ג׳: שיעור עיוני — קריאת נורמות FITNESSGRAM וניתוח תוצאות הכיתה."},
+     {t:"עיקרי (20 דק׳)",x:"אפשרות א׳: HIIT 40/20 במקום. אפשרות ב׳: משחקי חשיבה־תנועה מדף המשחקים. אפשרות ג׳: שיעור עיוני — הסבר הערכת ה-VO₂max וניתוח תוצאות הכיתה."},
      {t:"ידע (10 דק׳)",x:"נושא אחד מפינת התזונה או ממאגר הידע + דיון קצר. תלמידים מנסחים יעד אישי לשבוע."},
      {t:"סיום (8 דק׳)",x:"מתיחות בישיבה ועמידה, נשימות, סבב משוב."}
    ],
