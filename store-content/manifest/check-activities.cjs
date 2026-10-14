@@ -22,7 +22,7 @@ for(const row of rows){
  const meta=Object.fromEntries(match[1].split('\n').map(line=>{const n=line.indexOf(':');return n<0?[line,'']:[line.slice(0,n),line.slice(n+1).trim()]}));
  const body=match[2];
  if(meta.lang!==lang)issues.push(name+': language mismatch');
- if(meta.source_page_id!==expectedPage)issues.push(name+': source ID differs from index');
+ if((meta.source_page_id||'').replace(/-/g,'')!==expectedPage.replace(/-/g,''))issues.push(name+': source ID differs from index');
  if(seen.has(meta.source_page_id))issues.push(name+': duplicate page ID with '+seen.get(meta.source_page_id));
  else seen.set(meta.source_page_id,name);
  if(meta.kind!==({DR:'drill',GM:'game',AC:'activity'})[id.slice(0,2)])issues.push(name+': kind mismatch');
