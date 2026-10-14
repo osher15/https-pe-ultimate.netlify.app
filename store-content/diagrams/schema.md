@@ -108,6 +108,14 @@ Columns, exactly: `family,diagram_id,section,step,template,group_shown,reason,op
 - The validator looks for `placements.csv` inside the scenes directory, then (only when the directory is named
   `scenes`) next to it. `--placements <file>` overrides this. When no file is found, the check is skipped.
 
+### Cross-scene checks (whole directory)
+
+- **Error `alt-dup`:** the same alt text (after whitespace normalisation) is used by two scenes in one language.
+  Every alt must describe its own diagram in every language. Copying one generic paragraph is not allowed.
+- **Error `title-dup`:** the same title is used by two scenes of one family in one language.
+- **Warning `ball-overlap`:** a ball within 2.5 units of a player's centre hides the player's number. Put the ball
+  about 3 units from the carrier, for example (x+3, y+3).
+
 ## 3. Coordinates and conventions
 
 - Coordinates are **0-100 on both axes inside the template's playing area**. The origin is the top-left

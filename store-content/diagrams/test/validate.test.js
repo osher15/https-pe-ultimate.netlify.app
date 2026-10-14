@@ -355,3 +355,47 @@ test('CLI: exit code and summary line', () => {
   const usage = cp.spawnSync(process.execPath, [script], { encoding: 'utf8' });
   assert.equal(usage.status, 2);
 });
+
+// ------------------------------------------------------------------ cross-scene checks
+function xcodes(list) { return list.map((i) => i.level + ':' + i.code); }
+
+test('cross-scene: distinct alts and titles pass', () => {
+  const a = base();
+  const b = base(); b.id = 'BB-09-D2';
+  b.title = { he: 'כותרת שנייה', en: 'Second', ar: 'ثان', ru: 'Второй', es: 'Segundo' };
+  b.alt = { he: 'תיאור שני', en: 'Second alt.', ar: 'وصف ثان', ru: 'Описание два', es: 'Descripción dos' };
+  assert.deepEqual(V.validateAcrossScenes([a, b]), []);
+});
+
+test('cross-scene: the same alt in one language on two scenes is an error', () => {
+  const a = base();
+  const b = base(); b.id = 'FB-07-D1'; b.family = 'FB-07';
+  b.alt = Object.assign({}, b.alt, { en: 'Different English alt.' });
+  const c = xcodes(V.validateAcrossScenes([a, b]));
+  assert.ok(c.includes('error:alt-dup'));
+  assert.equal(c.filter((x) => x === 'error:alt-dup').length, 4); // he, ar, ru, es still shared
+});
+
+test('cross-scene: alt duplicates are found after whitespace normalisation', () => {
+  const a = base();
+  const b = base(); b.id = 'FB-07-D1'; b.family = 'FB-07';
+  b.alt = { he: 'x1', en: '  Two attackers,\n one defender. ', ar: 'x3', ru: 'x4', es: 'x5' };
+  assert.deepEqual(xcodes(V.validateAcrossScenes([a, b])), ['error:alt-dup']);
+});
+
+test('cross-scene: the same title twice within one family is an error, across families it is not', () => {
+  const a = base();
+  const b = base(); b.id = 'BB-09-D2';
+  b.alt = { he: '1', en: '2', ar: '3', ru: '4', es: '5' };
+  b.title = Object.assign({}, a.title, { en: 'Other' });
+  assert.equal(xcodes(V.validateAcrossScenes([a, b])).filter((x) => x === 'error:title-dup').length, 4);
+  const c = base(); c.id = 'FB-07-D1'; c.family = 'FB-07';
+  c.alt = { he: '1', en: '2', ar: '3', ru: '4', es: '5' };
+  assert.deepEqual(V.validateAcrossScenes([a, c]), []);
+});
+
+test('cross-scene: a ball on top of a player is a warning', () => {
+  const a = base();
+  a.objects = a.objects.map((o) => (o.type === 'ball' ? { type: 'ball', x: 21, y: 31 } : o));
+  assert.deepEqual(xcodes(V.validateAcrossScenes([a])), ['warning:ball-overlap']);
+});

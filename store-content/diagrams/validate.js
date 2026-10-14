@@ -348,6 +348,48 @@ function findPlacements(dir) {
   return null;
 }
 
+// ------------------------------------------------------------------ cross-scene checks
+// Per-scene checks cannot see boilerplate copied between scenes, so these run over the whole set:
+// - the same alt text in one language on two scenes is an error (each alt must describe its own diagram);
+// - the same title in one language on two scenes of one family is an error;
+// - a ball drawn on top of a player hides the player's number (warning).
+var BALL_OVERLAP = 2.5;
+
+function validateAcrossScenes(scenes) {
+  var issues = new Issues();
+  var valid = scenes.filter(function (s) { return isObj(s) && typeof s.id === 'string'; });
+  LANGS.forEach(function (l) {
+    var altSeen = {};
+    var titleSeen = {};
+    valid.forEach(function (s) {
+      var alt = isObj(s.alt) && nonEmpty(s.alt[l]) ? normalizeText(s.alt[l]) : null;
+      if (alt) {
+        if (altSeen[alt]) issues.error('alt-dup', s.id + ' alt.' + l, 'same alt text as ' + altSeen[alt] + '; each alt must describe its own diagram');
+        else altSeen[alt] = s.id;
+      }
+      var title = isObj(s.title) && nonEmpty(s.title[l]) ? normalizeText(s.title[l]) : null;
+      if (title) {
+        var key = s.family + '\u0000' + title;
+        if (titleSeen[key]) issues.error('title-dup', s.id + ' title.' + l, 'same title as ' + titleSeen[key] + ' in family ' + s.family);
+        else titleSeen[key] = s.id;
+      }
+    });
+  });
+  valid.forEach(function (s) {
+    if (!Array.isArray(s.objects)) return;
+    var players = s.objects.filter(function (o) { return isObj(o) && o.type === 'player' && isNum(o.x) && isNum(o.y); });
+    s.objects.forEach(function (o) {
+      if (!isObj(o) || o.type !== 'ball' || !isNum(o.x) || !isNum(o.y)) return;
+      players.forEach(function (p) {
+        if (Math.abs(p.x - o.x) < BALL_OVERLAP && Math.abs(p.y - o.y) < BALL_OVERLAP) {
+          issues.warn('ball-overlap', s.id + ' objects', 'ball at (' + o.x + ',' + o.y + ') covers the number of player ' + p.team + p.n + '; offset the ball by about 3 units');
+        }
+      });
+    });
+  });
+  return issues.list;
+}
+
 function validateDir(dir, opts) {
   opts = opts || {};
   var result = { files: [], issues: [], errors: 0, warnings: 0, placements: null };
@@ -391,6 +433,7 @@ function validateDir(dir, opts) {
     result.placements = pfile;
     result.issues = validatePlacements(fs.readFileSync(pfile, 'utf8'), scenes);
   }
+  result.issues = result.issues.concat(validateAcrossScenes(scenes));
   result.files.forEach(function (f) { f.issues.forEach(count); });
   result.issues.forEach(count);
   function count(i) { if (i.level === 'error') result.errors++; else result.warnings++; }
@@ -452,6 +495,7 @@ module.exports = {
   parseCsv: parseCsv,
   validateScene: validateScene,
   validatePlacements: validatePlacements,
+  validateAcrossScenes: validateAcrossScenes,
   validateDir: validateDir,
   main: main
 };
