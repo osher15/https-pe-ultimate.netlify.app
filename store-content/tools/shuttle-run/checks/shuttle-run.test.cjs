@@ -38,6 +38,7 @@ function loadAppBT() {
     LS: { get: (k, d) => d, set() {} }, SET: { sound: true, voice: true }, $: () => el(), $$: () => [],
     t: (k, d) => d, trUI: x => x, clsUI: x => x, H_LOC: () => 'en', fmtMS: x => String(x), esc: x => x,
     toast() {}, say() {}, beep() {}, keepAwake() {}, ac: () => null, AC: null, ask: async () => null, undo() {}, dlCSV() {}, typingIn: () => false,
+    DATA: require(path.join(REPO, 'hm-data.js')), // the app's BT delegates vo2max to the shared data layer (#58)
     SESSION: { active: () => null }, document: { addEventListener() {} }, requestAnimationFrame: () => 0, cancelAnimationFrame() {}, Math, Date, JSON,
   };
   vm.createContext(ctx);
