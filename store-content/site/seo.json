@@ -1,0 +1,511 @@
+{
+  "note": "AI-assisted draft; review before publication. Planned sitemap only.",
+  "pages": {
+    "/": {
+      "en": {
+        "title": "PE resources",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "משאבים לחינוך גופני",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "موارد التربية البدنية",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Материалы по физкультуре",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Recursos de educación física",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/catalog": {
+      "en": {
+        "title": "catalog | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "catalog | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "catalog | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "catalog | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "catalog | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/coach-board": {
+      "en": {
+        "title": "Tactics board | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "לוח מאמן | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "لوحة الخطط | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Тактическая доска | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Pizarra táctica | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/scoreboard": {
+      "en": {
+        "title": "Scoreboard | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "לוח תוצאות | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "لوحة النتائج | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Табло счёта | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Marcador | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/shuttle-run": {
+      "en": {
+        "title": "Shuttle run | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "ריצת הלוך ושוב | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "الجري المكوكي | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Челночный бег | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Carrera de ida y vuelta | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/interval-trainer": {
+      "en": {
+        "title": "Interval trainer | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "אימון אינטרוולים | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "تدريب الفترات | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Интервальный тренажёр | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Entrenamiento por intervalos | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/lesson-packs": {
+      "en": {
+        "title": "Lesson packs | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "חבילות מערכים | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "حزم الدروس | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Наборы уроков | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Paquetes de clases | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/lesson-packs/basketball": {
+      "en": {
+        "title": "basketball | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "basketball | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "basketball | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "basketball | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "basketball | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/lesson-packs/football": {
+      "en": {
+        "title": "football | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "football | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "football | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "football | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "football | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/lesson-packs/handball": {
+      "en": {
+        "title": "handball | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "handball | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "handball | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "handball | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "handball | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/lesson-packs/volleyball": {
+      "en": {
+        "title": "volleyball | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "volleyball | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "volleyball | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "volleyball | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "volleyball | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/lesson-packs/athletics": {
+      "en": {
+        "title": "athletics | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "athletics | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "athletics | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "athletics | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "athletics | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/lesson-packs/fitness": {
+      "en": {
+        "title": "fitness | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "fitness | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "fitness | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "fitness | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "fitness | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/products/activities": {
+      "en": {
+        "title": "Activities | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "פעילויות | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "أنشطة | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Занятия | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Actividades | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/bundle": {
+      "en": {
+        "title": "Bundle | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "חבילה | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "حزمة | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Комплект | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Paquete | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/faq": {
+      "en": {
+        "title": "FAQ | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "שאלות נפוצות | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "الأسئلة الشائعة | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Частые вопросы | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Preguntas frecuentes | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/support": {
+      "en": {
+        "title": "Support | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "תמיכה | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "الدعم | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Поддержка | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Ayuda | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/licences": {
+      "en": {
+        "title": "licences | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "licences | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "licences | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "licences | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "licences | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/legal/refunds": {
+      "en": {
+        "title": "refunds | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "refunds | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "refunds | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "refunds | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "refunds | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/legal/privacy": {
+      "en": {
+        "title": "privacy | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "privacy | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "privacy | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "privacy | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "privacy | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/legal/terms": {
+      "en": {
+        "title": "terms | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "terms | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "terms | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "terms | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "terms | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/legal/accessibility": {
+      "en": {
+        "title": "accessibility | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "accessibility | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "accessibility | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "accessibility | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "accessibility | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    },
+    "/contact": {
+      "en": {
+        "title": "Contact | PE Ultimate",
+        "description": "Browse draft teaching tools and lesson resources. Check product availability and licence before purchase."
+      },
+      "he": {
+        "title": "יצירת קשר | PE Ultimate",
+        "description": "הכירו כלים וחומרי הוראה מתוכננים. בדקו זמינות ורישיון לפני רכישה."
+      },
+      "ar": {
+        "title": "اتصل بنا | PE Ultimate",
+        "description": "استكشف أدوات ومواد تعليمية قيد الإعداد. تحقق من التوفر والترخيص قبل الشراء."
+      },
+      "ru": {
+        "title": "Контакты | PE Ultimate",
+        "description": "Изучите учебные инструменты и материалы в разработке. Уточняйте доступность и лицензию."
+      },
+      "es": {
+        "title": "Contacto | PE Ultimate",
+        "description": "Explora herramientas y materiales en preparación. Comprueba disponibilidad y licencia antes de comprar."
+      }
+    }
+  }
+}
