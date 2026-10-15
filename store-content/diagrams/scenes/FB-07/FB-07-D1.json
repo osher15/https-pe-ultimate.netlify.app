@@ -1,0 +1,102 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-07-D1",
+  "family": "FB-07",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "An observer points to a “closed” side; the carrier chooses pass or carry before the line."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Observer closes lane",
+    "he": "בחירה מול חסימת נתיב בכדורגל",
+    "ar": "قرار الهجوم أمام مسار مغلق",
+    "ru": "Выбор при закрытом коридоре",
+    "es": "Elegir ante un carril cerrado"
+  },
+  "alt": {
+    "en": "An observer indicates the closed side. The carrier chooses a lead pass to the wide runner or continues carrying; rotate after four turns.",
+    "he": "A1 מוביל כדור, וצופה מסמן צד סגור. A2 נע רחב לקבלת מסירה קדימה, או ש־A1 ממשיך בהובלה אם הנתיב פנוי. W הוא אזור המתנה; מחליפים לאחר ארבע חזרות.",
+    "ar": "يقود A1 الكرة ويشير مراقب إلى جهة مغلقة. يتحرك A2 على الطرف لاستقبال تمريرة أمامية أو يواصل A1 التقدم إذا بقي المسار مفتوحاً. W للانتظار؛ تبديل بعد أربع محاولات.",
+    "ru": "A1 ведёт мяч, наблюдатель показывает закрытую сторону. A2 открывается широко для передачи на ход; иначе A1 продолжает ведение. W — ожидание; смена после четырёх попыток.",
+    "es": "A1 conduce el balón y un observador señala el lado cerrado. A2 se desmarca abierto para recibir en carrera, o A1 continúa si hay espacio. W es espera; rotar cada cuatro acciones."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 20,
+      "y": 65
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 58,
+      "y": 20
+    },
+    {
+      "type": "ball",
+      "x": 23,
+      "y": 68
+    },
+    {
+      "type": "cone",
+      "x": 60,
+      "y": 68
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 0,
+      "w": 9,
+      "h": 95,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        20,
+        65
+      ],
+      "to": [
+        49,
+        65
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        58,
+        20
+      ],
+      "to": [
+        76,
+        20
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        49,
+        65
+      ],
+      "to": [
+        76,
+        20
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Keep separate running corridors and return outside the active goal lane.",
+  "notes": "Shows decision line organisation without a live defender.",
+  "status": "draft"
+}

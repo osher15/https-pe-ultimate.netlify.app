@@ -1,0 +1,116 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-07-D2",
+  "family": "FB-07",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Central defender at 60%, no tackle; reach goal within ten seconds."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Football 2v1 to goal",
+    "he": "יתרון 2 על 1 לשער",
+    "ar": "هجوم اثنين ضد واحد نحو المرمى",
+    "ru": "Выход 2 на 1 к воротам",
+    "es": "Dos contra uno hacia la portería"
+  },
+  "alt": {
+    "en": "A1 carries toward central defender B1 while A2 stays wide. Pass into A2’s run as B1 moves toward the carrier; finish toward the right-side goal within ten seconds.",
+    "he": "A1 מוביל כדור לעבר B1 המרכזי, שמתקדם אל הכדור בקצב 60%. A2 רץ רחב, ו־A1 מוסר אליו הרחק מהמגן לפני סיום לשער בתוך עשר שניות. אין תיקול.",
+    "ar": "يقود A1 الكرة نحو B1 الذي يقترب بسرعة 60٪. يركض A2 عريضاً ويتلقى تمريرة بعيداً عن المدافع قبل الإنهاء نحو المرمى خلال عشر ثوانٍ؛ دون تدخل.",
+    "ru": "A1 ведёт мяч на B1, который смещается к мячу на 60% скорости. A2 бежит широко и получает пас в стороне от защитника. Завершить у ворот за десять секунд без отбора.",
+    "es": "A1 conduce hacia B1, que se acerca al balón al 60 %. A2 corre abierto y recibe un pase alejado del defensor para finalizar hacia la portería en diez segundos, sin entrada."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 16,
+      "y": 58
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 65,
+      "y": 18
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 61,
+      "y": 51
+    },
+    {
+      "type": "ball",
+      "x": 19,
+      "y": 61
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 2,
+      "w": 9,
+      "h": 94,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        16,
+        58
+      ],
+      "to": [
+        49,
+        30
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        61,
+        51
+      ],
+      "to": [
+        53,
+        41
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        65,
+        18
+      ],
+      "to": [
+        82,
+        18
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        49,
+        30
+      ],
+      "to": [
+        82,
+        18
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Defender works at 60% with no tackle; next pair waits until the goal area clears.",
+  "notes": "Uses a goal-bearing half-field, not a cone-only grid.",
+  "status": "draft"
+}
