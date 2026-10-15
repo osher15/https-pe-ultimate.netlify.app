@@ -5465,13 +5465,18 @@ const REC=(function(){
    ============================================================ */
 const FIT=(function(){
   /* ---------- exercise library ---------- */
-  /* איורי התרגילים: GIF מונפש תלת-מימדי לכל תרגיל (exercise-gifs/rig), ותמונות
-     אמיתיות ברישיון פתוח לכמה תרגילים נבחרים (exercise-gifs/photo) — ראו
-     exercise-gifs/CREDITS.md לפירוט המקור והרישיון של כל תמונה. */
-  const PHOTO_EX={lunge:1,pike:1,burpee:1,jack:1,knees:1};
-  const rigGif=fig=>`exercise-gifs/rig/${fig}.gif`;
-  const heroGif=e=>PHOTO_EX[e.id]?`exercise-gifs/photo/${e.id}.gif`:rigGif(e.fig);
-  const gifImg=(fig,name,px)=>`<img src="${rigGif(fig)}" alt="${name}" loading="lazy" width="${px}" height="${px}" style="width:${px}px;height:${px}px;object-fit:contain;border-radius:10px">`;
+  /* Exercise drawings: own cartoon SVG animations, one per exercise id, in exercise-anim/
+     (svg/<id>.svg animated, still/<id>.svg single frame). No photos, no third-party credits.
+     Lists and grids show the still frame (47 running animations would cost CPU and battery);
+     the exercise detail shows the animation, and the browser swaps in the still frame when the
+     user asks for reduced motion. The drawings sit on a light (#eef3f8) card, kept as a rounded
+     card on the dark app theme. */
+  const animSrc=id=>`exercise-anim/svg/${id}.svg`;
+  const stillSrc=id=>`exercise-anim/still/${id}.svg`;
+  const imgStyle=(px,r)=>`width:${px}px;height:${px}px;object-fit:contain;border-radius:${r||10}px;background:#eef3f8`;
+  const thumbImg=(e,px)=>`<img src="${stillSrc(e.id)}" alt="${e.name}" loading="lazy" width="${px}" height="${px}" style="${imgStyle(px)}">`;
+  const heroImg=(e,px)=>`<picture><source media="(prefers-reduced-motion: reduce)" srcset="${stillSrc(e.id)}">`+
+    `<img src="${animSrc(e.id)}" alt="${e.name}" loading="lazy" width="${px}" height="${px}" style="${imgStyle(px,14)};display:block;margin:0 auto"></picture>`;
 
   const EX=[
     /* --- כוח: משקל גוף --- */
@@ -5608,7 +5613,7 @@ const FIT=(function(){
     $("#fit-cList").innerHTML=CIR.list.map((e,i)=>`
       <div class="fit-station ${i===now?"now":""}"><div class="ix">${i+1}</div>
         <div class="grow"><b>${e.name}</b><div class="sb">${e.mus} · ${GRPS[e.grp]}</div></div>
-        <div style="width:46px;height:46px">${gifImg(e.fig,e.name,46)}</div></div>`).join("");
+        <div style="width:46px;height:46px">${thumbImg(e,46)}</div></div>`).join("");
   }
   function cStart(){
     ac(); if(!CIR.list.length)return;
@@ -5648,7 +5653,7 @@ const FIT=(function(){
   function openEx(id){
     const e=EX.find(x=>x.id===id); if(!e)return;
     $("#fit-exTitle").textContent=e.name;
-    $("#fit-exFig").innerHTML=`<img src="${heroGif(e)}" alt="${e.name}" loading="lazy" width="130" height="130" style="width:130px;height:130px;object-fit:contain;border-radius:14px;display:block;margin:0 auto">`;
+    $("#fit-exFig").innerHTML=heroImg(e,130);
     $("#fit-exBody").innerHTML=`
       <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:10px">
         <span class="pill acc">${GRPS[e.grp]}</span><span class="pill">${e.mus}</span>
@@ -5664,7 +5669,7 @@ const FIT=(function(){
     modal("fit-exModal");
   }
   function renderLib(){
-    $("#fit-exGrid").innerHTML=EX.map(e=>`<div class="fit-ex" data-id="${e.id}">${gifImg(e.fig,e.name,74)}<b>${e.name}</b><span>${GRPS[e.grp]} · ${e.mus}</span></div>`).join("");
+    $("#fit-exGrid").innerHTML=EX.map(e=>`<div class="fit-ex" data-id="${e.id}">${thumbImg(e,74)}<b>${e.name}</b><span>${GRPS[e.grp]} · ${e.mus}</span></div>`).join("");
     $$("#fit-exGrid .fit-ex").forEach(t=>t.addEventListener("click",()=>openEx(t.dataset.id)));
   }
 
@@ -5716,7 +5721,7 @@ const FIT=(function(){
     $("#gym-list").innerHTML=day.ex.map(item=>{
       const e=EX.find(x=>x.id===item.id);
       return `<div class="fit-station" data-id="${item.id}" style="cursor:pointer">
-        <div style="width:42px;height:42px;flex:none">${e?gifImg(e.fig,e.name,42):""}</div>
+        <div style="width:42px;height:42px;flex:none">${e?thumbImg(e,42):""}</div>
         <div class="grow"><b>${e?e.name:item.id}</b><div class="sb">${e?e.mus+" · 🎒 "+e.eq:""}</div></div>
         <div class="pill acc" style="flex:none">${item.sets}</div></div>`;
     }).join("");

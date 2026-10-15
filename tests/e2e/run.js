@@ -2,6 +2,7 @@
 const {run}=require("./harness.js");
 const suites=[
   require("./transfer22.e2e.js"),
+  require("./fitanim59.e2e.js"),
   require("./library21.e2e.js"),
   require("./gameadapt.e2e.js"),
   require("./personalcopy.e2e.js"),
