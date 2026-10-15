@@ -1,0 +1,162 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FIT-04-D1",
+  "family": "FIT-04",
+  "sport": "fitness",
+  "template": "fit-stations",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "at four stations pairs alternate performer and observer, the observer given one specific cue to watch at each station and required to report it as “I saw… so try…”."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Partner roles and rotation",
+    "he": "ארבע תחנות בזוגות ומסלול סבב",
+    "ar": "أربع محطات بأزواج ومسار دوران",
+    "ru": "Четыре станции и смена по кругу",
+    "es": "Cuatro estaciones en parejas"
+  },
+  "alt": {
+    "en": "Four stations show one representative pair each: A performs and B observes. Arrows indicate the marked rotation route; level cards offer exercise variations.",
+    "he": "בארבע תחנות מופיע זוג מייצג: שחקן A מבצע ושחקן B צופה ונותן משוב טכני. חצים מסמנים מעבר מסודר מתחנה 1 ל־2, ל־3, ל־4 וחזרה ל־1. בכל תחנה בוחרים רמת קושי מתאימה.",
+    "ar": "في كل محطة زوج ممثل: A يؤدي التمرين وB يلاحظ ويعطي ملاحظة فنية. الأسهم توضح الدوران من 1 إلى 2 ثم 3 و4 والعودة إلى 1. يختار كل متدرب مستوى مناسباً.",
+    "ru": "На каждой станции показана одна пара: A выполняет упражнение, B наблюдает и даёт обратную связь по технике. Стрелки ведут 1→2→3→4→1. Уровень сложности выбирают самостоятельно.",
+    "es": "Cada estación muestra una pareja: A realiza el ejercicio y B observa y comenta la técnica. Las flechas indican el circuito 1→2→3→4→1. Cada participante elige su nivel de dificultad."
+  },
+  "objects": [
+    {
+      "type": "station",
+      "n": 1,
+      "x": 20,
+      "y": 20
+    },
+    {
+      "type": "station",
+      "n": 2,
+      "x": 78,
+      "y": 20
+    },
+    {
+      "type": "station",
+      "n": 3,
+      "x": 78,
+      "y": 76
+    },
+    {
+      "type": "station",
+      "n": 4,
+      "x": 20,
+      "y": 76
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 17,
+      "y": 30
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 25,
+      "y": 30
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 75,
+      "y": 30
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 83,
+      "y": 30
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 75,
+      "y": 85
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 3,
+      "x": 83,
+      "y": 85
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 4,
+      "x": 17,
+      "y": 85
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 4,
+      "x": 25,
+      "y": 85
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        20,
+        20
+      ],
+      "to": [
+        78,
+        20
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        78,
+        20
+      ],
+      "to": [
+        78,
+        76
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        78,
+        76
+      ],
+      "to": [
+        20,
+        76
+      ],
+      "order": 3
+    },
+    {
+      "kind": "move",
+      "from": [
+        20,
+        76
+      ],
+      "to": [
+        20,
+        22
+      ],
+      "order": 4
+    }
+  ],
+  "safety": "Pairs remain spaced at stations; only one partner exercises while the other observes.",
+  "notes": "Shows the performer–observer pairing and one-way circuit route.",
+  "status": "draft"
+}

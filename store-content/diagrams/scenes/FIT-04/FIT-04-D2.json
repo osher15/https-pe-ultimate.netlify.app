@@ -1,0 +1,164 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FIT-04-D2",
+  "family": "FIT-04",
+  "sport": "fitness",
+  "template": "fit-stations",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "two rounds of six stations, 40 seconds at each station (about 8 minutes of work plus signalled transitions), each student choosing their variation at every station, recording one measure in round one, and changing exactly one variable — time, range, or pace — in round two."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Six-station two-round circuit",
+    "he": "שישה מוקדים בשני סבבים",
+    "ar": "ست محطات في جولتين",
+    "ru": "Шесть станций в двух кругах",
+    "es": "Seis estaciones en dos rondas"
+  },
+  "alt": {
+    "en": "Six stations run clockwise, with one representative performer–observer pair shown. R marks the optional recovery area; pairs swap roles at station changes.",
+    "he": "שש תחנות מסודרות במסלול חד־כיווני. זוג מייצג מבצע וצופה, ומחליף תפקידים במעבר לתחנה הבאה. בכל תחנה עובדים 40 שניות, חוזרים לסבב שני ומשנים משתנה אחד בלבד. R הוא אזור התאוששות.",
+    "ar": "ست محطات بمسار واحد. الزوج الممثل يتبادل دور المؤدي والمراقب عند الانتقال. العمل 40 ثانية بكل محطة، ثم جولة ثانية مع تغيير متغير واحد فقط. R منطقة استشفاء متاحة.",
+    "ru": "Шесть станций по одностороннему маршруту. В паре исполнитель и наблюдатель меняются ролями при переходе. На каждой станции 40 секунд, второй круг с изменением лишь одного параметра. R — зона отдыха.",
+    "es": "Seis estaciones en un circuito de sentido único. La pareja alterna ejecución y observación en cada cambio. Son 40 segundos por estación y una segunda ronda cambiando solo una variable. R es zona de recuperación."
+  },
+  "objects": [
+    {
+      "type": "station",
+      "n": 1,
+      "x": 20,
+      "y": 17
+    },
+    {
+      "type": "station",
+      "n": 2,
+      "x": 50,
+      "y": 17
+    },
+    {
+      "type": "station",
+      "n": 3,
+      "x": 80,
+      "y": 17
+    },
+    {
+      "type": "station",
+      "n": 4,
+      "x": 80,
+      "y": 74
+    },
+    {
+      "type": "station",
+      "n": 5,
+      "x": 50,
+      "y": 74
+    },
+    {
+      "type": "station",
+      "n": 6,
+      "x": 20,
+      "y": 74
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 26
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 25,
+      "y": 26
+    },
+    {
+      "type": "zone",
+      "x": 40,
+      "y": 42,
+      "w": 20,
+      "h": 13,
+      "label": "R"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        20,
+        17
+      ],
+      "to": [
+        50,
+        17
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        50,
+        17
+      ],
+      "to": [
+        80,
+        17
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        80,
+        17
+      ],
+      "to": [
+        80,
+        74
+      ],
+      "order": 3
+    },
+    {
+      "kind": "move",
+      "from": [
+        80,
+        74
+      ],
+      "to": [
+        50,
+        74
+      ],
+      "order": 4
+    },
+    {
+      "kind": "move",
+      "from": [
+        50,
+        74
+      ],
+      "to": [
+        20,
+        74
+      ],
+      "order": 5
+    },
+    {
+      "kind": "move",
+      "from": [
+        20,
+        74
+      ],
+      "to": [
+        20,
+        17
+      ],
+      "order": 6
+    }
+  ],
+  "safety": "Recovery zone R is accessible without permission; maintain space between pairs and stations.",
+  "notes": "Shows the six-station progression and optional recovery zone.",
+  "status": "draft"
+}
