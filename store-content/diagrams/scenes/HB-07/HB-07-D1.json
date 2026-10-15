@@ -1,0 +1,148 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "HB-07-D1",
+  "family": "HB-07",
+  "sport": "handball",
+  "template": "hb-half",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "a trio advances unopposed from the halfway line and finishes after at least two passes, each player staying in their own lane the whole way."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Three-lane fast break",
+    "he": "מתפרצת בשלושה נתיבים",
+    "ar": "هجوم سريع في ثلاثة مسارات",
+    "ru": "Быстрый прорыв по трём дорожкам",
+    "es": "Contraataque en tres carriles"
+  },
+  "alt": {
+    "en": "Three attackers run in three separate lanes from halfway, exchange two passes to moving teammates and shoot from outside the 6 m area toward the goal. W waits at the start; R retrieves behind the goal.",
+    "he": "שלושה תוקפים יוצאים מקו האמצע בשלושה נתיבים נפרדים, מוסרים פעמיים לרצים ומסיימים בזריקה לשער מחוץ לרחבת ששת המטרים. W הוא אזור המתנה, R אוסף כדורים מאחורי השער.",
+    "ar": "ينطلق ثلاثة مهاجمين من خط الوسط في مسارات منفصلة، ويمررون مرتين أمام حركة الزملاء ثم يسددون من خارج منطقة الستة أمتار. W للانتظار وR لجمع الكرات خلف المرمى.",
+    "ru": "Трое атакующих стартуют от центра в трёх коридорах, делают две передачи на ход и бросают из-за шестиметровой зоны. W — ожидание, R — сбор мячей за воротами.",
+    "es": "Tres atacantes salen del centro por carriles separados, realizan dos pases al movimiento y lanzan desde fuera del área de seis metros. W indica espera y R recoge balones detrás de la portería."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 4,
+      "y": 20
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 4,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 4,
+      "y": 80
+    },
+    {
+      "type": "ball",
+      "x": 10,
+      "y": 27
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 0,
+      "w": 8,
+      "h": 11,
+      "label": "W"
+    },
+    {
+      "type": "zone",
+      "x": 96,
+      "y": 46,
+      "w": 4,
+      "h": 9,
+      "label": "R"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        4,
+        20
+      ],
+      "to": [
+        34,
+        20
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        4,
+        50
+      ],
+      "to": [
+        47,
+        50
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        4,
+        80
+      ],
+      "to": [
+        57,
+        80
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        28,
+        20
+      ],
+      "to": [
+        38,
+        50
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        44,
+        50
+      ],
+      "to": [
+        55,
+        80
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        57,
+        80
+      ],
+      "to": [
+        95,
+        50
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "Next trio starts after the previous group clears; retriever remains beyond the goal in a safe margin.",
+  "notes": "Shows three lanes, two passes and a separate retrieval zone.",
+  "status": "draft"
+}

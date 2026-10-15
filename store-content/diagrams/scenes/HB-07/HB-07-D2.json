@@ -1,0 +1,142 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "HB-07-D2",
+  "family": "HB-07",
+  "sport": "handball",
+  "template": "hb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "three attackers advance against two defenders working at controlled pace."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Three attackers versus two",
+    "he": "יתרון שלושה מול שניים",
+    "ar": "هجوم ثلاثة ضد اثنين",
+    "ru": "Преимущество трое против двоих",
+    "es": "Superioridad de tres contra dos"
+  },
+  "alt": {
+    "en": "A1 drives toward B1, who moves to challenge. A2 and A3 keep width; A1 passes away from B1 to A2 running outside the 6 m goal area. W waits at the upper sideline. Defenders avoid contact.",
+    "he": "A1 מתקדם בכדרור לעבר B1, שמגיב אליו. A2 ו־A3 שומרים על רוחב; המסירה יוצאת לרץ הפנוי מחוץ לרחבת ששת המטרים. W נמצא בצד המגרש וההגנה פועלת ללא מגע.",
+    "ar": "يراوغ A1 نحو B1 الذي يتحرك لإغلاقه. يبقى A2 وA3 متباعدين؛ تمريرة إلى اللاعب الحر خارج منطقة الستة أمتار. W على الخط الجانبي والمدافعان يعملان دون احتكاك.",
+    "ru": "A1 ведёт мяч на B1, который смещается к нему. A2 и A3 сохраняют ширину; пас идёт свободному игроку за пределами шестиметровой зоны. W — ожидание у боковой линии, без контакта.",
+    "es": "A1 bota hacia B1, que se desplaza a cerrarle. A2 y A3 mantienen la amplitud; el pase va al jugador libre fuera del área de seis metros. W está en la banda y no hay contacto."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 10,
+      "y": 18
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 36,
+      "y": 79
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 10,
+      "y": 81
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 49,
+      "y": 40
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 66,
+      "y": 66
+    },
+    {
+      "type": "ball",
+      "x": 13,
+      "y": 21
+    },
+    {
+      "type": "zone",
+      "x": 10,
+      "y": 0,
+      "w": 30,
+      "h": 6,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        10,
+        18
+      ],
+      "to": [
+        38,
+        30
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        49,
+        40
+      ],
+      "to": [
+        41,
+        32
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        36,
+        79
+      ],
+      "to": [
+        55,
+        80
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        38,
+        30
+      ],
+      "to": [
+        55,
+        80
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        10,
+        81
+      ],
+      "to": [
+        35,
+        86
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "No body contact; defenders work around 60% and the waiting group stays on the sideline.",
+  "notes": "Shows the numerical advantage and wide supporting lanes.",
+  "status": "draft"
+}
