@@ -1,0 +1,115 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-07-D2",
+  "family": "BB-07",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "unopposed entry from 3–4 metres; gather, two steps, rise, soft release, exit sideways; the next player rebounds and feeds."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Lay-up entry, side exit and rebound",
+    "he": "כניסה לצעד וחצי, יציאה וריבאונד",
+    "ar": "دخول التصويب السلمي والخروج والمتابعة",
+    "ru": "Вход на два шага, выход и подбор",
+    "es": "Entrada a bandeja, salida y rebote"
+  },
+  "alt": {
+    "en": "A1 enters without defence from 3–4 m, gathers and shoots, then exits sideways. A2 rebounds only after A1 has cleared the lane. W marks the waiting queue.",
+    "he": "A1 נכנס ללא מגן מ־3–4 מטרים, אוסף וקולע ויוצא הצידה. A2 נכנס לריבאונד רק לאחר ש־A1 פינה את הנתיב. W מסמן את התור.",
+    "ar": "ينطلق A1 دون مدافع من 3–4 أمتار ويجمع الكرة ويسدد ثم يخرج جانبياً. يتابع A2 الكرة بعد إخلاء المسار. W منطقة الانتظار.",
+    "ru": "A1 входит без защитника с 3–4 м, собирает мяч и бросает, затем выходит в сторону. A2 подбирает после освобождения дорожки. W — очередь.",
+    "es": "A1 entra sin defensa desde 3–4 m, recoge y lanza, y sale de lado. A2 recoge el rebote cuando A1 despeja la zona. W es la fila."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 48,
+      "y": 39
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 66,
+      "y": 80
+    },
+    {
+      "type": "ball",
+      "x": 51,
+      "y": 42
+    },
+    {
+      "type": "cone",
+      "x": 62,
+      "y": 39
+    },
+    {
+      "type": "cone",
+      "x": 75,
+      "y": 39
+    },
+    {
+      "type": "zone",
+      "x": 82,
+      "y": 34,
+      "w": 14,
+      "h": 27,
+      "label": "S"
+    },
+    {
+      "type": "zone",
+      "x": 9,
+      "y": 78,
+      "w": 24,
+      "h": 18,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        48,
+        39
+      ],
+      "to": [
+        82,
+        46
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        82,
+        46
+      ],
+      "to": [
+        70,
+        24
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        66,
+        80
+      ],
+      "to": [
+        86,
+        61
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "One active shooter; rebounder enters after side exit.",
+  "notes": "Approach, exit and delayed rebound.",
+  "status": "draft"
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-10-D1",
+  "family": "BB-10",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "The team crosses an area using at least one pass, dribble, and finish in any order."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Pass, dribble and finish: one example",
+    "he": "מסירה, כדרור וסיום: דוגמה אחת",
+    "ar": "تمرير ومحاورة وإنهاء: مثال واحد",
+    "ru": "Пас, ведение, завершение: один пример",
+    "es": "Pase, bote y finalización: un ejemplo"
+  },
+  "alt": {
+    "en": "A1–A3 spread across half-court. One possible order: A1 dribbles then passes to A2, while A3 supports the finish. The lesson allows a different order; A4 observes in W.",
+    "he": "A1–A3 פרוסים בחצי המגרש. סדר אפשרי: A1 מכדרר ומוסר ל־A2 בעוד A3 תומך בסיום. אפשר גם סדר אחר; A4 צופה ב־W.",
+    "ar": "ينتشر A1–A3 في نصف الملعب. مثال واحد: ينطط A1 ثم يمرر إلى A2 ويدعم A3 الإنهاء. يسمح الدرس بترتيب آخر؛ يراقب A4 في W.",
+    "ru": "A1–A3 располагаются широко. Один вариант: A1 ведёт и пасует A2, A3 поддерживает завершение. Порядок может быть иным; A4 наблюдает в W.",
+    "es": "A1–A3 se abren en media cancha. Un orden posible: A1 bota y pasa a A2, mientras A3 apoya la finalización. Puede cambiarse el orden; A4 observa en W."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 22,
+      "y": 58
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 64,
+      "y": 26
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 68,
+      "y": 75
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 4,
+      "x": 10,
+      "y": 88
+    },
+    {
+      "type": "ball",
+      "x": 25,
+      "y": 61
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 82,
+      "w": 18,
+      "h": 16,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        22,
+        58
+      ],
+      "to": [
+        43,
+        54
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        43,
+        54
+      ],
+      "to": [
+        64,
+        26
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        68,
+        75
+      ],
+      "to": [
+        80,
+        63
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Observer stays outside play; preserve spacing.",
+  "notes": "One illustrative sequence, not compulsory.",
+  "status": "draft"
+}

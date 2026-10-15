@@ -1,0 +1,130 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-10-D2",
+  "family": "BB-10",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Three attackers versus two defenders up to 70%; change roles after turnover."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "3v2 with two support options",
+    "he": "3 נגד 2 עם שתי אפשרויות תמיכה",
+    "ar": "ثلاثة ضد اثنين مع خيارَي دعم",
+    "ru": "3 против 2: два варианта поддержки",
+    "es": "3 contra 2 con dos apoyos"
+  },
+  "alt": {
+    "en": "A1 dribbles while A2 and A3 remain wide. B1 and B2 defend at no more than 70% without contact. A1 draws B1 and passes to A3; roles change after a turnover.",
+    "he": "A1 מכדרר ו־A2 ו־A3 נשארים רחבים. B1 ו־B2 מגינים עד 70% וללא מגע. A1 מושך את B1 ומוסר ל־A3; מחליפים תפקידים אחרי איבוד.",
+    "ar": "ينطط A1 الكرة ويبقى A2 وA3 متباعدين. يدافع B1 وB2 حتى 70٪ دون احتكاك. يجذب A1 المدافع ويمرر إلى A3؛ تتبدل الأدوار بعد فقد الكرة.",
+    "ru": "A1 ведёт мяч, A2 и A3 широко открыты. B1 и B2 защищаются до 70% без контакта. A1 привлекает B1 и пасует A3; смена ролей после потери.",
+    "es": "A1 bota y A2 y A3 se abren. B1 y B2 defienden hasta el 70 % sin contacto. A1 atrae a B1 y pasa a A3; cambio de roles tras pérdida."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 24,
+      "y": 52
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 58,
+      "y": 17
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 63,
+      "y": 80
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 52,
+      "y": 45
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 78,
+      "y": 52
+    },
+    {
+      "type": "ball",
+      "x": 27,
+      "y": 55
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 83,
+      "w": 15,
+      "h": 16,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        24,
+        52
+      ],
+      "to": [
+        43,
+        51
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        52,
+        45
+      ],
+      "to": [
+        47,
+        49
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        58,
+        17
+      ],
+      "to": [
+        72,
+        20
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        43,
+        51
+      ],
+      "to": [
+        63,
+        80
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Defenders below 70%, no contact; two open support options.",
+  "notes": "Three attackers, two defenders and an available pass.",
+  "status": "draft"
+}

@@ -1,0 +1,91 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-07-D1",
+  "family": "BB-07",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "receive a soft pass or carry the ball, approach, gather, step on two spots, and place the ball against a high target without release."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Gather and two marked steps",
+    "he": "איסוף ושני צעדים מסומנים",
+    "ar": "جمع الكرة وخطوتان محددتان",
+    "ru": "Сбор мяча и два шага по меткам",
+    "es": "Recogida y dos pasos marcados"
+  },
+  "alt": {
+    "en": "A1 approaches with the ball, gathers before two step spots and rises to touch a high target without releasing. A2 waits in W; the approach and landing zone stay clear.",
+    "he": "A1 מתקדם עם הכדור, אוסף אותו לפני שתי נקודות הצעד ועולה לגעת במטרה גבוהה ללא שחרור. A2 ממתין ב־W; נתיב הגישה והנחיתה נשאר פנוי.",
+    "ar": "يتقدم A1 بالكرة، يجمعها قبل علامتي الخطوتين ويرتفع للمس هدف عال دون إطلاق. ينتظر A2 في W؛ ويبقى مسار الهبوط خالياً.",
+    "ru": "A1 идёт с мячом, собирает его перед двумя метками шагов и касается высокой цели без броска. A2 ждёт в W; путь и приземление свободны.",
+    "es": "A1 se acerca con balón, lo recoge antes de dos marcas de pasos y toca un objetivo alto sin soltarlo. A2 espera en W; entrada y caída libres."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 42,
+      "y": 51
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 16,
+      "y": 82
+    },
+    {
+      "type": "ball",
+      "x": 45,
+      "y": 54
+    },
+    {
+      "type": "cone",
+      "x": 63,
+      "y": 51
+    },
+    {
+      "type": "cone",
+      "x": 75,
+      "y": 51
+    },
+    {
+      "type": "zone",
+      "x": 80,
+      "y": 38,
+      "w": 16,
+      "h": 25,
+      "label": "S"
+    },
+    {
+      "type": "zone",
+      "x": 4,
+      "y": 78,
+      "w": 22,
+      "h": 18,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        42,
+        51
+      ],
+      "to": [
+        79,
+        51
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "No ball release; keep landing zone S clear and queue in W.",
+  "notes": "Gather before the two step markers.",
+  "status": "draft"
+}

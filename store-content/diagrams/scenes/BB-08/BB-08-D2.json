@@ -1,0 +1,99 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-08-D2",
+  "family": "BB-08",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "the attacker without ball moves at 50% toward the gate; the defender maintains distance and guides to the sideline."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Guide the attacker without contact",
+    "he": "הכוונת התוקף ללא מגע",
+    "ar": "توجيه المهاجم دون احتكاك",
+    "ru": "Направление атакующего без контакта",
+    "es": "Orientar al atacante sin contacto"
+  },
+  "alt": {
+    "en": "A1 moves without a ball toward the upper gate at half speed. B1 maintains a gap and angles A1 toward the sideline, away from the gate. A2 observes outside the active area.",
+    "he": "A1 נע ללא כדור לעבר השער העליון בחצי מהירות. B1 שומר מרחק ומכוון אותו לקו הצד הרחק מהשער. A2 צופה מחוץ לאזור הפעיל.",
+    "ar": "يتحرك A1 بلا كرة نحو البوابة العليا بنصف السرعة. يحافظ B1 على مسافة ويوجهه إلى خط الجانب بعيداً عن البوابة. يراقب A2 من الخارج.",
+    "ru": "A1 идёт без мяча к верхним воротам на 50% скорости. B1 держит дистанцию и направляет его к боковой линии, в сторону от ворот. A2 наблюдает.",
+    "es": "A1 va sin balón hacia la puerta superior al 50 %. B1 mantiene distancia y lo guía hacia la banda, lejos de la puerta. A2 observa desde fuera."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 57
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 48,
+      "y": 46
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 12,
+      "y": 87
+    },
+    {
+      "type": "cone",
+      "x": 83,
+      "y": 22
+    },
+    {
+      "type": "cone",
+      "x": 83,
+      "y": 41
+    },
+    {
+      "type": "cone",
+      "x": 83,
+      "y": 65
+    },
+    {
+      "type": "cone",
+      "x": 83,
+      "y": 84
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        18,
+        57
+      ],
+      "to": [
+        70,
+        54
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        48,
+        46
+      ],
+      "to": [
+        65,
+        36
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "Half speed, no contact or steals; maintain spacing.",
+  "notes": "Attacker route and defensive guiding line.",
+  "status": "draft"
+}

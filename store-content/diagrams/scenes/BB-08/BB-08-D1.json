@@ -1,0 +1,87 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-08-D1",
+  "family": "BB-08",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "the defender starts centrally and responds to a partner pointing at the right/left gate; moves, sets between cones, holds two seconds."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Defender closes a signalled gate",
+    "he": "המגן סוגר שער לפי אות",
+    "ar": "المدافع يغلق البوابة المحددة",
+    "ru": "Защитник закрывает указанный выход",
+    "es": "El defensor cierra la puerta señalada"
+  },
+  "alt": {
+    "en": "B1 starts centrally, slides to the upper gate on A1’s signal and holds between its cones for two seconds. A2 observes outside the route. No ball or contact.",
+    "he": "B1 מתחיל במרכז, נע בצעדי הגנה לשער העליון לפי האות של A1 ונעצר בין הקונוסים לשתי שניות. A2 צופה מבחוץ. ללא כדור או מגע.",
+    "ar": "يبدأ B1 في الوسط ويتحرك جانبياً نحو البوابة العليا بإشارة A1 ويثبت بين المخروطين لثانيتين. يراقب A2 من الخارج؛ دون كرة أو احتكاك.",
+    "ru": "B1 начинает в центре, смещается к верхним воротам по сигналу A1 и держит стойку между конусами две секунды. A2 наблюдает снаружи; без мяча.",
+    "es": "B1 empieza en el centro, se desplaza a la puerta superior a la señal de A1 y mantiene la posición entre conos dos segundos. A2 observa fuera; sin balón."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 47,
+      "y": 51
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 13,
+      "y": 86
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 18
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 35
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 68
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 85
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        47,
+        51
+      ],
+      "to": [
+        74,
+        27
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "No crossed feet or contact; observer stays outside.",
+  "notes": "Signal, lateral route, balanced stop.",
+  "status": "draft"
+}
