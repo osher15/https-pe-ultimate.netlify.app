@@ -15,14 +15,20 @@ function read(file){
 const rows=[];
 function add(kind,lang,id){
  const file=path.join(base,'export',kind,lang,id+'.md'),entry=read(file);
- if(!entry)return;
+ if(!entry)throw Error('Missing export: '+file);
  const {meta,body}=entry;
+ if(meta.lang!==lang)throw Error('Wrong language in '+file);
+ if(kind==='lessons'&&meta.family!==id)throw Error('Wrong lesson family in '+file);
+ if(kind==='activities'&&(meta.id||meta.family)!==id)throw Error('Wrong activity ID in '+file);
+ if(!meta.source||!meta.source_page_id||!meta.source_last_edited_at)throw Error('Missing provenance in '+file);
  rows.push({type:kind==='lessons'?'lesson':'activity',id,lang,kind:kind==='lessons'?'lesson':(meta.kind||({DR:'drill',GM:'game',AC:'activity'})[id.slice(0,2)]),notion_url:meta.source||null,notion_page_id:meta.source_page_id||null,notion_last_edited:meta.source_last_edited_at||null,status:meta.status||null,body_sha256:crypto.createHash('sha256').update(body,'utf8').digest('hex'),repo_compare:null,source_file:path.relative(base,file).split(path.sep).join('/')});
 }
 for(const lang of langs)for(const sport of sports)for(let n=1;n<=10;n++)add('lessons',lang,sport+'-'+String(n).padStart(2,'0'));
 const index=fs.readFileSync(path.join(out,'activity-source-index.csv'),'utf8').replace(/\r\n/g,'\n').split('\n').slice(1);
 for(const line of index){if(!line.trim())continue;const m=line.match(/^([^,]+),([^,]+),/);if(m)add('activities',m[1],m[2]);}
 const lesson=rows.filter(r=>r.type==='lesson'),activities=rows.filter(r=>r.type==='activity');
+if(lesson.length!==300||activities.length!==600)throw Error('Incomplete inventory: '+lesson.length+' lessons, '+activities.length+' activities');
+const ids=new Set();for(const r of rows){const k=r.type+'/'+r.lang+'/'+r.id;if(ids.has(k))throw Error('Duplicate ID '+k);ids.add(k);}
 fs.writeFileSync(path.join(out,'lessons.json'),JSON.stringify(lesson,null,2)+'\n');
 fs.writeFileSync(path.join(out,'activities.json'),JSON.stringify(activities,null,2)+'\n');
 const columns=['type','id','lang','kind','notion_url','notion_page_id','notion_last_edited','status','body_sha256','repo_compare','source_file'];
