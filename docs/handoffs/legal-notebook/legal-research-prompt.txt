@@ -1,0 +1,123 @@
+Gemini / NotebookLM brief — legal research + draft legal texts for PE Tools Store — 2026-10-14
+
+How to use: The sources are in the separate file "legal-sources-links.txt" and are already loaded in this notebook.
+Open each link and confirm it is the official, current text. Replace any link that is broken or unofficial
+with the official one and say so. Then run the task in section 3.
+You are a research assistant, not a lawyer. Everything you produce is a draft for review by a licensed
+lawyer. Say this at the top of every document.
+
+---
+
+1. Business facts (use exactly these; do not assume others)
+- Seller: a private individual in Israel who will open an Osek Patur (exempt dealer). Expected turnover is
+  small. The 2026 ceiling is reported as ₪122,833; verify it with the Israel Tax Authority. The seller will move
+  to Osek Murshe or a company if sales grow.
+- Products: downloadable digital products for PE (physical education) teachers:
+  - lesson-plan packs with diagrams in 5 languages: Hebrew, English, Arabic, Russian, Spanish;
+  - a drill/game/activity pack;
+  - standalone offline HTML tools: a tactics/coach board, a scoreboard, a "20 m Shuttle Run (Beep Test)" based on
+    Léger et al. 1988, and an interval trainer;
+  - a bundle.
+- Pricing: one-time purchases of about ₪19–149. No subscription. No account is required for the tools.
+- Buyers: teachers and schools in Israel and worldwide, including the EU, UK and US. The content is in 5
+  languages for that reason.
+- Licence model (owner decision): two separate products:
+  - (a) a Single-Teacher licence: one named teacher, all of their classes, not transferable;
+  - (b) a School licence: all PE staff of one school or campus, at a higher price.
+
+  Both licences: no resale, no redistribution, and no uploading to public sites or shared drives outside the
+  licensee. The seller keeps ownership.
+- Data: the tools run offline and store settings only in the browser (localStorage). They send no data and use
+  no student accounts. A teacher may type pupils' names or bib numbers into a tool; that stays on the device.
+  The storefront will be a static website, with payment by a third-party provider (to be chosen).
+- Content:
+  - Original texts written with AI assistance.
+  - Translations were made with AI. The owner states that the professional content was reviewed by several
+    teachers and checked against Ministry of Education curricula.
+  - No third-party text or media is used.
+  - "FITNESSGRAM", "PACER" and "Healthy Fitness Zone" are deliberately not used, because they are Cooper
+    Institute trademarks.
+- Physical activity: the products describe exercises and a maximal-effort fitness test for pupils, which is a
+  safety and liability exposure.
+
+2. Questions to answer (each with citations to the sources)
+1. Business set-up: Can an Osek Patur sell digital products to consumers abroad?
+   - What are the income-tax and VAT obligations in Israel, including receipts and invoices (קבלות)?
+   - Does selling from abroad affect the Osek Patur status?
+2. EU/UK/US sales tax: Does a non-EU seller owe EU VAT on B2C digital sales from the first euro (non-Union
+   OSS)? What are the UK VAT rules and US state sales tax nexus for digital goods?
+   - Compare a Merchant of Record platform with a plain payment processor, where the MoR is the legal seller
+     and handles VAT, receipts and refunds.
+   - Compare at least Paddle, Lemon Squeezy, Gumroad and Payhip: whether each accepts an Israeli individual
+     or Osek Patur, fees, payout to Israel, refund handling, and which takes legal responsibility. Use only their
+     official pages.
+3. Consumer cancellation and refunds for digital content:
+   - Israel: distance-selling cancellation and the exception for "information" (מידע) under the Computers Law.
+   - EU: Consumer Rights Directive art. 16(m), the express-consent and acknowledgement flow before download, and
+     the Digital Content Directive remedies for defects.
+   - UK: Consumer Contracts Regulations 2013.
+   - US: general expectations.
+
+   What must the checkout show? Never recommend "no refunds under any circumstances".
+4. Licence terms: what makes a teacher licence and a school licence enforceable and clear, given that
+   consumer law limits unfair terms (EU Unfair Terms Directive, Israeli Standard Contracts Law).
+5. Privacy:
+   - Israel: the Privacy Protection Law and its Amendment 13.
+   - GDPR and UK GDPR for a static site with a payment provider.
+   - What changes if analytics or cookies are added.
+   - CCPA applicability thresholds.
+   - COPPA: the products are sold to teachers, and pupils are not users. Confirm this.
+6. Website accessibility obligations:
+   - Israel: the Equal Rights for Persons with Disabilities service-accessibility regulations and IS 5568.
+   - EU: the European Accessibility Act and its microenterprise exemption.
+7. Marketing rules: the Israeli anti-spam rule (Communications Law §30A), GDPR consent for e-mail, FTC
+   endorsement guides (no fake reviews), and price display including VAT.
+8. Safety and liability wording for exercise and fitness-test content used by teachers with minors: what
+   disclaimers are customary and what they cannot exclude.
+9. IP:
+   - The trademark-safe naming of the shuttle-run test, and how to cite Léger et al. 1988.
+   - Copyright notice for AI-assisted original content.
+   - Whether the owner should register a trademark for the store name. List options only.
+
+2b. Additional official texts to find and add yourself (no stable link in the sources file)
+- Israel: Consumer Protection Law 5741-1981; Consumer Protection (Cancellation of Transaction) Regulations 5771-2010; Privacy Protection Law 5741-1981 incl. Amendment 13; Standard Contracts Law 5743-1982; Copyright Law 2007; Trademarks Ordinance; Communications Law section 30A (anti-spam); Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations 5773-2013 (website provisions) and Israeli Standard IS 5568; Israel Tax Authority pages on Osek Patur and VAT on export of services.
+- UK: HMRC guidance on VAT for digital services sold to UK consumers.
+- US: an official or academic overview of state sales tax on digital goods after South Dakota v. Wayfair.
+- Payment platforms: official seller-eligibility and terms pages of Paddle, Lemon Squeezy, Gumroad and Payhip.
+
+3. Deliverables (Markdown, each document in Hebrew and English)
+1. legal-research.md: answers to §2. Each answer has a citation (source and section), states its
+   confidence, and ends with "Questions for a lawyer". Add a one-page risk table: issue, jurisdiction, risk
+   (high/medium/low), recommended action.
+2. recommended-setup.md: a concrete recommendation covering:
+   - Osek Patur plus a specific Merchant of Record, or another option, with reasons and costs;
+   - what to do before the first sale, as a step list;
+   - when to switch to Osek Murshe.
+3. Draft documents, ready for lawyer review:
+   - terms-of-sale.md: Terms of Sale and End-User Licence. Include the Single-Teacher and School licence
+     definitions, permitted and forbidden use, delivery, updates, the refund policy by jurisdiction,
+     limitation of liability within what the law allows, governing law and jurisdiction, and contact details.
+   - refund-policy.md: for Israel, EU, UK and the rest of the world, with the exact checkbox wording
+     for the EU/UK waiver before download.
+   - privacy-policy.md: two parts: the storefront, and the offline tools (local storage only, how to
+     delete).
+   - safety-disclaimer.md: short, for inside the products. Cover teacher responsibility, adapting to
+     pupils, stopping on pain or dizziness, medical clearance for the maximal shuttle-run test, and no medical
+     claims.
+   - accessibility-statement.md: a template with the Israeli-required fields.
+   - content-and-translation-notice.md: use the owner's wording: "Translations were produced with AI. The
+     professional content is accurate and was reviewed by several teachers and checked against Ministry of
+     Education curricula; small proofreading, syntax or terminology errors are possible." Add an AI-assistance
+     note and the copyright line.
+   - checkout-copy.md: the exact texts shown at checkout: price incl. tax, licence choice, waiver
+     checkbox, links.
+4. open-questions.md: everything the owner or a lawyer must decide, ranked.
+
+4. Rules
+- Cite a specific source for every legal statement. Where a source is missing or unclear, write "unverified"
+  instead of guessing.
+- Do not invent laws, section numbers, thresholds or fees. Copy figures with their date and source.
+- Hebrew must be natural legal Hebrew. English must be plain English. Keep the drafts short and readable.
+- Never promise "no refunds", "100% legal", "certified" or "approved by the Ministry".
+- Return all files in one zip. Add a summary page that lists every source you actually opened, with the
+  date you accessed it.
