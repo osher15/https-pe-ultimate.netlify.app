@@ -1,0 +1,13 @@
+family,diagram_id,section,step,template,group_shown,reason,open_question
+BB-09,BB-09-D1,mainA,1,bb-half,representative,Shows the unopposed choice before adding a defender.,
+BB-09,BB-09-D2,mainB,1,bb-half,representative,Contrasts defender commitment with the unopposed decision.,
+FB-07,FB-07-D1,mainA,1,fb-half,representative,Shows decision line organisation without a live defender.,
+FB-07,FB-07-D2,mainB,1,fb-half,representative,"Uses a goal-bearing half-field, not a cone-only grid.",
+HB-07,HB-07-D1,mainA,1,hb-half,representative,"Shows three lanes, two passes and a separate retrieval zone.","Retriever location must be rendered in the margin band, per schema."
+HB-07,HB-07-D2,mainB,1,hb-half,representative,Shows the numerical advantage and wide supporting lanes.,
+VB-05,VB-05-D1,mainA,1,vb-full,representative,"Three distinct roles, target zone and final ball path.",Does the feeder count as one of the triad or a fourth person? Toss shown from receiver start to avoid inventing a fourth player.
+VB-05,VB-05-D2,mainB,1,vb-full,representative,Shows progression from uncontested practice to two trios.,
+AT-04,AT-04-D1,mainA,1,at-lanes,representative,Depicts both exchange zones and the safe return route.,Renderer must support outer margin for R; current 0–100 convention places R at y=93–99.
+AT-04,AT-04-D2,mainB,1,at-lanes,representative,Shows the adjustable check point used to match speed.,
+FIT-04,FIT-04-D1,mainA,1,fit-stations,representative,Shows the performer–observer pairing and one-way circuit route.,Source says three to four pairs at each station; representative pairs are shown to preserve clarity.
+FIT-04,FIT-04-D2,mainB,1,fit-stations,representative,Shows the six-station progression and optional recovery zone.,Lesson gives six stations but does not specify their physical shape; this is a schematic arrangement.
