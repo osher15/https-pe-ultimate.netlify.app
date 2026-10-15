@@ -1,5 +1,5 @@
 > **Draft for lawyer review — not legal advice.**
-> Version 0.1 (draft) · 2026-10-15
+> Version 0.2 (draft) · 2026-10-15
 
 # Checkout Copy (English)
 
@@ -16,16 +16,22 @@ checkbox, custom receipt text) is still to be confirmed — see open-questions.m
 > **Choose your licence**
 >
 > ◯ **Single-Teacher licence — {{PRICE_TEACHER}}**
-> For one named teacher, for all of your own classes. Personal and non-transferable.
+> For one named teacher: your own classes and pupils, on your own devices. Personal and non-transferable.
+> Colleagues need their own licence — extra licences are {{EXTRA_LICENCE_DISCOUNT}} off.
 >
 > ◯ **School licence — {{PRICE_SCHOOL}}**
-> For all PE staff at one school campus, for that school's pupils.
+> For all PE staff (including substitutes) at one school campus, for that school's pupils. One licence per campus.
 >
 > Neither licence allows resale, sharing outside the licence, or uploading to public sites or shared drives.
 > [Full licence terms]({{TERMS_URL}})
 
 Field label for the licensee: **Teacher's full name** (Single-Teacher) / **School name and campus address**
-(School). This name appears on the receipt.
+(School). This name appears on the receipt and is the licence record; it may also appear as a watermark in PDF
+products *[owner decision]*.
+
+Line under the licence choice:
+> Updates and corrections to this version are free. Already have a Single-Teacher licence? Upgrade to a School
+> licence by paying the difference.
 
 ## 3. Waiver checkbox (EU/UK; may be shown to all buyers)
 
@@ -40,7 +46,8 @@ Unticked by default. Placed above the "Pay" button. The download starts only aft
 ## 4. Line under the "Pay" button
 
 > Sold by {{MOR_NAME}}, our merchant of record. Licensed by {{SELLER_NAME}}.
-> Not happy? See our [Refund Policy]({{REFUND_POLICY_URL}}) — your statutory rights are not affected.
+> Digital files cannot be returned: once downloaded, purchases are final, except for duplicate purchases,
+> billing errors, faulty products and your legal rights. [Refund Policy]({{REFUND_POLICY_URL}})
 
 ## 5. Footer links (store and checkout)
 
@@ -55,7 +62,7 @@ Must include the durable-medium confirmation: see `refund-policy.en.md`, Annex B
 ## 7. Product-page notes (short)
 
 > Translations were produced with AI. [More]({{CONTENT_NOTICE_URL}})
-> Teaching aid for qualified teachers. [Safety]({{SAFETY_URL}})
+> Recommendations for qualified teachers — you decide and adapt every activity to your pupils. [Safety]({{SAFETY_URL}})
 
 Do not use: "100% legal", "certified", "official", "Ministry-approved", "professionally translated", "works on
 every device" (see product-readiness.md §7).

@@ -1,5 +1,5 @@
 > **Draft for lawyer review — not legal advice.**
-> Version 0.1 (draft) · 2026-10-15 · Effective date: {{EFFECTIVE_DATE}}
+> Version 0.2 (draft) · 2026-10-15 · Effective date: {{EFFECTIVE_DATE}}
 
 # Privacy Policy — {{STORE_NAME}}
 

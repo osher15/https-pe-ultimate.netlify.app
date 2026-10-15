@@ -1,11 +1,17 @@
 > **Draft for lawyer review — not legal advice.**
-> Version 0.1 (draft) · 2026-10-15
+> Version 0.2 (draft) · 2026-10-15
 
 # Safety Notice — texts to embed in products
 
 Short texts for the About panel, footer or first page of each product. Keep them short; do not add medical
 claims. These are guidance and a reminder of the teacher's responsibility; they do not exclude the seller's own
 liability, which is dealt with only in the Terms of Sale (section 11).
+
+## 0. Responsibility line (all products — place first)
+
+> All content, drills, games, lesson plans and fitness tests are recommendations only. The teacher or user decides
+> whether and how to use them and must adapt every activity — including fitness tests such as the 20 m shuttle
+> run — to the pupils' age, health and ability and to the environment.
 
 ## 1. General (lesson packs and drill/activity packs)
 
@@ -37,5 +43,5 @@ liability, which is dealt with only in the Terms of Sale (section 11).
 
 ## 4. Footer line (all tools, one line)
 
-> Teaching aid for qualified teachers. Adapt to your pupils and supervise. Stop on pain or dizziness. Not medical
+> Recommendations only — the teacher decides and adapts. Supervise. Stop on pain or dizziness. Not medical
 > advice.

@@ -1,5 +1,5 @@
 > **Draft for lawyer review — not legal advice.**
-> Version 0.1 (draft) · 2026-10-15 · Effective date: {{EFFECTIVE_DATE}}
+> Version 0.2 (draft) · 2026-10-15 · Effective date: {{EFFECTIVE_DATE}}
 
 # Terms of Sale and Licence — {{STORE_NAME}}
 
@@ -27,14 +27,21 @@ trainer) and bundles. Each product page states what is included, the languages, 
 Each product is sold with one of two licences. Your receipt shows which one you bought.
 
 **3.1 Single-Teacher licence.** A personal, non-exclusive, non-transferable licence for **one named teacher**
-to use the product for teaching **all of their own classes and groups**, at any school or club where they teach.
-The teacher may print copies and show the product on a screen or projector for their own pupils.
+to use the product with **their own classes and pupils**, on **their own devices**, at any school or club where
+they teach. The teacher may print copies and show the product on a screen or projector for their own pupils.
+- Colleagues need their own licence. Additional Single-Teacher licences for colleagues are offered at
+  {{EXTRA_LICENCE_DISCOUNT}} off.
+- A substitute teacher who temporarily covers the licensed teacher's classes may use the materials for those
+  classes only, for the duration of the cover.
 
-**3.2 School licence.** A non-exclusive, non-transferable licence for **one school at one physical campus**.
-All physical-education staff employed or engaged by that school *[owner to decide: including substitute and
-student teachers while they teach there]* may use the product for that school's pupils. The school may keep the
-files on an internal drive that only those staff can access. A teacher who leaves the school may not keep using
-the school's copy.
+**3.2 School licence.** A non-exclusive, non-transferable licence for **one school at one campus**. All
+physical-education staff employed at that campus, including substitute teachers, may use the product for that
+school's pupils. The school may keep the files on an internal drive that only those staff can access. A school
+with several campuses needs one School licence per campus. A teacher who leaves the school may not keep using the
+school's copy.
+
+**3.2a Licence record.** At checkout we collect the name of the licensed teacher or school. It appears on the
+receipt and is our licence record. PDF products may show it as a watermark *[owner decision: optional]*.
 
 **3.3 Not allowed under either licence:**
 - reselling, renting, sub-licensing, sharing or giving the files or access to anyone outside the licence;
@@ -49,16 +56,14 @@ Adapted versions stay under the same licence.
 **3.4 Ownership.** We keep all rights in the products. You buy a licence, not the copyright.
 Ownership is not transferred.
 
-**3.5 Upgrades.** A Single-Teacher licence can be upgraded to a School licence by paying the difference
-*[owner decision]*.
+**3.5 Upgrades.** A Single-Teacher licence can be upgraded to a School licence by paying the difference.
 
 ## 4. Delivery and updates
 
 Delivery is digital, through a download link sent by {{MOR_NAME}} after payment is confirmed. The tools are
 single HTML files (some with a media folder) that you open in a modern browser. They run without an internet
-connection once downloaded. Corrections for the same version are provided free of charge when we publish them
-*[owner to decide: for how long]*. New products or major new versions are not included unless the product page
-says so.
+connection once downloaded. Updates and corrections to the version you bought are free. A substantially new edition of a
+product may be sold separately. New products are not included unless the product page says so.
 
 ## 5. Prices and taxes
 
@@ -67,14 +72,21 @@ total before you pay. *[Accountant to confirm.]*
 
 ## 6. Cancellation and refunds
 
-See the **Refund Policy** ({{REFUND_POLICY_URL}}). Nothing in these Terms limits your statutory cancellation
+In short: because digital files cannot be returned, a purchase is final once the product has been downloaded
+or opened, except for duplicate purchases, products not yet downloaded, billing errors, faulty products, and any
+right that the law gives you. The full rules are in the **Refund Policy** ({{REFUND_POLICY_URL}}). Nothing in these Terms limits your statutory cancellation
 rights or your rights if a product is faulty.
 
 ## 7. Safety and teacher responsibility
 
+**All content, drills, games, lesson plans and fitness tests are recommendations only. The teacher or user is
+responsible for deciding whether and how to use them, and must adapt every activity — including fitness tests
+such as the 20 m shuttle run — to the pupils' age, health and ability and to the environment.**
+
 The products are teaching aids for qualified teachers. You decide whether an activity suits your pupils, the
 space and the equipment, and you supervise it. Follow your school's safety and medical policies. The 20 m Shuttle
-Run is a maximal-effort test; see the **Safety Notice** ({{SAFETY_URL}}). The products give no medical advice.
+Run is a maximal-effort test; see the **Safety Notice** ({{SAFETY_URL}}). The products give no medical advice. This section allocates responsibility for how the
+products are used in class; it does not limit the liability described in section 11.2.
 
 ## 8. Content and translations
 
