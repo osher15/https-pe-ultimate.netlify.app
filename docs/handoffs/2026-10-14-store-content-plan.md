@@ -62,3 +62,32 @@ remains a separate owner merge decision.
 
 ## 5. Limitations
 Planning document only. No content has been exported yet and no diagram has been drawn. No ChatGPT agent is running yet. No Issue was opened: per AGENTS.md, the C2/C5 reservations are recorded here and should be mirrored in an Issue once code work starts.
+
+
+## 6. Status update — 2026-10-15 (afternoon)
+
+**Done and merged on `ccr-f0f0c4fd-ymvjjb`:** C2 diagram engine; C5 product readiness; C8 shuttle run (20 m / adapted 15 m);
+C9 interval trainer; C10 animated cartoon demonstrations for all 47 exercises; C11 owner-decision updates;
+C12 legal drafts v0.2 (HE/EN, for lawyer review); Issue #58 (FITNESSGRAM/HFZ removal) merged on this branch only.
+
+**ChatGPT (branch `codex/g1-notion-export-pilot-20261014`), verified by Claude on 2026-10-15:**
+G1 exports 300 + 600 (checkers 0 issues), deterministic 900-row manifest, G2a pilot accepted,
+G2b basketball (20 scenes) accepted. ChatGPT cannot compare all 900 pages to Notion; that moved to Claude.
+
+**Claude's open tasks**
+| ID | Task | Status |
+|---|---|---|
+| C13 | Notion fidelity sample (120 files) | running |
+| C14 | Reconcile lesson exports vs app lesson bank (`repo_compare`) | next, after C13 |
+| C15 | Pack builder: print-ready sport packs with diagrams at their anchors (basketball first) | next, after C14 |
+| C16 | Activity import converter (data files) for a future app library | after the owner lifts the hold |
+| C17 | Integrate animations into app + interval trainer (INTEGRATION.md) | needs owner approval |
+| C18 | Delete-data button for scoreboard, coach board, interval trainer | small, proposed |
+| C19 | Storefront (static, checkout disabled) in a separate repo | needs the repo + owner decisions |
+
+**ChatGPT's open tasks:** G2b football → handball → volleyball → athletics → fitness (Claude reviews each sport),
+G3 activity metadata, G4 copy, sitemap.
+
+**Owner:** private store repo; platform sign-up (Lemon Squeezy supported countries lists Israel under bank payouts; confirm
+individual Osek Patur approval, fees); lawyer + accountant review (`store-content/legal/open-questions.md`);
+numbers {{EXTRA_LICENCE_DISCOUNT}} and {{FIX_DAYS}}; merge decisions.
