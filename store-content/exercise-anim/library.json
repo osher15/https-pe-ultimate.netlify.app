@@ -134,7 +134,7 @@
    "appFig": "climber",
    "equipment": "none",
    "anim": "climber",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "knees",
@@ -143,7 +143,7 @@
    "appFig": "knees",
    "equipment": "none",
    "anim": "knees",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "burpee",
@@ -161,7 +161,7 @@
    "appFig": "jack",
    "equipment": "none",
    "anim": "skip",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "buttkick",
@@ -170,7 +170,7 @@
    "appFig": "buttkick",
    "equipment": "none",
    "anim": "buttkick",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "skater",
@@ -179,7 +179,7 @@
    "appFig": "skater",
    "equipment": "none",
    "anim": "skater",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "plank",

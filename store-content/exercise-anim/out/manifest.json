@@ -19,13 +19,26 @@
    "fps": 25,
    "frames": 75,
    "size": 260,
-   "svgBytes": 37998,
-   "svgSha256": "a33a998adff6d85c24b495367e6730a23a5b7db5845c8e4e316e9eba8e158b0e",
+   "svgBytes": 37964,
+   "svgSha256": "14df17ee538366d7ecaa86d78068dffd73324976833a0f496fdfc668baf6b4ed",
    "stillSha256": "bcfa634e38808eece6ddb7125e41ef73f4bc9f368da42c23f8b26c005ce4328e",
    "gifFps": 20,
    "gifFrames": 60,
-   "gifBytes": 115676,
-   "gifSha256": "916657cd2f07da06ef95c4ecf82d40b3665380d8b7f7ffccc83830f80a6d9e71"
+   "gifBytes": 115652,
+   "gifSha256": "47385e1e05f9d9dd845fddd9920cfd252f937c5528089285aac857cc7fba34c1"
+  },
+  "buttkick": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 31050,
+   "svgSha256": "893fedc8445b4d5b3864f586a86378e596d14f5acc4bff19781c3ac22f18d534",
+   "stillSha256": "c79a9b24519cda8889333206472c0e78b7ea27f7da64cf4aeaa02fb7197396d7",
+   "gifFps": 20,
+   "gifFrames": 24,
+   "gifBytes": 49104,
+   "gifSha256": "c5f244f7cd3ceff284c841cf802be43638b96e2091aadbcc9c2496c2fb8d0f7c"
   },
   "calf": {
    "duration": 2.8,
@@ -39,6 +52,19 @@
    "gifFrames": 56,
    "gifBytes": 54745,
    "gifSha256": "3d667ceeb372e946b02f74da9a3df2e3c14afd80161c2ba49b37a2fcad149e6e"
+  },
+  "climber": {
+   "duration": 2,
+   "fps": 25,
+   "frames": 50,
+   "size": 260,
+   "svgBytes": 15931,
+   "svgSha256": "cf751fe37e513423762c3ca989da52b52aa5bfda0377e5f4248a96c2bc348eeb",
+   "stillSha256": "cf88616e9250fe958200d904687fdf327808fb86b6236cfd9b85e0ffc0f0dd86",
+   "gifFps": 20,
+   "gifFrames": 20,
+   "gifBytes": 27828,
+   "gifSha256": "24a2a8fd9502838bc0588d00f9a122f6f5279c4cbd841c7d627d0eac57bda89a"
   },
   "dip": {
    "duration": 2.6,
@@ -71,13 +97,13 @@
    "fps": 25,
    "frames": 75,
    "size": 260,
-   "svgBytes": 38662,
-   "svgSha256": "d8cfc2c770a9c7c0b1c5e6d98e7308f164abaf7685d3fa2376c54699fc39be02",
+   "svgBytes": 38690,
+   "svgSha256": "682ca43b3b4a043a7467ccf407b0a64689ed4954053fcfdbd3feb67a241b612e",
    "stillSha256": "540e0d02c8b8610d15d2abe679f476288ae0d4e34293ee6809556feb8330724a",
    "gifFps": 20,
    "gifFrames": 60,
-   "gifBytes": 148635,
-   "gifSha256": "43cdde09ef237b4642f2296c71855dfd513f141b9b017efef1207dad2f8159f2"
+   "gifBytes": 148047,
+   "gifSha256": "7d212036133576178621c5f97fbdb689e32ec203dc5eaf00df88cb71e48c9b50"
   },
   "jack": {
    "duration": 2.4,
@@ -91,6 +117,19 @@
    "gifFrames": 24,
    "gifBytes": 77521,
    "gifSha256": "d8694e23023c48496aa757bb579af36f690fd8545504da7b73a90dfec20c77b9"
+  },
+  "knees": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 31222,
+   "svgSha256": "107c5501f45d2ccfefbf8b08a14155490827eb1a75d05d1f3403093ac9deb155",
+   "stillSha256": "256b5e3c7499b53ad1e19aa245a9a570fec3d3d29c349c69b30cef779a0a838b",
+   "gifFps": 20,
+   "gifFrames": 16,
+   "gifBytes": 38112,
+   "gifSha256": "bf2bc4358aa5cfbe09bad3d06a7311e904d2adf656b280f8e2d02b95af81e6a7"
   },
   "lunge": {
    "duration": 2.8,
@@ -175,13 +214,39 @@
    "fps": 25,
    "frames": 75,
    "size": 260,
-   "svgBytes": 37671,
-   "svgSha256": "8385f40d6cca893e7b8193d10106db9bb6f425241e8785773e5e63ce87486352",
-   "stillSha256": "fe3568c0807c906ad47f200133a5f0e6979972f96870f0ef226fc04194f9bf3c",
+   "svgBytes": 37655,
+   "svgSha256": "a8a2ffd786ec9a955439a36a2cd6240bb52399dbd0325288bff0642d4e83dfea",
+   "stillSha256": "399bebac0ab1d23924cff7d0871f78da6c16675b42876316cb8b72d9e834f72e",
    "gifFps": 20,
    "gifFrames": 60,
-   "gifBytes": 104225,
-   "gifSha256": "d77ccc29e75b1721876444381505bc811d200026c4d9ac1120f8b9010288c853"
+   "gifBytes": 103710,
+   "gifSha256": "9147ad20b02aa20c1383c99033dbf42fb3dfd7f4bad5d7b37b04c19d58fe5186"
+  },
+  "skater": {
+   "duration": 2.8,
+   "fps": 25,
+   "frames": 70,
+   "size": 260,
+   "svgBytes": 39064,
+   "svgSha256": "b7f1601802487ecf779ab111bc1166d565b55fc46423cd847b096dc224336441",
+   "stillSha256": "789362b953959a9f82b716a6950431b1ef9d266bce03d9a85f8f83553811defd",
+   "gifFps": 20,
+   "gifFrames": 28,
+   "gifBytes": 75756,
+   "gifSha256": "8b411a2254ac6f562ce99f0603cd8481c2ecc9530ae0b89ef2d6534dc55d7bb3"
+  },
+  "skip": {
+   "duration": 2,
+   "fps": 25,
+   "frames": 50,
+   "size": 260,
+   "svgBytes": 35395,
+   "svgSha256": "57f18e94ccb32247c8eecbc125407dafa584c79bf89ae4ed3be60ac88b43b594",
+   "stillSha256": "bbff70e6351b251ed3bb8afc21747d2b49d0cfbc393756979a3eca8ab0f45d59",
+   "gifFps": 20,
+   "gifFrames": 10,
+   "gifBytes": 23707,
+   "gifSha256": "e75c012ad2ae8869a1dd96085ac63a46183bd2502fa698c4810d4e184464e7c5"
   },
   "squat": {
    "duration": 2.8,

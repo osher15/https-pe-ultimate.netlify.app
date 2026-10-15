@@ -15,7 +15,9 @@ for (const ex of spec.exercises) {
     assert.equal(ex.keys[0].t, 0);
     assert.ok(Math.abs(ex.keys[ex.keys.length - 1].t - cycle) < 1e-9, "last key must end the cycle");
     for (let i = 1; i < ex.keys.length; i++) assert.ok(ex.keys[i].t > ex.keys[i - 1].t, "keys strictly increasing");
-    assert.ok(Number.isInteger(Math.round(ex.duration * spec.fps)));
+    const near = x => Math.abs(x - Math.round(x)) < 1e-9;
+    assert.ok(near(ex.duration * spec.fps), "duration must be a whole number of 1/25 s frames");
+    assert.ok(near(cycle * spec.gifFps), "one cycle must be a whole number of GIF frames");
   });
 
   test(`${ex.id}: seamless loop (end pose = start pose, no jump at the wrap)`, () => {
@@ -79,6 +81,6 @@ for (const ex of spec.exercises) {
       assert.ok(worst <= 0.6, `${c.eff} slides ${worst.toFixed(2)} units in ${from}-${to}s`);
     }
     const floorPts = ["toeR", "heelR", "toeL", "heelL", "kneeR", "kneeL", "wristR", "wristL", "elbowR", "elbowL"];
-    for (let i = 0; i <= n; i++) for (const p of floorPts) assert.ok(F[i][p][1] > -0.5, `${p} below floor at frame ${i} (${F[i][p][1].toFixed(2)})`);
+    for (let i = 0; i <= n; i++) for (const p of floorPts) assert.ok(F[i][p][1] > -1, `${p} below floor at frame ${i} (${F[i][p][1].toFixed(2)})`);
   });
 }

@@ -69,7 +69,7 @@ const EASE = {
 function limbDefaults() { return { flex: 0, abd: 0, bend: 0, ankle: 0, rot: 0, ik: null, rel: null, anchor: "toe", ankleT: null, ikW: 0, footPitch: null, footW: 0 }; }
 function defaultPose() {
   return {
-    root: { x: 0, y: BODY.ankleH + BODY.shin + BODY.thigh, pitch: 0, yaw: 0, roll: 0 },
+    root: { x: 0, y: BODY.ankleH + BODY.shin + BODY.thigh, z: 0, pitch: 0, yaw: 0, roll: 0 },
     rootFrom: null, rootFromW: 0,
     lumbar: 0, thoracic: 0, twistL: 0, twistT: 0, side: 0, neck: 0, headYaw: 0,
     breath: 0, hold: 0,
@@ -136,7 +136,7 @@ function fillTargets(poses) {
 
 function lerpPose(a, b, t) {
   const r = defaultPose();
-  for (const k of ["x", "y", "pitch", "yaw", "roll"]) r.root[k] = lerp(a.root[k], b.root[k], t);
+  for (const k of ["x", "y", "z", "pitch", "yaw", "roll"]) r.root[k] = lerp(a.root[k] || 0, b.root[k] || 0, t);
   r.rootFromW = lerp(a.rootFromW, b.rootFromW, t);
   if (a.rootFrom && b.rootFrom) r.rootFrom = { eff: a.rootFrom.eff, at: [lerp(a.rootFrom.at[0], b.rootFrom.at[0], t), lerp(a.rootFrom.at[1], b.rootFrom.at[1], t)] };
   for (const k of ["lumbar", "thoracic", "twistL", "twistT", "side", "neck", "headYaw", "breath", "hold"]) r[k] = lerp(a[k], b[k], t);
@@ -215,11 +215,18 @@ function footAnkle(Lg, yawRad) {
   return Lg.anchor === "heel" ? ankleFromHeel(Lg.ik, Lg.footPitch || 0, yawRad) : ankleFromToe(Lg.ik, Lg.footPitch || 0, yawRad);
 }
 
+/* End point of a two-bone limb from its angles (s = -1 legs, +1 arms). */
+function chainEnd(parentR, base, abd, flex, bend, rot, l1, l2, side, s) {
+  const R1 = mm(mm(mm(parentR, Rx(-side * abd * D2R)), Rz(flex * D2R)), Ry(side * (rot || 0) * D2R));
+  const mid = add(base, mv(R1, [0, -l1, 0]));
+  return add(mid, mv(mm(R1, Rz(s * bend * D2R)), [0, -l2, 0]));
+}
+
 /* ---------- forward kinematics ---------- */
 function fk(pose, solved) {
   const B = BODY, J = {};
   const P = mm(mm(Ry(pose.root.yaw * D2R), Rz(pose.root.pitch * D2R)), Rx(pose.root.roll * D2R));
-  const pelvis = [pose.root.x, pose.root.y, 0];
+  const pelvis = [pose.root.x, pose.root.y, pose.root.z || 0];
   const Lr = mm(mm(P, Rz(-pose.lumbar * D2R)), mm(Ry(pose.twistL * D2R), Rx(-pose.side * D2R)));
   const mid = add(pelvis, mv(Lr, [0, B.lumbar, 0]));
   const Tr = mm(mm(Lr, Rz(-pose.thoracic * D2R)), Ry(pose.twistT * D2R));
@@ -237,8 +244,10 @@ function fk(pose, solved) {
     let flex = A.flex, abd = A.abd, bend = A.bend;
     const armTarget = A.rel ? add(pelvis, mv(P, A.rel)) : A.ik;
     if (armTarget && A.ikW > 0) {
-      const s = solveTwoBone(Tr, sh, armTarget, B.upperArm, B.forearm, side, +1);
-      flex = lerp(flex, s.flex, A.ikW); abd = lerp(abd, s.abd, A.ikW); bend = lerp(bend, s.bend, A.ikW);
+      // blend in position space: aim at a point between the FK hand and the target, then solve
+      const tgt = A.ikW >= 1 ? armTarget : lerpV(chainEnd(Tr, sh, abd, flex, bend, A.rot, B.upperArm, B.forearm, side, +1), armTarget, A.ikW);
+      const s = solveTwoBone(Tr, sh, tgt, B.upperArm, B.forearm, side, +1);
+      flex = s.flex; abd = s.abd; bend = s.bend;
     }
     const A1 = mm(mm(mm(Tr, Rx(-side * abd * D2R)), Rz(flex * D2R)), Ry(side * (A.rot || 0) * D2R));
     const el = add(sh, mv(A1, [0, -B.upperArm, 0]));
@@ -253,8 +262,10 @@ function fk(pose, solved) {
     let lf = Lg.flex, la = Lg.abd, lb = Lg.bend;
     if (Lg.ik && Lg.ikW > 0) {
       const anTarget = Lg.ankleT || footAnkle(Lg, pose.root.yaw * D2R);
-      const s = solveTwoBone(P, hip, anTarget, B.thigh, B.shin, side, -1);
-      lf = lerp(lf, s.flex, Lg.ikW); la = lerp(la, s.abd, Lg.ikW); lb = lerp(lb, s.bend, Lg.ikW);
+      // blend in position space (a lifting foot travels between the floor point and the FK foot)
+      const tgt = Lg.ikW >= 1 ? anTarget : lerpV(chainEnd(P, hip, la, lf, lb, Lg.rot, B.thigh, B.shin, side, -1), anTarget, Lg.ikW);
+      const s = solveTwoBone(P, hip, tgt, B.thigh, B.shin, side, -1);
+      lf = s.flex; la = s.abd; lb = s.bend;
     }
     const L1 = mm(mm(mm(P, Rx(-side * la * D2R)), Rz(lf * D2R)), Ry(side * (Lg.rot || 0) * D2R));
     const kn = add(hip, mv(L1, [0, -B.thigh, 0]));

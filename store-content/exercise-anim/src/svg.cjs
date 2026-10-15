@@ -113,19 +113,20 @@ function geometry(ex, frames) {
         // rope swings around the body; one turn per jump. Apex on a circle in the sagittal plane
         const cyc = ex.duration / (ex.cycles || 1);
         const ph = 2 * Math.PI * ((J.t / cyc) * (h.turns || 1) + (h.phase || 0));
-        const wm = mid(J.wristL, J.wristR);
         const C = [J.pelvis[0], h.cy || 75, 0], R = h.r || 82;
         const apex = [C[0] + R * Math.cos(ph), Math.max(0.5, C[1] + R * Math.sin(ph)), 0];
-        const ctrl = S.sub(S.mul(apex, 2), mid(J.wristL, J.wristR));
+        // the rope bows: hand -> a point trailing the apex on a smaller circle -> apex
+        const H = mid(J.wristL, J.wristR);
+        const ma = ph - 0.5, Mp = [C[0] + R * 0.8 * Math.cos(ma), Math.max(0.5, C[1] + R * 0.8 * Math.sin(ma)), 0];
+        const ctrl = S.sub(S.mul(Mp, 2), S.mul(S.add(H, apex), 0.5));
         const pts = [];
         for (let k = 0; k <= 10; k++) {
-          const u = k / 10, a = J.wristR, b = J.wristL;
-          const q = S.add(S.add(S.mul(a, (1 - u) * (1 - u)), S.mul(ctrl, 2 * u * (1 - u))), S.mul(b, u * u));
+          const u = k / 10;
+          const q = S.add(S.add(S.mul(H, (1 - u) * (1 - u)), S.mul(ctrl, 2 * u * (1 - u))), S.mul(apex, u * u));
           pts.push(P2(q));
         }
         put("rope", "poly", pts, { w: 1.8 });
         (parts._ropeFront = parts._ropeFront || []).push(Math.cos(ph) >= 0 ? 1 : 0);
-        void wm;
       }
     }
   }
