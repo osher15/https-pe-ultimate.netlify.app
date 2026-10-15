@@ -1,0 +1,98 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-02-D1",
+  "family": "BB-02",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "Without a ball, practise walk–stop on two feet and turn the shoulder toward a new lane."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Stop and turn to a new lane",
+    "he": "עצירה ופנייה לנתיב חדש",
+    "ar": "التوقف ثم الدوران إلى مسار جديد",
+    "ru": "Остановка и поворот в новую дорожку",
+    "es": "Parar y girar a otro carril"
+  },
+  "alt": {
+    "en": "A1 approaches the central S stop zone on foot, balances on two feet, then turns toward the diagonal exit. A2 waits behind the start in W. The second phase is not a running race.",
+    "he": "A1 מגיע ברגל לאזור העצירה S, מתייצב על שתי רגליים ופונה ליציאה האלכסונית. A2 ממתין מאחורי ההתחלה ב־W; אין מרוץ.",
+    "ar": "يتقدم A1 إلى منطقة التوقف S، يثبت على القدمين ثم ينعطف إلى المخرج القطري. ينتظر A2 خلف البداية في W؛ لا يوجد سباق.",
+    "ru": "A1 подходит к зоне S, останавливается на двух ногах и поворачивает в диагональный выход. A2 ждёт позади старта в W; без гонки.",
+    "es": "A1 llega andando a S, se detiene equilibrado sobre ambos pies y gira a la salida diagonal. A2 espera detrás del inicio en W; sin carrera."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 52
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 7,
+      "y": 82
+    },
+    {
+      "type": "cone",
+      "x": 54,
+      "y": 36
+    },
+    {
+      "type": "cone",
+      "x": 54,
+      "y": 67
+    },
+    {
+      "type": "zone",
+      "x": 46,
+      "y": 43,
+      "w": 18,
+      "h": 19,
+      "label": "S"
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 78,
+      "w": 16,
+      "h": 20,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        18,
+        52
+      ],
+      "to": [
+        53,
+        52
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        53,
+        52
+      ],
+      "to": [
+        78,
+        25
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Stop under control before changing lane; next pupil remains in W.",
+  "notes": "Separates deceleration, balanced stop and angled exit.",
+  "status": "draft"
+}

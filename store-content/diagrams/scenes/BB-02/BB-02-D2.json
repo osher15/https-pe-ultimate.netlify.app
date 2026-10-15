@@ -1,0 +1,118 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-02-D2",
+  "family": "BB-02",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Use a decision course with one central cone and two exit gates."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Central cone and two exit gates",
+    "he": "קונוס מרכזי ושני שערי יציאה",
+    "ar": "مخروط مركزي وبوابتان للخروج",
+    "ru": "Центральный конус и два выхода",
+    "es": "Cono central y dos salidas"
+  },
+  "alt": {
+    "en": "A1 dribbles to S before the central cone, reads the cue from A2 and exits through the indicated upper gate. The lower gate is the alternative, not a second simultaneous route.",
+    "he": "A1 מכדרר לאזור S לפני הקונוס המרכזי, קורא את האות של A2 ויוצא בשער העליון. השער התחתון הוא חלופה, לא מסלול בו־זמני.",
+    "ar": "يراوغ A1 إلى S قبل المخروط الأوسط، يستجيب لإشارة A2 ويخرج عبر البوابة العليا. البوابة السفلى بديل وليست مساراً متزامناً.",
+    "ru": "A1 ведёт мяч к S перед центральным конусом, читает сигнал A2 и выходит через верхние ворота. Нижние — альтернатива.",
+    "es": "A1 bota hasta S antes del cono central, lee la señal de A2 y sale por la puerta superior. La inferior es una alternativa, no otra ruta simultánea."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 13,
+      "y": 85
+    },
+    {
+      "type": "ball",
+      "x": 21,
+      "y": 53
+    },
+    {
+      "type": "cone",
+      "x": 59,
+      "y": 50
+    },
+    {
+      "type": "cone",
+      "x": 78,
+      "y": 17
+    },
+    {
+      "type": "cone",
+      "x": 78,
+      "y": 35
+    },
+    {
+      "type": "cone",
+      "x": 78,
+      "y": 65
+    },
+    {
+      "type": "cone",
+      "x": 78,
+      "y": 83
+    },
+    {
+      "type": "zone",
+      "x": 40,
+      "y": 42,
+      "w": 13,
+      "h": 16,
+      "label": "S"
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 79,
+      "w": 21,
+      "h": 20,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        18,
+        50
+      ],
+      "to": [
+        47,
+        50
+      ],
+      "order": 1
+    },
+    {
+      "kind": "dribble",
+      "from": [
+        47,
+        50
+      ],
+      "to": [
+        81,
+        26
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Stop before the central cone, use one exit at a time and keep W behind the approach.",
+  "notes": "Shows a visible decision point and two physically separated exits.",
+  "status": "draft"
+}

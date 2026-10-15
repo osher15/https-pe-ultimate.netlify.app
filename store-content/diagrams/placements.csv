@@ -13,3 +13,5 @@ FIT-04,FIT-04-D1,mainA,1,fit-stations,representative,Shows the performer–obser
 FIT-04,FIT-04-D2,mainB,1,fit-stations,representative,Shows the six-station progression and optional recovery zone.,Lesson gives six stations but does not specify their physical shape; this is a schematic arrangement.
 BB-01,BB-01-D1,mainA,1,open-area,representative,Shows separate one-way lanes and waiting zone.,
 BB-01,BB-01-D2,mainB,1,open-area,representative,Shows a free gate versus an occupied gate and safe stop.,
+BB-02,BB-02-D1,mainA,1,open-area,representative,"Separates deceleration, balanced stop and angled exit.",Angle can be 45 or 90 degrees in the later ball version; one representative exit is shown.
+BB-02,BB-02-D2,mainB,1,open-area,representative,Shows a visible decision point and two physically separated exits.,The actual cue colours are not specified; the upper route is one example.
