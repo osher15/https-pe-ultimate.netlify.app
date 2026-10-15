@@ -1,0 +1,116 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-09-D2",
+  "family": "BB-09",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "The defender begins centrally at 60%, no taking from hands."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Defender commits",
+    "he": "מסירה כשהמגן מתחייב",
+    "ar": "التمرير عند تحرك المدافع",
+    "ru": "Пас после реакции защитника",
+    "es": "Pasar al atraer al defensor"
+  },
+  "alt": {
+    "en": "One central defender B1 works at 60%. A1 carries to draw the defender, then passes to wide A2; finish within eight seconds without contact.",
+    "he": "A1 מכדרר לכיוון B1, המגן נע לעבר הכדור ב־60% מהירות, ו־A2 נשאר רחב. A1 מוסר הרחק מהמגן לתנועת A2. מסיימים תוך שמונה שניות וללא מגע.",
+    "ar": "يراوغ A1 نحو B1 الذي يتحرك إلى حامل الكرة بسرعة 60٪، ويبقى A2 عريضاً. يمرر A1 بعيداً عن المدافع إلى مسار A2؛ النهاية خلال ثماني ثوانٍ دون احتكاك.",
+    "ru": "A1 ведёт мяч к B1, который смещается к мячу на 60% скорости; A2 сохраняет ширину. Пас идёт в сторону от B1 на ход A2. Завершение за восемь секунд без контакта.",
+    "es": "A1 bota hacia B1, que se acerca al balón al 60 %; A2 mantiene la amplitud. A1 pasa lejos del defensor a la carrera de A2. Finalizar en ocho segundos, sin contacto."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 22,
+      "y": 28
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 65,
+      "y": 18
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 61,
+      "y": 51
+    },
+    {
+      "type": "ball",
+      "x": 25,
+      "y": 31
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 5,
+      "w": 8,
+      "h": 90,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        22,
+        28
+      ],
+      "to": [
+        49,
+        30
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        61,
+        51
+      ],
+      "to": [
+        53,
+        41
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        65,
+        18
+      ],
+      "to": [
+        82,
+        18
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        49,
+        30
+      ],
+      "to": [
+        82,
+        18
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "No contact; next pair starts only after the finish zone is clear.",
+  "notes": "Contrasts defender commitment with the unopposed decision.",
+  "status": "draft"
+}

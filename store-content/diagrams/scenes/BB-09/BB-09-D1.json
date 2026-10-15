@@ -1,0 +1,102 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-09-D1",
+  "family": "BB-09",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "Two attackers advance wide; a cone/observer “closes” one side, prompting lane or pass choice."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Wide lanes and cone choice",
+    "he": "בחירה מול חסימה באמצעות קונוס",
+    "ar": "اختيار التمرير أمام مخروط",
+    "ru": "Выбор передачи у конуса",
+    "es": "Elegir el pase ante un cono"
+  },
+  "alt": {
+    "en": "Two attackers use separated lanes. A cone closes one side; the carrier passes into the partner’s run. Waiting area W is behind the start; rotate after four sequences.",
+    "he": "שני תוקפים נעים בנתיבים רחבים. A1 מכדרר ומוסר לתנועה של A2 כאשר הקונוס סוגר צד. W הוא אזור המתנה מאחורי קו ההתחלה; מחליפים לאחר ארבע חזרות.",
+    "ar": "يتقدم A1 وA2 في مسارين متباعدين. يراوغ A1 ثم يمرر أمام حركة A2 عندما يغلق المخروط جهة. W منطقة انتظار خلف البداية؛ تبديل بعد أربع محاولات.",
+    "ru": "Два нападающих движутся широко. A1 ведёт мяч и передаёт на ход A2, когда конус перекрывает сторону. W — зона ожидания за стартом; смена после четырёх попыток.",
+    "es": "Dos atacantes avanzan separados. A1 bota y pasa al recorrido de A2 cuando el cono cierra un lado. W es la espera detrás del inicio; rotación cada cuatro acciones."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 27
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 58,
+      "y": 75
+    },
+    {
+      "type": "ball",
+      "x": 21,
+      "y": 30
+    },
+    {
+      "type": "cone",
+      "x": 68,
+      "y": 27
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 8,
+      "w": 8,
+      "h": 84,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        18,
+        27
+      ],
+      "to": [
+        48,
+        27
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        58,
+        75
+      ],
+      "to": [
+        80,
+        75
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        48,
+        27
+      ],
+      "to": [
+        80,
+        75
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "No defender; the waiting group stays behind the start, and adjacent corridors do not cross.",
+  "notes": "Shows the unopposed choice before adding a defender.",
+  "status": "draft"
+}
