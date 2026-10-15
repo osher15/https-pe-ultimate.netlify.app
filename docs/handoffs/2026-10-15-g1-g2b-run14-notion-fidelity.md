@@ -25,3 +25,8 @@ Read each Notion page and the corresponding GitHub export, comparing the **compl
 - BB-05 Main A three-cone/empty-cone source contradiction; BB-05 scenes are drafts for unambiguous warm-up and Main B.
 - Claude professional approval is deferred per user.
 - Earlier full-checkout results (300/300 lessons, 600/600 activities, 30 scenes with zero warnings) remain documented in run 13; not falsely counted as newly executed here.
+
+## Continuation in the same run: all games verified
+- Directly fetched and compared `GM-016` through `GM-024` in all five languages: **45/45 exact full-body matches and timestamps**.
+- Together with the 75 checks above, **all 120 game cards** (`GM-001`–`GM-024` × `he/en/ar/ru/es`) were compared against live Notion pages in this run: **120/120 matched bodies and last-edited timestamps**, no reported truncation.
+- This completes the **games subset** source-fidelity check, not the full 600 activities or 300 lessons. No Notion edits were made.
