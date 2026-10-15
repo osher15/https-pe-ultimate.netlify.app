@@ -1,0 +1,136 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-10-D2",
+  "family": "FB-10",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Four attack three; roles change after loss. An observer marks five behaviours without an immediate numerical grade."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "4v3 game: choice, lane, response",
+    "he": "משחק 4 נגד 3: בחירה, נתיב ותגובה",
+    "ar": "لعبة 4 ضد 3: خيار ومسار واستجابة",
+    "ru": "Игра 4 на 3: выбор, линия, реакция",
+    "es": "Juego 4 contra 3: elección, línea y respuesta"
+  },
+  "alt": {
+    "en": "Four attackers play against three defenders. A1 passes through the gap between B1 and B2 to A4 (1); A2 makes a wide run (1); A4 passes to A2 (2) and A2 finishes at the goal (3). An observer outside the play (not drawn) records behaviours without grading; no contact.",
+    "he": "ארבעה תוקפים מול שלושה מגינים. A1 מוסר דרך הרווח בין B1 ל־B2 אל A4 (1); A2 רץ רחב (1); A4 מוסר אל A2 (2) ו־A2 מסיים לשער (3). צופה מחוץ למשחק (לא מצויר) מתעד התנהגויות בלי ציון; ללא מגע.",
+    "ar": "أربعة مهاجمين ضد ثلاثة مدافعين. يمرر A1 عبر الفجوة بين B1 وB2 إلى A4 (1)؛ ويجري A2 عريضًا (1)؛ يمرر A4 إلى A2 (2) وينهي A2 نحو الهدف (3). مراقب خارج اللعب (غير مرسوم) يسجل السلوكيات دون درجة؛ دون لمس.",
+    "ru": "Четверо атакующих против троих защитников. A1 пасует в просвет между B1 и B2 на A4 (1); A2 бежит широко (1); A4 отдаёт на A2 (2), A2 завершает у ворот (3). Наблюдатель вне игры (не показан) отмечает поведение без оценки; без контакта.",
+    "es": "Cuatro atacantes frente a tres defensores. A1 pasa por el hueco entre B1 y B2 a A4 (1); A2 hace un desmarque abierto (1); A4 pasa a A2 (2) y A2 finaliza a portería (3). Un observador fuera del juego (no dibujado) anota conductas sin nota; sin contacto."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 20,
+      "y": 52
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 40,
+      "y": 18
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 38,
+      "y": 86
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 4,
+      "x": 62,
+      "y": 52
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 50,
+      "y": 36
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 50,
+      "y": 68
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 3,
+      "x": 78,
+      "y": 52
+    },
+    {
+      "type": "ball",
+      "x": 23,
+      "y": 55
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        20,
+        52
+      ],
+      "to": [
+        62,
+        52
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        40,
+        18
+      ],
+      "to": [
+        70,
+        20
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        62,
+        52
+      ],
+      "to": [
+        70,
+        22
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        70,
+        22
+      ],
+      "to": [
+        94,
+        47
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "No tackle, slide or contact; defence up to 75 per cent; stop out of bounds.",
+  "notes": "Roles change after loss; the observer is not drawn.",
+  "status": "draft"
+}

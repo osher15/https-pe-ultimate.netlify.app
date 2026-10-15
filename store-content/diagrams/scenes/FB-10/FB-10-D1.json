@@ -1,0 +1,132 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-10-D1",
+  "family": "FB-10",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "Three two-minute stations: pass/receive, turn/finish, close lane. Each student chooses one personal focus."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Three stations, one personal focus",
+    "he": "שלוש תחנות ומיקוד אישי אחד",
+    "ar": "ثلاث محطات وتركيز شخصي واحد",
+    "ru": "Три станции, один личный акцент",
+    "es": "Tres estaciones, un foco personal"
+  },
+  "alt": {
+    "en": "Three stations: 1 pass and receive, 2 turn and finish, 3 close a lane. A1, A2 and A3 stand for three groups that rotate in order 1, 2, 3 every two minutes while each student chooses one personal focus. The teacher stands in the middle and sees all three.",
+    "he": "שלוש תחנות: 1 מסירה וקבלה, 2 סיבוב וסיום, 3 סגירת נתיב. A1, A2 ו־A3 מייצגים שלוש קבוצות שמתחלפות לפי הסדר 1, 2, 3 כל שתי דקות, וכל תלמיד בוחר מוקד אישי אחד. המורה עומד במרכז ורואה את שלוש התחנות.",
+    "ar": "ثلاث محطات: 1 تمرير واستلام، 2 دوران وإنهاء، 3 إغلاق مسار. يمثل A1 وA2 وA3 ثلاث مجموعات تتبدل بالترتيب 1 ثم 2 ثم 3 كل دقيقتين، ويختار كل طالب تركيزًا شخصيًا واحدًا. يقف المعلم في الوسط ويرى المحطات الثلاث.",
+    "ru": "Три станции: 1 передача и приём, 2 поворот и удар, 3 закрытие линии. A1, A2 и A3 представляют три группы, которые меняются по порядку 1, 2, 3 каждые две минуты; каждый выбирает один личный акцент. Учитель стоит в центре и видит все станции.",
+    "es": "Tres estaciones: 1 pasar y recibir, 2 girar y finalizar, 3 cerrar una línea. A1, A2 y A3 representan tres grupos que rotan en el orden 1, 2, 3 cada dos minutos; cada alumno elige un foco personal. El docente está en el centro y ve las tres estaciones."
+  },
+  "objects": [
+    {
+      "type": "station",
+      "n": 1,
+      "x": 22,
+      "y": 72
+    },
+    {
+      "type": "station",
+      "n": 2,
+      "x": 50,
+      "y": 22
+    },
+    {
+      "type": "station",
+      "n": 3,
+      "x": 78,
+      "y": 72
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 10,
+      "y": 72
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 36,
+      "y": 18
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 90,
+      "y": 72
+    },
+    {
+      "type": "teacher",
+      "x": 50,
+      "y": 56
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        22,
+        72
+      ],
+      "to": [
+        50,
+        22
+      ],
+      "via": [
+        [
+          24,
+          44
+        ]
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        50,
+        22
+      ],
+      "to": [
+        78,
+        72
+      ],
+      "via": [
+        [
+          76,
+          44
+        ]
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        78,
+        72
+      ],
+      "to": [
+        22,
+        72
+      ],
+      "via": [
+        [
+          50,
+          84
+        ]
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "Rotate only on the teacher signal; stations are spaced apart with the middle left free.",
+  "notes": "Teacher in the middle keeps all three stations in view.",
+  "status": "draft"
+}

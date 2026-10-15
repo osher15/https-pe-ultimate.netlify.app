@@ -1,0 +1,92 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-06-D1",
+  "family": "FB-06",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "The attacker without ball moves between cones; the defender stays between attacker and rear gate."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Stay between attacker and rear gate",
+    "he": "להישאר בין התוקף לשער האחורי",
+    "ar": "البقاء بين المهاجم والبوابة الخلفية",
+    "ru": "Оставаться между атакующим и задними воротами",
+    "es": "Quedarse entre el atacante y la puerta trasera"
+  },
+  "alt": {
+    "en": "Attacker A1, without a ball, moves sideways between the cones (1). Defender B1 keeps 1.5 to 2 metres away and stays between A1 and the rear gate, using short uncrossed steps (2). No contact; players switch every 45 seconds.",
+    "he": "התוקף A1, בלי כדור, נע הצידה בין הקונוסים (1). המגן B1 שומר מרחק 1.5–2 מטרים ונשאר בין A1 לשער האחורי בצעדים קצרים בלי להצליב רגליים (2). ללא מגע; מחליפים תפקידים כל 45 שניות.",
+    "ar": "يتحرك المهاجم A1 بلا كرة جانبيًا بين المخاريط (1). يبقى المدافع B1 على بعد 1.5–2 متر بين A1 والبوابة الخلفية بخطوات قصيرة دون تشابك القدمين (2). دون لمس؛ تبديل الأدوار كل 45 ثانية.",
+    "ru": "Атакующий A1 без мяча смещается вбок между конусами (1). Защитник B1 держит 1,5–2 метра и остаётся между A1 и задними воротами короткими нескрещёнными шагами (2). Без контакта; смена каждые 45 секунд.",
+    "es": "El atacante A1, sin balón, se desplaza de lado entre los conos (1). El defensor B1 mantiene 1,5-2 metros y se queda entre A1 y la puerta trasera con pasos cortos sin cruzar los pies (2). Sin contacto; cambio cada 45 segundos."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 22,
+      "y": 30
+    },
+    {
+      "type": "cone",
+      "x": 78,
+      "y": 30
+    },
+    {
+      "type": "cone",
+      "x": 38,
+      "y": 86
+    },
+    {
+      "type": "cone",
+      "x": 62,
+      "y": 86
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 36,
+      "y": 36
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 41,
+      "y": 54
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        36,
+        36
+      ],
+      "to": [
+        64,
+        36
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        41,
+        54
+      ],
+      "to": [
+        59,
+        54
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Distance of 1.5 to 2 metres, no contact; one active trio per area.",
+  "notes": "Defender mirrors the sideways movement to stay between attacker and gate.",
+  "status": "draft"
+}

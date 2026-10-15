@@ -1,0 +1,22 @@
+family,diagram_id,section,step,template,group_shown,reason,open_question
+FB-01,FB-01-D1,mainA,1,fb-grid,representative,"Shows one lane with the ten-metre dribble, sole stop and the outside return route.",
+FB-01,FB-01-D2,mainB,1,fb-grid,representative,"Shows the free-gate choice: two gates are occupied, so the second choice needs a scan.",
+FB-02,FB-02-D1,mainA,1,fb-grid,representative,Shows the pass through a gate and the diagonal angle change after eight passes.,The lesson does not give the direction of the angle change; both players step to opposite sides as a representative example.
+FB-02,FB-02-D2,appliedGame,1,fb-grid,representative,"Shows the 3v1 square, the five numbered passes and the end gate on the right.",The lesson does not say where the end gate sits in the square; it is drawn on the right side.
+FB-03,FB-03-D1,mainA,1,fb-grid,representative,Shows the sole stop at the central cone and a turn of more than 90 degrees to an open gate.,The lesson does not say which gate is open; the south gate is one representative choice.
+FB-03,FB-03-D2,mainB,1,fb-grid,representative,Shows the defender closing one side without contact and the attacker exiting the other.,
+FB-04,FB-04-D1,mainA,1,fb-half,representative,"Shows the lane with entry gate, line and half-metre diagonal preparation touch.",The lesson gives no exact distances; entry gate and line are placed schematically on the half pitch.
+FB-04,FB-04-D2,mainB,1,fb-half,representative,"Shows feed, low strike to the goal mouth and sideways exit, with nobody behind the goal.",The template goal is full size; the lesson uses a two-metre goal.
+FB-05,FB-05-D1,mainA,1,fb-grid,representative,"Shows the check away, change of direction and entry into the open gate.",The lesson does not say which of the two gates is open; the upper gate is one representative choice.
+FB-05,FB-05-D2,mainB,1,fb-grid,representative,Shows the shadow defender closing one line and the receiver switching to the other gate.,
+FB-06,FB-06-D1,mainA,1,fb-grid,representative,Shows the defender staying between the attacker and the rear gate while mirroring sideways.,The lesson gives no cone spacing; distances are schematic.
+FB-06,FB-06-D2,mainB,1,fb-grid,representative,Shows the defender closing one gate and the pass through the other.,The lesson does not say which gate is closed; the left gate is one representative choice.
+FB-07,FB-07-D1,mainA,1,fb-half,representative,"Shows the observer pointing to the closed side, the decision line and the lead pass option.",The observer is drawn as A3 (a student); the schema has no observer object.
+FB-07,FB-07-D2,mainB,1,fb-half,representative,"Shows the central defender committing, the free player on the wide run and the finish.",
+FB-08,FB-08-D1,mainB,1,fb-grid,representative,"Shows the possession switch, the nearest player delaying and the far player recovering to the gate.",The lesson does not say where the central gate sits; it is placed at the end of the area.
+FB-08,FB-08-D2,appliedGame,1,fb-half,representative,"Shows two defenders getting between ball and goal after the loss, with the nearest player delaying.",The lesson mentions two gates; the template goal on the right stands for the defended goal and the gates are not drawn.
+FB-09,FB-09-D1,mainA,1,fb-grid,representative,"Shows four attackers keeping the ball on the perimeter, the side-gate exit and the central cones.",The lesson does not say how many players exit; A1 exits as one representative player.
+FB-09,FB-09-D2,mainB,1,fb-half,representative,"Shows three different attackers touching the ball before the finish, with defenders in the centre.",The lesson has two goals; only the template goal on the right is drawn.
+FB-10,FB-10-D1,mainA,1,fb-grid,representative,"Shows three stations, the rotation order and the teacher in the middle.","The lesson does not give the rotation direction; the order 1, 2, 3 follows the station list."
+FB-10,FB-10-D2,mainB,1,fb-half,representative,Shows 4v3 with the free-player pass through the gap and the wide finish.,The observer is not drawn because the schema has no observer object.
+FB-02,,mainB,1,,none,Not drawn because the source description of the trio triangle is unclear.,"Main B says ""Trio triangle; after passing, fill the empty corner."" Three players on a three-corner triangle leave no empty corner after a pass, so the setup is unclear: is there a fourth corner or cone, or does the passer move into the receiver's corner? Clarify the intended setup before drawing."

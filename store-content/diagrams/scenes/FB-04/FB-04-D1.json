@@ -1,0 +1,98 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-04-D1",
+  "family": "FB-04",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "Dribble to the line, take a half-metre diagonal touch to the striking side, then stop before a shadow strike."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Drive and prepare the strike",
+    "he": "דהירה והכנת הבעיטה",
+    "ar": "التقدم وتجهيز التسديد",
+    "ru": "Ведение и подготовка удара",
+    "es": "Conducir y preparar el golpeo"
+  },
+  "alt": {
+    "en": "One lane to the goal: A1 dribbles through the entry gate to the line (1), then takes a half-metre diagonal touch to the striking side (2) and stops before a shadow strike. R is the outside return route. One striker per lane; nobody behind the goal.",
+    "he": "נתיב אחד אל השער: A1 מכדרר דרך שער הכניסה עד הקו (1), מבצע נגיעה אלכסונית של חצי מטר לצד הבעיטה (2) ועוצר לפני בעיטה מדומה. R הוא מסלול החזרה מבחוץ. בועט אחד בנתיב; אף אחד לא עומד מאחורי השער.",
+    "ar": "مسار واحد نحو الهدف: يحاور A1 عبر بوابة الدخول حتى الخط (1) ثم يأخذ لمسة قطرية بنصف متر نحو قدم التسديد (2) ويتوقف قبل محاكاة التسديد. R هو مسار العودة من الخارج. مسدد واحد في المسار ولا أحد خلف الهدف.",
+    "ru": "Один коридор к воротам: A1 ведёт мяч через входные ворота до линии (1), делает диагональное касание на полметра к бьющей ноге (2) и останавливается перед имитацией удара. R — возврат вне коридора. Один бьющий; за воротами никого.",
+    "es": "Una calle hacia la portería: A1 conduce por la puerta de entrada hasta la línea (1), da un toque diagonal de medio metro hacia el lado del golpeo (2) y para antes de simular el tiro. R es el regreso por fuera. Un tirador por calle; nadie detrás de la portería."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 30,
+      "y": 42
+    },
+    {
+      "type": "cone",
+      "x": 30,
+      "y": 58
+    },
+    {
+      "type": "cone",
+      "x": 60,
+      "y": 40
+    },
+    {
+      "type": "cone",
+      "x": 60,
+      "y": 60
+    },
+    {
+      "type": "zone",
+      "x": 16,
+      "y": 68,
+      "w": 52,
+      "h": 10,
+      "label": "R"
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 14,
+      "y": 50
+    },
+    {
+      "type": "ball",
+      "x": 17,
+      "y": 53
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        14,
+        50
+      ],
+      "to": [
+        57,
+        50
+      ],
+      "order": 1
+    },
+    {
+      "kind": "dribble",
+      "from": [
+        57,
+        50
+      ],
+      "to": [
+        67,
+        42
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "One striker per lane; nobody behind the goal; return outside the lane.",
+  "notes": "Shows the preparation touch only; the strike itself is shadowed.",
+  "status": "draft"
+}

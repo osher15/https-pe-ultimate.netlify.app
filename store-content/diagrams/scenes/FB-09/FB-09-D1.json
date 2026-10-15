@@ -1,0 +1,161 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-09-D1",
+  "family": "FB-09",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "Four retain against two; after four passes, exit a side gate. On loss, attackers recover to central cones."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Four keep the ball, exit the side gate",
+    "he": "ארבעה שומרים כדור ויוצאים בשער צד",
+    "ar": "أربعة يحتفظون بالكرة ثم يخرجون من بوابة جانبية",
+    "ru": "Четверо сохраняют мяч и выходят в боковые ворота",
+    "es": "Cuatro mantienen y salen por la puerta lateral"
+  },
+  "alt": {
+    "en": "Four attackers keep the ball around the edge from two defenders with four passes (1-4), then A4 dribbles out through the side gate (5). B1 and B2 stay in the middle by the central cones. If the ball is lost, the attackers recover to those cones.",
+    "he": "ארבעה תוקפים שומרים על הכדור בהיקף מול שני מגינים בארבע מסירות (1–4), ואז A4 מכדרר החוצה דרך שער הצד (5). B1 ו־B2 נשארים באמצע ליד הקונוסים המרכזיים. באובדן כדור התוקפים חוזרים אל הקונוסים האלה.",
+    "ar": "يحتفظ أربعة مهاجمين بالكرة على أطراف المربع أمام مدافعين بأربع تمريرات (1–4)، ثم يخرج A4 بالمحاورة عبر البوابة الجانبية (5). يبقى B1 وB2 في الوسط قرب المخاريط المركزية. عند فقد الكرة يعود المهاجمون إلى هذه المخاريط.",
+    "ru": "Четверо атакующих сохраняют мяч по периметру от двух защитников четырьмя пасами (1–4), затем A4 выводит мяч через боковые ворота (5). B1 и B2 остаются в центре у центральных конусов. При потере атакующие возвращаются к этим конусам.",
+    "es": "Cuatro atacantes mantienen el balón por el perímetro frente a dos defensores con cuatro pases (1-4) y A4 sale conduciendo por la puerta lateral (5). B1 y B2 se quedan en el centro junto a los conos centrales. Si se pierde, los atacantes recuperan hacia esos conos."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 14,
+      "y": 60
+    },
+    {
+      "type": "cone",
+      "x": 14,
+      "y": 82
+    },
+    {
+      "type": "cone",
+      "x": 50,
+      "y": 42
+    },
+    {
+      "type": "cone",
+      "x": 50,
+      "y": 58
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 30,
+      "y": 24
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 74,
+      "y": 26
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 76,
+      "y": 76
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 4,
+      "x": 28,
+      "y": 78
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 40,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 62,
+      "y": 50
+    },
+    {
+      "type": "ball",
+      "x": 31,
+      "y": 81
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        28,
+        78
+      ],
+      "to": [
+        30,
+        24
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        30,
+        24
+      ],
+      "to": [
+        74,
+        26
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        74,
+        26
+      ],
+      "to": [
+        76,
+        76
+      ],
+      "order": 3
+    },
+    {
+      "kind": "pass",
+      "from": [
+        76,
+        76
+      ],
+      "to": [
+        28,
+        78
+      ],
+      "order": 4
+    },
+    {
+      "kind": "dribble",
+      "from": [
+        28,
+        78
+      ],
+      "to": [
+        5,
+        70
+      ],
+      "order": 5
+    }
+  ],
+  "safety": "No contact; one-way exit through the side gate; stop at the boundary.",
+  "notes": "Four passes on the perimeter keep the ball away from the central defenders.",
+  "status": "draft"
+}

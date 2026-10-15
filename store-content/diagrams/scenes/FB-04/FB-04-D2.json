@@ -1,0 +1,89 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-04-D2",
+  "family": "FB-04",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Repeat and strike low through a two-metre goal from 5–7 metres."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Low strike through the goal",
+    "he": "בעיטה נמוכה אל השער",
+    "ar": "تسديدة منخفضة نحو الهدف",
+    "ru": "Низкий удар в ворота",
+    "es": "Golpeo raso a portería"
+  },
+  "alt": {
+    "en": "A2 retrieves and feeds A1 (1). A1 strikes low through the goal from five to seven metres (2) and exits sideways (3). Accuracy before power; nobody stands behind the goal, and loose balls are collected only on the signal.",
+    "he": "A2 אוסף ומחזיר כדור אל A1 (1). A1 בועט נמוך אל השער מ־5–7 מטרים (2) ויוצא הצידה (3). דיוק לפני כוח; אף אחד לא עומד מאחורי השער, ואוספים כדורים רק באות.",
+    "ar": "يجمع A2 الكرة ويمررها إلى A1 (1). يسدد A1 كرة منخفضة نحو الهدف من 5–7 أمتار (2) ثم يخرج جانبًا (3). الدقة قبل القوة؛ لا أحد خلف الهدف، وتُجمع الكرات الضائعة بالإشارة فقط.",
+    "ru": "A2 подбирает мяч и подаёт A1 (1). A1 бьёт низом в ворота с 5–7 метров (2) и выходит в сторону (3). Точность важнее силы; за воротами никого, мячи собирают только по сигналу.",
+    "es": "A2 recupera y sirve a A1 (1). A1 golpea raso a portería desde 5-7 metros (2) y sale hacia un lado (3). Precisión antes que fuerza; nadie detrás de la portería y los balones sueltos se recogen solo con la señal."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 81,
+      "y": 58
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 58,
+      "y": 24
+    },
+    {
+      "type": "ball",
+      "x": 61,
+      "y": 27
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        58,
+        24
+      ],
+      "to": [
+        79,
+        56
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        81,
+        58
+      ],
+      "to": [
+        94,
+        49
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        81,
+        58
+      ],
+      "to": [
+        81,
+        84
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "Nobody behind the goal; balls collected only on the signal; exit sideways.",
+  "notes": "Shot drawn as a pass arrow to the goal mouth; the template goal is full size.",
+  "status": "draft"
+}

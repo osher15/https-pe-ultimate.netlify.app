@@ -1,0 +1,125 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-08-D1",
+  "family": "FB-08",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "A pair keeps the ball against two shadows. On a cue/pass to an opponent, possession switches; the losing pair recovers and protects the gate for eight seconds."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Pair loses the ball, recovers to the gate",
+    "he": "הזוג מאבד כדור וחוזר לשער",
+    "ar": "الثنائي يفقد الكرة ويعود إلى البوابة",
+    "ru": "Пара теряет мяч и возвращается к воротам",
+    "es": "La pareja pierde el balón y vuelve a la puerta"
+  },
+  "alt": {
+    "en": "A1 passes to shadow B1 and possession switches (1). Nearest player A1 delays B1 without contact (2) while far player A2 recovers to the central gate (2); B1 starts to carry (2). The pair protects the gate for eight seconds.",
+    "he": "A1 מוסר אל מגן־הצל B1 והכדור עובר לצד השני (1). A1, הקרוב ביותר, מעכב את B1 בלי מגע (2) ו־A2, הרחוק, חוזר לשער המרכזי (2); B1 מתחיל להוביל (2). הזוג שומר על השער שמונה שניות.",
+    "ar": "يمرر A1 إلى المدافع السلبي B1 فتنتقل الحيازة (1). يؤخر A1، الأقرب، الكرة دون لمس (2) ويعود A2، الأبعد، إلى البوابة الوسطى (2)؛ ويبدأ B1 بالتقدم (2). يحمي الثنائي البوابة ثماني ثوانٍ.",
+    "ru": "A1 отдаёт пас пассивному защитнику B1, владение меняется (1). Ближний A1 задерживает B1 без контакта (2), дальний A2 возвращается в центральные ворота (2); B1 начинает ведение (2). Пара защищает ворота восемь секунд.",
+    "es": "A1 pasa al defensor pasivo B1 y cambia la posesión (1). El más cercano, A1, retrasa a B1 sin contacto (2) y el más lejano, A2, recupera hacia la puerta central (2); B1 empieza a conducir (2). La pareja protege la puerta ocho segundos."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 42,
+      "y": 82
+    },
+    {
+      "type": "cone",
+      "x": 58,
+      "y": 82
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 28,
+      "y": 40
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 66,
+      "y": 36
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 40,
+      "y": 18
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 74,
+      "y": 16
+    },
+    {
+      "type": "ball",
+      "x": 43,
+      "y": 21
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        28,
+        40
+      ],
+      "to": [
+        40,
+        18
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        28,
+        40
+      ],
+      "to": [
+        38,
+        56
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        66,
+        36
+      ],
+      "to": [
+        56,
+        72
+      ],
+      "order": 2
+    },
+    {
+      "kind": "dribble",
+      "from": [
+        40,
+        18
+      ],
+      "to": [
+        46,
+        40
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "No tackling or contact; nobody runs backwards blindly; stop at the boundary.",
+  "notes": "Nearest player delays, far player covers the central gate.",
+  "status": "draft"
+}

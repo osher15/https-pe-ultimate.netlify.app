@@ -1,0 +1,104 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-06-D2",
+  "family": "FB-06",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Passer and receiver seek a pass through either of two gates; the defender closes one and may intercept only the pass."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Close one gate, intercept only the pass",
+    "he": "סוגרים שער ומיירטים רק את המסירה",
+    "ar": "إغلاق بوابة واعتراض التمريرة فقط",
+    "ru": "Закрыть одни ворота, перехватить только пас",
+    "es": "Cerrar una puerta e interceptar solo el pase"
+  },
+  "alt": {
+    "en": "Passer A1 and receiver A2 look for a pass through either gate. Defender B1 closes the left gate (1), so A1 passes through the right gate (2). B1 may intercept only the moving ball, never touch a player. Rotate every four balls.",
+    "he": "המוסר A1 והמקבל A2 מחפשים מסירה דרך אחד משני השערים. המגן B1 סוגר את השער השמאלי (1), ולכן A1 מוסר דרך השער הימני (2). B1 רשאי ליירט רק כדור בתנועה ולא לגעת בשחקן. מחליפים כל ארבעה כדורים.",
+    "ar": "يبحث الممرر A1 والمستلم A2 عن تمريرة عبر إحدى البوابتين. يغلق المدافع B1 البوابة اليسرى (1) فيمرر A1 عبر البوابة اليمنى (2). يعترض B1 الكرة المتحركة فقط ولا يلمس لاعبًا. التبديل كل أربع كرات.",
+    "ru": "Пасующий A1 и принимающий A2 ищут пас через любые из двух ворот. Защитник B1 закрывает левые ворота (1), поэтому A1 пасует в правые (2). B1 перехватывает только движущийся мяч и не касается игроков. Смена через четыре мяча.",
+    "es": "El pasador A1 y el receptor A2 buscan un pase por cualquiera de las dos puertas. El defensor B1 cierra la puerta izquierda (1) y A1 pasa por la derecha (2). B1 solo intercepta el balón en movimiento, sin tocar a nadie. Rotación cada cuatro balones."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 24,
+      "y": 56
+    },
+    {
+      "type": "cone",
+      "x": 40,
+      "y": 56
+    },
+    {
+      "type": "cone",
+      "x": 60,
+      "y": 56
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 56
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 66,
+      "y": 86
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 72,
+      "y": 26
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 40,
+      "y": 72
+    },
+    {
+      "type": "ball",
+      "x": 69,
+      "y": 89
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        40,
+        72
+      ],
+      "to": [
+        32,
+        64
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        66,
+        86
+      ],
+      "to": [
+        72,
+        26
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Only the free-moving ball may be intercepted; one trio per area; stop at the boundary.",
+  "notes": "Defender closes one gate and reads the release for the other.",
+  "status": "draft"
+}

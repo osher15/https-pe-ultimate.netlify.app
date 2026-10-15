@@ -1,0 +1,139 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-01-D2",
+  "family": "FB-01",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "In a gate grid, dribble to a free colour, stop before the gate, scan, and choose another free colour."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Gate grid: stop, scan, choose",
+    "he": "רשת שערים: עצירה, סריקה ובחירה",
+    "ar": "شبكة البوابات: توقف ومسح واختيار",
+    "ru": "Сетка ворот: стоп, обзор, выбор",
+    "es": "Cuadrícula de puertas: parar, mirar, elegir"
+  },
+  "alt": {
+    "en": "A1 dribbles to a free gate, stops before it (1), scans, then chooses another free gate (2). A2 and A3 stand in two occupied gates, so those are not chosen. A4 waits in zone W; only one student is active at a time.",
+    "he": "A1 מכדרר אל שער קונוסים פנוי, עוצר לפניו (1), סורק ובוחר שער פנוי אחר (2). A2 ו־A3 עומדים בשני שערים תפוסים, ולכן לא בוחרים בהם. A4 ממתין באזור W; רק תלמיד אחד פעיל בכל פעם.",
+    "ar": "يحاور A1 إلى بوابة خالية ويتوقف قبلها (1) ويمسح الملعب ثم يختار بوابة خالية أخرى (2). يقف A2 وA3 في بوابتين مشغولتين فلا تُختاران. ينتظر A4 في منطقة W؛ طالب واحد فقط نشط في كل مرة.",
+    "ru": "A1 ведёт мяч к свободным воротам из конусов, останавливается перед ними (1), осматривается и выбирает другие свободные (2). A2 и A3 стоят в занятых воротах, их не выбирают. A4 ждёт в зоне W; активен только один ученик.",
+    "es": "A1 conduce hasta una puerta libre y para antes de cruzarla (1), mira y elige otra puerta libre (2). A2 y A3 ocupan dos puertas, que no se eligen. A4 espera en la zona W; solo un alumno actúa a la vez."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 25,
+      "y": 18
+    },
+    {
+      "type": "cone",
+      "x": 25,
+      "y": 36
+    },
+    {
+      "type": "cone",
+      "x": 75,
+      "y": 18
+    },
+    {
+      "type": "cone",
+      "x": 75,
+      "y": 36
+    },
+    {
+      "type": "cone",
+      "x": 25,
+      "y": 64
+    },
+    {
+      "type": "cone",
+      "x": 25,
+      "y": 82
+    },
+    {
+      "type": "cone",
+      "x": 75,
+      "y": 64
+    },
+    {
+      "type": "cone",
+      "x": 75,
+      "y": 82
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 60,
+      "w": 7,
+      "h": 16,
+      "label": "W"
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 50,
+      "y": 62
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 75,
+      "y": 73
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 25,
+      "y": 73
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 4,
+      "x": 3.5,
+      "y": 68
+    },
+    {
+      "type": "ball",
+      "x": 53,
+      "y": 65
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        50,
+        62
+      ],
+      "to": [
+        35,
+        27
+      ],
+      "order": 1
+    },
+    {
+      "kind": "dribble",
+      "from": [
+        35,
+        27
+      ],
+      "to": [
+        64,
+        27
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "One active attempt at a time; the other students wait in W or stand in their gate.",
+  "notes": "Occupied gates show why the second free gate must be chosen after a scan.",
+  "status": "draft"
+}
