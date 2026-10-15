@@ -58,6 +58,8 @@ function geometry(ex, frames) {
     put("torso", "poly", [P2(tA), P2(tB), P2(tC)], { w: torsoW });
     parts.torso.bw = parts.torso.bw || []; parts.torso.bw.push(torsoW + (J.pose.breath || 0) * 1.6);
     put("pelvis", "poly", [P2(J.hipL), P2(S.add(J.pelvis, S.mul(lup, 7))), P2(J.hipR)], { w: BODY.legW + 5 });
+    // shoulder yoke: makes the shoulder line (and trunk rotation) readable in front and top views
+    put("yoke", "poly", [P2(J.shoulderL), P2(S.sub(J.neck, S.mul(up, 5))), P2(J.shoulderR)], { w: BODY.armW + 6 });
     const headUp = S.mv(J.Hr, [0, 1, 0]), headF = S.mv(J.Hr, [1, 0, 0]), headZ = S.mv(J.Hr, [0, 0, 1]);
     put("neck", "poly", [P2(S.sub(J.neck, S.mul(up, 4))), P2(S.add(J.neck, S.mul(headUp, BODY.neck)))], { w: BODY.neckW });
     put("head", "circle", P2(J.head), { r: BODY.headR });
@@ -223,6 +225,7 @@ function emitFigure(geo, ex, idp, dur, frameSel) {
       const t = geo.parts.torso;
       strokeUse("torso", PAL.shirt, t.w, t.bw.some(x => Math.abs(x - t.w) > 0.05) ? t.bw : null);
       strokeUse("pelvis", PAL.shorts, geo.parts.pelvis.w);
+      strokeUse("yoke", PAL.shirt, geo.parts.yoke.w);
     } else if (g === "head") {
       strokeUse("neck", PAL.skin, BODY.neckW);
       fillUse("hair", PAL.hair);

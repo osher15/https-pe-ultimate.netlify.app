@@ -941,7 +941,7 @@ module.exports = [
   "duration": 2.8,
   "camera": {
    "yaw": -90,
-   "elev": 32
+   "elev": 55
   },
   "still": 0.7,
   "order": [
@@ -1029,7 +1029,8 @@ module.exports = [
       "y": 1.6,
       "pitch": 0
      }
-    }
+    },
+    "side": 0
    },
    {
     "t": 0.35,
@@ -1050,28 +1051,30 @@ module.exports = [
       26,
       21
      ]
-    }
+    },
+    "side": 5
    },
    {
     "t": 0.7,
     "ease": "quadOut",
     "twistL": -12,
-    "twistT": -36,
-    "headYaw": -16,
+    "twistT": -37,
+    "headYaw": -24,
     "armR": {
      "ik": [
       4,
-      7.8,
-      36
+      6.4,
+      44
      ]
     },
     "armL": {
      "ik": [
       4,
-      7.8,
-      31
+      6.4,
+      39
      ]
-    }
+    },
+    "side": 10
    },
    {
     "t": 1.05,
@@ -1092,7 +1095,8 @@ module.exports = [
       26,
       21
      ]
-    }
+    },
+    "side": 5
    },
    {
     "t": 1.4,
@@ -1118,28 +1122,30 @@ module.exports = [
       26,
       -26
      ]
-    }
+    },
+    "side": -5
    },
    {
     "t": 2.1,
     "ease": "quadOut",
     "twistL": 12,
-    "twistT": 36,
-    "headYaw": 16,
+    "twistT": 37,
+    "headYaw": 24,
     "armR": {
      "ik": [
       4,
-      7.8,
-      -31
+      6.4,
+      -39
      ]
     },
     "armL": {
      "ik": [
       4,
-      7.8,
-      -36
+      6.4,
+      -44
      ]
-    }
+    },
+    "side": -10
    },
    {
     "t": 2.45,
@@ -1160,7 +1166,8 @@ module.exports = [
       26,
       -26
      ]
-    }
+    },
+    "side": -5
    },
    {
     "t": 2.8,
@@ -1175,7 +1182,7 @@ module.exports = [
    "Light touch on the floor beside the hip, through the centre to the other side"
   ],
   "doubts": [
-   "Front elevated view so both side touches are visible; the backward lean is foreshortened in this view.",
+   "Seen from the front and above (60°) so the shoulders visibly swing over the hips; the backward lean is foreshortened in this view.",
    "Feet-up variant not shown."
   ]
  },

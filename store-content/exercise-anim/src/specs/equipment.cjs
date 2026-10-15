@@ -99,13 +99,14 @@ const latpull = {
 /* ---------- band-assisted pull-up ---------- */
 const PB = 214;
 const pullup = {
-  id: "pullup", name: "Pull-up (band-assisted)", duration: 2.8, camera: { yaw: 0 }, still: 1.1,
+  id: "pullup", name: "Pull-up (band-assisted)", duration: 2.8, camera: { yaw: -62, elev: 8 }, still: 1.1,
+  order: ["legL", "legR", "torso", "held", "head", "armL", "armR"],
   props: [{ type: "bar", x: 6, y: PB, z: [-45, 45] }],
   held: [{ type: "band", from: [6, PB, 0], to: "knees" }],
   contacts: [{ eff: "wristR" }, { eff: "wristL" }],
   form: ["Hands on the bar about shoulder width, start from straight arms", "Pull the chest toward the bar until the chin is over it",
     "No swinging or kicking; the band under the knees helps", "Lower with control all the way to straight arms"],
-  doubts: ["Band-assisted version; the band is drawn from the bar to the knees."],
+  doubts: ["Band-assisted version; the band is looped from the bar to the knees.", "Front ¾ view so the bar reads as a horizontal bar on two uprights."],
   keys: [
     M({ t: 0, root: { x: 2, y: PB - 4.6 - 52 - 40 + 4.5, pitch: 4 }, lumbar: 0, thoracic: -2, neck: -8 },
       { armR: { ik: [6, PB - 1, 22], exact: true }, armL: { ik: [6, PB - 1, -22], exact: true } }, { legR: freeLeg(-6, 85, -30, 3), legL: freeLeg(-6, 85, -30, 3) }),
