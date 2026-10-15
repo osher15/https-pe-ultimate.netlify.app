@@ -18,7 +18,7 @@ const path = require("path");
 const crypto = require("crypto");
 const { execFileSync } = require("child_process");
 const { render } = require("./svg.cjs");
-const spec = require("./exercises.json");
+const spec = require("./exercises.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
 const OUT_SVG = path.join(ROOT, "out", "svg");
@@ -37,6 +37,9 @@ const sha = b => crypto.createHash("sha256").update(b).digest("hex");
 
 async function main() {
   fs.mkdirSync(OUT_SVG, { recursive: true });
+  // README checklist block is generated from the specs
+  const readmeFile = path.join(ROOT, "README.md");
+  fs.writeFileSync(readmeFile, require("./form.cjs").injectReadme(fs.readFileSync(readmeFile, "utf8"), spec));
   const results = [];
   for (const ex of exercises) {
     const r = render(ex, spec.fps, { px: PX });

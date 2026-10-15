@@ -66,7 +66,7 @@ const EASE = {
 };
 
 /* ---------- default pose ---------- */
-function limbDefaults() { return { flex: 0, abd: 0, bend: 0, ankle: 0, ik: null, rel: null, anchor: "toe", ankleT: null, ikW: 0, footPitch: null, footW: 0 }; }
+function limbDefaults() { return { flex: 0, abd: 0, bend: 0, ankle: 0, rot: 0, ik: null, rel: null, anchor: "toe", ankleT: null, ikW: 0, footPitch: null, footW: 0 }; }
 function defaultPose() {
   return {
     root: { x: 0, y: BODY.ankleH + BODY.shin + BODY.thigh, pitch: 0, yaw: 0, roll: 0 },
@@ -93,6 +93,7 @@ function normPose(spec) {
     if (src.elbow != null) dst.bend = src.elbow;
     if (src.knee != null) dst.bend = src.knee;
     if (src.ankle != null) dst.ankle = src.ankle;
+    if (src.rot != null) dst.rot = src.rot; // rotation about the upper bone (FK only; IK assumes 0)
     if (kind === "arm" && src.ik) { dst.ik = src.ik.slice(); dst.ikW = 1; }
     if (kind === "arm" && src.rel) { dst.rel = src.rel.slice(); dst.ikW = 1; } // target in pelvis frame (e.g. hands on hips)
     if (kind === "leg" && src.foot) {
@@ -141,7 +142,7 @@ function lerpPose(a, b, t) {
   for (const k of ["lumbar", "thoracic", "twistL", "twistT", "side", "neck", "headYaw", "breath", "hold"]) r[k] = lerp(a[k], b[k], t);
   for (const L of ["armL", "armR", "legL", "legR"]) {
     const A = a[L], B = b[L], R = r[L];
-    for (const k of ["flex", "abd", "bend", "ankle", "ikW", "footW"]) R[k] = lerp(A[k], B[k], t);
+    for (const k of ["flex", "abd", "bend", "ankle", "ikW", "footW", "rot"]) R[k] = lerp(A[k], B[k], t);
     R.ik = A.ik && B.ik ? lerpV(A.ik, B.ik, t) : (A.ik || B.ik);
     R.rel = A.rel && B.rel ? lerpV(A.rel, B.rel, t) : (A.rel || B.rel);
     R.anchor = A.anchor;
@@ -174,7 +175,10 @@ function solveTwoBone(parentR, base, target, l1, l2, side, s) {
   const k = Math.acos(Math.max(-1, Math.min(1, ck)));
   const phi = Math.atan2(p[0], -p[1]);
   const th1 = phi - s * Math.atan2(l2 * Math.sin(k), l1 + l2 * Math.cos(k));
-  return { flex: th1 * R2D, abd: abd * R2D, bend: k * R2D };
+  let flex = th1 * R2D;
+  while (flex > 180) flex -= 360;
+  while (flex <= -180) flex += 360;
+  return { flex, abd: abd * R2D, bend: k * R2D };
 }
 
 /* Ankle angle that gives the foot a world pitch (deg) — foot forward = facing direction. */
@@ -236,13 +240,13 @@ function fk(pose, solved) {
       const s = solveTwoBone(Tr, sh, armTarget, B.upperArm, B.forearm, side, +1);
       flex = lerp(flex, s.flex, A.ikW); abd = lerp(abd, s.abd, A.ikW); bend = lerp(bend, s.bend, A.ikW);
     }
-    const A1 = mm(mm(Tr, Rx(-side * abd * D2R)), Rz(flex * D2R));
+    const A1 = mm(mm(mm(Tr, Rx(-side * abd * D2R)), Rz(flex * D2R)), Ry(side * (A.rot || 0) * D2R));
     const el = add(sh, mv(A1, [0, -B.upperArm, 0]));
     const A2 = mm(A1, Rz(bend * D2R));
     const wr = add(el, mv(A2, [0, -B.forearm, 0]));
     J["shoulder" + sideName] = sh; J["elbow" + sideName] = el; J["wrist" + sideName] = wr;
     J["upperArmR" + sideName] = A1; J["forearmR" + sideName] = A2;
-    ang["arm" + sideName] = { flex, abd, bend };
+    ang["arm" + sideName] = { flex, abd, bend, rot: A.rot || 0 };
     // leg
     const Lg = pose["leg" + sideName];
     const hip = add(pelvis, mv(P, [0, 0, side * B.hipW]));
@@ -252,7 +256,7 @@ function fk(pose, solved) {
       const s = solveTwoBone(P, hip, anTarget, B.thigh, B.shin, side, -1);
       lf = lerp(lf, s.flex, Lg.ikW); la = lerp(la, s.abd, Lg.ikW); lb = lerp(lb, s.bend, Lg.ikW);
     }
-    const L1 = mm(mm(P, Rx(-side * la * D2R)), Rz(lf * D2R));
+    const L1 = mm(mm(mm(P, Rx(-side * la * D2R)), Rz(lf * D2R)), Ry(side * (Lg.rot || 0) * D2R));
     const kn = add(hip, mv(L1, [0, -B.thigh, 0]));
     const L2 = mm(L1, Rz(-lb * D2R));
     const an = add(kn, mv(L2, [0, -B.shin, 0]));
@@ -273,7 +277,7 @@ function fk(pose, solved) {
     J["toe" + sideName] = add(sole, mul(f, B.toeFwd));
     J["heel" + sideName] = sub(sole, mul(f, B.heelBack));
     J["footF" + sideName] = f; J["footN" + sideName] = n;
-    ang["leg" + sideName] = { flex: lf, abd: la, bend: lb, ankle };
+    ang["leg" + sideName] = { flex: lf, abd: la, bend: lb, ankle, rot: Lg.rot || 0 };
   }
   ang.spine = { lumbar: pose.lumbar, thoracic: pose.thoracic, twist: pose.twistL + pose.twistT, neck: pose.neck, headYaw: pose.headYaw, side: pose.side };
   J.angles = ang;
@@ -340,13 +344,34 @@ function poseAt(ex, timeline, t) {
   return lerpPose(ks[ks.length - 1].pose, ks[ks.length - 1].pose, 0);
 }
 
+const POINT_KEYS = ["pelvis", "mid", "neck", "head", "shoulderR", "elbowR", "wristR", "hipR", "kneeR", "ankleR", "toeR", "heelR",
+  "shoulderL", "elbowL", "wristL", "hipL", "kneeL", "ankleL", "toeL", "heelL"];
+function travelShift(ex, t) {
+  if (!ex.travel) return 0;
+  const cycle = ex.duration / (ex.cycles || 1);
+  return ex.travel * Math.floor(t / cycle + 1e-9);
+}
+/* camera x offset for a travelling exercise: follows the body at constant speed */
+function cameraFollow(ex, t) {
+  if (!ex.travel) return 0;
+  return ex.travel * t / (ex.duration / (ex.cycles || 1));
+}
+
 function sampleFrames(ex, fps) {
   const timeline = buildTimeline(ex);
   const n = Math.round(ex.duration * fps);
   const frames = [];
-  for (let i = 0; i <= n; i++) frames.push(solvePose(poseAt(ex, timeline, i / fps)));
+  for (let i = 0; i <= n; i++) {
+    const t = i / fps;
+    const J = solvePose(poseAt(ex, timeline, t));
+    // travelling exercises (walk, crawl): each completed cycle moves the body by ex.travel in x
+    const shift = travelShift(ex, t);
+    if (shift) for (const k of POINT_KEYS) J[k] = [J[k][0] + shift, J[k][1], J[k][2]];
+    J.t = t;
+    frames.push(J);
+  }
   return { frames, n, timeline };
 }
 
 module.exports = { BODY, D2R, R2D, EASE, v, add, sub, mul, dot, len, mm, mv, mtv, Rx, Ry, Rz,
-  defaultPose, normPose, lerpPose, solveTwoBone, fk, solvePose, buildTimeline, poseAt, sampleFrames };
+  defaultPose, normPose, lerpPose, travelShift, cameraFollow, POINT_KEYS, solveTwoBone, fk, solvePose, buildTimeline, poseAt, sampleFrames };

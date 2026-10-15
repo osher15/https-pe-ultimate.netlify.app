@@ -3,7 +3,7 @@
    node src/preview.cjs <id> <out.svg> [frame,frame,...] */
 const fs = require("fs");
 const { render } = require("./svg.cjs");
-const spec = require("./exercises.json");
+const spec = require("./exercises.cjs");
 const id = process.argv[2];
 const ex = spec.exercises.find(e => e.id === id);
 if (!ex) { console.error("unknown exercise " + id); process.exit(2); }

@@ -15,7 +15,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { chromium } = require("playwright");
-const spec = require("../src/exercises.json");
+const spec = require("../src/exercises.cjs");
 
 const OUT = path.resolve(__dirname, "..", "out");
 let failed = 0;

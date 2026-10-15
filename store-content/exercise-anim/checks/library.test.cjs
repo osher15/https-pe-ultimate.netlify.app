@@ -27,11 +27,11 @@ test("library.json matches the app's FIT exercise list (ids, figures, order)", t
   assert.deepEqual(lib.map(e => ({ id: e.id, grp: e.grp, fig: e.appFig })), app);
 });
 
-test("every spec belongs to the library and is marked pilot", () => {
+test("every spec belongs to the library and is marked pilot or done", () => {
   for (const ex of spec.exercises) {
     const e = lib.find(x => x.anim === ex.id);
     assert.ok(e, `${ex.id} not in library.json`);
-    assert.equal(e.status, "pilot");
+    assert.ok(["pilot", "done"].includes(e.status), `${ex.id} status ${e.status}`);
   }
 });
 

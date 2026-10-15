@@ -88,6 +88,13 @@ for (const ex of spec.exercises) {
   });
 }
 
+test("README checklist block is in sync with the specs; every spec has a form checklist", () => {
+  const readme = fs.readFileSync(path.join(ROOT, "README.md"), "utf8");
+  const { formMarkdown } = require("../src/form.cjs");
+  assert.ok(readme.includes(formMarkdown(spec)), "README form block is stale — run src/build.cjs");
+  for (const ex of spec.exercises) assert.ok((ex.form || []).length >= 3, `${ex.id}: needs at least 3 form cues`);
+});
+
 test("contact sheet exists", () => {
   assert.ok(fs.existsSync(path.join(ROOT, "contact-sheet.png")));
 });

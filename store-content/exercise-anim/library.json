@@ -26,7 +26,7 @@
    "appFig": "push",
    "equipment": "none",
    "anim": "pushincline",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "lunge",
@@ -44,7 +44,7 @@
    "appFig": "squat",
    "equipment": "none",
    "anim": "wall",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "gluteb",
@@ -62,7 +62,7 @@
    "appFig": "stepup",
    "equipment": "bench",
    "anim": "stepup",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "dip",
@@ -71,7 +71,7 @@
    "appFig": "dip",
    "equipment": "bench",
    "anim": "dip",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "pike",
@@ -80,7 +80,7 @@
    "appFig": "pike",
    "equipment": "none",
    "anim": "pike",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "calf",
@@ -89,7 +89,7 @@
    "appFig": "calf",
    "equipment": "none",
    "anim": "calf",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "bearcrawl",
@@ -98,7 +98,7 @@
    "appFig": "bearcrawl",
    "equipment": "none",
    "anim": "bearcrawl",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "singleleg",
@@ -107,7 +107,7 @@
    "appFig": "hinge",
    "equipment": "none",
    "anim": "singleleg",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "inchworm",
@@ -116,7 +116,7 @@
    "appFig": "pike",
    "equipment": "none",
    "anim": "inchworm",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "jack",

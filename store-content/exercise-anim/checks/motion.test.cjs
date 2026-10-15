@@ -20,13 +20,17 @@ for (const ex of spec.exercises) {
 
   test(`${ex.id}: seamless loop (end pose = start pose, no jump at the wrap)`, () => {
     const { frames: F, n } = frames(ex);
-    for (const p of POINTS) assert.ok(dist(F[0][p], F[n][p]) < 1e-6, `${p} differs between t=0 and t=end`);
-    // the wrap step (frame n-1 -> frame 0) must look like any other step
-    let maxStep = 0;
-    for (let i = 1; i < n; i++) for (const p of POINTS) maxStep = Math.max(maxStep, dist(F[i][p], F[i - 1][p]));
-    let wrap = 0;
-    for (const p of POINTS) wrap = Math.max(wrap, dist(F[n - 1][p], F[0][p]));
-    assert.ok(wrap <= maxStep * 1.05 + 1e-9, `wrap step ${wrap.toFixed(2)} > max step ${maxStep.toFixed(2)}`);
+    // a travelling exercise ends one loop further forward (the camera follows)
+    const shift = (ex.travel || 0) * (ex.cycles || 1);
+    const sh = p => [p[0] + shift, p[1], p[2]];
+    for (const p of POINTS) assert.ok(dist(sh(F[0][p]), F[n][p]) < 1e-6, `${p} differs between t=0 and t=end`);
+    // no velocity kink at the wrap: the change of velocity from the last step into the first
+    // step must be no bigger than the largest change of velocity anywhere inside the loop
+    const vel = (A, B, p) => [B[p][0] - A[p][0], B[p][1] - A[p][1], B[p][2] - A[p][2]];
+    let maxAcc = 0, wrapAcc = 0;
+    for (let i = 1; i < n; i++) for (const p of POINTS) maxAcc = Math.max(maxAcc, dist(vel(F[i - 1], F[i], p), vel(F[i], F[i + 1], p)));
+    for (const p of POINTS) wrapAcc = Math.max(wrapAcc, dist(vel(F[n - 1], F[n], p), vel(F[0], F[1], p)));
+    assert.ok(wrapAcc <= maxAcc * 1.05 + 1e-9, `velocity change at the wrap ${wrapAcc.toFixed(2)} > max inside ${maxAcc.toFixed(2)}`);
   });
 
   test(`${ex.id}: no frame-to-frame teleport (smooth motion)`, () => {
