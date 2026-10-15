@@ -1,28 +1,34 @@
-# BB-05 Main A — owner's resolution (2026-10-16)
+# BB-05 Main A — owner's resolution (2026-10-16, corrected)
 
-Status: owner (a PE teacher) clarified the intended drill. **The Notion source text still has to be corrected by the owner.**
+Status: owner (a PE teacher) explained the intended drill. My first reading (four cones) was **wrong** and is withdrawn.
 Claude did not edit Notion and could not watch the video the owner linked (https://youtu.be/8O0geioCEmM); this is the owner's
-description in his own words, translated.
+description, translated.
 
 ## Owner's description (translated)
-Movement without the ball. The player who passes cuts to the basket and, at the same time, runs to the opposite cone.
-In parallel, the player farthest from the ball runs to the empty cone that the passer left. This keeps going.
+Three cones and three players, 1, 2 and 3, one per cone. 3 passes to 2 and cuts to the basket. Meanwhile 1 runs to 3's place and
+3 runs to 1's place. Then 2 passes to 1 and cuts to the basket. 3 runs to the cone that 2 left, and 2 runs at the same time to
+the cone that 3 left. So they swap places.
 
-## What this resolves
-- Four cones per trio (three occupied, one empty), as in the warm-up. The current Main A "three cones" line is the error.
-- "Fill the empty cone" = the passer cuts to the empty cone; the far player takes the cone the passer vacated.
+## Meaning
+- **Three cones, no fourth cone.** The source line "one ball and three cones per trio" is correct.
+- The "empty cone" is not a spare cone. It is the cone the far-from-ball player has just left. The passer takes it while that
+  player takes the passer's vacated cone: **the passer and the player farthest from the ball swap cones**, at the same time.
+- Round 1: 3 passes to 2, cuts to the basket; 3 and 1 swap cones.
+- Round 2: 2 passes to 1, cuts to the basket; 2 and 3 swap cones. The pattern repeats.
 
-## Proposed corrected source text (English, for the owner to put into Notion)
-**Process:** three students stand on three of four cones (one cone empty). A passes to B, then cuts toward the basket and runs to
-the empty (opposite) cone. At the same time, the player farthest from the ball (C) runs to the cone A just left. The new ball holder
-repeats: pass, cut to the empty cone, and the farthest player fills the vacated cone. Reverse after four circuits.
-**Organisation:** one ball and **four cones** per trio, 3–4 metres apart.
+## Effect on the Notion text
+The existing Main A text ("A passes to B and immediately fills the empty cone; B turns to the ball and passes to C") is
+close to this. The open question was a misreading, not a source error. The owner may still want one clarifying sentence:
 
-## Still to confirm with the owner before drawing
-1. Where the empty cone sits relative to the passer (diagonal/opposite, or adjacent).
-2. Whether the passer's "cut to the basket" is a real basket in the gym or only the direction of travel.
+> **Process:** three students, one per cone. A passes to B and cuts toward the basket. At the same time A and C (the player
+> farthest from the ball) swap cones: A takes the cone C just left, and C takes the cone A just left. B then passes to C and
+> cuts, and B and A swap, and so on. Reverse after four circuits.
+
+## Still to confirm before drawing
+1. Does the passer cut to the basket first and then go to the swap cone, or is the cut itself the route to the other cone?
+2. Is the basket a real hoop in the gym, or only the direction of travel?
 
 ## Next steps
-- Owner: fix BB-05 in Notion (Hebrew, English, Arabic, Russian, Spanish).
-- After the source is corrected and re-exported: draw `BB-05-D3` (Main A) and clear the `open_question` in `placements.csv`
-  (the file lives on `codex/g1-notion-export-pilot-20261014`).
+- Owner: decide whether to add the clarifying sentence in Notion (five languages).
+- Then: draw `BB-05-D3` (Main A) as a two-step scene (round 1 and round 2 arrows) and clear the `open_question` in
+  `placements.csv` (file lives on `codex/g1-notion-export-pilot-20261014`).
