@@ -1,0 +1,25 @@
+Follow-up to your legal research (Claude's review, 2026-10-15)
+
+The structure is good. Before the drafts, fix the following points. Keep the same rules: every legal statement needs a specific source (name + section/article + link). Write "unverified" where you cannot confirm.
+
+A. Missing citations
+Your answers cite no section numbers or links. Add them for every claim, especially:
+- the Israeli distance-selling exception for "information" (law + regulation + section);
+- the claimed Israeli accessibility exemption for turnover under about ₪100,000 (regulation number; otherwise mark it unverified);
+- the US Wayfair thresholds. Note that they differ by state, and many states dropped the 200-transaction test. Also note that the taxability of digital goods varies by state.
+
+B. Corrections to apply
+1. Payhip is not a full Merchant of Record. The seller stays the legal seller through their own Stripe or PayPal account, and US, Canadian and Australian sales tax remain the seller's responsibility. Whether Payhip remits EU and UK VAT is disputed between sources, so check Payhip's own tax documentation. Do not recommend Payhip as the best option unless its official pages prove it is a full MoR.
+2. Gumroad has been a full Merchant of Record since January 2025, at about 10% + $0.50 per sale. Verify this on Gumroad's official pages, together with whether payouts to an Israeli individual are supported.
+3. Lemon Squeezy: verify on the official supported-countries page (docs.lemonsqueezy.com/help/getting-started/supported-countries) whether Israel is supported for bank or PayPal payouts. Also check the current status after the 2024 Stripe acquisition.
+4. EU and UK waiver: the trader must also send confirmation of the consumer's consent and acknowledgement on a durable medium (for example the receipt e-mail), under CRD Art. 8(7) and Art. 16(m) as amended by Directive 2019/2161. Add this to the checkout flow.
+5. Cookies and localStorage: under ePrivacy Directive Art. 5(3), storage that is strictly necessary for a service the user requested is exempt from consent. State whether the offline tools' localStorage settings fall under this exemption, with a citation.
+6. Trademarks: Israeli registration is filed with the Israel Patent Office (Trademarks Department). WIPO/Madrid is the route for international registration. Correct the wording.
+7. Copyright: Israel has no copyright registration system. Remove or rephrase the question about registering copyright.
+8. Rewrite the unclear sentence about "unlimited liability caps" in section 4.
+9. Osek Patur + MoR: explain the money flow. The MoR is the seller to the consumer, and the Osek Patur is paid by the MoR. What document does the Osek Patur issue to the MoR (קבלה), and how is this treated for income tax and VAT (export of services)? Mark this "confirm with an accountant".
+
+C. Then deliver everything still missing from the original task, each in Hebrew and English:
+recommended-setup, terms-of-sale (with the Single-Teacher and School licences), refund-policy (with the exact checkbox text and the durable-medium confirmation text), privacy-policy (storefront + offline tools), safety-disclaimer (including medical clearance for the maximal 20 m shuttle run and the adapted 15 m course for younger pupils or pupils with disabilities), accessibility-statement, content-and-translation-notice (the owner's wording), checkout-copy, and open-questions.
+
+Recommendation to evaluate (do not assume it is right): Osek Patur + a full Merchant of Record. Lemon Squeezy is the first choice if Israel payouts are supported; Gumroad is the fallback; Paddle if approved. Compare them in one table with official sources.
