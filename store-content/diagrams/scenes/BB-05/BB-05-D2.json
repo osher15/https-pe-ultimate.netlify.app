@@ -1,0 +1,123 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-05-D2",
+  "family": "BB-05",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "three attackers and one shadow defender."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "3v1 shadow lane closure",
+    "he": "סגירת נתיב בצל 3 נגד 1",
+    "ar": "إغلاق المسار بمدافع ظل 3 ضد 1",
+    "ru": "Закрытие линии в 3 против 1",
+    "es": "Cerrar una línea en 3 contra 1"
+  },
+  "alt": {
+    "en": "A1–A3 keep three support points while B1 shades one passing lane at 50% without stealing. A1 passes away from B1 to A3 and moves into a new visible angle.",
+    "he": "A1–A3 שומרים על שלוש נקודות תמיכה, ו־B1 חוסם נתיב ב־50% ללא חטיפה. A1 מוסר הרחק מ־B1 אל A3 ונע לזווית פנויה.",
+    "ar": "يحافظ A1–A3 على ثلاث نقاط دعم، ويغلق B1 مسار تمرير بسرعة 50٪ دون خطف. يمرر A1 بعيداً عنه إلى A3 ثم يغير زاوية الدعم.",
+    "ru": "A1–A3 сохраняют три точки поддержки; B1 перекрывает линию на 50% без перехвата. A1 пасует в сторону от B1 к A3 и открывается заново.",
+    "es": "A1–A3 mantienen tres apoyos; B1 cierra una línea al 50 % sin robar. A1 pasa lejos de B1 a A3 y busca otro ángulo."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 22,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 71,
+      "y": 20
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 74,
+      "y": 80
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 53,
+      "y": 33
+    },
+    {
+      "type": "ball",
+      "x": 25,
+      "y": 53
+    },
+    {
+      "type": "cone",
+      "x": 12,
+      "y": 12
+    },
+    {
+      "type": "cone",
+      "x": 88,
+      "y": 12
+    },
+    {
+      "type": "cone",
+      "x": 88,
+      "y": 88
+    },
+    {
+      "type": "cone",
+      "x": 12,
+      "y": 88
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        53,
+        33
+      ],
+      "to": [
+        61,
+        36
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        22,
+        50
+      ],
+      "to": [
+        74,
+        80
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        22,
+        50
+      ],
+      "to": [
+        38,
+        70
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Shadow defender at 50%, no steals or contact; retain space between passing lanes.",
+  "notes": "Shows the defender closing one lane while another remains open.",
+  "status": "draft"
+}
