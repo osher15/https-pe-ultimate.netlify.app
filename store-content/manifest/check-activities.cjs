@@ -26,8 +26,11 @@ for(const row of rows){
  if(seen.has(meta.source_page_id))issues.push(name+': duplicate page ID with '+seen.get(meta.source_page_id));
  else seen.set(meta.source_page_id,name);
  if(meta.kind!==({DR:'drill',GM:'game',AC:'activity'})[id.slice(0,2)])issues.push(name+': kind mismatch');
- const code=body.match(/\b(?:DR|GM|AC)-\d{3}\b/);
- if(!code||code[0]!==id)issues.push(name+': first body ID mismatch');
+ const frontId=meta.id||meta.family;
+ if(frontId!==id)issues.push(name+': front matter ID mismatch');
+ // Notion activity bodies may omit their own code: the page title carries it.
+ // Source body text must remain unchanged; do not inject an ID to satisfy QA.
+ if(body.trim().length<120)issues.push(name+': unexpectedly short body');
  if(/(?:truncated|content omitted|output cut off)/i.test(body))issues.push(name+': truncation marker');
 }
 if(rows.length!==600)issues.push('index expected 600 rows, got '+rows.length);
