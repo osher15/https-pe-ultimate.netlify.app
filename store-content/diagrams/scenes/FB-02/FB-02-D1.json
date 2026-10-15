@@ -1,0 +1,111 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-02-D1",
+  "family": "FB-02",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "Pairs pass through a one-metre gate; eight passes then change angle."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Pass through the gate, then change angle",
+    "he": "מסירה דרך השער ושינוי זווית",
+    "ar": "تمريرة عبر البوابة وتغيير الزاوية",
+    "ru": "Пас через ворота и смена угла",
+    "es": "Pase por la puerta y cambio de ángulo"
+  },
+  "alt": {
+    "en": "A1 passes along the ground through the cone gate to A2 (1). After eight passes both step sideways in opposite directions (2) and pass diagonally through the same gate from a new angle (3). The ball stays on the ground.",
+    "he": "A1 מוסר בקרקע דרך שער הקונוסים אל A2 (1). אחרי שמונה מסירות שניהם צועדים הצידה בכיוונים הפוכים (2) וממשיכים למסור באלכסון דרך אותו שער, בזווית חדשה (3). הכדור נשאר על הקרקע.",
+    "ar": "يمرر A1 الكرة على الأرض عبر بوابة المخاريط إلى A2 (1). بعد ثماني تمريرات يتحرك الاثنان جانبًا في اتجاهين متعاكسين (2) ويمرران قطريًا عبر البوابة نفسها بزاوية جديدة (3). تبقى الكرة على الأرض.",
+    "ru": "A1 низом пасует через ворота из конусов на A2 (1). После восьми передач оба смещаются в противоположные стороны (2) и пасуют по диагонали в те же ворота под новым углом (3). Мяч идёт по земле.",
+    "es": "A1 pasa por el suelo a través de la puerta de conos hasta A2 (1). Tras ocho pases ambos se desplazan en sentidos opuestos (2) y pasan en diagonal por la misma puerta con otro ángulo (3). El balón va raso."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 50,
+      "y": 44
+    },
+    {
+      "type": "cone",
+      "x": 50,
+      "y": 56
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 30,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 70,
+      "y": 50
+    },
+    {
+      "type": "ball",
+      "x": 33,
+      "y": 53
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        30,
+        50
+      ],
+      "to": [
+        70,
+        50
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        30,
+        50
+      ],
+      "to": [
+        30,
+        30
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        70,
+        50
+      ],
+      "to": [
+        70,
+        70
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        30,
+        30
+      ],
+      "to": [
+        70,
+        70
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "Ground passes only; the pair stays inside its own area with walkways free.",
+  "notes": "The second pass shows the changed angle through the same gate.",
+  "status": "draft"
+}

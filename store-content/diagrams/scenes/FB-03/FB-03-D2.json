@@ -1,0 +1,97 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-03-D2",
+  "family": "FB-03",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "The defender closes one side without contact; the attacker positions the body and exits the other side."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Shield and exit the open side",
+    "he": "הגנה על הכדור ויציאה לצד הפנוי",
+    "ar": "حماية الكرة والخروج من الجهة الخالية",
+    "ru": "Прикрыть мяч и выйти в свободную сторону",
+    "es": "Proteger el balón y salir por el lado libre"
+  },
+  "alt": {
+    "en": "A1 receives with shadow defender B1 one and a half arms away. B1 closes the left gate without contact (1); A1 turns the body between B1 and the ball, then takes the first touch out through the right gate (2).",
+    "he": "A1 מקבל כדור כשמגן־הצל B1 במרחק זרוע וחצי. B1 סוגר את השער השמאלי בלי מגע (1); A1 מציב את גופו בין B1 לכדור ויוצא בנגיעה ראשונה דרך השער הימני (2).",
+    "ar": "يستلم A1 الكرة والمدافع السلبي B1 على بعد ذراع ونصف. يغلق B1 البوابة اليسرى دون لمس (1)؛ يضع A1 جسمه بين B1 والكرة ثم يخرج بلمسته الأولى من البوابة اليمنى (2).",
+    "ru": "A1 принимает мяч, пассивный защитник B1 в полутора руках. B1 закрывает левые ворота без касания (1); A1 ставит корпус между B1 и мячом и первым касанием выходит в правые ворота (2).",
+    "es": "A1 recibe con el defensor pasivo B1 a brazo y medio. B1 cierra la puerta izquierda sin contacto (1); A1 coloca el cuerpo entre B1 y el balón y sale con el primer toque por la puerta derecha (2)."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 16,
+      "y": 34
+    },
+    {
+      "type": "cone",
+      "x": 16,
+      "y": 66
+    },
+    {
+      "type": "cone",
+      "x": 84,
+      "y": 34
+    },
+    {
+      "type": "cone",
+      "x": 84,
+      "y": 66
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 52,
+      "y": 56
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 40,
+      "y": 44
+    },
+    {
+      "type": "ball",
+      "x": 55,
+      "y": 59
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        40,
+        44
+      ],
+      "to": [
+        28,
+        50
+      ],
+      "order": 1
+    },
+    {
+      "kind": "dribble",
+      "from": [
+        52,
+        56
+      ],
+      "to": [
+        86,
+        50
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Shadow defender at 50 per cent and no contact; one active pair per area.",
+  "notes": "Defender closes one gate; the exit uses the other.",
+  "status": "draft"
+}

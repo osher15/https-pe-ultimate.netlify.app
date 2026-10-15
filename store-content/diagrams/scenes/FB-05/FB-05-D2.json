@@ -1,0 +1,122 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-05-D2",
+  "family": "FB-05",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "The shadow defender stands between passer and receiver and closes one line at 50%. The receiver changes angle to the other gate."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Shadow closes one line, receiver changes angle",
+    "he": "המגן סוגר נתיב והמקבל משנה זווית",
+    "ar": "المدافع يغلق مسارًا والمستلم يغيّر الزاوية",
+    "ru": "Защитник закрывает линию, партнёр меняет угол",
+    "es": "El sombra cierra una línea; el receptor cambia"
+  },
+  "alt": {
+    "en": "B1, the shadow defender at 50 per cent, moves between passer A1 and the upper gate to close that line (1). Receiver A2 changes angle toward the lower gate (2) and A1 passes along the open line (2). No contact.",
+    "he": "B1, מגן־צל ב־50%, נע בין המוסר A1 לבין השער העליון וסוגר נתיב (1). המקבל A2 משנה זווית אל השער התחתון (2) ו־A1 מוסר בנתיב הפתוח (2). ללא מגע.",
+    "ar": "يتحرك B1، المدافع السلبي بسرعة 50٪، بين الممرر A1 والبوابة العليا فيغلق ذلك المسار (1). يغيّر المستلم A2 زاويته نحو البوابة السفلى (2) ويمرر A1 عبر المسار المفتوح (2). دون لمس.",
+    "ru": "B1, пассивный защитник на 50%, встаёт между пасующим A1 и верхними воротами и закрывает эту линию (1). Принимающий A2 меняет угол к нижним воротам (2), A1 пасует по открытой линии (2). Без контакта.",
+    "es": "B1, defensor pasivo al 50 %, se coloca entre el pasador A1 y la puerta de arriba y cierra esa línea (1). El receptor A2 cambia de ángulo hacia la puerta de abajo (2) y A1 pasa por la línea libre (2). Sin contacto."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 60,
+      "y": 16
+    },
+    {
+      "type": "cone",
+      "x": 82,
+      "y": 16
+    },
+    {
+      "type": "cone",
+      "x": 60,
+      "y": 84
+    },
+    {
+      "type": "cone",
+      "x": 82,
+      "y": 84
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 14,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 50,
+      "y": 54
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 34,
+      "y": 36
+    },
+    {
+      "type": "ball",
+      "x": 17,
+      "y": 53
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        34,
+        36
+      ],
+      "to": [
+        44,
+        28
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        50,
+        54
+      ],
+      "to": [
+        60,
+        66
+      ],
+      "via": [
+        [
+          54,
+          62
+        ]
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        14,
+        50
+      ],
+      "to": [
+        66,
+        78
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Shadow defender at 50 per cent, no contact; one active pair.",
+  "notes": "Receiver answers the closed line by changing angle to the other gate.",
+  "status": "draft"
+}

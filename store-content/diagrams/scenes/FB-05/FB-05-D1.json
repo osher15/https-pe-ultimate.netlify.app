@@ -1,0 +1,114 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-05-D1",
+  "family": "FB-05",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "The receiver moves two steps away from the receiving cone, changes, and enters an open gate."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Check away, change, receive in the gate",
+    "he": "התרחקות, שינוי כיוון וקבלה בשער",
+    "ar": "ابتعاد وتغيير اتجاه واستلام في البوابة",
+    "ru": "Отход, смена направления, приём в воротах",
+    "es": "Alejarse, cambiar y recibir en la puerta"
+  },
+  "alt": {
+    "en": "A2 starts at the receiving cone, moves two steps away (1), then changes direction and runs into the open upper gate (2). A1 at the passer point plays a soft ground pass as A2 changes direction (2). The lower gate stays unused.",
+    "he": "A2 מתחיל ליד קונוס הקבלה, מתרחק שני צעדים (1), משנה כיוון ורץ אל השער העליון הפנוי (2). A1 בנקודת המוסר מוסר מסירה רכה בקרקע בזמן שהשינוי מתבצע (2). השער התחתון אינו בשימוש.",
+    "ar": "يبدأ A2 عند مخروط الاستلام ويبتعد خطوتين (1) ثم يغيّر اتجاهه ويركض إلى البوابة العلوية الخالية (2). يمرر A1 من نقطة التمرير كرة أرضية ناعمة عندما يغيّر A2 اتجاهه (2). تبقى البوابة السفلية غير مستخدمة.",
+    "ru": "A2 стартует у конуса приёма, отходит на два шага (1), затем меняет направление и входит в свободные верхние ворота (2). A1 с точки передачи мягко пасует низом, когда A2 меняет направление (2). Нижние ворота не используются.",
+    "es": "A2 sale del cono de recepción, se aleja dos pasos (1), cambia de dirección y entra en la puerta libre de arriba (2). A1, desde el punto de pase, da un pase raso suave cuando A2 cambia (2). La puerta de abajo no se usa."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 86,
+      "y": 24
+    },
+    {
+      "type": "cone",
+      "x": 86,
+      "y": 44
+    },
+    {
+      "type": "cone",
+      "x": 86,
+      "y": 58
+    },
+    {
+      "type": "cone",
+      "x": 86,
+      "y": 78
+    },
+    {
+      "type": "cone",
+      "x": 54,
+      "y": 58
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 62,
+      "y": 54
+    },
+    {
+      "type": "ball",
+      "x": 21,
+      "y": 53
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        62,
+        54
+      ],
+      "to": [
+        66,
+        70
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        66,
+        70
+      ],
+      "to": [
+        83,
+        34
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        18,
+        50
+      ],
+      "to": [
+        78,
+        38
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "One active pair; ground pass; stop at the boundary.",
+  "notes": "Check away first, then change direction as the passer is ready.",
+  "status": "draft"
+}

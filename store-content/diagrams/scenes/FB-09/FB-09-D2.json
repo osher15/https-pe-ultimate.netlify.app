@@ -1,0 +1,110 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-09-D2",
+  "family": "FB-09",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Attackers target two goals; defenders protect the centre. Roles switch after loss. Score only when three attackers touched."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Three touch the ball before the goal",
+    "he": "שלושה נוגעים בכדור לפני השער",
+    "ar": "ثلاثة يلمسون الكرة قبل الهدف",
+    "ru": "Трое касаются мяча до удара по воротам",
+    "es": "Tres tocan el balón antes de la portería"
+  },
+  "alt": {
+    "en": "A1 passes wide to A2 (1), A2 passes into space to A3 (2) and A3 finishes toward the goal (3), so three attackers touch the ball before a goal counts. Defenders B1 and B2 protect the central gate; no contact.",
+    "he": "A1 מוסר רחב אל A2 (1), A2 מוסר לחלל אל A3 (2) ו־A3 מסיים לעבר השער (3), כך שלושה תוקפים נוגעים בכדור לפני שהשער נספר. המגנים B1 ו־B2 שומרים על השער המרכזי; ללא מגע.",
+    "ar": "يمرر A1 عريضًا إلى A2 (1) ويمرر A2 إلى الفراغ نحو A3 (2) وينهي A3 نحو الهدف (3)، فيلمس ثلاثة مهاجمين الكرة قبل احتساب الهدف. يحمي المدافعان B1 وB2 البوابة الوسطى؛ دون لمس.",
+    "ru": "A1 пасует широко на A2 (1), A2 пасует в свободное место на A3 (2), A3 завершает к воротам (3): три атакующих касаются мяча до зачёта гола. Защитники B1 и B2 закрывают центр; без контакта.",
+    "es": "A1 pasa abierto a A2 (1), A2 pasa al espacio a A3 (2) y A3 finaliza hacia la portería (3): tres atacantes tocan el balón antes de que valga el gol. Los defensores B1 y B2 protegen el centro; sin contacto."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 46
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 46,
+      "y": 14
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 72,
+      "y": 82
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 44,
+      "y": 46
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 52,
+      "y": 60
+    },
+    {
+      "type": "ball",
+      "x": 21,
+      "y": 49
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        18,
+        46
+      ],
+      "to": [
+        46,
+        14
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        46,
+        14
+      ],
+      "to": [
+        72,
+        82
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        72,
+        82
+      ],
+      "to": [
+        94,
+        53
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "No tackling or contact; stable goals; nobody behind the goal.",
+  "notes": "Only one of the two goals is drawn; the template goal is on the right.",
+  "status": "draft"
+}

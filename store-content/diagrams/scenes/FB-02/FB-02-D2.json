@@ -1,0 +1,143 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-02-D2",
+  "family": "FB-02",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "appliedGame",
+    "step": 1,
+    "quote_en": "3v1 in a square; shadow defender up to 50%, no tackle. Four passes unlock an end-gate pass."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "3v1 square: four passes unlock the gate",
+    "he": "3 נגד 1 בריבוע: ארבע מסירות פותחות שער",
+    "ar": "3 ضد 1 في المربع: أربع تمريرات تفتح البوابة",
+    "ru": "3 на 1 в квадрате: четыре паса до ворот",
+    "es": "3 contra 1: cuatro pases abren la puerta"
+  },
+  "alt": {
+    "en": "A1, A2 and A3 keep the ball from shadow defender B1, who works at up to 50 per cent and makes no tackle. After four passes (1-4) the ball may go through the end gate on the right (5). Passes stay on the ground.",
+    "he": "A1, A2 ו־A3 שומרים על הכדור מפני מגן־צל B1, שפועל עד 50% וללא תיקול. אחרי ארבע מסירות (1–4) מותר למסור דרך שער הסיום מימין (5). המסירות נשארות על הקרקע.",
+    "ar": "يحتفظ A1 وA2 وA3 بالكرة أمام المدافع السلبي B1 بسرعة حتى 50٪ ودون تدخل. بعد أربع تمريرات (1–4) يُسمح بتمريرة عبر البوابة الأخيرة على اليمين (5). تبقى التمريرات على الأرض.",
+    "ru": "A1, A2 и A3 сохраняют мяч от пассивного защитника B1, который работает до 50% и не отбирает. После четырёх передач (1–4) можно играть через конечные ворота справа (5). Пасы низом.",
+    "es": "A1, A2 y A3 conservan el balón ante el defensor pasivo B1, que trabaja hasta al 50 % y no entra. Tras cuatro pases (1-4) se puede pasar por la puerta final de la derecha (5). Pases rasos."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 88,
+      "y": 62
+    },
+    {
+      "type": "cone",
+      "x": 88,
+      "y": 86
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 20,
+      "y": 68
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 72,
+      "y": 74
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 46,
+      "y": 24
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 50,
+      "y": 50
+    },
+    {
+      "type": "ball",
+      "x": 23,
+      "y": 71
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        20,
+        68
+      ],
+      "to": [
+        72,
+        74
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        72,
+        74
+      ],
+      "to": [
+        46,
+        24
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        46,
+        24
+      ],
+      "to": [
+        20,
+        68
+      ],
+      "order": 3
+    },
+    {
+      "kind": "pass",
+      "from": [
+        20,
+        68
+      ],
+      "to": [
+        72,
+        74
+      ],
+      "via": [
+        [
+          46,
+          84
+        ]
+      ],
+      "order": 4
+    },
+    {
+      "kind": "pass",
+      "from": [
+        72,
+        74
+      ],
+      "to": [
+        97,
+        74
+      ],
+      "order": 5
+    }
+  ],
+  "safety": "Shadow defender up to 50 per cent, no tackle; ground passes only.",
+  "notes": "Five numbered passes: four to unlock, then the end-gate pass.",
+  "status": "draft"
+}

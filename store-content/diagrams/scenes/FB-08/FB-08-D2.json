@@ -1,0 +1,117 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-08-D2",
+  "family": "FB-08",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "appliedGame",
+    "step": 1,
+    "quote_en": "Defensive point when two players get between ball and goal within five seconds after loss; attacking point for dribbling through a gate."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "3v3: two players between ball and goal",
+    "he": "3 נגד 3: שניים בין הכדור לשער",
+    "ar": "3 ضد 3: لاعبان بين الكرة والهدف",
+    "ru": "3 на 3: двое между мячом и воротами",
+    "es": "3 contra 3: dos entre el balón y la portería"
+  },
+  "alt": {
+    "en": "After a loss B1 carries toward the goal. Nearest player A3 delays without contact while A1 and A2 recover between ball and goal within five seconds (1). B2 and B3 give width. No tackling; defence up to 70 per cent.",
+    "he": "אחרי אובדן כדור B1 מוביל אל השער. A3, הקרוב ביותר, מעכב בלי מגע, ו־A1 ו־A2 חוזרים בין הכדור לשער בתוך חמש שניות (1). B2 ו־B3 נותנים רוחב. ללא תיקול; הגנה עד 70%.",
+    "ar": "بعد فقد الكرة يتقدم B1 نحو الهدف. يؤخر A3، الأقرب، دون لمس بينما يعود A1 وA2 إلى موضع بين الكرة والهدف خلال خمس ثوانٍ (1). يوفّر B2 وB3 العرض. دون تدخل؛ دفاع حتى 70٪.",
+    "ru": "После потери B1 ведёт мяч к воротам. Ближний A3 задерживает без контакта, а A1 и A2 возвращаются между мячом и воротами за пять секунд (1). B2 и B3 дают ширину. Без отбора; защита до 70%.",
+    "es": "Tras la pérdida, B1 conduce hacia la portería. El más cercano, A3, retrasa sin contacto mientras A1 y A2 vuelven entre balón y portería en cinco segundos (1). B2 y B3 dan amplitud. Sin entradas; defensa hasta el 70 %."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 30,
+      "y": 52
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 34,
+      "y": 22
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 3,
+      "x": 30,
+      "y": 82
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 52,
+      "y": 52
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 16,
+      "y": 34
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 16,
+      "y": 70
+    },
+    {
+      "type": "ball",
+      "x": 33,
+      "y": 55
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        30,
+        52
+      ],
+      "to": [
+        41,
+        52
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        16,
+        34
+      ],
+      "to": [
+        62,
+        42
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        16,
+        70
+      ],
+      "to": [
+        62,
+        60
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "No tackling or contact; defence at up to 70 per cent; stop at the boundary.",
+  "notes": "Two players get between ball and goal after the loss.",
+  "status": "draft"
+}

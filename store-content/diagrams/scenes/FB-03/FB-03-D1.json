@@ -1,0 +1,105 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-03-D1",
+  "family": "FB-03",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "Dribble to the central cone, sole-stop, turn 90–180 degrees, exit an open gate."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Stop, turn, exit the open gate",
+    "he": "עצירה, סיבוב ויציאה בשער פנוי",
+    "ar": "توقف ودوران وخروج من البوابة الخالية",
+    "ru": "Стоп, поворот, выход в свободные ворота",
+    "es": "Parar, girar y salir por la puerta libre"
+  },
+  "alt": {
+    "en": "A1 dribbles to the central cone (1), stops the ball with the sole, turns between 90 and 180 degrees and leaves through the open south gate (2). The north and east gates are not used in this attempt. One attempt at a time.",
+    "he": "A1 מכדרר אל הקונוס המרכזי (1), עוצר בסוליה, מסתובב בין 90 ל־180 מעלות ויוצא דרך השער הפנוי בדרום (2). שערי הצפון והמזרח אינם בשימוש בניסיון הזה. ניסיון אחד בכל פעם.",
+    "ar": "يحاور A1 إلى المخروط الأوسط (1) ويوقف الكرة بالنعل ويدور بين 90 و180 درجة ويخرج من البوابة الخالية في الجنوب (2). لا تُستخدم بوابتا الشمال والشرق في هذه المحاولة. محاولة واحدة في كل مرة.",
+    "ru": "A1 ведёт мяч к центральному конусу (1), останавливает подошвой, поворачивает на 90–180 градусов и выходит в свободные южные ворота (2). Северные и восточные ворота в этой попытке не используются. Одна попытка за раз.",
+    "es": "A1 conduce hasta el cono central (1), para con la planta, gira entre 90 y 180 grados y sale por la puerta libre del sur (2). Las puertas norte y este no se usan en este intento. Un intento a la vez."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 42,
+      "y": 20
+    },
+    {
+      "type": "cone",
+      "x": 58,
+      "y": 20
+    },
+    {
+      "type": "cone",
+      "x": 80,
+      "y": 42
+    },
+    {
+      "type": "cone",
+      "x": 80,
+      "y": 58
+    },
+    {
+      "type": "cone",
+      "x": 42,
+      "y": 80
+    },
+    {
+      "type": "cone",
+      "x": 58,
+      "y": 80
+    },
+    {
+      "type": "cone",
+      "x": 50,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 24,
+      "y": 72
+    },
+    {
+      "type": "ball",
+      "x": 27,
+      "y": 75
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        24,
+        72
+      ],
+      "to": [
+        44,
+        56
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        44,
+        56
+      ],
+      "to": [
+        50,
+        74
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "One attempt per area; the others wait outside the marked gates.",
+  "notes": "Exit is a turn of more than 90 degrees from the incoming line.",
+  "status": "draft"
+}

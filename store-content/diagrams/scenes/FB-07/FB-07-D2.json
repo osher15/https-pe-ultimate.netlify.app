@@ -1,0 +1,120 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-07-D2",
+  "family": "FB-07",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Central defender at 60%, no tackle; reach goal within ten seconds."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Central defender commits, free player gets the pass",
+    "he": "מגן מרכזי מתחייב, החופשי מקבל",
+    "ar": "المدافع الأوسط يتقدم والحر يستلم",
+    "ru": "Центральный защитник выходит, свободный получает",
+    "es": "El central sale y el libre recibe"
+  },
+  "alt": {
+    "en": "A1 carries into the corridor while central defender B1, at 60 per cent and with no tackle, moves toward the ball (1). Partner A2 holds width (1). A1 passes into A2's run clear of B1 (2) and A2 finishes at the goal within ten seconds (3).",
+    "he": "A1 מוביל כדור במסדרון בעוד המגן המרכזי B1, ב־60% וללא תיקול, נע אל הכדור (1). השותף A2 שומר רוחב (1). A1 מוסר אל ריצתו של A2 הרחק מ־B1 (2) ו־A2 מסיים לשער בתוך עשר שניות (3).",
+    "ar": "يقود A1 الكرة في الممر بينما يتحرك المدافع الأوسط B1، بسرعة 60٪ ودون تدخل، نحو الكرة (1). يحافظ الشريك A2 على العرض (1). يمرر A1 إلى جري A2 بعيدًا عن B1 (2) وينهي A2 نحو الهدف خلال عشر ثوانٍ (3).",
+    "ru": "A1 ведёт мяч по коридору, центральный защитник B1 на 60% без отбора смещается к мячу (1). Партнёр A2 держит ширину (1). A1 пасует в рывок A2 мимо B1 (2), и A2 завершает у ворот за десять секунд (3).",
+    "es": "A1 conduce por el pasillo mientras el central B1, al 60 % y sin entrada, se acerca al balón (1). El compañero A2 mantiene la amplitud (1). A1 pasa a la carrera de A2, lejos de B1 (2), y A2 finaliza a portería en diez segundos (3)."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 14,
+      "y": 68
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 42,
+      "y": 16
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 52,
+      "y": 52
+    },
+    {
+      "type": "ball",
+      "x": 17,
+      "y": 71
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        14,
+        68
+      ],
+      "to": [
+        36,
+        62
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        52,
+        52
+      ],
+      "to": [
+        46,
+        58
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        42,
+        16
+      ],
+      "to": [
+        70,
+        16
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        36,
+        62
+      ],
+      "to": [
+        71,
+        18
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        71,
+        18
+      ],
+      "to": [
+        94,
+        47
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "Defender at 60 per cent, no tackle; the next attempt starts after the finish clears.",
+  "notes": "The pass travels away from the committed defender.",
+  "status": "draft"
+}

@@ -1,0 +1,106 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-07-D1",
+  "family": "FB-07",
+  "sport": "football",
+  "template": "fb-half",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "An observer points to a “closed” side; the carrier chooses pass or carry before the line."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Observer shows the closed side",
+    "he": "צופה מסמן את הצד הסגור",
+    "ar": "المراقب يحدد الجهة المغلقة",
+    "ru": "Наблюдатель показывает закрытую сторону",
+    "es": "El observador señala el lado cerrado"
+  },
+  "alt": {
+    "en": "In a corridor to the goal, observer A3 points to the closed upper side. Carrier A1 carries to the decision line (1); partner A2 holds width ahead of the ball on the open lower side (1) and A1 chooses the lead pass to A2 (2) or carries on.",
+    "he": "במסדרון אל השער, הצופה A3 מצביע על הצד העליון הסגור. A1 נושא כדור עד קו ההחלטה (1); A2 שומר רוחב מול הכדור בצד התחתון הפנוי (1) ו־A1 בוחר מסירה קדימה אל A2 (2) או ממשיך בהובלה.",
+    "ar": "في ممر نحو الهدف يشير المراقب A3 إلى الجهة العليا المغلقة. يحمل A1 الكرة حتى خط القرار (1)؛ ويحافظ A2 على العرض أمام الكرة في الجهة السفلى المفتوحة (1) ويختار A1 تمريرة أمامية إلى A2 (2) أو يواصل التقدم.",
+    "ru": "В коридоре к воротам наблюдатель A3 показывает закрытую верхнюю сторону. Ведущий A1 несёт мяч до линии решения (1); партнёр A2 держит ширину впереди мяча на открытой нижней стороне (1), и A1 выбирает передачу на ход A2 (2) или продолжает ведение.",
+    "es": "En un pasillo hacia la portería, el observador A3 señala el lado superior cerrado. El portador A1 conduce hasta la línea de decisión (1); su compañero A2 mantiene la amplitud por delante del balón en el lado libre inferior (1) y A1 elige el pase adelantado a A2 (2) o sigue conduciendo."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 46,
+      "y": 36
+    },
+    {
+      "type": "cone",
+      "x": 46,
+      "y": 64
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 24,
+      "y": 44
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 56,
+      "y": 76
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 44,
+      "y": 16
+    },
+    {
+      "type": "ball",
+      "x": 27,
+      "y": 47
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        24,
+        44
+      ],
+      "to": [
+        44,
+        50
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        56,
+        76
+      ],
+      "to": [
+        78,
+        76
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        44,
+        50
+      ],
+      "to": [
+        76,
+        74
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "No contact; restart after the finish clears; stay in the own corridor.",
+  "notes": "Observer A3 is a student pointing to the closed side.",
+  "status": "draft"
+}

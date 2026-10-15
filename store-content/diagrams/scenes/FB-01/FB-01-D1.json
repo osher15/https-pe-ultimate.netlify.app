@@ -1,0 +1,130 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "FB-01-D1",
+  "family": "FB-01",
+  "sport": "football",
+  "template": "fb-grid",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "In lanes, use inside and outside touches to move the ball over ten metres, stop it under the sole, look up, and return outside the lane."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Dribble lane: touch, stop, return",
+    "he": "כדרור בנתיב: נגיעות, עצירה וחזרה",
+    "ar": "مسار المحاورة: لمسات وتوقف وعودة",
+    "ru": "Ведение по коридору: касания, стоп, возврат",
+    "es": "Conducción en calle: toques, parada y vuelta"
+  },
+  "alt": {
+    "en": "One lane of several: A1 dribbles ten metres with small inside and outside touches (1), stops the ball under the sole and looks up. The return path R runs outside the lane (2). A2 observes from the side; A3 waits in zone W. No tackling.",
+    "he": "נתיב אחד מתוך כמה: A1 מכדרר עשרה מטרים בנגיעות קטנות בפנים ובחוץ של כף הרגל (1), עוצר בסוליה ומרים מבט. מסלול החזרה R עובר מחוץ לנתיב (2). A2 צופה מהצד, ו־A3 ממתין באזור W. ללא תיקולים.",
+    "ar": "مسار واحد من عدة مسارات: يحاور A1 عشرة أمتار بلمسات قصيرة بباطن القدم وظاهرها (1)، ثم يوقف الكرة بالنعل ويرفع نظره. مسار العودة R خارج المسار (2). يراقب A2 من الجانب، وينتظر A3 في منطقة W. دون احتكاك.",
+    "ru": "Один из нескольких коридоров: A1 ведёт мяч десять метров короткими касаниями внутренней и внешней частью стопы (1), останавливает подошвой и поднимает взгляд. Путь возврата R идёт вне коридора (2). A2 наблюдает сбоку, A3 ждёт в зоне W. Без отбора.",
+    "es": "Una calle de varias: A1 conduce diez metros con toques cortos de interior y exterior (1), para el balón con la planta y levanta la vista. El regreso R va por fuera de la calle (2). A2 observa desde el lado y A3 espera en la zona W. Sin entradas."
+  },
+  "objects": [
+    {
+      "type": "cone",
+      "x": 18,
+      "y": 30
+    },
+    {
+      "type": "cone",
+      "x": 82,
+      "y": 30
+    },
+    {
+      "type": "cone",
+      "x": 18,
+      "y": 48
+    },
+    {
+      "type": "cone",
+      "x": 82,
+      "y": 48
+    },
+    {
+      "type": "zone",
+      "x": 1,
+      "y": 28,
+      "w": 13,
+      "h": 18,
+      "label": "W"
+    },
+    {
+      "type": "zone",
+      "x": 14,
+      "y": 53,
+      "w": 72,
+      "h": 12,
+      "label": "R"
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 22,
+      "y": 39
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 36,
+      "y": 18
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 7,
+      "y": 37
+    },
+    {
+      "type": "ball",
+      "x": 25,
+      "y": 42
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        22,
+        39
+      ],
+      "to": [
+        72,
+        39
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        72,
+        39
+      ],
+      "to": [
+        22,
+        59
+      ],
+      "via": [
+        [
+          75,
+          51
+        ],
+        [
+          56,
+          59
+        ]
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "One-way return route R outside the lane; waiting zone W; no tackling.",
+  "notes": "Single lane shown; the other lanes repeat it.",
+  "status": "draft"
+}
