@@ -91,9 +91,9 @@ function geometry(ex, frames) {
     for (const h of held) {
       if (h.type === "db") for (const sd of ["R", "L"]) {
         const wr = J["wrist" + sd], ax = h.axis === "up" ? up : lat, half = 7.5;
-        put("db" + sd + "a", "circle", P2(S.add(wr, S.mul(ax, -half))), { r: 6.2 });
+        put("db" + sd + "a", "circle", P2(S.add(wr, S.mul(ax, -half))), { r: 8.2 });
         put("db" + sd + "h", "poly", [P2(S.add(wr, S.mul(ax, -half))), P2(S.add(wr, S.mul(ax, half)))], { w: 3.2 });
-        put("db" + sd + "b", "circle", P2(S.add(wr, S.mul(ax, half))), { r: 6.2 });
+        put("db" + sd + "b", "circle", P2(S.add(wr, S.mul(ax, half))), { r: 8.2 });
       } else if (h.type === "gdb") {
         const c = S.add(mid(J.wristL, J.wristR), S.mul(up, 3)), ax = [0, 1, 0];
         put("gdbh", "poly", [P2(S.add(c, S.mul(ax, -9))), P2(S.add(c, S.mul(ax, 9)))], { w: 4 });

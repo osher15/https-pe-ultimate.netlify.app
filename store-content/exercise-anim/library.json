@@ -332,7 +332,7 @@
    "appFig": "squat",
    "equipment": "dumbbells",
    "anim": "gsquat",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "dbrow",
@@ -341,7 +341,7 @@
    "appFig": "row",
    "equipment": "dumbbells",
    "anim": "dbrow",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "dbpress",
@@ -350,7 +350,7 @@
    "appFig": "press",
    "equipment": "dumbbells",
    "anim": "dbpress",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "rdl",
@@ -359,7 +359,7 @@
    "appFig": "hinge",
    "equipment": "dumbbells",
    "anim": "rdl",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "latpull",
@@ -368,7 +368,7 @@
    "appFig": "pulldown",
    "equipment": "band",
    "anim": "latpull",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "pullup",
@@ -377,7 +377,7 @@
    "appFig": "pulldown",
    "equipment": "pull-up bar",
    "anim": "pullup",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "curl",
@@ -386,7 +386,7 @@
    "appFig": "curl",
    "equipment": "dumbbells",
    "anim": "curl",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "tripush",
@@ -395,7 +395,7 @@
    "appFig": "tripush",
    "equipment": "band",
    "anim": "tripush",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "kbswing",
@@ -404,7 +404,7 @@
    "appFig": "kbswing",
    "equipment": "kettlebell",
    "anim": "kbswing",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "carry",
@@ -413,7 +413,7 @@
    "appFig": "carry",
    "equipment": "dumbbells",
    "anim": "carry",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "bench",
@@ -422,7 +422,7 @@
    "appFig": "bench",
    "equipment": "bench",
    "anim": "bench",
-   "status": "pending"
+   "status": "done"
   }
  ]
 }

@@ -27,6 +27,19 @@
    "gifBytes": 54468,
    "gifSha256": "6b0980d02e013ba3bbc167178479ed7e0fe7ece91e048b49e695ce1ff637cb20"
   },
+  "bench": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 26051,
+   "svgSha256": "db2383a1225f1c78538c75f6c3f0145ac6d3c48cab2190326c486fcda2a612da",
+   "stillSha256": "2c6d3f3ed4b3101c3fe63b720d9ff59bb69e1a86afce4645fbb7496349134911",
+   "gifFps": 20,
+   "gifFrames": 48,
+   "gifBytes": 31157,
+   "gifSha256": "2b690ce57190fce9c0544be102080ca6461f0c433228a93cd73b64bb9c919476"
+  },
   "bicycle": {
    "duration": 2.4,
    "fps": 25,
@@ -92,6 +105,19 @@
    "gifBytes": 54745,
    "gifSha256": "3d667ceeb372e946b02f74da9a3df2e3c14afd80161c2ba49b37a2fcad149e6e"
   },
+  "carry": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 17349,
+   "svgSha256": "55acd75144be6b55fb7ffd0dce71cc8fd4136700f03abcce70c6732b302422b6",
+   "stillSha256": "5a35d9f4f130818bcd647c7a9330efb5077fe299b25261b7bc9637da613edf89",
+   "gifFps": 20,
+   "gifFrames": 24,
+   "gifBytes": 41228,
+   "gifSha256": "7cbc60be7761e1caa0196c75f9fce90f24fbbc3ea604d73496e607362c2000d1"
+  },
   "catcow": {
    "duration": 3,
    "fps": 25,
@@ -117,6 +143,45 @@
    "gifFrames": 20,
    "gifBytes": 27828,
    "gifSha256": "24a2a8fd9502838bc0588d00f9a122f6f5279c4cbd841c7d627d0eac57bda89a"
+  },
+  "curl": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 22154,
+   "svgSha256": "09a8d2d4d7dd360d8006b195e7bb8146c3c543617ab8ca5979b32ff3dd451064",
+   "stillSha256": "e10898d78e59a780e7f79eea0f001e64be3480a8cd00dfe458a88ce4a37d4e98",
+   "gifFps": 20,
+   "gifFrames": 48,
+   "gifBytes": 17655,
+   "gifSha256": "58a79690ba87721f51c82bfe35a787d589463cb9062f1b4bcecf0cca858cb705"
+  },
+  "dbpress": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 25134,
+   "svgSha256": "5fffa0a9015a3b8f27831795c97d6feb480d4eff3c491670ee3a2cd0d95b31a6",
+   "stillSha256": "55faea7d028d1811d69ece24e4ebf7808b10751b3d7b5661210f313ea94915e4",
+   "gifFps": 20,
+   "gifFrames": 48,
+   "gifBytes": 48066,
+   "gifSha256": "0e90786c6df944c897ea9040c56f6fe4d6494e59697ae45a5745be574f711a01"
+  },
+  "dbrow": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 23047,
+   "svgSha256": "339b2c55dfdc08601199bd546afad34775e794d86d9220b91988570da988c2f9",
+   "stillSha256": "149a157d51e6ccd8827d764c5c7a92b25a9ec7f3b8cbf91fb92034121b1369ce",
+   "gifFps": 20,
+   "gifFrames": 48,
+   "gifBytes": 20977,
+   "gifSha256": "bb66a0a136b8b2ff05572818f550a8f045f38e54aadb2a14f13c893b1d05ad84"
   },
   "deadbug": {
    "duration": 2.8,
@@ -170,6 +235,19 @@
    "gifBytes": 33819,
    "gifSha256": "76a87888ad72968c91822bbd42993e1404f554bc19103df0e4b9936d739ac2dc"
   },
+  "gsquat": {
+   "duration": 2.8,
+   "fps": 25,
+   "frames": 70,
+   "size": 260,
+   "svgBytes": 39742,
+   "svgSha256": "e593529f6a590c8594327bd5d76fbc6bfb73325f444743a22a02205be7c0554d",
+   "stillSha256": "c604273d5059a6c3503895babfb71e80c56980e0881258dd70ddde0b9c2e8cbd",
+   "gifFps": 20,
+   "gifFrames": 56,
+   "gifBytes": 76069,
+   "gifSha256": "2e6e39c8a21154b5da9a2e8573e9557fdcb6d40f0b28b028a6f88f5156b2ecfd"
+  },
   "hip90": {
    "duration": 3,
    "fps": 25,
@@ -222,6 +300,19 @@
    "gifBytes": 77521,
    "gifSha256": "d8694e23023c48496aa757bb579af36f690fd8545504da7b73a90dfec20c77b9"
   },
+  "kbswing": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 35108,
+   "svgSha256": "7d00328429c91bc1350f7477e1ee9ff0c3bd25e53161137116651e40ee5cee5c",
+   "stillSha256": "603784ce4e96a7c089b703bf0164516c7e7b23077e71e1608f9a10137d1e9db5",
+   "gifFps": 20,
+   "gifFrames": 24,
+   "gifBytes": 51096,
+   "gifSha256": "3c1ce86b6c53f6f7622071a1522b1cb0c95a4e2d68b1a5806b5709ffc55e7e3a"
+  },
   "knees": {
    "duration": 2.4,
    "fps": 25,
@@ -234,6 +325,19 @@
    "gifFrames": 16,
    "gifBytes": 38112,
    "gifSha256": "bf2bc4358aa5cfbe09bad3d06a7311e904d2adf656b280f8e2d02b95af81e6a7"
+  },
+  "latpull": {
+   "duration": 2.6,
+   "fps": 25,
+   "frames": 65,
+   "size": 260,
+   "svgBytes": 20559,
+   "svgSha256": "b9d94051024c160918dd51705981ffd430a1bd083531d1a109b4814c1ac28905",
+   "stillSha256": "4a0240f29cee11b18702b7c2bde4a086f121cba99358df0476ef71c1b7a96964",
+   "gifFps": 20,
+   "gifFrames": 52,
+   "gifBytes": 36676,
+   "gifSha256": "a3e3e6ec3aae7f62df286f8c0ebc4094b81d4db75544ce005bfa493932056db9"
   },
   "lunge": {
    "duration": 2.8,
@@ -274,6 +378,19 @@
    "gifBytes": 16035,
    "gifSha256": "c5c924344b636a6c09b11350baefbaa1a9b6368848b0ab345d030c0146a278fc"
   },
+  "pullup": {
+   "duration": 2.8,
+   "fps": 25,
+   "frames": 70,
+   "size": 260,
+   "svgBytes": 41519,
+   "svgSha256": "f985db75dc391a6c9b82a15491ff7f4a5bfe85e594028386a6feb9d25eaf3649",
+   "stillSha256": "b153df0d2606e620e9375e1503b631cf909b669c45058fadb8bb621c43d8d4ff",
+   "gifFps": 20,
+   "gifFrames": 56,
+   "gifBytes": 76392,
+   "gifSha256": "0c38a3a5cd982f7e52a57bb177de6e0c49c56bfa641e3b59f60bc3527f03b6c3"
+  },
   "push": {
    "duration": 2.4,
    "fps": 25,
@@ -299,6 +416,19 @@
    "gifFrames": 48,
    "gifBytes": 65294,
    "gifSha256": "2d4636ae2efa49afe5f5ea54e1f0c2a0ab24c98a8bbd1f31e29fea971f6b25f7"
+  },
+  "rdl": {
+   "duration": 2.8,
+   "fps": 25,
+   "frames": 70,
+   "size": 260,
+   "svgBytes": 43167,
+   "svgSha256": "74a56266d7d74493b0fd3206a0b1ee4767bd2b74957ff6b95b687fc50c70af1d",
+   "stillSha256": "58d57bbd2f9551cdcf4c5d0ef644794f3a458912685bd28cf4f4253d3a3f8409",
+   "gifFps": 20,
+   "gifFrames": 56,
+   "gifBytes": 74196,
+   "gifSha256": "1e6caa61c2151658eb1ba0674209705e4efb5148ccef57ede84b229a5e675b91"
   },
   "rtwist": {
    "duration": 2.8,
@@ -442,6 +572,19 @@
    "gifFrames": 60,
    "gifBytes": 33929,
    "gifSha256": "60a61dac28fc854fdb286a291b4c5944db1ee595df8b3c0a97a90f948e42c012"
+  },
+  "tripush": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 18883,
+   "svgSha256": "727d52b70b7197bc5da8c428a2968d36ac198b5a2d3bbc604fd7d2d8af2154de",
+   "stillSha256": "cffd78c76997b157e7e190a9cced7b30b40448c19dad38067d11aedb6a1edd2b",
+   "gifFps": 20,
+   "gifFrames": 48,
+   "gifBytes": 29717,
+   "gifSha256": "9cfff32a20ac64cf3de9abc0265db8d3b75f7e82be03d15e1801f1b77f6412d0"
   },
   "wall": {
    "duration": 3,
