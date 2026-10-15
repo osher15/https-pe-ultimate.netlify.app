@@ -1,0 +1,11 @@
+Draft pending lawyer review
+Plain-language extract from licence-summary.en.md v0.2; review against terms-of-sale before delivery.
+
+**Single-Teacher licence.** For one named teacher, with your own classes and pupils, on your own devices, wherever
+you teach. You may print it or show it on a screen for your pupils, and adapt it for your own lessons. The licence
+is personal: colleagues need their own licence (extra licences for colleagues are {{EXTRA_LICENCE_DISCOUNT}} off),
+and you may not resell the files or upload them to a public site or a shared drive. A substitute covering your
+classes may use the materials for those classes only. Updates and corrections to this version are free. The
+content stays the property of {{SELLER_NAME}}.
+
+Binding terms: {{TERMS_URL}}
