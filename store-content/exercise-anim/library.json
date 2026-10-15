@@ -1,0 +1,428 @@
+{
+ "note": "The 47 FIT library exercises in hm-app.js (read-only source). appFig = the rig figure the app uses today; anim = the file key of the new animation (out/svg/<anim>.svg, out/gif/<anim>.gif). One animation per exercise id, because several ids share a figure today that shows a different or approximate movement.",
+ "exercises": [
+  {
+   "id": "squat",
+   "name": "Squat",
+   "grp": "strength",
+   "appFig": "squat",
+   "equipment": "none",
+   "anim": "squat",
+   "status": "pilot"
+  },
+  {
+   "id": "push",
+   "name": "Push-up",
+   "grp": "strength",
+   "appFig": "push",
+   "equipment": "none",
+   "anim": "push",
+   "status": "pilot"
+  },
+  {
+   "id": "pushincline",
+   "name": "Incline push-up",
+   "grp": "strength",
+   "appFig": "push",
+   "equipment": "none",
+   "anim": "pushincline",
+   "status": "pending"
+  },
+  {
+   "id": "lunge",
+   "name": "Lunge",
+   "grp": "strength",
+   "appFig": "lunge",
+   "equipment": "none",
+   "anim": "lunge",
+   "status": "pilot"
+  },
+  {
+   "id": "wall",
+   "name": "Wall sit",
+   "grp": "strength",
+   "appFig": "squat",
+   "equipment": "none",
+   "anim": "wall",
+   "status": "pending"
+  },
+  {
+   "id": "gluteb",
+   "name": "Glute bridge",
+   "grp": "strength",
+   "appFig": "deepsquat",
+   "equipment": "none",
+   "anim": "gluteb",
+   "status": "pilot"
+  },
+  {
+   "id": "stepup",
+   "name": "Step-up",
+   "grp": "strength",
+   "appFig": "stepup",
+   "equipment": "bench",
+   "anim": "stepup",
+   "status": "pending"
+  },
+  {
+   "id": "dip",
+   "name": "Bench dip",
+   "grp": "strength",
+   "appFig": "dip",
+   "equipment": "bench",
+   "anim": "dip",
+   "status": "pending"
+  },
+  {
+   "id": "pike",
+   "name": "Pike push-up",
+   "grp": "strength",
+   "appFig": "pike",
+   "equipment": "none",
+   "anim": "pike",
+   "status": "pending"
+  },
+  {
+   "id": "calf",
+   "name": "Calf raise",
+   "grp": "strength",
+   "appFig": "calf",
+   "equipment": "none",
+   "anim": "calf",
+   "status": "pending"
+  },
+  {
+   "id": "bearcrawl",
+   "name": "Bear crawl",
+   "grp": "strength",
+   "appFig": "bearcrawl",
+   "equipment": "none",
+   "anim": "bearcrawl",
+   "status": "pending"
+  },
+  {
+   "id": "singleleg",
+   "name": "Single-leg deadlift (bodyweight)",
+   "grp": "strength",
+   "appFig": "hinge",
+   "equipment": "none",
+   "anim": "singleleg",
+   "status": "pending"
+  },
+  {
+   "id": "inchworm",
+   "name": "Inchworm",
+   "grp": "mix",
+   "appFig": "pike",
+   "equipment": "none",
+   "anim": "inchworm",
+   "status": "pending"
+  },
+  {
+   "id": "jack",
+   "name": "Jumping jack",
+   "grp": "cardio",
+   "appFig": "jack",
+   "equipment": "none",
+   "anim": "jack",
+   "status": "pilot"
+  },
+  {
+   "id": "climber",
+   "name": "Mountain climber",
+   "grp": "cardio",
+   "appFig": "climber",
+   "equipment": "none",
+   "anim": "climber",
+   "status": "pending"
+  },
+  {
+   "id": "knees",
+   "name": "High knees",
+   "grp": "cardio",
+   "appFig": "knees",
+   "equipment": "none",
+   "anim": "knees",
+   "status": "pending"
+  },
+  {
+   "id": "burpee",
+   "name": "Burpee",
+   "grp": "mix",
+   "appFig": "burpee",
+   "equipment": "none",
+   "anim": "burpee",
+   "status": "pilot"
+  },
+  {
+   "id": "skip",
+   "name": "Jump rope (imaginary)",
+   "grp": "cardio",
+   "appFig": "jack",
+   "equipment": "none",
+   "anim": "skip",
+   "status": "pending"
+  },
+  {
+   "id": "buttkick",
+   "name": "Butt kicks",
+   "grp": "cardio",
+   "appFig": "buttkick",
+   "equipment": "none",
+   "anim": "buttkick",
+   "status": "pending"
+  },
+  {
+   "id": "skater",
+   "name": "Skater jumps",
+   "grp": "cardio",
+   "appFig": "skater",
+   "equipment": "none",
+   "anim": "skater",
+   "status": "pending"
+  },
+  {
+   "id": "plank",
+   "name": "Plank",
+   "grp": "core",
+   "appFig": "plank",
+   "equipment": "none",
+   "anim": "plank",
+   "status": "pilot"
+  },
+  {
+   "id": "splank",
+   "name": "Side plank",
+   "grp": "core",
+   "appFig": "splank",
+   "equipment": "none",
+   "anim": "splank",
+   "status": "pending"
+  },
+  {
+   "id": "situp",
+   "name": "Sit-up",
+   "grp": "core",
+   "appFig": "situp",
+   "equipment": "none",
+   "anim": "situp",
+   "status": "pending"
+  },
+  {
+   "id": "bicycle",
+   "name": "Bicycle crunch",
+   "grp": "core",
+   "appFig": "bicycle",
+   "equipment": "none",
+   "anim": "bicycle",
+   "status": "pending"
+  },
+  {
+   "id": "superman",
+   "name": "Superman",
+   "grp": "core",
+   "appFig": "superman",
+   "equipment": "none",
+   "anim": "superman",
+   "status": "pending"
+  },
+  {
+   "id": "deadbug",
+   "name": "Dead bug",
+   "grp": "core",
+   "appFig": "deadbug",
+   "equipment": "none",
+   "anim": "deadbug",
+   "status": "pending"
+  },
+  {
+   "id": "birddog",
+   "name": "Bird dog",
+   "grp": "core",
+   "appFig": "birddog",
+   "equipment": "none",
+   "anim": "birddog",
+   "status": "pending"
+  },
+  {
+   "id": "rtwist",
+   "name": "Russian twist",
+   "grp": "core",
+   "appFig": "bicycle",
+   "equipment": "none",
+   "anim": "rtwist",
+   "status": "pilot"
+  },
+  {
+   "id": "hollow",
+   "name": "Hollow hold",
+   "grp": "core",
+   "appFig": "situp",
+   "equipment": "none",
+   "anim": "hollow",
+   "status": "pending"
+  },
+  {
+   "id": "catcow",
+   "name": "Cat-cow",
+   "grp": "mobility",
+   "appFig": "catcow",
+   "equipment": "none",
+   "anim": "catcow",
+   "status": "pending"
+  },
+  {
+   "id": "hip90",
+   "name": "90/90 hip switch",
+   "grp": "mobility",
+   "appFig": "hip90",
+   "equipment": "none",
+   "anim": "hip90",
+   "status": "pending"
+  },
+  {
+   "id": "worldgreat",
+   "name": "World’s greatest stretch",
+   "grp": "mobility",
+   "appFig": "worldgreat",
+   "equipment": "none",
+   "anim": "worldgreat",
+   "status": "pending"
+  },
+  {
+   "id": "thoracic",
+   "name": "Thoracic rotation",
+   "grp": "mobility",
+   "appFig": "thoracic",
+   "equipment": "none",
+   "anim": "thoracic",
+   "status": "pending"
+  },
+  {
+   "id": "deepsquathold",
+   "name": "Deep squat hold",
+   "grp": "mobility",
+   "appFig": "deepsquat",
+   "equipment": "none",
+   "anim": "deepsquathold",
+   "status": "pending"
+  },
+  {
+   "id": "anklerock",
+   "name": "Ankle rocks",
+   "grp": "mobility",
+   "appFig": "anklerock",
+   "equipment": "none",
+   "anim": "anklerock",
+   "status": "pending"
+  },
+  {
+   "id": "shouldercar",
+   "name": "Shoulder CARs",
+   "grp": "mobility",
+   "appFig": "shouldercar",
+   "equipment": "none",
+   "anim": "shouldercar",
+   "status": "pending"
+  },
+  {
+   "id": "gsquat",
+   "name": "Goblet squat",
+   "grp": "strength",
+   "appFig": "squat",
+   "equipment": "dumbbells",
+   "anim": "gsquat",
+   "status": "pending"
+  },
+  {
+   "id": "dbrow",
+   "name": "Dumbbell row",
+   "grp": "strength",
+   "appFig": "row",
+   "equipment": "dumbbells",
+   "anim": "dbrow",
+   "status": "pending"
+  },
+  {
+   "id": "dbpress",
+   "name": "Dumbbell shoulder press",
+   "grp": "strength",
+   "appFig": "press",
+   "equipment": "dumbbells",
+   "anim": "dbpress",
+   "status": "pending"
+  },
+  {
+   "id": "rdl",
+   "name": "Dumbbell Romanian deadlift",
+   "grp": "strength",
+   "appFig": "hinge",
+   "equipment": "dumbbells",
+   "anim": "rdl",
+   "status": "pending"
+  },
+  {
+   "id": "latpull",
+   "name": "Lat pull-down (bar/band)",
+   "grp": "strength",
+   "appFig": "pulldown",
+   "equipment": "band",
+   "anim": "latpull",
+   "status": "pending"
+  },
+  {
+   "id": "pullup",
+   "name": "Pull-up (assisted/band)",
+   "grp": "strength",
+   "appFig": "pulldown",
+   "equipment": "pull-up bar",
+   "anim": "pullup",
+   "status": "pending"
+  },
+  {
+   "id": "curl",
+   "name": "Biceps curl",
+   "grp": "strength",
+   "appFig": "curl",
+   "equipment": "dumbbells",
+   "anim": "curl",
+   "status": "pending"
+  },
+  {
+   "id": "tripush",
+   "name": "Band triceps push-down",
+   "grp": "strength",
+   "appFig": "tripush",
+   "equipment": "band",
+   "anim": "tripush",
+   "status": "pending"
+  },
+  {
+   "id": "kbswing",
+   "name": "Kettlebell swing",
+   "grp": "mix",
+   "appFig": "kbswing",
+   "equipment": "kettlebell",
+   "anim": "kbswing",
+   "status": "pending"
+  },
+  {
+   "id": "carry",
+   "name": "Farmer’s carry",
+   "grp": "mix",
+   "appFig": "carry",
+   "equipment": "dumbbells",
+   "anim": "carry",
+   "status": "pending"
+  },
+  {
+   "id": "bench",
+   "name": "Chest press (dumbbells/bench)",
+   "grp": "strength",
+   "appFig": "bench",
+   "equipment": "bench",
+   "anim": "bench",
+   "status": "pending"
+  }
+ ]
+}
