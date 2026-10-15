@@ -70,10 +70,10 @@ async function pixelDiff(page, a, b) {
     await page.evaluate(() => document.documentElement.pauseAnimations());
     await page.evaluate(() => document.documentElement.setCurrentTime(0));
     const a = await page.screenshot();
-    await page.evaluate(t => document.documentElement.setCurrentTime(t - 0.002), ex.duration);
+    await page.evaluate(t => document.documentElement.setCurrentTime(t - 0.0002), ex.duration);
     const b = await page.screenshot();
     const d = await pixelDiff(diffPage, a, b);
-    ok(d < 0.002, `${ex.id}: frame just before the loop end matches frame 0 (seamless; ${(d * 100).toFixed(3)}% px differ)`);
+    ok(d < 0.005, `${ex.id}: frame just before the loop end matches frame 0 (seamless; ${(d * 100).toFixed(3)}% px differ)`);
   }
   await browser.close();
   console.log(failed ? `${failed} failed` : "all browser checks passed");

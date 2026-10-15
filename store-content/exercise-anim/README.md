@@ -1,13 +1,10 @@
-# Exercise animations (pilot, task C10)
+# Exercise animations (task C10)
 
-Animated demonstrations of a drawn cartoon person for the FIT exercise library (PE Ultimate app,
-`hm-app.js`) and the PE Tools store. Owner decision 2026-10-14: every library exercise gets a
-looping 2–3 s animation of a drawn, gender-neutral cartoon figure doing the exercise correctly.
-These animations replace the static rig GIFs and the 5 Wikimedia photos.
-
-**This is the pilot:** the engine plus 8 exercises (squat, push-up, lunge, jumping jack, plank,
-glute bridge, Russian twist, burpee). Nothing in `exercise-gifs/`, the app or the store tools is
-replaced yet.
+Animated demonstrations of a drawn cartoon person for all 47 exercises of the FIT exercise library
+(PE Ultimate app, `hm-app.js`) and the PE Tools store. Owner decision 2026-10-14: every library
+exercise gets a looping 2–3 s animation of a drawn, gender-neutral cartoon figure doing the exercise
+correctly. These animations are meant to replace the static rig GIFs and the 5 Wikimedia photos.
+Nothing in `exercise-gifs/`, the app or the store tools is replaced yet; see `INTEGRATION.md`.
 
 Rights: everything is drawn by our own code (`src/`). No photo, model, font, or third-party
 asset is used, so no credit or licence line is needed.
@@ -16,88 +13,98 @@ asset is used, so no credit or licence line is needed.
 
 | Path | What |
 |---|---|
-| `src/skeleton.cjs` | Skeleton, forward kinematics, two-bone IK, root anchoring, keyframe interpolation |
-| `src/svg.cjs` | Camera projection, cartoon drawing, animated SVG emitter (SMIL) |
-| `src/exercises.json` | One keyframe spec per exercise (the only per-exercise data) |
-| `src/build.cjs` | Builds SVGs, GIFs, contact sheet, manifest |
+| `src/skeleton.cjs` | Skeleton, forward kinematics, two-bone IK, root anchoring, travel, keyframe interpolation |
+| `src/svg.cjs` | Camera projection, cartoon drawing, scene and held props, animated SVG emitter (SMIL) |
+| `src/exercises.cjs` | Collects the specs in library order |
+| `src/specs/*.cjs` | Keyframe specs by category (pilot, strength, cardio, core, mobility, equipment); `_h.cjs` helpers |
+| `src/form.cjs` | Generates the checklist block of this README from the specs |
+| `src/build.cjs` | Builds SVGs, still SVGs, GIFs, contact sheet, manifest, README block |
 | `src/preview.cjs` | Dev helper: prints solved joints/angles for chosen frames |
-| `library.json` | All 47 library exercises: app `fig`, animation file key, status (pilot/pending) |
-| `out/svg/<id>.svg` | Animated SVG (loops, self-contained, ~8–38 KB) |
-| `out/still/<id>.svg` | Still key pose (for `prefers-reduced-motion`) |
-| `out/gif/<id>.gif` | Animated GIF, 260×260, 20 fps, loops forever (16–142 KB) |
+| `library.json` | All 47 library exercises: app `fig`, animation file key (`anim` = id), status |
+| `out/svg/<id>.svg` | Animated SVG (loops, self-contained), 8–43 KB, 1.31 MB for all 47 (169 KB gzipped) |
+| `out/still/<id>.svg` | Still key pose (for `prefers-reduced-motion`), 181 KB for all 47 |
+| `out/gif/<id>.gif` | Animated GIF, 260×260, 20 fps, loops forever, 16–148 KB, 2.54 MB for all 47 |
 | `out/manifest.json` | Generated: frames, sizes, SHA-256 of every output |
 | `contact-sheet.png` | 6 frames per exercise, for review |
+| `INTEGRATION.md` | Proposal: swapping the app's exercise media and the interval trainer's single-file build |
 | `checks/` | `node:test` checks + a headless Chromium pass |
 
 ## Regenerate
 
 ```sh
-# SVGs only (pure Node)
+# SVGs (+ still SVGs, README block) only — pure Node
 node store-content/exercise-anim/src/build.cjs
-# SVGs + GIFs + contact sheet (headless Chromium + ffmpeg + ImageMagick montage)
+# + GIFs + contact sheet (headless Chromium + ffmpeg + ImageMagick montage)
 NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
   node store-content/exercise-anim/src/build.cjs --gif --sheet
 # options: --only squat,push   --strip <dir>  (PNG strip of ~12 frames per exercise)
 ```
 
-GIF frames are screenshots of the animated SVG itself (SMIL clock paused and seeked), so the
-SVG is the single source of truth. Frames are assembled with ffmpeg
-`palettegen` (24 colours) / `paletteuse` (no dithering, rectangle diff).
+GIF frames are screenshots of the animated SVG itself (SMIL clock paused and seeked; single-thread
+software raster so the bytes repeat), assembled with ffmpeg `palettegen` (24 colours) /
+`paletteuse` (no dithering, rectangle diff). A loop that holds identical repetitions
+(`cycles > 1`) is stored as one repetition in the GIF.
 
 ## Checks
 
 ```sh
-node --test store-content/exercise-anim/checks/*.test.cjs
+node --test store-content/exercise-anim/checks/*.test.cjs          # 475 tests, 0 todo
 NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
-  node store-content/exercise-anim/checks/browser.cjs
+  node store-content/exercise-anim/checks/browser.cjs              # 376 browser checks
 ```
 
-- `motion.test.cjs` (per exercise): loop 2–3 s and keys cover one cycle; seamless loop (end pose =
-  start pose, and the wrap step is no bigger than any other step); no teleport (every joint moves
-  < 25 cm per 1/25 s; the burpee jump declares 35); joint angles within anatomical ranges
-  (`checks/_lib.cjs` `LIMITS`); bone lengths constant; planted hands/feet do not slide
-  (< 0.6 units on screen over each declared contact window) and nothing goes below the floor.
-- `output.test.cjs`: SVG deterministic (two renders byte-identical) and the committed
-  `out/svg` / `out/still` / manifest are fresh; SVG self-contained (no text, image, script or
-  external URL), loops, has the reduced-motion fallback, every SMIL value list closes the loop;
-  GIF 260×260, NETSCAPE loop, frame count and constant 5 cs delays match the spec, hash matches
-  the manifest, < 150 KB.
+- `motion.test.cjs` (per exercise): loop 2–3 s, whole 1/25 s frames, whole GIF frames per cycle;
+  seamless loop (end pose = start pose, shifted by the travel for walking/crawling) and no velocity
+  kink at the wrap; no teleport (every joint moves < 25 cm per 1/25 s; a few fast exercises declare
+  `maxStepCm`, listed in their doubts); joint angles within anatomical ranges (`checks/_lib.cjs`
+  `LIMITS`; per-exercise `limits` overrides are explained in that exercise's doubts); bone lengths
+  constant; planted hands/feet/knees do not slide (< 0.6 units on screen over each declared contact
+  window); nothing goes more than 1 cm below the floor.
+- `output.test.cjs`: SVG deterministic and committed `out/svg`, `out/still`, manifest and README
+  checklist are fresh; SVG self-contained (no text, image, script or external URL), loops, has the
+  reduced-motion fallback, every SMIL value list closes the loop; GIF 260×260, NETSCAPE loop, frame
+  count and constant 5 cs delays match the spec, hash matches the manifest, < 150,000 B.
 - `library.test.cjs`: `library.json` = the 47 exercises of `hm-app.js` (ids, groups, figs, order);
-  every exercise needs a spec. The 39 not in the pilot are reported as TODO, not failures.
-- `browser.cjs`: the SVG loads in `<img>` and animates; `<picture>` with a reduced-motion
-  `<source>` picks the still file; the animated SVG opened directly hides its animation under
-  reduced motion; the frame just before the loop end matches frame 0 in pixels.
+  every exercise has a spec.
+- `browser.cjs`: each SVG loads in `<img>` and animates; `<picture>` with a reduced-motion `<source>`
+  picks the still file; the animated SVG opened directly hides its animation under reduced motion;
+  the frame just before the loop end matches frame 0.
 
 ## How it works
 
 - **Figure.** Flat cartoon: round head with short hair and dot eyes, capsule torso (shirt),
   shorts, capsule limbs, ball hands, white shoes, dark outline. Far-side limbs are a shade
-  darker. Proportions are fixed in `BODY` (units ≈ cm; standing height ≈ 165).
+  darker. Proportions are fixed in `BODY` (units ≈ cm; standing height ≈ 165). One scale for the
+  whole library: the view box is 250 units unless a motion needs more (pull-up).
 - **Kinematics.** Pelvis root (position + pitch/yaw/roll) → lumbar → thoracic (+twist) → neck/head;
-  shoulders and hips hang off the spine; each limb has flexion, abduction and knee/elbow bend.
-  Angle conventions are documented at the top of `skeleton.cjs`.
-- **Ground contact.** A planted hand/foot is an IK target (`"ik": [x,y,z]` for wrists,
-  `"foot": {"toe"|"heel": [x,z], "pitch": deg}` for feet; the foot keeps its world orientation).
-  Because a planted target is identical in consecutive keys, it cannot slide. `rootFrom` places
-  the pelvis so a chosen point (e.g. the toes in a plank) stays fixed while the body pivots.
-  `rel` targets are relative to the pelvis (hands on hips). Weights blend between IK and FK when a
-  hand leaves the floor.
-- **Keys.** Each key inherits the previous key; `"same": n` copies key n. `ease` per segment
-  (`inOut`, `sine`, `in`, `out`, `quadIn`/`quadOut` for flight). `cycles: 2` repeats the cycle
-  inside the loop (jumping jack); its GIF stores one cycle.
-- **Camera.** Side view by default; `camera.yaw` / `camera.elev` give front or ¾ views (jack:
-  front-¾; Russian twist: elevated ¾). The view box is fitted to the whole motion.
-- **Reduced motion.** The animated SVG contains a second, static copy of the key pose (`still`
-  time in the spec), shown by its own `@media (prefers-reduced-motion: reduce)` rule. For use
-  in `<img>`, also ship `out/still/<id>.svg` and use
-  `<picture><source media="(prefers-reduced-motion: reduce)" srcset="still/<id>.svg"><img src="svg/<id>.svg"></picture>`
-  — Playwright's emulation does not reach an SVG inside `<img>`, so the `<picture>` markup is the
-  verified path. Real OS-setting behaviour inside `<img>` was not tested on devices.
+  shoulders and hips hang off the spine; each limb has flexion, abduction, rotation and knee/elbow
+  bend. Angle conventions are documented at the top of `skeleton.cjs`.
+- **Ground contact.** A planted hand/foot is an IK target (`ik: [x,y,z]` for wrists,
+  `foot: {toe|heel: [x,z], pitch}` for feet; a planted foot keeps its world orientation). Because a
+  planted target is identical in consecutive keys, it cannot slide. `rootFrom` places the pelvis so a
+  chosen point (toes in a plank, elbow in a side plank, knee in half-kneeling) stays fixed while the
+  body pivots. `rel` targets are relative to the pelvis (hands on hips). A hand or foot that lifts
+  off blends from the IK target to the free (FK) pose in position space, so it never dips through
+  the floor. `exact: true` uses the exact IK plane (supports under a twisting trunk).
+- **Keys.** Each key inherits the previous key; `same: n` copies key n. `ease` per segment
+  (`inOut`, `sine`, `in`, `out`, `linear`, `quadIn`/`quadOut` for flight). `cycles` repeats the
+  cycle inside the loop. `travel` moves the body forward each cycle; the camera follows and floor
+  marks scroll (bear crawl, inchworm, farmer's carry).
+- **Props.** Scene props in world space: mat, box, bench, wall, pull-up bar. Held props follow the
+  hands: dumbbells, goblet dumbbell, kettlebell, band (to the hands or the knees), jump rope (drawn
+  dashed when imaginary). `hold: true` adds the stopwatch.
+- **Camera.** Side view by default; `camera.yaw` / `camera.elev` give front or ¾ views.
+- **Reduced motion.** The animated SVG contains a static copy of the key pose (`still` time in the
+  spec), shown by its own `@media (prefers-reduced-motion: reduce)` rule. For use in `<img>`, also
+  ship `out/still/<id>.svg` and use `<picture>` (see `INTEGRATION.md`) — Playwright's emulation does
+  not reach an SVG inside `<img>`, so `<picture>` is the verified path. Real OS-setting behaviour
+  inside `<img>` was not tested on devices.
 
 ## Correct-form checklists (used to define each motion)
 
 The cues come from the app's own cue/mistake lists plus standard coaching cues. They are stored with
-each spec (`form`, `doubts`) and this block is regenerated by the build.
+each spec (`form`, `doubts`) and this block is regenerated by the build. Per-exercise doubts are
+listed with each exercise.
 
 <!-- form:start (generated by src/build.cjs from the specs; edit the specs, not this block) -->
 
@@ -424,31 +431,16 @@ each spec (`form`, `doubts`) and this block is regenerated by the build.
 
 <!-- form:end -->
 
-## Known limitations and doubts
+## Known limitations (all exercises)
 
-- **2D/side views hide some cues:** knee alignment (valgus), hand width and foot width are only
-  visible in the front-¾ jack view. Russian twist far-side touch is drawn in front of the thighs
-  (fixed paint order), so the far-side hands look as if they touch near the knees from this angle.
-- **Speeds:** the burpee take-off/arm swing reaches ~8 m/s at the hand between two frames; real
-  explosive arm swings are in this range, but it is the fastest motion in the set.
-- **Model simplifications:** hip flexion is measured against a single pelvis segment (no separate
-  pelvic tilt), so its limit is 155° rather than an anatomical hip-only value; shoulder
-  "abduction" of up to −45° in the Russian twist is horizontal adduction across the chest. Arm IK
-  drops a small out-of-plane residual when hands reach forward (depth only, invisible in side views).
-- **Variants chosen:** forward lunge (one side), forearm plank, heels-down Russian twist,
-  burpee without a push-up. Teachers may want other variants (alternating lunge, push-up in the
-  burpee, feet-up twist).
-- **GIF:** 20 fps (exact 5 cs delay; 25 fps cannot be stored exactly in GIF). Light background
-  `#eef3f8`; the current app GIFs have a dark navy background — one colour token in `svg.cjs`
-  (`PAL.bg`) if the owner prefers dark.
-- GIF bytes depend on Chromium's rasteriser; they are reproducible on this machine (repeat build,
-  no diff) but may differ by a few bytes elsewhere. The SVGs are byte-deterministic everywhere.
-
-## Next: full batch
-
-`library.json` lists all 47 exercises with the file key (`anim` = exercise `id`). Several app
-exercises share a figure today (`pushincline`→push, `wall`/`gsquat`→squat, `gluteb`→deepsquat,
-`rtwist`→bicycle, `hollow`→situp, `skip`→jack, `inchworm`→pike, `singleleg`/`rdl`→hinge,
-`latpull`/`pullup`→pulldown, `deepsquathold`→deepsquat); the new set gives each id its own
-animation. Equipment props still to draw: bench/box, wall, dumbbells, kettlebell, band, pull-up
-bar, jump rope.
+- **2D/side views hide some cues:** knee alignment (valgus), hand and foot width are visible only in
+  front views.
+- **Model simplifications:** one pelvis segment (no separate pelvic tilt), no shoulder blade, hip
+  and shoulder rotation approximate; arm IK may drop a small out-of-plane residual (depth only).
+- **Variants:** one common variant is shown per exercise (listed in its doubts); teachers may want
+  others (alternating legs, knee-down versions, feet-up twist, push-up in the burpee).
+- **Speed:** some exercises are compressed into the 2–3 s loop (inchworm) or slowed down (butt kicks).
+- **GIF:** 20 fps (exact 5 cs delay). Light background `#eef3f8`; the current app GIFs are dark navy —
+  one colour token in `svg.cjs` (`PAL.bg`) if the owner prefers dark.
+- GIF bytes depend on Chromium's rasteriser; they repeat on this machine (repeat build, no diff) but
+  may differ by a few bytes elsewhere. The SVGs are byte-deterministic everywhere.
