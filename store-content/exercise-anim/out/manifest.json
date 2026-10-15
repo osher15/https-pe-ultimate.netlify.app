@@ -14,6 +14,32 @@
    "gifBytes": 54468,
    "gifSha256": "6b0980d02e013ba3bbc167178479ed7e0fe7ece91e048b49e695ce1ff637cb20"
   },
+  "bicycle": {
+   "duration": 2.4,
+   "fps": 25,
+   "frames": 60,
+   "size": 260,
+   "svgBytes": 32822,
+   "svgSha256": "d0cd83f1c0b799ec9e2d6b2e90d52d6f9f5a26a1e7cba84a321481f689f7dffc",
+   "stillSha256": "837471a865d27b3c20cccfb14cbf185f8cbda3b3ef22eb41730097ab4672b70e",
+   "gifFps": 20,
+   "gifFrames": 24,
+   "gifBytes": 42730,
+   "gifSha256": "1313e013dd34681eee9efb94f53ec0c19be2403b7554417fdfbb5fcc61a533f4"
+  },
+  "birddog": {
+   "duration": 2.8,
+   "fps": 25,
+   "frames": 70,
+   "size": 260,
+   "svgBytes": 24630,
+   "svgSha256": "33ea3b4ec0600936088ed714e1b7c8c049544b64c1c68a319dfd131a20808ecb",
+   "stillSha256": "742f450d6bbdb89a4926bd90cc16e8001e7075f738d3fee269bd30dfe619ef71",
+   "gifFps": 20,
+   "gifFrames": 56,
+   "gifBytes": 47462,
+   "gifSha256": "73c82fa273bf5b857f3dba0e7af3eecee217637669130275c0ce44571b8378b8"
+  },
   "burpee": {
    "duration": 3,
    "fps": 25,
@@ -66,6 +92,19 @@
    "gifBytes": 27828,
    "gifSha256": "24a2a8fd9502838bc0588d00f9a122f6f5279c4cbd841c7d627d0eac57bda89a"
   },
+  "deadbug": {
+   "duration": 2.8,
+   "fps": 25,
+   "frames": 70,
+   "size": 260,
+   "svgBytes": 28188,
+   "svgSha256": "afed0d136e0e4a009b7c1f8f4b8cfd8a9f91e7c9103853d000eea564de6d63a8",
+   "stillSha256": "85b6bceeefb0e974ace7fb6ce761b05869953113c1020105f740a47eaabc73c0",
+   "gifFps": 20,
+   "gifFrames": 56,
+   "gifBytes": 65724,
+   "gifSha256": "59424c26a2c28ec317f339b246c4963fe0d05437565f72158ecb113fad2a0f48"
+  },
   "dip": {
    "duration": 2.6,
    "fps": 25,
@@ -91,6 +130,19 @@
    "gifFrames": 56,
    "gifBytes": 33819,
    "gifSha256": "76a87888ad72968c91822bbd42993e1404f554bc19103df0e4b9936d739ac2dc"
+  },
+  "hollow": {
+   "duration": 3,
+   "fps": 25,
+   "frames": 75,
+   "size": 260,
+   "svgBytes": 8231,
+   "svgSha256": "1c69ebf42ab35e32a9e4e7ddb6566a84e3e591d9b6a204fefcdc34e958b927eb",
+   "stillSha256": "d5ebae0d0f6926e012138efa4b01965f146c8c07698a752fe3994facfbe45654",
+   "gifFps": 20,
+   "gifFrames": 60,
+   "gifBytes": 20548,
+   "gifSha256": "4c180397fd8c30bdac89f6367516b584f161d1a65a850187c2f55b0778ea552b"
   },
   "inchworm": {
    "duration": 3,
@@ -222,6 +274,19 @@
    "gifBytes": 103710,
    "gifSha256": "9147ad20b02aa20c1383c99033dbf42fb3dfd7f4bad5d7b37b04c19d58fe5186"
   },
+  "situp": {
+   "duration": 2.8,
+   "fps": 25,
+   "frames": 70,
+   "size": 260,
+   "svgBytes": 35814,
+   "svgSha256": "cda8e0e727960948ad47be25f3d1d5cefa0381edb6974857fc625769d19240cb",
+   "stillSha256": "96db7c3987e98569ed0dddd47b6d4a49a1f17f61702d6f0d1d762a6bac5551b0",
+   "gifFps": 20,
+   "gifFrames": 56,
+   "gifBytes": 53084,
+   "gifSha256": "bb6f5aec1bc7381bcb71daa086c87c665dee6239d7fe2a56aa8178228f2bebbd"
+  },
   "skater": {
    "duration": 2.8,
    "fps": 25,
@@ -248,6 +313,19 @@
    "gifBytes": 23707,
    "gifSha256": "e75c012ad2ae8869a1dd96085ac63a46183bd2502fa698c4810d4e184464e7c5"
   },
+  "splank": {
+   "duration": 3,
+   "fps": 25,
+   "frames": 75,
+   "size": 260,
+   "svgBytes": 8518,
+   "svgSha256": "ff603c855ec4c0bc56638293ae39643197574983870fbd9b82d7e95cef97bc2a",
+   "stillSha256": "cab8656957b577fea238adac74e3d4a2d0c777cf08fb3b087e4d50175bd3f531",
+   "gifFps": 20,
+   "gifFrames": 60,
+   "gifBytes": 20830,
+   "gifSha256": "5c567ade6107907592d94c2e997ef035d56d35e28581ef076fc25d07f1abf462"
+  },
   "squat": {
    "duration": 2.8,
    "fps": 25,
@@ -273,6 +351,19 @@
    "gifFrames": 60,
    "gifBytes": 132849,
    "gifSha256": "c7244c06b1b5fb2592b127fa897e05b4eecd5755609445edd867b9cecf456e59"
+  },
+  "superman": {
+   "duration": 2.8,
+   "fps": 25,
+   "frames": 70,
+   "size": 260,
+   "svgBytes": 36110,
+   "svgSha256": "401590d6758aca43f866e5d746338002f6e67eb88b88061e3128e8b6deeb0d62",
+   "stillSha256": "b9db999b1496691009c37d3a88b7f329528a029bdd13be0977070e2392877e3e",
+   "gifFps": 20,
+   "gifFrames": 56,
+   "gifBytes": 46361,
+   "gifSha256": "35de4728bad93907c62a4313a7d573f47f2f21cda4e4a69773127b432e3381b7"
   },
   "wall": {
    "duration": 3,

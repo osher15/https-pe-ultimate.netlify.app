@@ -197,7 +197,7 @@
    "appFig": "splank",
    "equipment": "none",
    "anim": "splank",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "situp",
@@ -206,7 +206,7 @@
    "appFig": "situp",
    "equipment": "none",
    "anim": "situp",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "bicycle",
@@ -215,7 +215,7 @@
    "appFig": "bicycle",
    "equipment": "none",
    "anim": "bicycle",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "superman",
@@ -224,7 +224,7 @@
    "appFig": "superman",
    "equipment": "none",
    "anim": "superman",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "deadbug",
@@ -233,7 +233,7 @@
    "appFig": "deadbug",
    "equipment": "none",
    "anim": "deadbug",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "birddog",
@@ -242,7 +242,7 @@
    "appFig": "birddog",
    "equipment": "none",
    "anim": "birddog",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "rtwist",
@@ -260,7 +260,7 @@
    "appFig": "situp",
    "equipment": "none",
    "anim": "hollow",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "catcow",
