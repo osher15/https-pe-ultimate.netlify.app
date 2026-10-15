@@ -11,6 +11,8 @@
  */
 const fs = require('fs'), path = require('path'), os = require('os');
 const { pathToFileURL } = require('url');
+const deviceData = require('./device-data.cjs');
+const nodeAssert = require('node:assert/strict');
 
 function loadPlaywright() {
   for (const p of ['playwright', 'playwright-core']) { try { return require(p); } catch (e) { /* next */ } }
@@ -249,6 +251,14 @@ async function waitFor(page, fn, arg, ms = 15000) { await page.waitForFunction(f
     assert(page.__errors.length === 0, page.__errors.join(' | '));
     await ctx.close();
   });
+
+  /* 7c. C18: backup-first "Delete all data on this device" + restore (shared helper, see device-data.cjs) */
+  await deviceData.runDeviceDataChecks({ browser, check, cfg: { id: 'interval-trainer', url: URL_, api: 'PEIntervalTrainer', tool: 'pe-interval-trainer',
+    own: ['pe-tools.interval-trainer.v1'], open: '#dd-open', restore: '#dd-restore', langSel: '#lang',
+    seed: async p => { await p.evaluate(() => localStorage.setItem('pe-tools.interval-trainer.v1', JSON.stringify({ v: 1, lang: 'en', sound: false, voice: false, tab: 'timer', timer: { w: 30, r: 15, n: 5, s: 1, sr: 60, preset: '' } }))); await p.reload(); },
+    mutate: async p => { await p.click('#snd'); },
+    marker: p => p.evaluate(() => { const s = window.PEIntervalTrainer.getState().settings; return [s.sound, s.timer.w]; }),
+    defaults: async p => { const s = await p.evaluate(() => window.PEIntervalTrainer.getState().settings); nodeAssert.equal(s.sound, true); nodeAssert.equal(s.timer.w, 20); nodeAssert.equal(await p.getAttribute('html', 'lang'), 'en'); } } });
 
   /* 8. Offline from file:// — no request leaves file:// */
   await check('offline file://: loads, runs, opens library; every request is file://', async () => {

@@ -339,3 +339,29 @@ test('runner list: trimmed, case-insensitive de-duplicated, capped', () => {
 test('time format', () => {
   assert.equal(E.fmtMS(0), '00:00'); assert.equal(E.fmtMS(59.99), '00:59'); assert.equal(E.fmtMS(600), '10:00'); assert.equal(E.fmtMS(-3), '00:00');
 });
+
+/* ---- C18: backup-first delete-all dialog strings and storage scope (the dialog flow is covered by browser-shuttle-run.cjs) ---- */
+test('C18 dialog strings: every language has every dd_ key, same placeholders, a distinct typed word', () => {
+  const ph = s => (String(s).match(/\{\d+\}/g) || []).sort().join(',');
+  const keys = Object.keys(E.L.en).filter(k => k.startsWith('dd_')).sort();
+  assert.ok(keys.length >= 24);
+  for (const l of ['he', 'ar', 'ru', 'es']) {
+    assert.deepEqual(Object.keys(E.L[l]).filter(k => k.startsWith('dd_')).sort(), keys, l);
+    for (const k of keys) { assert.ok(String(E.L[l][k]).trim(), l + ' ' + k); assert.equal(ph(E.L[l][k]), ph(E.L.en[k]), l + ' ' + k); }
+  }
+  assert.equal(new Set(['en', 'he', 'ar', 'ru', 'es'].map(l => E.L[l].dd_word)).size, 5);
+  for (const l of ['he', 'ar']) assert.ok(!/[A-Za-z]{4,}/.test(E.L[l].dd_confirmPrompt + E.L[l].dd_word + E.L[l].dd_title), l + ' has no stray Latin words');
+});
+
+test('C18 delete-all scope: the dialog code only touches keys that start with "pe-shuttle.v1" and no longer deletes in a single tap', () => {
+  const app = SCRIPTS[1];
+  assert.ok(app.includes("isOwn=k=>k.indexOf('pe-shuttle.v1')===0"));
+  assert.ok(!/localStorage\.clear\(|sessionStorage\.clear\(|indexedDB/.test(app), 'no blanket clears');
+  assert.ok(!/\balert\(|\bconfirm\(|\bprompt\(/.test(app), 'no blocking browser dialogs');
+  assert.ok(!app.includes("b.classList.contains('armed')"), 'old tap-twice delete is gone');
+  /* the engine adapter still removes only its own three keys */
+  const store = new Map([['pe-shuttle.v1', '{}'], ['pe-shuttle.v1.lang', 'he'], ['pe-shuttle.v1.corrupt', 'x'], ['unrelated', 'u']]);
+  const s = E.createStore({ getItem: k => store.has(k) ? store.get(k) : null, setItem: (k, v) => store.set(k, v), removeItem: k => store.delete(k) });
+  assert.equal(s.clear(), true);
+  assert.deepEqual([...store.keys()], ['unrelated']);
+});

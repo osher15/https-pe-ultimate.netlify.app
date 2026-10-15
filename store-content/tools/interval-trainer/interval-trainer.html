@@ -127,6 +127,25 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 .note{border:1px solid var(--warn);color:#fde68a;background:rgba(245,158,11,.1);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:14px}
 footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:12px;margin-top:8px}
 footer p{margin:4px 0}
+/* C18 device-data dialog */
+.dd p{margin:8px 0;overflow-wrap:anywhere;line-height:1.5}
+.dd .dd-meta{font-size:13px;opacity:.8}
+.dd-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.dd-actions button{flex:1 1 150px;min-height:48px}
+.dd-skipwrap{margin-top:6px!important}
+.dd-link{background:none!important;border:0!important;text-decoration:underline;min-height:44px;padding:8px 4px;cursor:pointer;font-size:13px;color:inherit;opacity:.75;text-align:start}
+.dd-danger{background:#6b2730!important;color:#fff!important;border:1px solid #a5434d!important}
+.dd-danger:disabled{opacity:.45;cursor:not-allowed}
+.dd input{display:block;width:100%;min-height:48px;margin-top:8px;padding:8px 12px}
+.dd-msg{min-height:1.4em;color:#ffb5ae}
+.dd [hidden]{display:none!important}
+.dd button:focus-visible,.dd input:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.dd-danger-open{color:#ffb5ae}
+.dd-open{color:#ffb5ae}
+.dd{padding:16px}
+.dd h2{margin:0 0 8px;font-size:20px;overflow-wrap:anywhere}
+.dd input{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px}
+.dd-foot{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -246,6 +265,7 @@ footer p{margin:4px 0}
   </section>
 
   <footer>
+    <p class="dd-foot"><button type="button" class="btn" id="dd-restore" data-dd-page="restoreBtn">Restore from backup file</button><button type="button" class="btn dd-open" id="dd-open" data-dd-page="btn">Delete all data on this device</button></p>
     <p><strong data-i18n="about.safetyH">Safety</strong>: <span data-i18n="safety.short"></span></p>
     <p><span data-i18n="brand">PE Tools</span> · <span id="ver"></span></p>
   </footer>
@@ -256,6 +276,21 @@ footer p{margin:4px 0}
   <div class="dlg-b" id="ex-body"></div>
 </dialog>
 
+<dialog id="dd-dlg" aria-labelledby="dd-title"><div class="dd">
+<h2 id="dd-title"></h2>
+<div id="dd-s0" hidden><p data-dd="nothing"></p><div class="dd-actions"><button type="button" id="dd-close0" class="dd-close btn" data-dd="close"></button></div></div>
+<div id="dd-s1" hidden><p data-dd="what"></p><p data-dd="scope"></p><p id="dd-found" class="dd-meta"></p><p data-dd="backupNote"></p>
+<div class="dd-actions"><button type="button" id="dd-backup" class="btn acc" data-dd="backupBtn"></button><button type="button" class="dd-close btn" data-dd="cancel"></button></div>
+<p class="dd-skipwrap"><button type="button" id="dd-skip" class="dd-link" data-dd="skipBtn"></button></p></div>
+<div id="dd-s2" hidden><p id="dd-status" role="status"></p>
+<label for="dd-word" class="dd-lab"><span id="dd-prompt"></span> <b id="dd-wordshow" dir="auto"></b></label>
+<input id="dd-word" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" dir="auto">
+<div class="dd-actions"><button type="button" id="dd-confirm" class="btn dd-danger" disabled data-dd="confirmBtn"></button><button type="button" class="dd-close btn" data-dd="cancel"></button></div></div>
+<div id="dd-s3" hidden><p id="dd-s3msg"></p>
+<div class="dd-actions"><button type="button" id="dd-go" class="btn acc" data-dd="restoreGo"></button><button type="button" id="dd-cur" class="btn" data-dd="restoreCurrent"></button><button type="button" id="dd-close3" class="dd-close btn" data-dd="close"></button></div></div>
+<p id="dd-msg" class="dd-msg" role="alert"></p>
+</div></dialog>
+<input type="file" id="dd-file" accept=".json,application/json" hidden>
 <dialog id="about-dlg" aria-labelledby="about-title">
   <div class="dlg-h"><h3 id="about-title"><span data-i18n="brand">PE Tools</span> · <span data-i18n="app.name">Interval Trainer</span></h3><button class="btn" data-close data-i18n-aria="ui.close" aria-label="Close">✕</button></div>
   <div class="dlg-b">
@@ -418,9 +453,14 @@ window.PE_IT_ENGINE=(function(){
   const D=window.PE_IT_DATA, E=window.PE_IT_ENGINE;
   const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
   const KEY="pe-tools.interval-trainer.v1";
+  /* C18 dialog strings. Kept out of the generated data block (PE_IT_DATA) on purpose. */
+  const DD_L={"en":{"btn":"Delete all data on this device","restoreBtn":"Restore from backup file","title":"Delete all data on this device?","scope":"Only this tool's data is erased. Other tools and apps on this device are not touched. Erased data cannot be recovered without a backup file.","found":"Stored items that will be erased: {0}","backupNote":"Recommended: download a backup file first. You can restore it later with \"Restore from backup file\".","backupBtn":"Download backup (JSON)","skipBtn":"Delete without backup","cancel":"Cancel","backupDone":"Backup downloaded. Check that the file was saved before you continue.","backupFail":"The backup could not be created. Nothing was deleted.","noBackup":"No backup will be made. After deleting, the data cannot be restored.","confirmPrompt":"To confirm, type this word:","word":"DELETE","confirmBtn":"Delete all data now","nothing":"There is no saved data from this tool on this device.","deleteFail":"Could not delete: storage is blocked on this device. Nothing was changed.","restoreTitle":"Restore from a backup file?","restoreInfo":"This backup was made on {0}. Restoring replaces the data this tool now stores on this device.","restoreCurrent":"Download current data first (JSON)","restoreGo":"Replace with backup","restoreBad":"This file is not a valid backup for this tool. Nothing was changed.","restoreFail":"Could not restore: storage is blocked or full. Nothing was changed.","close":"Close","what":"This erases the saved settings of the Interval Trainer (timer, circuit, tab and language), stored in this browser on this device."},"he":{"btn":"מחיקת כל הנתונים במכשיר","restoreBtn":"שחזור מקובץ גיבוי","title":"למחוק את כל הנתונים במכשיר?","scope":"נמחקים רק הנתונים של הכלי הזה. כלים ואפליקציות אחרים במכשיר לא ייפגעו. בלי קובץ גיבוי אי אפשר לשחזר נתונים שנמחקו.","found":"פריטים שמורים שיימחקו: {0}","backupNote":"מומלץ להוריד קודם קובץ גיבוי. אפשר לשחזר אותו אחר כך עם \"שחזור מקובץ גיבוי\".","backupBtn":"הורדת גיבוי (JSON)","skipBtn":"מחיקה בלי גיבוי","cancel":"ביטול","backupDone":"הגיבוי הורד. ודאו שהקובץ נשמר לפני שממשיכים.","backupFail":"לא ניתן ליצור גיבוי. שום דבר לא נמחק.","noBackup":"לא ייווצר גיבוי. אחרי המחיקה אי אפשר לשחזר את הנתונים.","confirmPrompt":"לאישור הקלידו את המילה:","word":"מחק","confirmBtn":"מחיקת כל הנתונים עכשיו","nothing":"אין במכשיר הזה נתונים שמורים של הכלי.","deleteFail":"המחיקה נכשלה: האחסון חסום במכשיר. שום דבר לא השתנה.","restoreTitle":"לשחזר מקובץ גיבוי?","restoreInfo":"הגיבוי נוצר ב-{0}. השחזור מחליף את הנתונים שהכלי שומר כעת במכשיר הזה.","restoreCurrent":"הורדת הנתונים הנוכחיים קודם (JSON)","restoreGo":"החלפה בגיבוי","restoreBad":"הקובץ אינו גיבוי תקין של הכלי הזה. שום דבר לא השתנה.","restoreFail":"השחזור נכשל: האחסון חסום או מלא. שום דבר לא השתנה.","close":"סגירה","what":"יימחקו ההגדרות השמורות של מאמן האינטרוולים (טיימר, מעגל, לשונית ושפה), השמורות בדפדפן הזה במכשיר הזה."},"ar":{"btn":"حذف كل البيانات على هذا الجهاز","restoreBtn":"استعادة من ملف نسخة احتياطية","title":"حذف كل البيانات على هذا الجهاز؟","scope":"تُحذف بيانات هذه الأداة فقط. لا تتأثر الأدوات والتطبيقات الأخرى على هذا الجهاز. لا يمكن استرجاع البيانات المحذوفة دون ملف نسخة احتياطية.","found":"العناصر المخزّنة التي ستُحذف: {0}","backupNote":"يُنصح بتنزيل ملف نسخة احتياطية أولًا. يمكنك استعادته لاحقًا عبر \"استعادة من ملف نسخة احتياطية\".","backupBtn":"تنزيل نسخة احتياطية (JSON)","skipBtn":"الحذف دون نسخة احتياطية","cancel":"إلغاء","backupDone":"تم تنزيل النسخة الاحتياطية. تأكد من حفظ الملف قبل المتابعة.","backupFail":"تعذّر إنشاء النسخة الاحتياطية. لم يُحذف شيء.","noBackup":"لن تُنشأ نسخة احتياطية. بعد الحذف لا يمكن استعادة البيانات.","confirmPrompt":"للتأكيد، اكتب هذه الكلمة:","word":"احذف","confirmBtn":"حذف كل البيانات الآن","nothing":"لا توجد بيانات محفوظة لهذه الأداة على هذا الجهاز.","deleteFail":"تعذّر الحذف: التخزين محظور على هذا الجهاز. لم يتغيّر شيء.","restoreTitle":"الاستعادة من ملف نسخة احتياطية؟","restoreInfo":"أُنشئت هذه النسخة الاحتياطية في {0}. تؤدي الاستعادة إلى استبدال البيانات التي تخزّنها الأداة حاليًا على هذا الجهاز.","restoreCurrent":"تنزيل البيانات الحالية أولًا (JSON)","restoreGo":"الاستبدال بالنسخة الاحتياطية","restoreBad":"هذا الملف ليس نسخة احتياطية صالحة لهذه الأداة. لم يتغيّر شيء.","restoreFail":"تعذّرت الاستعادة: التخزين محظور أو ممتلئ. لم يتغيّر شيء.","close":"إغلاق","what":"ستُحذف الإعدادات المحفوظة لمدرّب الفترات (المؤقّت والدائرة والتبويب واللغة) المخزّنة في هذا المتصفح على هذا الجهاز."},"ru":{"btn":"Удалить все данные на этом устройстве","restoreBtn":"Восстановить из файла резервной копии","title":"Удалить все данные на этом устройстве?","scope":"Удаляются только данные этого инструмента. Другие инструменты и приложения на устройстве не затрагиваются. Без файла резервной копии удалённые данные не восстановить.","found":"Сохранённых элементов к удалению: {0}","backupNote":"Рекомендуем сначала скачать файл резервной копии. Позже его можно восстановить кнопкой «Восстановить из файла резервной копии».","backupBtn":"Скачать резервную копию (JSON)","skipBtn":"Удалить без резервной копии","cancel":"Отмена","backupDone":"Резервная копия скачана. Убедитесь, что файл сохранён, прежде чем продолжить.","backupFail":"Не удалось создать резервную копию. Ничего не удалено.","noBackup":"Резервная копия не будет создана. После удаления данные не восстановить.","confirmPrompt":"Для подтверждения введите слово:","word":"УДАЛИТЬ","confirmBtn":"Удалить все данные сейчас","nothing":"На этом устройстве нет сохранённых данных этого инструмента.","deleteFail":"Не удалось удалить: хранилище заблокировано на этом устройстве. Ничего не изменено.","restoreTitle":"Восстановить из файла резервной копии?","restoreInfo":"Эта копия создана {0}. Восстановление заменит данные, которые инструмент сейчас хранит на этом устройстве.","restoreCurrent":"Сначала скачать текущие данные (JSON)","restoreGo":"Заменить данными из копии","restoreBad":"Этот файл не является допустимой резервной копией этого инструмента. Ничего не изменено.","restoreFail":"Не удалось восстановить: хранилище заблокировано или заполнено. Ничего не изменено.","close":"Закрыть","what":"Будут удалены сохранённые настройки интервального тренера (таймер, круг, вкладка и язык), хранящиеся в этом браузере на этом устройстве."},"es":{"btn":"Eliminar todos los datos de este dispositivo","restoreBtn":"Restaurar desde un archivo de copia de seguridad","title":"¿Eliminar todos los datos de este dispositivo?","scope":"Solo se borran los datos de esta herramienta. Las demás herramientas y aplicaciones del dispositivo no se tocan. Sin un archivo de copia de seguridad, los datos borrados no se pueden recuperar.","found":"Elementos guardados que se borrarán: {0}","backupNote":"Recomendado: descarga primero un archivo de copia de seguridad. Después puedes restaurarlo con «Restaurar desde un archivo de copia de seguridad».","backupBtn":"Descargar copia de seguridad (JSON)","skipBtn":"Eliminar sin copia de seguridad","cancel":"Cancelar","backupDone":"Copia de seguridad descargada. Comprueba que el archivo se guardó antes de continuar.","backupFail":"No se pudo crear la copia de seguridad. No se borró nada.","noBackup":"No se hará copia de seguridad. Tras eliminar, los datos no se pueden restaurar.","confirmPrompt":"Para confirmar, escribe esta palabra:","word":"BORRAR","confirmBtn":"Eliminar todos los datos ahora","nothing":"No hay datos guardados de esta herramienta en este dispositivo.","deleteFail":"No se pudo eliminar: el almacenamiento está bloqueado en este dispositivo. No se cambió nada.","restoreTitle":"¿Restaurar desde un archivo de copia de seguridad?","restoreInfo":"Esta copia se hizo el {0}. Al restaurar se reemplazan los datos que la herramienta guarda ahora en este dispositivo.","restoreCurrent":"Descargar antes los datos actuales (JSON)","restoreGo":"Reemplazar con la copia","restoreBad":"Este archivo no es una copia de seguridad válida de esta herramienta. No se cambió nada.","restoreFail":"No se pudo restaurar: el almacenamiento está bloqueado o lleno. No se cambió nada.","close":"Cerrar","what":"Se borrarán los ajustes guardados del entrenador de intervalos (temporizador, circuito, pestaña e idioma), guardados en este navegador de este dispositivo."}};
+  let ddFrozen=false;
+  const tx=k=>(DD_L[S.lang]||DD_L.en)[k]||DD_L.en[k]||k;
   const EXS=D.exercises, EXI=Object.fromEntries(EXS.map(e=>[e.id,e]));
   const PRESETS=D.presets, PRESET_IDS=PRESETS.map(p=>p.id);
-  const store=E.createStore(()=>window.localStorage,KEY,EXS.map(e=>e.id),PRESET_IDS);
+  const getLS=()=>window.localStorage;
+  const store=E.createStore(getLS,KEY,EXS.map(e=>e.id),PRESET_IDS);
   let S=store.load();
   let col=0;                                   /* language column in D.i18n rows */
 
@@ -438,11 +478,12 @@ window.PE_IT_ENGINE=(function(){
     document.title=t("app.name")+" · "+t("brand");
     $("#t-run").setAttribute("aria-label",t("tab.timer")); $("#c-run").setAttribute("aria-label",t("tab.circuit"));
     $("#lang").value=S.lang;
+    $$("[data-dd-page]").forEach(el=>{ el.textContent=tx(el.dataset.ddPage); });
     $("#ver").textContent=t("about.version",D.version); $("#about-ver").textContent=t("about.version",D.version);
     renderPresets(); renderTotals(); renderFilters(); renderLib(); renderPlan(); renderIdle(TR); renderIdle(CR); renderDiceLabels();
     if(active)paint(active,true);
   }
-  function save(){ if(!store.save(S))showStoreNote(); }
+  function save(){ if(ddFrozen)return; if(!store.save(S))showStoreNote(); }
   function showStoreNote(){ $("#store-note").hidden=false; }
 
   /* ---------- media ---------- */
@@ -728,6 +769,125 @@ window.PE_IT_ENGINE=(function(){
   $("#test-snd").addEventListener("click",()=>{ const was=S.sound; S.sound=true; unlockAudio(); beep(660,0.12); tone(990,0.18,"square",0.22,0.18); S.sound=was; paintToggles(); });
   $("#about-btn").addEventListener("click",()=>openDlg($("#about-dlg")));
 
+/* ===== C18: backup-first "Delete all data on this device" + optional restore =====
+   Touches ONLY this tool's own browser-storage keys; every other key is left alone.
+   Flow: button -> in-page dialog (what is erased) -> "Download backup (JSON)" -> typed-word confirmation -> remove own keys -> reload.
+   "Delete without backup" is a secondary text link on the first step and still needs the typed word. No blocking browser dialogs. */
+const DD=(()=>{
+  const TOOL="pe-interval-trainer",FORMAT='pe-ultimate-tool-backup';
+  const isOwn=k=>k===KEY;
+  const isRestorable=k=>k===KEY;
+  const validateKeys=keys=>{try{const o=JSON.parse(keys[KEY]);return !!o&&typeof o==='object'&&!Array.isArray(o)&&o.v===1;}catch(e){return false;}};
+  const setFrozen=on=>{ddFrozen=on;};
+  const q=id=>document.getElementById(id);
+  const tr=(k,...a)=>{let s=String(tx(k));a.forEach((v,i)=>{s=s.split('{'+i+'}').join(String(v));});return s;};
+  const store=()=>{try{return getLS();}catch(e){return null;}};
+  function ownKeys(st){const out=[];try{for(let i=0;i<st.length;i++){const k=st.key(i);if(typeof k==='string'&&isOwn(k))out.push(k);}}catch(e){}return out.sort();}
+  function snapshot(st){const keys={};for(const k of ownKeys(st)){let v=null;try{v=st.getItem(k);}catch(e){}if(typeof v==='string')keys[k]=v;}return keys;}
+  function buildBackup(st,now){return {format:FORMAT,version:1,tool:TOOL,exportedAt:new Date(now===undefined?Date.now():now).toISOString(),keys:snapshot(st)};}
+  function parseBackup(text){
+    try{
+      if(typeof text!=='string'||text.length>2000000)return null;
+      const o=JSON.parse(text);
+      if(!o||typeof o!=='object'||o.format!==FORMAT||o.version!==1||o.tool!==TOOL||!o.keys||typeof o.keys!=='object'||Array.isArray(o.keys))return null;
+      const ks=Object.keys(o.keys);
+      if(!ks.length)return null;
+      for(const k of ks){if(!isRestorable(k)||typeof o.keys[k]!=='string'||o.keys[k].length>1000000)return null;}
+      return validateKeys(o.keys)?o:null;
+    }catch(e){return null;}
+  }
+  function removeOwn(st){try{ownKeys(st).forEach(k=>st.removeItem(k));return ownKeys(st).length===0;}catch(e){return false;}}
+  function writeKeys(st,keys){
+    const prev={};
+    try{for(const k of Object.keys(keys))prev[k]=st.getItem(k);for(const k of Object.keys(keys))st.setItem(k,keys[k]);return true;}
+    catch(e){try{for(const k of Object.keys(prev)){if(prev[k]===null)st.removeItem(k);else st.setItem(k,prev[k]);}}catch(e2){}return false;}
+  }
+  function download(name,text){
+    try{const blob=new Blob([text],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);return true;}
+    catch(e){return false;}
+  }
+  const fileName=()=>TOOL+'-backup-'+new Date().toISOString().slice(0,10)+'.json';
+
+  const dlg=q('dd-dlg');let opener=null,pending=null,backupMade=false;
+  const msg=s=>{q('dd-msg').textContent=s||'';};
+  function openDlg(){try{dlg.showModal();}catch(e){dlg.setAttribute('open','');}}
+  function localize(){
+    document.querySelectorAll('#dd-dlg [data-dd]').forEach(el=>{el.textContent=tr(el.dataset.dd);});
+    q('dd-prompt').textContent=tr('confirmPrompt');q('dd-wordshow').textContent=tr('word');
+    q('dd-word').setAttribute('aria-label',tr('confirmPrompt')+' '+tr('word'));
+  }
+  function show(n,focusId){
+    for(const i of [0,1,2,3])q('dd-s'+i).hidden=i!==n;
+    q('dd-title').textContent=tr(n===3?'restoreTitle':'title');
+    if(focusId){const el=q(focusId);if(el&&el.focus)el.focus();}
+  }
+  function wordOk(){return q('dd-word').value.trim().toLocaleUpperCase()===tr('word').toLocaleUpperCase();}
+  function openDelete(from){
+    opener=from||null;pending=null;backupMade=false;msg('');localize();
+    
+    const st=store(),n=st?ownKeys(st).length:0;
+    q('dd-found').textContent=tr('found',n);q('dd-word').value='';q('dd-confirm').disabled=true;
+    openDlg();
+    if(!n)show(0,'dd-close0');else show(1,'dd-backup');
+  }
+  function toStep2(){
+    show(2,'dd-word');q('dd-status').textContent=tr(backupMade?'backupDone':'noBackup');msg('');
+  }
+  function openRestore(from,text){
+    opener=from||null;backupMade=false;msg('');localize();
+    pending=parseBackup(text);
+    const st=store(),has=!!(st&&ownKeys(st).length);
+    openDlg();
+    const ok=!!pending;
+    q('dd-s3msg').textContent=ok?tr('restoreInfo',new Date(pending.exportedAt).toLocaleString()):tr('restoreBad');
+    q('dd-go').hidden=!ok;q('dd-cur').hidden=!ok||!has;
+    show(3,ok?'dd-go':'dd-close3');
+  }
+  q('dd-backup').onclick=()=>{
+    const st=store(),b=st?buildBackup(st):null;
+    if(!b||!Object.keys(b.keys).length||!download(fileName(),JSON.stringify(b,null,2))){msg(tr('backupFail'));return;}
+    backupMade=true;toStep2();
+  };
+  q('dd-skip').onclick=()=>{backupMade=false;toStep2();};
+  q('dd-word').oninput=()=>{q('dd-confirm').disabled=!wordOk();};
+  q('dd-word').onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();if(wordOk())q('dd-confirm').click();}};
+  q('dd-confirm').onclick=()=>{
+    if(!wordOk())return;
+    const st=store();
+    setFrozen(true);
+    if(!st||!removeOwn(st)){setFrozen(false);msg(tr('deleteFail'));return;}
+    location.reload();
+  };
+  q('dd-cur').onclick=()=>{
+    const st=store(),b=st?buildBackup(st):null;
+    msg(b&&Object.keys(b.keys).length&&download(fileName(),JSON.stringify(b,null,2))?tr('backupDone'):tr('backupFail'));
+  };
+  q('dd-go').onclick=()=>{
+    const st=store();
+    if(!pending||!st)return;
+    setFrozen(true);
+    if(!writeKeys(st,pending.keys)){setFrozen(false);msg(tr('restoreFail'));return;}
+    location.reload();
+  };
+  document.querySelectorAll('#dd-dlg .dd-close').forEach(b=>{b.onclick=()=>{try{dlg.close();}catch(e){dlg.removeAttribute('open');}};});
+  dlg.onclose=()=>{pending=null;q('dd-word').value='';if(opener&&opener.focus)opener.focus();};
+  q("dd-open").onclick=ev=>openDelete(ev.currentTarget||q("dd-open"));
+  q("dd-restore").onclick=()=>q('dd-file').click();
+  q('dd-file').onchange=()=>{
+    const f=q('dd-file').files&&q('dd-file').files[0];
+    q('dd-file').value='';
+    if(!f)return;
+    const from=q("dd-restore");
+    if(f.size>2000000){openRestore(from,null);return;}
+    const r=new FileReader();
+    r.onload=()=>openRestore(from,String(r.result));
+    r.onerror=()=>openRestore(from,null);
+    r.readAsText(f);
+  };
+  return {api:{ownKeys,buildBackup,parseBackup,removeOwn,writeKeys,FORMAT,openDelete:()=>openDelete(q("dd-open"))}};
+})();
+
   /* ---------- boot ---------- */
   syncTimerFields(); syncCircuitFields(); paintToggles(); showTab(S.tab); applyLang();
   if(store.status==="blocked")showStoreNote();
@@ -736,6 +896,7 @@ window.PE_IT_ENGINE=(function(){
   window.PEIntervalTrainer={
     version:D.version,
     storageKey:KEY,
+    deviceData:DD.api,
     setLanguage(code){ if(D.langs.includes(code)){ S.lang=code; applyLang(); save(); } },
     getState(){ const st=active?active.runner.state():null;
       return JSON.parse(JSON.stringify({settings:S,storage:store.status,running:!!active,mode:active?active.kind:null,

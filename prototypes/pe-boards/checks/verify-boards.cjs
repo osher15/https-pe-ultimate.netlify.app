@@ -97,3 +97,48 @@ test('all five coach UI dictionaries have exact key coverage',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(line+'\n'+assign+'\nglobalThis.dict=text;',ctx);
  for(const lang of ['en','he','ar','ru','es'])assert.deepEqual(Object.keys(ctx.dict[lang]).sort(),Object.keys(ctx.dict.en).sort(),lang);
 });
+
+/* ---- C18: backup-first delete-all data helpers (pure logic; the dialog flow itself is covered by browser-boards.cjs) ---- */
+function fakeStorage(entries){const m=new Map(entries);return {m,get length(){return m.size},key:i=>[...m.keys()][i]??null,getItem:k=>m.has(k)?m.get(k):null,setItem:(k,v)=>{m.set(k,String(v))},removeItem:k=>{m.delete(k)}};}
+test('C18 scoreboard: backup holds exactly the own keys with raw values; foreign keys are never read into it',()=>{
+ const a=app(),dd=a.ctx.PEScoreboard.deviceData;
+ const st=fakeStorage([['pe-scoreboard.v1','RAW1'],['pe-scoreboard.lang.v1','he'],['pe-scoreboard.v2','near-miss'],['unrelated','u'],['pe-ultimate-coach-board-v1','coach']]);
+ assert.deepEqual(plain(dd.ownKeys(st)),['pe-scoreboard.lang.v1','pe-scoreboard.v1']);
+ assert.deepEqual(plain(dd.buildBackup(st,Date.UTC(2026,9,15))),{format:'pe-ultimate-tool-backup',version:1,tool:'pe-scoreboard',exportedAt:'2026-10-15T00:00:00.000Z',keys:{'pe-scoreboard.lang.v1':'he','pe-scoreboard.v1':'RAW1'}});
+});
+test('C18 scoreboard: removeOwn deletes only the tool keys and reports failure honestly',()=>{
+ const a=app(),dd=a.ctx.PEScoreboard.deviceData;
+ const st=fakeStorage([['pe-scoreboard.v1','1'],['pe-scoreboard.lang.v1','en'],['pe-scoreboard.v2','n'],['unrelated','u'],['pe-shuttle.v1','s']]);
+ assert.equal(dd.removeOwn(st),true);
+ assert.deepEqual([...st.m.keys()].sort(),['pe-scoreboard.v2','pe-shuttle.v1','unrelated']);
+ const stuck=fakeStorage([['pe-scoreboard.v1','1'],['unrelated','u']]);stuck.removeItem=()=>{throw new Error('blocked')};
+ assert.equal(dd.removeOwn(stuck),false);assert.equal(stuck.m.get('pe-scoreboard.v1'),'1');
+});
+test('C18 scoreboard: parseBackup accepts a real backup and rejects foreign, malformed or invalid-state files',()=>{
+ const a=app(),dd=a.ctx.PEScoreboard.deviceData,real=a.shared.get('pe-scoreboard.v1');
+ const mk=o=>JSON.stringify({format:'pe-ultimate-tool-backup',version:1,tool:'pe-scoreboard',exportedAt:'2026-10-15T00:00:00.000Z',keys:{'pe-scoreboard.v1':real,'pe-scoreboard.lang.v1':'he'},...o});
+ assert.ok(dd.parseBackup(mk({})));
+ assert.ok(dd.parseBackup(mk({keys:{'pe-scoreboard.v1':real}})),'language key is optional');
+ for(const bad of [mk({tool:'pe-coach-board'}),mk({format:'x'}),mk({version:2}),mk({keys:{}}),mk({keys:[real]}),mk({keys:{'pe-scoreboard.v1':real,unrelated:'x'}}),mk({keys:{'pe-scoreboard.v1':'{broken'}}),mk({keys:{'pe-scoreboard.v1':real,'pe-scoreboard.lang.v1':'xx'}}),mk({keys:{'pe-scoreboard.lang.v1':'he'}}),mk({keys:{'pe-scoreboard.v1':5}}),'not json','null','[]'])assert.equal(dd.parseBackup(bad),null);
+ const broken=JSON.parse(real);broken.current.scores=[-1,0];
+ assert.equal(dd.parseBackup(mk({keys:{'pe-scoreboard.v1':JSON.stringify(broken)}})),null,'an impossible match state is rejected');
+ assert.equal(dd.parseBackup('x'.repeat(2000001)),null);
+});
+test('C18 scoreboard: a restore that fails half-way rolls back to the previous values',()=>{
+ const a=app(),dd=a.ctx.PEScoreboard.deviceData;
+ const st=fakeStorage([['pe-scoreboard.v1','OLD'],['pe-scoreboard.lang.v1','en']]);let n=0;const set=st.setItem;st.setItem=(k,v)=>{if(++n===2)throw new Error('quota');set(k,v)};
+ assert.equal(dd.writeKeys(st,{'pe-scoreboard.v1':'NEW','pe-scoreboard.lang.v1':'he'}),false);
+ assert.equal(st.m.get('pe-scoreboard.v1'),'OLD');assert.equal(st.m.get('pe-scoreboard.lang.v1'),'en');
+});
+test('C18 dialog strings: scoreboard and coach have every dd_ key in all five languages with the same placeholders and a distinct typed word',()=>{
+ const a=app(),sb=a.ctx.__L;
+ const coach=(()=>{const full=coachSource.split('\n').find(l=>l.startsWith('const DD_L=')),line=full.slice(0,full.indexOf(';for(const c of'));const c={};vm.createContext(c);vm.runInContext(line+'\nglobalThis.d=DD_L;',c);return c.d;})();
+ const ph=s=>(String(s).match(/\{\d+\}/g)||[]).sort().join(',');
+ for(const [name,dict] of [['scoreboard',l=>Object.fromEntries(Object.entries(sb[l]).filter(e=>e[0].startsWith('dd_')))],['coach',l=>coach[l]]]){
+  const en=dict('en'),keys=Object.keys(en).sort();
+  assert.ok(keys.length>=24,name);
+  for(const l of ['he','ar','ru','es']){const d=dict(l);assert.deepEqual(Object.keys(d).sort(),keys,name+' '+l);for(const k of keys){assert.ok(String(d[k]).trim(),name+' '+l+' '+k);assert.equal(ph(d[k]),ph(en[k]),name+' '+l+' '+k);}}
+  assert.equal(new Set(['en','he','ar','ru','es'].map(l=>dict(l).dd_word)).size,5,name+' typed words are distinct');
+  for(const l of ['he','ar'])assert.ok(!/[A-Za-z]{4,}/.test(dict(l).dd_confirmPrompt+dict(l).dd_word+dict(l).dd_title),name+' '+l+' has no stray Latin words');
+ }
+});

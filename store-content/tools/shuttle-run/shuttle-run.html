@@ -123,6 +123,20 @@ tr.lvlrow td{background:#13261a;color:var(--lime);font-weight:700}
 .footer{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
 .danger{color:#ffb5ae;background:transparent}
 .danger.armed{background:#6b2730;color:var(--ink)}
+/* C18 device-data dialog */
+.dd p{margin:8px 0;overflow-wrap:anywhere;line-height:1.5}
+.dd .dd-meta{font-size:13px;opacity:.8}
+.dd-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.dd-actions button{flex:1 1 150px;min-height:48px}
+.dd-skipwrap{margin-top:6px!important}
+.dd-link{background:none!important;border:0!important;text-decoration:underline;min-height:44px;padding:8px 4px;cursor:pointer;font-size:13px;color:inherit;opacity:.75;text-align:start}
+.dd-danger{background:#6b2730!important;color:#fff!important;border:1px solid #a5434d!important}
+.dd-danger:disabled{opacity:.45;cursor:not-allowed}
+.dd input{display:block;width:100%;min-height:48px;margin-top:8px;padding:8px 12px}
+.dd-msg{min-height:1.4em;color:#ffb5ae}
+.dd [hidden]{display:none!important}
+.dd button:focus-visible,.dd input:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.dd-danger-open{color:#ffb5ae}
 dialog{background:#15202e;color:var(--ink);border:1px solid #52637a;border-radius:18px;padding:20px;width:min(620px,calc(100% - 20px));max-height:90dvh;overflow:auto}
 dialog::backdrop{background:#000b}
 dialog h2{font-size:21px;margin:0 0 10px}
@@ -248,7 +262,7 @@ body.present .keys,body.present .cite{display:none}
 </div></details>
 
 <div class="save" id="saveStatus" role="status">Saved on this device</div>
-<div class="footer"><button type="button" id="clearAll" class="danger" data-t="clearAll">Delete all data on this device</button></div>
+<div class="footer"><button type="button" id="dd-restore" data-t="dd_restoreBtn">Restore from backup file</button><button type="button" id="clearAll" class="danger" data-t="clearAll">Delete all data on this device</button></div>
 </div>
 
 <dialog id="aboutDialog" aria-labelledby="aboutTitle">
@@ -266,6 +280,21 @@ body.present .keys,body.present .cite{display:none}
   <p class="meta" data-t="aiNote">Translations were produced with AI. The professional content is accurate and was reviewed by several teachers and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology errors are possible.</p>
   <div class="dialogactions"><button type="button" id="aboutClose" data-t="close">Close</button></div>
 </dialog>
+<dialog id="dd-dlg" aria-labelledby="dd-title"><div class="dd">
+<h2 id="dd-title"></h2>
+<div id="dd-s0" hidden><p data-dd="nothing"></p><div class="dd-actions"><button type="button" id="dd-close0" class="dd-close" data-dd="close"></button></div></div>
+<div id="dd-s1" hidden><p data-dd="what"></p><p data-dd="scope"></p><p id="dd-found" class="dd-meta"></p><p data-dd="backupNote"></p>
+<div class="dd-actions"><button type="button" id="dd-backup" class="primary" data-dd="backupBtn"></button><button type="button" class="dd-close" data-dd="cancel"></button></div>
+<p class="dd-skipwrap"><button type="button" id="dd-skip" class="dd-link" data-dd="skipBtn"></button></p></div>
+<div id="dd-s2" hidden><p id="dd-status" role="status"></p>
+<label for="dd-word" class="dd-lab"><span id="dd-prompt"></span> <b id="dd-wordshow" dir="auto"></b></label>
+<input id="dd-word" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" dir="auto">
+<div class="dd-actions"><button type="button" id="dd-confirm" class="dd-danger" disabled data-dd="confirmBtn"></button><button type="button" class="dd-close" data-dd="cancel"></button></div></div>
+<div id="dd-s3" hidden><p id="dd-s3msg"></p>
+<div class="dd-actions"><button type="button" id="dd-go" class="primary" data-dd="restoreGo"></button><button type="button" id="dd-cur" class="" data-dd="restoreCurrent"></button><button type="button" id="dd-close3" class="dd-close" data-dd="close"></button></div></div>
+<p id="dd-msg" class="dd-msg" role="alert"></p>
+</div></dialog>
+<input type="file" id="dd-file" accept=".json,application/json" hidden>
 <div id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastUndo" hidden>Undo</button></div>
 
 <script>
@@ -479,7 +508,7 @@ privacy:'Privacy: the tool works offline, has no account and sends nothing over 
 safety:'Safety: this is a maximal running test. Check that runners are fit to take part, warm up first, and stop anyone who feels unwell. Audio timing depends on the device; check volume and beeps before testing a group.',
 independent:'Independent tool. Not an official, certified or endorsed test product.',
 aiNote:'Translations were produced with AI. The professional content is accurate and was reviewed by several teachers and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology errors are possible.',
-clearAll:'Delete all data on this device',clearAllArm:'Tap again to delete settings, runners and results',clearedAll:'All data deleted from this device',
+clearAll:'Delete all data on this device',clearAllArm:'Tap again to delete settings, runners and results',clearedAll:'All data deleted from this device',dd_btn:"Delete all data on this device",dd_restoreBtn:"Restore from backup file",dd_title:"Delete all data on this device?",dd_scope:"Only this tool's data is erased. Other tools and apps on this device are not touched. Erased data cannot be recovered without a backup file.",dd_found:"Stored items that will be erased: {0}",dd_backupNote:"Recommended: download a backup file first. You can restore it later with \"Restore from backup file\".",dd_backupBtn:"Download backup (JSON)",dd_skipBtn:"Delete without backup",dd_cancel:"Cancel",dd_backupDone:"Backup downloaded. Check that the file was saved before you continue.",dd_backupFail:"The backup could not be created. Nothing was deleted.",dd_noBackup:"No backup will be made. After deleting, the data cannot be restored.",dd_confirmPrompt:"To confirm, type this word:",dd_word:"DELETE",dd_confirmBtn:"Delete all data now",dd_nothing:"There is no saved data from this tool on this device.",dd_deleteFail:"Could not delete: storage is blocked on this device. Nothing was changed.",dd_restoreTitle:"Restore from a backup file?",dd_restoreInfo:"This backup was made on {0}. Restoring replaces the data this tool now stores on this device.",dd_restoreCurrent:"Download current data first (JSON)",dd_restoreGo:"Replace with backup",dd_restoreBad:"This file is not a valid backup for this tool. Nothing was changed.",dd_restoreFail:"Could not restore: storage is blocked or full. Nothing was changed.",dd_close:"Close",dd_what:"This erases the settings, runner list, results and own thresholds of the Shuttle Run, stored in this browser on this device.",
 saveOk:'Saved on this device',saveFail:'Not saved: storage is blocked or full on this device. Export a CSV to keep results.',
 saveCorrupt:'Saved data could not be read. It was set aside and a fresh start was made.',saveReadOnly:'Saved data could not be read and was left untouched. Changes are not saved until you delete all data.',
 notStarted:'The test has not started yet',full:'The results list is full ({0})',recorded:'{0} — {1} m · level {2}',undo:'Undo',
@@ -528,7 +557,7 @@ privacy:'פרטיות: הכלי עובד בלי רשת, בלי חשבון ולא
 safety:'בטיחות: זה מבחן ריצה מרבי. ודאו שהרצים כשירים להשתתף, חממו קודם, ועצרו כל מי שמרגיש לא טוב. תזמון השמע תלוי במכשיר; בדקו עוצמה וביפים לפני מבחן קבוצתי.',
 independent:'כלי עצמאי. אינו מוצר מבחן רשמי, מוסמך או מאושר.',
 aiNote:'התרגומים הופקו בעזרת בינה מלאכותית. התוכן המקצועי מדויק, נבדק על ידי כמה מורים ונבחן מול תוכניות הלימודים של משרד החינוך מכל הכיוונים; ייתכנו טעויות קטנות בהגהה, בתחביר או במינוח.',
-clearAll:'מחיקת כל הנתונים במכשיר',clearAllArm:'הקישו שוב כדי למחוק הגדרות, רצים ותוצאות',clearedAll:'כל הנתונים נמחקו מהמכשיר',
+clearAll:'מחיקת כל הנתונים במכשיר',clearAllArm:'הקישו שוב כדי למחוק הגדרות, רצים ותוצאות',clearedAll:'כל הנתונים נמחקו מהמכשיר',dd_btn:"מחיקת כל הנתונים במכשיר",dd_restoreBtn:"שחזור מקובץ גיבוי",dd_title:"למחוק את כל הנתונים במכשיר?",dd_scope:"נמחקים רק הנתונים של הכלי הזה. כלים ואפליקציות אחרים במכשיר לא ייפגעו. בלי קובץ גיבוי אי אפשר לשחזר נתונים שנמחקו.",dd_found:"פריטים שמורים שיימחקו: {0}",dd_backupNote:"מומלץ להוריד קודם קובץ גיבוי. אפשר לשחזר אותו אחר כך עם \"שחזור מקובץ גיבוי\".",dd_backupBtn:"הורדת גיבוי (JSON)",dd_skipBtn:"מחיקה בלי גיבוי",dd_cancel:"ביטול",dd_backupDone:"הגיבוי הורד. ודאו שהקובץ נשמר לפני שממשיכים.",dd_backupFail:"לא ניתן ליצור גיבוי. שום דבר לא נמחק.",dd_noBackup:"לא ייווצר גיבוי. אחרי המחיקה אי אפשר לשחזר את הנתונים.",dd_confirmPrompt:"לאישור הקלידו את המילה:",dd_word:"מחק",dd_confirmBtn:"מחיקת כל הנתונים עכשיו",dd_nothing:"אין במכשיר הזה נתונים שמורים של הכלי.",dd_deleteFail:"המחיקה נכשלה: האחסון חסום במכשיר. שום דבר לא השתנה.",dd_restoreTitle:"לשחזר מקובץ גיבוי?",dd_restoreInfo:"הגיבוי נוצר ב-{0}. השחזור מחליף את הנתונים שהכלי שומר כעת במכשיר הזה.",dd_restoreCurrent:"הורדת הנתונים הנוכחיים קודם (JSON)",dd_restoreGo:"החלפה בגיבוי",dd_restoreBad:"הקובץ אינו גיבוי תקין של הכלי הזה. שום דבר לא השתנה.",dd_restoreFail:"השחזור נכשל: האחסון חסום או מלא. שום דבר לא השתנה.",dd_close:"סגירה",dd_what:"יימחקו ההגדרות, רשימת הרצים, התוצאות והספים האישיים של ריצה הלוך-חזור, השמורים בדפדפן הזה במכשיר הזה.",
 saveOk:'נשמר במכשיר הזה',saveFail:'לא נשמר: האחסון חסום או מלא במכשיר הזה. ייצאו CSV כדי לשמור תוצאות.',
 saveCorrupt:'לא ניתן היה לקרוא את הנתונים השמורים. הם הועברו הצידה והתחלנו מחדש.',saveReadOnly:'לא ניתן היה לקרוא את הנתונים השמורים והם נשארו כמו שהם. שינויים לא נשמרים עד שתמחקו את כל הנתונים.',
 notStarted:'המבחן עוד לא התחיל',full:'לוח התוצאות מלא ({0})',recorded:'{0} — {1} מ׳ · שלב {2}',undo:'בטל',
@@ -577,7 +606,7 @@ privacy:'الخصوصية: تعمل الأداة دون شبكة ودون حسا
 safety:'السلامة: هذا اختبار جري قصوي. تأكد من أهلية العدّائين للمشاركة، وقم بالإحماء أولًا، وأوقف كل من يشعر بتوعك. يعتمد توقيت الصوت على الجهاز؛ افحص مستوى الصوت والصافرات قبل اختبار مجموعة.',
 independent:'أداة مستقلة. ليست منتج اختبار رسميًا أو معتمدًا أو مصادقًا عليه.',
 aiNote:'أُنتجت الترجمات بمساعدة الذكاء الاصطناعي. المحتوى المهني دقيق، وقد راجعه عدد من المعلمين وتمت مطابقته مع مناهج وزارة التربية والتعليم من جميع الجوانب؛ قد توجد أخطاء صغيرة في التدقيق اللغوي أو الصياغة أو المصطلحات.',
-clearAll:'حذف كل البيانات على هذا الجهاز',clearAllArm:'اضغط مرة أخرى لحذف الإعدادات والعدّائين والنتائج',clearedAll:'تم حذف كل البيانات من هذا الجهاز',
+clearAll:'حذف كل البيانات على هذا الجهاز',clearAllArm:'اضغط مرة أخرى لحذف الإعدادات والعدّائين والنتائج',clearedAll:'تم حذف كل البيانات من هذا الجهاز',dd_btn:"حذف كل البيانات على هذا الجهاز",dd_restoreBtn:"استعادة من ملف نسخة احتياطية",dd_title:"حذف كل البيانات على هذا الجهاز؟",dd_scope:"تُحذف بيانات هذه الأداة فقط. لا تتأثر الأدوات والتطبيقات الأخرى على هذا الجهاز. لا يمكن استرجاع البيانات المحذوفة دون ملف نسخة احتياطية.",dd_found:"العناصر المخزّنة التي ستُحذف: {0}",dd_backupNote:"يُنصح بتنزيل ملف نسخة احتياطية أولًا. يمكنك استعادته لاحقًا عبر \"استعادة من ملف نسخة احتياطية\".",dd_backupBtn:"تنزيل نسخة احتياطية (JSON)",dd_skipBtn:"الحذف دون نسخة احتياطية",dd_cancel:"إلغاء",dd_backupDone:"تم تنزيل النسخة الاحتياطية. تأكد من حفظ الملف قبل المتابعة.",dd_backupFail:"تعذّر إنشاء النسخة الاحتياطية. لم يُحذف شيء.",dd_noBackup:"لن تُنشأ نسخة احتياطية. بعد الحذف لا يمكن استعادة البيانات.",dd_confirmPrompt:"للتأكيد، اكتب هذه الكلمة:",dd_word:"احذف",dd_confirmBtn:"حذف كل البيانات الآن",dd_nothing:"لا توجد بيانات محفوظة لهذه الأداة على هذا الجهاز.",dd_deleteFail:"تعذّر الحذف: التخزين محظور على هذا الجهاز. لم يتغيّر شيء.",dd_restoreTitle:"الاستعادة من ملف نسخة احتياطية؟",dd_restoreInfo:"أُنشئت هذه النسخة الاحتياطية في {0}. تؤدي الاستعادة إلى استبدال البيانات التي تخزّنها الأداة حاليًا على هذا الجهاز.",dd_restoreCurrent:"تنزيل البيانات الحالية أولًا (JSON)",dd_restoreGo:"الاستبدال بالنسخة الاحتياطية",dd_restoreBad:"هذا الملف ليس نسخة احتياطية صالحة لهذه الأداة. لم يتغيّر شيء.",dd_restoreFail:"تعذّرت الاستعادة: التخزين محظور أو ممتلئ. لم يتغيّر شيء.",dd_close:"إغلاق",dd_what:"ستُحذف الإعدادات وقائمة العدّائين والنتائج والحدود الخاصة بالجري المكوكي المخزّنة في هذا المتصفح على هذا الجهاز.",
 saveOk:'محفوظ على هذا الجهاز',saveFail:'لم يُحفظ: التخزين محظور أو ممتلئ على هذا الجهاز. صدّر ملف CSV للاحتفاظ بالنتائج.',
 saveCorrupt:'تعذّرت قراءة البيانات المحفوظة. نُقلت جانبًا وبدأنا من جديد.',saveReadOnly:'تعذّرت قراءة البيانات المحفوظة وتُركت كما هي. لن تُحفظ التغييرات حتى تحذف كل البيانات.',
 notStarted:'لم يبدأ الاختبار بعد',full:'لوحة النتائج ممتلئة ({0})',recorded:'{0} — {1} م · المرحلة {2}',undo:'تراجع',
@@ -626,7 +655,7 @@ privacy:'Конфиденциальность: программа работае
 safety:'Безопасность: это тест на максимальную нагрузку. Убедитесь, что бегуны допущены к участию, проведите разминку и остановите любого, кто плохо себя чувствует. Точность звука зависит от устройства; проверьте громкость и сигналы перед тестом группы.',
 independent:'Независимая программа. Не является официальным, сертифицированным или одобренным тестовым продуктом.',
 aiNote:'Переводы выполнены с помощью ИИ. Профессиональное содержание точное: его проверили несколько учителей и всесторонне сверили с учебными программами Министерства образования; возможны небольшие ошибки корректуры, синтаксиса или терминологии.',
-clearAll:'Удалить все данные на этом устройстве',clearAllArm:'Нажмите ещё раз, чтобы удалить настройки, бегунов и результаты',clearedAll:'Все данные удалены с этого устройства',
+clearAll:'Удалить все данные на этом устройстве',clearAllArm:'Нажмите ещё раз, чтобы удалить настройки, бегунов и результаты',clearedAll:'Все данные удалены с этого устройства',dd_btn:"Удалить все данные на этом устройстве",dd_restoreBtn:"Восстановить из файла резервной копии",dd_title:"Удалить все данные на этом устройстве?",dd_scope:"Удаляются только данные этого инструмента. Другие инструменты и приложения на устройстве не затрагиваются. Без файла резервной копии удалённые данные не восстановить.",dd_found:"Сохранённых элементов к удалению: {0}",dd_backupNote:"Рекомендуем сначала скачать файл резервной копии. Позже его можно восстановить кнопкой «Восстановить из файла резервной копии».",dd_backupBtn:"Скачать резервную копию (JSON)",dd_skipBtn:"Удалить без резервной копии",dd_cancel:"Отмена",dd_backupDone:"Резервная копия скачана. Убедитесь, что файл сохранён, прежде чем продолжить.",dd_backupFail:"Не удалось создать резервную копию. Ничего не удалено.",dd_noBackup:"Резервная копия не будет создана. После удаления данные не восстановить.",dd_confirmPrompt:"Для подтверждения введите слово:",dd_word:"УДАЛИТЬ",dd_confirmBtn:"Удалить все данные сейчас",dd_nothing:"На этом устройстве нет сохранённых данных этого инструмента.",dd_deleteFail:"Не удалось удалить: хранилище заблокировано на этом устройстве. Ничего не изменено.",dd_restoreTitle:"Восстановить из файла резервной копии?",dd_restoreInfo:"Эта копия создана {0}. Восстановление заменит данные, которые инструмент сейчас хранит на этом устройстве.",dd_restoreCurrent:"Сначала скачать текущие данные (JSON)",dd_restoreGo:"Заменить данными из копии",dd_restoreBad:"Этот файл не является допустимой резервной копией этого инструмента. Ничего не изменено.",dd_restoreFail:"Не удалось восстановить: хранилище заблокировано или заполнено. Ничего не изменено.",dd_close:"Закрыть",dd_what:"Будут удалены настройки, список бегунов, результаты и собственные пороги челночного бега, хранящиеся в этом браузере на этом устройстве.",
 saveOk:'Сохранено на этом устройстве',saveFail:'Не сохранено: хранилище заблокировано или заполнено. Экспортируйте CSV, чтобы сохранить результаты.',
 saveCorrupt:'Сохранённые данные не удалось прочитать. Они отложены, начата новая запись.',saveReadOnly:'Сохранённые данные не удалось прочитать, они оставлены без изменений. Изменения не сохраняются, пока вы не удалите все данные.',
 notStarted:'Тест ещё не начался',full:'Список результатов заполнен ({0})',recorded:'{0} — {1} м · ступень {2}',undo:'Отменить',
@@ -675,7 +704,7 @@ privacy:'Privacidad: la herramienta funciona sin conexión, sin cuenta y no env�
 safety:'Seguridad: es una prueba de carrera máxima. Comprueba que los corredores pueden participar, calienta antes y detén a cualquiera que se encuentre mal. La precisión del sonido depende del dispositivo; comprueba el volumen y los pitidos antes de evaluar a un grupo.',
 independent:'Herramienta independiente. No es un producto de prueba oficial, certificado ni avalado.',
 aiNote:'Las traducciones se han hecho con IA. El contenido profesional es correcto: lo revisaron varios docentes y se contrastó desde todos los ángulos con los currículos del Ministerio de Educación; puede haber pequeños errores de corrección, sintaxis o terminología.',
-clearAll:'Eliminar todos los datos de este dispositivo',clearAllArm:'Toca de nuevo para eliminar configuración, corredores y resultados',clearedAll:'Todos los datos se eliminaron de este dispositivo',
+clearAll:'Eliminar todos los datos de este dispositivo',clearAllArm:'Toca de nuevo para eliminar configuración, corredores y resultados',clearedAll:'Todos los datos se eliminaron de este dispositivo',dd_btn:"Eliminar todos los datos de este dispositivo",dd_restoreBtn:"Restaurar desde un archivo de copia de seguridad",dd_title:"¿Eliminar todos los datos de este dispositivo?",dd_scope:"Solo se borran los datos de esta herramienta. Las demás herramientas y aplicaciones del dispositivo no se tocan. Sin un archivo de copia de seguridad, los datos borrados no se pueden recuperar.",dd_found:"Elementos guardados que se borrarán: {0}",dd_backupNote:"Recomendado: descarga primero un archivo de copia de seguridad. Después puedes restaurarlo con «Restaurar desde un archivo de copia de seguridad».",dd_backupBtn:"Descargar copia de seguridad (JSON)",dd_skipBtn:"Eliminar sin copia de seguridad",dd_cancel:"Cancelar",dd_backupDone:"Copia de seguridad descargada. Comprueba que el archivo se guardó antes de continuar.",dd_backupFail:"No se pudo crear la copia de seguridad. No se borró nada.",dd_noBackup:"No se hará copia de seguridad. Tras eliminar, los datos no se pueden restaurar.",dd_confirmPrompt:"Para confirmar, escribe esta palabra:",dd_word:"BORRAR",dd_confirmBtn:"Eliminar todos los datos ahora",dd_nothing:"No hay datos guardados de esta herramienta en este dispositivo.",dd_deleteFail:"No se pudo eliminar: el almacenamiento está bloqueado en este dispositivo. No se cambió nada.",dd_restoreTitle:"¿Restaurar desde un archivo de copia de seguridad?",dd_restoreInfo:"Esta copia se hizo el {0}. Al restaurar se reemplazan los datos que la herramienta guarda ahora en este dispositivo.",dd_restoreCurrent:"Descargar antes los datos actuales (JSON)",dd_restoreGo:"Reemplazar con la copia",dd_restoreBad:"Este archivo no es una copia de seguridad válida de esta herramienta. No se cambió nada.",dd_restoreFail:"No se pudo restaurar: el almacenamiento está bloqueado o lleno. No se cambió nada.",dd_close:"Cerrar",dd_what:"Se borrarán los ajustes, la lista de corredores, los resultados y los umbrales propios de la carrera de ida y vuelta, guardados en este navegador de este dispositivo.",
 saveOk:'Guardado en este dispositivo',saveFail:'No guardado: el almacenamiento está bloqueado o lleno en este dispositivo. Exporta un CSV para conservar los resultados.',
 saveCorrupt:'No se pudieron leer los datos guardados. Se apartaron y se empezó de cero.',saveReadOnly:'No se pudieron leer los datos guardados y se dejaron intactos. Los cambios no se guardan hasta que elimines todos los datos.',
 notStarted:'La prueba aún no ha empezado',full:'La lista de resultados está llena ({0})',recorded:'{0} — {1} m · nivel {2}',undo:'Deshacer',
@@ -713,7 +742,7 @@ var beeps=[],cues=[];
 /* Test-clock state. elapsed (s) = clockNow() - startRef while running; negative during the get-ready countdown. */
 var phase='idle',running=false,startRef=0,offset=0,cueIdx=0,speechIdx=0,raf=0,timer=0;
 var fakeNow=null,flashDone=-1;
-var ac=null,acCount=0,scheduled=[],wake=null,toastTimer=0,toastUndo=null,armTimer=0;
+var ac=null,acCount=0,scheduled=[],wake=null,toastTimer=0,toastUndo=null,armTimer=0,ddFrozen=false;
 
 function t(key){var d=E.L[lang]||E.L.en,s=d[key];if(s==null)s=E.L.en[key];if(s==null)s=key;
   for(var i=1;i<arguments.length;i++)s=s.split('{'+(i-1)+'}').join(String(arguments[i]));return s;}
@@ -722,7 +751,7 @@ function clockNow(){return fakeNow!==null?fakeNow:performance.now()/1000;}
 function elapsed(){return running?clockNow()-startRef:offset;}
 
 /* ---------- persistence ---------- */
-function save(){store.save(S);paintSave();}
+function save(){if(ddFrozen)return;store.save(S);paintSave();}
 function paintSave(){
   var st=store.status,el=$('saveStatus');
   var msg=st.ok?(st.reason==='corrupt'?t('saveCorrupt'):t('saveOk')):(st.reason==='corruptReadOnly'?t('saveReadOnly'):t('saveFail'));
@@ -1069,13 +1098,124 @@ $('clearResults').addEventListener('click',function(){if(!S.results.length)retur
 $('refFold').addEventListener('toggle',function(){if($('refFold').open)buildRef();});
 $('bandMetric').addEventListener('change',function(e){S.bands.metric=e.target.value==='vo2'?'vo2':'dist';save();paintBands();paintResults();});
 $('bandAdd').addEventListener('click',function(){if(S.bands.list.length>=E.MAX_BANDS)return;S.bands.list.push({label:String.fromCharCode(65+S.bands.list.length),min:0});save();paintBands();paintResults();});
-$('clearAll').addEventListener('click',function(){
-  var b=$('clearAll');
-  if(!b.classList.contains('armed')){b.classList.add('armed');b.textContent=t('clearAllArm');clearTimeout(armTimer);armTimer=setTimeout(function(){b.classList.remove('armed');b.textContent=t('clearAll');},5000);return;}
-  clearTimeout(armTimer);b.classList.remove('armed');b.textContent=t('clearAll');
-  if(running)pause();
-  store.clear();S=E.defaultState();offset=0;setPhase('idle');rebuild();paintAll();toast(t('clearedAll'));
-});
+/* ===== C18: backup-first "Delete all data on this device" + optional restore =====
+   Touches ONLY this tool's own browser-storage keys; every other key is left alone.
+   Flow: button -> in-page dialog (what is erased) -> "Download backup (JSON)" -> typed-word confirmation -> remove own keys -> reload.
+   "Delete without backup" is a secondary text link on the first step and still needs the typed word. No blocking browser dialogs. */
+const DD=(()=>{
+  const TOOL="pe-shuttle",FORMAT='pe-ultimate-tool-backup';
+  const isOwn=k=>k.indexOf('pe-shuttle.v1')===0;
+  const isRestorable=k=>k==='pe-shuttle.v1'||k==='pe-shuttle.v1.lang';
+  const validateKeys=keys=>{try{if(keys['pe-shuttle.v1']!==undefined){const o=JSON.parse(keys['pe-shuttle.v1']);if(!o||typeof o!=='object'||Array.isArray(o)||o.v!==1)return false;}if(keys['pe-shuttle.v1.lang']!==undefined&&E.LANGS.indexOf(keys['pe-shuttle.v1.lang'])<0)return false;return true;}catch(e){return false;}};
+  const setFrozen=on=>{ddFrozen=on;};
+  const q=id=>document.getElementById(id);
+  const tr=(k,...a)=>{let s=String(t('dd_'+k));a.forEach((v,i)=>{s=s.split('{'+i+'}').join(String(v));});return s;};
+  const store=()=>{try{return localStorage;}catch(e){return null;}};
+  function ownKeys(st){const out=[];try{for(let i=0;i<st.length;i++){const k=st.key(i);if(typeof k==='string'&&isOwn(k))out.push(k);}}catch(e){}return out.sort();}
+  function snapshot(st){const keys={};for(const k of ownKeys(st)){let v=null;try{v=st.getItem(k);}catch(e){}if(typeof v==='string')keys[k]=v;}return keys;}
+  function buildBackup(st,now){return {format:FORMAT,version:1,tool:TOOL,exportedAt:new Date(now===undefined?Date.now():now).toISOString(),keys:snapshot(st)};}
+  function parseBackup(text){
+    try{
+      if(typeof text!=='string'||text.length>2000000)return null;
+      const o=JSON.parse(text);
+      if(!o||typeof o!=='object'||o.format!==FORMAT||o.version!==1||o.tool!==TOOL||!o.keys||typeof o.keys!=='object'||Array.isArray(o.keys))return null;
+      const ks=Object.keys(o.keys);
+      if(!ks.length)return null;
+      for(const k of ks){if(!isRestorable(k)||typeof o.keys[k]!=='string'||o.keys[k].length>1000000)return null;}
+      return validateKeys(o.keys)?o:null;
+    }catch(e){return null;}
+  }
+  function removeOwn(st){try{ownKeys(st).forEach(k=>st.removeItem(k));return ownKeys(st).length===0;}catch(e){return false;}}
+  function writeKeys(st,keys){
+    const prev={};
+    try{for(const k of Object.keys(keys))prev[k]=st.getItem(k);for(const k of Object.keys(keys))st.setItem(k,keys[k]);return true;}
+    catch(e){try{for(const k of Object.keys(prev)){if(prev[k]===null)st.removeItem(k);else st.setItem(k,prev[k]);}}catch(e2){}return false;}
+  }
+  function download(name,text){
+    try{const blob=new Blob([text],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);return true;}
+    catch(e){return false;}
+  }
+  const fileName=()=>TOOL+'-backup-'+new Date().toISOString().slice(0,10)+'.json';
+
+  const dlg=q('dd-dlg');let opener=null,pending=null,backupMade=false;
+  const msg=s=>{q('dd-msg').textContent=s||'';};
+  function openDlg(){try{dlg.showModal();}catch(e){dlg.setAttribute('open','');}}
+  function localize(){
+    document.querySelectorAll('#dd-dlg [data-dd]').forEach(el=>{el.textContent=tr(el.dataset.dd);});
+    q('dd-prompt').textContent=tr('confirmPrompt');q('dd-wordshow').textContent=tr('word');
+    q('dd-word').setAttribute('aria-label',tr('confirmPrompt')+' '+tr('word'));
+  }
+  function show(n,focusId){
+    for(const i of [0,1,2,3])q('dd-s'+i).hidden=i!==n;
+    q('dd-title').textContent=tr(n===3?'restoreTitle':'title');
+    if(focusId){const el=q(focusId);if(el&&el.focus)el.focus();}
+  }
+  function wordOk(){return q('dd-word').value.trim().toLocaleUpperCase()===tr('word').toLocaleUpperCase();}
+  function openDelete(from){
+    opener=from||null;pending=null;backupMade=false;msg('');localize();
+    if(running)pause();
+    const st=store(),n=st?ownKeys(st).length:0;
+    q('dd-found').textContent=tr('found',n);q('dd-word').value='';q('dd-confirm').disabled=true;
+    openDlg();
+    if(!n)show(0,'dd-close0');else show(1,'dd-backup');
+  }
+  function toStep2(){
+    show(2,'dd-word');q('dd-status').textContent=tr(backupMade?'backupDone':'noBackup');msg('');
+  }
+  function openRestore(from,text){
+    opener=from||null;backupMade=false;msg('');localize();
+    pending=parseBackup(text);
+    const st=store(),has=!!(st&&ownKeys(st).length);
+    openDlg();
+    const ok=!!pending;
+    q('dd-s3msg').textContent=ok?tr('restoreInfo',new Date(pending.exportedAt).toLocaleString()):tr('restoreBad');
+    q('dd-go').hidden=!ok;q('dd-cur').hidden=!ok||!has;
+    show(3,ok?'dd-go':'dd-close3');
+  }
+  q('dd-backup').onclick=()=>{
+    const st=store(),b=st?buildBackup(st):null;
+    if(!b||!Object.keys(b.keys).length||!download(fileName(),JSON.stringify(b,null,2))){msg(tr('backupFail'));return;}
+    backupMade=true;toStep2();
+  };
+  q('dd-skip').onclick=()=>{backupMade=false;toStep2();};
+  q('dd-word').oninput=()=>{q('dd-confirm').disabled=!wordOk();};
+  q('dd-word').onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();if(wordOk())q('dd-confirm').click();}};
+  q('dd-confirm').onclick=()=>{
+    if(!wordOk())return;
+    const st=store();
+    setFrozen(true);
+    if(!st||!removeOwn(st)){setFrozen(false);msg(tr('deleteFail'));return;}
+    location.reload();
+  };
+  q('dd-cur').onclick=()=>{
+    const st=store(),b=st?buildBackup(st):null;
+    msg(b&&Object.keys(b.keys).length&&download(fileName(),JSON.stringify(b,null,2))?tr('backupDone'):tr('backupFail'));
+  };
+  q('dd-go').onclick=()=>{
+    const st=store();
+    if(!pending||!st)return;
+    setFrozen(true);
+    if(!writeKeys(st,pending.keys)){setFrozen(false);msg(tr('restoreFail'));return;}
+    location.reload();
+  };
+  document.querySelectorAll('#dd-dlg .dd-close').forEach(b=>{b.onclick=()=>{try{dlg.close();}catch(e){dlg.removeAttribute('open');}};});
+  dlg.onclose=()=>{pending=null;q('dd-word').value='';if(opener&&opener.focus)opener.focus();};
+  q("clearAll").onclick=ev=>openDelete(ev.currentTarget||q("clearAll"));
+  q("dd-restore").onclick=()=>q('dd-file').click();
+  q('dd-file').onchange=()=>{
+    const f=q('dd-file').files&&q('dd-file').files[0];
+    q('dd-file').value='';
+    if(!f)return;
+    const from=q("dd-restore");
+    if(f.size>2000000){openRestore(from,null);return;}
+    const r=new FileReader();
+    r.onload=()=>openRestore(from,String(r.result));
+    r.onerror=()=>openRestore(from,null);
+    r.readAsText(f);
+  };
+  return {api:{ownKeys,buildBackup,parseBackup,removeOwn,writeKeys,FORMAT,openDelete:()=>openDelete(q("clearAll"))}};
+})();
 document.addEventListener('keydown',function(e){
   var tg=e.target,tag=tg&&tg.tagName;
   if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(tg&&tg.isContentEditable))return;
@@ -1083,7 +1223,7 @@ document.addEventListener('keydown',function(e){
      other buttons (chips, lanes, folds) keep their native keyboard activation. */
   var mainBtn=tg&&['startBtn','stopBtn','resetBtn','dropBtn'].indexOf(tg.id)>=0;
   if((tag==='BUTTON'||tag==='SUMMARY'||tag==='A')&&!mainBtn)return;
-  if($('aboutDialog').open)return;
+  if($('aboutDialog').open||$('dd-dlg').open)return;
   if(e.code==='Space'){e.preventDefault();if(running)pause();else start();}
   else if(e.code==='Enter'){e.preventDefault();if(!$('dropBtn').disabled)registerDrop();}
   else if(e.code==='Escape'&&document.body.classList.contains('present'))setPresent(false);
@@ -1095,6 +1235,7 @@ window.PEShuttle={
     settings:S.settings,runners:S.runners,results:S.results,bands:S.bands,storage:store.status,audioContexts:acCount}));},
   setLanguage:function(code){applyLanguage(code);store.saveLang(lang);paintSave();},
   exportCSV:exportCSV,
+  deviceData:DD.api,
   __test:{
     useFakeClock:function(t0){fakeNow=typeof t0==='number'?t0:1000;},
     advance:function(sec){if(fakeNow===null)throw Error('fake clock off');var step=0.05,end=fakeNow+sec;while(fakeNow<end-1e-9){fakeNow=Math.min(end,fakeNow+step);tick();}fakeNow=end;tick();render();return elapsed();},
