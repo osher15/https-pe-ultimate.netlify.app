@@ -140,18 +140,14 @@ const NEW = {
   "about.privacyH": ["Privacy", "פרטיות", "الخصوصية", "Конфиденциальность", "Privacidad"],
   "about.privacy": ["No account and no student data. Only your settings (language, timer values, sound) are stored, locally in this browser. Nothing is sent over the internet.", "בלי חשבון ובלי נתוני תלמידים. רק ההגדרות שלכם (שפה, ערכי טיימר, צליל) נשמרות, מקומית בדפדפן הזה. שום דבר לא נשלח באינטרנט.", "لا حساب ولا بيانات طلاب. تُحفظ إعداداتك فقط (اللغة وقيم المؤقّت والصوت) محليًا في هذا المتصفح. لا يُرسَل أي شيء عبر الإنترنت.", "Без учётной записи и без данных учеников. Сохраняются только ваши настройки (язык, значения таймера, звук) — локально в этом браузере. Ничего не отправляется в интернет.", "Sin cuenta y sin datos del alumnado. Solo se guardan tus ajustes (idioma, valores del temporizador, sonido), localmente en este navegador. No se envía nada por internet."],
   "about.mediaH": ["Media credits", "קרדיט למדיה", "حقوق الوسائط", "Авторство иллюстраций", "Créditos de los medios"],
-  "about.media": ["Exercise animations: original 3D figures made for this project and owned by the publisher. No third-party photos or media are included.", "אנימציות התרגילים: דמויות תלת־ממד מקוריות שנוצרו לפרויקט הזה ושייכות למפרסם. לא נכללים תמונות או מדיה של צד שלישי.", "رسوم التمارين المتحرّكة: شخصيات ثلاثية الأبعاد أصلية أُنشئت لهذا المشروع ويملكها الناشر. لا تتضمّن الأداة صورًا أو وسائط من أطراف ثالثة.", "Анимации упражнений: оригинальные 3D-фигуры, созданные для этого проекта и принадлежащие издателю. Фото и материалы третьих лиц не используются.", "Animaciones de los ejercicios: figuras 3D originales creadas para este proyecto y propiedad del editor. No se incluyen fotos ni medios de terceros."],
+  "about.media": ["Exercise animations: original cartoon-style drawings made for this project and owned by the publisher. No third-party photos or media are included.", "אנימציות התרגילים: איורים מקוריים בסגנון קריקטורה שנוצרו לפרויקט הזה ושייכים למפרסם. לא נכללים תמונות או מדיה של צד שלישי.", "رسوم التمارين المتحرّكة: رسومات أصلية بأسلوب الكرتون أُنشئت لهذا المشروع ويملكها الناشر. لا تتضمّن الأداة صورًا أو وسائط من أطراف ثالثة.", "Анимации упражнений: оригинальные рисунки в мультяшном стиле, созданные для этого проекта и принадлежащие издателю. Фото и материалы третьих лиц не используются.", "Animaciones de los ejercicios: dibujos originales de estilo animado creados para este proyecto y propiedad del editor. No se incluyen fotos ni medios de terceros."],
   "about.safety": ["The teacher supervises at all times. The exercises and volumes are suggestions, not medical or training advice: adapt them to each student's ability, allow rest, and stop an exercise if there is pain or dizziness.", "המורה משגיח/ה כל הזמן. התרגילים והמינונים הם הצעות, לא ייעוץ רפואי או אימוני: התאימו אותם ליכולת של כל תלמיד/ה, אפשרו מנוחה, והפסיקו תרגיל אם יש כאב או סחרחורת.", "يشرف المعلّم طوال الوقت. التمارين والجرعات اقتراحات وليست نصيحة طبية أو تدريبية: كيِّفوها وفق قدرة كل طالب، واسمحوا بالراحة، وأوقفوا التمرين عند الشعور بألم أو دوار.", "Учитель всё время наблюдает за занятием. Упражнения и дозировки — это предложения, а не медицинские или тренировочные рекомендации: адаптируйте их к возможностям каждого ученика, давайте отдых и прекращайте упражнение при боли или головокружении.", "El docente supervisa en todo momento. Los ejercicios y volúmenes son sugerencias, no consejos médicos ni de entrenamiento: adáptalos a la capacidad de cada alumno, permite descansos y detén el ejercicio si hay dolor o mareo."],
   "about.offline": ["Works without an internet connection once the file is open. Keep the media folder next to this file.", "עובד בלי חיבור לאינטרנט אחרי שהקובץ נפתח. השאירו את תיקיית media ליד הקובץ.", "يعمل دون اتصال بالإنترنت بعد فتح الملف. أبقِ مجلد media بجانب هذا الملف.", "После открытия файла работает без интернета. Храните папку media рядом с этим файлом.", "Funciona sin conexión a internet una vez abierto el archivo. Mantén la carpeta media junto a este archivo."],
   "about.i18nH": ["Translations", "תרגומים", "الترجمات", "Переводы", "Traducciones"],
   "about.i18n": ["Translations were produced with AI. The professional content is accurate and was reviewed by several teachers and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology errors are possible.", "התרגומים הופקו בעזרת בינה מלאכותית. התוכן המקצועי מדויק, נבדק על ידי כמה מורים ונבחן מול תוכניות הלימודים של משרד החינוך מכל הכיוונים; ייתכנו טעויות קטנות בהגהה, בתחביר או במינוח.", "أُنتجت الترجمات بمساعدة الذكاء الاصطناعي. المحتوى المهني دقيق، وقد راجعه عدد من المعلمين وتمت مطابقته مع مناهج وزارة التربية والتعليم من جميع الجوانب؛ قد توجد أخطاء صغيرة في التدقيق اللغوي أو الصياغة أو المصطلحات.", "Переводы выполнены с помощью ИИ. Профессиональное содержание точное: его проверили несколько учителей и всесторонне сверили с учебными программами Министерства образования; возможны небольшие ошибки корректуры, синтаксиса или терминологии.", "Las traducciones se han hecho con IA. El contenido profesional es correcto: lo revisaron varios docentes y se contrastó desde todos los ángulos con los currículos del Ministerio de Educación; puede haber pequeños errores de corrección, sintaxis o terminología."]
 };
 
-/* Exercises whose app figure shows a DIFFERENT movement: shipped without media (placeholder). */
-const NO_MEDIA = {
-  gluteb: "the app reuses the deep-squat figure (standing) for a glute bridge (lying)",
-  rtwist: "the app reuses the bicycle-crunch figure (lying) for a seated Russian twist"
-};
+/* Media is keyed by exercise id (one cartoon animation per exercise, store-content/exercise-anim). */
 const EQ = { "בלי ציוד": "none", "ספסל": "bench", "משקולות יד": "dumbbells", "גומיית התנגדות": "band", "מוט מתח": "bar", "קטלבל": "kettlebell" };
 const PRESET_IDS = { "טבאטה": "tabata", "HIIT כיתתי": "hiit", "EMOM 10": "emom", "כוח 3 סטים": "strength", "זריז": "quick" };
 
@@ -184,14 +180,14 @@ function build(root) {
     }
     if (!EQ[e.eq]) throw new Error("unknown equipment " + e.eq);
     return {
-      id: e.id, grp: e.grp, eq: EQ[e.eq], fig: NO_MEDIA[e.id] ? null : e.fig, appFig: e.fig,
+      id: e.id, grp: e.grp, eq: EQ[e.eq],
       name: fromApp(T, e.name), mus: fromApp(T, e.mus),
       cues: e.cues.map(c => fromApp(T, c)), mis: e.mis.map(c => fromApp(T, c)), reps
     };
   });
   const presets = PRESETS.map(p => ({ id: PRESET_IDS[p.name], sub: p.sub, w: p.w, r: p.r, n: p.n, s: p.s, sr: p.sr }));
   if (presets.some(p => !p.id)) throw new Error("unknown preset name");
-  return { version: VERSION, langs: ["en", "he", "ar", "ru", "es"], i18n, source, units, eq, presets, exercises, noMedia: NO_MEDIA };
+  return { version: VERSION, langs: ["en", "he", "ar", "ru", "es"], i18n, source, units, eq, presets, exercises };
 }
 
 function render(data) {
@@ -212,4 +208,4 @@ if (require.main === module) {
     console.log("wrote data block: " + data.exercises.length + " exercises, " + Object.keys(data.i18n).length + " UI strings");
   }
 }
-module.exports = { build, render, lookup, splitTerm, loadTerms, sliceFit, literalAfter, appBuildPhases, ROOT, HTML, NO_MEDIA, NEW, CHANGED, UI_FROM_APP };
+module.exports = { build, render, lookup, splitTerm, loadTerms, sliceFit, literalAfter, appBuildPhases, ROOT, HTML, NEW, CHANGED, UI_FROM_APP };
