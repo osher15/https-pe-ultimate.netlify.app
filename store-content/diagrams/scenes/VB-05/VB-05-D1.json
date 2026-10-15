@@ -1,0 +1,104 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "VB-05-D1",
+  "family": "VB-05",
+  "sport": "volleyball",
+  "template": "vb-full",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "in triads a feeder tosses, the first player forearm-passes to the setter, the setter sets, and the third player sends the ball over a low rope with a controlled contact."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Receive–set–send",
+    "he": "קבלה, הכנה והעברה מעבר לרשת",
+    "ar": "استقبال وإعداد وإرسال فوق الشبكة",
+    "ru": "Приём, передача и отправка через сетку",
+    "es": "Recepción, colocación y envío sobre la red"
+  },
+  "alt": {
+    "en": "On the left side of the net, the receiver passes to the setter in target zone T, then the sender places the ball across the net to open floor. Initial feeder toss not shown.",
+    "he": "בצד שמאל של הרשת A1 מקבל ומוסר לאזור T של המגיש A2, שמכין כדור ל־A3. A3 מעביר בעדינות לשטח פנוי מעבר לרשת. זריקת ההזנה הראשונה אינה מסומנת; קוראים לפני כל נגיעה.",
+    "ar": "على يسار الشبكة يستقبل A1 ويمرر إلى المعد A2 في المنطقة T، ثم يعد A2 الكرة لـA3 الذي يرسلها بهدوء إلى مساحة خالية. رمية التغذية الأولى غير مرسومة؛ ينادي اللاعب قبل اللمس.",
+    "ru": "Слева от сетки A1 принимает мяч в зону T к связующему A2. A2 передаёт A3, который направляет мяч на свободное место за сеткой. Начальный наброс не показан; перед касанием нужен голосовой сигнал.",
+    "es": "A la izquierda de la red, A1 recibe hacia A2 en la zona T; A2 coloca para A3, que envía suavemente al espacio libre al otro lado. No se muestra el lanzamiento inicial; avisar antes de tocar."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 15,
+      "y": 65
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 35,
+      "y": 42
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 40,
+      "y": 18
+    },
+    {
+      "type": "ball",
+      "x": 18,
+      "y": 66
+    },
+    {
+      "type": "zone",
+      "x": 30,
+      "y": 33,
+      "w": 14,
+      "h": 17,
+      "label": "T"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        15,
+        65
+      ],
+      "to": [
+        35,
+        42
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        35,
+        42
+      ],
+      "to": [
+        40,
+        18
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        40,
+        18
+      ],
+      "to": [
+        74,
+        18
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "Call before each contact; avoid crossing under the net or chasing balls into adjacent courts.",
+  "notes": "Three distinct roles, target zone and final ball path.",
+  "status": "draft"
+}

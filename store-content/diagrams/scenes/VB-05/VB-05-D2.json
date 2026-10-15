@@ -1,0 +1,125 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "VB-05-D2",
+  "family": "VB-05",
+  "sport": "volleyball",
+  "template": "vb-full",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "teams of three must use all three contacts before sending the ball over a low rope to a receiving trio, who do the same."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Three contacts on both sides",
+    "he": "שלוש נגיעות משני צדי הרשת",
+    "ar": "ثلاث لمسات على جانبي الشبكة",
+    "ru": "Три касания по обе стороны сетки",
+    "es": "Tres toques a ambos lados de la red"
+  },
+  "alt": {
+    "en": "Three players on each side of the net; team A receives, sets in target zone T and sends to team B, which repeats the three-contact sequence.",
+    "he": "שלושה שחקנים בכל צד. A1 מקבל, A2 מכין באזור T ו־A3 מעביר לצד B. הקבוצה השנייה מחזירה באותו רצף; לאחר כל נגיעה חוזרים לעמדת בסיס ואין חוצים מתחת לרשת.",
+    "ar": "ثلاثة لاعبين في كل جهة. يستقبل A1 ثم يعد A2 في المنطقة T ويرسل A3 إلى فريق B الذي يكرر التسلسل. يعود الجميع إلى مواقعهم ولا يعبرون تحت الشبكة.",
+    "ru": "По три игрока с каждой стороны: A1 принимает, A2 пасует в зоне T, A3 отправляет мяч команде B, которая повторяет последовательность. Игроки возвращаются на позиции, не проходят под сеткой.",
+    "es": "Tres jugadores por lado: A1 recibe, A2 coloca en la zona T y A3 envía al equipo B, que repite la secuencia. Cada uno vuelve a su posición y nadie cruza por debajo de la red."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 12,
+      "y": 74
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 36,
+      "y": 46
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 38,
+      "y": 18
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 83,
+      "y": 26
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 2,
+      "x": 66,
+      "y": 49
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 3,
+      "x": 85,
+      "y": 76
+    },
+    {
+      "type": "ball",
+      "x": 15,
+      "y": 75
+    },
+    {
+      "type": "zone",
+      "x": 28,
+      "y": 36,
+      "w": 18,
+      "h": 17,
+      "label": "T"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        12,
+        74
+      ],
+      "to": [
+        36,
+        46
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        36,
+        46
+      ],
+      "to": [
+        38,
+        18
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        38,
+        18
+      ],
+      "to": [
+        83,
+        26
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "Stay on your own side of the rope; dropped balls restart with a toss, without scoring.",
+  "notes": "Shows progression from uncontested practice to two trios.",
+  "status": "draft"
+}
