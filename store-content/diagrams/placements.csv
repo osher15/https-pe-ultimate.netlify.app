@@ -29,3 +29,4 @@ BB-10,BB-10-D1,mainA,1,bb-half,representative,"One permissible action order, not
 BB-10,BB-10-D2,mainB,1,bb-half,representative,Three attackers against two defenders with two support points.,
 BB-05,BB-05-D1,warmup,1,open-area,representative,Illustrates the explicitly stated warm-up with one free cone.,
 BB-05,BB-05-D2,mainB,1,open-area,representative,Illustrates three attackers and one shadow defender.,
+BB-05,,mainA,1,,none,Not drawn because the source description of the three-cone setup is contradictory.,"The Main A instructions describe three cones while also requiring an empty cone. Which cone is meant to remain empty, and how should the three cones be occupied? Clarify the intended setup before drawing."
