@@ -19,11 +19,11 @@
     "es": "Carriles de bote en un sentido"
   },
   "alt": {
-    "en": "Three parallel one-way lanes. A1 dribbles along the upper lane and catches the ball at its end. A2 and A3 wait in separate lanes; W marks the waiting area behind the start. Cones separate the lanes.",
-    "he": "שלושה נתיבים מקבילים בכיוון אחד. A1 מכדרר בנתיב העליון ואוסף את הכדור בסופו. A2 ו־A3 ממתינים בנתיבים נפרדים. W מסמן המתנה מאחורי קו ההתחלה.",
-    "ar": "ثلاثة مسارات متوازية باتجاه واحد. ينطط A1 الكرة في المسار العلوي ويمسكها عند النهاية. ينتظر A2 وA3 في مسارين منفصلين، وتشير W إلى منطقة الانتظار خلف البداية.",
-    "ru": "Три параллельные дорожки в одном направлении. A1 ведёт мяч по верхней и ловит его в конце. A2 и A3 ждут в отдельных дорожках; W обозначает зону ожидания за стартом.",
-    "es": "Tres carriles paralelos de sentido único. A1 bota por el carril superior y recoge el balón al final. A2 y A3 esperan en carriles separados; W marca la espera detrás de la salida."
+    "en": "Three parallel one-way lanes. A1 dribbles along the upper lane and catches the ball at its end. A2 and A3 move separately in the middle and lower lanes; W is the waiting area behind the start. Cones separate the lanes.",
+    "he": "שלושה נתיבים מקבילים בכיוון אחד. A1 מכדרר בנתיב העליון ואוסף את הכדור בסופו. A2 ו־A3 נעים בנתיבים האמצעי והתחתון בנפרד. W מסמן המתנה מאחורי קו ההתחלה.",
+    "ar": "ثلاثة مسارات متوازية باتجاه واحد. ينطط A1 الكرة في المسار العلوي ويمسكها عند النهاية. يتحرك A2 وA3 في المسارين الأوسط والسفلي كلٌّ على حدة؛ W منطقة الانتظار خلف البداية.",
+    "ru": "Три параллельные дорожки в одном направлении. A1 ведёт мяч по верхней и ловит его в конце. A2 и A3 движутся по средней и нижней дорожкам отдельно; W — зона ожидания за стартом.",
+    "es": "Tres carriles paralelos de sentido único. A1 bota por el carril superior y recoge el balón al final. A2 y A3 avanzan por los carriles central e inferior por separado; W marca la espera detrás de la salida."
   },
   "objects": [
     {
