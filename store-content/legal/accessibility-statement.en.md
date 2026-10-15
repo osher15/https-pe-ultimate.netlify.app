@@ -1,5 +1,5 @@
 > **Draft for lawyer review — not legal advice.**
-> Version 0.1 (draft template) · 2026-10-15 · Last updated: {{STATEMENT_DATE}}
+> Version 0.2 (draft template) · 2026-10-15 · Last updated: {{STATEMENT_DATE}}
 
 # Accessibility Statement — {{STORE_NAME}}
 

@@ -1,5 +1,5 @@
 > **Draft for lawyer review — not legal advice.**
-> Version 0.1 (draft) · 2026-10-15
+> Version 0.2 (draft) · 2026-10-15
 
 # Content and Translation Notice
 
@@ -8,12 +8,17 @@ Use in each product's About panel or first page, and on the store's product page
 ## 1. Translations (owner's wording)
 
 > Translations were produced with AI. The professional content is accurate and was reviewed by several teachers
-> and checked against Ministry of Education curricula; small proofreading, syntax or terminology errors are
-> possible.
+> and checked against Ministry of Education curricula from all angles; small proofreading, syntax or terminology
+> errors are possible.
 
-*Note: this is the owner's own statement. The products' About panels currently add "from all angles" after
-"curricula"; align the products and this text before release. Do not shorten it to "Ministry-approved" or
-"professionally translated".*
+*Note: this is the owner's own statement, worded exactly as in the tools' About panels. Do not shorten it to
+"Ministry-approved" or "professionally translated".*
+
+## 1a. Recommendations only
+
+> All content, drills, games, lesson plans and fitness tests are recommendations only. The teacher or user decides
+> whether and how to use them and must adapt every activity — including fitness tests such as the 20 m shuttle
+> run — to the pupils' age, health and ability and to the environment.
 
 ## 2. AI assistance
 

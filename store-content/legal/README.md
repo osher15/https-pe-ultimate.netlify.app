@@ -1,6 +1,6 @@
 # Legal texts for the PE Tools Store (task C12) — drafts
 
-> **Draft for lawyer review — not legal advice.** Version 0.1 · 2026-10-15. Nothing here is approved for
+> **Draft for lawyer review — not legal advice.** Version 0.2 · 2026-10-15. Nothing here is approved for
 > publication. Placeholders are in `{{CURLY_CAPS}}`; text marked *[to confirm]* / *[לבדיקת עו"ד]* needs a
 > lawyer or accountant.
 
@@ -11,7 +11,7 @@ Each document has a Hebrew (`.he.md`) and an English (`.en.md`) version with the
 | Document | Purpose |
 |---|---|
 | `terms-of-sale` | Terms of Sale and Licence: MoR role, Single-Teacher and School licences, permitted/forbidden use, delivery, updates, statutory rights, liability (with carve-outs), governing law, severability, contact |
-| `refund-policy` | Goodwill policy, faulty products, Israel, EU/UK, rest of world; Annex A exact waiver checkbox; Annex B exact durable-medium confirmation e-mail |
+| `refund-policy` | Final once downloaded, with exceptions (duplicate, not downloaded, billing error, faulty, wrong licence), 30-day window; EU/UK 14-day right, Israel, rest of world; Annex A exact waiver checkbox; Annex B exact durable-medium confirmation e-mail |
 | `privacy-policy` | Part A store via {{MOR_NAME}}; Part B offline tools (keys, location, deletion); rights (GDPR, Israel incl. Amendment 13); children |
 | `safety-disclaimer` | Short embeddable texts: general/lesson packs, Shuttle Run (incl. 15 m adapted course), Interval Trainer, footer line |
 | `accessibility-statement` | Template with Israeli fields as placeholders; exemption unverified |
@@ -22,7 +22,11 @@ Each document has a Hebrew (`.he.md`) and an English (`.en.md`) version with the
 
 ## Status
 
-- All files: **draft 0.1**, not reviewed by a lawyer or accountant.
+- All files: **draft 0.2**, not reviewed by a lawyer or accountant.
+- Owner decisions of 2026-10-15 applied in v0.2: "recommendations only — the teacher decides and adapts"
+  responsibility clause (terms §7, safety §0, content notice §1a), with the statutory liability carve-outs kept;
+  refund policy replaced (goodwill policy withdrawn); licence details (colleagues, substitutes, campus, licence
+  record, free updates); translation notice aligned to the tools' wording.
 - MoR not chosen; seller details, prices, URLs and governing-law city are placeholders.
 - The coordinator's review of an earlier Gemini draft (2026-10-15) was applied: "as is" subject to statutory
   rights; liability cap carve-outs; MoR vs licensor roles; no implied waiver; no "all sales final"; privacy
@@ -49,6 +53,14 @@ Israeli Consumer Protection Law 5741-1981; Cancellation of Transaction Regulatio
 5755-1995; Privacy Protection Law 5741-1981 and Amendment 13; Standard Contracts Law 5743-1982; Equal Rights for
 Persons with Disabilities Law and Service Accessibility Regulations 5773-2013; IS 5568; Copyright Law 2007;
 Léger et al., J Sports Sci 1988;6(2):93–101 (PubMed 3184250).
+
+Sources provided by the owner/coordinator as the basis for the refund and licence decisions (majority practice
+of teacher-resource stores; **not opened by Claude for this task**):
+- What I Have Learned — <https://whatihavelearnedteaching.com/refund-policy/>
+- TeachThought — <https://www.teachthought.com/policies/refund-policy/>
+- Aussie Animals Education — <https://edu.aussieanimals.com/refund-policy/>
+- The Southern Teach — <https://thesouthernteach.com/refund_returns/>
+- Alexandria City Public Schools (TpT individual-use / multiple-licence note) — <https://www.alexschools.org/Page/7263>
 
 ## Verified vs unverified
 
