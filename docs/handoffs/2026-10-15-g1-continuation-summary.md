@@ -7,3 +7,5 @@ New source-fidelity sample: 10 of 10 full lesson bodies match Notion (EN BB-01/F
 GitHub blocked further activity writes. Full Node validation and manifest generation are pending because a local checkout is unavailable. G2b basketball remains gated; no app code, main, deploy, merge or Notion edits.
 
 Blocked create-file attempts (Notion reads succeeded): HE DR-035, DR-036, DR-037, DR-038, DR-054, DR-059, DR-074; RU DR-035 and GM-010; AR DR-042 and GM-002; ES DR-036 and DR-006. No export was claimed for these. The earlier 112 remaining activities are unchanged by these attempts.
+
+All 300 expected lesson paths were independently enumerated from the full Git tree: 0 missing, 0 extra lesson Markdown files, 0 duplicate Git blob SHAs, 0 files under 1,200 bytes (minimum 6,701 bytes). This is a structural inventory only; the full Node checker and all-page Notion fidelity gate are still pending.
