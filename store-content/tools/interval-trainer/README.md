@@ -5,27 +5,43 @@ module `FIT` in `hm-app.js` ("מודול 4"). It has four tabs: interval timer w
 stations (circuit generator), a 47-exercise library and the fitness dice. It works offline, with no
 account, no student data, no class roster and no grades. It is **not connected** to the main app.
 No app file, `exercise-gifs/`, `prototypes/`, test, workflow, `package.json` or generated output was
-changed.
+changed. (C20, 2026-10-15: the rig GIFs were replaced by the cartoon animations and a single-file build.)
 
 ## Run
 
-Open `interval-trainer.html` in a modern browser. Keep the `media/` folder next to it. If the folder
-is missing, every exercise shows a neutral placeholder instead of its animation. The page makes no
-network request. A Content-Security-Policy meta tag allows only inline code and local images.
+Send or open **`interval-trainer.single.html`**: one self-contained file (1,827,001 B). No sibling
+folder, no network. All 47 exercise animations and their still images are embedded as SVG and shown
+through `data:` URIs. The Content-Security-Policy meta tag allows only inline code and `data:` images.
+
+`interval-trainer.html` is the readable **source of truth**. Opened inside a checkout it loads the same
+SVGs from `store-content/exercise-anim/out/`; sent alone it shows placeholders. Do not hand edit the
+single file. Edit the source and rebuild:
+
+```sh
+node store-content/tools/interval-trainer/tools/build-single-file.cjs          # writes interval-trainer.single.html
+node store-content/tools/interval-trainer/tools/build-single-file.cjs --check  # exit 1 if the file is stale
+```
+
+The build is deterministic (no timestamp, fixed order, SVG bytes embedded unchanged), so a second run
+gives a byte-identical file. It stops if an exercise has no animation or still, or if an SVG differs from
+the SHA-256 in `exercise-anim/out/manifest.json`.
 
 ## Files
 
 | Path | Size | What |
 |---|---|---|
-| `interval-trainer.html` | 142,934 B | The whole app: CSS, data block, engine, UI |
-| `media/*.gif` | 37 files, 5,227,644 B | Project-owned rig animations, byte-identical copies of `exercise-gifs/rig/` |
+| `interval-trainer.single.html` | 1,827,001 B | **Deliverable.** Generated: source + 47 animated SVGs + 47 stills, CSP `img-src data:` |
+| `interval-trainer.html` | 165,722 B | Source: CSS, data block, engine, UI. `window.PE_IT_ANIM` is `null` here |
+| `tools/build-single-file.cjs` | — | Builds the single file; `--check` |
 | `tools/extract-app-data.cjs` | — | Rebuilds the data block from `hm-app.js` + `hm-terms.js` + `hm-texts.js` (read-only); `--check` exits 1 if stale |
 | `checks/*.test.cjs` (+ `index.js`, `_load.cjs`) | — | Node checks |
-| `checks/browser.cjs` | — | Headless Chromium pass |
+| `checks/browser.cjs` | — | Headless Chromium pass (runs the single file, copied alone into a temp folder) |
 | `shots/*.png` | 6 small PNGs | Screenshots from the browser pass (downscaled) |
 
-Total package (HTML + media): about 5.37 MB. **A single-file build is not offered.** The media as
-base64 would add 6,970,232 B, about 7.1 MB in total, which is over the ~4 MB target.
+The old `media/` folder (37 rig GIFs, 5.2 MB) is removed from the tool directory. Nothing referenced
+it any more (the page, the checks and the README were switched to the animations, and a repository
+search found no other reference). Git history keeps the files, and `exercise-gifs/rig/` in the app is
+untouched.
 
 ## Features and behaviour
 
@@ -69,29 +85,17 @@ base64 would add 6,970,232 B, about 7.1 MB in total, which is over the ~4 MB tar
 
 ## Media
 
-Owner decision: use only the project-owned rig GIFs (`exercise-gifs/rig/`, see `exercise-gifs/CREDITS.md`).
-**All five Wikimedia/CDC photos in `exercise-gifs/photo/` are excluded.** The app shows those photos
-only in the detail view of lunge, pike push-ups, burpee, jumping jack and high knees. Each of these
-exercises also has its own rig GIF, so all five keep media here. The check
-`media-coupling.test.cjs` compares SHA-256 hashes. Every file in `media/` must equal its
-`exercise-gifs/rig/` source and none of the excluded photos. The file names alone are not enough,
-because `rig/` and `photo/` both contain `lunge.gif` and others.
+Source: `store-content/exercise-anim/` (task C10), own cartoon drawings with no third-party material,
+keyed by **exercise id**: `out/svg/<id>.svg` (animated) and `out/still/<id>.svg`. All 47 exercises of
+the app's `EX` list have both, so there are no placeholders and no gaps (the former `gluteb` and
+`rtwist` gaps and the four approximate figures `wall`, `skip`, `hollow`, `inchworm` now have their own
+animations). The Wikimedia/CDC photos are not used.
 
-### Media to be drawn (shipped with a neutral placeholder)
-
-No exercise relied only on an excluded photo. Two exercises are shipped **without media** because the
-app reuses a figure that shows a *different* movement:
-
-- `gluteb` (glute bridge): the app shows the deep-squat figure (standing) for a lying bridge.
-- `rtwist` (Russian twist): the app shows the bicycle-crunch figure (lying) for a seated twist.
-
-### Shared figures to review (kept: same movement family)
-
-These exercises reuse another exercise's rig figure, as in the app: `pushincline`→push, `wall`→squat
-(no wall shown), `singleleg`→hinge, `inchworm`→pike (approximate), `skip`→jumping jack (approximate),
-`hollow`→sit-up (approximate), `deepsquathold`→deepsquat, `gsquat`→squat (no weight shown),
-`rdl`→hinge, `latpull` and `pullup`→pulldown. Drawing dedicated figures for `wall`, `skip`, `hollow`
-and `inchworm` would improve accuracy.
+- Thumbnails (library grid, station list) use the **still** image. 47 running animations at once would
+  cost CPU and battery.
+- Detail dialog, running station and fitness dice use the **animated** SVG inside a `<picture>` whose
+  `prefers-reduced-motion: reduce` source is the still, so the switch follows the setting live.
+- An image that cannot be shown falls back to the neutral placeholder.
 
 ## Translations
 
@@ -124,11 +128,22 @@ legal approval.
 ```sh
 node --test store-content/tools/interval-trainer/checks/
 node store-content/tools/interval-trainer/tools/extract-app-data.cjs --check
+node store-content/tools/interval-trainer/tools/build-single-file.cjs --check
 NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
   node store-content/tools/interval-trainer/checks/browser.cjs      # SHOTS_DIR=… for screenshots
 ```
 
-- **Node checks (29):**
+- **Animation checks (`animation.test.cjs`):** the trainer's 47 ids equal the app `EX` list and
+  `exercise-anim/library.json`; every id has an animated SVG and a still whose SHA-256 matches
+  `manifest.json`; the single file embeds all of them unchanged (animated ones contain `<animate>`,
+  stills do not); size < 2.5 MB; two builds are byte-identical and equal to the committed file; the
+  single file equals the source plus the animation block and `img-src data:`; no network, app or
+  old-media strings; the SVGs load nothing.
+- **Browser, new in C20:** all 47 detail images render and really move (3 frames differ); the same under
+  `prefers-reduced-motion` (still, 3 identical frames); 47 still thumbnails; network blocked (every
+  non-`file://` request aborted, zero attempts); the page is the only request; the file runs alone in
+  an empty temp folder.
+- **Node checks (earlier):**
   - Every preset matches the app's `buildPhases` phase by phase. The checks cover the totals, the
     work/rest counts and custom cases.
   - Runner: pause, resume and skip, including skip while paused.
@@ -153,7 +168,7 @@ NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers
   - Hebrew set labels and Stop.
   - A station run with skip to the end, the current station highlighted and its figure shown.
   - Gym display mode and Esc.
-  - The library: 45 images load from `media/`, plus 2 placeholders and the dialog.
+  - The library: 47 stills load from the embedded data, no placeholders, and the dialog.
   - The dice in Arabic.
   - Reload persistence of language, work time, sound, tab and station list, with only the own key
     used.

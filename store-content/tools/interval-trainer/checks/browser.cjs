@@ -6,6 +6,9 @@
  *
  *   NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
  *     node store-content/tools/interval-trainer/checks/browser.cjs
+ * Runs against the built single file (interval-trainer.single.html), copied ALONE into a fresh temp
+ * folder, so a hidden dependency on a sibling file (media/, exercise-anim/) cannot go unnoticed.
+ * Build it first: node store-content/tools/interval-trainer/tools/build-single-file.cjs
  * Options: SHOTS_DIR (default <os tmp>/interval-trainer-shots), TOOL_DIR (run against a copy).
  * Exit code 1 if any check fails.
  */
@@ -21,7 +24,9 @@ function loadPlaywright() {
 }
 const { chromium } = loadPlaywright();
 const TOOL = process.env.TOOL_DIR ? path.resolve(process.env.TOOL_DIR) : path.resolve(__dirname, '..');
-const URL_ = pathToFileURL(path.join(TOOL, 'interval-trainer.html')).href;
+const ISOLATED = fs.mkdtempSync(path.join(os.tmpdir(), 'interval-trainer-single-'));
+fs.copyFileSync(path.join(TOOL, 'interval-trainer.single.html'), path.join(ISOLATED, 'interval-trainer.single.html'));
+const URL_ = pathToFileURL(path.join(ISOLATED, 'interval-trainer.single.html')).href;
 const SHOTS = process.env.SHOTS_DIR || path.join(os.tmpdir(), 'interval-trainer-shots');
 fs.mkdirSync(SHOTS, { recursive: true });
 
@@ -53,8 +58,10 @@ async function newPage(browser, vp, opts = {}) {
   await ctx.addInitScript(INIT);
   if (opts.blockStorage) await ctx.addInitScript(BLOCK_STORAGE);
   if (opts.offline) await ctx.setOffline(true);
+  if (opts.block) { ctx.__blocked = []; await ctx.route('**/*', r => { const u = r.request().url(); if (u.startsWith('file://')) return r.continue(); ctx.__blocked.push(u); return r.abort(); }); }
   const page = await ctx.newPage(); page.setDefaultTimeout(8000);
-  page.__requests = []; page.__errors = [];
+  if (opts.reduced) await page.emulateMedia({ reducedMotion: 'reduce' });
+  page.__requests = []; page.__errors = []; page.__ctx = ctx;
   page.on('request', r => page.__requests.push(r.url()));
   page.on('pageerror', e => page.__errors.push(String(e)));
   page.on('console', m => { if (m.type() === 'error') page.__errors.push(m.text()); });
@@ -171,23 +178,63 @@ async function waitFor(page, fn, arg, ms = 15000) { await page.waitForFunction(f
   });
 
   /* 5. Library + dice */
-  await check('library: every figure loads from media/, placeholders for no-media exercises, detail dialog', async () => {
+  const decode = src => decodeURIComponent(src.slice(src.indexOf(',') + 1));
+  const settle = (page, sel) => page.evaluate(s => Promise.all([...document.querySelectorAll(s)].map(i => { i.loading = 'eager'; return i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }); })), sel);
+  await check('library: 47 still thumbnails from embedded data: URIs, no placeholders, detail dialog with animated picture', async () => {
     const { ctx, page } = await newPage(browser, VIEWPORTS[1]);
     await page.click('[data-tab="lib"]');
-    await page.evaluate(() => Promise.all([...document.querySelectorAll('#l-grid img')].map(i => { i.loading = 'eager'; return i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }); })));
-    const m = await page.evaluate(() => ({ imgs: [...document.querySelectorAll('#l-grid img')].map(i => [i.getAttribute('src'), i.naturalWidth]), ph: document.querySelectorAll('#l-grid .ph-img').length, cards: document.querySelectorAll('#l-grid .ex').length }));
+    await settle(page, '#l-grid img');
+    const m = await page.evaluate(() => ({ imgs: [...document.querySelectorAll('#l-grid img')].map(i => [i.currentSrc, i.naturalWidth]), ph: document.querySelectorAll('#l-grid .ph-img').length, cards: document.querySelectorAll('#l-grid .ex').length }));
     assert(m.cards === 47, 'cards ' + m.cards);
-    assert(m.ph === 2, 'placeholders ' + m.ph);
-    const bad = m.imgs.filter(([s, w]) => !w || !/^media\/[a-z0-9]+\.gif$/.test(s)); assert(!bad.length, 'broken ' + JSON.stringify(bad));
+    assert(m.ph === 0, 'placeholders ' + m.ph);
+    assert(m.imgs.length === 47, 'images ' + m.imgs.length);
+    const bad = m.imgs.filter(([s, w]) => !w || !/^data:image\/svg\+xml/.test(s) || /<animate/.test(decode(s))); assert(!bad.length, 'broken or animated thumbnails ' + bad.length);
     await page.click('#l-grid [data-id="squat"]');
     assert(await page.evaluate(() => document.querySelector('#ex-dlg').open), 'dialog open');
     assert((await page.textContent('#ex-body')).includes('Recommended volume'), 'dose section');
+    assert(await page.locator('#ex-body picture source[media="(prefers-reduced-motion: reduce)"]').count() === 1, 'picture with reduced-motion source');
     await page.screenshot({ path: path.join(SHOTS, 'lib-dialog-390-en.png') });
     await page.click('#ex-dlg [data-close]');
     await page.click('#l-grid [data-id="gluteb"]');
-    assert(await page.locator('#ex-body .ph-img').count() === 1, 'placeholder in dialog');
+    assert(await page.locator('#ex-body .ph-img').count() === 0, 'glute bridge now has an animation, no placeholder');
+    assert(await page.locator('#ex-body img').count() === 1, 'glute bridge image');
     await ctx.close();
   });
+
+  /* every exercise: the detail image is a data: SVG that really moves (frames differ over time), or, with
+     prefers-reduced-motion, the still (frames identical, no <animate> in the shown source). */
+  const ALL_IDS = ['squat','push','pushincline','lunge','wall','gluteb','stepup','dip','pike','calf','bearcrawl','singleleg','inchworm','jack','climber','knees','burpee','skip','buttkick','skater','plank','splank','situp','bicycle','superman','deadbug','birddog','rtwist','hollow','catcow','hip90','worldgreat','thoracic','deepsquathold','anklerock','shouldercar','gsquat','dbrow','dbpress','rdl','latpull','pullup','curl','tripush','kbswing','carry','bench'];
+  async function frames(page, n) {
+    const out = [];
+    for (let k = 0; k < n; k++) { out.push((await page.locator('#ex-body img').screenshot()).toString('base64')); await sleep(330); }
+    return out;
+  }
+  for (const mode of ['animated', 'reduced']) {
+    await check('all 47 exercises: detail image ' + (mode === 'animated' ? 'is an animated embedded SVG that moves' : 'falls back to the still under prefers-reduced-motion'), async () => {
+      const { ctx, page } = await newPage(browser, VIEWPORTS[1], { reduced: mode === 'reduced' });
+      assert(await page.evaluate(() => Object.keys(window.PE_IT_ANIM).length) === 47, 'embedded map has 47 entries');
+      const ids = await page.evaluate(() => window.PE_IT_DATA.exercises.map(e => e.id));
+      assert(JSON.stringify(ids) === JSON.stringify(ALL_IDS), 'exercise ids changed: update ALL_IDS');
+      await page.click('[data-tab="lib"]');
+      assert(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches) === (mode === 'reduced'), 'media emulation');
+      const failures = [];
+      for (const id of ALL_IDS) {
+        await page.click('#l-grid [data-id="' + id + '"]');
+        await settle(page, '#ex-body img');
+        const info = await page.evaluate(() => { const i = document.querySelector('#ex-body img'); return i ? { src: i.currentSrc, w: i.naturalWidth, h: i.naturalHeight, ph: document.querySelectorAll('#ex-body .ph-img').length } : null; });
+        if (!info || !info.w || !info.h || info.ph || !/^data:image\/svg\+xml/.test(info.src)) { failures.push(id + ': not rendered'); await page.click('#ex-dlg [data-close]'); continue; }
+        const svg = decode(info.src), animated = /<animate/.test(svg);
+        if (animated !== (mode === 'animated')) failures.push(id + ': shown source ' + (animated ? 'animated' : 'still') + ' in ' + mode + ' mode');
+        const f = await frames(page, 3), distinct = new Set(f).size;
+        if (mode === 'animated' && distinct < 2) failures.push(id + ': animation does not move (' + distinct + ' distinct frames)');
+        if (mode === 'reduced' && distinct !== 1) failures.push(id + ': still changes (' + distinct + ' frames)');
+        await page.click('#ex-dlg [data-close]');
+      }
+      assert(!failures.length, failures.join(' | '));
+      assert(page.__errors.length === 0, page.__errors.join(' | '));
+      await ctx.close();
+    });
+  }
 
   await check('dice: roll shows exercise and amount; audio created by the roll gesture', async () => {
     const { ctx, page } = await newPage(browser, VIEWPORTS[0]);
@@ -267,8 +314,31 @@ async function waitFor(page, fn, arg, ms = 15000) { await page.waitForFunction(f
     await page.click('#ex-dlg [data-close]'); await page.click('[data-tab="dice"]'); await page.click('#roll'); await sleep(900);
     await page.click('[data-tab="timer"]'); await page.click('#t-go'); await sleep(300);
     const other = page.__requests.filter(u => !u.startsWith('file://'));
-    assert(page.__requests.length > 1, 'requests seen'); assert(!other.length, 'non-file requests: ' + other.join(', '));
+    assert(page.__requests.length >= 1, 'requests seen'); assert(!other.length, 'non-file requests: ' + other.join(', '));
+    const extra = page.__requests.filter(u => u !== URL_); assert(!extra.length, 'the page itself is the only request (single file): ' + extra.join(', '));
     assert(page.__errors.length === 0, page.__errors.join(' | '));
+    await ctx.close();
+  });
+
+  /* 9. Network blocked: every non-file:// request is aborted and counted; the whole UI still works */
+  await check('network blocked (all non-file requests aborted): zero attempts, 47 animations render, timer runs', async () => {
+    const { ctx, page } = await newPage(browser, VIEWPORTS[1], { block: true });
+    await page.click('[data-tab="lib"]'); await settle(page, '#l-grid img');
+    assert(await page.locator('#l-grid .ex img').evaluateAll(a => a.filter(i => i.naturalWidth > 0).length) === 47, '47 thumbnails decoded');
+    await page.click('#l-grid [data-id="burpee"]'); await settle(page, '#ex-body img');
+    assert(await page.evaluate(() => document.querySelector('#ex-body img').naturalWidth) > 0, 'hero decoded');
+    await page.click('#ex-dlg [data-close]');
+    await page.click('[data-tab="timer"]'); await page.click('#t-go'); await sleep(300);
+    assert(ctx.__blocked.length === 0, 'attempted network requests: ' + ctx.__blocked.join(', '));
+    assert(page.__errors.length === 0, page.__errors.join(' | '));
+    await ctx.close();
+  });
+  await check('single file: built file is alone in its folder, under 2.5 MB, CSP allows data: images only', async () => {
+    assert(JSON.stringify(fs.readdirSync(ISOLATED)) === '["interval-trainer.single.html"]', 'folder content');
+    const n = fs.statSync(path.join(ISOLATED, 'interval-trainer.single.html')).size; assert(n < 2.5 * 1024 * 1024, 'size ' + n);
+    const { ctx, page } = await newPage(browser, VIEWPORTS[1]);
+    const csp = await page.getAttribute('meta[http-equiv="Content-Security-Policy"]', 'content');
+    assert(/img-src data:;/.test(csp) && !/blob:|'self'|file:/.test(csp), csp);
     await ctx.close();
   });
 
