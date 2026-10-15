@@ -300,7 +300,7 @@ listed with each exercise.
 - Hands together in front of the chest
 - Rotate from the chest (the shoulders turn, the head follows), not only the arms
 - Light touch on the floor beside the hip, through the centre to the other side
-- *Doubt / limitation:* Front elevated view so both side touches are visible; the backward lean is foreshortened in this view.
+- *Doubt / limitation:* Seen from the front and above (60°) so the shoulders visibly swing over the hips; the backward lean is foreshortened in this view.
 - *Doubt / limitation:* Feet-up variant not shown.
 
 **Hollow hold (`hollow`, side view, 3 s; hold, stopwatch; mat).**
@@ -391,12 +391,13 @@ listed with each exercise.
 - Trunk upright, no leaning back; return slowly
 - *Doubt / limitation:* Kneeling band version under a bar; the machine version is the same movement seated.
 
-**Pull-up (band-assisted) (`pullup`, side view, 2.8 s; bar, band).**
+**Pull-up (band-assisted) (`pullup`, elevated ¾ view, 2.8 s; bar, band).**
 - Hands on the bar about shoulder width, start from straight arms
 - Pull the chest toward the bar until the chin is over it
 - No swinging or kicking; the band under the knees helps
 - Lower with control all the way to straight arms
-- *Doubt / limitation:* Band-assisted version; the band is drawn from the bar to the knees.
+- *Doubt / limitation:* Band-assisted version; the band is looped from the bar to the knees.
+- *Doubt / limitation:* Front ¾ view so the bar reads as a horizontal bar on two uprights.
 
 **Biceps curl (`curl`, side view, 2.4 s; dumbbells).**
 - Stand tall, elbows pinned to the sides of the body
