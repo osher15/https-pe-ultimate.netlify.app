@@ -24,9 +24,9 @@ close to this. The open question was a misreading, not a source error. The owner
 > farthest from the ball) swap cones: A takes the cone C just left, and C takes the cone A just left. B then passes to C and
 > cuts, and B and A swap, and so on. Reverse after four circuits.
 
-## Still to confirm before drawing
-1. Does the passer cut to the basket first and then go to the swap cone, or is the cut itself the route to the other cone?
-2. Is the basket a real hoop in the gym, or only the direction of travel?
+## Confirmed by the owner (2026-10-16)
+1. The passer first cuts toward the basket, and only then runs to the swap cone.
+2. The basket does not have to be a real hoop. It is a predefined direction of travel, usually toward a real basket.
 
 ## Next steps
 - Owner: decide whether to add the clarifying sentence in Notion (five languages).
