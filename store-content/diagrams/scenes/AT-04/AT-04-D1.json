@@ -1,0 +1,125 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "AT-04-D1",
+  "family": "AT-04",
+  "sport": "athletics",
+  "template": "at-lanes",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "four lanes, one pair active per lane, exchange zone marked at both ends, walking return outside the lanes."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Relay exchange and return",
+    "he": "מסירת מקל באזור ההחלפה וחזרה בטוחה",
+    "ar": "تسليم العصا والعودة الآمنة",
+    "ru": "Передача палочки и безопасный возврат",
+    "es": "Entrega del testigo y regreso seguro"
+  },
+  "alt": {
+    "en": "A1 and A2 exchange a baton in the first T zone of lane 1; a second T zone is marked near the finish. After clearing the lane, return along R in the top outer band without crossing any active lanes.",
+    "he": "במסלול הראשון רצים A1 ו־A2 קדימה ומעבירים מקל בתוך אזור T הראשון. אזור T נוסף מסומן בקצה המסלול. לאחר סיום רצים מחוץ למסלול וחוזרים בהליכה לאורך רצועת R העליונה, בלי לחצות מסלולים פעילים.",
+    "ar": "في الحارة الأولى يتقدم A1 وA2 ويسلمان العصا داخل منطقة T الأولى؛ منطقة T ثانية قرب النهاية. بعد الانتهاء يعودان مشياً عبر شريط R العلوي خارج الحارات دون عبور حارات نشطة.",
+    "ru": "В первой дорожке A1 и A2 движутся вперёд и передают палочку в первой зоне T; вторая зона T отмечена у конца. Обратно идут по верхней полосе R вне беговых дорожек, не пересекая их.",
+    "es": "En el primer carril A1 y A2 avanzan y entregan el testigo en la primera zona T; hay otra zona T al final. El regreso es caminando por la franja superior R, sin cruzar carriles activos."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 18,
+      "y": 20
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 42,
+      "y": 20
+    },
+    {
+      "type": "ball",
+      "x": 21,
+      "y": 17
+    },
+    {
+      "type": "zone",
+      "x": 25,
+      "y": 12,
+      "w": 24,
+      "h": 16,
+      "label": "T"
+    },
+    {
+      "type": "zone",
+      "x": 74,
+      "y": 12,
+      "w": 20,
+      "h": 16,
+      "label": "T"
+    },
+    {
+      "type": "zone",
+      "x": 10,
+      "y": 1,
+      "w": 78,
+      "h": 7,
+      "label": "R"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        18,
+        20
+      ],
+      "to": [
+        41,
+        20
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        42,
+        20
+      ],
+      "to": [
+        86,
+        20
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        86,
+        20
+      ],
+      "to": [
+        86,
+        5
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        86,
+        5
+      ],
+      "to": [
+        14,
+        5
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "One pair per lane; exchange only in T and walk back outside the lanes along R.",
+  "notes": "Depicts both exchange zones and the safe return route.",
+  "status": "draft"
+}

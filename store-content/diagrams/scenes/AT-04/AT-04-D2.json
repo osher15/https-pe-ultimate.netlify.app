@@ -1,0 +1,90 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "AT-04-D2",
+  "family": "AT-04",
+  "sport": "athletics",
+  "template": "at-lanes",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "on a straight lane the outgoing runner starts when the incoming runner reaches a marked check point, and the pair adjusts that mark until the exchange happens comfortably in the middle of the zone."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Check point and exchange",
+    "he": "נקודת זינוק מותאמת למסירת מקל",
+    "ar": "نقطة انطلاق مضبوطة للتتابع",
+    "ru": "Контрольная отметка для передачи",
+    "es": "Marca de salida para el relevo"
+  },
+  "alt": {
+    "en": "Incoming runner passes a movable check-point cone before the outgoing runner accelerates. Both meet in the exchange zone T, without looking back.",
+    "he": "A1 מתקרב במסלול השני; קונוס מסמן את נקודת הבדיקה שבה A2 מתחיל להאיץ. שניהם נעים קדימה ומעבירים את המקל במרכז אזור T. לאחר ניסיון מתקנים את מיקום הקונוס.",
+    "ar": "يقترب A1 في الحارة الثانية؛ المخروط يحدد نقطة بدء تسارع A2. يتحرك الاثنان إلى الأمام ويسلمان العصا وسط منطقة T، ثم يعدلان موضع المخروط عند الحاجة.",
+    "ru": "A1 приближается по второй дорожке; конус показывает отметку старта ускорения A2. Оба бегут вперёд и передают палочку в середине зоны T, затем корректируют отметку.",
+    "es": "A1 se acerca por el segundo carril; un cono marca cuándo A2 debe acelerar. Ambos corren hacia delante y entregan el testigo en el centro de T; después ajustan la marca."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 12,
+      "y": 40
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 49,
+      "y": 40
+    },
+    {
+      "type": "ball",
+      "x": 19,
+      "y": 44
+    },
+    {
+      "type": "cone",
+      "x": 32,
+      "y": 37.5
+    },
+    {
+      "type": "zone",
+      "x": 57,
+      "y": 28,
+      "w": 26,
+      "h": 19,
+      "label": "T"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        12,
+        37.5
+      ],
+      "to": [
+        70,
+        37.5
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        49,
+        37.5
+      ],
+      "to": [
+        90,
+        37.5
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "The exchange stays within the marked zone; runners continue forward in the same lane.",
+  "notes": "Shows the adjustable check point used to match speed.",
+  "status": "draft"
+}
