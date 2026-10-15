@@ -1,0 +1,99 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-06-D1",
+  "family": "BB-06",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "the receiver moves to a central cone."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Move, scan and receive",
+    "he": "תנועה, סריקה וקבלה",
+    "ar": "تحرك ثم مسح واستلام",
+    "ru": "Открыться, осмотреться, принять",
+    "es": "Moverse, observar y recibir"
+  },
+  "alt": {
+    "en": "A1 is the passer, A2 moves to the central cone to receive, and A3 gives the colour cue from outside the lane. The pass reaches A2 only after A2 is balanced and ready.",
+    "he": "A1 מוסר, A2 נע לקונוס המרכזי לקבלה ו־A3 נותן אות צבע מחוץ לנתיב. המסירה מגיעה רק לאחר ש־A2 מתייצב ומוכן.",
+    "ar": "A1 يمرر، ويتحرك A2 إلى المخروط المركزي للاستلام، ويعطي A3 إشارة اللون من خارج المسار. تصل التمريرة بعد استعداد A2.",
+    "ru": "A1 передаёт, A2 выходит к центральному конусу, A3 показывает цветовой сигнал вне дорожки. Передача идёт только готовому A2.",
+    "es": "A1 pasa, A2 se mueve al cono central para recibir y A3 muestra la señal de color fuera del carril. El pase llega cuando A2 está equilibrado."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 17,
+      "y": 42
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 53,
+      "y": 78
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 13,
+      "y": 86
+    },
+    {
+      "type": "ball",
+      "x": 20,
+      "y": 45
+    },
+    {
+      "type": "cone",
+      "x": 56,
+      "y": 48
+    },
+    {
+      "type": "cone",
+      "x": 82,
+      "y": 25
+    },
+    {
+      "type": "cone",
+      "x": 82,
+      "y": 70
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        53,
+        78
+      ],
+      "to": [
+        56,
+        48
+      ],
+      "order": 1
+    },
+    {
+      "kind": "pass",
+      "from": [
+        17,
+        42
+      ],
+      "to": [
+        56,
+        48
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Cue giver remains outside the receiving lane; receiver stops before the pass arrives.",
+  "notes": "Shows all three roles and the central receiving point.",
+  "status": "draft"
+}
