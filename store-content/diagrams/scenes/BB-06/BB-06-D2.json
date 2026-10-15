@@ -1,0 +1,121 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-06-D2",
+  "family": "BB-06",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "after reception, the defender either closes the forward gate or remains to the side."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Closed gate: pass to support",
+    "he": "שער סגור: מסירה לתמיכה",
+    "ar": "بوابة مغلقة: التمرير للدعم",
+    "ru": "Закрытые ворота: пас партнёру",
+    "es": "Puerta cerrada: pase al apoyo"
+  },
+  "alt": {
+    "en": "A2 passes to A1. B1 moves to close the forward gate, so A1 passes to open A3 rather than dribbling into pressure. The open-gate dribble is the alternative decision, not drawn here.",
+    "he": "A2 מוסר ל־A1. B1 נע לסגור את השער הקדמי, ולכן A1 מוסר ל־A3 הפנוי במקום לכדרר ללחץ. כדרור דרך שער פתוח הוא החלופה שאינה מצוירת.",
+    "ar": "يمرر A2 إلى A1، ويتحرك B1 لإغلاق البوابة الأمامية، فيمرر A1 إلى A3 المتاح بدلاً من المراوغة نحو الضغط. الخيار الآخر غير مرسوم.",
+    "ru": "A2 пасует A1; B1 закрывает передние ворота, поэтому A1 передаёт свободному A3 вместо ведения в защитника. Открытый вариант не показан.",
+    "es": "A2 pasa a A1; B1 cierra la puerta frontal y A1 pasa al apoyo libre A3 en lugar de botar hacia la presión. La opción abierta no se dibuja."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 44,
+      "y": 49
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 16,
+      "y": 48
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 77,
+      "y": 76
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 68,
+      "y": 25
+    },
+    {
+      "type": "ball",
+      "x": 19,
+      "y": 51
+    },
+    {
+      "type": "cone",
+      "x": 81,
+      "y": 33
+    },
+    {
+      "type": "cone",
+      "x": 81,
+      "y": 50
+    },
+    {
+      "type": "zone",
+      "x": 0,
+      "y": 81,
+      "w": 20,
+      "h": 18,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        16,
+        48
+      ],
+      "to": [
+        44,
+        49
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        68,
+        25
+      ],
+      "to": [
+        70,
+        42
+      ],
+      "order": 2
+    },
+    {
+      "kind": "pass",
+      "from": [
+        44,
+        49
+      ],
+      "to": [
+        77,
+        76
+      ],
+      "order": 3
+    }
+  ],
+  "safety": "Controlled defender, no contact; do not dribble into the closed gate.",
+  "notes": "Visualises the closed-gate decision and ready supporting player.",
+  "status": "draft"
+}
