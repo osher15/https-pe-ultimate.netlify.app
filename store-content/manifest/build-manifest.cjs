@@ -13,7 +13,7 @@ function read(file){
  return {meta,body:m[2]};
 }
 const rows=[];
-function add(kind,lang,id){
+function add(kind,lang,id,expectedPage){
  const file=path.join(base,'export',kind,lang,id+'.md'),entry=read(file);
  if(!entry)throw Error('Missing export: '+file);
  const {meta,body}=entry;
@@ -21,11 +21,13 @@ function add(kind,lang,id){
  if(kind==='lessons'&&meta.family!==id)throw Error('Wrong lesson family in '+file);
  if(kind==='activities'&&(meta.id||meta.family)!==id)throw Error('Wrong activity ID in '+file);
  if(!meta.source||!meta.source_page_id||!meta.source_last_edited_at)throw Error('Missing provenance in '+file);
+ if(expectedPage&&meta.source_page_id.replace(/-/g,'').toLowerCase()!==expectedPage.replace(/-/g,'').toLowerCase())throw Error('Notion page ID mismatch in '+file);
+ if(kind==='activities'&&meta.kind!==({DR:'drill',GM:'game',AC:'activity'})[id.slice(0,2)])throw Error('Wrong activity kind in '+file);
  rows.push({type:kind==='lessons'?'lesson':'activity',id,lang,kind:kind==='lessons'?'lesson':(meta.kind||({DR:'drill',GM:'game',AC:'activity'})[id.slice(0,2)]),notion_url:meta.source||null,notion_page_id:meta.source_page_id||null,notion_last_edited:meta.source_last_edited_at||null,status:meta.status||null,body_sha256:crypto.createHash('sha256').update(body,'utf8').digest('hex'),repo_compare:null,source_file:path.relative(base,file).split(path.sep).join('/')});
 }
 for(const lang of langs)for(const sport of sports)for(let n=1;n<=10;n++)add('lessons',lang,sport+'-'+String(n).padStart(2,'0'));
 const index=fs.readFileSync(path.join(out,'activity-source-index.csv'),'utf8').replace(/\r\n/g,'\n').split('\n').slice(1);
-for(const line of index){if(!line.trim())continue;const m=line.match(/^([^,]+),([^,]+),/);if(m)add('activities',m[1],m[2]);}
+for(const line of index){if(!line.trim())continue;const m=line.match(/^([^,]+),([^,]+),([^,]+),/);if(!m)throw Error('Malformed activity index row: '+line);add('activities',m[1],m[2],m[3]);}
 const lesson=rows.filter(r=>r.type==='lesson'),activities=rows.filter(r=>r.type==='activity');
 if(lesson.length!==300||activities.length!==600)throw Error('Incomplete inventory: '+lesson.length+' lessons, '+activities.length+' activities');
 const ids=new Set();for(const r of rows){const k=r.type+'/'+r.lang+'/'+r.id;if(ids.has(k))throw Error('Duplicate ID '+k);ids.add(k);}
