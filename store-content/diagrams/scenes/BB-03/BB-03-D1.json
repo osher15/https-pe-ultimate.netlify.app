@@ -1,0 +1,104 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-03-D1",
+  "family": "BB-03",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "In triangular groups, pass to a target, call the receiver’s name, and move to the empty cone."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Triangle pass and move",
+    "he": "מסירה ותנועה במשולש",
+    "ar": "التمرير والتحرك في مثلث",
+    "ru": "Передача и движение в треугольнике",
+    "es": "Pase y movimiento en triángulo"
+  },
+  "alt": {
+    "en": "A1 passes to ready A2, then moves to the unoccupied fourth cone. A3 remains available at the lower point. Call the receiver before release and keep the passing lanes apart.",
+    "he": "A1 מוסר ל־A2 המוכן, ואז נע לקונוס הרביעי הפנוי. A3 נשאר זמין בנקודה התחתונה. קוראים למקבל לפני המסירה ושומרים על נתיבי מסירה פנויים.",
+    "ar": "يمرر A1 إلى A2 المستعد ثم يتحرك إلى المخروط الرابع الخالي. يبقى A3 متاحاً في الأسفل. يُنادى المستلم قبل التمرير وتُترك المسارات خالية.",
+    "ru": "A1 передаёт готовому A2 и переходит к четвёртому свободному конусу. A3 остаётся доступным снизу. Перед передачей назовите принимающего.",
+    "es": "A1 pasa a A2 preparado y se mueve al cuarto cono vacío. A3 queda disponible abajo. Se llama al receptor antes del pase y se dejan libres las líneas."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 20,
+      "y": 35
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 72,
+      "y": 27
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 60,
+      "y": 78
+    },
+    {
+      "type": "ball",
+      "x": 23,
+      "y": 38
+    },
+    {
+      "type": "cone",
+      "x": 18,
+      "y": 32
+    },
+    {
+      "type": "cone",
+      "x": 73,
+      "y": 24
+    },
+    {
+      "type": "cone",
+      "x": 60,
+      "y": 82
+    },
+    {
+      "type": "cone",
+      "x": 22,
+      "y": 72
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        20,
+        35
+      ],
+      "to": [
+        72,
+        27
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        20,
+        35
+      ],
+      "to": [
+        22,
+        72
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "No crossing behind the receiver; move only after a controlled pass.",
+  "notes": "Shows the open cone and the pass-then-move sequence.",
+  "status": "draft"
+}

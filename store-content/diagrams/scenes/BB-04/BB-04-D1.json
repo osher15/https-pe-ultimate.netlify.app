@@ -1,0 +1,96 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-04-D1",
+  "family": "BB-04",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "From three close spots, shoot after a balanced catch."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Three close shooting spots",
+    "he": "שלוש עמדות קליעה קרובות",
+    "ar": "ثلاث نقاط تصويب قريبة",
+    "ru": "Три ближние точки броска",
+    "es": "Tres posiciones de tiro cercanas"
+  },
+  "alt": {
+    "en": "Three cones show close shooting spots. A1 takes the active shot from the centre; A2 waits in W and observes. S is the landing and rebound clearance near the basket; retrieve only after the shooter leaves.",
+    "he": "שלושה קונוסים מסמנים עמדות קליעה קרובות. A1 קולע מהמרכז; A2 ממתין וצופה ב־W. S הוא אזור נחיתה ופינוי ליד הסל; אוספים רק לאחר שהקולע יצא.",
+    "ar": "تحدد ثلاثة أقماع نقاط تصويب قريبة. يصوب A1 من الوسط، وينتظر A2 في W. تمثل S مساحة الهبوط قرب السلة؛ لا تُستعاد الكرة قبل خروج المصوب.",
+    "ru": "Три конуса обозначают ближние точки. A1 бросает из центра, A2 ждёт в W. S — свободная зона приземления и подбора у кольца; подбор после выхода бросающего.",
+    "es": "Tres conos marcan posiciones cercanas. A1 lanza desde el centro y A2 espera en W. S es la zona libre de caída y rebote; recoger tras salir el tirador."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 67,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 35,
+      "y": 84
+    },
+    {
+      "type": "ball",
+      "x": 70,
+      "y": 53
+    },
+    {
+      "type": "cone",
+      "x": 62,
+      "y": 26
+    },
+    {
+      "type": "cone",
+      "x": 62,
+      "y": 50
+    },
+    {
+      "type": "cone",
+      "x": 62,
+      "y": 74
+    },
+    {
+      "type": "zone",
+      "x": 78,
+      "y": 38,
+      "w": 17,
+      "h": 24,
+      "label": "S"
+    },
+    {
+      "type": "zone",
+      "x": 17,
+      "y": 79,
+      "w": 27,
+      "h": 17,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        67,
+        50
+      ],
+      "to": [
+        70,
+        66
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Only one shooter per lane; keep S clear until landing and exit.",
+  "notes": "Marks three starting spots and the exclusion space under the basket.",
+  "status": "draft"
+}

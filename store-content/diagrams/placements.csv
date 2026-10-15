@@ -15,3 +15,7 @@ BB-01,BB-01-D1,mainA,1,open-area,representative,Shows separate one-way lanes and
 BB-01,BB-01-D2,mainB,1,open-area,representative,Shows a free gate versus an occupied gate and safe stop.,
 BB-02,BB-02-D1,mainA,1,open-area,representative,"Separates deceleration, balanced stop and angled exit.",Angle can be 45 or 90 degrees in the later ball version; one representative exit is shown.
 BB-02,BB-02-D2,mainB,1,open-area,representative,Shows a visible decision point and two physically separated exits.,The actual cue colours are not specified; the upper route is one example.
+BB-03,BB-03-D1,mainA,1,open-area,representative,Shows the open cone and the pass-then-move sequence.,The text does not specify the fourth cone location; it is placed to preserve a clear support angle.
+BB-03,BB-03-D2,mainB,1,open-area,representative,Illustrates 3v1 spacing and movement after passing.,No fixed square size is stated in the lesson; distances are schematic.
+BB-04,BB-04-D1,mainA,1,bb-half,representative,Marks three starting spots and the exclusion space under the basket.,No exact spot distances are stated; use close-range schematic locations.
+BB-04,BB-04-D2,mainB,1,bb-half,representative,"Separates pass, shooter exit and delayed rebound phases.",The shot itself is not rendered as a pass arrow; the delayed rebound is order 3.

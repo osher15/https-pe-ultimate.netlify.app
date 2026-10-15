@@ -1,0 +1,105 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-04-D2",
+  "family": "BB-04",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "In pairs, one passes and one shoots; the passer becomes a rebounder only after the ball touches the rim, backboard, or wall."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Pass, shoot, then rebound",
+    "he": "מסירה, קליעה ורק אז ריבאונד",
+    "ar": "تمرير ثم تصويب ثم متابعة",
+    "ru": "Пас, бросок, затем подбор",
+    "es": "Pasar, lanzar y después rebotear"
+  },
+  "alt": {
+    "en": "A1 passes to shooter A2 and stays outside S. After the ball contacts the rim or board, A1 may enter the rebound area. A2 exits sideways before the next attempt.",
+    "he": "A1 מוסר לקולע A2 ונשאר מחוץ ל־S. רק לאחר שהכדור נוגע בטבעת או בלוח A1 נכנס לריבאונד. A2 יוצא הצידה לפני הניסיון הבא.",
+    "ar": "يمرر A1 إلى المصوب A2 ويبقى خارج S. بعد لمس الكرة الحلقة أو اللوحة فقط يدخل A1 للمتابعة، ويخرج A2 جانبياً قبل المحاولة التالية.",
+    "ru": "A1 пасует бросающему A2 и остаётся вне S. Лишь после касания кольца или щита A1 входит на подбор. A2 выходит в сторону до следующей попытки.",
+    "es": "A1 pasa a A2 y espera fuera de S. Solo tras tocar el aro o tablero entra A1 al rebote. A2 sale de lado antes del siguiente intento."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 38,
+      "y": 27
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 70,
+      "y": 48
+    },
+    {
+      "type": "ball",
+      "x": 41,
+      "y": 30
+    },
+    {
+      "type": "zone",
+      "x": 79,
+      "y": 36,
+      "w": 17,
+      "h": 30,
+      "label": "S"
+    },
+    {
+      "type": "zone",
+      "x": 18,
+      "y": 80,
+      "w": 26,
+      "h": 16,
+      "label": "W"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        38,
+        27
+      ],
+      "to": [
+        70,
+        48
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        38,
+        27
+      ],
+      "to": [
+        84,
+        57
+      ],
+      "order": 3
+    },
+    {
+      "kind": "move",
+      "from": [
+        70,
+        48
+      ],
+      "to": [
+        66,
+        72
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "Passer waits until rim/backboard contact; protect the shooter landing zone and exit sideways.",
+  "notes": "Separates pass, shooter exit and delayed rebound phases.",
+  "status": "draft"
+}

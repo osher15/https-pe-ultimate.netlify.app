@@ -1,0 +1,123 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-03-D2",
+  "family": "BB-03",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Play 3v1 keep-ball in a marked square."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "3v1 keep-ball support square",
+    "he": "ריבוע שמירת כדור 3 נגד 1",
+    "ar": "مربع الاحتفاظ بالكرة 3 ضد 1",
+    "ru": "Квадрат удержания мяча 3 против 1",
+    "es": "Cuadrado de posesión 3 contra 1"
+  },
+  "alt": {
+    "en": "Three attackers A1–A3 use the square edges; B1 closes one lane without contact. A1 passes to A2 then moves to a new open angle. The square corners mark the active area.",
+    "he": "שלושה תוקפים A1–A3 פועלים בשולי הריבוע; B1 סוגר נתיב ללא מגע. A1 מוסר ל־A2 ואז נע לזווית פנויה חדשה. פינות הריבוע מסמנות את אזור המשחק.",
+    "ar": "يتمركز A1–A3 حول المربع، ويغلق B1 مساراً دون احتكاك. يمرر A1 إلى A2 ثم يتحرك لزاوية دعم جديدة. الأقماع تحدد حدود المربع.",
+    "ru": "Трое атакующих A1–A3 играют по краям квадрата; B1 закрывает линию без контакта. A1 пасует A2 и открывается под новым углом.",
+    "es": "Tres atacantes A1–A3 ocupan los bordes; B1 cierra una línea sin contacto. A1 pasa a A2 y se mueve a otro ángulo de apoyo. Los conos marcan el cuadrado."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 23,
+      "y": 28
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 78,
+      "y": 31
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 55,
+      "y": 79
+    },
+    {
+      "type": "player",
+      "team": "B",
+      "n": 1,
+      "x": 51,
+      "y": 49
+    },
+    {
+      "type": "ball",
+      "x": 26,
+      "y": 31
+    },
+    {
+      "type": "cone",
+      "x": 12,
+      "y": 15
+    },
+    {
+      "type": "cone",
+      "x": 88,
+      "y": 15
+    },
+    {
+      "type": "cone",
+      "x": 88,
+      "y": 87
+    },
+    {
+      "type": "cone",
+      "x": 12,
+      "y": 87
+    }
+  ],
+  "paths": [
+    {
+      "kind": "pass",
+      "from": [
+        23,
+        28
+      ],
+      "to": [
+        78,
+        31
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        23,
+        28
+      ],
+      "to": [
+        24,
+        67
+      ],
+      "order": 2
+    },
+    {
+      "kind": "move",
+      "from": [
+        51,
+        49
+      ],
+      "to": [
+        62,
+        38
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "No contact; keep the central defender from crowding the receiving lane.",
+  "notes": "Illustrates 3v1 spacing and movement after passing.",
+  "status": "draft"
+}
