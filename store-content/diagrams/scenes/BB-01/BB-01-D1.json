@@ -1,0 +1,164 @@
+{
+  "schema": "pe-diagram/1",
+  "family": "BB-01",
+  "sport": "basketball",
+  "group_shown": "representative",
+  "status": "draft",
+  "id": "BB-01-D1",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "In three lanes, progress from waist-height stationary dribble to walking in a straight line and ending the dribble by catching the ball in two hands. Each student completes three trials with each hand, with no speed demand."
+  },
+  "title": {
+    "en": "One-way dribble lanes",
+    "he": "כדרור בנתיבים חד־כיווניים",
+    "ar": "مسارات تنطيط باتجاه واحد",
+    "ru": "Ведение по односторонним дорожкам",
+    "es": "Carriles de bote en un sentido"
+  },
+  "alt": {
+    "en": "Three parallel one-way lanes. A1 dribbles along the upper lane and catches the ball at its end. A2 and A3 wait in separate lanes; W marks the waiting area behind the start. Cones separate the lanes.",
+    "he": "שלושה נתיבים מקבילים בכיוון אחד. A1 מכדרר בנתיב העליון ואוסף את הכדור בסופו. A2 ו־A3 ממתינים בנתיבים נפרדים. W מסמן המתנה מאחורי קו ההתחלה.",
+    "ar": "ثلاثة مسارات متوازية باتجاه واحد. ينطط A1 الكرة في المسار العلوي ويمسكها عند النهاية. ينتظر A2 وA3 في مسارين منفصلين، وتشير W إلى منطقة الانتظار خلف البداية.",
+    "ru": "Три параллельные дорожки в одном направлении. A1 ведёт мяч по верхней и ловит его в конце. A2 и A3 ждут в отдельных дорожках; W обозначает зону ожидания за стартом.",
+    "es": "Tres carriles paralelos de sentido único. A1 bota por el carril superior y recoge el balón al final. A2 y A3 esperan en carriles separados; W marca la espera detrás de la salida."
+  },
+  "objects": [
+    {
+      "type": "zone",
+      "x": 2,
+      "y": 4,
+      "w": 13,
+      "h": 92,
+      "label": "W"
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 22,
+      "y": 22
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 22,
+      "y": 50
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 22,
+      "y": 78
+    },
+    {
+      "type": "ball",
+      "x": 25,
+      "y": 25
+    },
+    {
+      "type": "cone",
+      "x": 22,
+      "y": 10
+    },
+    {
+      "type": "cone",
+      "x": 48,
+      "y": 10
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 10
+    },
+    {
+      "type": "cone",
+      "x": 22,
+      "y": 36
+    },
+    {
+      "type": "cone",
+      "x": 48,
+      "y": 36
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 36
+    },
+    {
+      "type": "cone",
+      "x": 22,
+      "y": 64
+    },
+    {
+      "type": "cone",
+      "x": 48,
+      "y": 64
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 64
+    },
+    {
+      "type": "cone",
+      "x": 22,
+      "y": 90
+    },
+    {
+      "type": "cone",
+      "x": 48,
+      "y": 90
+    },
+    {
+      "type": "cone",
+      "x": 76,
+      "y": 90
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        22,
+        22
+      ],
+      "to": [
+        83,
+        22
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        22,
+        50
+      ],
+      "to": [
+        83,
+        50
+      ],
+      "order": 1
+    },
+    {
+      "kind": "move",
+      "from": [
+        22,
+        78
+      ],
+      "to": [
+        83,
+        78
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "All travel rightward in separate lanes; the waiting zone stays behind the start and the return is outside the lanes.",
+  "notes": "Shows three non-intersecting lanes and a controlled finish without racing."
+}

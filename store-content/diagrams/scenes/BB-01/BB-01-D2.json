@@ -1,0 +1,119 @@
+{
+  "schema": "pe-diagram/1",
+  "family": "BB-01",
+  "sport": "basketball",
+  "group_shown": "representative",
+  "status": "draft",
+  "id": "BB-01-D2",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainB",
+    "step": 1,
+    "quote_en": "Use a cone grid with coloured gates. Students dribble to an open gate, raise their eyes before entry, and stop in a safe area. On signal they change hand or direction and select a different gate each round."
+  },
+  "title": {
+    "en": "Scan and choose a free gate",
+    "he": "סריקה ובחירת שער פנוי",
+    "ar": "النظر واختيار بوابة خالية",
+    "ru": "Обзор и выбор свободных ворот",
+    "es": "Mirar y elegir una puerta libre"
+  },
+  "alt": {
+    "en": "A1 dribbles toward the free upper gate between two cones. A2 stands near the lower gate, so that route is occupied. The carrier scans before choosing, then stops beyond the open gate; W is the waiting zone on the left.",
+    "he": "A1 מכדרר לעבר השער העליון הפנוי בין שני קונוסים. A2 נמצא ליד השער התחתון ולכן הנתיב הזה תפוס. המתקדם סורק לפני הבחירה ועוצר אחרי השער הפנוי. W הוא אזור ההמתנה משמאל.",
+    "ar": "ينطط A1 الكرة نحو البوابة العلوية الخالية بين مخروطين. يقف A2 قرب البوابة السفلية، لذا فهي مشغولة. ينظر اللاعب قبل الاختيار ويتوقف بعد البوابة الخالية؛ W منطقة الانتظار يساراً.",
+    "ru": "A1 ведёт мяч к свободным верхним воротам между двумя конусами. A2 находится у нижних ворот, поэтому этот путь занят. Игрок осматривается перед выбором и останавливается за свободными воротами; W слева.",
+    "es": "A1 bota hacia la puerta superior libre entre dos conos. A2 está cerca de la puerta inferior, por lo que esa ruta está ocupada. Quien lleva el balón mira antes de elegir y se detiene después de la puerta libre; W es la espera a la izquierda."
+  },
+  "objects": [
+    {
+      "type": "zone",
+      "x": 1,
+      "y": 8,
+      "w": 12,
+      "h": 84,
+      "label": "W"
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 24,
+      "y": 52
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 68,
+      "y": 75
+    },
+    {
+      "type": "ball",
+      "x": 27,
+      "y": 55
+    },
+    {
+      "type": "cone",
+      "x": 65,
+      "y": 20
+    },
+    {
+      "type": "cone",
+      "x": 65,
+      "y": 42
+    },
+    {
+      "type": "cone",
+      "x": 65,
+      "y": 66
+    },
+    {
+      "type": "cone",
+      "x": 65,
+      "y": 88
+    },
+    {
+      "type": "zone",
+      "x": 79,
+      "y": 17,
+      "w": 16,
+      "h": 27,
+      "label": "S"
+    }
+  ],
+  "paths": [
+    {
+      "kind": "dribble",
+      "from": [
+        24,
+        52
+      ],
+      "to": [
+        50,
+        35
+      ],
+      "via": [
+        [
+          36,
+          48
+        ]
+      ],
+      "order": 1
+    },
+    {
+      "kind": "dribble",
+      "from": [
+        50,
+        35
+      ],
+      "to": [
+        85,
+        32
+      ],
+      "order": 2
+    }
+  ],
+  "safety": "The lower gate is occupied and not entered; stop in the marked S area beyond the upper gate, with no contact or chasing.",
+  "notes": "Contrasts an open gate with an occupied one to illustrate scanning before movement."
+}
