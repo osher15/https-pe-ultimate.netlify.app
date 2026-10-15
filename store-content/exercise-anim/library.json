@@ -269,7 +269,7 @@
    "appFig": "catcow",
    "equipment": "none",
    "anim": "catcow",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "hip90",
@@ -278,7 +278,7 @@
    "appFig": "hip90",
    "equipment": "none",
    "anim": "hip90",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "worldgreat",
@@ -287,7 +287,7 @@
    "appFig": "worldgreat",
    "equipment": "none",
    "anim": "worldgreat",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "thoracic",
@@ -296,7 +296,7 @@
    "appFig": "thoracic",
    "equipment": "none",
    "anim": "thoracic",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "deepsquathold",
@@ -305,7 +305,7 @@
    "appFig": "deepsquat",
    "equipment": "none",
    "anim": "deepsquathold",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "anklerock",
@@ -314,7 +314,7 @@
    "appFig": "anklerock",
    "equipment": "none",
    "anim": "anklerock",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "shouldercar",
@@ -323,7 +323,7 @@
    "appFig": "shouldercar",
    "equipment": "none",
    "anim": "shouldercar",
-   "status": "pending"
+   "status": "done"
   },
   {
    "id": "gsquat",

@@ -50,7 +50,7 @@ for (const ex of spec.exercises) {
     for (let i = 0; i <= n; i++) {
       const ja = jointAngles(F[i]);
       for (const [name, [kind, val]] of Object.entries(ja)) {
-        const [lo, hi] = LIMITS[kind];
+        const [lo, hi] = (ex.limits && ex.limits[kind]) || LIMITS[kind]; // per-exercise override, documented in its doubts
         if (!(val >= lo && val <= hi)) bad.push(`frame ${i} ${name}=${val.toFixed(1)} not in [${lo},${hi}]`);
       }
     }

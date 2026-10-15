@@ -95,6 +95,7 @@ function normPose(spec) {
     if (src.ankle != null) dst.ankle = src.ankle;
     if (src.rot != null) dst.rot = src.rot; // rotation about the upper bone (FK only; IK assumes 0)
     if (kind === "arm" && src.ik) { dst.ik = src.ik.slice(); dst.ikW = 1; }
+    if (kind === "arm" && src.exact != null) dst.exact = !!src.exact;
     if (kind === "arm" && src.rel) { dst.rel = src.rel.slice(); dst.ikW = 1; } // target in pelvis frame (e.g. hands on hips)
     if (kind === "leg" && src.foot) {
       const pt = src.foot.heel || src.foot.toe;
@@ -145,7 +146,7 @@ function lerpPose(a, b, t) {
     for (const k of ["flex", "abd", "bend", "ankle", "ikW", "footW", "rot"]) R[k] = lerp(A[k], B[k], t);
     R.ik = A.ik && B.ik ? lerpV(A.ik, B.ik, t) : (A.ik || B.ik);
     R.rel = A.rel && B.rel ? lerpV(A.rel, B.rel, t) : (A.rel || B.rel);
-    R.anchor = A.anchor;
+    R.anchor = A.anchor; R.exact = A.exact;
     // feet planted on different points (heel strike -> toe) blend through the ankle position
     if (L[0] === "l" && A.ik && B.ik && A.anchor !== B.anchor) R.ankleT = lerpV(footAnkle(A), footAnkle(B), t);
     R.footPitch = A.footPitch != null && B.footPitch != null ? lerp(A.footPitch, B.footPitch, t) : (A.footPitch != null ? A.footPitch : B.footPitch);
@@ -156,7 +157,7 @@ function lerpPose(a, b, t) {
 /* Two-bone IK in the limb plane. The plane is the parent frame after abduction; abduction is
    chosen so that the target lies in it. s = -1 for legs (knee), +1 for arms (elbow).
    Returns {flex, abd, bend} in degrees. */
-function solveTwoBone(parentR, base, target, l1, l2, side, s) {
+function solveTwoBone(parentR, base, target, l1, l2, side, s, exact) {
   const loc = mtv(parentR, sub(target, base));
   // abduction: rotate the down direction outward (toward side*z) until the target is in plane
   // Exact in-plane abduction is ill-conditioned when the target lies along the limb's flexion
@@ -166,9 +167,10 @@ function solveTwoBone(parentR, base, target, l1, l2, side, s) {
   const cDown = Math.max(0, Math.min(1, -loc[1] / dist)) ** 2;
   const abdExact = Math.atan2(side * loc[2], -loc[1]);
   const abdLat = Math.asin(Math.max(-1, Math.min(1, side * loc[2] / dist)));
-  const abd = cDown * abdExact + (1 - cDown) * abdLat;
-  const Fp = Rx(-side * abd);
-  const p = mtv(Fp, loc); // in plane: p[2] ~ 0
+  let abd = cDown * abdExact + (1 - cDown) * abdLat;
+  let p = mtv(Rx(-side * abd), loc); // in plane: p[2] ~ 0
+  // exact: always use the exact plane (supports under a twisting trunk, where the blend misses)
+  if (exact) { abd = abdExact; p = mtv(Rx(-side * abd), loc); }
   let d = Math.hypot(p[0], p[1]);
   d = Math.min(Math.max(d, Math.abs(l1 - l2) + 1e-6), l1 + l2 - 1e-9);
   const ck = (d * d - l1 * l1 - l2 * l2) / (2 * l1 * l2);
@@ -246,7 +248,7 @@ function fk(pose, solved) {
     if (armTarget && A.ikW > 0) {
       // blend in position space: aim at a point between the FK hand and the target, then solve
       const tgt = A.ikW >= 1 ? armTarget : lerpV(chainEnd(Tr, sh, abd, flex, bend, A.rot, B.upperArm, B.forearm, side, +1), armTarget, A.ikW);
-      const s = solveTwoBone(Tr, sh, tgt, B.upperArm, B.forearm, side, +1);
+      const s = solveTwoBone(Tr, sh, tgt, B.upperArm, B.forearm, side, +1, A.exact);
       flex = s.flex; abd = s.abd; bend = s.bend;
     }
     const A1 = mm(mm(mm(Tr, Rx(-side * abd * D2R)), Rz(flex * D2R)), Ry(side * (A.rot || 0) * D2R));
