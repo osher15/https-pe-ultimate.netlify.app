@@ -11,6 +11,7 @@
  */
 const fs = require('fs'), path = require('path'), os = require('os'), url = require('url');
 const assert = require('node:assert/strict');
+const { runDeviceDataChecks } = require('./device-data.cjs');
 function loadPlaywright() {
   try { return require('playwright'); } catch (e) { /* fall through */ }
   const root = require('child_process').execSync('npm root -g', { encoding: 'utf8' }).trim();
@@ -200,7 +201,14 @@ const state = page => page.evaluate(() => window.PEShuttle.getState());
         assert.equal(await page.textContent('#protoPill'), 'Изменённый протокол');
         const keys = await page.evaluate(() => Object.keys(localStorage).sort());
         assert.deepEqual(keys, ['pe-shuttle.v1', 'pe-shuttle.v1.lang', 'unrelated']);
-        await page.click('#clearAll'); await page.click('#clearAll');
+        /* C18: delete-all is a backup-first dialog now (the old tap-twice arm is gone). Language is ru here. */
+        await page.click('#clearAll');
+        const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#dd-backup')]);
+        const bk = JSON.parse(fs.readFileSync(await dl.path(), 'utf8'));
+        assert.equal(bk.tool, 'pe-shuttle'); assert.deepEqual(Object.keys(bk.keys).sort(), ['pe-shuttle.v1', 'pe-shuttle.v1.lang']);
+        assert.equal(JSON.parse(bk.keys['pe-shuttle.v1']).results.length, 1);
+        await page.fill('#dd-word', 'удалить');
+        await Promise.all([page.waitForEvent('load'), page.click('#dd-confirm')]);
         assert.deepEqual(await page.evaluate(() => Object.keys(localStorage)), ['unrelated']);
         assert.equal((await state(page)).results.length, 0);
         assert.deepEqual(errors, []);
@@ -315,6 +323,15 @@ const state = page => page.evaluate(() => window.PEShuttle.getState());
         assert.deepEqual(errors, []);
       } finally { await context.close(); }
     });
+
+
+    /* C18: backup-first "Delete all data on this device" + restore (shared helper, see device-data.cjs) */
+    await runDeviceDataChecks({ browser, check, cfg: { id: 'shuttle-run', url: URL0, api: 'PEShuttle', tool: 'pe-shuttle', ownPrefix: 'pe-shuttle.v1',
+      own: ['pe-shuttle.v1', 'pe-shuttle.v1.lang'], open: '#clearAll', restore: '#dd-restore', langSel: '#language',
+      seed: async p => { await p.evaluate(() => { localStorage.setItem('pe-shuttle.v1.lang', 'en'); localStorage.setItem('pe-shuttle.v1', JSON.stringify({ v: 1, settings: { dist: 15, age: 15 } })); }); await p.reload(); },
+      mutate: async p => { await p.evaluate(() => { const e = document.getElementById('age'); e.value = '16'; e.dispatchEvent(new Event('change', { bubbles: true })); }); },
+      marker: p => p.evaluate(() => { const s = window.PEShuttle.getState(); return [s.settings.age, s.settings.dist]; }),
+      defaults: async p => { const s = await p.evaluate(() => window.PEShuttle.getState()); assert.equal(s.settings.age, 13); assert.equal(s.settings.dist, 20); assert.equal(await p.getAttribute('html', 'lang'), 'en'); } } });
 
     await check('offline: no request left file:// in any case', async () => { assert.deepEqual(external, []); });
   } finally { await browser.close(); }

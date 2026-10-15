@@ -1,6 +1,7 @@
 'use strict';
 const fs=require('fs'),path=require('path'),http=require('http'),assert=require('node:assert/strict');
 const {chromium}=require('playwright');const root=path.resolve(__dirname,'..');
+const {runDeviceDataChecks}=require('./device-data.cjs');
 (async()=>{
  const server=http.createServer((req,res)=>{const file=path.basename(req.url.split('?')[0]);if(!['PE_Coach_Board.html','PE_Ultimate_Scoreboard.html'].includes(file)){res.writeHead(404);return res.end();}res.setHeader('Content-Type','text/html; charset=utf-8');res.end(fs.readFileSync(path.join(root,file)));});
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port+'/';const browser=await chromium.launch({args:['--no-sandbox']});let pass=0,fail=0;
@@ -41,6 +42,20 @@ const {chromium}=require('playwright');const root=path.resolve(__dirname,'..');
    await page.reload();await page.evaluate(()=>localStorage.setItem('pe-ultimate-coach-board-v1','{broken'));await page.reload();await page.click('#rotate');assert.equal(await page.evaluate(()=>localStorage.getItem('pe-ultimate-coach-board-v1')),'{broken');assert.match(await page.textContent('[data-i="autosave"]'),/unavailable/);
   }finally{await context.close();}
  });
+
+ /* C18: backup-first "Delete all data on this device" + restore (shared helper, see device-data.cjs) */
+ await runDeviceDataChecks({browser,check,cfg:{id:'scoreboard',url:base+'PE_Ultimate_Scoreboard.html',api:'PEScoreboard',tool:'pe-scoreboard',ownPrefix:'pe-scoreboard.v1',
+  own:['pe-scoreboard.lang.v1','pe-scoreboard.v1'],open:'#dd-open',restore:'#dd-restore',langSel:'#language',
+  seed:async p=>{await p.evaluate(()=>localStorage.setItem('pe-scoreboard.lang.v1','en'));const b=p.locator('[data-action="score"][data-team="0"][data-delta="1"]');await b.click();await b.click();},
+  mutate:async p=>{await p.locator('[data-action="score"][data-team="1"][data-delta="1"]').click();},
+  marker:p=>p.evaluate(()=>window.PEScoreboard.getState().scores),
+  defaults:async p=>{assert.deepEqual(await p.evaluate(()=>window.PEScoreboard.getState().scores),[0,0]);assert.equal(await p.getAttribute('html','lang'),'en');}}});
+ await runDeviceDataChecks({browser,check,cfg:{id:'coach',url:base+'PE_Coach_Board.html',api:'PECoachBoard',tool:'pe-coach-board',
+  own:['pe-ultimate-coach-board-v1'],open:'#dd-open',restore:'#dd-restore',langSel:'#language',
+  seed:async p=>{await p.click('#rotate');await p.fill('#title','Seeded plan');await p.press('#title','Tab');},
+  mutate:async p=>{await p.fill('#title','Changed plan');await p.press('#title','Tab');},
+  marker:p=>p.evaluate(()=>{const s=window.PECoachBoard.getState();return [s.portrait,s.title];}),
+  defaults:async p=>{const s=await p.evaluate(()=>window.PECoachBoard.getState());assert.equal(s.portrait,false);assert.notEqual(s.title,'Seeded plan');assert.equal(await p.getAttribute('html','lang'),'en');}}});
  }finally{await browser.close();await new Promise(r=>server.close(r));}
  console.log(JSON.stringify({pass,fail,evidence:'Chromium browser; synthetic storage; no physical device'}));process.exitCode=fail?1:0;
 })().catch(e=>{console.error(e);process.exit(1);});

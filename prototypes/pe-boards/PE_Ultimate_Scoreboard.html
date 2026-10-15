@@ -44,6 +44,21 @@ INTEGRATION HANDOFF FOR CLAUDE
 <html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><title>PE Ultimate · Scoreboard</title>
 <style>
 :root{color-scheme:dark;--bg:#0b1018;--panel:#151e2b;--line:#2e3b50;--muted:#a8b7c9;--ink:#f5f8ff;--lime:#d2f565;--blue:#76b6ff;--red:#ff9b93}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer;min-height:44px;border:1px solid var(--line);border-radius:12px;background:#202c3d;color:var(--ink);padding:10px 15px;font-weight:650;touch-action:manipulation}button:hover{background:#2c3b50}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--lime);outline-offset:3px}button:disabled{opacity:.4;cursor:default}input,select{color:var(--ink);background:#0d1520;border:1px solid #52637a;border-radius:10px;padding:10px;min-height:44px;width:100%;min-width:0}select{width:auto;max-width:100%}.app{max-width:1060px;margin:auto;padding:20px clamp(12px,3vw,28px) max(24px,env(safe-area-inset-bottom))}header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}.brand{font-weight:850;font-size:17px;letter-spacing:.03em}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.15em}.top-actions{display:flex;gap:8px;align-items:center}h1{font-size:clamp(23px,4vw,32px);line-height:1.2;margin:0}.intro{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.tag{font-size:11px;letter-spacing:.1em;color:var(--lime);border:1px solid #58663b;padding:5px 9px;border-radius:99px;white-space:nowrap}.board{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:22px clamp(12px,3vw,30px);box-shadow:0 16px 50px #0003}.boardtop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-size:13px}.status{display:inline-flex;align-items:center;gap:7px}.status:before{content:'';width:7px;height:7px;border-radius:50%;background:#8997ab}.status.running:before{background:var(--lime)}.clockarea{text-align:center;margin:14px auto 20px}.clock{font-size:clamp(58px,10vw,104px);font-weight:850;line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:-.04em;direction:ltr}.clock.urgent{color:var(--red)}.clockcaption{font-size:12px;color:var(--muted);margin-bottom:5px}.period{display:flex;justify-content:center;gap:6px;margin-top:10px}.dot{width:22px;height:4px;background:#3c4b61;border-radius:4px}.dot.done{background:var(--muted)}.dot.active{background:var(--lime)}.teams{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);gap:14px;direction:ltr}.team{border:1px solid #44536a;border-radius:18px;padding:18px 12px;text-align:center;min-width:0}.team.a{border-top:4px solid var(--blue);background:#152639}.team.b{border-top:4px solid var(--red);background:#30212d}.name{font-weight:750;font-size:clamp(16px,2.6vw,24px);overflow-wrap:anywhere;line-height:1.25;min-height:1.25em}.score{font-size:clamp(64px,11vw,120px);font-weight:850;line-height:1.1;font-variant-numeric:tabular-nums}.a .score{color:var(--blue)}.b .score{color:var(--red)}.versus{align-self:center;color:var(--muted);font-size:12px;text-align:center}.score-actions{display:flex;gap:6px;justify-content:center;margin:10px 0 16px}.score-actions button{flex:1;padding:9px 4px;max-width:90px;font-size:20px}.a .score-actions button:not(.minus){background:#244e7b}.b .score-actions button:not(.minus){background:#703938}.score-actions .minus{font-size:16px;max-width:48px;background:transparent}.stats{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;flex-wrap:wrap}.stats strong{font-size:20px;min-width:24px;font-variant-numeric:tabular-nums}.stats button{width:40px;padding:4px;min-height:40px;font-size:18px}.timeoutbtn{width:100%;margin-top:12px;background:transparent;font-size:12px}.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 2px}.primary{background:var(--lime);color:#111b05;border-color:var(--lime);min-width:140px}.primary:hover{background:#e3ff88}.ghost{background:transparent}.danger{color:#ffb5ae}.hint{color:var(--muted);font-size:12px;text-align:center;margin:14px 0 0}.footer-actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.footer-actions button{flex:1;font-size:13px}.below{margin-top:22px;border:1px solid var(--line);border-radius:16px;background:#101925;overflow:hidden}summary{cursor:pointer;padding:14px 18px;font-weight:650;min-height:48px}.tablewrap{padding:0 14px 14px;overflow:auto}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:13px}th,td{text-align:center;padding:10px 5px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}thead th{color:var(--muted);font-weight:550}tfoot{font-weight:750}.empty{text-align:center;padding:14px;color:var(--muted);font-size:13px}.save{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:6px;margin-top:20px}.save.error{color:#ffb5ae}.save:before{content:'●';font-size:10px;color:var(--lime)}.save.error:before{color:var(--red)}dialog{background:#15202e;color:var(--ink);border:1px solid #52637a;border-radius:20px;padding:24px;width:min(560px,calc(100% - 24px));max-height:90dvh;overflow:auto}dialog::backdrop{background:#000a}dialog h2{font-size:23px;margin:0 0 18px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:6px;font-size:13px}.full{grid-column:1/-1}.field select{width:100%}.dialogactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px;justify-content:flex-end}.subnote{font-size:12px;color:var(--muted);margin:12px 0 0}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#101824;box-shadow:0 6px 20px #0005;padding:12px 18px;border-radius:14px;font-weight:650;z-index:10;max-width:90vw;text-align:center}#toast:empty{display:none}.timeoutpanel{display:flex;align-items:center;justify-content:center;gap:16px;border:1px solid var(--lime);border-radius:12px;padding:8px 12px;margin:12px 0;color:var(--lime);flex-wrap:wrap}.timeoutpanel[hidden]{display:none}.timeoutpanel b{font-size:26px;font-variant-numeric:tabular-nums}.archive-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px;border-top:1px solid var(--line);flex-wrap:wrap}.archive-item small{color:var(--muted)}.archive-item button{font-size:12px}.project .top-actions,.project .intro,.project .controls,.project .score-actions,.project .stats button,.project .timeoutbtn,.project .footer-actions,.project .below,.project .save,.project .hint,.project .timeoutpanel button{display:none}.project .app{max-width:1400px}.project .board{margin-top:2vh}.project .score{font-size:clamp(90px,19vw,240px)}.project .clock{font-size:clamp(85px,13vw,160px)}.exitproject{display:none;position:fixed;top:12px;inset-inline-end:12px;z-index:3;font-size:12px;opacity:.7}.project .exitproject{display:block}.project .team{padding:28px 14px}.project .name{font-size:clamp(20px,3vw,40px)}[hidden]{display:none!important}@media(max-width:500px){.app{padding-top:14px}.brand{font-size:14px}.top-actions button{font-size:12px;padding:8px 10px}.top-actions select{font-size:12px;padding:8px}.teams{gap:7px;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr)}.team{padding:14px 8px}.score-actions{gap:3px}.score-actions button{font-size:17px;min-height:44px}.stats{gap:4px}.stats button{width:32px}.clockarea{margin:14px auto}.board{padding:16px 10px}.controls button{flex:1;min-width:0;font-size:13px}.formgrid{gap:12px}h1{font-size:24px}.tag{font-size:9px}.name{min-height:2.5em;display:flex;align-items:center;justify-content:center}.project .name{min-height:1em}.footer-actions button{flex:1 1 40%}}@media(prefers-reduced-motion:no-preference){button{transition:background .12s ease,transform .12s ease}button:active:not(:disabled){transform:scale(.97)}}
+/* C18 device-data dialog */
+.dd p{margin:8px 0;overflow-wrap:anywhere;line-height:1.5}
+.dd .dd-meta{font-size:13px;opacity:.8}
+.dd-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.dd-actions button{flex:1 1 150px;min-height:48px}
+.dd-skipwrap{margin-top:6px!important}
+.dd-link{background:none!important;border:0!important;text-decoration:underline;min-height:44px;padding:8px 4px;cursor:pointer;font-size:13px;color:inherit;opacity:.75;text-align:start}
+.dd-danger{background:#6b2730!important;color:#fff!important;border:1px solid #a5434d!important}
+.dd-danger:disabled{opacity:.45;cursor:not-allowed}
+.dd input{display:block;width:100%;min-height:48px;margin-top:8px;padding:8px 12px}
+.dd-msg{min-height:1.4em;color:#ffb5ae}
+.dd [hidden]{display:none!important}
+.dd button:focus-visible,.dd input:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.dd-danger-open{color:#ffb5ae}
+.dd-open{color:#ffb5ae}
 </style></head><body>
 <div class="app" id="pe-scoreboard">
 <header><div class="brand" dir="ltr">PE ULTIMATE<small>SCOREBOARD / 01</small></div><div class="top-actions"><select id="language" aria-label="Language"><option value="en">English</option><option value="he">עברית</option><option value="ar">العربية</option><option value="ru">Русский</option><option value="es">Español</option></select><button id="display" data-t="display">Display</button></div></header>
@@ -59,6 +74,7 @@ INTEGRATION HANDOFF FOR CLAUDE
 <div class="footer-actions"><button id="undo" data-t="undo">Undo</button><button id="finish" data-t="finish">Finish match</button><button id="new" data-t="new">New match</button><button id="export" data-t="export">Export result</button></div>
 <details class="below" open><summary data-t="periodScores">Period scores</summary><div class="tablewrap"><table><thead><tr><th data-t="period">Period</th><th id="th0" dir="auto"></th><th id="th1" dir="auto"></th></tr></thead><tbody id="periodRows"></tbody><tfoot><tr><td data-t="total">Total</td><td id="total0">0</td><td id="total1">0</td></tr></tfoot></table></div></details>
 <details class="below" id="archive"><summary><span data-t="savedMatches">Saved matches</span> <span id="archiveCount"></span></summary><div id="archiveRows"></div><div class="tablewrap"><button id="clearArchive" class="ghost danger" data-t="clearArchive">Clear saved matches</button></div></details>
+<div class="footer-actions dd-row"><button id="dd-restore" class="ghost" data-t="dd_restoreBtn">Restore from backup file</button><button id="dd-open" class="ghost danger" data-t="dd_btn">Delete all data on this device</button></div>
 <div class="save" id="save" role="status"></div>
 </div><button class="exitproject" id="exitproject" data-t="exitDisplay">Exit display</button><div id="toast" role="status"></div>
 <dialog id="setup"><form id="setupForm"><h2 data-t="new">New match</h2><div class="formgrid">
@@ -69,6 +85,21 @@ INTEGRATION HANDOFF FOR CLAUDE
 <label class="field full"><span data-t="timeoutSeconds">Timeout seconds</span><input id="timeoutSeconds" type="number" min="10" max="180" required></label>
 </div><p class="subnote" data-t="school">School presets are editable. They are not official competition rules.</p><div class="dialogactions"><button type="button" data-close="setup" data-t="cancel">Cancel</button><button class="primary" type="submit" data-t="create">Create match</button></div></form></dialog>
 <dialog id="editDialog"><form id="editForm"><h2 data-t="edit">Edit score / time</h2><div class="formgrid"><label class="field"><span id="editName0" dir="auto"></span><input id="editA" type="number" min="0" max="999" required></label><label class="field"><span id="editName1" dir="auto"></span><input id="editB" type="number" min="0" max="999" required></label><label class="field"><span data-t="minutes">Minutes</span><input id="editMinutes" type="number" min="0" max="120" required></label><label class="field"><span data-t="seconds">Seconds</span><input id="editSeconds" type="number" min="0" max="59" required></label></div><p class="subnote" data-t="editNote">Editing pauses the clock. Completed periods stay intact; use Undo to reopen the last action. Editing a final result reopens the match; finish it again after correction.</p><div class="dialogactions"><button type="button" data-close="editDialog" data-t="cancel">Cancel</button><button class="primary" type="submit" data-t="apply">Apply</button></div></form></dialog>
+<dialog id="dd-dlg" aria-labelledby="dd-title"><div class="dd">
+<h2 id="dd-title"></h2>
+<div id="dd-s0" hidden><p data-dd="nothing"></p><div class="dd-actions"><button type="button" id="dd-close0" class="dd-close" data-dd="close"></button></div></div>
+<div id="dd-s1" hidden><p data-dd="what"></p><p data-dd="scope"></p><p id="dd-found" class="dd-meta"></p><p data-dd="backupNote"></p>
+<div class="dd-actions"><button type="button" id="dd-backup" class="primary" data-dd="backupBtn"></button><button type="button" class="dd-close" data-dd="cancel"></button></div>
+<p class="dd-skipwrap"><button type="button" id="dd-skip" class="dd-link" data-dd="skipBtn"></button></p></div>
+<div id="dd-s2" hidden><p id="dd-status" role="status"></p>
+<label for="dd-word" class="dd-lab"><span id="dd-prompt"></span> <b id="dd-wordshow" dir="auto"></b></label>
+<input id="dd-word" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" dir="auto">
+<div class="dd-actions"><button type="button" id="dd-confirm" class="dd-danger" disabled data-dd="confirmBtn"></button><button type="button" class="dd-close" data-dd="cancel"></button></div></div>
+<div id="dd-s3" hidden><p id="dd-s3msg"></p>
+<div class="dd-actions"><button type="button" id="dd-go" class="primary" data-dd="restoreGo"></button><button type="button" id="dd-cur" class="" data-dd="restoreCurrent"></button><button type="button" id="dd-close3" class="dd-close" data-dd="close"></button></div></div>
+<p id="dd-msg" class="dd-msg" role="alert"></p>
+</div></dialog>
+<input type="file" id="dd-file" accept=".json,application/json" hidden>
 <script>
 /* PE Scoreboard v1. Pure engine; no PE Ultimate keys, identities or grades. */
 (function(root){
@@ -172,11 +203,13 @@ es:{title:'Marcador',display:'Pantalla',offline:'SIN CONEXIÓN',fouls:'Faltas',t
 ru:{title:'Табло',display:'Режим показа',offline:'БЕЗ ИНТЕРНЕТА',fouls:'Фолы',timeout:'Тайм-аут',closeTimeout:'Завершить тайм-аут',edit:'Счёт / время',hint:'Пробел: пуск / пауза · Фолы команды обнуляются в каждом периоде',undo:'Отменить действие',finish:'Завершить матч',new:'Новый матч',export:'Экспорт результата',periodScores:'Счёт по периодам',period:'Период',total:'Итого',savedMatches:'Сохранённые матчи',clearArchive:'Удалить сохранённые матчи',exitDisplay:'Выйти из показа',teamA:'Синяя команда',teamB:'Красная команда',sport:'Вид спорта',basketball:'Баскетбол',football:'Футбол',handball:'Гандбол',custom:'Другой',format:'Формат',quarters:'Четверти',halves:'Таймы',periodCount:'Количество периодов',duration:'Минут на период',overtimeMinutes:'Минут в дополнительном периоде',timeoutSeconds:'Тайм-аут в секундах',school:'Школьные настройки можно менять. Это не официальные правила соревнований.',cancel:'Отмена',create:'Создать матч',minutes:'Минуты',seconds:'Секунды',editNote:'Редактирование останавливает часы. Завершённые периоды сохраняются; последнее действие можно отменить. Правка итога открывает матч снова; завершите его после исправления.',apply:'Применить',start:'Пуск',pause:'Пауза',paused:'Пауза',running:'Идёт игра',periodEnd:'Период завершён',final:'Итог',quarter:'Четверть',half:'Тайм',overtime:'Доп. период',next:'Следующий период',addOvertime:'Доп. период',saved:'Сохранено на этом устройстве',unsaved:'Не сохранено — экспортируйте перед закрытием',restored:'Матч восстановлен; часы остановлены',damaged:'Не удалось прочитать данные. Исходные данные не перезаписаны.',replace:'Заменить текущий матч? Сначала экспортируйте его, если нужно сохранить.',early:'Завершить период до окончания времени?',confirmFinish:'Завершить матч и сохранить итог?',cleared:'Удалить все сохранённые результаты? Текущий матч останется.',noMatches:'Завершённых матчей пока нет',download:'JSON',downloaded:'Экспорт запрошен. Проверьте загрузки.',failedDownload:'Экспорт не удался. Попробуйте в браузере.',sound:'Звук',soundOn:'Звук включён',soundOff:'Звук выключен',empty:'Текущий период',notFullscreen:'Режим показа включён. Полный экран недоступен.',point:'Счёт',foul:'Фол',loadWarning:'Табло изменилось в другой вкладке. Обновите страницу.',saveConflict:'Не сохранено — данные изменены в другой вкладке. Экспортируйте и обновите.',storageNote:'Локально · Последние 20 матчей · Экспорт для резервной копии',tooMany:'Максимум 50 периодов'},
 ar:{title:'لوحة النتائج',display:'وضع العرض',offline:'يعمل دون إنترنت',fouls:'الأخطاء',timeout:'وقت مستقطع',closeTimeout:'إنهاء الوقت المستقطع',edit:'تعديل النتيجة / الوقت',hint:'مفتاح المسافة: تشغيل / إيقاف · تُصفّر أخطاء الفريق في كل فترة',undo:'تراجع',finish:'إنهاء المباراة',new:'مباراة جديدة',export:'تصدير النتيجة',periodScores:'نتائج الفترات',period:'الفترة',total:'المجموع',savedMatches:'المباريات المحفوظة',clearArchive:'حذف المباريات المحفوظة',exitDisplay:'الخروج من العرض',teamA:'الفريق الأزرق',teamB:'الفريق الأحمر',sport:'الرياضة',basketball:'كرة السلة',football:'كرة القدم',handball:'كرة اليد',custom:'مخصص',format:'نظام المباراة',quarters:'أرباع',halves:'شوطان',periodCount:'عدد الفترات',duration:'دقائق كل فترة',overtimeMinutes:'دقائق الوقت الإضافي',timeoutSeconds:'الوقت المستقطع بالثواني',school:'الإعدادات المدرسية قابلة للتعديل وليست قواعد رسمية للمنافسات.',cancel:'إلغاء',create:'إنشاء المباراة',minutes:'دقائق',seconds:'ثوانٍ',editNote:'التعديل يوقف الساعة. تبقى الفترات المكتملة محفوظة؛ استخدم التراجع لإلغاء آخر إجراء. تعديل النتيجة النهائية يعيد فتح المباراة؛ أنهِها مجدداً بعد التصحيح.',apply:'تطبيق',start:'تشغيل',pause:'إيقاف',paused:'متوقفة',running:'المباراة جارية',periodEnd:'انتهت الفترة',final:'النتيجة النهائية',quarter:'الربع',half:'الشوط',overtime:'وقت إضافي',next:'الفترة التالية',addOvertime:'إضافة وقت إضافي',saved:'محفوظ على هذا الجهاز',unsaved:'لم يُحفظ — صدّر نسخة قبل الإغلاق',restored:'استُعيدت المباراة؛ الساعة متوقفة',damaged:'تعذرت قراءة البيانات. لم تُستبدل البيانات الأصلية.',replace:'استبدال المباراة الحالية؟ صدّرها أولاً إن أردت الاحتفاظ بها.',early:'إنهاء الفترة قبل وصول الساعة إلى الصفر؟',confirmFinish:'إنهاء المباراة وحفظ النتيجة النهائية؟',cleared:'حذف جميع النتائج المحفوظة؟ تبقى المباراة الحالية.',noMatches:'لا توجد مباريات مكتملة بعد',download:'JSON',downloaded:'طُلب التصدير. تحقق من التنزيلات.',failedDownload:'تعذر التصدير. حاول في المتصفح.',sound:'الصوت',soundOn:'الصوت مفعّل',soundOff:'الصوت متوقف',empty:'الفترة الحالية',notFullscreen:'وضع العرض مفعّل. الشاشة الكاملة غير متاحة هنا.',point:'النقاط',foul:'خطأ',loadWarning:'تغيرت اللوحة في علامة تبويب أخرى. أعد تحميل الصفحة.',saveConflict:'لم يُحفظ — تغيرت اللوحة في علامة تبويب أخرى. صدّر نسخة ثم أعد التحميل.',storageNote:'محلي فقط · آخر 20 مباراة · التصدير للنسخ الاحتياطي',tooMany:'الحد الأقصى 50 فترة'}
 };
-let lang='en',s=E.create(),records=[],sound=false,audio=null,corrupt=false,conflict=false,revision=null,persistOK=false,toastTimer;
+const DD_L={en:{"dd_btn":"Delete all data on this device","dd_restoreBtn":"Restore from backup file","dd_title":"Delete all data on this device?","dd_scope":"Only this tool's data is erased. Other tools and apps on this device are not touched. Erased data cannot be recovered without a backup file.","dd_found":"Stored items that will be erased: {0}","dd_backupNote":"Recommended: download a backup file first. You can restore it later with \"Restore from backup file\".","dd_backupBtn":"Download backup (JSON)","dd_skipBtn":"Delete without backup","dd_cancel":"Cancel","dd_backupDone":"Backup downloaded. Check that the file was saved before you continue.","dd_backupFail":"The backup could not be created. Nothing was deleted.","dd_noBackup":"No backup will be made. After deleting, the data cannot be restored.","dd_confirmPrompt":"To confirm, type this word:","dd_word":"DELETE","dd_confirmBtn":"Delete all data now","dd_nothing":"There is no saved data from this tool on this device.","dd_deleteFail":"Could not delete: storage is blocked on this device. Nothing was changed.","dd_restoreTitle":"Restore from a backup file?","dd_restoreInfo":"This backup was made on {0}. Restoring replaces the data this tool now stores on this device.","dd_restoreCurrent":"Download current data first (JSON)","dd_restoreGo":"Replace with backup","dd_restoreBad":"This file is not a valid backup for this tool. Nothing was changed.","dd_restoreFail":"Could not restore: storage is blocked or full. Nothing was changed.","dd_close":"Close","dd_what":"This erases the current match, all saved results and the settings of the Scoreboard, stored in this browser on this device."},he:{"dd_btn":"מחיקת כל הנתונים במכשיר","dd_restoreBtn":"שחזור מקובץ גיבוי","dd_title":"למחוק את כל הנתונים במכשיר?","dd_scope":"נמחקים רק הנתונים של הכלי הזה. כלים ואפליקציות אחרים במכשיר לא ייפגעו. בלי קובץ גיבוי אי אפשר לשחזר נתונים שנמחקו.","dd_found":"פריטים שמורים שיימחקו: {0}","dd_backupNote":"מומלץ להוריד קודם קובץ גיבוי. אפשר לשחזר אותו אחר כך עם \"שחזור מקובץ גיבוי\".","dd_backupBtn":"הורדת גיבוי (JSON)","dd_skipBtn":"מחיקה בלי גיבוי","dd_cancel":"ביטול","dd_backupDone":"הגיבוי הורד. ודאו שהקובץ נשמר לפני שממשיכים.","dd_backupFail":"לא ניתן ליצור גיבוי. שום דבר לא נמחק.","dd_noBackup":"לא ייווצר גיבוי. אחרי המחיקה אי אפשר לשחזר את הנתונים.","dd_confirmPrompt":"לאישור הקלידו את המילה:","dd_word":"מחק","dd_confirmBtn":"מחיקת כל הנתונים עכשיו","dd_nothing":"אין במכשיר הזה נתונים שמורים של הכלי.","dd_deleteFail":"המחיקה נכשלה: האחסון חסום במכשיר. שום דבר לא השתנה.","dd_restoreTitle":"לשחזר מקובץ גיבוי?","dd_restoreInfo":"הגיבוי נוצר ב-{0}. השחזור מחליף את הנתונים שהכלי שומר כעת במכשיר הזה.","dd_restoreCurrent":"הורדת הנתונים הנוכחיים קודם (JSON)","dd_restoreGo":"החלפה בגיבוי","dd_restoreBad":"הקובץ אינו גיבוי תקין של הכלי הזה. שום דבר לא השתנה.","dd_restoreFail":"השחזור נכשל: האחסון חסום או מלא. שום דבר לא השתנה.","dd_close":"סגירה","dd_what":"יימחקו המשחק הנוכחי, כל התוצאות השמורות וההגדרות של לוח התוצאות, השמורים בדפדפן הזה במכשיר הזה."},ar:{"dd_btn":"حذف كل البيانات على هذا الجهاز","dd_restoreBtn":"استعادة من ملف نسخة احتياطية","dd_title":"حذف كل البيانات على هذا الجهاز؟","dd_scope":"تُحذف بيانات هذه الأداة فقط. لا تتأثر الأدوات والتطبيقات الأخرى على هذا الجهاز. لا يمكن استرجاع البيانات المحذوفة دون ملف نسخة احتياطية.","dd_found":"العناصر المخزّنة التي ستُحذف: {0}","dd_backupNote":"يُنصح بتنزيل ملف نسخة احتياطية أولًا. يمكنك استعادته لاحقًا عبر \"استعادة من ملف نسخة احتياطية\".","dd_backupBtn":"تنزيل نسخة احتياطية (JSON)","dd_skipBtn":"الحذف دون نسخة احتياطية","dd_cancel":"إلغاء","dd_backupDone":"تم تنزيل النسخة الاحتياطية. تأكد من حفظ الملف قبل المتابعة.","dd_backupFail":"تعذّر إنشاء النسخة الاحتياطية. لم يُحذف شيء.","dd_noBackup":"لن تُنشأ نسخة احتياطية. بعد الحذف لا يمكن استعادة البيانات.","dd_confirmPrompt":"للتأكيد، اكتب هذه الكلمة:","dd_word":"احذف","dd_confirmBtn":"حذف كل البيانات الآن","dd_nothing":"لا توجد بيانات محفوظة لهذه الأداة على هذا الجهاز.","dd_deleteFail":"تعذّر الحذف: التخزين محظور على هذا الجهاز. لم يتغيّر شيء.","dd_restoreTitle":"الاستعادة من ملف نسخة احتياطية؟","dd_restoreInfo":"أُنشئت هذه النسخة الاحتياطية في {0}. تؤدي الاستعادة إلى استبدال البيانات التي تخزّنها الأداة حاليًا على هذا الجهاز.","dd_restoreCurrent":"تنزيل البيانات الحالية أولًا (JSON)","dd_restoreGo":"الاستبدال بالنسخة الاحتياطية","dd_restoreBad":"هذا الملف ليس نسخة احتياطية صالحة لهذه الأداة. لم يتغيّر شيء.","dd_restoreFail":"تعذّرت الاستعادة: التخزين محظور أو ممتلئ. لم يتغيّر شيء.","dd_close":"إغلاق","dd_what":"ستُحذف المباراة الحالية وجميع النتائج المحفوظة وإعدادات لوحة النتائج المخزّنة في هذا المتصفح على هذا الجهاز."},ru:{"dd_btn":"Удалить все данные на этом устройстве","dd_restoreBtn":"Восстановить из файла резервной копии","dd_title":"Удалить все данные на этом устройстве?","dd_scope":"Удаляются только данные этого инструмента. Другие инструменты и приложения на устройстве не затрагиваются. Без файла резервной копии удалённые данные не восстановить.","dd_found":"Сохранённых элементов к удалению: {0}","dd_backupNote":"Рекомендуем сначала скачать файл резервной копии. Позже его можно восстановить кнопкой «Восстановить из файла резервной копии».","dd_backupBtn":"Скачать резервную копию (JSON)","dd_skipBtn":"Удалить без резервной копии","dd_cancel":"Отмена","dd_backupDone":"Резервная копия скачана. Убедитесь, что файл сохранён, прежде чем продолжить.","dd_backupFail":"Не удалось создать резервную копию. Ничего не удалено.","dd_noBackup":"Резервная копия не будет создана. После удаления данные не восстановить.","dd_confirmPrompt":"Для подтверждения введите слово:","dd_word":"УДАЛИТЬ","dd_confirmBtn":"Удалить все данные сейчас","dd_nothing":"На этом устройстве нет сохранённых данных этого инструмента.","dd_deleteFail":"Не удалось удалить: хранилище заблокировано на этом устройстве. Ничего не изменено.","dd_restoreTitle":"Восстановить из файла резервной копии?","dd_restoreInfo":"Эта копия создана {0}. Восстановление заменит данные, которые инструмент сейчас хранит на этом устройстве.","dd_restoreCurrent":"Сначала скачать текущие данные (JSON)","dd_restoreGo":"Заменить данными из копии","dd_restoreBad":"Этот файл не является допустимой резервной копией этого инструмента. Ничего не изменено.","dd_restoreFail":"Не удалось восстановить: хранилище заблокировано или заполнено. Ничего не изменено.","dd_close":"Закрыть","dd_what":"Будут удалены текущий матч, все сохранённые результаты и настройки табло, хранящиеся в этом браузере на этом устройстве."},es:{"dd_btn":"Eliminar todos los datos de este dispositivo","dd_restoreBtn":"Restaurar desde un archivo de copia de seguridad","dd_title":"¿Eliminar todos los datos de este dispositivo?","dd_scope":"Solo se borran los datos de esta herramienta. Las demás herramientas y aplicaciones del dispositivo no se tocan. Sin un archivo de copia de seguridad, los datos borrados no se pueden recuperar.","dd_found":"Elementos guardados que se borrarán: {0}","dd_backupNote":"Recomendado: descarga primero un archivo de copia de seguridad. Después puedes restaurarlo con «Restaurar desde un archivo de copia de seguridad».","dd_backupBtn":"Descargar copia de seguridad (JSON)","dd_skipBtn":"Eliminar sin copia de seguridad","dd_cancel":"Cancelar","dd_backupDone":"Copia de seguridad descargada. Comprueba que el archivo se guardó antes de continuar.","dd_backupFail":"No se pudo crear la copia de seguridad. No se borró nada.","dd_noBackup":"No se hará copia de seguridad. Tras eliminar, los datos no se pueden restaurar.","dd_confirmPrompt":"Para confirmar, escribe esta palabra:","dd_word":"BORRAR","dd_confirmBtn":"Eliminar todos los datos ahora","dd_nothing":"No hay datos guardados de esta herramienta en este dispositivo.","dd_deleteFail":"No se pudo eliminar: el almacenamiento está bloqueado en este dispositivo. No se cambió nada.","dd_restoreTitle":"¿Restaurar desde un archivo de copia de seguridad?","dd_restoreInfo":"Esta copia se hizo el {0}. Al restaurar se reemplazan los datos que la herramienta guarda ahora en este dispositivo.","dd_restoreCurrent":"Descargar antes los datos actuales (JSON)","dd_restoreGo":"Reemplazar con la copia","dd_restoreBad":"Este archivo no es una copia de seguridad válida de esta herramienta. No se cambió nada.","dd_restoreFail":"No se pudo restaurar: el almacenamiento está bloqueado o lleno. No se cambió nada.","dd_close":"Cerrar","dd_what":"Se borrarán el partido actual, todos los resultados guardados y los ajustes del marcador, guardados en este navegador de este dispositivo."}};for(const c of Object.keys(DD_L))Object.assign(L[c],DD_L[c]);
+let lang='en',frozen=false,s=E.create(),records=[],sound=false,audio=null,corrupt=false,conflict=false,revision=null,persistOK=false,toastTimer;
 try{const pref=localStorage.getItem(PREF);if(L[pref])lang=pref;const raw=localStorage.getItem(KEY);if(raw){if(raw.length>1000000)throw Error('oversize');const n=JSON.parse(raw);if(n.version!==1||typeof n.revision!=='string'||!n.revision||!E.valid(n.current)||!Array.isArray(n.records)||n.records.length>20||!n.records.every(v=>E.valid({...v,history:[]})&&v.status==='final'))throw Error('invalid');if(new Set(n.records.map(v=>v.id)).size!==n.records.length)throw Error('duplicate');s=E.reload(n.current);s.history=[];records=n.records;revision=n.revision;}}catch(e){corrupt=true;persistOK=false;}
 const t=k=>L[lang][k]||L.en[k]||k;
 function notify(text){$('toast').textContent=text;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').textContent='',4500);}
 function store(){
+ if(frozen)return false;
  if(corrupt||conflict){persistOK=false;renderSave();return false;}
  try{
   const raw=localStorage.getItem(KEY),old=raw?JSON.parse(raw):null;
@@ -244,11 +277,137 @@ window.addEventListener('storage',ev=>{if(ev.key===KEY){if(s.deadline!==null){E.
 let lastSave=Date.now();
 setInterval(()=>{const status=s.status,timeout=!!s.timeout;renderClock();if(status!==s.status||timeout!==!!s.timeout){beep();store();render();}if(Date.now()-lastSave>5000&&(s.deadline!==null||s.timeout)){store();lastSave=Date.now();}},200);
 window.addEventListener('pagehide',()=>{E.tick(s);store();});document.addEventListener('visibilitychange',()=>{E.tick(s);if(document.hidden)store();else render();});
+/* ===== C18: backup-first "Delete all data on this device" + optional restore =====
+   Touches ONLY this tool's own browser-storage keys; every other key is left alone.
+   Flow: button -> in-page dialog (what is erased) -> "Download backup (JSON)" -> typed-word confirmation -> remove own keys -> reload.
+   "Delete without backup" is a secondary text link on the first step and still needs the typed word. No blocking browser dialogs. */
+const DD=(()=>{
+  const TOOL="pe-scoreboard",FORMAT='pe-ultimate-tool-backup';
+  const isOwn=k=>k.indexOf(KEY)===0||k===PREF;
+  const isRestorable=k=>k===KEY||k===PREF;
+  const validateKeys=keys=>{
+    if(keys[KEY]!==undefined){
+      try{const n=JSON.parse(keys[KEY]);
+        if(!n||n.version!==1||typeof n.revision!=='string'||!n.revision||!E.valid(n.current)||!Array.isArray(n.records)||n.records.length>20||!n.records.every(v=>E.valid({...v,history:[]})&&v.status==='final')||new Set(n.records.map(v=>v.id)).size!==n.records.length)return false;
+      }catch(e){return false;}
+    }
+    if(keys[PREF]!==undefined&&!L[keys[PREF]])return false;
+    return keys[KEY]!==undefined;
+  };
+  const setFrozen=on=>{frozen=on;};
+  const q=id=>document.getElementById(id);
+  const tr=(k,...a)=>{let s=String(t('dd_'+k));a.forEach((v,i)=>{s=s.split('{'+i+'}').join(String(v));});return s;};
+  const store=()=>{try{return localStorage;}catch(e){return null;}};
+  function ownKeys(st){const out=[];try{for(let i=0;i<st.length;i++){const k=st.key(i);if(typeof k==='string'&&isOwn(k))out.push(k);}}catch(e){}return out.sort();}
+  function snapshot(st){const keys={};for(const k of ownKeys(st)){let v=null;try{v=st.getItem(k);}catch(e){}if(typeof v==='string')keys[k]=v;}return keys;}
+  function buildBackup(st,now){return {format:FORMAT,version:1,tool:TOOL,exportedAt:new Date(now===undefined?Date.now():now).toISOString(),keys:snapshot(st)};}
+  function parseBackup(text){
+    try{
+      if(typeof text!=='string'||text.length>2000000)return null;
+      const o=JSON.parse(text);
+      if(!o||typeof o!=='object'||o.format!==FORMAT||o.version!==1||o.tool!==TOOL||!o.keys||typeof o.keys!=='object'||Array.isArray(o.keys))return null;
+      const ks=Object.keys(o.keys);
+      if(!ks.length)return null;
+      for(const k of ks){if(!isRestorable(k)||typeof o.keys[k]!=='string'||o.keys[k].length>1000000)return null;}
+      return validateKeys(o.keys)?o:null;
+    }catch(e){return null;}
+  }
+  function removeOwn(st){try{ownKeys(st).forEach(k=>st.removeItem(k));return ownKeys(st).length===0;}catch(e){return false;}}
+  function writeKeys(st,keys){
+    const prev={};
+    try{for(const k of Object.keys(keys))prev[k]=st.getItem(k);for(const k of Object.keys(keys))st.setItem(k,keys[k]);return true;}
+    catch(e){try{for(const k of Object.keys(prev)){if(prev[k]===null)st.removeItem(k);else st.setItem(k,prev[k]);}}catch(e2){}return false;}
+  }
+  function download(name,text){
+    try{const blob=new Blob([text],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);return true;}
+    catch(e){return false;}
+  }
+  const fileName=()=>TOOL+'-backup-'+new Date().toISOString().slice(0,10)+'.json';
+
+  const dlg=q('dd-dlg');let opener=null,pending=null,backupMade=false;
+  const msg=s=>{q('dd-msg').textContent=s||'';};
+  function openDlg(){try{dlg.showModal();}catch(e){dlg.setAttribute('open','');}}
+  function localize(){
+    document.querySelectorAll('#dd-dlg [data-dd]').forEach(el=>{el.textContent=tr(el.dataset.dd);});
+    q('dd-prompt').textContent=tr('confirmPrompt');q('dd-wordshow').textContent=tr('word');
+    q('dd-word').setAttribute('aria-label',tr('confirmPrompt')+' '+tr('word'));
+  }
+  function show(n,focusId){
+    for(const i of [0,1,2,3])q('dd-s'+i).hidden=i!==n;
+    q('dd-title').textContent=tr(n===3?'restoreTitle':'title');
+    if(focusId){const el=q(focusId);if(el&&el.focus)el.focus();}
+  }
+  function wordOk(){return q('dd-word').value.trim().toLocaleUpperCase()===tr('word').toLocaleUpperCase();}
+  function openDelete(from){
+    opener=from||null;pending=null;backupMade=false;msg('');localize();
+    
+    const st=store(),n=st?ownKeys(st).length:0;
+    q('dd-found').textContent=tr('found',n);q('dd-word').value='';q('dd-confirm').disabled=true;
+    openDlg();
+    if(!n)show(0,'dd-close0');else show(1,'dd-backup');
+  }
+  function toStep2(){
+    show(2,'dd-word');q('dd-status').textContent=tr(backupMade?'backupDone':'noBackup');msg('');
+  }
+  function openRestore(from,text){
+    opener=from||null;backupMade=false;msg('');localize();
+    pending=parseBackup(text);
+    const st=store(),has=!!(st&&ownKeys(st).length);
+    openDlg();
+    const ok=!!pending;
+    q('dd-s3msg').textContent=ok?tr('restoreInfo',new Date(pending.exportedAt).toLocaleString()):tr('restoreBad');
+    q('dd-go').hidden=!ok;q('dd-cur').hidden=!ok||!has;
+    show(3,ok?'dd-go':'dd-close3');
+  }
+  q('dd-backup').onclick=()=>{
+    const st=store(),b=st?buildBackup(st):null;
+    if(!b||!Object.keys(b.keys).length||!download(fileName(),JSON.stringify(b,null,2))){msg(tr('backupFail'));return;}
+    backupMade=true;toStep2();
+  };
+  q('dd-skip').onclick=()=>{backupMade=false;toStep2();};
+  q('dd-word').oninput=()=>{q('dd-confirm').disabled=!wordOk();};
+  q('dd-word').onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();if(wordOk())q('dd-confirm').click();}};
+  q('dd-confirm').onclick=()=>{
+    if(!wordOk())return;
+    const st=store();
+    setFrozen(true);
+    if(!st||!removeOwn(st)){setFrozen(false);msg(tr('deleteFail'));return;}
+    location.reload();
+  };
+  q('dd-cur').onclick=()=>{
+    const st=store(),b=st?buildBackup(st):null;
+    msg(b&&Object.keys(b.keys).length&&download(fileName(),JSON.stringify(b,null,2))?tr('backupDone'):tr('backupFail'));
+  };
+  q('dd-go').onclick=()=>{
+    const st=store();
+    if(!pending||!st)return;
+    setFrozen(true);
+    if(!writeKeys(st,pending.keys)){setFrozen(false);msg(tr('restoreFail'));return;}
+    location.reload();
+  };
+  document.querySelectorAll('#dd-dlg .dd-close').forEach(b=>{b.onclick=()=>{try{dlg.close();}catch(e){dlg.removeAttribute('open');}};});
+  dlg.onclose=()=>{pending=null;q('dd-word').value='';if(opener&&opener.focus)opener.focus();};
+  q("dd-open").onclick=ev=>openDelete(ev.currentTarget||q("dd-open"));
+  q("dd-restore").onclick=()=>q('dd-file').click();
+  q('dd-file').onchange=()=>{
+    const f=q('dd-file').files&&q('dd-file').files[0];
+    q('dd-file').value='';
+    if(!f)return;
+    const from=q("dd-restore");
+    if(f.size>2000000){openRestore(from,null);return;}
+    const r=new FileReader();
+    r.onload=()=>openRestore(from,String(r.result));
+    r.onerror=()=>openRestore(from,null);
+    r.readAsText(f);
+  };
+  return {api:{ownKeys,buildBackup,parseBackup,removeOwn,writeKeys,FORMAT,openDelete:()=>openDelete(q("dd-open"))}};
+})();
 /* Integration contract: isolated state + event; do not map team names to sid/cid.
  Replace persistence with the host's approved adapter before embedding in its tab.
  Provide destroy() when leaving the tab after splitting this file into a mounted module.
  Current standalone file is not injected into PE Ultimate. */
-window.PEScoreboard={getState:()=>E.snapshot(s),exportResult:()=>download(),setLanguage:code=>{if(!L[code])return false;lang=code;render();soundLabel();return true;},version:1};
+window.PEScoreboard={getState:()=>E.snapshot(s),exportResult:()=>download(),setLanguage:code=>{if(!L[code])return false;lang=code;render();soundLabel();return true;},version:1,deviceData:DD.api};
 if(!corrupt)store();render();soundLabel();if(corrupt)notify(t('damaged'));else if(revision)notify(t('restored'));
 })();
 </script></body></html>
