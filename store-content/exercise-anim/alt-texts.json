@@ -1,0 +1,334 @@
+{
+  "note": "AI-generated alt-text draft. Describes intended named cartoon movement, not a visual verification of the rendered animation. Review against actual frames.",
+  "exercises": {
+    "squat": {
+      "en": "Cartoon figure demonstrating squat.",
+      "he": "דמות מצוירת מדגימה Squat.",
+      "ar": "شخصية كرتونية تؤدي حركة Squat.",
+      "ru": "Мультяшная фигура выполняет Squat.",
+      "es": "Figura animada que realiza Squat."
+    },
+    "push": {
+      "en": "Cartoon figure demonstrating push-up.",
+      "he": "דמות מצוירת מדגימה Push-up.",
+      "ar": "شخصية كرتونية تؤدي حركة Push-up.",
+      "ru": "Мультяшная фигура выполняет Push-up.",
+      "es": "Figura animada que realiza Push-up."
+    },
+    "pushincline": {
+      "en": "Cartoon figure demonstrating incline push-up.",
+      "he": "דמות מצוירת מדגימה Incline push-up.",
+      "ar": "شخصية كرتونية تؤدي حركة Incline push-up.",
+      "ru": "Мультяшная фигура выполняет Incline push-up.",
+      "es": "Figura animada que realiza Incline push-up."
+    },
+    "lunge": {
+      "en": "Cartoon figure demonstrating lunge.",
+      "he": "דמות מצוירת מדגימה Lunge.",
+      "ar": "شخصية كرتونية تؤدي حركة Lunge.",
+      "ru": "Мультяшная фигура выполняет Lunge.",
+      "es": "Figura animada que realiza Lunge."
+    },
+    "wall": {
+      "en": "Cartoon figure demonstrating wall sit.",
+      "he": "דמות מצוירת מדגימה Wall sit.",
+      "ar": "شخصية كرتونية تؤدي حركة Wall sit.",
+      "ru": "Мультяшная фигура выполняет Wall sit.",
+      "es": "Figura animada que realiza Wall sit."
+    },
+    "gluteb": {
+      "en": "Cartoon figure demonstrating glute bridge.",
+      "he": "דמות מצוירת מדגימה Glute bridge.",
+      "ar": "شخصية كرتونية تؤدي حركة Glute bridge.",
+      "ru": "Мультяшная фигура выполняет Glute bridge.",
+      "es": "Figura animada que realiza Glute bridge."
+    },
+    "stepup": {
+      "en": "Cartoon figure demonstrating step-up.",
+      "he": "דמות מצוירת מדגימה Step-up.",
+      "ar": "شخصية كرتونية تؤدي حركة Step-up.",
+      "ru": "Мультяшная фигура выполняет Step-up.",
+      "es": "Figura animada que realiza Step-up."
+    },
+    "dip": {
+      "en": "Cartoon figure demonstrating bench dip.",
+      "he": "דמות מצוירת מדגימה Bench dip.",
+      "ar": "شخصية كرتونية تؤدي حركة Bench dip.",
+      "ru": "Мультяшная фигура выполняет Bench dip.",
+      "es": "Figura animada que realiza Bench dip."
+    },
+    "pike": {
+      "en": "Cartoon figure demonstrating pike push-up.",
+      "he": "דמות מצוירת מדגימה Pike push-up.",
+      "ar": "شخصية كرتونية تؤدي حركة Pike push-up.",
+      "ru": "Мультяшная фигура выполняет Pike push-up.",
+      "es": "Figura animada que realiza Pike push-up."
+    },
+    "calf": {
+      "en": "Cartoon figure demonstrating calf raise.",
+      "he": "דמות מצוירת מדגימה Calf raise.",
+      "ar": "شخصية كرتونية تؤدي حركة Calf raise.",
+      "ru": "Мультяшная фигура выполняет Calf raise.",
+      "es": "Figura animada que realiza Calf raise."
+    },
+    "bearcrawl": {
+      "en": "Cartoon figure demonstrating bear crawl.",
+      "he": "דמות מצוירת מדגימה Bear crawl.",
+      "ar": "شخصية كرتونية تؤدي حركة Bear crawl.",
+      "ru": "Мультяшная фигура выполняет Bear crawl.",
+      "es": "Figura animada que realiza Bear crawl."
+    },
+    "singleleg": {
+      "en": "Cartoon figure demonstrating single-leg deadlift (bodyweight).",
+      "he": "דמות מצוירת מדגימה Single-leg deadlift (bodyweight).",
+      "ar": "شخصية كرتونية تؤدي حركة Single-leg deadlift (bodyweight).",
+      "ru": "Мультяшная фигура выполняет Single-leg deadlift (bodyweight).",
+      "es": "Figura animada que realiza Single-leg deadlift (bodyweight)."
+    },
+    "inchworm": {
+      "en": "Cartoon figure demonstrating inchworm.",
+      "he": "דמות מצוירת מדגימה Inchworm.",
+      "ar": "شخصية كرتونية تؤدي حركة Inchworm.",
+      "ru": "Мультяшная фигура выполняет Inchworm.",
+      "es": "Figura animada que realiza Inchworm."
+    },
+    "jack": {
+      "en": "Cartoon figure demonstrating jumping jack.",
+      "he": "דמות מצוירת מדגימה Jumping jack.",
+      "ar": "شخصية كرتونية تؤدي حركة Jumping jack.",
+      "ru": "Мультяшная фигура выполняет Jumping jack.",
+      "es": "Figura animada que realiza Jumping jack."
+    },
+    "climber": {
+      "en": "Cartoon figure demonstrating mountain climber.",
+      "he": "דמות מצוירת מדגימה Mountain climber.",
+      "ar": "شخصية كرتونية تؤدي حركة Mountain climber.",
+      "ru": "Мультяшная фигура выполняет Mountain climber.",
+      "es": "Figura animada que realiza Mountain climber."
+    },
+    "knees": {
+      "en": "Cartoon figure demonstrating high knees.",
+      "he": "דמות מצוירת מדגימה High knees.",
+      "ar": "شخصية كرتونية تؤدي حركة High knees.",
+      "ru": "Мультяшная фигура выполняет High knees.",
+      "es": "Figura animada que realiza High knees."
+    },
+    "burpee": {
+      "en": "Cartoon figure demonstrating burpee.",
+      "he": "דמות מצוירת מדגימה Burpee.",
+      "ar": "شخصية كرتونية تؤدي حركة Burpee.",
+      "ru": "Мультяшная фигура выполняет Burpee.",
+      "es": "Figura animada que realiza Burpee."
+    },
+    "skip": {
+      "en": "Cartoon figure demonstrating jump rope (imaginary).",
+      "he": "דמות מצוירת מדגימה Jump rope (imaginary).",
+      "ar": "شخصية كرتونية تؤدي حركة Jump rope (imaginary).",
+      "ru": "Мультяшная фигура выполняет Jump rope (imaginary).",
+      "es": "Figura animada que realiza Jump rope (imaginary)."
+    },
+    "buttkick": {
+      "en": "Cartoon figure demonstrating butt kicks.",
+      "he": "דמות מצוירת מדגימה Butt kicks.",
+      "ar": "شخصية كرتونية تؤدي حركة Butt kicks.",
+      "ru": "Мультяшная фигура выполняет Butt kicks.",
+      "es": "Figura animada que realiza Butt kicks."
+    },
+    "skater": {
+      "en": "Cartoon figure demonstrating skater jumps.",
+      "he": "דמות מצוירת מדגימה Skater jumps.",
+      "ar": "شخصية كرتونية تؤدي حركة Skater jumps.",
+      "ru": "Мультяшная фигура выполняет Skater jumps.",
+      "es": "Figura animada que realiza Skater jumps."
+    },
+    "plank": {
+      "en": "Cartoon figure demonstrating plank.",
+      "he": "דמות מצוירת מדגימה Plank.",
+      "ar": "شخصية كرتونية تؤدي حركة Plank.",
+      "ru": "Мультяшная фигура выполняет Plank.",
+      "es": "Figura animada que realiza Plank."
+    },
+    "splank": {
+      "en": "Cartoon figure demonstrating side plank.",
+      "he": "דמות מצוירת מדגימה Side plank.",
+      "ar": "شخصية كرتونية تؤدي حركة Side plank.",
+      "ru": "Мультяшная фигура выполняет Side plank.",
+      "es": "Figura animada que realiza Side plank."
+    },
+    "situp": {
+      "en": "Cartoon figure demonstrating sit-up.",
+      "he": "דמות מצוירת מדגימה Sit-up.",
+      "ar": "شخصية كرتونية تؤدي حركة Sit-up.",
+      "ru": "Мультяшная фигура выполняет Sit-up.",
+      "es": "Figura animada que realiza Sit-up."
+    },
+    "bicycle": {
+      "en": "Cartoon figure demonstrating bicycle crunch.",
+      "he": "דמות מצוירת מדגימה Bicycle crunch.",
+      "ar": "شخصية كرتونية تؤدي حركة Bicycle crunch.",
+      "ru": "Мультяшная фигура выполняет Bicycle crunch.",
+      "es": "Figura animada que realiza Bicycle crunch."
+    },
+    "superman": {
+      "en": "Cartoon figure demonstrating superman.",
+      "he": "דמות מצוירת מדגימה Superman.",
+      "ar": "شخصية كرتونية تؤدي حركة Superman.",
+      "ru": "Мультяшная фигура выполняет Superman.",
+      "es": "Figura animada que realiza Superman."
+    },
+    "deadbug": {
+      "en": "Cartoon figure demonstrating dead bug.",
+      "he": "דמות מצוירת מדגימה Dead bug.",
+      "ar": "شخصية كرتونية تؤدي حركة Dead bug.",
+      "ru": "Мультяшная фигура выполняет Dead bug.",
+      "es": "Figura animada que realiza Dead bug."
+    },
+    "birddog": {
+      "en": "Cartoon figure demonstrating bird dog.",
+      "he": "דמות מצוירת מדגימה Bird dog.",
+      "ar": "شخصية كرتونية تؤدي حركة Bird dog.",
+      "ru": "Мультяшная фигура выполняет Bird dog.",
+      "es": "Figura animada que realiza Bird dog."
+    },
+    "rtwist": {
+      "en": "Cartoon figure demonstrating russian twist.",
+      "he": "דמות מצוירת מדגימה Russian twist.",
+      "ar": "شخصية كرتونية تؤدي حركة Russian twist.",
+      "ru": "Мультяшная фигура выполняет Russian twist.",
+      "es": "Figura animada que realiza Russian twist."
+    },
+    "hollow": {
+      "en": "Cartoon figure demonstrating hollow hold.",
+      "he": "דמות מצוירת מדגימה Hollow hold.",
+      "ar": "شخصية كرتونية تؤدي حركة Hollow hold.",
+      "ru": "Мультяшная фигура выполняет Hollow hold.",
+      "es": "Figura animada que realiza Hollow hold."
+    },
+    "catcow": {
+      "en": "Cartoon figure demonstrating cat-cow.",
+      "he": "דמות מצוירת מדגימה Cat-cow.",
+      "ar": "شخصية كرتونية تؤدي حركة Cat-cow.",
+      "ru": "Мультяшная фигура выполняет Cat-cow.",
+      "es": "Figura animada que realiza Cat-cow."
+    },
+    "hip90": {
+      "en": "Cartoon figure demonstrating 90/90 hip switch.",
+      "he": "דמות מצוירת מדגימה 90/90 hip switch.",
+      "ar": "شخصية كرتونية تؤدي حركة 90/90 hip switch.",
+      "ru": "Мультяшная фигура выполняет 90/90 hip switch.",
+      "es": "Figura animada que realiza 90/90 hip switch."
+    },
+    "worldgreat": {
+      "en": "Cartoon figure demonstrating world’s greatest stretch.",
+      "he": "דמות מצוירת מדגימה World’s greatest stretch.",
+      "ar": "شخصية كرتونية تؤدي حركة World’s greatest stretch.",
+      "ru": "Мультяшная фигура выполняет World’s greatest stretch.",
+      "es": "Figura animada que realiza World’s greatest stretch."
+    },
+    "thoracic": {
+      "en": "Cartoon figure demonstrating thoracic rotation.",
+      "he": "דמות מצוירת מדגימה Thoracic rotation.",
+      "ar": "شخصية كرتونية تؤدي حركة Thoracic rotation.",
+      "ru": "Мультяшная фигура выполняет Thoracic rotation.",
+      "es": "Figura animada que realiza Thoracic rotation."
+    },
+    "deepsquathold": {
+      "en": "Cartoon figure demonstrating deep squat hold.",
+      "he": "דמות מצוירת מדגימה Deep squat hold.",
+      "ar": "شخصية كرتونية تؤدي حركة Deep squat hold.",
+      "ru": "Мультяшная фигура выполняет Deep squat hold.",
+      "es": "Figura animada que realiza Deep squat hold."
+    },
+    "anklerock": {
+      "en": "Cartoon figure demonstrating ankle rocks.",
+      "he": "דמות מצוירת מדגימה Ankle rocks.",
+      "ar": "شخصية كرتونية تؤدي حركة Ankle rocks.",
+      "ru": "Мультяшная фигура выполняет Ankle rocks.",
+      "es": "Figura animada que realiza Ankle rocks."
+    },
+    "shouldercar": {
+      "en": "Cartoon figure demonstrating shoulder cars.",
+      "he": "דמות מצוירת מדגימה Shoulder CARs.",
+      "ar": "شخصية كرتونية تؤدي حركة Shoulder CARs.",
+      "ru": "Мультяшная фигура выполняет Shoulder CARs.",
+      "es": "Figura animada que realiza Shoulder CARs."
+    },
+    "gsquat": {
+      "en": "Cartoon figure demonstrating goblet squat.",
+      "he": "דמות מצוירת מדגימה Goblet squat.",
+      "ar": "شخصية كرتونية تؤدي حركة Goblet squat.",
+      "ru": "Мультяшная фигура выполняет Goblet squat.",
+      "es": "Figura animada que realiza Goblet squat."
+    },
+    "dbrow": {
+      "en": "Cartoon figure demonstrating dumbbell row.",
+      "he": "דמות מצוירת מדגימה Dumbbell row.",
+      "ar": "شخصية كرتونية تؤدي حركة Dumbbell row.",
+      "ru": "Мультяшная фигура выполняет Dumbbell row.",
+      "es": "Figura animada que realiza Dumbbell row."
+    },
+    "dbpress": {
+      "en": "Cartoon figure demonstrating dumbbell shoulder press.",
+      "he": "דמות מצוירת מדגימה Dumbbell shoulder press.",
+      "ar": "شخصية كرتونية تؤدي حركة Dumbbell shoulder press.",
+      "ru": "Мультяшная фигура выполняет Dumbbell shoulder press.",
+      "es": "Figura animada que realiza Dumbbell shoulder press."
+    },
+    "rdl": {
+      "en": "Cartoon figure demonstrating dumbbell romanian deadlift.",
+      "he": "דמות מצוירת מדגימה Dumbbell Romanian deadlift.",
+      "ar": "شخصية كرتونية تؤدي حركة Dumbbell Romanian deadlift.",
+      "ru": "Мультяшная фигура выполняет Dumbbell Romanian deadlift.",
+      "es": "Figura animada que realiza Dumbbell Romanian deadlift."
+    },
+    "latpull": {
+      "en": "Cartoon figure demonstrating lat pull-down (bar/band).",
+      "he": "דמות מצוירת מדגימה Lat pull-down (bar/band).",
+      "ar": "شخصية كرتونية تؤدي حركة Lat pull-down (bar/band).",
+      "ru": "Мультяшная фигура выполняет Lat pull-down (bar/band).",
+      "es": "Figura animada que realiza Lat pull-down (bar/band)."
+    },
+    "pullup": {
+      "en": "Cartoon figure demonstrating pull-up (assisted/band).",
+      "he": "דמות מצוירת מדגימה Pull-up (assisted/band).",
+      "ar": "شخصية كرتونية تؤدي حركة Pull-up (assisted/band).",
+      "ru": "Мультяшная фигура выполняет Pull-up (assisted/band).",
+      "es": "Figura animada que realiza Pull-up (assisted/band)."
+    },
+    "curl": {
+      "en": "Cartoon figure demonstrating biceps curl.",
+      "he": "דמות מצוירת מדגימה Biceps curl.",
+      "ar": "شخصية كرتونية تؤدي حركة Biceps curl.",
+      "ru": "Мультяшная фигура выполняет Biceps curl.",
+      "es": "Figura animada que realiza Biceps curl."
+    },
+    "tripush": {
+      "en": "Cartoon figure demonstrating band triceps push-down.",
+      "he": "דמות מצוירת מדגימה Band triceps push-down.",
+      "ar": "شخصية كرتونية تؤدي حركة Band triceps push-down.",
+      "ru": "Мультяшная фигура выполняет Band triceps push-down.",
+      "es": "Figura animada que realiza Band triceps push-down."
+    },
+    "kbswing": {
+      "en": "Cartoon figure demonstrating kettlebell swing.",
+      "he": "דמות מצוירת מדגימה Kettlebell swing.",
+      "ar": "شخصية كرتونية تؤدي حركة Kettlebell swing.",
+      "ru": "Мультяшная фигура выполняет Kettlebell swing.",
+      "es": "Figura animada que realiza Kettlebell swing."
+    },
+    "carry": {
+      "en": "Cartoon figure demonstrating farmer’s carry.",
+      "he": "דמות מצוירת מדגימה Farmer’s carry.",
+      "ar": "شخصية كرتونية تؤدي حركة Farmer’s carry.",
+      "ru": "Мультяшная фигура выполняет Farmer’s carry.",
+      "es": "Figura animada que realiza Farmer’s carry."
+    },
+    "bench": {
+      "en": "Cartoon figure demonstrating chest press (dumbbells/bench).",
+      "he": "דמות מצוירת מדגימה Chest press (dumbbells/bench).",
+      "ar": "شخصية كرتونية تؤدي حركة Chest press (dumbbells/bench).",
+      "ru": "Мультяшная фигура выполняет Chest press (dumbbells/bench).",
+      "es": "Figura animada que realiza Chest press (dumbbells/bench)."
+    }
+  }
+}
