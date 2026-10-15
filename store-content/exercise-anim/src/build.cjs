@@ -18,7 +18,7 @@ const path = require("path");
 const crypto = require("crypto");
 const { execFileSync } = require("child_process");
 const { render } = require("./svg.cjs");
-const spec = require("./exercises.json");
+const spec = require("./exercises.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
 const OUT_SVG = path.join(ROOT, "out", "svg");
@@ -37,6 +37,9 @@ const sha = b => crypto.createHash("sha256").update(b).digest("hex");
 
 async function main() {
   fs.mkdirSync(OUT_SVG, { recursive: true });
+  // README checklist block is generated from the specs
+  const readmeFile = path.join(ROOT, "README.md");
+  fs.writeFileSync(readmeFile, require("./form.cjs").injectReadme(fs.readFileSync(readmeFile, "utf8"), spec));
   const results = [];
   for (const ex of exercises) {
     const r = render(ex, spec.fps, { px: PX });
@@ -102,7 +105,7 @@ async function main() {
   if (sheet) {
     const files = [];
     for (const row of sheetRows) for (const [k, f] of row.pick.entries()) files.push("-label", `${row.id}  t=${(Math.round(k * row.n / 6) / GIF_FPS).toFixed(2)}s`, f);
-    execFileSync("montage", [...files, "-tile", "6x", "-geometry", "130x130+3+3", "-pointsize", "10", "-background", "#ffffff", "-define", "png:exclude-chunks=date,time,tEXt,zTXt,iTXt", path.join(ROOT, "contact-sheet.png")]);
+    execFileSync("montage", [...files, "-tile", "6x", "-geometry", "130x130+3+3", "-pointsize", "10", "-background", "#ffffff", "-depth", "8", "-define", "png:exclude-chunks=date,time,tEXt,zTXt,iTXt", path.join(ROOT, "contact-sheet.png")]);
     console.log("sheet contact-sheet.png");
   }
   fs.rmSync(tmp, { recursive: true, force: true });

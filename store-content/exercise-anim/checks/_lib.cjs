@@ -1,7 +1,7 @@
 "use strict";
 const path = require("path");
 const S = require("../src/skeleton.cjs");
-const spec = require("../src/exercises.json");
+const spec = require("../src/exercises.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
 const REPO = path.resolve(ROOT, "..", "..");
@@ -13,7 +13,7 @@ const REPO = path.resolve(ROOT, "..", "..");
 const LIMITS = {
   knee: [-1, 155], elbow: [-1, 150],
   hipFlex: [-35, 155], hipAbd: [-20, 50],
-  shFlex: [-60, 180], shAbd: [-45, 180],
+  shFlex: [-75, 180], shAbd: [-45, 180],   // -75: arm behind the trunk (bench dip); no scapula in the model
   ankle: [-55, 45],
   lumbar: [-25, 45], thoracic: [-25, 45], twist: [-50, 50], neck: [-45, 50], headYaw: [-60, 60]
 };
