@@ -1,0 +1,94 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-05-D1",
+  "family": "BB-05",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "warmup",
+    "step": 1,
+    "quote_en": "groups of four in a square; three cones occupied, one empty."
+  },
+  "group_shown": "representative",
+  "title": {
+    "en": "Find the free cone",
+    "he": "מציאת הקונוס הפנוי",
+    "ar": "العثور على المخروط الخالي",
+    "ru": "Найти свободный конус",
+    "es": "Encontrar el cono libre"
+  },
+  "alt": {
+    "en": "Warm-up: three pupils stand at three cones of a square and the fourth pupil A4 gives a cue from outside the movement lane. A1 moves to the empty fourth cone, stops in balance and shows hands. No ball is used in this initial phase.",
+    "he": "בחימום שלושה תלמידים עומדים בשלושה קונוסים של ריבוע. תלמיד A4 נותן אות מחוץ לנתיב התנועה. A1 נע לקונוס הרביעי הפנוי, עוצר ביציבות ומציג ידיים. בשלב הראשון אין כדור.",
+    "ar": "في الإحماء يقف ثلاثة تلاميذ عند ثلاثة مخاريط في مربع. يعطي A4 إشارة من خارج مسار الحركة. ينتقل A1 إلى المخروط الرابع الخالي، ويتوقف باتزان ويُظهر يديه. لا تُستخدم كرة في هذه المرحلة الأولى.",
+    "ru": "Разминка: трое учеников стоят у трёх конусов квадрата. A4 подаёт сигнал вне дорожки. A1 перемещается к четвёртому свободному конусу, останавливается в равновесии и показывает руки. На первом этапе мяч не используется.",
+    "es": "Calentamiento: tres alumnos ocupan tres conos de un cuadrado. A4 da una señal fuera del recorrido. A1 se mueve al cuarto cono libre, se detiene con equilibrio y muestra las manos. En esta primera fase no se utiliza balón."
+  },
+  "objects": [
+    {
+      "type": "player",
+      "team": "A",
+      "n": 1,
+      "x": 22,
+      "y": 22
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 2,
+      "x": 78,
+      "y": 22
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 3,
+      "x": 78,
+      "y": 78
+    },
+    {
+      "type": "player",
+      "team": "A",
+      "n": 4,
+      "x": 92,
+      "y": 49
+    },
+    {
+      "type": "cone",
+      "x": 22,
+      "y": 15
+    },
+    {
+      "type": "cone",
+      "x": 78,
+      "y": 15
+    },
+    {
+      "type": "cone",
+      "x": 78,
+      "y": 85
+    },
+    {
+      "type": "cone",
+      "x": 22,
+      "y": 78
+    }
+  ],
+  "paths": [
+    {
+      "kind": "move",
+      "from": [
+        22,
+        22
+      ],
+      "to": [
+        22,
+        78
+      ],
+      "order": 1
+    }
+  ],
+  "safety": "A4 cues from outside the movement lane; pupils stop at the free cone without contact. This illustrates the ball-free first phase of warm-up, not the contradictory three-cone Main A.",
+  "notes": "The warm-up explicitly specifies three occupied cones and one free cone. Main A's three-cone/empty-cone contradiction remains unresolved and is deliberately not illustrated.",
+  "status": "draft"
+}
