@@ -1,0 +1,194 @@
+{
+  "note": "AI-assisted draft; not an availability claim. Review before publication.",
+  "products": {
+    "coach-board": {
+      "en": {
+        "title": "Coach board",
+        "short": "Schematic board; device checks pending.",
+        "long": "Schematic board; device checks pending. For PE teachers. Verify contents, licence and availability before buying. Teachers adapt activities."
+      },
+      "he": {
+        "title": "לוח מאמן",
+        "short": "לוח סכמטי; בדיקות מכשירים טרם הושלמו.",
+        "long": "לוח סכמטי; בדיקות מכשירים טרם הושלמו. למורי חינוך גופני. בדקו תכולה, רישיון וזמינות לפני רכישה. המורה מתאים את הפעילות."
+      },
+      "ar": {
+        "title": "لوحة الخطط",
+        "short": "لوحة تخطيطية؛ اختبار الأجهزة لم يكتمل.",
+        "long": "لوحة تخطيطية؛ اختبار الأجهزة لم يكتمل. لمعلمي التربية البدنية. تحقق من المحتوى والترخيص والتوفر قبل الشراء. يكيف المعلم النشاط."
+      },
+      "ru": {
+        "title": "Тактическая доска",
+        "short": "Схематическая доска; проверка устройств не завершена.",
+        "long": "Схематическая доска; проверка устройств не завершена. Для учителей физкультуры. Проверьте состав, лицензию и доступность. Учитель адаптирует занятия."
+      },
+      "es": {
+        "title": "Pizarra táctica",
+        "short": "Pizarra esquemática; faltan pruebas en dispositivos.",
+        "long": "Pizarra esquemática; faltan pruebas en dispositivos. Para docentes de educación física. Comprueba contenido, licencia y disponibilidad. Adapta las actividades."
+      }
+    },
+    "scoreboard": {
+      "en": {
+        "title": "Scoreboard",
+        "short": "Game scoreboard; autosave fix pending.",
+        "long": "Game scoreboard; autosave fix pending. For PE teachers. Verify contents, licence and availability before buying. Teachers adapt activities."
+      },
+      "he": {
+        "title": "לוח תוצאות",
+        "short": "לוח משחק; תיקון השמירה ממתין.",
+        "long": "לוח משחק; תיקון השמירה ממתין. למורי חינוך גופני. בדקו תכולה, רישיון וזמינות לפני רכישה. המורה מתאים את הפעילות."
+      },
+      "ar": {
+        "title": "لوحة النتائج",
+        "short": "لوحة نتائج؛ إصلاح الحفظ قيد الانتظار.",
+        "long": "لوحة نتائج؛ إصلاح الحفظ قيد الانتظار. لمعلمي التربية البدنية. تحقق من المحتوى والترخيص والتوفر قبل الشراء. يكيف المعلم النشاط."
+      },
+      "ru": {
+        "title": "Табло счёта",
+        "short": "Табло для игр; исправление сохранения ожидается.",
+        "long": "Табло для игр; исправление сохранения ожидается. Для учителей физкультуры. Проверьте состав, лицензию и доступность. Учитель адаптирует занятия."
+      },
+      "es": {
+        "title": "Marcador digital",
+        "short": "Marcador; pendiente corregir el guardado.",
+        "long": "Marcador; pendiente corregir el guardado. Para docentes de educación física. Comprueba contenido, licencia y disponibilidad. Adapta las actividades."
+      }
+    },
+    "shuttle-run": {
+      "en": {
+        "title": "Shuttle run",
+        "short": "Planned shuttle-run tool; not yet released.",
+        "long": "Planned shuttle-run tool; not yet released. For PE teachers. Verify contents, licence and availability before buying. Teachers adapt activities."
+      },
+      "he": {
+        "title": "ריצת הלוך ושוב",
+        "short": "כלי מתוכנן לריצת הלוך ושוב; טרם הופץ.",
+        "long": "כלי מתוכנן לריצת הלוך ושוב; טרם הופץ. למורי חינוך גופני. בדקו תכולה, רישיון וזמינות לפני רכישה. המורה מתאים את הפעילות."
+      },
+      "ar": {
+        "title": "الجري المكوكي",
+        "short": "أداة جري مكوكي مخطط لها؛ لم تصدر بعد.",
+        "long": "أداة جري مكوكي مخطط لها؛ لم تصدر بعد. لمعلمي التربية البدنية. تحقق من المحتوى والترخيص والتوفر قبل الشراء. يكيف المعلم النشاط."
+      },
+      "ru": {
+        "title": "Челночный бег",
+        "short": "Планируемый челночный бег; ещё не выпущен.",
+        "long": "Планируемый челночный бег; ещё не выпущен. Для учителей физкультуры. Проверьте состав, лицензию и доступность. Учитель адаптирует занятия."
+      },
+      "es": {
+        "title": "Carrera de ida y vuelta",
+        "short": "Herramienta prevista de carrera; aún no disponible.",
+        "long": "Herramienta prevista de carrera; aún no disponible. Para docentes de educación física. Comprueba contenido, licencia y disponibilidad. Adapta las actividades."
+      }
+    },
+    "interval-trainer": {
+      "en": {
+        "title": "Interval trainer",
+        "short": "Planned interval trainer; packaging pending.",
+        "long": "Planned interval trainer; packaging pending. For PE teachers. Verify contents, licence and availability before buying. Teachers adapt activities."
+      },
+      "he": {
+        "title": "אימון אינטרוולים",
+        "short": "כלי אינטרוולים מתוכנן; האריזה בהכנה.",
+        "long": "כלי אינטרוולים מתוכנן; האריזה בהכנה. למורי חינוך גופני. בדקו תכולה, רישיון וזמינות לפני רכישה. המורה מתאים את הפעילות."
+      },
+      "ar": {
+        "title": "تدريب الفترات",
+        "short": "مدرب فترات مخطط له؛ التغليف قيد العمل.",
+        "long": "مدرب فترات مخطط له؛ التغليف قيد العمل. لمعلمي التربية البدنية. تحقق من المحتوى والترخيص والتوفر قبل الشراء. يكيف المعلم النشاط."
+      },
+      "ru": {
+        "title": "Интервальный тренажёр",
+        "short": "Планируемый тренажёр; упаковка не готова.",
+        "long": "Планируемый тренажёр; упаковка не готова. Для учителей физкультуры. Проверьте состав, лицензию и доступность. Учитель адаптирует занятия."
+      },
+      "es": {
+        "title": "Entrenador por intervalos",
+        "short": "Entrenador previsto; paquete en preparación.",
+        "long": "Entrenador previsto; paquete en preparación. Para docentes de educación física. Comprueba contenido, licencia y disponibilidad. Adapta las actividades."
+      }
+    },
+    "lesson-packs": {
+      "en": {
+        "title": "Lesson packs",
+        "short": "Draft lessons for six sports; review pending.",
+        "long": "Draft lessons for six sports; review pending. For PE teachers. Verify contents, licence and availability before buying. Teachers adapt activities."
+      },
+      "he": {
+        "title": "חבילות מערכים",
+        "short": "טיוטות מערכים בשישה ענפים; דרושה סקירה.",
+        "long": "טיוטות מערכים בשישה ענפים; דרושה סקירה. למורי חינוך גופני. בדקו תכולה, רישיון וזמינות לפני רכישה. המורה מתאים את הפעילות."
+      },
+      "ar": {
+        "title": "حزم الدروس",
+        "short": "دروس مسودة لست رياضات؛ تحتاج مراجعة.",
+        "long": "دروس مسودة لست رياضات؛ تحتاج مراجعة. لمعلمي التربية البدنية. تحقق من المحتوى والترخيص والتوفر قبل الشراء. يكيف المعلم النشاط."
+      },
+      "ru": {
+        "title": "Наборы уроков",
+        "short": "Черновики уроков по шести видам спорта.",
+        "long": "Черновики уроков по шести видам спорта. Для учителей физкультуры. Проверьте состав, лицензию и доступность. Учитель адаптирует занятия."
+      },
+      "es": {
+        "title": "Paquetes de clases",
+        "short": "Clases preliminares de seis deportes.",
+        "long": "Clases preliminares de seis deportes. Para docentes de educación física. Comprueba contenido, licencia y disponibilidad. Adapta las actividades."
+      }
+    },
+    "activities": {
+      "en": {
+        "title": "Activity pack",
+        "short": "Planned drills and games; review pending.",
+        "long": "Planned drills and games; review pending. For PE teachers. Verify contents, licence and availability before buying. Teachers adapt activities."
+      },
+      "he": {
+        "title": "חבילת פעילויות",
+        "short": "תרגילים ומשחקים מתוכננים; דרושה סקירה.",
+        "long": "תרגילים ומשחקים מתוכננים; דרושה סקירה. למורי חינוך גופני. בדקו תכולה, רישיון וזמינות לפני רכישה. המורה מתאים את הפעילות."
+      },
+      "ar": {
+        "title": "حزمة الأنشطة",
+        "short": "تمارين وألعاب مخطط لها؛ تحتاج مراجعة.",
+        "long": "تمارين وألعاب مخطط لها؛ تحتاج مراجعة. لمعلمي التربية البدنية. تحقق من المحتوى والترخيص والتوفر قبل الشراء. يكيف المعلم النشاط."
+      },
+      "ru": {
+        "title": "Набор занятий",
+        "short": "Планируемые упражнения и игры; нужна проверка.",
+        "long": "Планируемые упражнения и игры; нужна проверка. Для учителей физкультуры. Проверьте состав, лицензию и доступность. Учитель адаптирует занятия."
+      },
+      "es": {
+        "title": "Paquete de actividades",
+        "short": "Ejercicios y juegos previstos; pendientes de revisión.",
+        "long": "Ejercicios y juegos previstos; pendientes de revisión. Para docentes de educación física. Comprueba contenido, licencia y disponibilidad. Adapta las actividades."
+      }
+    },
+    "bundle": {
+      "en": {
+        "title": "Bundle",
+        "short": "Proposed bundle; contents not finalized.",
+        "long": "Proposed bundle; contents not finalized. For PE teachers. Verify contents, licence and availability before buying. Teachers adapt activities."
+      },
+      "he": {
+        "title": "חבילה משולבת",
+        "short": "חבילה מוצעת; ההרכב טרם נקבע.",
+        "long": "חבילה מוצעת; ההרכב טרם נקבע. למורי חינוך גופני. בדקו תכולה, רישיון וזמינות לפני רכישה. המורה מתאים את הפעילות."
+      },
+      "ar": {
+        "title": "حزمة مجمعة",
+        "short": "حزمة مقترحة؛ المحتويات غير محددة.",
+        "long": "حزمة مقترحة؛ المحتويات غير محددة. لمعلمي التربية البدنية. تحقق من المحتوى والترخيص والتوفر قبل الشراء. يكيف المعلم النشاط."
+      },
+      "ru": {
+        "title": "Комплект",
+        "short": "Предлагаемый комплект; состав не определён.",
+        "long": "Предлагаемый комплект; состав не определён. Для учителей физкультуры. Проверьте состав, лицензию и доступность. Учитель адаптирует занятия."
+      },
+      "es": {
+        "title": "Paquete combinado",
+        "short": "Conjunto propuesto; contenido sin confirmar.",
+        "long": "Conjunto propuesto; contenido sin confirmar. Para docentes de educación física. Comprueba contenido, licencia y disponibilidad. Adapta las actividades."
+      }
+    }
+  }
+}
