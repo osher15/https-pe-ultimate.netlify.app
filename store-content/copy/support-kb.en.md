@@ -25,7 +25,7 @@ pupils' names.
 15. The beeps or sounds are not playing
 16. The screen goes to sleep during a timer or test
 17. Printing
-18. The Scoreboard stopped saving after I reloaded
+18. Will my Scoreboard data survive a reload?
 19. The Shuttle Run shows no VO₂max estimate
 20. Exercise animations look still, or voice announcements are silent
 21. I found an accessibility problem
@@ -163,12 +163,11 @@ If the screen locked during a test, the beeps may stop; press Resume if the tool
 - **Lesson packs and the activity pack:** documents meant for printing (`{{LESSON_PACK_FORMAT}}`). If the diagrams look
   grey or pale on your printer, choose "black and white" or "high quality" in the print dialog.
 
-### 18. The Scoreboard stopped saving after I reloaded
-**What happens:** in the current build, if you reload the page, automatic saving can stop for the rest of that session,
-and the status line may say that another tab changed the board. Your score on screen is still correct.
-**What to do:** after a reload, do not rely on autosave. Export the result with the export button before you close the
-tab. `{{SCOREBOARD_AUTOSAVE_FIX_STATUS}}`
-Closing and reopening the file (instead of reloading) is not affected.
+### 18. Will my Scoreboard data survive a reload?
+**What happens:** the Scoreboard saves the current match in the browser on this device, including after you reload the page
+or close and reopen the file. A running clock is restored paused, with the elapsed time kept.
+**What to do:** nothing is needed. Data is lost only if you clear the browser's site data, use a private window, or open the file on a
+different device or browser. Export a copy with the export button, or use "Download backup" in the delete-all dialog, before you clear data.
 
 ### 19. The Shuttle Run shows no VO₂max estimate
 The estimate is shown only for the standard **20 m** course, because the equation (Léger et al., 1988) is for 20 m.

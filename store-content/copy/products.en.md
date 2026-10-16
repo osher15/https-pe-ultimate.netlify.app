@@ -100,9 +100,6 @@ group. Boards are saved in the browser you use; save a JSON copy to keep or move
 
 **Known limits (current build):**
 - Results can be exported as JSON; there is no import and no print layout.
-- After you reload the page, automatic saving can stop for that session. Export the result before you close the
-  tab. `{{SCOREBOARD_AUTOSAVE_FIX_STATUS}}` (the fix is written and tested but not yet applied to the file; replace
-  this line with nothing once it ships, or sell only after it is applied).
 
 ---
 

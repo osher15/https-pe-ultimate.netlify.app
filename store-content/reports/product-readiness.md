@@ -262,3 +262,7 @@ reserved app task: neutral wording and removal or replacement of the HFZ table. 
    translations were made with AI, and that the professional content was reviewed by several teachers and checked
    against Ministry of Education curricula, with minor proofreading, syntax or terminology errors possible. This is
    the **owner's statement**; Claude did not verify the teacher review itself.
+
+
+---
+**Update 2026-10-16:** the scoreboard reload-autosave bug (Bug 1) is fixed in commit a1bbc1e (merged on `ccr-f0f0c4fd-ymvjjb`); `patches/scoreboard-reload-autosave.diff` was removed. verify-boards 46/46, browser-boards 49/49, npm test 819/819 (headless Chromium only; no device evidence). Statements above that call the patch "proposed" or "not applied" are historical.
