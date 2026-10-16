@@ -24,12 +24,13 @@ Follow-up fixes (owner asked on 2026-10-16 to fix what was found; added to the #
 Still open (not fixable here):
 - Android automatic backup on/off behavior not device-tested.
 - Owner only: Netlify DPA acceptance; six-monthly contact-submission review and deletion log.
-- iOS localized prompts need an Xcode build (CI simulator job) and a device check; no Mac here.
+- iOS localized prompts compile in CI; the prompt language still needs a device check (Hebrew iPad).
 
 Validation commands and results:
 - `npm test` (after the follow-up fixes): 810 tests, 810 passed, 0 failed.
 - `node build-standalone.js` twice: both exit 0; no generated diff (terms.html is copied as-is into the native web bundle, not inlined).
-- `Info.plist` parses (Python plistlib). `project.pbxproj` and `.strings` not validated by Xcode here; native workflow triggered on this branch (see Issue #60).
+- `Info.plist` parses (Python plistlib).
+- CI: Native builds run 38842646708 (workflow_dispatch on `c540fa5`): Android APK, Android release AAB and iOS simulator compile all succeeded; iOS `BUILD SUCCEEDED` with Xcode 26.3. The workflow prints only the last 60 lines, so the strings-copy step is not visible in the log; bundling of the localized prompts is not separately confirmed.
 - Browser suites not run: no product change.
 
 CI / emulation / physical-device evidence: none needed for docs; none claimed. Facts in the skill come from code reading only, not network capture.
@@ -38,4 +39,4 @@ Unresolved issues and dependencies: Law and store-policy references are orientat
 
 Publication status: committed and pushed to `ccr-c2efb123-418zzv`. Issue #60 created as the reservation. Nothing merged or deployed.
 
-Next owner / next action: Check the iOS CI job result. Owner reviews and merges, then checks the permission prompts on the iPad in Hebrew. Optionally Codex adds one line to `AGENTS.md` pointing to `.claude/skills/PE-Ultimate-Legal-Compliance/SKILL.md`.
+Next owner / next action: Owner reviews and merges, then checks the permission prompts on the iPad in Hebrew. Optionally Codex adds one line to `AGENTS.md` pointing to `.claude/skills/PE-Ultimate-Legal-Compliance/SKILL.md`.
