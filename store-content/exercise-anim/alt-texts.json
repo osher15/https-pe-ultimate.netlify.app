@@ -1,0 +1,334 @@
+{
+  "note": "Alt texts for the 47 exercise animations (task C25). AI-written from the animation specs (keyframes, poses, props) and the README form checklists; exercise names come from the interval-trainer data (window.PE_IT_DATA). Each text describes only what the drawn cartoon figure does, max 120 characters, no advice or claims. Needs native-speaker review in he/ar/ru/es. Not wired into the app or the interval trainer.",
+  "exercises": {
+    "squat": {
+      "en": "Cartoon figure lowers into a squat with arms forward, pauses, then stands back up",
+      "he": "דמות מצוירת יורדת לסקוואט עם זרועות קדימה, עוצרת רגע וקמה חזרה",
+      "ar": "شخصية كرتونية تنزل في القرفصاء والذراعان إلى الأمام، تتوقف لحظة ثم تقف مجددًا",
+      "ru": "Приседание: мультяшная фигурка опускается вниз, руки вперёд, на миг замирает и встаёт",
+      "es": "Figura animada baja en una sentadilla con los brazos al frente, hace una pausa y se levanta"
+    },
+    "push": {
+      "en": "Cartoon figure on a mat lowers its straight body toward the floor in a push-up, then presses back up",
+      "he": "דמות מצוירת על מזרן מורידה את גופה הישר לעבר הרצפה בשכיבות סמיכה ודוחפת חזרה למעלה",
+      "ar": "شخصية كرتونية على حصيرة تخفض جسمها المستقيم نحو الأرض في الضغط ثم تدفع نفسها للأعلى",
+      "ru": "Отжимания: мультяшная фигурка на коврике опускает прямое тело к полу и выжимается вверх",
+      "es": "Figura animada sobre una colchoneta baja el cuerpo recto hacia el suelo en flexiones y sube"
+    },
+    "pushincline": {
+      "en": "Cartoon figure with hands on a box lowers its chest toward the box edge, then presses back up",
+      "he": "דמות מצוירת עם הידיים על קופסה מורידה את החזה לקצה הקופסה ודוחפת חזרה בשכיבות סמיכה בשיפוע",
+      "ar": "شخصية كرتونية ويداها على صندوق تخفض صدرها نحو حافته ثم تدفع للأعلى في الضغط المائل",
+      "ru": "Отжимания с опорой на возвышение: фигурка с руками на коробке опускает грудь к краю и выжимается вверх",
+      "es": "Figura animada con las manos en una caja baja el pecho hacia el borde en flexiones inclinadas y sube"
+    },
+    "lunge": {
+      "en": "Cartoon figure with hands on hips steps forward, lowers both knees, then pushes back to standing",
+      "he": "דמות מצוירת עם ידיים על המותניים צועדת קדימה, מורידה את שתי הברכיים וחוזרת לעמידה בלאנג׳",
+      "ar": "شخصية كرتونية ويداها على خصرها تخطو للأمام وتخفض ركبتيها في الطعن ثم تعود إلى الوقوف",
+      "ru": "Выпад: мультяшная фигурка с руками на поясе шагает вперёд, опускает колени и возвращается в стойку",
+      "es": "Figura animada con las manos en la cintura da un paso adelante, baja en zancada y vuelve a ponerse de pie"
+    },
+    "wall": {
+      "en": "Cartoon figure sits against a wall with thighs level, holds the position, and a stopwatch appears",
+      "he": "דמות מצוירת נשענת על קיר בישיבת כיסא קיר עם ירכיים אופקיות, נשארת במקום, וסטופר מופיע",
+      "ar": "شخصية كرتونية تسند ظهرها إلى الحائط في الكرسي على الحائط والفخذان أفقيان، وتثبت مع ظهور ساعة إيقاف",
+      "ru": "Стульчик у стены: мультяшная фигурка сидит спиной к стене, бёдра горизонтально, держит позу, виден секундомер",
+      "es": "Figura animada sentada contra la pared con los muslos horizontales en sentadilla isométrica en pared; hay cronómetro"
+    },
+    "gluteb": {
+      "en": "Cartoon figure lies on a mat with knees bent, lifts its hips into a straight line, then lowers them",
+      "he": "דמות מצוירת שוכבת על מזרן עם ברכיים כפופות, מרימה את האגן לקו ישר ומורידה בגשר ישבן",
+      "ar": "شخصية كرتونية مستلقية على حصيرة وركبتاها مثنيتان ترفع حوضها في جسر الأرداف حتى يستقيم جسمها ثم تنزل",
+      "ru": "Ягодичный мостик: фигурка лежит на коврике, колени согнуты, поднимает таз до прямой линии и опускает",
+      "es": "Figura animada tumbada en una colchoneta con rodillas dobladas sube las caderas en puente de glúteo y baja"
+    },
+    "stepup": {
+      "en": "Cartoon figure steps up onto a box with one leg, stands tall on top, then steps back down",
+      "he": "דמות מצוירת עולה על קופסה ברגל אחת בעליות לספסל, עומדת זקופה למעלה ויורדת חזרה",
+      "ar": "شخصية كرتونية تصعد بساق واحدة على صندوق، تقف منتصبة فوقه ثم تنزل، في الصعود على المقعد",
+      "ru": "Зашагивания на скамью: мультяшная фигурка ставит ногу на коробку, выпрямляется наверху и сходит вниз",
+      "es": "Figura animada sube con una pierna a una caja en subidas al banco, se endereza arriba y baja"
+    },
+    "dip": {
+      "en": "Cartoon figure with hands on a bench edge bends its elbows to lower its body, then straightens its arms",
+      "he": "דמות מצוירת עם הידיים על קצה ספסל מכופפת מרפקים, מורידה את הגוף ומיישרת בדיפים על ספסל",
+      "ar": "شخصية كرتونية ويداها على حافة مقعد تثني مرفقيها لتخفض جسمها ثم تفرد ذراعيها في الغطس على المقعد",
+      "ru": "Отжимания от скамьи: фигурка с руками на краю скамьи сгибает локти, опускает тело и разгибает руки",
+      "es": "Figura animada con las manos en el borde de un banco dobla los codos para bajar en fondos en banco y sube"
+    },
+    "pike": {
+      "en": "Cartoon figure with hips high in an upside-down V bends its elbows and lowers its head, then pushes up",
+      "he": "דמות מצוירת עם אגן גבוה בצורת משולש הפוך מכופפת מרפקים, מורידה את הראש ודוחפת בשכיבות פייק",
+      "ar": "شخصية كرتونية وحوضها مرتفع كمثلث مقلوب تثني مرفقيها وتخفض رأسها ثم تدفع للأعلى في الضغط بوضعية الهرم",
+      "ru": "Отжимания в складке: фигурка с высоко поднятым тазом сгибает локти, опускает голову и выпрямляется",
+      "es": "Figura animada con las caderas altas en V invertida dobla los codos y baja la cabeza en flexiones en pica"
+    },
+    "calf": {
+      "en": "Cartoon figure stands tall, rises slowly onto its toes, then lowers its heels back to the floor",
+      "he": "דמות מצוירת עומדת זקופה, עולה לאט על קצות האצבעות ומורידה את העקבים בעליות עקבים",
+      "ar": "شخصية كرتونية تقف منتصبة وترتفع ببطء على أصابع قدميها ثم تنزل كعبيها إلى الأرض في رفع الكعبين",
+      "ru": "Подъёмы на носки: мультяшная фигурка стоит прямо, медленно поднимается на носки и опускает пятки",
+      "es": "Figura animada de pie se eleva despacio sobre las puntas en elevaciones de talones y baja los talones"
+    },
+    "bearcrawl": {
+      "en": "Cartoon figure on hands and feet, knees just off the floor, crawls forward with opposite hand and foot",
+      "he": "דמות מצוירת על ידיים וכפות רגליים, ברכיים מעל הרצפה, זוחלת קדימה בזחילת דוב ביד וברגל מנוגדות",
+      "ar": "زحف الدب: شخصية كرتونية على يديها وقدميها وركبتاها فوق الأرض تتقدم للأمام بيد وقدم متقابلتين",
+      "ru": "Медвежья походка: фигурка на руках и ногах, колени над полом, ползёт вперёд, двигая руку и противоположную ногу",
+      "es": "Figura animada a cuatro apoyos con las rodillas elevadas avanza en paso del oso con mano y pie opuestos"
+    },
+    "singleleg": {
+      "en": "Cartoon figure stands on one leg, tips forward with arms hanging down as the other leg rises, then stands",
+      "he": "דדליפט רגל אחת: דמות מצוירת רוכנת קדימה על רגל אחת, ידיים למטה, והרגל השנייה עולה אחורה, ואז קמה",
+      "ar": "رفعة ميتة على رجل واحدة: شخصية كرتونية تميل للأمام على ساق واحدة وذراعاها لأسفل والساق الأخرى للخلف ثم تقف",
+      "ru": "Становая на одной ноге: фигурка на одной ноге наклоняется, руки вниз, вторая нога уходит назад, затем встаёт",
+      "es": "Peso muerto a una pierna: figura animada se inclina sobre una pierna con los brazos abajo y la otra atrás, y se endereza"
+    },
+    "inchworm": {
+      "en": "Cartoon figure bends down, walks its hands out to a plank, walks its feet in, and stands up",
+      "he": "דמות מצוירת מתכופפת, הולכת עם הידיים קדימה עד פלאנק, מקרבת את הרגליים וקמה, כמו תולעת",
+      "ar": "شخصية كرتونية تنحني وتمشي بيديها إلى وضع البلانك ثم تقرّب قدميها وتقف، كحركة الدودة",
+      "ru": "Гусеница: мультяшная фигурка наклоняется, шагает руками в упор лёжа, подтягивает ноги и встаёт",
+      "es": "Figura animada se inclina, camina con las manos hasta una plancha, acerca los pies y se levanta como una oruga"
+    },
+    "jack": {
+      "en": "Cartoon figure jumps its feet apart while its arms sweep overhead, then jumps back with arms down",
+      "he": "דמות מצוירת קופצת עם רגליים לצדדים וידיים מעל הראש, וקופצת חזרה עם ידיים למטה בג׳אמפינג ג׳ק",
+      "ar": "شخصية كرتونية تقفز بقدمين متباعدتين وذراعان فوق الرأس ثم تقفز عائدة والذراعان إلى الأسفل في القفز فتحًا وضمًا",
+      "ru": "Прыжки звёздочка: мультяшная фигурка прыжком расставляет ноги и поднимает руки над головой, затем возвращается",
+      "es": "Figura animada salta abriendo las piernas y subiendo los brazos sobre la cabeza en saltos de tijera, y vuelve"
+    },
+    "climber": {
+      "en": "Cartoon figure in a straight-arm plank drives one knee toward its chest, then switches legs quickly",
+      "he": "דמות מצוירת בפלאנק עם זרועות ישרות מקרבת ברך אחת לחזה ומחליפה רגליים במהירות כמו מטפס הרים",
+      "ar": "شخصية كرتونية في وضع البلانك بذراعين مستقيمتين تقرّب ركبة نحو صدرها ثم تبدّل الساقين بسرعة كمتسلق الجبل",
+      "ru": "Скалолаз: мультяшная фигурка в упоре лёжа подтягивает колено к груди и быстро меняет ногу",
+      "es": "Figura animada en plancha con brazos rectos lleva una rodilla al pecho y cambia de pierna como escaladores"
+    },
+    "knees": {
+      "en": "Cartoon figure runs in place, lifting each knee to hip height while its arms pump",
+      "he": "דמות מצוירת רצה במקום ומרימה כל ברך עד גובה האגן כשהזרועות מתנופפות בברכיים גבוהות",
+      "ar": "شخصية كرتونية تركض في مكانها وترفع كل ركبة إلى مستوى الحوض وذراعاها تتحركان، في رفع الركبتين عاليًا",
+      "ru": "Бег с высоким подниманием бедра: фигурка бежит на месте, поднимая колени до уровня таза, руки работают",
+      "es": "Figura animada hace skipping en el sitio, subiendo cada rodilla a la altura de la cadera con los brazos en movimiento"
+    },
+    "burpee": {
+      "en": "Cartoon figure squats, jumps its feet back to a plank, jumps them in, then leaps up with arms overhead",
+      "he": "דמות מצוירת מתכופפת, קופצת לפלאנק, קופצת חזרה וקופצת למעלה עם ידיים מעל הראש בברפי",
+      "ar": "شخصية كرتونية تجلس القرفصاء وتقفز بقدميها إلى البلانك ثم تعيدهما وتقفز عاليًا وذراعاها فوق رأسها في البيربي",
+      "ru": "Бёрпи: мультяшная фигурка приседает, прыжком уходит в упор лёжа, возвращается и выпрыгивает с руками вверх",
+      "es": "Figura animada hace burpee: se agacha, salta a plancha, recoge los pies y salta con los brazos arriba"
+    },
+    "skip": {
+      "en": "Cartoon figure makes small quick hops on its toes, turning an imaginary jump rope with its wrists",
+      "he": "דמות מצוירת מבצעת קפיצות קטנות ומהירות על קצות האצבעות ומסובבת חבל מדומה בדילוג בחבל",
+      "ar": "شخصية كرتونية تقفز قفزات صغيرة سريعة على أطراف أصابعها وتدير حبلًا وهميًا في نط الحبل",
+      "ru": "Прыжки со скакалкой (имитация): фигурка делает быстрые невысокие прыжки на носках, вращая воображаемую скакалку",
+      "es": "Figura animada da saltitos rápidos sobre las puntas girando una cuerda imaginaria en comba imaginaria"
+    },
+    "buttkick": {
+      "en": "Cartoon figure runs in place, kicking each heel up toward its buttock in a quick rhythm",
+      "he": "דמות מצוירת רצה במקום ובועטת בכל עקב לכיוון הישבן בקצב מהיר בבעיטות לישבן",
+      "ar": "شخصية كرتونية تركض في مكانها وترفع كل كعب نحو أردافها بإيقاع سريع في ركل الأرداف",
+      "ru": "Захлёст голени: мультяшная фигурка бежит на месте, быстро забрасывая каждую пятку к ягодице",
+      "es": "Figura animada corre en el sitio llevando cada talón hacia el glúteo con ritmo rápido en talones al glúteo"
+    },
+    "skater": {
+      "en": "Cartoon figure, seen from the front, bounds side to side, landing on one leg with the other swept behind",
+      "he": "דמות מצוירת מלפנים קופצת מצד לצד בקפיצות סקייטר ונוחתת על רגל אחת כשהשנייה מאחור",
+      "ar": "قفزات المتزلّج: شخصية كرتونية من الأمام تقفز من جانب إلى آخر وتهبط على ساق واحدة والأخرى خلفها",
+      "ru": "Прыжки конькобежца: фигурка, вид спереди, прыгает из стороны в сторону, приземляясь на одну ногу",
+      "es": "Figura animada vista de frente salta de lado a lado en saltos de patinador y aterriza en una pierna"
+    },
+    "plank": {
+      "en": "Cartoon figure on a mat holds a straight forearm plank, breathing slightly, while a stopwatch shows",
+      "he": "דמות מצוירת על מזרן מחזיקה פלאנק ישר על האמות, נושמת קלות, וסטופר מופיע",
+      "ar": "شخصية كرتونية على حصيرة تثبت وضع البلانك المستقيم على ساعديها وتتنفس بهدوء مع ظهور ساعة إيقاف",
+      "ru": "Планка: мультяшная фигурка на коврике держит прямое тело в упоре на предплечьях, виден секундомер",
+      "es": "Figura animada sobre una colchoneta mantiene una plancha recta sobre los antebrazos; se ve un cronómetro"
+    },
+    "splank": {
+      "en": "Cartoon figure on a mat holds a side plank on one forearm, hand on hip, while a stopwatch shows",
+      "he": "דמות מצוירת על מזרן מחזיקה פלאנק צד על אמה אחת, יד על המותן, וסטופר מופיע",
+      "ar": "شخصية كرتونية على حصيرة تثبت البلانك الجانبي على ساعد واحد ويدها على خصرها مع ظهور ساعة إيقاف",
+      "ru": "Боковая планка: фигурка на коврике держится на одном предплечье, рука на поясе, виден секундомер",
+      "es": "Figura animada sobre una colchoneta mantiene una plancha lateral con la mano en la cadera; hay un cronómetro"
+    },
+    "situp": {
+      "en": "Cartoon figure lies on a mat, arms crossed on its chest, curls up to sitting, then lowers back down",
+      "he": "דמות מצוירת שוכבת על מזרן עם ידיים משוכלות על החזה, מתרוממת לישיבה וחוזרת לשכיבה בכפיפות בטן",
+      "ar": "الجلوس من الرقود: شخصية كرتونية مستلقية على حصيرة وذراعاها متقاطعتان على صدرها تجلس ثم تعود إلى الاستلقاء",
+      "ru": "Подъём туловища: фигурка лежит на коврике со скрещёнными на груди руками, садится и снова ложится",
+      "es": "Figura animada tumbada con los brazos cruzados sobre el pecho se incorpora en abdominales y vuelve a bajar"
+    },
+    "bicycle": {
+      "en": "Cartoon figure on its back, hands behind head, brings alternate knees toward the opposite elbow like pedalling",
+      "he": "כפיפות אופניים: דמות מצוירת שוכבת, ידיים מאחורי הראש, ומקרבת ברך למרפק הנגדי לסירוגין כמו בדיווש",
+      "ar": "تمرين الدراجة للبطن: شخصية كرتونية مستلقية ويداها خلف رأسها تقرّب ركبة نحو المرفق المقابل بالتناوب",
+      "ru": "Велосипед: мультяшная фигурка лежит, руки за головой, по очереди тянет колено к противоположному локтю",
+      "es": "Abdominales bicicleta: figura animada tumbada con las manos tras la cabeza acerca cada rodilla al codo contrario"
+    },
+    "superman": {
+      "en": "Cartoon figure lies face down, lifts its arms, chest and legs together off the mat, then lowers them",
+      "he": "דמות מצוירת שוכבת על הבטן, מרימה זרועות, חזה ורגליים יחד מהמזרן ומורידה בסופרמן",
+      "ar": "شخصية كرتونية مستلقية على بطنها ترفع ذراعيها وصدرها وساقيها معًا عن الحصيرة ثم تنزل في السوبرمان",
+      "ru": "Супермен: мультяшная фигурка лежит лицом вниз, одновременно поднимает руки, грудь и ноги и опускает",
+      "es": "Figura animada tumbada boca abajo levanta brazos, pecho y piernas a la vez en superman y los baja"
+    },
+    "deadbug": {
+      "en": "Cartoon figure on its back, arms up and knees bent, lowers opposite arm and leg, returns, then switches",
+      "he": "דמות מצוירת שוכבת על הגב עם ידיים למעלה וברכיים כפופות, מורידה יד ורגל מנוגדות וחוזרת לסירוגין, דד באג",
+      "ar": "شخصية كرتونية مستلقية على ظهرها وذراعاها للأعلى وركبتاها مثنيتان تخفض ذراعًا وساقًا متقابلتين ثم تعود وتبدّل، ديد باج",
+      "ru": "Дед баг: мультяшная фигурка лежит на спине, руки вверх, колени согнуты, опускает руку и противоположную ногу",
+      "es": "Figura animada tumbada con brazos arriba y rodillas dobladas baja brazo y pierna opuestos y alterna, dead bug"
+    },
+    "birddog": {
+      "en": "Cartoon figure on hands and knees reaches one arm forward and the opposite leg back, returns, then switches",
+      "he": "דמות מצוירת על ארבע מושיטה יד קדימה ורגל נגדית אחורה, חוזרת ומחליפה צד, בירד דוג",
+      "ar": "شخصية كرتونية على اليدين والركبتين تمدّ ذراعًا للأمام والساق المقابلة للخلف ثم تعود وتبدّل الجانب، بيرد دوغ",
+      "ru": "Бёрд-дог: мультяшная фигурка на четвереньках вытягивает руку вперёд и противоположную ногу назад, затем меняет сторону",
+      "es": "Figura animada a cuatro patas estira un brazo al frente y la pierna contraria atrás, vuelve y cambia, bird dog"
+    },
+    "rtwist": {
+      "en": "Cartoon figure sits leaned back with hands together and turns its chest side to side, tapping the mat",
+      "he": "דמות מצוירת יושבת נשענת לאחור עם ידיים צמודות ומסובבת את החזה מצד לצד, נוגעת במזרן, בסיבובי רוסי",
+      "ar": "شخصية كرتونية جالسة ومائلة للخلف ويداها معًا تدير صدرها من جانب إلى آخر وتلمس الحصيرة في الالتفاف الروسي",
+      "ru": "Русские скручивания: фигурка сидит с наклоном назад, руки сцеплены, поворачивает корпус и касается коврика",
+      "es": "Figura animada sentada e inclinada atrás con las manos juntas gira el torso a ambos lados en giros rusos"
+    },
+    "hollow": {
+      "en": "Cartoon figure on its back lifts shoulders and straight legs, arms overhead, and holds a shallow curve",
+      "he": "דמות מצוירת שוכבת על הגב, מרימה כתפיים ורגליים ישרות עם ידיים מעל הראש ומחזיקה קשת רדודה, הולו הולד",
+      "ar": "شخصية كرتونية مستلقية على ظهرها ترفع كتفيها وساقيها المستقيمتين وذراعاها فوق رأسها وتثبت انحناءة خفيفة، هولو هولد",
+      "ru": "Холлоу-холд: мультяшная фигурка лежит на спине, поднимает плечи и прямые ноги, руки за голову, держит позу",
+      "es": "Figura animada tumbada eleva hombros y piernas rectas con los brazos sobre la cabeza y mantiene una curva, hollow hold"
+    },
+    "catcow": {
+      "en": "Cartoon figure on hands and knees slowly lets its belly sink, then rounds its back up, in a repeating flow",
+      "he": "דמות מצוירת על ארבע מורידה לאט את הבטן ואז מקשתת את הגב כלפי מעלה, שוב ושוב בתנועת חתול־פרה",
+      "ar": "شخصية كرتونية على اليدين والركبتين تُنزل بطنها ببطء ثم تقوّس ظهرها للأعلى بتكرار متصل في القطة والبقرة",
+      "ru": "«Кошка-корова»: мультяшная фигурка на четвереньках плавно прогибает спину вниз, затем округляет её вверх",
+      "es": "Figura animada a cuatro patas hunde despacio el vientre y luego redondea la espalda, en gato-vaca continuo"
+    },
+    "hip90": {
+      "en": "Cartoon figure sits with both legs bent at 90 degrees and swings its knees from one side to the other",
+      "he": "90/90 ירך: דמות מצוירת יושבת עם שתי רגליים כפופות ב־90 מעלות ומטה את הברכיים מצד לצד",
+      "ar": "شخصية كرتونية جالسة وساقاها مثنيتان بزاوية 90 درجة تحرّك ركبتيها من جانب إلى الجانب الآخر في ورك 90/90",
+      "ru": "Бедро 90/90: мультяшная фигурка сидит с согнутыми под 90 градусов ногами и переносит колени с одной стороны на другую",
+      "es": "Figura animada sentada con ambas piernas dobladas a 90 grados lleva las rodillas de un lado a otro, cadera 90/90"
+    },
+    "worldgreat": {
+      "en": "Cartoon figure in a long lunge puts a hand on the floor, turns its chest open with an arm up, and returns",
+      "he": "דמות מצוירת בלאנג׳ ארוך מניחה יד על הרצפה, פותחת את החזה עם יד כלפי מעלה וחוזרת, המתיחה הגדולה בעולם",
+      "ar": "شخصية كرتونية في طعنة طويلة تضع يدًا على الأرض وتفتح صدرها رافعةً ذراعًا للأعلى ثم تعود، أعظم تمدّد في العالم",
+      "ru": "«Лучшая растяжка в мире»: фигурка в глубоком выпаде ставит руку на пол, раскрывает грудь с рукой вверх и возвращается",
+      "es": "Figura animada en zancada larga apoya una mano y abre el pecho con un brazo arriba: el mejor estiramiento del mundo"
+    },
+    "thoracic": {
+      "en": "Cartoon figure on hands and knees, one hand behind its head, turns its elbow down, then up toward the ceiling",
+      "he": "דמות מצוירת על ארבע עם יד אחת מאחורי הראש מסובבת את המרפק למטה ואז למעלה לתקרה בסיבוב בית החזה",
+      "ar": "شخصية كرتونية على اليدين والركبتين ويد خلف رأسها تدير مرفقها للأسفل ثم نحو السقف في تدوير الصدر",
+      "ru": "Ротация грудного отдела: фигурка на четвереньках, одна рука за головой, поворачивает локоть вниз, затем к потолку",
+      "es": "Figura animada a cuatro patas con una mano tras la cabeza gira el codo hacia abajo y luego al techo, rotación torácica"
+    },
+    "deepsquathold": {
+      "en": "Cartoon figure sinks into a deep squat with hands together, holds it, and a stopwatch appears",
+      "he": "דמות מצוירת יורדת לישיבה עמוקה עם ידיים צמודות, נשארת בה וסטופר מופיע",
+      "ar": "شخصية كرتونية تنزل إلى الجلوس العميق ويداها معًا وتثبت وضعها مع ظهور ساعة إيقاف",
+      "ru": "Глубокий присед (удержание): мультяшная фигурка опускается в глубокий присед, руки вместе, держит позу, виден секундомер",
+      "es": "Figura animada baja a una sentadilla profunda mantenida con las manos juntas y se queda; aparece un cronómetro"
+    },
+    "anklerock": {
+      "en": "Cartoon figure kneeling on one knee rocks the front knee forward over the toes, heel down, then back",
+      "he": "דמות מצוירת כורעת על ברך אחת ומניעה את הברך הקדמית קדימה מעל האצבעות, עקב למטה, וחוזרת בנדנוד קרסול",
+      "ar": "شخصية كرتونية جاثية على ركبة واحدة تحرّك الركبة الأمامية فوق أصابع القدم والكعب على الأرض ثم تعود، أرجحة الكاحل",
+      "ru": "Раскачивание голеностопа: фигурка стоит на одном колене, двигает переднее колено вперёд над носком, пятка внизу",
+      "es": "Figura animada de rodillas sobre una pierna mece la rodilla delantera sobre los dedos, talón abajo, movilidad de tobillo"
+    },
+    "shouldercar": {
+      "en": "Cartoon figure stands still and draws one big slow circle with a straight arm, forward, up and back",
+      "he": "דמות מצוירת עומדת במקום ומציירת עיגול גדול ואיטי עם יד ישרה, קדימה, למעלה ואחורה, בעיגולי כתפיים",
+      "ar": "شخصية كرتونية تقف ثابتة وترسم دائرة كبيرة بطيئة بذراع مستقيمة إلى الأمام ثم الأعلى ثم الخلف، دوائر الكتفين",
+      "ru": "Круги плечами: мультяшная фигурка стоит на месте и ведёт прямой рукой большой медленный круг вперёд, вверх, назад",
+      "es": "Figura animada de pie dibuja con el brazo recto un círculo grande y lento: adelante, arriba y atrás, círculos de hombros"
+    },
+    "gsquat": {
+      "en": "Cartoon figure holds one dumbbell at its chest, squats down between its heels, then stands up",
+      "he": "דמות מצוירת מחזיקה משקולת אחת בחזה, יורדת בין העקבים לסקוואט גביע וקמה",
+      "ar": "شخصية كرتونية تمسك دمبلًا واحدًا عند صدرها وتنزل بين كعبيها في قرفصاء الكأس ثم تقف",
+      "ru": "Гоблет-присед: мультяшная фигурка держит гантель у груди, опускается в присед между пятками и встаёт",
+      "es": "Figura animada sujeta una mancuerna en el pecho, baja entre los talones en sentadilla goblet y se levanta"
+    },
+    "dbrow": {
+      "en": "Cartoon figure leans forward holding two dumbbells, pulls its elbows back along its sides, then lowers them",
+      "he": "דמות מצוירת רוכנת קדימה עם שתי משקולות, מושכת את המרפקים לאחור לצדי הגוף ומורידה בחתירה עם משקולת",
+      "ar": "شخصية كرتونية منحنية للأمام تحمل دمبلين وتسحب مرفقيها للخلف بمحاذاة جسمها ثم تنزلهما، تجديف بالدمبل",
+      "ru": "Тяга гантели: мультяшная фигурка наклонилась вперёд с гантелями, отводит локти назад вдоль корпуса и опускает",
+      "es": "Figura animada inclinada al frente con dos mancuernas lleva los codos atrás pegados al cuerpo y baja: remo con mancuerna"
+    },
+    "dbpress": {
+      "en": "Cartoon figure stands with dumbbells at shoulder height, presses them overhead, then lowers them back",
+      "he": "דמות מצוירת עומדת עם משקולות בגובה הכתפיים, דוחפת אותן מעל הראש ומורידה חזרה בלחיצת כתפיים עם משקולות",
+      "ar": "شخصية كرتونية واقفة والدمبلان عند مستوى الكتفين ترفعهما فوق رأسها ثم تنزلهما في ضغط الكتفين بالدمبل",
+      "ru": "Жим гантелей над головой: мультяшная фигурка стоит, гантели у плеч, выжимает их вверх и опускает обратно",
+      "es": "Figura animada de pie sube mancuernas desde los hombros sobre la cabeza y las baja: press de hombros con mancuernas"
+    },
+    "rdl": {
+      "en": "Cartoon figure holding dumbbells pushes its hips back, slides them down its legs to mid-shin, then stands",
+      "he": "דדליפט רומני עם משקולות: דמות מצוירת דוחפת אגן אחורה, מחליקה משקולות לאורך הרגליים עד אמצע השוק וקמה",
+      "ar": "شخصية كرتونية تحمل دمبلين تدفع حوضها للخلف وتنزلهما على ساقيها حتى منتصف الساق ثم تقف، الرفعة الرومانية بالدمبل",
+      "ru": "Румынская тяга с гантелями: фигурка отводит таз назад, ведёт гантели вдоль ног до середины голени и встаёт",
+      "es": "Peso muerto rumano con mancuernas: figura animada lleva las caderas atrás, desliza las pesas por las piernas y se alza"
+    },
+    "latpull": {
+      "en": "Cartoon figure kneels under a bar with a band in both hands, pulls its elbows down to its ribs, then returns",
+      "he": "דמות מצוירת כורעת מתחת למוט עם גומייה בשתי ידיים, מורידה את המרפקים אל הצלעות וחוזרת, משיכה עליונה",
+      "ar": "شخصية كرتونية جاثية تحت عارضة وبيديها شريط مطاطي تنزل مرفقيها نحو أضلاعها ثم تعود، السحب العلوي",
+      "ru": "Тяга сверху: мультяшная фигурка стоит на коленях под грифом с резинкой в обеих руках, тянет локти вниз и возвращается",
+      "es": "Figura animada de rodillas bajo una barra con una banda en ambas manos baja los codos a las costillas: jalón al pecho"
+    },
+    "pullup": {
+      "en": "Cartoon figure hangs from a bar with a band under its knees, pulls its chin over the bar, then lowers",
+      "he": "דמות מצוירת תלויה על מוט עם גומייה מתחת לברכיים, מושכת את הסנטר מעל המוט ויורדת, במתח",
+      "ar": "شخصية كرتونية معلّقة بعارضة وشريط مطاطي تحت ركبتيها ترفع ذقنها فوق العارضة ثم تنزل، الشد على العقلة",
+      "ru": "Подтягивание: мультяшная фигурка висит на перекладине, резинка под коленями, поднимает подбородок над ней и опускается",
+      "es": "Figura animada colgada de una barra con una banda bajo las rodillas sube la barbilla sobre la barra y baja: dominadas"
+    },
+    "curl": {
+      "en": "Cartoon figure stands with elbows at its sides, curls two dumbbells up to its shoulders, then lowers them",
+      "he": "דמות מצוירת עומדת עם מרפקים צמודים לגוף, מכופפת שתי משקולות עד הכתפיים ומורידה בכפיפת מרפקים",
+      "ar": "شخصية كرتونية واقفة ومرفقاها بجانب جسمها ترفع دمبلين نحو كتفيها ثم تنزلهما في ثني المرفقين",
+      "ru": "Сгибание рук на бицепс: мультяшная фигурка стоит, локти у корпуса, поднимает две гантели к плечам и опускает",
+      "es": "Figura animada de pie con los codos junto al cuerpo sube dos mancuernas hacia los hombros y las baja: curl de bíceps"
+    },
+    "tripush": {
+      "en": "Cartoon figure faces a bar with a band in both hands, pushes its hands down to straight arms, then returns",
+      "he": "דמות מצוירת מול מוט עם גומייה בשתי ידיים, דוחפת את הידיים למטה עד זרועות ישרות וחוזרת, פשיטת מרפקים בגומייה",
+      "ar": "شخصية كرتونية تواجه عارضة وبيديها شريط مطاطي تدفع يديها للأسفل حتى تستقيم ذراعاها ثم تعود، مدّ المرفقين بالشريط المطاطي",
+      "ru": "Разгибание рук с резинкой: фигурка стоит лицом к перекладине, тянет резинку руками вниз до прямых рук и возвращается",
+      "es": "Figura animada baja una banda con ambas manos hasta estirar los brazos: extensión de tríceps con banda"
+    },
+    "kbswing": {
+      "en": "Cartoon figure hinges at the hips, swings a kettlebell back between its legs, then up to chest height",
+      "he": "דמות מצוירת מתקפלת באגן, מנדנדת קטלבל אחורה בין הרגליים ואז למעלה עד גובה החזה, בנדנוד קטלבל",
+      "ar": "شخصية كرتونية تنحني من الحوض وتأرجح كيتلبل للخلف بين ساقيها ثم إلى مستوى الصدر، أرجحة الكيتلبل",
+      "ru": "Махи гирей: мультяшная фигурка наклоняется в тазу, ведёт гирю назад между ног и затем вперёд до уровня груди",
+      "es": "Figura animada se inclina, pasa una kettlebell entre las piernas y la sube al pecho: swing con kettlebell"
+    },
+    "carry": {
+      "en": "Cartoon figure walks forward upright with a dumbbell in each hand, arms hanging at its sides",
+      "he": "דמות מצוירת הולכת קדימה זקופה עם משקולת בכל יד והזרועות לצדי הגוף, בהליכת חקלאי",
+      "ar": "شخصية كرتونية تمشي إلى الأمام منتصبة وفي كل يد دمبل وذراعاها إلى جانبيها، مشية المزارع",
+      "ru": "Прогулка фермера: мультяшная фигурка идёт вперёд, держась прямо, с гантелью в каждой руке, руки вдоль тела",
+      "es": "Figura animada camina erguida con una mancuerna en cada mano y los brazos a los lados: paseo del granjero"
+    },
+    "bench": {
+      "en": "Cartoon figure lies on a bench, lowers two dumbbells to chest level, then presses them straight up",
+      "he": "דמות מצוירת שוכבת על ספסל, מורידה שתי משקולות עד גובה החזה ודוחפת אותן ישר למעלה בלחיצת חזה",
+      "ar": "شخصية كرتونية مستلقية على مقعد تنزل دمبلين إلى مستوى الصدر ثم تدفعهما للأعلى بشكل مستقيم، ضغط الصدر",
+      "ru": "Жим лёжа: мультяшная фигурка лежит на скамье, опускает две гантели к груди и выжимает их строго вверх",
+      "es": "Figura animada tumbada en un banco baja dos mancuernas al pecho y las empuja hacia arriba: press de pecho"
+    }
+  }
+}
