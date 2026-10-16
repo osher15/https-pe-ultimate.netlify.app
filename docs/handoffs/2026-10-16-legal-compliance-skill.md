@@ -4,11 +4,11 @@ Owner: Claude
 Base commit: `531b778` (main, after PR #56)
 Branch / PR: `ccr-c2efb123-418zzv`; no PR opened (owner decides)
 Task / priority / status: Legal/compliance agent skill. Documentation only. Tested/review.
-Reserved files/sections: Issue #60. New files only: `.claude/skills/legal-compliance/` (SKILL.md and six reference files) and this handoff. No shared files touched.
+Reserved files/sections: Issue #60. New files only: `.claude/skills/PE-Ultimate-Legal-Compliance/` (SKILL.md and six reference files) and this handoff. No shared files touched.
 
 Changes and user behavior:
 - No app behavior changes. No product, privacy page, terms, native, build, SW or test files changed.
-- `.claude/skills/legal-compliance/SKILL.md`: main operating instructions. Hard rules (no payments, no accounts/server for pupil data, privacy page updated in five languages with every outbound change, no invented compliance claims, adults only, owner submits), workflow, writing rules.
+- `.claude/skills/PE-Ultimate-Legal-Compliance/SKILL.md`: main operating instructions. Hard rules (no payments, no accounts/server for pupil data, privacy page updated in five languages with every outbound change, no invented compliance claims, adults only, owner submits), workflow, writing rules.
 - `privacy-and-student-data.md`: data map, permissions, invariants, retention promises and change protocol, checked against code at `531b778`.
 - `apple-google-store-policies.md`: draft Play and App Store answers for this app, and what changes them.
 - `payments-and-subscriptions.md`: current state (free, hold reconfirmed by owner 2026-10-16) and the questions that must be answered before the hold can be lifted. No payment work authorized.
@@ -34,4 +34,4 @@ Unresolved issues and dependencies: Law and store-policy references are orientat
 
 Publication status: committed and pushed to `ccr-c2efb123-418zzv`. Issue #60 created as the reservation. Nothing merged or deployed.
 
-Next owner / next action: Owner reviews and merges. Optionally Codex adds one line to `AGENTS.md` pointing to `.claude/skills/legal-compliance/SKILL.md`. Fix open item 1 in a separate reserved task (`terms.html`, five languages).
+Next owner / next action: Owner reviews and merges. Optionally Codex adds one line to `AGENTS.md` pointing to `.claude/skills/PE-Ultimate-Legal-Compliance/SKILL.md`. Fix open item 1 in a separate reserved task (`terms.html`, five languages).

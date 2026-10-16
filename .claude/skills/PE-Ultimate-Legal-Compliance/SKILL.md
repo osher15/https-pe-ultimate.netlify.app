@@ -1,5 +1,5 @@
 ---
-name: legal-compliance
+name: pe-ultimate-legal-compliance
 description: Legal, privacy and app-store policy rules for PE Ultimate. Use before any change that affects what data the app stores or sends, the privacy or terms pages, store listings or console declarations, Android/iOS permissions or backup, payments, refunds, subscriptions, accounts, age/audience, or new countries and languages. Also use when asked for a legal or compliance review of the app.
 ---
 
