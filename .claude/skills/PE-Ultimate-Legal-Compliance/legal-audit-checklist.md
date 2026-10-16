@@ -15,15 +15,15 @@ Use before every release build, every store submission, and after any change lis
 
 - [ ] `privacy.html` matches the data map in all five languages; `tests/unit/privacypage.test.js` passes.
 - [ ] Privacy page date changed only if content changed.
-- [ ] `terms.html` matches the app. Open (2026-10-16): §3 says data "is stored only on the device"; with the native app, optional Drive backup, records sync and Android Auto Backup this should read "stored on the device" plus the optional copies. Terms date is 29 September 2026.
+- [ ] `terms.html` matches the app (§3 updated 2026-10-16: data on the device, not with the operator, plus the optional copies including Android automatic backup).
 - [ ] Store listing text describes only shipped features; no medical, certified-timing or compliance claims; no third-party trademarks.
 - [ ] In-app links to privacy and terms work offline in the packaged app (`native/build-web.js` copies them).
 
 ## C. Permissions and native
 
-- [ ] Android permissions match the privacy page. Open: `MODIFY_AUDIO_SETTINGS` has no code use found; remove only after a device check of beep test and start audio.
+- [ ] Android permissions match the privacy page. `MODIFY_AUDIO_SETTINGS` stays: WebView needs it for `getUserMedia` audio (start detection).
 - [ ] Android Auto Backup: in-app setting defaults to off; `PEBackupAgent` copies nothing while off. Open: physical-device backup/uninstall/restore check not yet done.
-- [ ] iOS `Info.plist` usage strings accurate. Open: strings mix English and Hebrew; localize.
+- [ ] iOS usage strings accurate in `Info.plist` and all five `InfoPlist.strings` files.
 - [ ] iOS `PrivacyInfo.xcprivacy` matches required-reason APIs and tracking = false.
 - [ ] No signing keys, keystores, tokens or secrets in the repository.
 

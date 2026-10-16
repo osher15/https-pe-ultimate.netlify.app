@@ -1,0 +1,4 @@
+/* Permission prompts. Keep in sync with privacy.html "Device permissions". */
+"NSCameraUsageDescription" = "המצלמה משמשת לפוטו־פיניש ולצילום סרטון שיא. התמונה מעובדת במכשיר.";
+"NSMicrophoneUsageDescription" = "המיקרופון מזהה אות זינוק (יריה או מחיאת כף) בזמן אמת. השמע לא מוקלט ולא נשלח.";
+"NSPhotoLibraryAddUsageDescription" = "שמירת תמונה או סרטון שבחרת לשמור מתוך גיליון השיתוף.";

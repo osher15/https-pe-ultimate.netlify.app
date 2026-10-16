@@ -1,0 +1,4 @@
+/* Permission prompts. Keep in sync with privacy.html "Device permissions". */
+"NSCameraUsageDescription" = "تُستخدم الكاميرا للتوقيت عند خط النهاية ولتصوير فيديو الرقم القياسي؛ تُعالَج الصور على الجهاز.";
+"NSMicrophoneUsageDescription" = "يكتشف الميكروفون إشارة الانطلاق (طلقة أو تصفيق) مباشرة؛ الصوت لا يُسجَّل ولا يُرسل.";
+"NSPhotoLibraryAddUsageDescription" = "حفظ صورة أو فيديو اخترت حفظه من قائمة المشاركة.";

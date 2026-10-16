@@ -1,0 +1,4 @@
+/* Permission prompts. Keep in sync with privacy.html "Device permissions". */
+"NSCameraUsageDescription" = "La cámara se usa para el foto-finish y los vídeos de récords; las imágenes se procesan en el dispositivo.";
+"NSMicrophoneUsageDescription" = "El micrófono detecta en directo la señal de salida (disparo o palmada); el audio no se graba ni se envía.";
+"NSPhotoLibraryAddUsageDescription" = "Guarda una imagen o un vídeo que elegiste guardar desde el menú de compartir.";

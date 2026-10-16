@@ -30,9 +30,11 @@ No ads, analytics, tracking, crash reporting or third-party SDKs. Fonts are bund
 |---|---|---|
 | CAMERA | Android, iOS (`NSCameraUsageDescription`) | Photo-finish and record videos; processed on device |
 | RECORD_AUDIO | Android, iOS (`NSMicrophoneUsageDescription`) | Live start-signal detection; audio not recorded or sent |
-| MODIFY_AUDIO_SETTINGS | Android | No code use found (open item in the audit checklist) |
+| MODIFY_AUDIO_SETTINGS | Android | Required by Android WebView for microphone capture via `getUserMedia({audio:true})` (`hm-app.js` start detection). Keep it |
 | INTERNET | Android | Contact form, optional Drive/sync, external links |
 | Photo library add | iOS (`NSPhotoLibraryAddUsageDescription`) | Saving a chosen image/video from the share sheet |
+
+iOS prompt texts: English in `Info.plist`, translations in `native/ios/App/App/{en,he,ar,ru,es}.lproj/InfoPlist.strings`. Change all six together.
 
 No location, contacts, notifications or advertising ID. iOS `PrivacyInfo.xcprivacy` declares `NSPrivacyTracking=false` and no tracking domains.
 
@@ -55,7 +57,7 @@ No location, contacts, notifications or advertising ID. iOS `PrivacyInfo.xcpriva
 When a change touches anything in §2 or §3:
 
 1. Update the data map here and the matching sections of `privacy.html` in he, en, ar, ru, es.
-2. Update `terms.html` if user responsibilities change (it currently says data is "stored only on the device"; see the audit checklist).
+2. Update `terms.html` if user responsibilities change (§3 lists where data is kept and the optional copies).
 3. Update `PrivacyInfo.xcprivacy` / `Info.plist` / `AndroidManifest.xml` if a permission or required-reason API changes.
 4. Add or update tests (`tests/unit/privacypage.test.js`, and a focused test for the new behavior, including the failure path: offline, rejected URL, permission denied).
 5. In the handoff, list the store declarations that must change (Play Data safety, Apple App Privacy) for the owner.

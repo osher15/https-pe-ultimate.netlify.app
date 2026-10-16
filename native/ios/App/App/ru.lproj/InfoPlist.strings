@@ -1,0 +1,4 @@
+/* Permission prompts. Keep in sync with privacy.html "Device permissions". */
+"NSCameraUsageDescription" = "Камера используется для фотофиниша и видео рекордов; изображения обрабатываются на устройстве.";
+"NSMicrophoneUsageDescription" = "Микрофон в реальном времени распознаёт стартовый сигнал (выстрел или хлопок); звук не записывается и не отправляется.";
+"NSPhotoLibraryAddUsageDescription" = "Сохранение изображения или видео, которое вы выбрали в меню «Поделиться».";
