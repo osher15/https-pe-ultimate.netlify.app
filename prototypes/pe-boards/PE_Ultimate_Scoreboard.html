@@ -214,10 +214,12 @@ function store(){
  try{
   const raw=localStorage.getItem(KEY),old=raw?JSON.parse(raw):null;
   if((old?.revision??null)!==revision){conflict=true;persistOK=false;renderSave();notify(t('loadWarning'));return false;}
-  const next=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);localStorage.setItem(KEY,JSON.stringify({version:1,revision:next,current:s,records}));revision=next;persistOK=true;
+  const next=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);localStorage.setItem(KEY,JSON.stringify({version:1,revision:next,current:s,records}));revision=next;persistOK=true;savedSig=sig();
  }catch(e){persistOK=false;}
  renderSave();return persistOK;
 }
+/* C24: signature of what was last written. The clock's `remaining` and the undo `history` are excluded: a running clock is stored as `deadline`, so only a real change needs a new write. */
+let savedSig=null;function sig(){return JSON.stringify({current:s,records},(k,v)=>k==='remaining'||k==='history'?undefined:v);}
 function renderSave(){const msg=conflict?'saveConflict':persistOK&&!corrupt?'saved':'unsaved';$('save').textContent=t(msg)+' · '+t('storageNote');$('save').classList.toggle('error',!persistOK||corrupt||conflict);}
 function periodText(n){return n>s.count?t('overtime')+' '+(n-s.count):t(s.mode==='halves'?'half':'quarter')+' '+n;}
 function clock(ms){const v=Math.ceil(ms/1000);return Math.floor(v/60).toString().padStart(2,'0')+':'+(v%60).toString().padStart(2,'0');}
@@ -276,7 +278,8 @@ window.addEventListener('keydown',ev=>{if(ev.key==='Escape'){document.body.class
 window.addEventListener('storage',ev=>{if(ev.key===KEY){if(s.deadline!==null){E.tick(s);s.deadline=null;s.status=s.remaining?'paused':'periodEnd';}s.timeout=null;conflict=true;persistOK=false;render();notify(t('loadWarning'));}});
 let lastSave=Date.now();
 setInterval(()=>{const status=s.status,timeout=!!s.timeout;renderClock();if(status!==s.status||timeout!==!!s.timeout){beep();store();render();}if(Date.now()-lastSave>5000&&(s.deadline!==null||s.timeout)){store();lastSave=Date.now();}},200);
-window.addEventListener('pagehide',()=>{E.tick(s);store();});document.addEventListener('visibilitychange',()=>{E.tick(s);if(document.hidden)store();else render();});
+/* C24: write on pagehide/hidden only when something changed since the last save. An unconditional write bumped the revision while the reloaded document was already starting, which made it report a false "another tab" conflict and stop saving. store() still refuses while a delete/restore (frozen) is in progress. */
+window.addEventListener('pagehide',()=>{E.tick(s);if(sig()!==savedSig)store();});document.addEventListener('visibilitychange',()=>{E.tick(s);if(document.hidden){if(sig()!==savedSig)store();}else render();});
 /* ===== C18: backup-first "Delete all data on this device" + optional restore =====
    Touches ONLY this tool's own browser-storage keys; every other key is left alone.
    Flow: button -> in-page dialog (what is erased) -> "Download backup (JSON)" -> typed-word confirmation -> remove own keys -> reload.
@@ -408,6 +411,6 @@ const DD=(()=>{
  Provide destroy() when leaving the tab after splitting this file into a mounted module.
  Current standalone file is not injected into PE Ultimate. */
 window.PEScoreboard={getState:()=>E.snapshot(s),exportResult:()=>download(),setLanguage:code=>{if(!L[code])return false;lang=code;render();soundLabel();return true;},version:1,deviceData:DD.api};
-if(!corrupt)store();render();soundLabel();if(corrupt)notify(t('damaged'));else if(revision)notify(t('restored'));
+const hadSaved=revision!==null;if(!corrupt)store();render();soundLabel();if(corrupt)notify(t('damaged'));else if(hadSaved)notify(t('restored'));
 })();
 </script></body></html>

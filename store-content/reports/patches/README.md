@@ -1,0 +1,1 @@
+The scoreboard reload-autosave patch (scoreboard-reload-autosave.diff) was applied by hand in commit C24 on branch c24-scoreboard-autosave (see docs/handoffs/2026-10-16-c24-scoreboard-autosave.md); the stale diff was removed.
