@@ -48,7 +48,7 @@ software raster so the bytes repeat), assembled with ffmpeg `palettegen` (24 col
 ## Checks
 
 ```sh
-node --test store-content/exercise-anim/checks/*.test.cjs          # 475 tests, 0 todo
+node --test store-content/exercise-anim/checks/*.test.cjs          # 534 tests, 0 todo (475 + 59 alt-text checks)
 NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
   node store-content/exercise-anim/checks/browser.cjs              # 376 browser checks
 ```
@@ -66,6 +66,7 @@ NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers
   count and constant 5 cs delays match the spec, hash matches the manifest, < 150,000 B.
 - `library.test.cjs`: `library.json` = the 47 exercises of `hm-app.js` (ids, groups, figs, order);
   every exercise has a spec.
+- `alttext.test.cjs`: `alt-texts.json` (task C25, not wired into any page yet): the 47 ids equal `library.json`, 5 languages each, <= 120 chars, no identical text across exercises per language, localized names from the interval-trainer data, no Latin letters in he/ar/ru, no brand words.
 - `browser.cjs`: each SVG loads in `<img>` and animates; `<picture>` with a reduced-motion `<source>`
   picks the still file; the animated SVG opened directly hides its animation under reduced motion;
   the frame just before the loop end matches frame 0.
