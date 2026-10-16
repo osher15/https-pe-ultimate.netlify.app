@@ -1,0 +1,4 @@
+family,diagram_id,section,step,template,group_shown,reason,open_question
+BB-01,BB-01-D1,mainB,1,open-area,representative,Synthetic placement after main B.,
+BB-01,BB-01-D2,warmup,1,bb-half,representative,"Synthetic placement, listed second but anchored earlier.",
+BB-02,,,,,,Synthetic exception row: no diagram for this lesson.,

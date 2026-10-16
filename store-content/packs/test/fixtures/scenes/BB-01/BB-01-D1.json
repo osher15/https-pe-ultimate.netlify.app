@@ -1,0 +1,33 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-01-D1",
+  "family": "BB-01",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": { "section": "mainB", "step": 1, "quote_en": "Synthetic fixture quote." },
+  "group_shown": "representative",
+  "title": {
+    "he": "תרשים בדיקה ראשון <i>",
+    "en": "Fixture diagram one & <b>",
+    "ar": "رسم اختبار أول",
+    "ru": "Тестовая схема один",
+    "es": "Diagrama de prueba uno"
+  },
+  "alt": {
+    "he": "Synthetic alt he BB-01-D1",
+    "en": "Synthetic alt en BB-01-D1",
+    "ar": "Synthetic alt ar BB-01-D1",
+    "ru": "Synthetic alt ru BB-01-D1",
+    "es": "Synthetic alt es BB-01-D1"
+  },
+  "objects": [
+    { "type": "player", "team": "A", "n": 1, "x": 30, "y": 40 },
+    { "type": "player", "team": "B", "n": 1, "x": 70, "y": 60 },
+    { "type": "ball", "x": 33, "y": 43 },
+    { "type": "cone", "x": 50, "y": 20 }
+  ],
+  "paths": [{ "kind": "pass", "from": [30, 40], "to": [70, 60], "order": 1 }],
+  "safety": "Synthetic.",
+  "notes": "Synthetic fixture.",
+  "status": "fixture"
+}
