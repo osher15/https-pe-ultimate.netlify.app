@@ -10,7 +10,11 @@ If a user writes in about a charge, it did not come from PE Ultimate. Possible c
 - **Contact details:** a deletion request (About → request deletion, or `https://pe-ultimate.netlify.app/#delete-contact`); the operator deletes the Netlify submission (`privacy-and-student-data.md` §5).
 - **Optional services the teacher set up** (Drive backup, records sync, Android Auto Backup): the teacher turns them off in the app and deletes the copies in their own Google account.
 
-## Rules to apply only if payments are approved later
+## PE Tools Store
+
+The store's refund policy is a draft: `store-content/legal/refund-policy.{en,he}.md` (v0.2, owner decision 2026-10-15): final once downloaded or opened, with full refunds for duplicate purchase, not downloaded within 14 days, or billing error; fix-or-replace first for faulty files; 30-day request window; EU/UK 14-day withdrawal right kept unless the buyer ticked the waiver box and got the confirmation e-mail; statutory rights always preserved. Refunds are paid through the merchant of record. Do not promise anything that contradicts that file, and do not change it without the owner and the lawyer.
+
+## Rules for the app, only if payments are ever approved there
 
 Verify each point against current law and store policy at that time; these are planning notes, not legal conclusions.
 

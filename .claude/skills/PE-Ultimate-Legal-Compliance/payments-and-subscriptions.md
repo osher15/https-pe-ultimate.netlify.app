@@ -8,7 +8,18 @@
 
 If a user asks for any of this, explain the hold, and offer to prepare a written proposal only (no code).
 
-## Before the hold can be lifted
+## PE Tools Store (separate product)
+
+The store sells digital downloads, not in-app features, so app-store billing rules do not apply to it (as long as nothing is sold inside the app). Current state on branch `ccr-f0f0c4fd-ymvjjb`:
+
+- Merchant of record (MoR): Lemon Squeezy preferred, Gumroad fallback; not chosen yet. The MoR collects payment, handles VAT/sales tax, issues receipts and delivers files. Never handle card data ourselves.
+- Seller: owner as Israeli Osek Patur; payout, receipts to the MoR, VAT ceiling and export-of-services treatment need an accountant (`store-content/legal/open-questions.md` #1–3).
+- Prices, licence discount and fix period are placeholders (`{{...}}`) chosen by the owner.
+- Licences: Single-Teacher and School (one campus), owner decisions of 2026-10-15.
+- Checkout stays disabled on any storefront until: MoR approved the seller, lawyer reviewed `store-content/legal/`, the EU/UK waiver checkbox and confirmation e-mail are possible (or the 14-day right is honoured), and product readiness says "Ready to list".
+- Agents may build, test and document store products and a storefront with checkout disabled. They must not open checkout, set live prices, sign up to a platform, or spend money.
+
+## Before the app hold can be lifted
 
 Only the owner lifts the hold, explicitly and in writing (an Issue or `AGENTS.md` change). A proposal must answer all of these first:
 

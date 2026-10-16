@@ -1,11 +1,22 @@
 ---
 name: pe-ultimate-legal-compliance
-description: Legal, privacy and app-store policy rules for PE Ultimate. Use before any change that affects what data the app stores or sends, the privacy or terms pages, store listings or console declarations, Android/iOS permissions or backup, payments, refunds, subscriptions, accounts, age/audience, or new countries and languages. Also use when asked for a legal or compliance review of the app.
+description: Legal, privacy, app-store and store-sales rules for the PE Ultimate app and the PE Tools Store. Use before any change that affects what data the app stores or sends, the privacy or terms pages, store listings or console declarations, Android/iOS permissions or backup, payments, refunds, subscriptions, accounts, age/audience, or new countries and languages. Also use when asked for a legal or compliance review of the app.
 ---
 
 # Legal and compliance: main operating instructions
 
 PE Ultimate is a free, offline-first field tool for adult PE teachers and coaches. It has no accounts, no payments, no ads, no analytics and no server of its own for student data. Every rule below exists to keep that true, or to make sure that any change to it is deliberate, disclosed and reviewed by the owner.
+
+## Two products, two rule sets
+
+| | PE Ultimate app | PE Tools Store |
+|---|---|---|
+| What | Free app (web, Android, iOS) | Paid digital products: lesson packs, scoreboard, coach board, interval trainer, shuttle run |
+| Where in git | `main` | `store-content/` and `prototypes/pe-boards/` on branch `ccr-f0f0c4fd-ymvjjb` (Issues #57, #59); storefront planned in a separate private repo |
+| Payments | **None, on hold** (`AGENTS.md`) | Planned through a merchant of record (Lemon Squeezy preferred, Gumroad fallback). Checkout stays **disabled** until the owner, a lawyer and an accountant clear `store-content/legal/open-questions.md` |
+| Legal texts | `privacy.html`, `terms.html` | Drafts v0.2 in `store-content/legal/` (terms of sale, refund policy, privacy, licence, safety, accessibility, checkout copy), lawyer review pending |
+
+Never mix them: no store purchase, price or upsell inside the free app, and store products must not depend on the app's pupil data. Never merge `store-content/` to `main` while `netlify.toml` publishes the whole repository (it would expose paid files).
 
 This skill is not legal advice. It records the project's own decisions and the rules agents must follow. Laws, store policies and console forms change: before anything is submitted, published or declared, verify against the current official text and say that you did (or that you could not).
 
@@ -22,7 +33,7 @@ This skill is not legal advice. It records the project's own decisions and the r
 
 ## Hard rules
 
-1. **No payments.** Payments, subscriptions, paid keys and paid services are on hold (`AGENTS.md`, `docs/ACTION_PLAN_2026-10-03.md`). Do not add pricing UI, purchase code, billing libraries, licence checks, donation links or "premium" wording. If asked, explain the hold and point to `payments-and-subscriptions.md`. Only the owner can lift the hold, explicitly.
+1. **No payments in the app.** In-app payments, subscriptions, paid keys and paid services are on hold (`AGENTS.md`, `docs/ACTION_PLAN_2026-10-03.md`). Do not add pricing UI, purchase code, billing libraries, licence checks, donation links or "premium" wording to the app. Store sales happen only through the merchant of record, outside the app, and only after the legal gates (`payments-and-subscriptions.md` §Store). Only the owner can lift the app hold or open checkout, explicitly.
 2. **No accounts, no server for student data.** Do not add sign-up, login, cloud sync to an operator server, analytics, crash reporting, ads, tracking or third-party SDKs. Each of these changes the privacy page, the store declarations and possibly the legal basis.
 3. **Student data stays on the device** and is never sent to the operator. Optional transfers the teacher sets up (Drive backup, records sync to the teacher's own sheet, Android Auto Backup when the teacher turns it on, file export) go to the teacher's own accounts. Never write "data never leaves the device".
 4. **Every outbound change updates the privacy page.** If you add, remove or change anything that leaves the device, or a permission, update `privacy.html` in all five languages (he, en, ar, ru, es) in the same change, keep `tests/unit/privacypage.test.js` passing, and list the change in the handoff so the owner can update the store declarations.
