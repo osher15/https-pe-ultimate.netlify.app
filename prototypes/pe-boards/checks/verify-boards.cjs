@@ -46,6 +46,26 @@ test('corrupted storage is kept untouched until explicit new-match approval',()=
 test('saved results capped at 20; current survives clearing archive',()=>{const a=app();for(let i=0;i<22;i++){a.clickScore(0,1);a.el('finish').click();a.el('new').click();a.el('setupForm').onsubmit({preventDefault(){}});}const p=JSON.parse(a.shared.get('pe-scoreboard.v1'));assert.equal(p.records.length,20);const id=a.state().id;a.el('clearArchive').click();assert.equal(a.state().id,id);assert.equal(JSON.parse(a.shared.get('pe-scoreboard.v1')).records.length,0);});
 test('untrusted team names are rendered as text and no external resource loads exist',()=>{const a=app();a.el('new').click();a.el('teamA').value='<img src=x onerror=alert(1)>';a.el('setupForm').onsubmit({preventDefault(){}});assert.equal(a.el('name0').textContent,'<img src=x onerror=alert(1)>');const html=boardHTML;assert(!/<script[^>]+src=|<link[^>]+href=|<img[^>]+src=|@import|fetch\(/i.test(html));});
 test('final score can be corrected after reload and re-finalized with same match ID',()=>{const a=app();a.clickScore(0,3);a.el('finish').click();const b=app(a.shared);const id=b.state().id;b.el('edit').click();assert.equal(b.el('editA').min,0);b.el('editA').value=1;b.el('editB').value=4;b.el('editMinutes').value=0;b.el('editSeconds').value=0;b.el('editForm').onsubmit({preventDefault(){}});assert.equal(b.state().status,'periodEnd');assert.equal(b.state().id,id);b.el('finish').click();const result=JSON.parse(b.shared.get('pe-scoreboard.v1'));assert.equal(result.records.length,1);assert.deepEqual(result.records[0].scores,[1,4]);assert.deepEqual(result.records[0].periods[0].score,[1,4]);});
+test('C24: pagehide/visibilitychange of the old document after a reload does not poison the new one with a false conflict',()=>{
+ const a=app();a.clickScore(0,2);a.el('toggle').click();const rev=JSON.parse(a.shared.get('pe-scoreboard.v1')).revision;
+ /* the old document's events during a reload: nothing changed since its last save, so it must not write (a write would also fire a storage event in the new document) */
+ a.winEvents.pagehide();a.ctx.document.hidden=true;a.events.visibilitychange();
+ assert.equal(JSON.parse(a.shared.get('pe-scoreboard.v1')).revision,rev,'unchanged state must not rewrite storage');
+ const b=app(a.shared,1002000);
+ b.clickScore(1,1);
+ const saved=JSON.parse(b.shared.get('pe-scoreboard.v1'));assert.equal(saved.current.scores[1],1,'a change in the new document is persisted');assert.equal(saved.current.scores[0],2);
+ assert(b.el('save').textContent.startsWith('Saved'),b.el('save').textContent);
+});
+test('C24: pagehide still saves a change that has not been written yet, and the clock alone does not force writes',()=>{
+ const a=app();a.clickScore(0,1);a.el('toggle').click();const rev=JSON.parse(a.shared.get('pe-scoreboard.v1')).revision;
+ a.advance(3000);a.winEvents.pagehide(); /* only the running clock moved: stored as deadline, no new write */
+ assert.equal(JSON.parse(a.shared.get('pe-scoreboard.v1')).revision,rev);
+ a.ctx.PEScoreboard.getState(); /* state read must not change anything */
+ a.failSave();a.clickScore(0,1);assert.equal(a.state().scores[0],2); /* write failed: still dirty */
+ const f=a.shared;a.ctx.localStorage.setItem=(k,v)=>f.set(k,v);a.winEvents.pagehide();
+ assert.equal(JSON.parse(f.get('pe-scoreboard.v1')).current.scores[0],2,'dirty state is written on pagehide once storage works again');
+});
+test('C24: first start with no saved data does not claim a restore',()=>{const a=app();assert.equal(a.el('toast').textContent,'');const b=app(a.shared);assert.equal(b.el('toast').textContent,'Match restored; clock is paused');});
 test('cancelling a final edit leaves the saved final untouched',()=>{const a=app();a.el('finish').click();a.el('edit').click();assert.equal(a.state().status,'final');assert.equal(JSON.parse(a.shared.get('pe-scoreboard.v1')).records.length,1);});
 // Coach pure-function checks execute selected original declarations, not rewritten logic.
 const coachHTML=fs.readFileSync(path.join(DIR,'PE_Coach_Board.html'),'utf8');
