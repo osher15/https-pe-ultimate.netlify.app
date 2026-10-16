@@ -1,0 +1,32 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-01-D2",
+  "family": "BB-01",
+  "sport": "basketball",
+  "template": "bb-half",
+  "anchor": { "section": "warmup", "step": 1, "quote_en": "Synthetic fixture quote." },
+  "group_shown": "representative",
+  "title": {
+    "he": "תרשים בדיקה שני",
+    "en": "Fixture diagram two",
+    "ar": "رسم اختبار ثان",
+    "ru": "Тестовая схема два",
+    "es": "Diagrama de prueba dos"
+  },
+  "alt": {
+    "he": "Synthetic alt he BB-01-D2",
+    "en": "Synthetic alt en BB-01-D2",
+    "ar": "Synthetic alt ar BB-01-D2",
+    "ru": "Synthetic alt ru BB-01-D2",
+    "es": "Synthetic alt es BB-01-D2"
+  },
+  "objects": [
+    { "type": "player", "team": "A", "n": 1, "x": 30, "y": 40 },
+    { "type": "player", "team": "B", "n": 1, "x": 70, "y": 60 },
+    { "type": "ball", "x": 33, "y": 43 }
+  ],
+  "paths": [{ "kind": "move", "from": [30, 40], "to": [60, 40], "order": 1 }],
+  "safety": "Synthetic.",
+  "notes": "Synthetic fixture.",
+  "status": "fixture"
+}
