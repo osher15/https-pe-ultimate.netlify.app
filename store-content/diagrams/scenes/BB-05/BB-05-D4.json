@@ -1,0 +1,45 @@
+{
+  "schema": "pe-diagram/1",
+  "id": "BB-05-D4",
+  "family": "BB-05",
+  "sport": "basketball",
+  "template": "open-area",
+  "anchor": {
+    "section": "mainA",
+    "step": 1,
+    "quote_en": "B turns to the ball and passes to C."
+  },
+  "group_shown": "representative",
+  "title": {
+    "he": "מסירה, חיתוך והחלפת קונוסים: סבב 2",
+    "en": "Pass, cut, swap cones: round 2 shown",
+    "ar": "تمريرة وقطع وتبديل المخاريط: الجولة 2",
+    "ru": "Передача, рывок, смена конусов: раунд 2",
+    "es": "Pase, corte y cambio de conos: ronda 2"
+  },
+  "alt": {
+    "he": "מוצג סבב 2 מתוך 2, מהמקומות שבהם הסתיים סבב 1; לתלמיד 2 יש כדור. קודם 2 מוסר ל-1, אחר כך 2 חותך ימינה לכיוון הסל, ואז 2 ו-3 מחליפים קונוסים בו זמנית: 3 רץ לקונוס ש-2 עזב ו-2 לקונוס ש-3 עזב, במסלולים נפרדים.",
+    "en": "Round 2 of 2 shown, from where round 1 ended; 2 has the ball. First 2 passes to 1, then 2 cuts to the right, toward the basket, then 2 and 3 swap cones at the same time: 3 runs to the cone 2 left and 2 to the cone 3 left, on separate routes.",
+    "ar": "تظهر الجولة 2 من 2 من حيث انتهت الجولة 1؛ مع التلميذ 2 كرة. أولاً يمرر 2 إلى 1، ثم يقطع 2 إلى اليمين نحو السلة، ثم يبدّل 2 و3 مخروطيهما في الوقت نفسه: يركض 3 إلى المخروط الذي تركه 2 ويركض 2 إلى المخروط الذي تركه 3، عبر مسارين منفصلين.",
+    "ru": "Показан раунд 2 из 2, с позиций конца раунда 1; мяч у 2. Сначала 2 передаёт 1, затем 2 делает рывок вправо, к кольцу, и после этого 2 и 3 одновременно меняются конусами: 3 бежит к конусу, который покинул 2, а 2 к конусу, который покинул 3, по разным дорожкам.",
+    "es": "Se muestra la ronda 2 de 2, desde donde terminó la ronda 1; el 2 tiene el balón. Primero el 2 pasa al 1, luego el 2 corta a la derecha, hacia la canasta, y después el 2 y el 3 cambian de cono a la vez: el 3 corre al cono que dejó el 2 y el 2 al cono que dejó el 3, por rutas separadas."
+  },
+  "objects": [
+    { "type": "cone", "x": 76, "y": 18 },
+    { "type": "cone", "x": 76, "y": 82 },
+    { "type": "cone", "x": 17, "y": 50 },
+    { "type": "player", "team": "A", "n": 3, "x": 76, "y": 28 },
+    { "type": "player", "team": "A", "n": 2, "x": 27, "y": 50 },
+    { "type": "player", "team": "A", "n": 1, "x": 76, "y": 72 },
+    { "type": "ball", "x": 24, "y": 54 }
+  ],
+  "paths": [
+    { "kind": "pass", "from": [24, 54], "to": [76, 72], "order": 1 },
+    { "kind": "move", "from": [27, 50], "to": [45, 43], "order": 2 },
+    { "kind": "move", "from": [45, 43], "to": [76, 28], "via": [[62, 47]], "order": 3 },
+    { "kind": "move", "from": [76, 28], "to": [27, 50], "via": [[46, 12]], "order": 3 }
+  ],
+  "safety": "Same wide triangle; 2 and 3 swap on separate routes (3 on the upper arc, 2 on the lower arc) so they never meet; pass only to a ready receiver.",
+  "notes": "Round 2 starts where BB-05-D3 ended (1 and 3 have swapped). Pass 2 to 1, cut toward the basket (right), then the simultaneous swap of 2 and 3.",
+  "status": "draft"
+}
